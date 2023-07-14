@@ -1,0 +1,17 @@
+{
+  "name": "linux-odyssey",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lancatlin/linux-odyssey",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "app",
+    "server",
+    "packages/*"
+  ],
+  "scripts": {
+    "app": "yarn workspace app dev",
+    "server": "yarn workspace server dev"
+  }
+}
