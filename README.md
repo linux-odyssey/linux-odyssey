@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-git clone https://github.com/lancatlih/linux-odyssey.git
+git clone https://github.com/lancatlin/linux-odyssey.git
 cd linux-odyssey
 yarn install
 ```
