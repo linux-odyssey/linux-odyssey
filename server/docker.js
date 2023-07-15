@@ -13,10 +13,11 @@ const containerOptions = {
   StdinOnce: false,
 }
 
-async function createContainer() {
+export async function createContainer() {
   try {
     const container = await engine.createContainer(containerOptions)
     await container.start()
+    console.log(container.id)
     return container
   } catch (error) {
     console.error(error)
@@ -24,23 +25,12 @@ async function createContainer() {
   }
 }
 
-async function attachContainer() {
-  const container = await createContainer()
-  console.log(container.id)
+export async function attachContainer(container) {
   // Create an exec instance with bash shell
-
-  container.attach(
-    {
-      stream: true,
-      stdin: true,
-      stdout: true,
-      stderr: true,
-      ws: true,
-    },
-    (err, stream) => {
-      stream.pipe(process.stdout)
-    }
-  )
+  return container.attach({
+    stream: true,
+    stdin: true,
+    stdout: true,
+    stderr: true,
+  })
 }
-
-attachContainer()

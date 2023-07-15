@@ -14,7 +14,7 @@ socket.on('open', function open() {
 })
 
 socket.on('message', function incoming(data) {
-  console.log(`From server: ${data}`)
+  console.log(`${data}`)
 })
 
 socket.on('close', function close() {
