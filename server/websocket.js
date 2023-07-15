@@ -13,12 +13,12 @@ io.on('connection', async (socket) => {
   const stream = await attachContainer(container)
 
   stream.on('data', (chunk) => {
-    socket.send(chunk.toString())
+    socket.send(chunk)
   })
 
   socket.on('message', function incoming(message) {
     console.log(`From client: ${message}`)
-    stream.write(message + '\n')
+    stream.write(message)
   })
 
   socket.on('close', () => {

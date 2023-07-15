@@ -1,11 +1,13 @@
-import readline from 'readline'
-import { exit } from 'process'
+import { stdin, stdout, exit } from 'process'
 import { io } from 'socket.io-client'
+import { Writable } from 'stream'
+import { pipeline } from 'stream/promises'
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
+console.log(stdin)
+console.log(process.stdin.isTTY)
+stdin.setRawMode(true)
+stdin.resume()
+stdin.setEncoding('utf8')
 
 const socket = io('ws://localhost:8080')
 
@@ -14,7 +16,7 @@ socket.on('open', function open() {
 })
 
 socket.on('message', function incoming(data) {
-  console.log(`${data}`)
+  stdout.write(data)
 })
 
 socket.on('close', function close() {
@@ -22,6 +24,11 @@ socket.on('close', function close() {
   exit()
 })
 
-rl.on('line', (input) => {
-  socket.send(input)
+stdin.on('data', (key) => {
+  if (key === '\u0003') {
+    socket.close()
+    exit()
+  } else {
+    socket.send(key)
+  }
 })
