@@ -16,7 +16,9 @@ const containerOptions = {
 export async function getOrCreateContainer(name) {
   try {
     const container = engine.getContainer(name)
-    await container.inspect()
+    if (!(await container.inspect()).State.Running) {
+      await container.start()
+    }
     return container
   } catch (error) {
     const container = await engine.createContainer({
@@ -29,7 +31,7 @@ export async function getOrCreateContainer(name) {
   }
 }
 
-export async function attachContainer(container) {
+export function attachContainer(container) {
   // Create an exec instance with bash shell
   return container.attach({
     stream: true,

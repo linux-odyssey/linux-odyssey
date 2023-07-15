@@ -5,7 +5,7 @@ stdin.setRawMode(true)
 stdin.resume()
 stdin.setEncoding('utf8')
 
-const socket = io('ws://localhost:8080')
+const socket = io('ws://localhost:3000')
 
 socket.on('open', function open() {
   console.log('Connected to the server.')
