@@ -1,13 +1,25 @@
-import { WebSocketServer } from 'ws'
+import express from 'express'
+import http from 'http'
+import { Server } from 'socket.io'
 
-const wss = new WebSocketServer({ port: 8080 })
+const app = express()
+const server = http.createServer(app)
+const io = new Server(server)
 
-wss.on('connection', function connection(ws) {
+io.on('connection', (socket) => {
   console.log('Connected to the client.')
 
-  ws.on('message', function incoming(message) {
+  socket.on('message', function incoming(message) {
     console.log(`From client: ${message}`)
   })
 
-  ws.send('Hello from server!')
+  socket.on('close', () => {
+    console.log('Disconnected from the client.')
+  })
+
+  socket.send('Hello from server!')
+})
+
+server.listen(8080, () => {
+  console.log(`Server listening at http://localhost:8080`)
 })

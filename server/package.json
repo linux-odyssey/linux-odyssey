@@ -10,7 +10,8 @@
   "dependencies": {
     "dockerode": "^3.3.5",
     "express": "^4.18.2",
-    "ws": "^8.13.0"
+    "socket.io": "^4.7.1",
+    "socket.io-client": "^4.7.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
