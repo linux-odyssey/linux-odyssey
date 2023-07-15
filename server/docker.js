@@ -13,15 +13,19 @@ const containerOptions = {
   StdinOnce: false,
 }
 
-export async function createContainer() {
+export async function getOrCreateContainer(name) {
   try {
-    const container = await engine.createContainer(containerOptions)
+    const container = engine.getContainer(name)
+    await container.inspect()
+    return container
+  } catch (error) {
+    const container = await engine.createContainer({
+      ...containerOptions,
+      name,
+    })
     await container.start()
     console.log(container.id)
     return container
-  } catch (error) {
-    console.error(error)
-    throw error
   }
 }
 

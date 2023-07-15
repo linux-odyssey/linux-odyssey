@@ -1,7 +1,7 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
-import { createContainer, attachContainer } from './docker.js'
+import { getOrCreateContainer, attachContainer } from './docker.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -9,7 +9,7 @@ const io = new Server(server)
 
 io.on('connection', async (socket) => {
   console.log('Connected to the client.')
-  const container = await createContainer()
+  const container = await getOrCreateContainer('odyssey-test')
   const stream = await attachContainer(container)
 
   stream.on('data', (chunk) => {
