@@ -1,10 +1,6 @@
 import { stdin, stdout, exit } from 'process'
 import { io } from 'socket.io-client'
-import { Writable } from 'stream'
-import { pipeline } from 'stream/promises'
 
-console.log(stdin)
-console.log(process.stdin.isTTY)
 stdin.setRawMode(true)
 stdin.resume()
 stdin.setEncoding('utf8')
