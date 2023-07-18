@@ -1,5 +1,5 @@
 import { Server } from 'socket.io'
-import { getOrCreateContainer, attachContainer } from './docker.js'
+import { getOrCreateContainer, attachContainer } from '../utils/docker.js'
 
 export default (server) => {
   const io = new Server(server)

@@ -4,8 +4,9 @@
   "description": "Linux Odyssey Server",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "cli": "node src/client.js"
   },
   "dependencies": {
     "dockerode": "^3.3.5",
