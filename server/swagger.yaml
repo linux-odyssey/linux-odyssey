@@ -38,9 +38,9 @@ paths:
         - signed-in
       summary: create a new session for current user
       parameters:
-        - name: exercise_id
+        - name: quest_id
           in: query
-          description: pass the exercise id
+          description: pass the quest id
           required: true
           style: form
           explode: true
@@ -274,7 +274,7 @@ components:
         email:
           type: string
           format: email
-    Exercise:
+    Quest:
       type: object
       properties:
         name:
@@ -290,7 +290,7 @@ components:
         user_id:
           type: string
           format: uuid
-        exercise_id:
+        quest_id:
           type: string
           format: uuid
         created_at:

@@ -5,11 +5,13 @@ import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 
 import socketServer from './api/socket.js'
+import connectDB from './db.js'
 
 const port = 3000
 const app = express()
 const server = http.createServer(app)
 socketServer(server)
+connectDB()
 
 const file = fs.readFileSync('./swagger.yaml', 'utf8')
 const swaggerDocument = YAML.parse(file)

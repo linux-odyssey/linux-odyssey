@@ -1,5 +1,11 @@
 # Linux Odyssey
 
+## Requirements
+
+- NodeJS
+- Docker
+- Yarn
+
 ## Installation
 
 ```
