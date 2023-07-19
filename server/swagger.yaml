@@ -39,7 +39,7 @@ paths:
       summary: create a new session for current user
       parameters:
         - name: quest_id
-          in: query
+          in: body
           description: pass the quest id
           required: true
           style: form

@@ -12,8 +12,10 @@ export async function getSessionList(req, res) {
 export async function createSession(req, res) {
   const newSession = new Session({
     user: req.user.id,
-    exercise: req.body.exercise_id,
+    exercise: req.body.quest_id,
   })
+
+  console.log(newSession)
 
   try {
     const session = await newSession.save()
