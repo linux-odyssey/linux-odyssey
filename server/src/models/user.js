@@ -1,7 +1,9 @@
-import mongoose from 'mongoose'
+import { model } from 'mongoose'
 
-export default mongoose.model('User', {
+const User = model('User', {
   username: String,
   password: String,
   email: String,
 })
+
+export default User

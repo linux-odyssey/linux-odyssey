@@ -1,10 +1,15 @@
 import { model } from 'mongoose'
+import { Schema } from 'yaml'
 
-export default model(
+const Quest = model(
   'Quest',
-  {
-    name: String,
-    description: String,
-  },
-  { timestamp: true }
+  new Schema(
+    {
+      name: String,
+      description: String,
+    },
+    { timestamp: true }
+  )
 )
+
+export default Quest

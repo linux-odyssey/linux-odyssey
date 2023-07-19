@@ -10,7 +10,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-  - url: /
+  - url: /api/v1
 tags:
   - name: admins
     description: Secured Admin-only calls

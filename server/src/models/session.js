@@ -1,20 +1,24 @@
 import { model, Schema } from 'mongoose'
 
-export default model(
+const Session = model(
   'Session',
-  {
-    name: String,
-    containerId: String,
-    user: {
-      type: Schema.ObjectId,
-      ref: 'User',
+  new Schema(
+    {
+      name: String,
+      containerId: String,
+      user: {
+        type: Schema.ObjectId,
+        ref: 'User',
+      },
+      quest: {
+        type: Schema.ObjectId,
+        ref: 'Quest',
+      },
+      finishedAt: Date,
+      terminals: [String],
     },
-    quest: {
-      type: Schema.ObjectId,
-      ref: 'Quest',
-    },
-    finishedAt: Date,
-    terminals: [String],
-  },
-  { timestamps: true }
+    { timestamps: true }
+  )
 )
+
+export default Session
