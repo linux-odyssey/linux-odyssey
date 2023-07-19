@@ -18,6 +18,7 @@ async function main() {
   const file = await fs.readFile('./swagger.yaml', 'utf8')
   const swaggerDocument = YAML.parse(file)
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+  app.use(express.json())
 
   app.get('/', (req, res) => {
     res.send('Hello World!')
