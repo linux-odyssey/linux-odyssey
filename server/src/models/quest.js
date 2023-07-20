@@ -3,7 +3,7 @@ import { model, Schema } from 'mongoose'
 const Quest = model(
   'Quest',
   new Schema({
-    name: String,
+    _id: String,
     title: String,
     order: Number,
     content: String,

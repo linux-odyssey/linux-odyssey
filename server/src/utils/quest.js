@@ -12,12 +12,12 @@ const marked = new Marked({
 
 const questDirectory = path.join(process.cwd(), 'quests')
 
-async function parseQuests() {
+export default async function loadAndUpdateQuests() {
   const questNames = await fs.readdir(questDirectory)
 
   const quests = Promise.all(
-    questNames.map(async (name) => {
-      const fullPath = path.join(questDirectory, name, 'README.md')
+    questNames.map(async (id) => {
+      const fullPath = path.join(questDirectory, id, 'README.md')
 
       try {
         // Read and parse the README.md file.
@@ -31,33 +31,24 @@ async function parseQuests() {
 
         const { title, order } = metadata
 
-        return {
-          name,
-          title,
-          order,
-          content: htmlContent,
-        }
+        return Quest.findByIdAndUpdate(
+          id,
+          {
+            _id: id,
+            title,
+            order,
+            content: htmlContent,
+          },
+          {
+            upsert: true,
+          }
+        )
       } catch (error) {
-        console.error(`Error parsing quest ${name}:`, error)
+        console.error(`Error parsing quest ${id}:`, error)
         throw error
       }
     })
   )
 
   return quests
-}
-
-async function updateQuests(quests) {
-  Promise.all(
-    quests.map((quest) => {
-      return Quest.findOneAndUpdate({ name: quest.name }, quest, {
-        upsert: true,
-      })
-    })
-  )
-}
-
-export default async function loadAndUpdateQuests() {
-  const quests = await parseQuests()
-  await updateQuests(quests)
 }
