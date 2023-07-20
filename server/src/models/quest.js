@@ -9,7 +9,7 @@ const Quest = model(
       order: Number,
       content: String,
     },
-    { timestamp: true }
+    { timestamps: true }
   )
 )
 
