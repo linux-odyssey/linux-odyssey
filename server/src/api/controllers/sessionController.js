@@ -1,4 +1,5 @@
 import Session from '../../models/session.js'
+import Quest from '../../models/quest.js'
 
 export async function getSessionList(req, res) {
   try {
@@ -10,9 +11,10 @@ export async function getSessionList(req, res) {
 }
 
 export async function createSession(req, res) {
+  const quest = await Quest.findOne({ name: req.body.quest_name })
   const newSession = new Session({
-    user: req.user.id,
-    exercise: req.body.quest_id,
+    user: req.user,
+    quest,
   })
 
   console.log(newSession)

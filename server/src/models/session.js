@@ -4,8 +4,6 @@ const Session = model(
   'Session',
   new Schema(
     {
-      name: String,
-      containerId: String,
       user: {
         type: Schema.ObjectId,
         ref: 'User',
@@ -14,6 +12,7 @@ const Session = model(
         type: Schema.ObjectId,
         ref: 'Quest',
       },
+      containerId: String,
       finishedAt: Date,
       terminals: [String],
     },
