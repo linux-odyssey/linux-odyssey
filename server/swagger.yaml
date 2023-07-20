@@ -1,0 +1,429 @@
+openapi: 3.0.0
+servers:
+  - url: /api/v1
+info:
+  description: Linux Odyssey API
+  version: '1.0.0'
+  title: Session API
+  contact:
+    email: wancat@wancat.cc
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /sessions:
+    get:
+      tags:
+        - signed-in
+      summary: list existing sessions of current user
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: quest_id
+          description: find sessions by quest id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of existing session
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SessionSummary'
+
+    post:
+      summary: create a new session for current user
+      tags:
+        - signed-in
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: session data
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quest_id:
+                  type: string
+      responses:
+        '201':
+          description: session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /sessions/{session_id}:
+    get:
+      tags:
+        - signed-in
+      summary: get a specific session of current user by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: session_id
+          description: ID of the session to retrieve
+          required: true
+          schema:
+            type: string
+            format: objectId
+            example: 64b7a3a3c182b4826dd1aaa1
+      responses:
+        '200':
+          description: the session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '404':
+          description: cannot find specific session
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      tags:
+        - signed-in
+      summary: delete a specific session by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema:
+            type: string
+            format: objectId
+            example: 64b7a3a3c182b4826dd1aaa1
+      responses:
+        '204':
+          description: Session successfully deleted
+
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Session not found.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Unauthorized.'
+
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User created successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing username, email or password
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User already exists
+
+  /login:
+    post:
+      summary: Log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    description: Access token
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing username or password
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Incorrect username or password
+
+  /profile:
+    get:
+      summary: Get the profile of current logged-in user
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Get user's profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /quests:
+    get:
+      summary: Get quests list
+      responses:
+        '200':
+          description: Quests summary list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestSummary'
+
+  /quests/{quest_id}:
+    get:
+      summary: get a quest's detail by name
+      parameters:
+        - in: path
+          name: quest_id
+          description: name of the quest to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: the quest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quest'
+        '404':
+          description: cannot find specific quest
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: objectId
+          example: 64b7a3a3c182b4826dd1aaa1
+        username:
+          type: string
+          example: 'alex'
+        email:
+          type: string
+          format: email
+    Quest:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: helloworld
+        title:
+          type: string
+          example: Hello World
+        content:
+          type: string
+          format: html
+          example: '<h1>Hello World</h1>'
+        order:
+          type: number
+
+    QuestSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: helloworld
+        title:
+          type: string
+          example: Hello World
+        order:
+          type: number
+
+    Session:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: objectId
+          example: 64b7a3a3c182b4826dd1aaa1
+        user:
+          $ref: '#/components/schemas/User'
+        quest:
+          $ref: '#/components/schemas/Quest'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+        terminals:
+          type: array
+          items:
+            type: string
+        graphs:
+          $ref: '#/components/schemas/TreeNode'
+        progress:
+          type: array
+          items:
+            $ref: '#/components/schemas/Progress'
+        hints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hint'
+
+    SessionSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: objectId
+          example: 64b7a3a3c182b4826dd1aaa1
+        quest:
+          $ref: '#/components/schemas/Quest'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+
+    TreeNode:
+      type: object
+      properties:
+        name:
+          type: string
+        display:
+          type: boolean
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TreeNode'
+
+    Progress:
+      type: object
+      properties:
+        name:
+          type: string
+        finished_at:
+          type: string
+          format: date-time
+        skipped_at:
+          type: string
+          format: date-time
+
+    Hint:
+      type: object
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+        source:
+          type: string
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

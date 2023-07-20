@@ -4,16 +4,23 @@
   "description": "Linux Odyssey Server",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "cli": "node src/client.js",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
   },
   "dependencies": {
     "dockerode": "^3.3.5",
     "express": "^4.18.2",
+    "marked": "^5.1.1",
+    "mongoose": "^7.4.0",
     "socket.io": "^4.7.1",
-    "socket.io-client": "^4.7.1"
+    "socket.io-client": "^4.7.1",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.3.1"
   },
   "devDependencies": {
+    "jest": "^29.6.1",
     "nodemon": "^3.0.1"
   }
 }
