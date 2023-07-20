@@ -85,7 +85,8 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
+            format: objectId
+            example: 64b7a3a3c182b4826dd1aaa1
       responses:
         '200':
           description: the session
@@ -114,7 +115,8 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
+            format: objectId
+            example: 64b7a3a3c182b4826dd1aaa1
       responses:
         '204':
           description: Session successfully deleted
@@ -263,12 +265,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/QuestSummary'
 
-  /quests/{quest_name}:
+  /quests/{quest_id}:
     get:
       summary: get a quest's detail by name
       parameters:
         - in: path
-          name: quest_name
+          name: quest_id
           description: name of the quest to retrieve
           required: true
           schema:
@@ -294,9 +296,10 @@ components:
     User:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          format: uuid
+          format: objectId
+          example: 64b7a3a3c182b4826dd1aaa1
         username:
           type: string
           example: 'alex'
@@ -306,38 +309,38 @@ components:
     Quest:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          format: objectId
-        name:
-          type: string
+          example: helloworld
         title:
           type: string
+          example: Hello World
         content:
           type: string
           format: html
+          example: '<h1>Hello World</h1>'
         order:
           type: number
 
     QuestSummary:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          format: objectId
-        name:
-          type: string
+          example: helloworld
         title:
           type: string
+          example: Hello World
         order:
           type: number
 
     Session:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          format: uuid
+          format: objectId
+          example: 64b7a3a3c182b4826dd1aaa1
         user:
           $ref: '#/components/schemas/User'
         quest:
@@ -369,9 +372,10 @@ components:
     SessionSummary:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          format: uuid
+          format: objectId
+          example: 64b7a3a3c182b4826dd1aaa1
         quest:
           $ref: '#/components/schemas/Quest'
         created_at:
