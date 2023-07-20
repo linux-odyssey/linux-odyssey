@@ -3,21 +3,29 @@ import Quest from '../../models/quest.js'
 
 export async function getSessionList(req, res) {
   try {
-    const sessions = await Session.find({ user: req.user.id })
+    const query = { user: req.user.id }
+    if (req.query.quest_id) {
+      query.quest = req.query.quest_id
+    }
+    const sessions = await Session.find(query)
     res.json(sessions)
   } catch (err) {
+    console.error(err)
     res.status(500).json({ message: err.message })
   }
 }
 
 export async function createSession(req, res) {
-  const quest = await Quest.findOne({ name: req.body.quest_name })
+  const quest = await Quest.findById(req.body.quest_id)
+  if (!quest) {
+    res.status(400).json({ message: 'Quest not found.' })
+    return
+  }
+
   const newSession = new Session({
     user: req.user,
     quest,
   })
-
-  console.log(newSession)
 
   try {
     const session = await newSession.save()

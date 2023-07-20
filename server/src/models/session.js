@@ -9,7 +9,7 @@ const Session = model(
         ref: 'User',
       },
       quest: {
-        type: Schema.ObjectId,
+        type: String,
         ref: 'Quest',
       },
       containerId: String,
