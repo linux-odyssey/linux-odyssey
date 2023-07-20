@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     image: mongo
-    restart: on-failure
+    restart: always
     ports:
       - '27017:27017'
     volumes:

@@ -14,7 +14,6 @@ const Session = model(
       },
       containerId: String,
       finishedAt: Date,
-      terminals: [String],
     },
     { timestamps: true }
   )
