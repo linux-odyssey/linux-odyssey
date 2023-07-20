@@ -15,5 +15,9 @@ export async function getQuests(req, res) {
 export async function getQuestDetail(req, res) {
   const { name } = req.params
   const quest = await Quest.findOne({ name })
+  if (!quest) {
+    res.status(404).json({ message: 'Quest not found.' })
+    return
+  }
   res.json(quest)
 }

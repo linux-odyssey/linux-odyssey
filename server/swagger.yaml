@@ -250,6 +250,45 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
+  /quests:
+    get:
+      summary: Get quests list
+      responses:
+        '200':
+          description: Quests summary list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestSummary'
+
+  /quests/{quest_name}:
+    get:
+      summary: get a quest's detail by name
+      parameters:
+        - in: path
+          name: quest_name
+          description: name of the quest to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: the quest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quest'
+        '404':
+          description: cannot find specific quest
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 components:
   schemas:
     User:
@@ -267,10 +306,31 @@ components:
     Quest:
       type: object
       properties:
+        id:
+          type: string
+          format: objectId
         name:
           type: string
-        description:
+        title:
           type: string
+        content:
+          type: string
+          format: html
+        order:
+          type: number
+
+    QuestSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: objectId
+        name:
+          type: string
+        title:
+          type: string
+        order:
+          type: number
 
     Session:
       type: object
