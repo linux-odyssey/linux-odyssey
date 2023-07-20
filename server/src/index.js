@@ -7,6 +7,7 @@ import swaggerUI from 'swagger-ui-express'
 import socketServer from './api/socket.js'
 import connectDB from './db.js'
 import apiRouter from './api/routes/index.js'
+import loadAndUpdateQuests from './utils/quest.js'
 
 async function main() {
   const port = 3000
@@ -14,6 +15,7 @@ async function main() {
   const server = http.createServer(app)
   socketServer(server)
   await connectDB()
+  await loadAndUpdateQuests()
 
   const file = await fs.readFile('./swagger.yaml', 'utf8')
   const swaggerDocument = YAML.parse(file)

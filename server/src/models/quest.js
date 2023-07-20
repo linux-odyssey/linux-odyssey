@@ -1,12 +1,13 @@
-import { model } from 'mongoose'
-import { Schema } from 'yaml'
+import { model, Schema } from 'mongoose'
 
 const Quest = model(
   'Quest',
   new Schema(
     {
       name: String,
-      description: String,
+      title: String,
+      order: Number,
+      content: String,
     },
     { timestamp: true }
   )

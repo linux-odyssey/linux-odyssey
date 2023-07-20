@@ -1,7 +1,14 @@
 import fs from 'fs/promises'
 import path from 'path'
-import { marked } from 'marked'
+import { Marked } from 'marked'
 import yaml from 'yaml'
+
+import Quest from '../models/quest.js'
+
+const marked = new Marked({
+  mangle: false,
+  headerIds: false,
+})
 
 const questDirectory = path.join(process.cwd(), 'quests')
 
@@ -22,14 +29,17 @@ async function parseQuests() {
         const content = markdown.slice(match[0].length)
         const htmlContent = marked.parse(content)
 
+        const { title, order } = metadata
+
         return {
           name,
-          metadata,
+          title,
+          order,
           content: htmlContent,
         }
       } catch (error) {
         console.error(`Error parsing quest ${name}:`, error)
-        return null
+        throw error
       }
     })
   )
@@ -37,4 +47,17 @@ async function parseQuests() {
   return quests
 }
 
-parseQuests().then((quests) => console.log(quests))
+async function updateQuests(quests) {
+  Promise.all(
+    quests.map((quest) => {
+      return Quest.findOneAndUpdate({ name: quest.name }, quest, {
+        upsert: true,
+      })
+    })
+  )
+}
+
+export default async function loadAndUpdateQuests() {
+  const quests = await parseQuests()
+  await updateQuests(quests)
+}
