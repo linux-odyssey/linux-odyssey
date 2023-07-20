@@ -38,7 +38,7 @@ export async function createSession(req, res) {
 export async function getSessionById(req, res) {
   try {
     const session = await Session.findOne({
-      _id: req.params.session_id,
+      _id: req.params.id,
       user: req.user.id,
     })
 
@@ -56,7 +56,7 @@ export async function getSessionById(req, res) {
 export async function deleteSessionById(req, res) {
   try {
     const session = await Session.findOneAndDelete({
-      _id: req.params.session_id,
+      _id: req.params.id,
       user: req.user.id,
     })
 
