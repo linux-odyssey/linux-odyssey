@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
+import config from './config.js'
 
 export default async function connectDB() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/odyssey-test')
+    await mongoose.connect(config.db)
     console.log('Connected to MongoDB')
   } catch (err) {
     console.log(err)

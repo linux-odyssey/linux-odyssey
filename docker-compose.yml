@@ -1,5 +1,16 @@
 version: '3'
 services:
+  app:
+    image: lancatlin/linux-odyssey-server
+    build: .
+    ports:
+      - '3000:3000'
+    links:
+      - db
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MONGO_URL=mongodb://db:27017/odyssey-test
   db:
     image: mongo
     restart: always

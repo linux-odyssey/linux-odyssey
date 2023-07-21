@@ -8,9 +8,9 @@ import socketServer from './api/socket.js'
 import connectDB from './db.js'
 import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
+import config from './config.js'
 
 async function main() {
-  const port = 3000
   const app = express()
   const server = http.createServer(app)
   socketServer(server)
@@ -28,8 +28,8 @@ async function main() {
 
   app.use('/api/v1', apiRouter)
 
-  server.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`)
+  server.listen(config.port, config.host, () => {
+    console.log(`Server listening at http://${config.host}:${config.port}`)
   })
 }
 
