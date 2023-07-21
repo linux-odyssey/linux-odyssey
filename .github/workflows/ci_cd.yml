@@ -31,16 +31,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Tailscale Action
-        uses: actions/checkout@v3
+      - name: Setup Tailscale
+        uses: tailscale/github-action@main
         with:
-          repository: 'tsujamin/tailscale-github-action'
-          path: '.github/actions/tailscale'
-
-      - name: Setup Tailscale VPN
-        uses: ./.github/actions/tailscale
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTH_KEY }}
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: SSH into server and update service
         uses: appleboy/ssh-action@master
