@@ -22,6 +22,6 @@ export default (server) => {
       console.log('Disconnected from the client.')
     })
 
-    socket.send('Hello from server!')
+    socket.send(`${container.id}\n`)
   })
 }
