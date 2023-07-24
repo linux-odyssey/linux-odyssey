@@ -13,9 +13,24 @@ const containerOptions = {
   StdinOnce: false,
 }
 
-export async function getOrCreateContainer(name) {
+export async function createContainer() {
+  const container = await engine.createContainer({
+    ...containerOptions,
+  })
+  await container.start()
+  return container
+}
+
+export async function getContainer(id) {
+  const container = await engine.getContainer(id)
+  await container.start()
+  return container
+}
+
+export async function getOrCreateContainer(id) {
+  console.log(`Getting container: ${id}`)
   try {
-    const container = engine.getContainer(name)
+    const container = engine.getContainer(id)
     if (!(await container.inspect()).State.Running) {
       await container.start()
     }
@@ -23,7 +38,7 @@ export async function getOrCreateContainer(name) {
   } catch (error) {
     const container = await engine.createContainer({
       ...containerOptions,
-      name,
+      name: id,
     })
     await container.start()
     console.log(container.id)
@@ -31,12 +46,20 @@ export async function getOrCreateContainer(name) {
   }
 }
 
-export function attachContainer(container) {
+export async function attachContainer(container) {
   // Create an exec instance with bash shell
-  return container.attach({
-    stream: true,
-    stdin: true,
-    stdout: true,
-    stderr: true,
+  const exec = await container.exec({
+    AttachStdin: true,
+    AttachStdout: true,
+    AttachStderr: true,
+    Cmd: ['/bin/bash'],
+    Tty: true,
   })
+
+  const execOutput = await exec.start({
+    Detach: false,
+    Tty: true,
+  })
+
+  return execOutput.socket
 }

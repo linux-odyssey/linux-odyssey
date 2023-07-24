@@ -5,7 +5,14 @@ stdin.setRawMode(true)
 stdin.resume()
 stdin.setEncoding('utf8')
 
-const socket = io('ws://localhost:3000')
+const sessionId = process.argv[2]
+console.log(`Session ID: ${sessionId}`)
+
+const socket = io('ws://localhost:3000', {
+  query: {
+    session_id: sessionId,
+  },
+})
 
 socket.on('open', function open() {
   console.log('Connected to the server.')

@@ -25,6 +25,7 @@ export async function createSession(req, res) {
   const newSession = new Session({
     user: req.user,
     quest,
+    containerId: `quest-${quest.id}-${req.user.username}-${Date.now()}`,
   })
 
   try {
