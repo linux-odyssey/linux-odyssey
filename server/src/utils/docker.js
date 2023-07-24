@@ -27,9 +27,10 @@ export async function getContainer(id) {
   return container
 }
 
-export async function getOrCreateContainer(name) {
+export async function getOrCreateContainer(id) {
+  console.log(`Getting container: ${id}`)
   try {
-    const container = engine.getContainer(name)
+    const container = engine.getContainer(id)
     if (!(await container.inspect()).State.Running) {
       await container.start()
     }
@@ -37,7 +38,7 @@ export async function getOrCreateContainer(name) {
   } catch (error) {
     const container = await engine.createContainer({
       ...containerOptions,
-      name,
+      name: id,
     })
     await container.start()
     console.log(container.id)
