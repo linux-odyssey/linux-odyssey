@@ -40,8 +40,22 @@ yarn app
 
 ## CLI terminal client
 
-Open server first, then
+Open server first, then create a session by `POST /api/v1/sessions`
+
+```bash
+curl -X 'POST' \
+  'http://localhost:3000/api/v1/sessions' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "quest_id": "helloworld"
+}'
+```
+
+Then use the `_id` field in response
 
 ```
-yarn cli
+yarn cli [_id]
+# example
+yarn cli 64be226a39c0043cd1cdf7c2
 ```
