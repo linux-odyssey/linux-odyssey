@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 import { getOrCreateContainer, attachContainer } from '../utils/docker.js'
 import Session from '../models/session.js'
-import { defaultUser } from '../utils/auth.js'
+import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
 export default (server) => {
   const io = new Server(server)
@@ -32,8 +32,10 @@ export default (server) => {
       return
     }
 
+    const token = await genSessionJWT(session)
+
     const container = await getOrCreateContainer(session.containerId)
-    const stream = await attachContainer(container)
+    const stream = await attachContainer(container, { token })
 
     stream.on('data', (chunk) => {
       socket.send(chunk)

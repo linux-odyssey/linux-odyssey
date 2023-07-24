@@ -46,7 +46,7 @@ export async function getOrCreateContainer(id) {
   }
 }
 
-export async function attachContainer(container) {
+export async function attachContainer(container, { token }) {
   // Create an exec instance with bash shell
   const exec = await container.exec({
     AttachStdin: true,
@@ -54,6 +54,7 @@ export async function attachContainer(container) {
     AttachStderr: true,
     Cmd: ['/bin/bash'],
     Tty: true,
+    Env: [`TOKEN=${token}`],
   })
 
   const execOutput = await exec.start({
