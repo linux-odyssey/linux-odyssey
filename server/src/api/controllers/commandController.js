@@ -4,6 +4,7 @@ import Session from '../../models/session.js'
 import { verifySessionJWT } from '../../utils/auth.js'
 
 export async function newCommand(req, res) {
+  console.log('new command:', req.body)
   const { token, command, pwd, output } = req.body
 
   let sessionId

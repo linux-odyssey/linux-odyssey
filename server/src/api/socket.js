@@ -54,7 +54,6 @@ export default (server) => {
     })
 
     socket.on('message', function incoming(message) {
-      console.log(`From client: ${message}`)
       stream.write(message)
     })
 
