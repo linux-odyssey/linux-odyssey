@@ -1,9 +1,10 @@
 import Docker from 'dockerode'
+import config from '../config.js'
 
 const engine = new Docker()
 
 const containerOptions = {
-  Image: 'ubuntu',
+  Image: 'lancatlin/quest-helloworld',
   AttachStdin: true,
   AttachStdout: true,
   AttachStderr: true,
@@ -13,19 +14,7 @@ const containerOptions = {
   StdinOnce: false,
 }
 
-export async function createContainer() {
-  const container = await engine.createContainer({
-    ...containerOptions,
-  })
-  await container.start()
-  return container
-}
-
-export async function getContainer(id) {
-  const container = await engine.getContainer(id)
-  await container.start()
-  return container
-}
+const network = engine.getNetwork(config.dockerNetwork)
 
 export async function getOrCreateContainer(id) {
   console.log(`Getting container: ${id}`)
@@ -40,6 +29,8 @@ export async function getOrCreateContainer(id) {
       ...containerOptions,
       name: id,
     })
+    await network.connect({ Container: container.id })
+
     await container.start()
     console.log(container.id)
     return container
@@ -54,7 +45,7 @@ export async function attachContainer(container, { token }) {
     AttachStderr: true,
     Cmd: ['/bin/bash'],
     Tty: true,
-    Env: [`TOKEN=${token}`],
+    Env: [`TOKEN=${token}`, `API_ENDPOINT=http://app:3000`],
   })
 
   const execOutput = await exec.start({
