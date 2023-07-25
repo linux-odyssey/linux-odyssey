@@ -2,19 +2,32 @@ version: '3'
 services:
   app:
     image: lancatlin/linux-odyssey
-    build: .
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    networks:
+      - internal
+      - players
     ports:
       - '3000:3000'
-    links:
-      - db
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./server:/app/server
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test
+      - DOCKER_NETWORK=linux-odyssey-players
   db:
     image: mongo
     restart: always
+    networks:
+      - internal
     ports:
       - '27017:27017'
     volumes:
       - ./data:/data/db
+
+networks:
+  internal:
+  players:
+    name: linux-odyssey-players
