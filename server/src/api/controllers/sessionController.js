@@ -22,13 +22,13 @@ export async function createSession(req, res) {
     return
   }
 
-  const newSession = new Session({
-    user: req.user,
-    quest,
-    containerId: `quest-${quest.id}-${req.user.username}-${Date.now()}`,
-  })
-
   try {
+    const newSession = new Session({
+      user: req.user,
+      quest,
+      containerId: `quest-${quest.id}-${req.user.username}-${Date.now()}`,
+    })
+
     const session = await newSession.save()
     res.status(201).json(session)
   } catch (err) {

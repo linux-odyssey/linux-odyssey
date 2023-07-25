@@ -21,13 +21,25 @@ export default (server) => {
 
   io.on('connection', async (socket) => {
     console.log('Connected to the client.')
-    const session = await Session.findOne({
-      _id: socket.handshake.query.session_id,
-      user: socket.user,
-    })
-
-    if (!session) {
-      socket.send('Session not found.')
+    const sessionId = socket.handshake.query.session_id
+    if (!sessionId) {
+      socket.send('Session ID not found.')
+      socket.disconnect()
+      return
+    }
+    let session
+    try {
+      session = await Session.findOne({
+        _id: sessionId,
+        user: socket.user,
+      })
+      if (!session) {
+        socket.send('Session not found.')
+        socket.disconnect()
+        return
+      }
+    } catch (err) {
+      socket.send(err.message)
       socket.disconnect()
       return
     }
