@@ -4,8 +4,12 @@ RUN apt-get update && apt-get install -y \
   curl \
   vim
 
-WORKDIR /app
+RUN adduser --disabled-password --gecos '' rudeus
 
-COPY . .
+USER rudeus
+
+WORKDIR /home/rudeus
+
+COPY ./home /home/rudeus/
 
 CMD [ "/bin/bash" ]

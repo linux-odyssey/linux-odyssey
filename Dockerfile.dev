@@ -7,6 +7,12 @@ RUN yarn install --frozen-lockfile
 
 WORKDIR /app/server
 
+ARG DOCKER_GID=140
+
+RUN groupadd -g $DOCKER_GID docker && usermod -aG docker node
+
+USER node
+
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=3000

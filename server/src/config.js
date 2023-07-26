@@ -6,4 +6,5 @@ export default {
   db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
   jwtSecret: get('JWT_SECRET', 'secret'),
   dockerNetwork: get('DOCKER_NETWORK', 'linux-odyssey-players'),
+  isProduction: process.env.NODE_ENV === 'production',
 }

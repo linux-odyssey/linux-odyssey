@@ -3,6 +3,8 @@ import config from '../config.js'
 
 const engine = new Docker()
 
+const questPath = '/home/zeko/src/linux-odyssey/server/quests'
+
 const containerOptions = {
   Image: 'lancatlin/quest-helloworld',
   AttachStdin: true,
@@ -12,23 +14,34 @@ const containerOptions = {
   Cmd: ['/bin/bash'],
   OpenStdin: true,
   StdinOnce: false,
+  HostConfig: {
+    Binds: config.isProduction
+      ? []
+      : [`${questPath}/helloworld/home:/home/rudeus`],
+  },
 }
 
 const network = engine.getNetwork(config.dockerNetwork)
 
 export async function getOrCreateContainer(id) {
   console.log(`Getting container: ${id}`)
+  let container
   try {
-    const container = engine.getContainer(id)
+    container = engine.getContainer(id)
     if (!(await container.inspect()).State.Running) {
       await container.start()
     }
     return container
   } catch (error) {
-    const container = await engine.createContainer({
-      ...containerOptions,
-      name: id,
-    })
+    try {
+      container = await engine.createContainer({
+        ...containerOptions,
+        name: id,
+      })
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
     await network.connect({ Container: container.id })
 
     await container.start()

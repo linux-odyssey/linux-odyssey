@@ -28,7 +28,7 @@ async function main() {
   console.log(`Session ID: ${sessionId}`)
   if (!sessionId) exit()
 
-  const socket = io('ws://localhost:3000', {
+  const socket = io(API_ENDPOINT, {
     query: {
       session_id: sessionId,
     },
