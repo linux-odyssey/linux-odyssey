@@ -1,4 +1,17 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const data = ref(null)
+const error = ref(null)
+
+fetch('https://odyssey.wancat.cc/api/v1/quests/helloworld')
+  .then((res) => res.json())
+  .then((json) => {
+    data.value = JSON.stringify(json.content)
+  }).catch((err) => {
+    error.value = err
+  })
+</script>
 
 <template>
   <div class="bg-background-primary h-screen">
@@ -74,6 +87,13 @@
         <section class="h-2/3 m-3">
           <h1 id="topic" class="text-text">Try Your First Command</h1>
           <hr class="border-text-line border-2 my-2" />
+          <p>
+            <div class="text-red-500" v-if="error">{{ error.message }}</div>
+            <div class="text-text" v-else-if="data">
+              {{ data }}
+            </div>
+            <div class="text-text" v-else>Loading...</div>
+          </p>
         </section>
         <hr class="border-text-line border" />
         <section class="h-1/3">
