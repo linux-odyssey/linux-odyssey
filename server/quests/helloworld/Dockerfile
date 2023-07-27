@@ -2,7 +2,8 @@ FROM ubuntu:latest
 
 RUN apt-get update && apt-get install -y \
   curl \
-  vim
+  vim \
+  jq
 
 RUN adduser --disabled-password --gecos '' rudeus
 

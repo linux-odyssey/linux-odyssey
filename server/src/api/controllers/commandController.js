@@ -5,7 +5,7 @@ import { verifySessionJWT } from '../../utils/auth.js'
 
 export async function newCommand(req, res) {
   console.log('new command:', req.body)
-  const { token, command, pwd, output } = req.body
+  const { token, command, pwd, exit_code, output } = req.body
 
   let sessionId
   try {
@@ -27,6 +27,7 @@ export async function newCommand(req, res) {
     session,
     command,
     pwd,
+    exit_code,
     output,
   })
 
