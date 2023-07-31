@@ -1,9 +1,12 @@
 import Docker from 'dockerode'
+import config from '../config.js'
 
 const engine = new Docker()
 
+const questPath = '/home/zeko/src/linux-odyssey/server/quests'
+
 const containerOptions = {
-  Image: 'ubuntu',
+  Image: 'lancatlin/linux-odyssey:helloworld',
   AttachStdin: true,
   AttachStdout: true,
   AttachStderr: true,
@@ -11,42 +14,43 @@ const containerOptions = {
   Cmd: ['/bin/bash'],
   OpenStdin: true,
   StdinOnce: false,
+  HostConfig: {
+    Binds: config.isProduction
+      ? []
+      : [`${questPath}/helloworld/home:/home/rudeus`],
+  },
 }
 
-export async function createContainer() {
-  const container = await engine.createContainer({
-    ...containerOptions,
-  })
-  await container.start()
-  return container
-}
-
-export async function getContainer(id) {
-  const container = await engine.getContainer(id)
-  await container.start()
-  return container
-}
+const network = engine.getNetwork(config.dockerNetwork)
 
 export async function getOrCreateContainer(id) {
   console.log(`Getting container: ${id}`)
+  let container
   try {
-    const container = engine.getContainer(id)
+    container = engine.getContainer(id)
     if (!(await container.inspect()).State.Running) {
       await container.start()
     }
     return container
   } catch (error) {
-    const container = await engine.createContainer({
-      ...containerOptions,
-      name: id,
-    })
+    try {
+      container = await engine.createContainer({
+        ...containerOptions,
+        name: id,
+      })
+    } catch (err) {
+      console.log(err)
+      throw err
+    }
+    await network.connect({ Container: container.id })
+
     await container.start()
     console.log(container.id)
     return container
   }
 }
 
-export async function attachContainer(container) {
+export async function attachContainer(container, { token }) {
   // Create an exec instance with bash shell
   const exec = await container.exec({
     AttachStdin: true,
@@ -54,6 +58,7 @@ export async function attachContainer(container) {
     AttachStderr: true,
     Cmd: ['/bin/bash'],
     Tty: true,
+    Env: [`TOKEN=${token}`, `API_ENDPOINT=http://app:3000`],
   })
 
   const execOutput = await exec.start({

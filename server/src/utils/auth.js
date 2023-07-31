@@ -1,4 +1,5 @@
-/* eslint-disable import/prefer-default-export */
+import jwt from 'jsonwebtoken'
+import config from '../config.js'
 import User from '../models/user.js'
 
 export async function defaultUser() {
@@ -11,4 +12,33 @@ export async function defaultUser() {
     await user.save()
   }
   return user
+}
+
+export function genSessionJWT(session) {
+  return new Promise((resolve, reject) => {
+    jwt.sign(
+      { session_id: session.id },
+      config.jwtSecret,
+      { expiresIn: '1h' },
+      (err, token) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(token)
+        }
+      }
+    )
+  })
+}
+
+export function verifySessionJWT(token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(decoded)
+      }
+    })
+  })
 }

@@ -291,6 +291,24 @@ paths:
                 properties:
                   message:
                     type: string
+
+  /commands:
+    post:
+      summary: Record a command that was executed in a session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Command'
+      responses:
+        '201':
+          description: Command recorded successfully
+        '400':
+          description: Invalid request body
+        '401':
+          description: Unauthorized
+
 components:
   schemas:
     User:
@@ -421,6 +439,28 @@ components:
           type: string
         source:
           type: string
+
+    Command:
+      type: object
+      required:
+        - token
+        - pwd
+        - command
+      properties:
+        token:
+          type: string
+          description: The JWT token of the session
+        pwd:
+          type: string
+          example: '/root'
+          description: The current working directory
+        command:
+          type: string
+          example: 'ls -al /'
+          description: The command that was executed
+        output:
+          type: string
+          description: The output of the command
 
   securitySchemes:
     BearerAuth:

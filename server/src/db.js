@@ -6,6 +6,7 @@ export default async function connectDB() {
     await mongoose.connect(config.db)
     console.log('Connected to MongoDB')
   } catch (err) {
-    console.log(err)
+    console.error(err)
+    process.exit(1)
   }
 }
