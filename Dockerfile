@@ -5,13 +5,7 @@ COPY package.json yarn.lock ./
 COPY server/package.json ./server/
 RUN yarn install --frozen-lockfile --production
 
-ARG DOCKER_GID=140
-
-RUN groupadd -g $DOCKER_GID docker && usermod -aG docker node
-
 WORKDIR /app/server
-
-USER node
 
 COPY server/src ./src
 COPY server/quests ./quests

@@ -1,3 +1,4 @@
 vite.config.js
 .gitignore
 data
+mongo-init.js

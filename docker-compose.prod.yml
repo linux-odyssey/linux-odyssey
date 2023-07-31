@@ -14,7 +14,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - MONGO_URL=mongodb://db:27017/odyssey-test
+      - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
   db:
     image: mongo
@@ -24,9 +24,19 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - ./data:/data/db
+      - mongo:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin-password
+      - MONGO_USER=user
+      - MONGO_PASS=user-password
+      - MONGO_DB=odyssey-test
 
 networks:
   internal:
   players:
     name: linux-odyssey-players
+
+volumes:
+  mongo:

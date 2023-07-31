@@ -6,7 +6,7 @@ const engine = new Docker()
 const questPath = '/home/zeko/src/linux-odyssey/server/quests'
 
 const containerOptions = {
-  Image: 'lancatlin/quest-helloworld',
+  Image: 'lancatlin/linux-odyssey:helloworld',
   AttachStdin: true,
   AttachStdout: true,
   AttachStderr: true,
@@ -38,9 +38,9 @@ export async function getOrCreateContainer(id) {
         ...containerOptions,
         name: id,
       })
-    } catch (error) {
-      console.log(error)
-      throw error
+    } catch (err) {
+      console.log(err)
+      throw err
     }
     await network.connect({ Container: container.id })
 
