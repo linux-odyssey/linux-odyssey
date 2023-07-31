@@ -10,6 +10,7 @@
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
   },
   "dependencies": {
+    "commander": "^11.0.0",
     "dockerode": "^3.3.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
