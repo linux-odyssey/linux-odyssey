@@ -1,13 +1,15 @@
 <script setup>
 import { ref } from 'vue'
+import api from '../utils/api'
 
 const questData = ref(null)
 const questErr = ref(null)
 
-fetch('https://odyssey.wancat.cc/api/v1/quests/helloworld')
-  .then((res) => res.json())
-  .then((json) => {
-    questData.value = JSON.stringify(json.content)
+api
+  .get('/quests/helloworld')
+  .then((res) => {
+    console.log(res.data)
+    questData.value = JSON.stringify(res.data.content)
   })
   .catch((err) => {
     questErr.value = err
