@@ -73,3 +73,4 @@ import VisualizationPart from './components/VisualizationPart.vue'
     </div>
   </div>
 </template>
+<script></script>
