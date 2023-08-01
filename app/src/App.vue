@@ -1,38 +1,38 @@
 <script setup>
 // Import components
-import commandlistPart from './components/commandlistPart.vue'
-import headerPart from './components/headerPart.vue'
-import hintPart from './components/hintPart.vue'
-import questPart from './components/questPart.vue'
-import terminalPart from './components/terminalPart.vue'
-import visualizationPart from './components/visualizationPart.vue'
+import CommandlistPart from './components/CommandlistPart.vue'
+import HeaderPart from './components/HeaderPart.vue'
+import HintPart from './components/HintPart.vue'
+import QuestPart from './components/QuestPart.vue'
+import TerminalPart from './components/TerminalPart.vue'
+import VisualizationPart from './components/VisualizationPart.vue'
 </script>
 
 <template>
   <div class="bg-background-primary h-screen">
     <!--header-->
     <div id="header" class="bg-background-secondary content-center h-[6%] p-1">
-      <headerPart />
+      <HeaderPart />
     </div>
     <!--main-->
     <div id="main" class="h-[94%] grid grid-cols-3 gap-3 p-3">
       <!--Topic and Command List-->
       <div class="bg-background-secondary inline-block h-full rounded-lg">
         <section id="quest" class="h-2/3 m-3">
-          <questPart />
+          <QuestPart />
         </section>
         <hr class="border-text-line border" />
         <section id="cmdlist" class="h-1/3">
-          <commandlistPart />
+          <CommandlistPart />
         </section>
       </div>
       <!--Terminal and Hint-->
       <div class="bg-background inline-block h-full py-2 rounded-lg">
         <section id="terminal" class="h-3/5">
-          <terminalPart />
+          <TerminalPart />
         </section>
         <section id="hint" class="h-2/5">
-          <hintPart />
+          <HintPart />
         </section>
       </div>
       <!--Visualization-->
@@ -40,7 +40,7 @@ import visualizationPart from './components/visualizationPart.vue'
         <div class="bg-border rounded-xl h-[90%] px-3 py-6">
           <div class="bg-background rounded-xl h-full px-1 py-6">
             <section id="visualization" class="bg-background-primary h-full">
-              <visualizationPart />
+              <VisualizationPart />
             </section>
           </div>
         </div>
