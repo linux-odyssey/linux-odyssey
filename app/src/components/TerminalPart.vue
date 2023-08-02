@@ -51,7 +51,15 @@ export default {
           lineHeight: 20,
         },
       })
-      const socket = new WebSocket('http://localhost:3000')
+      const wsHost = 'odyssey.wancat.cc'
+      // const wsHost = 'localhost:3000'
+      // const container = 'quest-helloworld-defaultUser-1690375754669'
+      // const container = '1690375754669'
+      const container = '64c1164a5b34af580963da6b'
+      // const container = '423ba17d5863'
+      // const container = 'dcb865c0e5a5 '
+      const ws = `wss://${wsHost}/containers/${container}/attach/ws?stream=true`
+      const socket = new WebSocket(ws)
       const attachAddon = new AttachAddon(socket)
       // 创建terminal实例
       term.loadAddon(attachAddon)
