@@ -16,8 +16,10 @@
 <script>
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
-import { AttachAddon } from 'xterm-addon-attach'
+// import { AttachAddon } from 'xterm-addon-attach'
+import { stdin, stdout, exit } from 'process'
 import 'xterm/css/xterm.css'
+import { io } from 'socket.io-client'
 // import connect from 'server/src/client'
 
 export default {
@@ -51,18 +53,33 @@ export default {
           lineHeight: 20,
         },
       })
-      const wsHost = 'odyssey.wancat.cc'
-      // const wsHost = 'localhost:3000'
-      // const container = 'quest-helloworld-defaultUser-1690375754669'
-      // const container = '1690375754669'
-      const container = '64c1164a5b34af580963da6b'
-      // const container = '423ba17d5863'
-      // const container = 'dcb865c0e5a5 '
-      const ws = `wss://${wsHost}/containers/${container}/attach/ws?stream=true`
-      const socket = new WebSocket(ws)
-      const attachAddon = new AttachAddon(socket)
+      const ws = 'wss://odyssey.wancat.cc'
+      // const ws = 'ws://localhost:3000'
+      const socket = io(ws, {
+        query: {
+          // session_id: sessionId,
+          session_id: '64cb80132077b982b86bdc4f',
+        },
+      })
+      socket.on('message', function incoming(data) {
+        console.log(data)
+      })
+      socket.on('open', function open() {
+        console.log('Connected to the server.')
+      })
+      // socket.on('message', function incoming(data) {
+      //   stdout.write(data)
+      // })
+      socket.on('close', function close() {
+        console.log('Disconnected from the server.')
+        exit()
+      })
+      socket.on('message', (message) => {
+        term.onData(socket.emit('input', message))
+      })
+      // const attachAddon = new AttachAddon(socket)
       // 创建terminal实例
-      term.loadAddon(attachAddon)
+      // term.loadAddon(attachAddon)
       term.open(this.$refs.terminal)
       // 换行并输入起始符 $
       term.prompt = () => {
@@ -83,6 +100,7 @@ export default {
       }
       window.addEventListener('resize', resizeScreen)
       xthis.term = term
+      xthis.socket = socket
       xthis.runFakeTerminal()
     },
     runFakeTerminal() {
