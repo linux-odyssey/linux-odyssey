@@ -3,7 +3,7 @@ import config from '../config.js'
 
 const engine = new Docker()
 
-const questPath = '/home/zeko/src/linux-odyssey/server/quests'
+const projectPath = '/home/zeko/src/linux-odyssey'
 
 const containerOptions = {
   Image: 'lancatlin/linux-odyssey:helloworld',
@@ -17,7 +17,10 @@ const containerOptions = {
   HostConfig: {
     Binds: config.isProduction
       ? []
-      : [`${questPath}/helloworld/home:/home/rudeus`],
+      : [
+          `${projectPath}/server/quests/helloworld/home:/home/rudeus`,
+          `${projectPath}/packages/cli/cli.js:/usr/local/bin/cli.js`,
+        ],
   },
 }
 
