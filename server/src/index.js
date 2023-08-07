@@ -3,6 +3,7 @@ import express from 'express'
 import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
+import cors from 'cors'
 
 import socketServer from './api/socket.js'
 import connectDB from './db.js'
@@ -22,6 +23,11 @@ async function main() {
   const swaggerDocument = YAML.parse(file)
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
   app.use(express.json())
+  app.use(
+    cors({
+      origin: '*',
+    })
+  )
 
   app.get('/', (req, res) => {
     res.send('Hello World!')
