@@ -11,7 +11,6 @@ const containerOptions = {
   AttachStdout: true,
   AttachStderr: true,
   Tty: true,
-  Cmd: ['/bin/bash'],
   OpenStdin: true,
   StdinOnce: false,
   HostConfig: {
@@ -59,7 +58,7 @@ export async function attachContainer(container, { token }) {
     AttachStdin: true,
     AttachStdout: true,
     AttachStderr: true,
-    Cmd: ['/bin/bash'],
+    Cmd: ['/bin/zsh'],
     Tty: true,
     Env: [`TOKEN=${token}`, `API_ENDPOINT=http://app:3000`],
   })

@@ -17,6 +17,11 @@ export default async function loadAndUpdateQuests() {
 
   const quests = Promise.all(
     questNames.map(async (id) => {
+      // Check if id is directory
+      const stat = await fs.stat(path.join(questDirectory, id))
+      if (!stat.isDirectory()) {
+        return null
+      }
       const fullPath = path.join(questDirectory, id, 'README.md')
 
       try {

@@ -7,6 +7,11 @@ export async function newCommand(req, res) {
   console.log('new command:', req.body)
   const { token, command, pwd, exit_code, output } = req.body
 
+  if (!command) {
+    res.status(400).json({ message: 'command is required' })
+    return
+  }
+
   let sessionId
   try {
     const decoded = await verifySessionJWT(token)
@@ -33,5 +38,7 @@ export async function newCommand(req, res) {
 
   await c.save()
 
-  res.status(201).end()
+  res.status(201).json({
+    responses: ['Hello, world!', 'How are you?'],
+  })
 }

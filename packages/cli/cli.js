@@ -1,4 +1,9 @@
+/* eslint-disable no-restricted-syntax */
+const fs = require('fs').promises
+const { exit } = require('process')
 const readline = require('readline')
+
+const RETURN_SYMBOL = '\u21B5'
 
 process.stdin.setRawMode(true)
 
@@ -7,13 +12,6 @@ const rl = readline.createInterface({
   output: process.stdout,
   terminal: false,
 })
-
-async function printResponses(responses, delay = 100) {
-  for (const response of responses) {
-    await printResponse(response, delay)
-  }
-  rl.close()
-}
 
 function waitForEnter() {
   return new Promise((resolve) => {
@@ -35,18 +33,48 @@ function printResponse(response, delay) {
 
     waitForEnter().then(() => {
       clearInterval(timer)
-      process.stdout.write(response.slice(i) + '\n')
+      process.stdout.write(response.slice(i))
+      process.stdout.write('\n')
       resolve()
     })
   })
 }
 
-async function request() {
-  const { API_ENDPOINT, TOKEN, PWD, COMMAND, OUTPUT, EXIT_CODE } = process.env
+async function printResponses(responses, delay = 100) {
+  for (const response of responses) {
+    // eslint-disable-next-line no-await-in-loop
+    await printResponse(response + RETURN_SYMBOL, delay)
+  }
+  rl.close()
+}
+
+async function readOrNone(file) {
+  try {
+    return await fs.readFile(file, 'utf8')
+  } catch (err) {
+    return ''
+  }
+}
+
+async function main() {
+  const {
+    API_ENDPOINT,
+    TOKEN,
+    PWD,
+    CMD_NAME,
+    CMD_OUTPUT_FILE,
+    CMD_ERROR_FILE,
+    CMD_EXIT_CODE,
+  } = process.env
+  if (!CMD_NAME) exit(0)
+
+  const output = await readOrNone(CMD_OUTPUT_FILE)
+  const error = await readOrNone(CMD_ERROR_FILE)
   const payload = {
-    command: COMMAND,
-    output: OUTPUT,
-    exit_code: EXIT_CODE,
+    command: CMD_NAME,
+    output,
+    error,
+    exit_code: CMD_EXIT_CODE,
     token: TOKEN,
     pwd: PWD,
   }
@@ -67,4 +95,4 @@ async function request() {
   }
 }
 
-request()
+main()
