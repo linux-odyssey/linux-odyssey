@@ -4,12 +4,19 @@ import Session from '../models/session.js'
 import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
 export default (server) => {
-  const io = new Server(server, {
-    cors: {
-      origin: '*',
+  const io = new Server(
+    server,
+    {
+      cors: {
+        origin: '*',
+      },
     },
-  })
-
+    {
+      cors: {
+        origin: '*',
+      },
+    }
+  )
   io.use(async (socket, next) => {
     console.log('Authenticating...')
     try {
@@ -54,7 +61,7 @@ export default (server) => {
     const stream = await attachContainer(container, { token })
 
     stream.on('data', (chunk) => {
-      socket.send(chunk.toString())
+      socket.send(chunk.toString().toString())
     })
 
     socket.on('message', function incoming(message) {
