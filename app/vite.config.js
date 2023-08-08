@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // the server url
+        // target: 'http://localhost:3000', // the server url
+        target: 'http://odyssey.wancat.cc ',
         ws: true,
       },
     },

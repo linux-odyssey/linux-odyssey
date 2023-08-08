@@ -42,12 +42,15 @@ onMounted(() => {
       lineHeight: 20,
     },
   })
-  // const host = 'wss://odyssey.wancat.cc'
-  const host = 'ws://localhost:3000'
+  const host = 'wss://odyssey.wancat.cc'
+  // const host = 'ws://localhost:3000'
   const socket = io(host, {
     query: {
       // session_id: sessionId,
-      session_id: '64d0de0367459c13004bc83f',
+      session_id: '64d26a8cffab987b2bb0de38',
+      // odyssey
+      // session_id: '64d271ce784daf755387ff4f',
+      // localhost
     },
   })
   socket.on('connect', function open() {
@@ -63,12 +66,34 @@ onMounted(() => {
   term.onData((key) => {
     console.log(key)
     socket.send(key)
+    if (key.length > 1) term.write(key)
+    if (key == '\r') {
+      // term.write('\n')
+      term.write('\r\n\x1b[33mLinux Odyssey$\x1b[0m ')
+    }
   })
   term.open(terminal.value)
-
   const fitAddon = new FitAddon()
   term.loadAddon(fitAddon)
   fitAddon.fit()
+  term.writeln('Welcome to \x1b[1;32mLinux Odyssey\x1b[0m!')
+  term.onKey((e) => {
+    const printable =
+      !e.domEvent.altKey &&
+      !e.domEvent.altGraphKey &&
+      !e.domEvent.ctrlKey &&
+      !e.domEvent.metaKeys
+    if (e.domEvent.keyCode === 8) {
+      // back 删除的情况
+      if (term.xcore.buffer.x > 2) {
+        term.write('\b \b')
+      }
+    } else if (printable) {
+      term.write(e.key)
+    }
+    console.log(1, 'print', e.key)
+  })
+
   function resizeScreen() {
     try {
       // 窗口大小改变时，触发xterm的resize方法使自适应
