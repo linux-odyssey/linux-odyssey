@@ -26,8 +26,7 @@ const commandHandler = async (session, commandInput) => {
   session.completion.push(session.progress)
   session.hints.push(...stage.hints)
 
-  const nextStage = quest.stages.find((s) => s.id === stage.next)
-  session.progress = nextStage.id
+  session.progress = stage.next
   await session.save()
 
   return {
