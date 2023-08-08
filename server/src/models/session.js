@@ -16,6 +16,7 @@ const Session = model(
       finishedAt: Date,
       progress: String,
       completion: [String],
+      hints: [String],
     },
     { timestamps: true }
   )

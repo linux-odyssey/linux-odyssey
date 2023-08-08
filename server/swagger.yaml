@@ -1,6 +1,8 @@
 openapi: 3.0.0
 servers:
   - url: /api/v1
+  - url: https://odyssey.wancat.cc/api/v1
+  - url: http://localhost:3000/api/v1
 info:
   description: Linux Odyssey API
   version: '1.0.0'
@@ -304,6 +306,10 @@ paths:
       responses:
         '201':
           description: Command recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResponse'
         '400':
           description: Invalid request body
         '401':
@@ -333,10 +339,9 @@ components:
         title:
           type: string
           example: Hello World
-        content:
+        instruction:
           type: string
-          format: html
-          example: '<h1>Hello World</h1>'
+          example: 'In this quest, you need to learn how to use `ls` to list the file.'
         order:
           type: number
 
@@ -372,20 +377,21 @@ components:
         finished_at:
           type: string
           format: date-time
-        terminals:
-          type: array
-          items:
-            type: string
-        graphs:
-          $ref: '#/components/schemas/TreeNode'
-        progress:
-          type: array
-          items:
-            $ref: '#/components/schemas/Progress'
         hints:
           type: array
           items:
-            $ref: '#/components/schemas/Hint'
+            type: string
+            example: '`ls -al` to list detail information of all files.'
+        progress:
+          type: string
+          description: current stage id
+          example: helloworld
+        completion:
+          type: array
+          description: list of completed stage ids
+          items:
+            type: string
+            example: helloworld
 
     SessionSummary:
       type: object
@@ -418,28 +424,6 @@ components:
           items:
             $ref: '#/components/schemas/TreeNode'
 
-    Progress:
-      type: object
-      properties:
-        name:
-          type: string
-        finished_at:
-          type: string
-          format: date-time
-        skipped_at:
-          type: string
-          format: date-time
-
-    Hint:
-      type: object
-      properties:
-        name:
-          type: string
-        content:
-          type: string
-        source:
-          type: string
-
     Command:
       type: object
       required:
@@ -461,6 +445,18 @@ components:
         output:
           type: string
           description: The output of the command
+        error:
+          type: string
+          description: The error message of the command
+
+    CommandResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          items:
+            type: string
+            example: 'You have completed the quest!'
 
   securitySchemes:
     BearerAuth:

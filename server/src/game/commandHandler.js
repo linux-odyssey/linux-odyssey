@@ -28,6 +28,7 @@ const commandHandler = async (session, commandInput) => {
   if (!commandMatch || !outputMatch || !errorMatch) return {}
 
   session.completion.push(session.progress)
+  session.hints.push(...stage.hints)
 
   const nextStage = quest.stages.find((s) => s.id === stage.next)
   session.progress = nextStage.id
@@ -35,7 +36,6 @@ const commandHandler = async (session, commandInput) => {
 
   return {
     responses: stage.responses,
-    hint: stage.hint,
   }
 }
 

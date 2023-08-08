@@ -23,7 +23,7 @@ const stageSchema = new Schema({
     type: [String],
     required: true,
   },
-  hint: {
+  hints: {
     type: [String],
     required: true,
   },
@@ -39,7 +39,7 @@ const Quest = model(
     _id: String,
     title: String,
     order: Number,
-    introduction: String,
+    instruction: String,
     stages: [stageSchema],
   })
 )
