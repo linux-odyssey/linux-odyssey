@@ -5,7 +5,7 @@ introduction: |
 
   「輸入 echo Hello World!」
 stages:
-  - name: helloworld
+  - id: helloworld
     condition:
       command:
         - echo Hello World!
@@ -19,3 +19,11 @@ stages:
       - 例如，你可以輸入 `ls` 來查看目前的目錄下有哪些檔案。
     hint:
       - 使用 `ls` 指令來查看目前的目錄下有哪些檔案。
+    next: ls
+  - id: ls
+    condition:
+      command:
+        - ls
+    responses:
+      - NOTHING
+    next: END

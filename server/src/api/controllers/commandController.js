@@ -2,6 +2,7 @@
 import Command from '../../models/command.js'
 import Session from '../../models/session.js'
 import { verifySessionJWT } from '../../utils/auth.js'
+import commandHandler from '../../game/commandHandler.js'
 
 export async function newCommand(req, res) {
   console.log('new command:', req.body)
@@ -38,7 +39,8 @@ export async function newCommand(req, res) {
 
   await c.save()
 
-  res.status(201).json({
-    responses: ['Hello, world!', 'How are you?'],
-  })
+  const response = await commandHandler(session, c)
+  console.log(response)
+
+  res.status(201).json(response)
 }

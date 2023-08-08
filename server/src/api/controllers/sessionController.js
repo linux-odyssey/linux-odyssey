@@ -23,9 +23,11 @@ export async function createSession(req, res) {
   }
 
   try {
+    const progress = quest.stages[0].id
     const newSession = new Session({
       user: req.user,
       quest,
+      progress,
       containerId: `quest-${quest.id}-${req.user.username}-${Date.now()}`,
     })
 

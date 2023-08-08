@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose'
 
 const stageSchema = new Schema({
-  name: {
+  id: {
     type: String,
     required: true,
   },
@@ -25,6 +25,10 @@ const stageSchema = new Schema({
   },
   hint: {
     type: [String],
+    required: true,
+  },
+  next: {
+    type: String,
     required: true,
   },
 })
