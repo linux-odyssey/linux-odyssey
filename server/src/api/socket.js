@@ -50,7 +50,7 @@ export default (server) => {
     const stream = await attachContainer(container, { token })
 
     stream.on('data', (chunk) => {
-      socket.send(chunk)
+      socket.send(chunk.toString())
     })
 
     socket.on('message', function incoming(message) {
