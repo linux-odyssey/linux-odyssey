@@ -15,10 +15,10 @@ preexec() {
     # Check if the command is in the list of interactive commands
     if [[ " ${interactive_commands[@]} " =~ " $1 " ]]; then
         # If it is, just execute it normally
-        eval $1
+        exec
     else
         # If it's not, execute it and redirect its output to a file
-        eval $1 > /tmp/cmd.out 2>/tmp/cmd.error
+        exec > >(tee /tmp/cmd.out) 2> >(tee /tmp/cmd.error >&2)
     fi
 }
 

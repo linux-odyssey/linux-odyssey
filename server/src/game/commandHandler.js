@@ -17,13 +17,9 @@ const commandHandler = async (session, commandInput) => {
     return {}
   }
 
-  console.log(stage.condition)
-
   const commandMatch = checkMatch(stage.condition.command, commandInput.command)
   const outputMatch = checkMatch(stage.condition.output, commandInput.output)
   const errorMatch = checkMatch(stage.condition.error, commandInput.output)
-
-  console.log(commandMatch, outputMatch, errorMatch)
 
   if (!commandMatch || !outputMatch || !errorMatch) return {}
 
