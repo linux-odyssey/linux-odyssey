@@ -1,5 +1,15 @@
 import { model, Schema } from 'mongoose'
 
+const responseSchema = new Schema({
+  type: {
+    type: String,
+    required: true,
+  },
+  content: [String],
+  speaker: String,
+  color: String,
+})
+
 const stageSchema = new Schema({
   id: {
     type: String,
@@ -20,7 +30,7 @@ const stageSchema = new Schema({
     },
   },
   responses: {
-    type: [String],
+    type: [responseSchema],
     required: true,
   },
   hints: {

@@ -31,6 +31,8 @@ const commandHandler = async (session, commandInput) => {
 
   return {
     responses: stage.responses,
+    hints: stage.hints,
+    end: stage.next === 'END',
   }
 }
 

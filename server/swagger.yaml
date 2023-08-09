@@ -455,8 +455,36 @@ components:
         responses:
           type: array
           items:
+            $ref: '#/components/schemas/CommandResponseItem'
+        hints:
+          type: array
+          items:
+            type: string
+            example: '`ls -al` to list detail information of all files.'
+        end:
+          type: boolean
+          description: Whether the session has ended
+
+    CommandResponseItem:
+      type: object
+      required:
+        - type
+        - content
+      properties:
+        type:
+          type: string
+          enum: [narrative, dialogue]
+        content:
+          type: array
+          items:
             type: string
             example: 'You have completed the quest!'
+        color:
+          type: string
+          enum: [red, green, blue, yellow, purple, cyan, white, gray, black]
+        speaker:
+          type: string
+          example: 'Unix Spirit'
 
   securitySchemes:
     BearerAuth:
