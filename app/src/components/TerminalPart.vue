@@ -5,20 +5,14 @@
     id="terminal"
     ref="terminal"
     class="bg-background-secondary h-[calc(100%-5%)] p-0.5"
-  >
-    <!-- <p class="text-text-primary">
-      zeko@first-command<span class="text-text">:~$</span>
-    </p> -->
-  </div>
+  ></div>
 </template>
 <script setup>
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
-import { AttachAddon } from 'xterm-addon-attach'
+// import { AttachAddon } from 'xterm-addon-attach'
 import 'xterm/css/xterm.css'
 import { io } from 'socket.io-client'
-// import connect from 'server/src/client'
-
 import { onMounted, ref } from 'vue'
 
 const rows = ref(40)
@@ -66,34 +60,12 @@ onMounted(() => {
   term.onData((key) => {
     console.log(key)
     socket.send(key)
-    if (key.length > 1) term.write(key)
-    if (key == '\r') {
-      // term.write('\n')
-      term.write('\r\n\x1b[33mLinux Odyssey$\x1b[0m ')
-    }
   })
   term.open(terminal.value)
   const fitAddon = new FitAddon()
   term.loadAddon(fitAddon)
   fitAddon.fit()
   term.writeln('Welcome to \x1b[1;32mLinux Odyssey\x1b[0m!')
-  term.onKey((e) => {
-    const printable =
-      !e.domEvent.altKey &&
-      !e.domEvent.altGraphKey &&
-      !e.domEvent.ctrlKey &&
-      !e.domEvent.metaKeys
-    if (e.domEvent.keyCode === 8) {
-      // back 删除的情况
-      if (term.xcore.buffer.x > 2) {
-        term.write('\b \b')
-      }
-    } else if (printable) {
-      term.write(e.key)
-    }
-    console.log(1, 'print', e.key)
-  })
-
   function resizeScreen() {
     try {
       // 窗口大小改变时，触发xterm的resize方法使自适应
