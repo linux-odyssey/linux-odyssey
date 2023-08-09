@@ -120,6 +120,11 @@ async function main() {
     if (data.responses) {
       await printResponses(data.responses, 60)
     }
+    if (data.hints) {
+      for (const hint of data.hints) {
+        console.log(colorize(hint, 'yellow'))
+      }
+    }
     if (data.end) {
       console.log(colorize('Quest completed!', 'blue'))
     }
