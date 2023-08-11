@@ -6,6 +6,16 @@ RUN apt-get update && apt-get install -y \
   zsh \
   jq
 
+WORKDIR /usr/local/lib/container
+
+COPY ./packages/container/package.json ./yarn.lock ./
+
+RUN yarn install --modules-folder /usr/src/node_modules
+
+ENV NODE_PATH=/usr/src/node_modules
+
+COPY ./packages/container /usr/local/lib/container
+
 RUN adduser --disabled-password --gecos '' --shell /bin/zsh rudeus
 
 USER rudeus
@@ -13,7 +23,5 @@ USER rudeus
 WORKDIR /home/rudeus
 
 COPY ./server/quests/helloworld/home /home/rudeus/
-
-COPY ./packages/container /usr/local/lib/container
 
 CMD [ "/bin/zsh" ]
