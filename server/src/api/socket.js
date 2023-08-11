@@ -50,10 +50,12 @@ export default (server) => {
     const stream = await attachContainer(container, { token })
 
     stream.on('data', (chunk) => {
-      socket.send(chunk.toString())
+      socket.emit('terminal', chunk.toString())
     })
 
-    socket.on('message', function incoming(message) {
+    socket.on('message', console.log)
+
+    socket.on('terminal', function incoming(message) {
       stream.write(message)
     })
 
