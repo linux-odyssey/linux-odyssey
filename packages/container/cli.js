@@ -19,7 +19,6 @@ const commandListeners = {
 
 async function handleCommand(command) {
   const argv = minimist(command.split(' '))
-  console.log(argv)
   const name = argv._[0]
   const listeners = commandListeners[name]
   if (!listeners) return {}

@@ -29,8 +29,6 @@ precmd() {
     export CMD_ERROR_FILE=/tmp/cmd.error
 
     # Now run your Node.js script with the result as an argument
-    node /usr/local/lib/container/cli.js
-
-    rm /tmp/cmd.out /tmp/cmd.error 2>/dev/null # cleanup
+    node /usr/local/lib/container/cli.js; rm /tmp/cmd.out /tmp/cmd.error 2>/dev/null
 }
 
