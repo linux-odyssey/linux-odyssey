@@ -1,10 +1,10 @@
 const fs = require('fs').promises
 const path = require('path')
 
-async function collectFilesInfo(inputPath, level = 0) {
+async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
   const stats = await fs.stat(inputPath)
-  const discovered = level === 0
   const name = path.basename(inputPath)
+  const discovered = level <= 1 && (hiddenFiles || !name.startsWith('.'))
   const files = [
     {
       path: inputPath,
@@ -21,7 +21,7 @@ async function collectFilesInfo(inputPath, level = 0) {
       }
       const result = await Promise.all(
         entries.map((entry) =>
-          collectFilesInfo(path.join(inputPath, entry), level + 1)
+          collectFilesInfo(path.join(inputPath, entry), level + 1, hiddenFiles)
         )
       )
       files.push(...result.flat())
@@ -33,9 +33,12 @@ async function collectFilesInfo(inputPath, level = 0) {
 }
 
 async function discoverFiles(argv) {
+  console.log(argv)
   const targetPath = argv._.length < 2 ? ['.'] : argv._.slice(1)
   const result = await Promise.all(
-    targetPath.map((p) => path.resolve(process.cwd(), p)).map(collectFilesInfo)
+    targetPath
+      .map((p) => path.resolve(process.cwd(), p))
+      .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
   )
   return { discover: result.flat() }
 }
