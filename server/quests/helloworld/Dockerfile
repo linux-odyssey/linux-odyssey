@@ -14,6 +14,6 @@ WORKDIR /home/rudeus
 
 COPY ./server/quests/helloworld/home /home/rudeus/
 
-COPY ./packages/cli /usr/local/lib/cli
+COPY ./packages/container /usr/local/lib/container
 
 CMD [ "/bin/zsh" ]

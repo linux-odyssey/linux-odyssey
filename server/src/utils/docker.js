@@ -18,7 +18,7 @@ const containerOptions = {
       ? []
       : [
           `${projectPath}/server/quests/helloworld/home:/home/rudeus`,
-          `${projectPath}/packages/cli:/usr/local/lib/cli`,
+          `${projectPath}/packages/container:/usr/local/lib/container`,
         ],
   },
 }

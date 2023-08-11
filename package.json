@@ -13,7 +13,7 @@
   "scripts": {
     "app": "yarn workspace app dev",
     "server": "yarn workspace server dev",
-    "cli": "yarn workspace server cli",
+    "cli": "yarn workspace client start",
     "lint": "eslint --ext .js,.vue .",
     "format": "prettier --ignore-path .prettierignore --write app server"
   },
