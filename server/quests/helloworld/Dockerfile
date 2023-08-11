@@ -14,6 +14,6 @@ WORKDIR /home/rudeus
 
 COPY ./server/quests/helloworld/home /home/rudeus/
 
-COPY ./packages/cli/cli.js /usr/local/bin/cli.js
+COPY ./packages/cli /usr/local/lib/cli
 
 CMD [ "/bin/zsh" ]
