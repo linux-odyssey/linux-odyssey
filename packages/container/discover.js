@@ -1,38 +1,38 @@
 const fs = require('fs').promises
 const path = require('path')
 
-async function collectFilesInfo(directoryPath, level = 0) {
-  const entries = await fs.readdir(directoryPath, { withFileTypes: true })
-
-  const promises = entries.map(async (entry) => {
-    const filePath = path.join(directoryPath, entry.name)
-    const isDirectory = entry.isDirectory()
-    const discovered = level === 0 && !entry.name.startsWith('.')
-
-    const file = {
-      path: filePath,
-      name: entry.name,
-      type: isDirectory ? 'folder' : 'file',
-      discovered,
-    }
-
-    if (isDirectory && level < 2) {
-      // Get up to two levels deep
-      const subFilesInfo = await collectFilesInfo(filePath, level + 1)
-      return [file, ...subFilesInfo]
-    }
-
-    return file
-  })
-
-  const results = await Promise.all(promises)
-  return results.flat()
+async function collectFilesInfo(inputPath, level = 0) {
+  const stats = await fs.stat(inputPath)
+  const discovered = level === 0
+  const name = path.basename(inputPath)
+  const file = {
+    path: inputPath,
+    name,
+    type: stats.isDirectory() ? 'folder' : 'file',
+    discovered,
+  }
+  if (stats.isFile()) {
+    return [file]
+  }
+  if (stats.isDirectory()) {
+    const entries = await fs.readdir(inputPath)
+    const result = await Promise.all(
+      entries.map((entry) =>
+        collectFilesInfo(path.join(inputPath, entry), level + 1)
+      )
+    )
+    return [file, ...result.flat()]
+  }
+  return []
 }
 
-async function discoverFiles(name, args) {
-  let targetPath = args[0] || '.'
-  targetPath = path.resolve(process.cwd(), targetPath)
-  return { discover: await collectFilesInfo(targetPath) }
+async function discoverFiles(argv) {
+  const targetPath = argv._.length < 2 ? ['.'] : argv._.slice(1)
+  console.log(targetPath)
+  const result = await Promise.all(
+    targetPath.map((p) => path.resolve(process.cwd(), p)).map(collectFilesInfo)
+  )
+  return { discover: result.flat() }
 }
 
 module.exports = discoverFiles

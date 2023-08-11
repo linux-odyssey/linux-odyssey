@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs').promises
 const { exit } = require('process')
+const minimist = require('minimist')
 const { colorize, printResponses } = require('./print.js')
 const discoverFiles = require('./discover.js')
 
@@ -12,21 +13,18 @@ async function readOrNone(file) {
   }
 }
 
-function parseCommand(command) {
-  const [name, ...args] = command.trim().split(' ')
-  return { name, args }
-}
-
 const commandListeners = {
   ls: [discoverFiles],
 }
 
 async function handleCommand(command) {
-  const { name, args } = parseCommand(command)
+  const argv = minimist(command.split(' '))
+  console.log(argv)
+  const name = argv._[0]
   const listeners = commandListeners[name]
   if (!listeners) return {}
   return listeners.reduce(async (result, listener) => {
-    const res = await listener(name, args)
+    const res = await listener(argv)
     return { ...res, ...result }
   }, {})
 }
