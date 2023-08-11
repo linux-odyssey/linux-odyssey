@@ -17,7 +17,8 @@ yarn install
 ## Create database
 
 ```
-docker compose up -d
+docker compose pull
+docker compose up -d db
 ```
 
 ## Server
@@ -25,8 +26,21 @@ docker compose up -d
 Source: `server/`
 
 ```
-yarn server
+docker compose -f docker-compose.build.yml pull
+docker compose up -d
 # Open http://localhost:3000
+```
+
+### Build images
+
+    docker compose build
+    docker compose push
+
+Game images:
+
+```
+docker compose -f docker-compose.build.yml build
+docker compose -f docker-compose.build.yml push
 ```
 
 ## App
@@ -38,24 +52,46 @@ yarn app
 # Open http://localhost:5173/
 ```
 
+## Swagger
+
+```
+docker compose up -d swagger
+```
+
+Open http://localhost:8080 to open Swagger
+
 ## CLI terminal client
 
-Open server first, then create a session by `POST /api/v1/sessions`
+```
+yarn cli
+Usage: client [options] [command]
 
-```bash
-curl -X 'POST' \
-  'http://localhost:3000/api/v1/sessions' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "quest_id": "helloworld"
-}'
+Options:
+  -s, --session <string>  Session ID
+  -c, --create            Create a new session
+  -h, --host <string>     Server host (default: "http://localhost:3000")
+  --help                  display help for command
+
+Commands:
+  list                    List all sessions
 ```
 
-Then use the `_id` field in response
+connet to recent session:
 
-```
-yarn cli [_id]
-# example
-yarn cli 64be226a39c0043cd1cdf7c2
-```
+    yarn cli
+
+connect to new session:
+
+    yarn cli -c
+
+connect to specific session:
+
+    yarn cli -s 64d0de0367459c13004bc83f
+
+connect to other host:
+
+    yarn cli -h https://example.com
+
+list sessions:
+
+    yarn cli list

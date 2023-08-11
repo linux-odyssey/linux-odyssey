@@ -20,5 +20,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/extensions': 'off',
     camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
+    'no-param-reassign': ['error', { props: false }],
   },
 }

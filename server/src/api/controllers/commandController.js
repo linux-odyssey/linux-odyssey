@@ -2,10 +2,16 @@
 import Command from '../../models/command.js'
 import Session from '../../models/session.js'
 import { verifySessionJWT } from '../../utils/auth.js'
+import commandHandler from '../../game/commandHandler.js'
 
 export async function newCommand(req, res) {
   console.log('new command:', req.body)
-  const { token, command, pwd, exit_code, output } = req.body
+  const { token, command, pwd, output, error } = req.body
+
+  if (!command) {
+    res.status(400).json({ message: 'command is required' })
+    return
+  }
 
   let sessionId
   try {
@@ -27,11 +33,14 @@ export async function newCommand(req, res) {
     session,
     command,
     pwd,
-    exit_code,
     output,
+    error,
   })
 
   await c.save()
 
-  res.status(201).end()
+  const response = await commandHandler(session, c)
+  console.log(response)
+
+  res.status(201).json(response)
 }

@@ -3,7 +3,7 @@ import config from '../config.js'
 
 const engine = new Docker()
 
-const questPath = '/home/zeko/src/linux-odyssey/server/quests'
+const projectPath = '/home/zeko/src/linux-odyssey'
 
 const containerOptions = {
   Image: 'lancatlin/linux-odyssey:helloworld',
@@ -11,13 +11,15 @@ const containerOptions = {
   AttachStdout: true,
   AttachStderr: true,
   Tty: true,
-  Cmd: ['/bin/bash'],
   OpenStdin: true,
   StdinOnce: false,
   HostConfig: {
     Binds: config.isProduction
       ? []
-      : [`${questPath}/helloworld/home:/home/rudeus`],
+      : [
+          `${projectPath}/server/quests/helloworld/home:/home/rudeus`,
+          `${projectPath}/packages/cli/cli.js:/usr/local/bin/cli.js`,
+        ],
   },
 }
 
@@ -56,7 +58,7 @@ export async function attachContainer(container, { token }) {
     AttachStdin: true,
     AttachStdout: true,
     AttachStderr: true,
-    Cmd: ['/bin/bash'],
+    Cmd: ['/bin/zsh'],
     Tty: true,
     Env: [`TOKEN=${token}`, `API_ENDPOINT=http://app:3000`],
   })
