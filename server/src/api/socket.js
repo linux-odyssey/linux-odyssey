@@ -3,6 +3,20 @@ import { getOrCreateContainer, attachContainer } from '../utils/docker.js'
 import Session from '../models/session.js'
 import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
+const sessions = new Map()
+
+function listenToSession(sessionId, event, callback) {
+  sessions.set((sessionId, event), callback)
+}
+
+export function pushToSession(sessionId, event, data) {
+  console.log(sessions, sessionId, event, data)
+  const callback = sessions.get((sessionId, event))
+  if (callback) {
+    callback(data)
+  }
+}
+
 export default (server) => {
   const io = new Server(server)
 
@@ -61,6 +75,10 @@ export default (server) => {
 
     socket.on('close', () => {
       console.log('Disconnected from the client.')
+    })
+
+    listenToSession(session.id, 'graph', (data) => {
+      socket.emit('graph', data)
     })
 
     socket.send(`${container.id}\n`)

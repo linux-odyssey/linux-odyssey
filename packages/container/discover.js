@@ -33,7 +33,6 @@ async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
 }
 
 async function discoverFiles(argv) {
-  console.log(argv)
   const targetPath = argv._.length < 2 ? ['.'] : argv._.slice(1)
   const result = await Promise.all(
     targetPath
