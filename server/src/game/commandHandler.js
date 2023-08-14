@@ -1,3 +1,4 @@
+import minimist from 'minimist'
 import Quest from '../models/quest.js'
 import { pushToSession } from '../api/socket.js'
 
@@ -18,11 +19,15 @@ async function commandHandler(session, commandInput, additionalData) {
     return {}
   }
 
+  const argv = minimist(commandInput.command.split(' '))
+
   if ('discover' in additionalData) {
     pushToSession(session.id, 'graph', {
       pwd: commandInput.pwd,
       discover: additionalData.discover,
     })
+  } else if (argv._[0] === 'cd') {
+    pushToSession(session.id, 'graph', { pwd: commandInput.pwd })
   }
 
   const commandMatch = checkMatch(stage.condition.command, commandInput.command)

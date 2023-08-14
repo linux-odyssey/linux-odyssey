@@ -6,14 +6,15 @@ import { defaultUser, genSessionJWT } from '../utils/auth.js'
 const sessions = new Map()
 
 function listenToSession(sessionId, event, callback) {
-  sessions.set((sessionId, event), callback)
+  const callbacks = sessions.get((sessionId, event)) || []
+  sessions.set((sessionId, event), callbacks.concat(callback))
 }
 
 export function pushToSession(sessionId, event, data) {
-  console.log(sessions, sessionId, event, data)
-  const callback = sessions.get((sessionId, event))
-  if (callback) {
-    callback(data)
+  console.log('Push:', sessionId, event)
+  const callbacks = sessions.get((sessionId, event))
+  if (callbacks) {
+    callbacks.forEach((callback) => callback(data))
   }
 }
 
