@@ -14,6 +14,7 @@
     "dockerode": "^3.3.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
+    "minimist": "^1.2.8",
     "mongoose": "^7.4.0",
     "socket.io": "^4.7.1",
     "swagger-ui-express": "^5.0.0",
