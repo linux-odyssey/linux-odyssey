@@ -72,6 +72,11 @@ async function connect(sessionId) {
     stdout.write(data)
   })
 
+  socket.on('graph', (data) => {
+    console.log('receive graph:')
+    console.log(data)
+  })
+
   socket.on('close', function close() {
     console.log('Disconnected from the server.')
     exit()

@@ -40,7 +40,7 @@ export async function newCommand(req, res) {
 
   await c.save()
 
-  const response = await commandHandler(session, c)
+  const response = await commandHandler(session, c, additionalData)
   console.log(response)
 
   res.status(201).json(response)
