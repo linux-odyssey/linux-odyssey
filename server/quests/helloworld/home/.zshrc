@@ -30,5 +30,13 @@ precmd() {
 
     # Now run your Node.js script with the result as an argument
     node /usr/local/lib/container/cli.js; rm /tmp/cmd.out /tmp/cmd.error 2>/dev/null
+
+    # Reset variables
+    unset CMD_START_TIME
+    unset CMD_END_TIME
+    unset CMD_EXIT_CODE
+    unset CMD_OUTPUT_FILE
+    unset CMD_ERROR_FILE
+    unset CMD_NAME
 }
 
