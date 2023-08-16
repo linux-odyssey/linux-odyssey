@@ -1,64 +1,77 @@
+import { DuplicateItemError, ParentNotExistsError } from './errors.js'
 import FileNode from './fileNode.js'
 
-test('addChild method adds a child node to the tree', () => {
-  const files = [
-    {
+describe('FileNode', () => {
+  let rootNode
+
+  beforeEach(() => {
+    rootNode = new FileNode({
       path: '/home/rudeus',
       name: 'rudeus',
       type: 'folder',
-      discovered: 'test',
-    },
-    {
-      path: '/home/rudeus/.bash_history',
-      name: '.bash_history',
-      type: 'file',
-      discovered: 'test',
-    },
-    {
-      path: '/home/rudeus/.viminfo',
-      name: '.viminfo',
-      type: 'file',
-      discovered: 'test',
-    },
-    {
-      path: '/home/rudeus/.zshrc',
-      name: '.zshrc',
-      type: 'file',
-      discovered: 'test',
-    },
-    {
-      path: '/home/rudeus/forgotten_scroll.txt',
-      name: 'forgotten_scroll.txt',
-      type: 'file',
-      discovered: 'test',
-    },
-    {
+      discovered: true,
+    })
+  })
+
+  test('should throw error when adding duplicate item', () => {
+    const child = {
       path: '/home/rudeus/test',
       name: 'test',
       type: 'folder',
-      discovered: 'test',
-    },
-    {
-      path: '/home/rudeus/test/.b',
-      name: '.b',
-      type: 'file',
-      discovered: false,
-    },
-    {
-      path: '/home/rudeus/test/a',
-      name: 'a',
-      type: 'file',
-      discovered: false,
-    },
-  ]
+    }
 
-  const root = new FileNode(files[0])
+    // Adding the child for the first time
+    rootNode.addChild(child)
 
-  files.slice(1).forEach((file) => {
-    root.addChild(file)
+    expect(rootNode.children.length).toBe(1)
+
+    // Trying to add the same child again should throw an error
+    expect(() => {
+      rootNode.addChild(child)
+    }).toThrow(DuplicateItemError)
   })
 
-  console.log(root.toString())
+  test('should throw error when parent does not exist', () => {
+    const child = {
+      path: '/home/rudeus/alphabet/test',
+      name: 'test',
+      type: 'folder',
+    }
 
-  expect(root.children.length).toBe(5)
+    // Trying to add to a nonexistent parent should throw an error
+    expect(() => {
+      rootNode.addChild(child)
+    }).toThrow(ParentNotExistsError)
+  })
+
+  test('adds nested children to the tree', () => {
+    const files = [
+      {
+        path: '/home/rudeus/forgotten_scroll.txt',
+        name: 'forgotten_scroll.txt',
+        type: 'file',
+        discovered: 'test',
+      },
+      {
+        path: '/home/rudeus/test',
+        name: 'test',
+        type: 'folder',
+        discovered: 'test',
+      },
+      {
+        path: '/home/rudeus/test/a',
+        name: 'a',
+        type: 'file',
+        discovered: false,
+      },
+    ]
+
+    files.forEach((file) => {
+      rootNode.addChild(file)
+    })
+
+    expect(rootNode.children.length).toBe(2)
+    expect(rootNode.children[1].children.length).toBe(1)
+    console.log(rootNode.toString())
+  })
 })
