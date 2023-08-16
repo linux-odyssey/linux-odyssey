@@ -10,11 +10,10 @@
 <script setup>
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
-// import { AttachAddon } from 'xterm-addon-attach'
 import 'xterm/css/xterm.css'
 import { io } from 'socket.io-client'
 import { onMounted, ref } from 'vue'
-import api from '../utils/api'
+// import api from '../utils/api'
 
 const rows = ref(40)
 const cols = ref(100)
@@ -40,15 +39,35 @@ onMounted(() => {
   const host = 'wss://odyssey.wancat.cc'
   const sessionhost = 'http://odyssey.wancat.cc'
   // const host = 'ws://localhost:3000'
+  // const sessions = async () => {
+  //   await api.get(`/sessions`).json()
+  // }
+  // console.log(sessions)
+  const res = async () => {
+    await fetch(`${sessionhost}/api/v1/sessions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        quest_id: 'helloworld',
+      }),
+    })
+  }
+  const data = async () => {
+    await res.json()
+  }
+  const sessionId = data._id
+  // async () => {}
+  // console.log(api.get('/quests/helloworld').session)
+  // console.log(await sessions[sessions.length - 1].id)
   const socket = io(host, {
     query: {
-      // session_id: sessionId,
-      // session_id: '64d26a8cffab987b2bb0de38',
-      // odyssey
-      session_id: '64d271ce784daf755387ff4f',
-      // localhost
+      session_id: sessionId,
+      // session_id: '64c1164a5b34af580963da6b',
     },
   })
+  // console.log(sessionId)
   socket.on('connect', function open() {
     console.log('Connected to the server.')
   })
@@ -58,27 +77,8 @@ onMounted(() => {
   socket.on('message', (message) => {
     console.log(message)
     term.write(message)
-    const session =
-    // api.get('') ||
     // (program.opts().create ? (await createdSession())._id : null) ||
     // (await lastSession())._id
-    // if (message == 'Session not found.') {
-    //   term.write('\nSession undefined')
-    //   console.log('Creating a new session...')
-    //   const res = fetch(`${sessionhost}/api/v1/sessions`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       questid: 'helloworld',
-    //     }),
-      // })
-      // const data = res.json()
-      console.log(res)
-      // console.log(data)
-      // console.log('Created Session ID:', data.id)
-    }
   })
   term.onData((key) => {
     console.log(key)
