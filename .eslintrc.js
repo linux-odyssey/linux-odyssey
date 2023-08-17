@@ -21,5 +21,6 @@ module.exports = {
     'import/extensions': 'off',
     camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
     'no-param-reassign': ['error', { props: false }],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 }

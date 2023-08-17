@@ -13,13 +13,13 @@ import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 import { io } from 'socket.io-client'
 import { onMounted, ref } from 'vue'
-// import api from '../utils/api'
+import sessionManager from '../utils/session'
 
 const rows = ref(40)
 const cols = ref(100)
 const terminal = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
   const term = new Terminal({
     rendererType: 'canvas', // 渲染类型
     rows: rows.value, // 行数
@@ -36,35 +36,15 @@ onMounted(() => {
       lineHeight: 20,
     },
   })
+
+  const session = await sessionManager.latestOrCreate()
   const host = 'wss://odyssey.wancat.cc'
-  const sessionhost = 'http://odyssey.wancat.cc'
-  // const host = 'ws://localhost:3000'
-  // const sessions = async () => {
-  //   await api.get(`/sessions`).json()
-  // }
-  // console.log(sessions)
-  const res = async () => {
-    await fetch(`${sessionhost}/api/v1/sessions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        quest_id: 'helloworld',
-      }),
-    })
-  }
-  const data = async () => {
-    await res.json()
-  }
-  const sessionId = data._id
-  // async () => {}
-  // console.log(api.get('/quests/helloworld').session)
-  // console.log(await sessions[sessions.length - 1].id)
+
+  console.log(session)
+
   const socket = io(host, {
     query: {
-      session_id: sessionId,
-      // session_id: '64c1164a5b34af580963da6b',
+      session_id: session._id,
     },
   })
   // console.log(sessionId)
