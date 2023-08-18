@@ -30,9 +30,11 @@
 
 <script setup>
 import sessionManager from '../utils/session'
+import socket from '../utils/socket'
 
 const reset = async () => {
   console.log('resetting...')
   await sessionManager.createSession()
+  socket.connect(sessionManager.getSession())
 }
 </script>

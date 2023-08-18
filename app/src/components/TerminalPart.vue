@@ -7,13 +7,13 @@
     class="bg-background-secondary h-[calc(100%-5%)] p-0.5"
   ></div>
 </template>
+
 <script setup>
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
-import { io } from 'socket.io-client'
-import { onMounted, ref, watch } from 'vue'
-import sessionManager from '../utils/session'
+import { onMounted, ref } from 'vue'
+import socket from '../utils/socket'
 
 const rows = ref(40)
 const cols = ref(100)
@@ -55,40 +55,8 @@ onMounted(() => {
   term.open(terminal.value)
   term.focus()
   resizeScreen()
-})
-
-let currentSocket = null
-
-watch(sessionManager.session, async (session) => {
-  if (!session) {
-    return
-  }
-  if (currentSocket) {
-    term.clear()
-    currentSocket.disconnect()
-    currentSocket.off()
-  }
-  const host = 'wss://odyssey.wancat.cc'
-
-  console.log(session)
-
-  const socket = io(host, {
-    query: {
-      session_id: session._id,
-    },
-  })
-  currentSocket = socket
-  // console.log(sessionId)
-  socket.on('connect', function open() {
-    console.log('Connected to the server.')
-  })
-  socket.on('disconnect', function close() {
-    console.log('Disconnected from the server.')
-  })
   socket.on('message', (message) => {
     term.write(message)
-    // (program.opts().create ? (await createdSession())._id : null) ||
-    // (await lastSession())._id
   })
   term.onData((key) => {
     socket.send(key)

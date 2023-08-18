@@ -1,5 +1,5 @@
 <script setup>
-// Import components
+import { onMounted } from 'vue'
 import CommandlistPart from './components/CommandlistPart.vue'
 import HeaderPart from './components/HeaderPart.vue'
 import HintPart from './components/HintPart.vue'
@@ -7,6 +7,19 @@ import QuestPart from './components/QuestPart.vue'
 import TerminalPart from './components/TerminalPart.vue'
 import VisualizationPart from './components/VisualizationPart.vue'
 import ControlPalette from './components/ControlPalette.vue'
+import socket from './utils/socket'
+import sessionManager from './utils/session'
+
+onMounted(async () => {
+  await sessionManager.lastOrCreate()
+  socket.connect(sessionManager.getSession())
+  socket.on('connect', function open() {
+    console.log('Connected to the server.')
+  })
+  socket.on('disconnect', function close() {
+    console.log('Disconnected from the server.')
+  })
+})
 </script>
 
 <template>

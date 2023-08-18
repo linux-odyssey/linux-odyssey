@@ -7,6 +7,10 @@ class SessionManager {
     this.session = ref(null)
   }
 
+  getSession() {
+    return this.session.value
+  }
+
   setSession(session) {
     console.log('Update session:', session)
     this.session.value = session
@@ -49,7 +53,5 @@ class SessionManager {
 }
 
 const sessionManager = new SessionManager('helloworld')
-
-sessionManager.lastOrCreate().catch(console.error)
 
 export default sessionManager
