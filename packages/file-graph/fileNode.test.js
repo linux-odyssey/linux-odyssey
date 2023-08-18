@@ -74,4 +74,23 @@ describe('FileNode', () => {
     expect(rootNode.children[1].children.length).toBe(1)
     console.log(rootNode.toString())
   })
+
+  test('adds nested children to the tree with makeParents option', () => {
+    const file = {
+      path: '/home/rudeus/test/a/b/c/d/e',
+      name: 'a',
+      type: 'file',
+      discovered: false,
+    }
+
+    rootNode.addChild(file, { makeParents: true })
+
+    console.log(rootNode.toString())
+    let currentNode = rootNode
+    for (let i = 0; i < 5; i += 1) {
+      expect(currentNode.children.length).toBe(1)
+      // eslint-disable-next-line prefer-destructuring
+      currentNode = currentNode.children[0]
+    }
+  })
 })
