@@ -1,15 +1,15 @@
-import path from 'path'
 import File from './file.js'
 import { DuplicateItemError, ParentNotExistsError } from './errors.js'
+import { basename, dirname } from './utils.js'
 
 export default class FileNode extends File {
   constructor(file) {
     super(file)
-    this.children = []
+    this.children = file.children || []
   }
 
-  addChild(fileInput) {
-    const file = new File(fileInput)
+  addChild(fileInput, { makeParents } = {}) {
+    const file = new FileNode(fileInput)
     if (file.path === this.path) {
       throw new DuplicateItemError('File already exists in the tree')
     }
@@ -18,15 +18,24 @@ export default class FileNode extends File {
       throw new DuplicateItemError('File already exists in the tree')
     }
 
-    const parentPath = path.dirname(file.path)
+    const parentPath = dirname(file.path)
     if (parentPath === this.path) {
       // Direct child of this node
-      this.children.push(new FileNode(file))
+      this.children.push(file)
     } else {
       // Recursively call addChild on the correct child node
       const childNode = this.children.find((child) => child.contains(file))
       if (childNode) {
         childNode.addChild(file)
+      } else if (makeParents) {
+        const parent = new FileNode({
+          path: parentPath,
+          name: basename(parentPath),
+          type: 'folder',
+          discovered: false,
+          children: [file],
+        })
+        this.addChild(parent, { makeParents })
       } else {
         throw new ParentNotExistsError('Parent path not found in the tree')
       }
