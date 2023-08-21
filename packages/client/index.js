@@ -2,8 +2,14 @@
 import { stdin, stdout, exit } from 'process'
 import { io } from 'socket.io-client'
 import { program } from 'commander'
-import { get } from './utils/env.js'
 
+function get(key, defaultValue) {
+  const value = process.env[key]
+  if (value != null) {
+    return value
+  }
+  return defaultValue
+}
 stdin.setRawMode(true)
 stdin.resume()
 stdin.setEncoding('utf8')
@@ -60,8 +66,15 @@ async function connect(sessionId) {
     console.log('Connected to the server.')
   })
 
-  socket.on('message', function incoming(data) {
+  socket.on('message', console.log)
+
+  socket.on('terminal', function incoming(data) {
     stdout.write(data)
+  })
+
+  socket.on('graph', (data) => {
+    console.log('receive graph:')
+    console.log(data)
   })
 
   socket.on('close', function close() {
@@ -74,7 +87,7 @@ async function connect(sessionId) {
       socket.close()
       exit()
     } else {
-      socket.send(key)
+      socket.emit('terminal', key)
     }
   })
 }

@@ -1,0 +1,10 @@
+{
+  "name": "container",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "minimist": "^1.2.8"
+  }
+}

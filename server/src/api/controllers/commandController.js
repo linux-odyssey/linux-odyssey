@@ -6,7 +6,8 @@ import commandHandler from '../../game/commandHandler.js'
 
 export async function newCommand(req, res) {
   console.log('new command:', req.body)
-  const { token, command, pwd, output, error } = req.body
+  const { token, command, pwd, output, error, ...additionalData } = req.body
+  console.log('additionalData:', additionalData)
 
   if (!command) {
     res.status(400).json({ message: 'command is required' })
@@ -39,7 +40,7 @@ export async function newCommand(req, res) {
 
   await c.save()
 
-  const response = await commandHandler(session, c)
+  const response = await commandHandler(session, c, additionalData)
   console.log(response)
 
   res.status(201).json(response)

@@ -1,7 +1,5 @@
 import io from 'socket.io-client'
 
-const host = 'wss://odyssey.wancat.cc'
-
 class SocketWrapper {
   constructor() {
     this.socket = null
@@ -14,7 +12,7 @@ class SocketWrapper {
       this.socket.disconnect()
     }
 
-    this.socket = io(host, {
+    this.socket = io('', {
       query: {
         session_id: session._id,
       },

@@ -19,6 +19,7 @@ onMounted(async () => {
   socket.on('disconnect', function close() {
     console.log('Disconnected from the server.')
   })
+  socket.on('message', console.log)
 })
 </script>
 

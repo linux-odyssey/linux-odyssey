@@ -55,11 +55,11 @@ onMounted(() => {
   term.open(terminal.value)
   term.focus()
   resizeScreen()
-  socket.on('message', (message) => {
+  socket.on('terminal', (message) => {
     term.write(message)
   })
   term.onData((key) => {
-    socket.send(key)
+    socket.emit('terminal', key)
   })
 })
 </script>

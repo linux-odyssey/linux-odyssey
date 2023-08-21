@@ -7,8 +7,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        // target: 'http://localhost:3000', // the server url
-        target: 'http://odyssey.wancat.cc ',
+        target: `${process.env.API_TARGET || 'http://localhost:3000'}/api/v1`,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+      '/socket.io': {
+        target: process.env.API_TARGET || 'ws://localhost:3000',
+        changeOrigin: true,
         ws: true,
       },
     },
