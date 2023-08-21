@@ -63,9 +63,11 @@ export default class FileNode extends File {
       })
 
       // If a child exists in this node but not in the provided node, remove it
-      this.children = this.children.filter((child) =>
-        fileNode.children.some((c) => c.path === child.path)
-      )
+      if (fileNode.children.length > 0) {
+        this.children = this.children.filter((child) =>
+          fileNode.children.some((c) => c.path === child.path)
+        )
+      }
     } else if (this.contains(fileNode)) {
       const childNode = this.children.find((child) => child.contains(fileNode))
       if (childNode) {
