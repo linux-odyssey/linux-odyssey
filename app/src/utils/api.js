@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://odyssey.wancat.cc/api/v1',
+  baseURL: '/api',
 })
 
 export default api
