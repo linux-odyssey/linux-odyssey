@@ -1,6 +1,28 @@
 import { DuplicateItemError, ParentNotExistsError } from './errors.js'
 import FileNode from './fileNode.js'
 
+function createNodeFromFiles(files) {
+  const node = new FileNode(files[0])
+  files.slice(1).forEach((file) => node.addChild(file))
+  return node
+}
+
+function mergeTest(files1, files2, expectedFiles) {
+  const node1 = createNodeFromFiles(files1)
+  const node2 = createNodeFromFiles(files2)
+  const expectedNode = createNodeFromFiles(expectedFiles)
+
+  console.log('node1', node1.toString())
+  console.log('node2', node2.toString())
+  console.log('expected', expectedNode.toString())
+
+  node1.merge(node2)
+
+  console.log('after-merged', node1.toString())
+
+  expect(node1.toString()).toBe(expectedNode.toString())
+}
+
 describe('FileNode', () => {
   let rootNode
 
@@ -94,12 +116,13 @@ describe('FileNode', () => {
     }
   })
 
-  test('merge-two-trees', () => {
+  test('merge-subtree', () => {
     const root = {
       path: '/',
       type: 'folder',
     }
     const files1 = [
+      root,
       { path: '/a', type: 'file' },
       { path: '/b', type: 'folder' },
       { path: '/b/c', type: 'folder' },
@@ -115,6 +138,7 @@ describe('FileNode', () => {
     ]
 
     const expected = [
+      root,
       { path: '/a', type: 'file' },
       { path: '/b', type: 'folder' },
       { path: '/b/c', type: 'folder' },
@@ -122,24 +146,41 @@ describe('FileNode', () => {
       { path: '/b/c/g', type: 'file' },
     ]
 
-    const node1 = new FileNode(root)
-    files1.forEach((file) => node1.addChild(file))
+    mergeTest(files1, files2, expected)
+  })
 
-    const node2 = new FileNode(files2[0])
-    files2.slice(1).forEach((file) => node2.addChild(file))
+  test('merge-middle-level', () => {
+    // Test if the node to merge is only the middle part of the tree
+    // (i.e. the node to merge doesn't contains all level of children)
+    // The original tree should keep the children that are not in the node to merge
+    const root = {
+      path: '/',
+      type: 'folder',
+    }
+    const files1 = [
+      root,
+      { path: '/a', type: 'file' },
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/d', type: 'file' },
+      { path: '/b/c/f', type: 'file' },
+    ]
 
-    console.log('node1', node1.toString())
-    console.log('node2', node2.toString())
+    const files2 = [
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/e', type: 'file' },
+    ]
 
-    const expectedNode = new FileNode(root)
-    expected.forEach((file) => expectedNode.addChild(file))
+    const expected = [
+      root,
+      { path: '/a', type: 'file' },
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/e', type: 'file' },
+      { path: '/b/c/f', type: 'file' },
+    ]
 
-    console.log('expected', expectedNode.toString())
-
-    node1.merge(node2)
-
-    console.log('node1-after', node1.toString())
-
-    expect(node1.toString()).toBe(expectedNode.toString())
+    mergeTest(files1, files2, expected)
   })
 })
