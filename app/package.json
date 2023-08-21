@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "API_TARGET=https://odyssey.wancat.cc vite",
+    "dev:local": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
