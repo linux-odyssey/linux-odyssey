@@ -48,8 +48,11 @@ docker compose -f docker-compose.build.yml push
 Source: `app/`
 
 ```
+# Connect to dev server (https://odyssey.wancat.cc)
 yarn app
-# Open http://localhost:5173/
+
+# Connect to localhost (http://localhost:3000)
+yarn app:local
 ```
 
 ## Swagger
