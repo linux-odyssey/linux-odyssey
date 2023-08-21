@@ -1,11 +1,25 @@
 <script setup>
-// Import components
+import { onMounted } from 'vue'
 import CommandlistPart from './components/CommandlistPart.vue'
 import HeaderPart from './components/HeaderPart.vue'
 import HintPart from './components/HintPart.vue'
 import QuestPart from './components/QuestPart.vue'
 import TerminalPart from './components/TerminalPart.vue'
 import VisualizationPart from './components/VisualizationPart.vue'
+import ControlPalette from './components/ControlPalette.vue'
+import socket from './utils/socket'
+import sessionManager from './utils/session'
+
+onMounted(async () => {
+  await sessionManager.lastOrCreate()
+  socket.connect(sessionManager.getSession())
+  socket.on('connect', function open() {
+    console.log('Connected to the server.')
+  })
+  socket.on('disconnect', function close() {
+    console.log('Disconnected from the server.')
+  })
+})
 </script>
 
 <template>
@@ -44,32 +58,9 @@ import VisualizationPart from './components/VisualizationPart.vue'
             </section>
           </div>
         </div>
-        <section
-          class="h-[10%] p-3 grid grid-cols-3 gap-4 place-content-between"
-        >
-          <button id="solution" class="bg-background-secondary rounded-lg p-2">
-            <font-awesome-icon
-              :icon="['far', 'circle-question']"
-              class="text-text-primary"
-            />
-            <p class="text-text-primary inline">Solution</p>
-          </button>
-          <button id="reset" class="bg-background-secondary rounded-lg p-2">
-            <font-awesome-icon
-              :icon="['fas', 'arrow-rotate-left']"
-              class="text-text-primary"
-            />
-            <p class="text-text-primary inline">Reset</p>
-          </button>
-          <button id="continue" class="bg-disabled-background rounded-lg p-2">
-            <font-awesome-icon
-              :icon="['far', 'circle-right']"
-              class="text-disabled-text"
-            />
-            <p class="text-disabled-text inline">Continue</p>
-          </button>
-        </section>
+        <ControlPalette />
       </div>
     </div>
   </div>
 </template>
+<script></script>
