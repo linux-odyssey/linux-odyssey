@@ -4,11 +4,7 @@ import Session from '../models/session.js'
 import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
 export default (server) => {
-  const io = new Server(server, {
-    cors: {
-      origin: '*',
-    },
-  })
+  const io = new Server(server)
 
   io.use(async (socket, next) => {
     console.log('Authenticating...')
