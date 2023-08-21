@@ -93,4 +93,53 @@ describe('FileNode', () => {
       currentNode = currentNode.children[0]
     }
   })
+
+  test('merge-two-trees', () => {
+    const root = {
+      path: '/',
+      type: 'folder',
+    }
+    const files1 = [
+      { path: '/a', type: 'file' },
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/d', type: 'file' },
+      { path: '/b/c/f', type: 'file' },
+    ]
+
+    const files2 = [
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/e', type: 'file' },
+      { path: '/b/c/g', type: 'file' },
+    ]
+
+    const expected = [
+      { path: '/a', type: 'file' },
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/e', type: 'file' },
+      { path: '/b/c/g', type: 'file' },
+    ]
+
+    const node1 = new FileNode(root)
+    files1.forEach((file) => node1.addChild(file))
+
+    const node2 = new FileNode(files2[0])
+    files2.slice(1).forEach((file) => node2.addChild(file))
+
+    console.log('node1', node1.toString())
+    console.log('node2', node2.toString())
+
+    const expectedNode = new FileNode(root)
+    expected.forEach((file) => expectedNode.addChild(file))
+
+    console.log('expected', expectedNode.toString())
+
+    node1.merge(node2)
+
+    console.log('node1-after', node1.toString())
+
+    expect(node1.toString()).toBe(expectedNode.toString())
+  })
 })

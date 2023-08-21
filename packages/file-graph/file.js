@@ -1,7 +1,9 @@
+import { basename } from './utils'
+
 export default class File {
-  constructor({ path, name, type, discovered }) {
+  constructor({ path, type, discovered }) {
     this.path = path
-    this.name = name
+    this.name = basename(path)
     this.type = type
     this.discovered = discovered
   }
