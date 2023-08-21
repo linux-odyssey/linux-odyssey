@@ -24,7 +24,7 @@ class SocketWrapper {
       console.log('Socket connected to session', session._id)
     })
 
-    this.reconnect()
+    this.bindListeners()
   }
 
   on(event, callback) {
@@ -34,7 +34,7 @@ class SocketWrapper {
     }
   }
 
-  reconnect() {
+  bindListeners() {
     this.listeners.forEach(({ event, callback }) => {
       this.socket.on(event, callback)
     })
