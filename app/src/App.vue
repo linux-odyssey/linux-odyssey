@@ -11,13 +11,13 @@ import VisualizationPart from './components/VisualizationPart.vue'
 <template>
   <div class="bg-background-primary h-screen">
     <!--header-->
-    <div id="header" class="bg-background-secondary content-center h-[6%] p-1">
+    <div id="header" class="bg-background-secondary content-center h-[6vh] p-1">
       <HeaderPart />
     </div>
     <!--main-->
-    <div id="main" class="h-[94%] grid grid-cols-3 gap-3 p-3">
+    <div id="main" class="h-[94vh] grid grid-cols-3 gap-3 p-3">
       <!--Topic and Command List-->
-      <div class="bg-background-secondary inline-block h-full rounded-lg">
+      <div class="bg-background-secondary h-full rounded-lg">
         <section id="quest" class="h-2/3 m-3">
           <QuestPart />
         </section>
@@ -27,7 +27,7 @@ import VisualizationPart from './components/VisualizationPart.vue'
         </section>
       </div>
       <!--Terminal and Hint-->
-      <div class="bg-background inline-block h-full py-2 rounded-lg">
+      <div class="bg-background h-full rounded-lg">
         <section id="terminal" class="h-3/5">
           <TerminalPart />
         </section>
@@ -36,7 +36,7 @@ import VisualizationPart from './components/VisualizationPart.vue'
         </section>
       </div>
       <!--Visualization-->
-      <div class="bg-background-primary inline-block h-full">
+      <div class="h-full">
         <div class="bg-border rounded-xl h-[90%] px-3 py-6">
           <div class="bg-background rounded-xl h-full px-1 py-6">
             <section id="visualization" class="bg-background-primary h-full">
