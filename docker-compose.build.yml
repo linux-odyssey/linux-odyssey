@@ -4,4 +4,4 @@ services:
     image: lancatlin/linux-odyssey:helloworld
     build:
       context: .
-      dockerfile: server/quests/helloworld/Dockerfile
+      dockerfile: quests/helloworld/Dockerfile

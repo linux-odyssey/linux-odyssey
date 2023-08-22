@@ -10,7 +10,7 @@ services:
     ports:
       - 8080:80
   backend:
-    image: lancatlin/linux-odyssey
+    image: lancatlin/linux-odyssey:backend
     restart: on-failure
     build:
       context: .

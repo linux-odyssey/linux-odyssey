@@ -1,2 +1,2 @@
 #!/bin/sh
-docker compose logs app -f --no-log-prefix
+docker compose -f docker-compose.prod.yml logs backend -f --no-log-prefix
