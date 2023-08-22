@@ -1,7 +1,0 @@
-version: '3'
-services:
-  helloworld:
-    image: lancatlin/linux-odyssey:helloworld
-    build:
-      context: .
-      dockerfile: quests/helloworld/Dockerfile

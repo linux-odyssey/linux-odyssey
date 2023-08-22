@@ -47,6 +47,12 @@ services:
     environment:
       - SWAGGER_FILE=/tmp/swagger.yaml
 
+  helloworld:
+    image: lancatlin/linux-odyssey:helloworld
+    build:
+      context: .
+      dockerfile: quests/helloworld/Dockerfile
+
 networks:
   internal:
   players:

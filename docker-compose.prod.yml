@@ -18,8 +18,6 @@ services:
     networks:
       - internal
       - players
-    ports:
-      - '3000:3000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -41,6 +39,12 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
+
+  helloworld:
+    image: lancatlin/linux-odyssey:helloworld
+    build:
+      context: .
+      dockerfile: quests/helloworld/Dockerfile
 
 networks:
   internal:
