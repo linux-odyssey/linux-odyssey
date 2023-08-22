@@ -9,7 +9,7 @@ api
   .get('/quests/helloworld')
   .then((res) => {
     console.log(res.data)
-    questData.value = JSON.stringify(res.data.content)
+    questData.value = res.data
   })
   .catch((err) => {
     questErr.value = err
@@ -17,14 +17,18 @@ api
 </script>
 
 <template>
-  <h1 id="topic" class="text-text">Try Your First Command</h1>
-  <hr class="border-text-line border-2 my-2" />
-  <div>
-    <p class="text-red-500" v-if="questErr">{{ questErr.message }}</p>
-    <p class="text-text" v-else-if="questData">--Quest Information--</p>
-    <!--
-    <p class="text-text" v-else-if="quest" v-html="questData"></p>
-    -->
-    <p class="text-text" v-else>Loading...</p>
+  <div class="overflow-auto h-full w-full max-h-full">
+    <h1 id="topic" class="text-red-500" v-if="questErr">
+      Failed to get quest infomation
+    </h1>
+    <h1 id="topic" class="text-text" v-else-if="questData">
+      {{ questData.title }}
+    </h1>
+    <hr class="border-text-line border-2 my-2" />
+    <div>
+      <p class="text-red-500" v-if="questErr">{{ questErr.message }}</p>
+      <p class="text-text" v-else-if="questData">{{ questData.instruction }}</p>
+      <p class="text-text" v-else>Loading...</p>
+    </div>
   </div>
 </template>

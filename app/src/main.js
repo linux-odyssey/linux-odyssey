@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
 import {
-  faBarsStaggered,
+  faBars,
   faArrowLeft,
   faList,
   faGear,
@@ -28,7 +28,7 @@ import App from './App.vue'
 
 /* add icons to the library */
 library.add(
-  faBarsStaggered,
+  faBars,
   faArrowLeft,
   faTriangleExclamation,
   faGear,
