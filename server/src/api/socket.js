@@ -1,5 +1,5 @@
 import { Server } from 'socket.io'
-import { getOrCreateContainer, attachContainer } from '../utils/docker.js'
+import { getOrCreateContainer, attachContainer } from '../containers/docker.js'
 import Session from '../models/session.js'
 import { defaultUser, genSessionJWT } from '../utils/auth.js'
 

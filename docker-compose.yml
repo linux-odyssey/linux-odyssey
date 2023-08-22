@@ -28,6 +28,7 @@ services:
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
+      - HOST_PWD=${PWD}
   db:
     image: mongo
     restart: always

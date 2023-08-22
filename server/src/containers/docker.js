@@ -3,8 +3,6 @@ import config from '../config.js'
 
 const engine = new Docker()
 
-const projectPath = '/home/zeko/src/linux-odyssey'
-
 const containerOptions = {
   Image: 'lancatlin/linux-odyssey:helloworld',
   AttachStdin: true,
@@ -14,12 +12,13 @@ const containerOptions = {
   OpenStdin: true,
   StdinOnce: false,
   HostConfig: {
-    Binds: config.isProduction
-      ? []
-      : [
-          `${projectPath}/quests/helloworld/home:/home/rudeus`,
-          `${projectPath}/packages/container:/usr/local/lib/container`,
-        ],
+    Binds:
+      config.isProduction && config.hostPwd
+        ? []
+        : [
+            `${config.hostPwd}/quests/helloworld/home:/home/rudeus`,
+            `${config.hostPwd}/packages/container:/usr/local/lib/container`,
+          ],
   },
 }
 
