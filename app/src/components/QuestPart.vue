@@ -9,7 +9,7 @@ api
   .get('/quests/helloworld')
   .then((res) => {
     console.log(res.data)
-    questData.value = JSON.stringify(res.data.instruction)
+    questData.value = res.data.instruction
     questData.value = '--Quest Information--'
   })
   .catch((err) => {
