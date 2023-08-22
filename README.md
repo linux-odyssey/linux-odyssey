@@ -12,7 +12,7 @@
     cd linux-odyssey
     yarn install
 
-## Developement
+## Development
 
 Run everything (frontend, backend, db, swagger, quests):
 
