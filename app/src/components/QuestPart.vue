@@ -10,7 +10,6 @@ api
   .then((res) => {
     console.log(res.data)
     questData.value = res.data
-    questData.value.instruction = '--Quest Information--'
   })
   .catch((err) => {
     questErr.value = err
