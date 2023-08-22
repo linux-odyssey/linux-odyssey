@@ -7,9 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: `${process.env.API_TARGET || 'http://localhost:3000'}/api/v1`,
+        target: process.env.API_TARGET || 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/socket.io': {
         target: process.env.API_TARGET || 'ws://localhost:3000',
