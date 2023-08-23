@@ -26,9 +26,17 @@ export async function newCommand(req, res) {
   const session = await Session.findById(sessionId)
 
   if (!session) {
-    res.status(401).json({ message: 'session not found' })
+    res.status(404).json({ message: 'session not found' })
     return
   }
+
+  if (session.status !== 'active') {
+    res.status(400).json({ message: 'session is not active' })
+    return
+  }
+
+  session.lastActivityAt = new Date()
+  await session.save()
 
   const c = new Command({
     session,

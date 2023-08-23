@@ -31,6 +31,12 @@ paths:
           description: find sessions by quest id
           schema:
             type: string
+        - in: query
+          name: status
+          description: find sessions by status
+          schema:
+            type: string
+            enum: [active, finished, deactive]
       responses:
         '200':
           description: list of existing session
