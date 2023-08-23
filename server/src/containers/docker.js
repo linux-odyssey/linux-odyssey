@@ -65,3 +65,18 @@ export async function attachContainer(container, { token }) {
 
   return execOutput.socket
 }
+
+export async function deleteContainer(id) {
+  const container = engine.getContainer(id)
+  if (!container) {
+    return
+  }
+  try {
+    await container.stop()
+    await container.remove({
+      force: true,
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

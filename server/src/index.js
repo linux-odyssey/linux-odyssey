@@ -10,6 +10,7 @@ import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
+import expiryRemovalScheduler from './containers/expiryChecker.js'
 
 async function main() {
   const app = express()
@@ -17,6 +18,7 @@ async function main() {
   socketServer(server)
   await connectDB()
   await loadAndUpdateQuests()
+  expiryRemovalScheduler()
 
   const file = await fs.readFile('./swagger.yaml', 'utf8')
   const swaggerDocument = YAML.parse(file)
