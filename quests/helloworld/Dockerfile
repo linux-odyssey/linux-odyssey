@@ -22,6 +22,6 @@ USER rudeus
 
 WORKDIR /home/rudeus
 
-COPY ./server/quests/helloworld/home /home/rudeus/
+COPY ./quests/helloworld/home /home/rudeus/
 
 CMD [ "/bin/zsh" ]

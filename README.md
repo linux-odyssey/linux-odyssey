@@ -8,76 +8,58 @@
 
 ## Installation
 
-```
-git clone https://github.com/lancatlin/linux-odyssey.git
-cd linux-odyssey
-yarn install
-```
+    git clone https://github.com/lancatlin/linux-odyssey.git
+    cd linux-odyssey
+    yarn install
 
-## Create database
+## Development
 
-```
-docker compose pull
-docker compose up -d db
-```
-
-## Server
-
-Source: `server/`
-
-```
-docker compose -f docker-compose.build.yml pull
-docker compose up -d
-# Open http://localhost:3000
-```
-
-### Build images
+Run everything (frontend, backend, db, swagger, quests):
 
     docker compose build
-    docker compose push
+    docker compose up -d
 
-Game images:
+### Deployment
 
-```
-docker compose -f docker-compose.build.yml build
-docker compose -f docker-compose.build.yml push
-```
+    docker compose -f docker-compose.prod.yml build
+    docker compose -f docker-compose.prod.yml push
 
-## App
+    # Server side
+    docker compose -f docker-compose.prod.yml pull
+    docker compose -f docker-compose.prod.yml up -d
+
+## Standalone App (without Docker)
 
 Source: `app/`
 
-```
-# Connect to dev server (https://odyssey.wancat.cc)
-yarn app
+    # Connect to dev server (https://odyssey.wancat.cc)
+    yarn app
 
-# Connect to localhost (http://localhost:3000)
-yarn app:local
-```
+    # Connect to localhost (http://localhost:3000)
+    yarn app:local
+
+    # Connect to anyhost
+    API_ENDPOINT=http://example.com yarn app:local
 
 ## Swagger
 
-```
-docker compose up -d swagger
-```
+    docker compose up -d swagger
 
 Open http://localhost:8080 to open Swagger
 
-## CLI terminal client
+## CLI terminal client (Docker not required)
 
-```
-yarn cli
-Usage: client [options] [command]
+    yarn cli
+    Usage: client [options] [command]
 
-Options:
-  -s, --session <string>  Session ID
-  -c, --create            Create a new session
-  -h, --host <string>     Server host (default: "http://localhost:3000")
-  --help                  display help for command
+    Options:
+    -s, --session <string>  Session ID
+    -c, --create            Create a new session
+    -h, --host <string>     Server host (default: "http://localhost:3000")
+    --help                  display help for command
 
-Commands:
-  list                    List all sessions
-```
+    Commands:
+    list                    List all sessions
 
 connet to recent session:
 

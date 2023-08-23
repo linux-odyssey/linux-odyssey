@@ -1,0 +1,7 @@
+FROM node
+
+WORKDIR /app
+COPY app/package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY app .
+CMD [ "yarn", "dev:docker", "--host", "0.0.0.0" ]

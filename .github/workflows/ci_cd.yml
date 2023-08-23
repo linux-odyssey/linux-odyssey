@@ -19,12 +19,29 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build backend
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./server/Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:latest
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:backend
+
+      - name: Build app
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./app/Dockerfile
+          push: true
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:app
+
+      - name: Build quest helloworld
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./quests/helloworld/Dockerfile
+          push: true
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:helloworld
 
   deploy:
     needs: build-and-push

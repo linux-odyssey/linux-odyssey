@@ -7,4 +7,5 @@ export default {
   jwtSecret: get('JWT_SECRET', 'secret'),
   dockerNetwork: get('DOCKER_NETWORK', 'linux-odyssey-players'),
   isProduction: process.env.NODE_ENV === 'production',
+  hostPwd: get('HOST_PWD', ''),
 }

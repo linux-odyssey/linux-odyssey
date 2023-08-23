@@ -1,11 +1,8 @@
 FROM node
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-COPY server/package.json ./server/
+COPY server/package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
-
-WORKDIR /app/server
 
 ARG DOCKER_GID=140
 

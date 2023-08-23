@@ -1,16 +1,23 @@
 version: '3'
 services:
   app:
-    image: lancatlin/linux-odyssey
+    image: lancatlin/linux-odyssey:app
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    networks:
+      internal:
+    ports:
+      - 8080:80
+  backend:
+    image: lancatlin/linux-odyssey:backend
     restart: on-failure
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: server/Dockerfile
     networks:
       - internal
       - players
-    ports:
-      - '3000:3000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -32,6 +39,12 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
+
+  helloworld:
+    image: lancatlin/linux-odyssey:helloworld
+    build:
+      context: .
+      dockerfile: quests/helloworld/Dockerfile
 
 networks:
   internal:
