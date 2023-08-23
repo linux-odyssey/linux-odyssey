@@ -36,7 +36,7 @@ paths:
           description: find sessions by status
           schema:
             type: string
-            enum: [active, finished, deactive]
+            enum: [active, finished, inactive]
       responses:
         '200':
           description: list of existing session

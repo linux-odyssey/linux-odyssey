@@ -15,7 +15,7 @@ const Session = model(
       containerId: String,
       status: {
         type: String,
-        enum: ['active', 'finished', 'deactive'],
+        enum: ['active', 'finished', 'inactive'],
         required: true,
         default: 'active',
       },

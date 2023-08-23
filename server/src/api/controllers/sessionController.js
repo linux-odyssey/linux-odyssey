@@ -8,9 +8,7 @@ export async function getSessionList(req, res) {
     if (req.query.quest_id) {
       query.quest = req.query.quest_id
     }
-    if (req.query.status) {
-      query.status = req.query.status
-    }
+    query.status = req.query.status || 'active'
     const sessions = await Session.find(query)
     res.json(
       sessions.map(
