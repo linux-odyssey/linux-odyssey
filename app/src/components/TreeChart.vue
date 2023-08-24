@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue'
 import FileNode from './FileNode.vue'
 import socket from '../utils/socket.js'
 
+const pwd = ref('/home/rudeus')
+
 const graph = ref({
   path: '/',
   name: '/',
@@ -66,7 +68,7 @@ onMounted(() => {
   <div class="tree w-max h-max">
     <ul>
       <li>
-        <FileNode :node="graph" />
+        <FileNode :node="graph" :pwd="pwd" />
       </li>
     </ul>
   </div>
@@ -174,5 +176,9 @@ a.discovered {
 ul.discovered,
 li.discovered {
   border-color: #94a0b4;
+}
+
+a.pwd {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 水平偏移、垂直偏移、模糊半徑、顏色 */
 }
 </style>
