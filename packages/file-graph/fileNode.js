@@ -92,4 +92,22 @@ export default class FileNode extends File {
       .join('')
     return `${indent}${this.name}${suffix}\n${childrenString}`
   }
+
+  findNode(fileToFind) {
+    const pathFolders = fileToFind.path
+      .split('/')
+      .filter((folder) => folder.length > 0)
+    let currentNode = this
+
+    for (const folder of pathFolders) {
+      currentNode = currentNode.children.find(
+        (child) => child.name === folder && child.type === 'folder'
+      )
+      if (!currentNode) {
+        return null
+      }
+    }
+
+    return currentNode
+  }
 }
