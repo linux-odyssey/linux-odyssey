@@ -73,10 +73,8 @@ export async function deleteContainer(id) {
   }
   try {
     await container.stop()
-    await container.remove({
-      force: true,
-    })
+    await container.remove()
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
