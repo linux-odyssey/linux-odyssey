@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import FileNode from './FileNode.vue'
+import socket from '../utils/socket.js'
 
 const graph = ref({
   path: '/',
@@ -51,6 +52,13 @@ const graph = ref({
       discovered: false,
     },
   ],
+})
+
+onMounted(() => {
+  socket.on('graph', (event) => {
+    // TODO: update graph
+    console.log(event)
+  })
 })
 </script>
 
