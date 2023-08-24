@@ -16,7 +16,8 @@
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
     "lint": "eslint --ext .js,.vue .",
-    "format": "prettier --ignore-path .prettierignore --write app server"
+    "format": "prettier --ignore-path .prettierignore --write app server",
+    "clean": "yarn workspace server clean"
   },
   "devDependencies": {
     "@vue/eslint-config-prettier": "^7.1.0",

@@ -1,5 +1,5 @@
 import { Server } from 'socket.io'
-import { getOrCreateContainer, attachContainer } from '../containers/docker.js'
+import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import Session from '../models/session.js'
 import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
@@ -47,6 +47,7 @@ export default (server) => {
       session = await Session.findOne({
         _id: sessionId,
         user: socket.user,
+        status: 'active',
       })
       if (!session) {
         socket.send('Session not found.')
@@ -61,7 +62,7 @@ export default (server) => {
 
     const token = await genSessionJWT(session)
 
-    const container = await getOrCreateContainer(session.containerId)
+    const container = await getAndStartContainer(session.containerId)
     const stream = await attachContainer(container, { token })
 
     stream.on('data', (chunk) => {

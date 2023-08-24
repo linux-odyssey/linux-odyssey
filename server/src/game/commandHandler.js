@@ -42,6 +42,12 @@ async function commandHandler(session, commandInput, additionalData) {
   session.progress = stage.next
   await session.save()
 
+  if (stage.next === 'END') {
+    session.status = 'finished'
+    session.finishedAt = new Date()
+    await session.save()
+  }
+
   return {
     responses: stage.responses,
     hints: stage.hints,

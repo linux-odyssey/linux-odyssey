@@ -7,8 +7,12 @@ inspect() {
   docker compose logs $SERVICE -f --no-log-prefix
 }
 
+list() {
+  docker ps -a | grep 'quest-' | awk '{print $1}'
+}
+
 clean() {
-  containers=$(docker ps -a | grep 'quest-' | awk '{print $1}')
+  containers=$(list)
   echo $containers
 
   docker rm -f $containers

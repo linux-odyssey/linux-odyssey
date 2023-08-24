@@ -1,5 +1,6 @@
 import Session from '../../models/session.js'
 import Quest from '../../models/quest.js'
+import { createContainer } from '../../containers/docker.js'
 
 export async function getSessionList(req, res) {
   try {
@@ -7,8 +8,29 @@ export async function getSessionList(req, res) {
     if (req.query.quest_id) {
       query.quest = req.query.quest_id
     }
+    query.status = req.query.status || 'active'
     const sessions = await Session.find(query)
-    res.json(sessions)
+    res.json(
+      sessions.map(
+        ({
+          _id,
+          user,
+          quest,
+          status,
+          progress,
+          createdAt,
+          lastActivityAt,
+        }) => ({
+          _id,
+          user,
+          quest,
+          status,
+          progress,
+          createdAt,
+          lastActivityAt,
+        })
+      )
+    )
   } catch (err) {
     console.error(err)
     res.status(500).json({ message: err.message })
@@ -24,11 +46,14 @@ export async function createSession(req, res) {
 
   try {
     const progress = quest.stages[0].id
+    const container = await createContainer(
+      `quest-${quest.id}-${req.user.username}-${Date.now()}`
+    )
     const newSession = new Session({
       user: req.user,
       quest,
       progress,
-      containerId: `quest-${quest.id}-${req.user.username}-${Date.now()}`,
+      containerId: container.id,
     })
 
     const session = await newSession.save()

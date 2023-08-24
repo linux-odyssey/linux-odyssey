@@ -17,11 +17,11 @@ const Command = model(
         type: String,
         required: true,
       },
-      exit_code: {
-        type: Number,
+      output: {
+        type: String,
         required: false,
       },
-      output: {
+      error: {
         type: String,
         required: false,
       },

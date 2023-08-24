@@ -8,4 +8,5 @@ export default {
   dockerNetwork: get('DOCKER_NETWORK', 'linux-odyssey-players'),
   isProduction: process.env.NODE_ENV === 'production',
   hostPwd: get('HOST_PWD', ''),
+  expiry: get('EXPIRY', 1000 * 60 * 60),
 }

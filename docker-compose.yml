@@ -11,7 +11,6 @@ services:
     volumes:
       - ./app/src:/app/src
   backend:
-    restart: on-failure
     build:
       context: .
       dockerfile: server/Dockerfile.dev
@@ -31,7 +30,6 @@ services:
       - HOST_PWD=${PWD}
   db:
     image: mongo
-    restart: always
     networks:
       - internal
     ports:

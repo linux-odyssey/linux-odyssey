@@ -13,7 +13,18 @@ const Session = model(
         ref: 'Quest',
       },
       containerId: String,
+      status: {
+        type: String,
+        enum: ['active', 'finished', 'inactive'],
+        required: true,
+        default: 'active',
+      },
       finishedAt: Date,
+      lastActivityAt: {
+        type: Date,
+        default: Date.now,
+        required: true,
+      },
       progress: String,
       completion: [String],
       hints: [String],

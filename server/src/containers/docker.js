@@ -24,7 +24,16 @@ const containerOptions = {
 
 const network = engine.getNetwork(config.dockerNetwork)
 
-export async function getOrCreateContainer(id) {
+export async function createContainer(name) {
+  const container = await engine.createContainer({
+    ...containerOptions,
+    name,
+  })
+  await network.connect({ Container: container.id })
+  return container
+}
+
+export async function getAndStartContainer(id) {
   console.log(`Getting container: ${id}`)
   let container
   try {
@@ -34,20 +43,7 @@ export async function getOrCreateContainer(id) {
     }
     return container
   } catch (error) {
-    try {
-      container = await engine.createContainer({
-        ...containerOptions,
-        name: id,
-      })
-    } catch (err) {
-      console.log(err)
-      throw err
-    }
-    await network.connect({ Container: container.id })
-
-    await container.start()
-    console.log(container.id)
-    return container
+    throw new Error(`Container not found: ${id}`)
   }
 }
 
@@ -68,4 +64,17 @@ export async function attachContainer(container, { token }) {
   })
 
   return execOutput.socket
+}
+
+export async function deleteContainer(id) {
+  const container = engine.getContainer(id)
+  if (!container) {
+    return
+  }
+  try {
+    await container.stop()
+    await container.remove()
+  } catch (error) {
+    console.error(error)
+  }
 }

@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "cli": "node src/client.js",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "clean": "node src/cli/clean.js"
   },
   "dependencies": {
     "commander": "^11.0.0",
@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.1",
     "minimist": "^1.2.8",
     "mongoose": "^7.4.0",
+    "node-schedule": "^2.1.1",
     "socket.io": "^4.7.1",
     "swagger-ui-express": "^5.0.0",
     "yaml": "^2.3.1"
