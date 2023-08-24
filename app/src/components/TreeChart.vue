@@ -1,56 +1,64 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import FileNode from './FileNode.vue'
+
+const graph = ref({
+  path: '/',
+  name: '/',
+  type: 'folder',
+  discovered: false,
+  children: [
+    {
+      path: '/home',
+      name: 'home',
+      type: 'folder',
+      discovered: false,
+      children: [
+        {
+          path: '/home/rudeus',
+          name: 'rudeus',
+          type: 'folder',
+          discovered: true,
+          children: [
+            {
+              path: '/home/rudeus/secret',
+              name: 'secret',
+              type: 'file',
+              discovered: true,
+            },
+            {
+              path: '/home/rudeus/box',
+              name: 'box',
+              type: 'folder',
+              discovered: true,
+              children: [
+                {
+                  path: '/home/rudeus/box/scroll',
+                  name: 'scroll',
+                  type: 'file',
+                  discovered: false,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: '/etc',
+      name: 'etc',
+      type: 'folder',
+      discovered: false,
+    },
+  ],
+})
+</script>
 
 <template>
   <div class="tree w-max h-max">
     <ul>
       <li>
-        <a href="#">Parent</a>
-        <ul>
-          <li>
-            <a href="#">Child</a>
-            <ul>
-              <li>
-                <a href="#">Grand Child</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Child</a>
-            <ul>
-              <li><a href="#">Grand Child</a></li>
-              <li>
-                <a href="#">Grand Child</a>
-                <ul>
-                  <li>
-                    <a href="#">Great Grand Child</a>
-                  </li>
-                  <li>
-                    <a href="#">Great Grand Child</a>
-                  </li>
-                  <li>
-                    <a href="#">Great Grand Child</a>
-                    <ul>
-                      <li><a>Grand Child</a></li>
-                      <li>
-                        <a>Grand Child</a>
-                        <ul>
-                          <li>
-                            <a>Great Grand Child</a>
-                          </li>
-                          <li>
-                            <a>Great Grand Child</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a>Grand Child</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li><a href="#">Grand Child</a></li>
-            </ul>
-          </li>
-        </ul>
+        <FileNode :node="graph" />
       </li>
     </ul>
   </div>
@@ -149,17 +157,14 @@
   -moz-transition: all 0.5s;
 }
 
-.tree li a:hover,
-.tree li a:hover + ul li a {
+a.discovered {
   background: #c8e4f8;
   color: #000;
   border: 1px solid #94a0b4;
 }
 
-.tree li a:hover + ul li::after,
-.tree li a:hover + ul li::before,
-.tree li a:hover + ul::before,
-.tree li a:hover + ul ul::before {
+ul.discovered,
+li.discovered {
   border-color: #94a0b4;
 }
 </style>
