@@ -71,6 +71,10 @@ export default (server) => {
 
     socket.on('message', console.log)
 
+    socket.on('hint', function hints(message) {
+      stream.write(message)
+    })
+
     socket.on('terminal', function incoming(message) {
       stream.write(message)
     })
