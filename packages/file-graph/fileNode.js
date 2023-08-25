@@ -1,5 +1,9 @@
 import File from './file.js'
-import { DuplicateItemError, ParentNotExistsError } from './errors.js'
+import {
+  DuplicateItemError,
+  ParentNotExistsError,
+  FileNotExistsError,
+} from './errors.js'
 import { basename, dirname } from './utils.js'
 
 export default class FileNode extends File {
@@ -91,23 +95,5 @@ export default class FileNode extends File {
       .map((child) => child.toString())
       .join('')
     return `${indent}${this.name}${suffix}\n${childrenString}`
-  }
-
-  findNode(fileToFind) {
-    const pathFolders = fileToFind.path
-      .split('/')
-      .filter((folder) => folder.length > 0)
-    let currentNode = this
-
-    for (const folder of pathFolders) {
-      currentNode = currentNode.children.find(
-        (child) => child.name === folder && child.type === 'folder'
-      )
-      if (!currentNode) {
-        return null
-      }
-    }
-
-    return currentNode
   }
 }

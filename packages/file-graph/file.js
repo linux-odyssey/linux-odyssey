@@ -1,4 +1,4 @@
-import { basename } from './utils'
+import { basename } from './utils.js'
 
 export default class File {
   constructor({ path, type, discovered }) {
