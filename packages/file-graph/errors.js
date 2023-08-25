@@ -12,3 +12,10 @@ export class ParentNotExistsError extends Error {
     this.name = 'ParentNotExistsError'
   }
 }
+
+export class FileNotExistsError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'FileNotExistsError'
+  }
+}
