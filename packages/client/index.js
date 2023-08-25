@@ -78,6 +78,10 @@ async function connect(sessionId) {
     stdout.write(data)
   })
 
+  socket.on('hint', function hints(data) {
+    stdout.write(data)
+  })
+
   socket.on('graph', (data) => {
     debug('receive graph:', data)
   })
