@@ -78,9 +78,8 @@ async function connect(sessionId) {
     stdout.write(data)
   })
 
-  socket.on('hint', (data) => {
-    console.log('receive hint:')
-    console.log(data)
+  socket.on('hint', function hints(data) {
+    stdout.write(data)
   })
 
   socket.on('graph', (data) => {
