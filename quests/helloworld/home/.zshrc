@@ -1,9 +1,9 @@
-PROMPT='%n@%m:%~%# '
+PROMPT='%F{2}%n%f:%~ $ '
 unsetopt CASE_GLOB
 setopt CHASE_LINKS
 emulate bash
 
-typeset -A cmd
+set +o prompt_cr
 
 preexec() {
     export CMD_START_TIME=$(date +%s%N)      # capture start time
