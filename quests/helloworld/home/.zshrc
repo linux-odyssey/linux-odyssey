@@ -1,4 +1,4 @@
-PROMPT='%F{2}%n%f:%~ $ '
+PROMPT='%F{2}%n%f:%F{6}%~%f $ '
 unsetopt CASE_GLOB
 setopt CHASE_LINKS
 emulate bash
