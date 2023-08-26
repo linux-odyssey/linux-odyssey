@@ -1,10 +1,18 @@
 FROM node:latest
 
 RUN apt-get update && apt-get install -y \
+  locales \
   curl \
   vim \
-  zsh \
-  jq
+  zsh 
+
+RUN sed -i -e 's/# zh_TW.UTF-8 UTF-8/zh_TW.UTF-8 UTF-8/' /etc/locale.gen && \
+  dpkg-reconfigure --frontend=noninteractive locales && \
+  update-locale LANG=zh_TW.UTF-8
+
+ENV LANG zh_TW.UTF-8
+ENV LANGUAGE zh_TW:zh
+ENV LC_ALL zh_TW.UTF-8
 
 WORKDIR /usr/local/lib/container
 
