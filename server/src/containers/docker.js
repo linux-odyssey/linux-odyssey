@@ -13,12 +13,12 @@ const containerOptions = {
   StdinOnce: false,
   HostConfig: {
     Binds:
-      config.isProduction && config.hostPwd
-        ? []
-        : [
+      !config.isProduction && config.hostPwd
+        ? [
             `${config.hostPwd}/quests/helloworld/home:/home/rudeus`,
             `${config.hostPwd}/packages/container:/usr/local/lib/container`,
-          ],
+          ]
+        : [],
   },
 }
 
