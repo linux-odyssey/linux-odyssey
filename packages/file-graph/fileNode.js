@@ -52,6 +52,26 @@ export default class FileNode extends File {
     }
   }
 
+  removeChild(fileToRemove) {
+    const file = new FileNode(fileToRemove)
+    const parentPath = dirname(file.path)
+
+    if (parentPath === this.path) {
+      // Direct child of this node
+      this.children = this.children.filter((child) => child.path !== file.path)
+    } else {
+      // Recursively call removeChild on the correct child node
+      const childNode = this.children.find((child) => child.contains(file))
+      if (childNode) {
+        childNode.removeChild(file)
+      } else {
+        throw new FileNotExistsError(
+          `File ${file.path} does not exist in the tree: ${this.toString()}`
+        )
+      }
+    }
+  }
+
   merge(fileNode) {
     // Merge the children of the provided file node into this node
     // If a child already exists, merge the children of that child
