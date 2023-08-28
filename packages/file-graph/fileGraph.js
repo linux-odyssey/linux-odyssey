@@ -54,4 +54,8 @@ export default class FileGraph {
       // Implement other cases if needed
     }
   }
+
+  toJSON() {
+    return this.root.toJSON()
+  }
 }

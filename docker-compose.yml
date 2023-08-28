@@ -21,8 +21,9 @@ services:
       - '3000:3000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./server/src:/app/src
-      - ./server/swagger.yaml:/app/swagger.yaml
+      - ./server/src:/app/server/src
+      - ./server/swagger.yaml:/app/server/swagger.yaml
+      - ./packages:/app/packages
       - ./quests:/app/quests
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test

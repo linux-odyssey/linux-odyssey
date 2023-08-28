@@ -1,7 +1,8 @@
 {
-  "name": "file-graph",
+  "name": "@linux-odyssey/file-graph",
   "version": "1.0.0",
   "main": "index.js",
+  "exports": "./index.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
