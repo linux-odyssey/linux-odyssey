@@ -30,9 +30,13 @@ export default class FileGraph {
     // Overwrite the file graph with the provided files
     // Remove file nodes that don't exist anymore and add new ones
 
-    eventFiles.forEach((file) => {
-      this.root.merge(file)
+    const newNode = new FileNode(eventFiles[0])
+
+    eventFiles.slice(1).forEach((file) => {
+      newNode.addChild(file, { makeParents: true })
     })
+
+    this.root.merge(newNode)
   }
 
   handleEvent(event) {

@@ -40,13 +40,23 @@ describe('FileGraph', () => {
 
     const filesToAdd = [
       {
-        path: '/home/user/file1.txt',
+        path: '/home/user/folder1',
+        type: 'folder',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder2',
+        type: 'folder',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder1/file1.txt',
         type: 'file',
         discovered: true,
       },
       {
-        path: '/home/user/folder1',
-        type: 'folder',
+        path: '/home/user/folder2/file2.txt',
+        type: 'file',
         discovered: true,
       },
     ]
@@ -55,7 +65,11 @@ describe('FileGraph', () => {
 
     const filesToRemove = [
       {
-        path: '/home/user/folder1',
+        path: '/home/user/folder1/file1.txt',
+        type: 'folder',
+      },
+      {
+        path: '/home/user/folder2',
         type: 'folder',
       },
     ]
@@ -64,6 +78,12 @@ describe('FileGraph', () => {
 
     console.log(fileGraph.root.toString())
     expect(fileGraph.root.children[0].children[0].children.length).toBe(1)
+    expect(fileGraph.root.children[0].children[0].children[0].name).toBe(
+      'folder1'
+    )
+    expect(
+      fileGraph.root.children[0].children[0].children[0].children.length
+    ).toBe(0)
   })
 
   test('discover new files', () => {
@@ -71,28 +91,48 @@ describe('FileGraph', () => {
 
     const filesToAdd = [
       {
-        path: '/home/user/file1.txt',
+        path: '/home/user/folder1',
+        type: 'folder',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder2',
+        type: 'folder',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder1/file1.txt',
         type: 'file',
         discovered: true,
       },
       {
-        path: '/home/user/folder1',
-        type: 'folder',
+        path: '/home/user/folder2/file2.txt',
+        type: 'file',
         discovered: true,
       },
     ]
 
     fileGraph.add(filesToAdd)
-    expect(fileGraph.root.children[0].children[0].children.length).toBe(2)
+    console.log(fileGraph.root.toString())
 
     const newFiles = [
       {
-        path: '/home/newfile.txt',
+        path: '/home/user/folder1',
+        type: 'folder',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder1/file1.txt',
         type: 'file',
         discovered: true,
       },
       {
-        path: '/home/user/file1.txt',
+        path: '/home/user/folder1/file2.txt',
+        type: 'file',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder1/file3.txt',
         type: 'file',
         discovered: true,
       },
@@ -101,10 +141,9 @@ describe('FileGraph', () => {
     fileGraph.discover(newFiles)
 
     console.log(fileGraph.root.toString())
-    expect(fileGraph.root.children[0].children.length).toBe(2)
-    expect(fileGraph.root.children[0].children[0].name).toBe('newfile.txt')
-    expect(fileGraph.root.children[0].children[0].children[0].name).toBe(
-      'file1.txt'
-    )
+    expect(fileGraph.root.children[0].children[0].children.length).toBe(2)
+    expect(
+      fileGraph.root.children[0].children[0].children[0].children.length
+    ).toBe(3)
   })
 })
