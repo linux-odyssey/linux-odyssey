@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "File Graph Yarn Jest",
+      "runtimeExecutable": "yarn",
+      "args": ["test", "--runInBand"],
+      "cwd": "${workspaceFolder}/packages/file-graph",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
