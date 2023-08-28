@@ -23,6 +23,15 @@ function mergeTest(files1, files2, expectedFiles) {
   expect(node1.toString()).toBe(expectedNode.toString())
 }
 
+function removeChildTest(files, fileToRemove, expectedFiles) {
+  const node = createNodeFromFiles(files)
+  const expectedNode = createNodeFromFiles(expectedFiles)
+
+  node.removeChild(fileToRemove)
+
+  expect(node.toString()).toBe(expectedNode.toString())
+}
+
 describe('FileNode', () => {
   let rootNode
 
@@ -182,5 +191,31 @@ describe('FileNode', () => {
     ]
 
     mergeTest(files1, files2, expected)
+  })
+
+  test('remove-child', () => {
+    const root = {
+      path: '/',
+      type: 'folder',
+    }
+    const files = [
+      root,
+      { path: '/a', type: 'file' },
+      { path: '/b', type: 'folder' },
+      { path: '/b/c', type: 'folder' },
+      { path: '/b/d', type: 'file' },
+      { path: '/b/c/f', type: 'file' },
+    ]
+
+    const fileToRemove = { path: '/b/c', type: 'folder' }
+
+    const expected = [
+      root,
+      { path: '/a', type: 'file' },
+      { path: '/b', type: 'folder' },
+      { path: '/b/d', type: 'file' },
+    ]
+
+    removeChildTest(files, fileToRemove, expected)
   })
 })
