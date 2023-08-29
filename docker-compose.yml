@@ -9,7 +9,8 @@ services:
     networks:
       - internal
     volumes:
-      - ./app/src:/app/src
+      - ./app:/app/app
+      - ./packages/file-graph:/app/packages/file-graph
   backend:
     build:
       context: .
