@@ -24,7 +24,7 @@ jobs:
       - name: Test
         run: yarn test
 
-  build:
+  build-and-push:
     needs: ci
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:helloworld
 
   deploy:
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
