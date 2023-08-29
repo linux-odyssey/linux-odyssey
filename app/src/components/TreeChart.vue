@@ -1,65 +1,27 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { FileGraph } from '@linux-odyssey/file-graph'
 import FileNode from './FileNode.vue'
 import socket from '../utils/socket.js'
 
 const pwd = ref('/home/rudeus')
 
-const graph = ref({
-  path: '/',
-  name: '/',
-  type: 'folder',
-  discovered: false,
-  children: [
-    {
-      path: '/home',
-      name: 'home',
-      type: 'folder',
-      discovered: false,
-      children: [
-        {
-          path: '/home/rudeus',
-          name: 'rudeus',
-          type: 'folder',
-          discovered: true,
-          children: [
-            {
-              path: '/home/rudeus/secret',
-              name: 'secret',
-              type: 'file',
-              discovered: true,
-            },
-            {
-              path: '/home/rudeus/box',
-              name: 'box',
-              type: 'folder',
-              discovered: true,
-              children: [
-                {
-                  path: '/home/rudeus/box/scroll',
-                  name: 'scroll',
-                  type: 'file',
-                  discovered: false,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      path: '/etc',
-      name: 'etc',
-      type: 'folder',
-      discovered: false,
-    },
-  ],
-})
+const graph = ref(
+  new FileGraph({
+    path: '/',
+    name: '/',
+    type: 'folder',
+    discovered: false,
+  })
+)
 
 onMounted(() => {
   socket.on('graph', (event) => {
     // TODO: update graph
     console.log(event)
+    if (event.discover) {
+      graph.value.discover(event.discover)
+    }
   })
 })
 </script>
