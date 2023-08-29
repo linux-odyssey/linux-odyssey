@@ -1,36 +1,16 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { FileGraph } from '@linux-odyssey/file-graph'
+import { ref } from 'vue'
 import FileNode from './FileNode.vue'
-import socket from '../utils/socket.js'
+import sessionManager from '../utils/session.js'
 
 const pwd = ref('/home/rudeus')
-
-const graph = ref(
-  new FileGraph({
-    path: '/',
-    name: '/',
-    type: 'folder',
-    discovered: false,
-  })
-)
-
-onMounted(() => {
-  socket.on('graph', (event) => {
-    // TODO: update graph
-    console.log(event)
-    if (event.discover) {
-      graph.value.discover(event.discover)
-    }
-  })
-})
 </script>
 
 <template>
   <div class="tree w-max h-max">
     <ul>
       <li>
-        <FileNode :node="graph" :pwd="pwd" />
+        <FileNode :node="sessionManager.graph.value" :pwd="pwd" />
       </li>
     </ul>
   </div>

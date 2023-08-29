@@ -4,7 +4,10 @@ import { FileNode } from '@linux-odyssey/file-graph'
 const nodeSchema = new Schema({
   path: String,
   type: String,
-  discovered: Boolean,
+  discovered: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 nodeSchema.add({
@@ -41,7 +44,10 @@ const Session = model(
       hints: [String],
       graph: {
         type: nodeSchema,
-        default: new FileNode({ path: '/', name: '/', type: 'folder' }),
+        default: new FileNode({
+          path: '/',
+          type: 'folder',
+        }),
       },
     },
     { timestamps: true }

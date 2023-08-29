@@ -20,6 +20,9 @@ onMounted(async () => {
     console.log('Disconnected from the server.')
   })
   socket.on('message', console.log)
+  socket.on('graph', (event) => {
+    sessionManager.handleGraphUpdate(event)
+  })
 })
 </script>
 
