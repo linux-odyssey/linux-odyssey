@@ -9,7 +9,8 @@ import { basename, dirname } from './utils.js'
 export default class FileNode extends File {
   constructor(file) {
     super(file)
-    this.children = file.children || []
+    this.children = []
+    if (file.children) this.children = file.children.map((f) => new FileNode(f))
   }
 
   addChild(fileInput, { makeParents } = {}) {
@@ -76,6 +77,8 @@ export default class FileNode extends File {
     // Merge the children of the provided file node into this node
     // If a child already exists, merge the children of that child
     // If a child does not exist, add it to this node
+
+    // If this is the same node, merge the children
     if (fileNode.path === this.path) {
       fileNode.children.forEach((child) => {
         const existingChild = this.children.find((c) => c.path === child.path)
@@ -92,12 +95,17 @@ export default class FileNode extends File {
           fileNode.children.some((c) => c.path === child.path)
         )
       }
-    } else if (this.contains(fileNode)) {
+    }
+    // If this contains the parent node
+    else if (this.contains(fileNode)) {
       const childNode = this.children.find((child) => child.contains(fileNode))
+      // If a child node exists, merge the provided node into the child node
       if (childNode) {
         childNode.merge(fileNode)
-      } else {
-        this.addChild(fileNode)
+      }
+      // If a child node does not exist, add the provided node as a child
+      else {
+        this.addChild(fileNode, { makeParents: true })
       }
     } else {
       throw new Error(

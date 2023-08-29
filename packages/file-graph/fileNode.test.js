@@ -219,3 +219,39 @@ describe('FileNode', () => {
     removeChildTest(files, fileToRemove, expected)
   })
 })
+
+test('load nested fileNode', () => {
+  const data = {
+    path: '/',
+    type: 'folder',
+    children: [
+      {
+        path: '/a',
+        type: 'file',
+      },
+      {
+        path: '/b',
+        type: 'folder',
+        children: [
+          {
+            path: '/b/c',
+            type: 'folder',
+            children: [
+              {
+                path: '/b/c/d',
+                type: 'file',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  }
+
+  const node = new FileNode(data)
+
+  console.log(node.toString())
+  expect(node.children.length).toBe(2)
+  expect(node.children[1].children.length).toBe(1)
+  expect(node.children[1].children[0].children.length).toBe(1)
+})
