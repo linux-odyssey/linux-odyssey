@@ -1,16 +1,16 @@
 <script setup>
-import { ref } from 'vue'
 import FileNode from './FileNode.vue'
 import sessionManager from '../utils/session.js'
-
-const pwd = ref('/home/rudeus')
 </script>
 
 <template>
   <div class="tree w-max h-max">
     <ul>
       <li>
-        <FileNode :node="sessionManager.graph.value" :pwd="pwd" />
+        <FileNode
+          :node="sessionManager.graph.value"
+          :pwd="sessionManager.pwd.value"
+        />
       </li>
     </ul>
   </div>

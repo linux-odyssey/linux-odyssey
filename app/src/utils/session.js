@@ -13,6 +13,7 @@ class SessionManager {
         discovered: false,
       })
     )
+    this.pwd = ref('')
   }
 
   getSession() {
@@ -28,6 +29,9 @@ class SessionManager {
   handleGraphUpdate(event) {
     if (event.discover) {
       this.graph.value.discover(event.discover)
+    }
+    if (event.pwd) {
+      this.pwd.value = event.pwd
     }
   }
 
