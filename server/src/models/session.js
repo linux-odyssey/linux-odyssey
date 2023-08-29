@@ -1,4 +1,15 @@
 import { model, Schema } from 'mongoose'
+import { FileNode } from '@linux-odyssey/file-graph'
+
+const nodeSchema = new Schema({
+  path: String,
+  type: String,
+  discovered: Boolean,
+})
+
+nodeSchema.add({
+  children: [nodeSchema],
+})
 
 const Session = model(
   'Session',
@@ -28,6 +39,10 @@ const Session = model(
       progress: String,
       completion: [String],
       hints: [String],
+      graph: {
+        type: nodeSchema,
+        default: new FileNode({ path: '/', name: '/', type: 'folder' }),
+      },
     },
     { timestamps: true }
   )

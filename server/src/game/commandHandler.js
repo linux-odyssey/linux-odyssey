@@ -16,35 +16,41 @@ export default class CommandHandler {
   constructor(session, commandInput, additionalData) {
     this.session = session
     this.commandInput = commandInput
+    this.argv = minimist(this.commandInput.command.split(' '))
+
     this.additionalData = additionalData
-    this.eventListenr = {
-      discover: [this.discoverHandler, this.pushGraph],
-    }
   }
 
   handleEvent() {
-    const events = Object.keys(this.additionalData)
-    events.forEach((event) => {
-      const handlers = this.eventListeners[event]
-      if (handlers) {
-        handlers.forEach((handler) => handler())
-      }
-    })
+    if (this.additionalData.discover) this.discoverHandler()
+  }
+
+  handleCommand() {
+    const command = this.argv._[0]
+    switch (command) {
+      case 'cd':
+        pushToSession(this.session.id, 'graph', {
+          pwd: this.commandInput.pwd,
+        })
+        break
+
+      case 'ls':
+        pushToSession(this.session.id, 'graph', {
+          pwd: this.commandInput.pwd,
+          discover: this.additionalData.discover,
+        })
+        break
+
+      default:
+        break
+    }
   }
 
   async discoverHandler() {
     const graph = new FileGraph(this.session.graph)
     graph.discover(this.additionalData.discover)
-    console.log('graph:', graph.toString())
-    this.session.graph = graph.toJSON()
+    this.session.graph = graph
     await this.session.save()
-  }
-
-  pushGraph() {
-    pushToSession(this.session.id, 'graph', {
-      pwd: this.commandInput.pwd,
-      discover: this.additionalData.discover,
-    })
   }
 
   async run() {
@@ -55,12 +61,8 @@ export default class CommandHandler {
       return {}
     }
 
-    const argv = minimist(this.commandInput.command.split(' '))
-
     this.handleEvent()
-    if (argv._[0] === 'cd') {
-      pushToSession(this.session.id, 'graph', { pwd: this.commandInput.pwd })
-    }
+    this.handleCommand()
 
     const commandMatch = checkMatch(
       stage.condition.command,
