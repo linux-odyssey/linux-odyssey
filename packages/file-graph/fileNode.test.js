@@ -193,6 +193,35 @@ describe('FileNode', () => {
     mergeTest(files1, files2, expected)
   })
 
+  test('merge-hidden', () => {
+    const root = {
+      path: '/',
+      type: 'folder',
+    }
+    const files1 = [
+      root,
+      { path: '/a', type: 'file', discovered: true },
+      { path: '/.b', type: 'file', discovered: false },
+      { path: '/c', type: 'folder', discovered: true },
+      { path: '/c/.d', type: 'file', discovered: false },
+    ]
+
+    const files2 = [
+      { path: '/c', type: 'folder', discovered: true },
+      { path: '/c/.d', type: 'file', discovered: true },
+    ]
+
+    const expected = [
+      root,
+      { path: '/a', type: 'file', discovered: true },
+      { path: '/.b', type: 'file', discovered: false },
+      { path: '/c', type: 'folder', discovered: true },
+      { path: '/c/.d', type: 'file', discovered: true },
+    ]
+
+    mergeTest(files1, files2, expected)
+  })
+
   test('remove-child', () => {
     const root = {
       path: '/',

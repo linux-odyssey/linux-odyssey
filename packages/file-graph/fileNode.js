@@ -80,6 +80,9 @@ export default class FileNode extends File {
 
     // If this is the same node, merge the children
     if (fileNode.path === this.path) {
+      // Update the state of this node
+      this.discovered = this.discovered || fileNode.discovered
+
       fileNode.children.forEach((child) => {
         const existingChild = this.children.find((c) => c.path === child.path)
         if (existingChild) {
@@ -116,12 +119,15 @@ export default class FileNode extends File {
     }
   }
 
-  toString() {
-    const indent = '    '.repeat(this.path.split('/').length - 1)
-    const suffix = this.isDirectory() ? '/' : ''
+  toString(level = 0) {
+    let { name } = this
+    const indent = '    '.repeat(level)
+    name = `${indent}${name}`
+    if (this.isDirectory()) name += '/'
+    if (!this.discovered) name += `*`
     const childrenString = this.children
-      .map((child) => child.toString())
+      .map((child) => child.toString(level + 1))
       .join('')
-    return `${indent}${this.name}${suffix}\n${childrenString}`
+    return `${name}\n${childrenString}`
   }
 }
