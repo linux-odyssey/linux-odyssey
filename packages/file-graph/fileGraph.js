@@ -1,17 +1,13 @@
 import FileNode from './fileNode.js'
 
-export default class FileGraph {
-  constructor(root) {
-    this.root = new FileNode(root)
-  }
-
+export default class FileGraph extends FileNode {
   add(files) {
     // Logic to add the file node to the graph
     // You can implement the logic to find the appropriate location in the file graph
     // If the file node already exists, throw an error
 
     files.forEach((file) => {
-      this.root.addChild(file, { makeParents: true })
+      this.addChild(file, { makeParents: true })
     })
   }
 
@@ -21,7 +17,7 @@ export default class FileGraph {
     // If the file node doesn't exist, throw an error
 
     files.forEach((file) => {
-      this.root.removeChild(file)
+      this.removeChild(file)
     })
   }
 
@@ -36,7 +32,7 @@ export default class FileGraph {
       newNode.addChild(file, { makeParents: true })
     })
 
-    this.root.merge(newNode)
+    this.merge(newNode)
   }
 
   handleEvent(event) {
@@ -53,9 +49,5 @@ export default class FileGraph {
         break
       // Implement other cases if needed
     }
-  }
-
-  toJSON() {
-    return this.root.toJSON()
   }
 }
