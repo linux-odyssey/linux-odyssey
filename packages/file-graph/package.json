@@ -5,7 +5,5 @@
   "exports": "./index.js",
   "license": "MIT",
   "type": "module",
-  "scripts": {
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
-  }
+  "scripts": {}
 }
