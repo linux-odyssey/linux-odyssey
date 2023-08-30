@@ -1,56 +1,16 @@
-<script setup></script>
+<script setup>
+import FileNode from './FileNode.vue'
+import sessionManager from '../utils/session.js'
+</script>
 
 <template>
   <div class="tree w-max h-max">
     <ul>
       <li>
-        <a href="#">Parent</a>
-        <ul>
-          <li>
-            <a href="#">Child</a>
-            <ul>
-              <li>
-                <a href="#">Grand Child</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Child</a>
-            <ul>
-              <li><a href="#">Grand Child</a></li>
-              <li>
-                <a href="#">Grand Child</a>
-                <ul>
-                  <li>
-                    <a href="#">Great Grand Child</a>
-                  </li>
-                  <li>
-                    <a href="#">Great Grand Child</a>
-                  </li>
-                  <li>
-                    <a href="#">Great Grand Child</a>
-                    <ul>
-                      <li><a>Grand Child</a></li>
-                      <li>
-                        <a>Grand Child</a>
-                        <ul>
-                          <li>
-                            <a>Great Grand Child</a>
-                          </li>
-                          <li>
-                            <a>Great Grand Child</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a>Grand Child</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li><a href="#">Grand Child</a></li>
-            </ul>
-          </li>
-        </ul>
+        <FileNode
+          :node="sessionManager.graph.value"
+          :pwd="sessionManager.pwd.value"
+        />
       </li>
     </ul>
   </div>
@@ -149,17 +109,18 @@
   -moz-transition: all 0.5s;
 }
 
-.tree li a:hover,
-.tree li a:hover + ul li a {
+a.discovered {
   background: #c8e4f8;
   color: #000;
   border: 1px solid #94a0b4;
 }
 
-.tree li a:hover + ul li::after,
-.tree li a:hover + ul li::before,
-.tree li a:hover + ul::before,
-.tree li a:hover + ul ul::before {
+ul.discovered,
+li.discovered {
   border-color: #94a0b4;
+}
+
+a.pwd {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 水平偏移、垂直偏移、模糊半徑、顏色 */
 }
 </style>

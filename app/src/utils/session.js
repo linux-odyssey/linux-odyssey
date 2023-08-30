@@ -1,10 +1,19 @@
 import { ref } from 'vue'
+import { FileGraph } from '@linux-odyssey/file-graph'
 import api from './api'
 
 class SessionManager {
   constructor(questId) {
     this.questId = questId
     this.session = ref(null)
+    this.graph = ref(
+      new FileGraph({
+        path: '/',
+        type: 'folder',
+        discovered: false,
+      })
+    )
+    this.pwd = ref('')
   }
 
   getSession() {
@@ -14,6 +23,16 @@ class SessionManager {
   setSession(session) {
     console.log('Update session:', session)
     this.session.value = session
+    this.graph.value = new FileGraph(session.graph)
+  }
+
+  handleGraphUpdate(event) {
+    if (event.discover) {
+      this.graph.value.discover(event.discover)
+    }
+    if (event.pwd) {
+      this.pwd.value = event.pwd
+    }
   }
 
   async createSession() {
@@ -37,7 +56,8 @@ class SessionManager {
     if (sessions.length === 0) {
       return
     }
-    const session = sessions[sessions.length - 1]
+    const { _id: sessionId } = sessions[sessions.length - 1]
+    const { data: session } = await api.get(`/sessions/${sessionId}`)
     console.log(
       `Last Session ID: ${session._id}, Quest: ${session.quest}, Created At: ${session.createdAt}`
     )
@@ -49,6 +69,7 @@ class SessionManager {
     if (!this.session.value) {
       await this.createSession()
     }
+    console.log(this.session.value)
   }
 }
 

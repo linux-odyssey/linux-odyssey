@@ -9,7 +9,8 @@ import { basename, dirname } from './utils.js'
 export default class FileNode extends File {
   constructor(file) {
     super(file)
-    this.children = file.children || []
+    this.children = []
+    if (file.children) this.children = file.children.map((f) => new FileNode(f))
   }
 
   addChild(fileInput, { makeParents } = {}) {
@@ -76,7 +77,12 @@ export default class FileNode extends File {
     // Merge the children of the provided file node into this node
     // If a child already exists, merge the children of that child
     // If a child does not exist, add it to this node
+
+    // If this is the same node, merge the children
     if (fileNode.path === this.path) {
+      // Update the state of this node
+      this.discovered = this.discovered || fileNode.discovered
+
       fileNode.children.forEach((child) => {
         const existingChild = this.children.find((c) => c.path === child.path)
         if (existingChild) {
@@ -92,12 +98,17 @@ export default class FileNode extends File {
           fileNode.children.some((c) => c.path === child.path)
         )
       }
-    } else if (this.contains(fileNode)) {
+    }
+    // If this contains the parent node
+    else if (this.contains(fileNode)) {
       const childNode = this.children.find((child) => child.contains(fileNode))
+      // If a child node exists, merge the provided node into the child node
       if (childNode) {
         childNode.merge(fileNode)
-      } else {
-        this.addChild(fileNode)
+      }
+      // If a child node does not exist, add the provided node as a child
+      else {
+        this.addChild(fileNode, { makeParents: true })
       }
     } else {
       throw new Error(
@@ -108,12 +119,15 @@ export default class FileNode extends File {
     }
   }
 
-  toString() {
-    const indent = '    '.repeat(this.path.split('/').length - 1)
-    const suffix = this.isDirectory() ? '/' : ''
+  toString(level = 0) {
+    let { name } = this
+    const indent = '    '.repeat(level)
+    name = `${indent}${name}`
+    if (this.isDirectory()) name += '/'
+    if (!this.discovered) name += `*`
     const childrenString = this.children
-      .map((child) => child.toString())
+      .map((child) => child.toString(level + 1))
       .join('')
-    return `${indent}${this.name}${suffix}\n${childrenString}`
+    return `${name}\n${childrenString}`
   }
 }

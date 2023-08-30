@@ -1,7 +1,10 @@
 FROM node
 
 WORKDIR /app
-COPY app/package.json yarn.lock ./
+COPY package.json yarn.lock ./
+COPY app/package.json ./app/package.json
+COPY packages/file-graph/package.json ./packages/file-graph/package.json
 RUN yarn install --frozen-lockfile
-COPY app .
+
+WORKDIR /app/app
 CMD [ "yarn", "dev:docker", "--host", "0.0.0.0" ]

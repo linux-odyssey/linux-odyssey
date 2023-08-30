@@ -4,7 +4,7 @@ import yaml from 'yaml'
 
 import Quest from '../models/quest.js'
 
-const questDirectory = path.join(process.cwd(), 'quests')
+const questDirectory = path.join(process.cwd(), '..', 'quests')
 
 export default async function loadAndUpdateQuests() {
   const questNames = await fs.readdir(questDirectory)

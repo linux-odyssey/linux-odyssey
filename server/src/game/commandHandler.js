@@ -1,4 +1,5 @@
 import minimist from 'minimist'
+import { FileGraph } from '@linux-odyssey/file-graph'
 import Quest from '../models/quest.js'
 import { pushToSession } from '../api/socket.js'
 
@@ -11,48 +12,89 @@ const checkMatch = (pattern, input) => {
   })
 }
 
-async function commandHandler(session, commandInput, additionalData) {
-  const quest = await Quest.findById(session.quest)
-  const stage = quest.stages.find((s) => s.id === session.progress)
-  if (!stage) {
-    console.error('stage not found', session.progress)
-    return {}
+export default class CommandHandler {
+  constructor(session, commandInput, additionalData) {
+    this.session = session
+    this.commandInput = commandInput
+    this.argv = minimist(this.commandInput.command.split(' '))
+
+    this.additionalData = additionalData
   }
 
-  const argv = minimist(commandInput.command.split(' '))
-
-  if ('discover' in additionalData) {
-    pushToSession(session.id, 'graph', {
-      pwd: commandInput.pwd,
-      discover: additionalData.discover,
-    })
-  } else if (argv._[0] === 'cd') {
-    pushToSession(session.id, 'graph', { pwd: commandInput.pwd })
+  handleEvent() {
+    if (this.additionalData.discover) this.discoverHandler()
   }
 
-  const commandMatch = checkMatch(stage.condition.command, commandInput.command)
-  const outputMatch = checkMatch(stage.condition.output, commandInput.output)
-  const errorMatch = checkMatch(stage.condition.error, commandInput.output)
+  handleCommand() {
+    const command = this.argv._[0]
+    switch (command) {
+      case 'cd':
+        pushToSession(this.session.id, 'graph', {
+          pwd: this.commandInput.pwd,
+        })
+        break
 
-  if (!commandMatch || !outputMatch || !errorMatch) return {}
+      case 'ls':
+        pushToSession(this.session.id, 'graph', {
+          pwd: this.commandInput.pwd,
+          discover: this.additionalData.discover,
+        })
+        break
 
-  session.completion.push(session.progress)
-  session.hints.push(...stage.hints)
-
-  session.progress = stage.next
-  await session.save()
-
-  if (stage.next === 'END') {
-    session.status = 'finished'
-    session.finishedAt = new Date()
-    await session.save()
+      default:
+        break
+    }
   }
 
-  return {
-    responses: stage.responses,
-    hints: stage.hints,
-    end: stage.next === 'END',
+  async discoverHandler() {
+    const graph = new FileGraph(this.session.graph)
+    graph.discover(this.additionalData.discover)
+    this.session.graph = graph
+    await this.session.save()
+  }
+
+  async run() {
+    const quest = await Quest.findById(this.session.quest)
+    const stage = quest.stages.find((s) => s.id === this.session.progress)
+    if (!stage) {
+      console.error('stage not found', this.session.progress)
+      return {}
+    }
+
+    this.handleEvent()
+    this.handleCommand()
+
+    const commandMatch = checkMatch(
+      stage.condition.command,
+      this.commandInput.command
+    )
+    const outputMatch = checkMatch(
+      stage.condition.output,
+      this.commandInput.output
+    )
+    const errorMatch = checkMatch(
+      stage.condition.error,
+      this.commandInput.output
+    )
+
+    if (!commandMatch || !outputMatch || !errorMatch) return {}
+
+    this.session.completion.push(this.session.progress)
+    this.session.hints.push(...stage.hints)
+
+    this.session.progress = stage.next
+    await this.session.save()
+
+    if (stage.next === 'END') {
+      this.session.status = 'finished'
+      this.session.finishedAt = new Date()
+      await this.session.save()
+    }
+
+    return {
+      responses: stage.responses,
+      hints: stage.hints,
+      end: stage.next === 'END',
+    }
   }
 }
-
-export default commandHandler
