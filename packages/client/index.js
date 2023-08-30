@@ -23,7 +23,7 @@ function debug(...args) {
   }
 }
 
-async function createSession() {
+async function createdSession() {
   console.log('Creating a new session...')
   const res = await api.post('/sessions', {
     quest_id: 'helloworld',
@@ -78,9 +78,8 @@ async function connect(sessionId) {
     stdout.write(data)
   })
 
-  socket.on('hint', (data) => {
-    console.log('receive hint:')
-    console.log(data)
+  socket.on('graph', (data) => {
+    debug('receive graph:', data)
   })
 
   socket.on('graph', (data) => {
