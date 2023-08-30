@@ -36,7 +36,6 @@ export async function newCommand(req, res) {
   }
 
   session.lastActivityAt = new Date()
-  await session.save()
 
   const c = new Command({
     session,
@@ -54,4 +53,5 @@ export async function newCommand(req, res) {
   console.log(response)
 
   res.status(201).json(response)
+  await session.save()
 }
