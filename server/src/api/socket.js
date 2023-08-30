@@ -18,8 +18,18 @@ function removeFromSession(sessionId, event, callback) {
   )
 }
 
-export function pushToSession(sessionId, event, ...args) {
-  const callbacks = sessions.get(sessionId)
+function removeFromSession(sessionId, event, callback) {
+  const callbacks = sessions.get((sessionId, event)) || []
+  sessions.set(
+    (sessionId, event),
+    callbacks.filter((cb) => cb !== callback)
+  )
+}
+
+export function pushToSession(sessionId, event, data) {
+  console.log('Push:', sessionId, event)
+  const callbacks = sessions.get((sessionId, event))
+  console.debug('Callbacks:', sessionId, callbacks.length)
   if (callbacks) {
     callbacks.forEach((callback) => callback(event, ...args))
   }
@@ -131,7 +141,7 @@ export default (server) => {
     const container = await getAndStartContainer(session.containerId)
     const stream = await attachContainer(container, { token })
 
-    stream.on('data', (chunk) => {
+    stream.socket.on('data', (chunk) => {
       socket.emit('terminal', chunk.toString())
     })
 
@@ -142,19 +152,21 @@ export default (server) => {
     })
 
     socket.on('terminal', function incoming(message) {
-      stream.write(message)
+      stream.socket.write(message)
     })
 
-    socket.on('close', () => {
+    const graphCallback = (data) => {
+      socket.emit('graph', data)
+    }
+
+    listenToSession(session.id, 'graph', graphCallback)
+
+    socket.on('disconnect', () => {
       console.log('Disconnected from the client.')
     })
 
     listenToSession(session.id, 'graph', (data) => {
       socket.emit('graph', data)
-    })
-
-    listenToSession(session.id, 'hint', (data) => {
-      socket.emit('hint', data)
     })
 
     socket.send(`${container.id}\n`)

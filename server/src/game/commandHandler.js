@@ -95,8 +95,6 @@ export default class CommandHandler extends SessionHandler {
       return {}
     }
 
-    console.log('stages', stages)
-
     this.handleEvent()
     this.handleCommand()
 
