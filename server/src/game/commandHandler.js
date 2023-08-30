@@ -94,8 +94,6 @@ export default class CommandHandler {
       return {}
     }
 
-    console.log('stages', stages)
-
     this.handleEvent()
     this.handleCommand()
 

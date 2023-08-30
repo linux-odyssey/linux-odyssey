@@ -63,7 +63,7 @@ export async function attachContainer(container, { token }) {
     Tty: true,
   })
 
-  return execOutput.socket
+  return execOutput
 }
 
 export async function deleteContainer(id) {
