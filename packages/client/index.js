@@ -14,6 +14,12 @@ stdin.setRawMode(true)
 stdin.resume()
 stdin.setEncoding('utf8')
 
+function debug(...args) {
+  if (program.opts().debug) {
+    console.debug(...args)
+  }
+}
+
 async function createdSession() {
   console.log('Creating a new session...')
   const res = await fetch(`${program.opts().host}/api/v1/sessions`, {
@@ -73,8 +79,7 @@ async function connect(sessionId) {
   })
 
   socket.on('graph', (data) => {
-    console.log('receive graph:')
-    console.log(data)
+    debug('receive graph:', data)
   })
 
   socket.on('close', function close() {
@@ -107,6 +112,7 @@ async function main() {
 program
   .option('-s, --session <string>', 'Session ID')
   .option('-c, --create', 'Create a new session')
+  .option('-d, --debug', 'Debug mode')
   .option(
     '-h, --host <string>',
     'Server host',
