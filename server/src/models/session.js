@@ -39,8 +39,7 @@ const Session = model(
         default: Date.now,
         required: true,
       },
-      progress: String,
-      completion: [String],
+      completed: [String],
       hints: [String],
       graph: {
         type: nodeSchema,

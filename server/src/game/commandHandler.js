@@ -50,20 +50,15 @@ export default class CommandHandler {
     const graph = new FileGraph(this.session.graph)
     graph.discover(this.additionalData.discover)
     this.session.graph = graph
-    await this.session.save()
   }
 
-  async run() {
-    const quest = await Quest.findById(this.session.quest)
-    const stage = quest.stages.find((s) => s.id === this.session.progress)
-    if (!stage) {
-      console.error('stage not found', this.session.progress)
-      return {}
-    }
+  getStages() {
+    return this.quest.stages.filter((s) =>
+      s.requirements.every((r) => this.session.completed.includes(r))
+    )
+  }
 
-    this.handleEvent()
-    this.handleCommand()
-
+  matchStage(stage) {
     const commandMatch = checkMatch(
       stage.condition.command,
       this.commandInput.command
@@ -79,22 +74,39 @@ export default class CommandHandler {
 
     if (!commandMatch || !outputMatch || !errorMatch) return {}
 
-    this.session.completion.push(this.session.progress)
+    this.session.completed.push(stage.id)
     this.session.hints.push(...stage.hints)
-
-    this.session.progress = stage.next
-    await this.session.save()
-
-    if (stage.next === 'END') {
+    if (stage.id === 'END') {
       this.session.status = 'finished'
       this.session.finishedAt = new Date()
-      await this.session.save()
     }
-
     return {
       responses: stage.responses,
       hints: stage.hints,
-      end: stage.next === 'END',
+    }
+  }
+
+  async run() {
+    this.quest = await Quest.findById(this.session.quest)
+    const stages = this.getStages()
+    if (stages.length === 0) {
+      console.error('stage not found', this.session.progress)
+      return {}
+    }
+
+    console.log('stages', stages)
+
+    this.handleEvent()
+    this.handleCommand()
+
+    const response = stages.reduce(
+      (r, s) => ({ ...r, ...this.matchStage(s) }),
+      {}
+    )
+
+    return {
+      end: this.session.status === 'finished',
+      ...response,
     }
   }
 }

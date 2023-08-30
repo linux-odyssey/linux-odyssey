@@ -15,6 +15,12 @@ const stageSchema = new Schema({
     type: String,
     required: true,
   },
+  requirements: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   condition: {
     command: {
       type: [String],

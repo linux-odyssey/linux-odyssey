@@ -8,7 +8,7 @@ stages:
   - id: helloworld
     condition:
       command:
-        - echo Hello World!
+        - echo Hello World
     responses:
       - type: narrative
         content:
@@ -22,12 +22,13 @@ stages:
           - 由於長久以來依賴於薩加，世人已失去了「指令」的力量，即將走向衰敗和滅亡的命運。
           - 你的任務，就是找回被世人遺忘的指令，奪回 Linux 之根，成為 Linux 之王。
           - 首先，你必須要學會如何使用指令。
-          - 一個指令是由一個指令名稱和一些參數所組成的，而指令名稱和參數之間是以空白字元分隔。
-          - 例如，你可以輸入 `ls` 來查看目前的目錄下有哪些檔案。
+          - 你要學習的第一個指令，是「發現」的指令：`ls`。ls 可以用來查看一個目錄中有哪些檔案。
+          - 現在，請你輸入 `ls` 來查看目前的目錄下有哪些檔案。
     hints:
       - 使用 `ls` 指令來查看目前的目錄下有哪些檔案。
-    next: ls
   - id: ls
+    requirements:
+      - helloworld
     condition:
       command:
         - ls
@@ -47,8 +48,9 @@ stages:
     hints:
       - 使用 `cat [檔案名稱]` 指令來查看檔案內容。
       - 使用 `Tab` 鍵來取得指令提示。
-    next: cat
   - id: cat
+    requirements:
+      - ls
     condition:
       command:
         - cat forgotten_scroll.txt
@@ -58,8 +60,9 @@ stages:
         content:
           - 你找到的是一個被遺忘的卷軸，上面寫著解除封印的咒語。
           - 使用你已經知道的 `echo` 指令來詠唱咒語。
-    next: echo
-  - id: echo
+  - id: END
+    requirements:
+      - cat
     condition:
       command:
         - echo Unix, rise and guide me!
@@ -72,4 +75,3 @@ stages:
         content:
           - 恭喜您，我的指令官，您已成功解除了封印。
           - 請跟著在接下了關卡，一步步取回 Linux 之根吧！
-    next: END
