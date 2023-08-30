@@ -15,25 +15,25 @@ const stageSchema = new Schema({
     type: String,
     required: true,
   },
-  task: {
-    type: String,
-  },
   requirements: [
     {
       type: String,
       required: true,
     },
   ],
-  repeatable: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
   condition: {
-    command: [String],
-    output: [String],
-    error: [String],
-    pwd: [String],
+    command: {
+      type: [String],
+      required: false,
+    },
+    output: {
+      type: [String],
+      required: false,
+    },
+    error: {
+      type: [String],
+      required: false,
+    },
   },
   responses: {
     type: [responseSchema],

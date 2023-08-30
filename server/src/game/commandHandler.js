@@ -53,24 +53,13 @@ export default class CommandHandler extends SessionHandler {
     this.session.graph = graph
   }
 
-  isMatch(stage) {
-    const keys = ['command', 'output', 'error', 'pwd']
-    return keys.every((k) =>
-      checkMatch(stage.condition[k], this.commandInput[k])
+  getStages() {
+    return this.quest.stages.filter((s) =>
+      s.requirements.every((r) => this.session.completed.includes(r))
     )
   }
 
-  async run() {
-    this.quest = await Quest.findById(this.session.quest)
-    const stages = this.getStages()
-    if (stages.length === 0) {
-      console.error('stage not found', this.session.tasks)
-      return {}
-    }
-
-    this.handleEvent()
-    this.handleCommand()
-
+  matchStage(stage) {
     const commandMatch = checkMatch(
       stage.condition.command,
       this.commandInput.command
@@ -86,20 +75,35 @@ export default class CommandHandler extends SessionHandler {
 
     if (!commandMatch || !outputMatch || !errorMatch) return {}
 
-    this.session.completion.push(this.session.progress)
+    this.session.completed.push(stage.id)
     this.session.hints.push(...stage.hints)
-
-    this.session.progress = stage.next
-    await this.session.save()
-
-    if (stage.next === 'END') {
+    if (stage.id === 'END') {
       this.session.status = 'finished'
       this.session.finishedAt = new Date()
-      await this.session.save()
-      pushToSession(this.session.id, 'hint', {
-        hints: this.additionalData.hints,
-      })
     }
+    return {
+      responses: stage.responses,
+      hints: stage.hints,
+    }
+  }
+
+  async run() {
+    this.quest = await Quest.findById(this.session.quest)
+    const stages = this.getStages()
+    if (stages.length === 0) {
+      console.error('stage not found', this.session.progress)
+      return {}
+    }
+
+    console.log('stages', stages)
+
+    this.handleEvent()
+    this.handleCommand()
+
+    const response = stages.reduce(
+      (r, s) => ({ ...r, ...this.matchStage(s) }),
+      {}
+    )
 
     return {
       end: this.session.status === 'finished',

@@ -54,7 +54,7 @@ const Session = model(
         default: Date.now,
         required: true,
       },
-      tasks: [taskSchema],
+      completed: [String],
       hints: [String],
       graph: {
         type: nodeSchema,
