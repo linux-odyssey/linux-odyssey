@@ -83,6 +83,10 @@ export default (server) => {
       socket.emit('graph', data)
     })
 
+    listenToSession(session.id, 'hint', (data) => {
+      socket.emit('hint', data)
+    })
+
     socket.send(`${container.id}\n`)
   })
 }
