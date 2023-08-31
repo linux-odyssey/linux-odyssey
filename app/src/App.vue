@@ -23,8 +23,8 @@ onMounted(async () => {
   socket.on('graph', (event) => {
     sessionManager.handleGraphUpdate(event)
   })
-  socket.on('tasks', (tasks) => {
-    sessionManager.setTasks(tasks)
+  socket.on('hint', (event) => {
+    sessionManager.handleHintUpdate(event)
   })
 })
 </script>
