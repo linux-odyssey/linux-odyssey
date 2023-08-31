@@ -60,6 +60,12 @@ services:
       context: .
       dockerfile: quests/helloworld/Dockerfile
 
+  base:
+    image: lancatlin/linux-odyssey:base
+    build:
+      context: .
+      dockerfile: ./quests/Dockerfile
+
 networks:
   internal:
   players:
