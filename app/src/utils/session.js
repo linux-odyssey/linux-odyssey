@@ -25,7 +25,7 @@ class SessionManager {
     console.log('Update session:', session)
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
-    // this.hint.value =
+    this.hint.value = ''
   }
 
   handleGraphUpdate(event) {

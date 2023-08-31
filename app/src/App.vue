@@ -24,6 +24,7 @@ onMounted(async () => {
     sessionManager.handleGraphUpdate(event)
   })
   socket.on('hint', (event) => {
+    // shouldn't put it here, waiting for change
     sessionManager.handleHintUpdate(event)
   })
 })

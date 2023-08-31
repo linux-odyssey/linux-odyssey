@@ -1,13 +1,12 @@
-<template>
-  <div>
-    <div v-if="hintData">
-      <h3>Hints:</h3>
-      <FileNode :node="sessionManager.hint.value" />
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { FileNode } from '@linux-odyssey/file-graph'
 import sessionManager from '../utils/session'
 </script>
+
+<template>
+  <font-awesome-icon :icon="['far', 'lightbulb']" class="text-yellow-200 p-1" />
+  <h1 class="inline text-text font-xl">Hint</h1>
+  <div id="hint">
+    <p class="text-text">--Hint--</p>
+    <p class="text-text">{{ sessionManager.hint.value }}</p>
+  </div>
+</template>
