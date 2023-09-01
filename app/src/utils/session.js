@@ -37,11 +37,8 @@ class SessionManager {
     }
   }
 
-  handleHintUpdate(event) {
-    // haven't check the variable and call funtions
-    if (event.required) {
-      this.hints.value = event.hints
-    }
+  setTasks(tasks) {
+    this.session.value.tasks = tasks
   }
 
   async createSession() {
