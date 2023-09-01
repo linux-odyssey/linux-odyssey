@@ -7,12 +7,12 @@ export default {
         background: {
           primary: '#282A33',
           secondary: '#131313',
-          DEFAULT: '#010103',
+          DEFAULT: '#000000',
         },
         text: {
-          primary: '#39FF14',
+          primary: '#00FF00',
           secondary: '#ADADB5',
-          line: '#4A4B63',
+          tertiary: '#4A4B63',
           DEFAULT: '#FFFFFF',
         },
         disabled: {
