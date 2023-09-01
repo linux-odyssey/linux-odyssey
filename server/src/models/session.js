@@ -14,6 +14,21 @@ nodeSchema.add({
   children: [nodeSchema],
 })
 
+const taskSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+})
+
 const Session = model(
   'Session',
   new Schema(
@@ -39,7 +54,7 @@ const Session = model(
         default: Date.now,
         required: true,
       },
-      completed: [String],
+      tasks: [taskSchema],
       hints: [String],
       graph: {
         type: nodeSchema,

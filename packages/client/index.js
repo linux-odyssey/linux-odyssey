@@ -87,6 +87,10 @@ async function connect(sessionId) {
     debug('receive graph:', data)
   })
 
+  socket.on('tasks', (data) => {
+    debug('receive tasks:', data)
+  })
+
   socket.on('close', function close() {
     console.log('Disconnected from the server.')
     exit()
