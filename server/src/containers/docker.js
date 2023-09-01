@@ -35,16 +35,11 @@ export async function createContainer(name) {
 
 export async function getAndStartContainer(id) {
   console.log(`Getting container: ${id}`)
-  let container
-  try {
-    container = engine.getContainer(id)
-    if (!(await container.inspect()).State.Running) {
-      await container.start()
-    }
-    return container
-  } catch (error) {
-    throw new Error(`Container not found: ${id}`)
+  const container = engine.getContainer(id)
+  if (!(await container.inspect()).State.Running) {
+    await container.start()
   }
+  return container
 }
 
 export async function attachContainer(container, { token }) {
