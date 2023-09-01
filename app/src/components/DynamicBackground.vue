@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const cw = ref(0)
 const ch = ref(0)
@@ -76,6 +76,10 @@ onMounted(() => {
   })
 
   update()
+})
+
+onBeforeUnmount(() => {
+  // 清理事件監聽或其他需要在組件卸載時清理的內容
 })
 </script>
 
