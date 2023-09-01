@@ -18,10 +18,10 @@ function removeFromSession(sessionId, event, callback) {
   )
 }
 
-export function pushToSession(sessionId, ...args) {
+export function pushToSession(sessionId, event, ...args) {
   const callbacks = sessions.get(sessionId)
   if (callbacks) {
-    callbacks.forEach((callback) => callback(...args))
+    callbacks.forEach((callback) => callback(event, ...args))
   }
 }
 
@@ -82,8 +82,8 @@ export default (server) => {
     stream.socket.write(message)
   })
 
-  const socketCallback = (event, data) => {
-    socket.emit(event, data)
+  const socketCallback = (event, ...data) => {
+    socket.emit(event, ...data)
   }
 
   listenToSession(session.id, socketCallback)
