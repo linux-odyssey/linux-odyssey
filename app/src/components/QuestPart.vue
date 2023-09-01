@@ -24,7 +24,7 @@ api
     <h1 id="topic" class="text-text" v-else-if="questData">
       {{ questData.title }}
     </h1>
-    <hr class="border-text-line border-2 my-2" />
+    <hr class="border-text-tertiary border-2 my-2" />
     <div>
       <p class="text-red-500" v-if="questErr">{{ questErr.message }}</p>
       <p class="text-text" v-else-if="questData">{{ questData.instruction }}</p>
