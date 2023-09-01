@@ -27,71 +27,10 @@ function removeFromSession(sessionId, event, callback) {
 }
 
 export function pushToSession(sessionId, event, data) {
-  console.log('Push:', sessionId, event)
   const callbacks = sessions.get((sessionId, event))
-  console.debug('Callbacks:', sessionId, callbacks.length)
   if (callbacks) {
     callbacks.forEach((callback) => callback(event, ...args))
   }
-}
-
-async function connectClient(socket) {
-  console.log('Connected to the client.')
-  const sessionId = socket.handshake.query.session_id
-  if (!sessionId) {
-    socket.send('Session ID not found.')
-    socket.disconnect()
-    return
-  }
-
-  const session = await Session.findOne({
-    _id: sessionId,
-    user: socket.user,
-    status: 'active',
-  })
-  if (!session) {
-    socket.send('Session not found.')
-    socket.disconnect()
-    return
-  }
-
-  const token = await genSessionJWT(session)
-
-  let container
-  let stream
-  try {
-    container = await getAndStartContainer(session.containerId)
-    stream = await attachContainer(container, { token })
-  } catch (err) {
-    socket.send(err.message)
-    socket.disconnect()
-    return
-  }
-
-  stream.socket.on('data', (chunk) => {
-    socket.emit('terminal', chunk.toString())
-  })
-
-  socket.on('message', console.log)
-
-  socket.on('terminal', function incoming(message) {
-    stream.socket.write(message)
-  })
-
-  const socketCallback = (event, ...data) => {
-    socket.emit(event, ...data)
-  }
-
-  listenToSession(session.id, socketCallback)
-
-  socket.on('disconnect', () => {
-    console.log('Disconnected from the client.')
-    stream.socket.write('exit\n')
-    removeFromSession(session.id, socketCallback)
-    stream.destroy()
-  })
-
-  socket.send(`${container.id}\n`)
 }
 
 export default (server) => {
@@ -141,34 +80,47 @@ export default (server) => {
     const container = await getAndStartContainer(session.containerId)
     const stream = await attachContainer(container, { token })
 
-    stream.socket.on('data', (chunk) => {
-      socket.emit('terminal', chunk.toString())
-    })
-
-    socket.on('message', console.log)
-
-    socket.on('hint', function hints(message) {
-      stream.write(message)
-    })
-
-    socket.on('terminal', function incoming(message) {
-      stream.socket.write(message)
-    })
-
-    const graphCallback = (data) => {
-      socket.emit('graph', data)
-    }
-
-    listenToSession(session.id, 'graph', graphCallback)
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from the client.')
-    })
-
-    listenToSession(session.id, 'graph', (data) => {
-      socket.emit('graph', data)
-    })
-
-    socket.send(`${container.id}\n`)
+  stream.socket.on('data', (chunk) => {
+    socket.emit('terminal', chunk.toString())
   })
+
+  socket.on('message', console.log)
+
+  socket.on('terminal', function incoming(message) {
+    stream.socket.write(message)
+  })
+
+  const graphCallback = (data) => {
+    socket.emit('graph', data)
+  }
+
+  listenToSession(session.id, 'graph', graphCallback)
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from the client.')
+    stream.socket.write('exit\n')
+    removeFromSession(session.id, 'graph', graphCallback)
+    stream.destroy()
+  })
+
+  socket.send(`${container.id}\n`)
+}
+
+export default (server) => {
+  const io = new Server(server)
+
+  io.use(async (socket, next) => {
+    console.log('Authenticating...')
+    try {
+      const user = await defaultUser()
+      // eslint-disable-next-line no-param-reassign
+      socket.user = user
+      next()
+    } catch (err) {
+      console.error(err)
+      next(err)
+    }
+  })
+
+  io.on('connection', connectClient)
 }
