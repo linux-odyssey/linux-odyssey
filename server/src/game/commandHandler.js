@@ -75,7 +75,6 @@ export default class CommandHandler extends SessionHandler {
       .filter((s) => this.isMatch(s))
       .reduce((r, s) => ({ ...r, ...this.execute(s) }), {})
 
-    console.log(this.session)
     return {
       end: this.session.status === 'finished',
       ...response,

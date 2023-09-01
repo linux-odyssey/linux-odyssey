@@ -1,7 +1,10 @@
 /* eslint-disable no-underscore-dangle */
+import axios from 'axios'
 import { stdin, stdout, exit } from 'process'
 import { io } from 'socket.io-client'
 import { program } from 'commander'
+
+let api = null
 
 function get(key, defaultValue) {
   const value = process.env[key]
@@ -20,26 +23,23 @@ function debug(...args) {
   }
 }
 
-async function createdSession() {
+async function createSession() {
   console.log('Creating a new session...')
-  const res = await fetch(`${program.opts().host}/api/v1/sessions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      quest_id: 'helloworld',
-    }),
+  const res = await api.post('/sessions', {
+    quest_id: 'helloworld',
   })
-  const data = await res.json()
+  const { data } = await res
+  if (!data._id) {
+    console.error(data)
+    exit(1)
+  }
   console.log('Created Session ID:', data._id)
   return data
 }
 
 async function getSessionList() {
-  const res = await fetch(`${program.opts().host}/api/v1/sessions`)
-  const data = await res.json()
-  return data
+  const res = await api.get('/sessions')
+  return res.data
 }
 
 async function lastSession() {
@@ -107,12 +107,18 @@ async function connect(sessionId) {
 }
 
 async function main() {
+  api = axios.create({
+    baseURL: `${program.opts().host}/api/v1`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
   console.log(program.opts().session)
   // main()
 
   const sessionId =
     program.opts().session ||
-    (program.opts().create ? (await createdSession())._id : null) ||
+    (program.opts().create ? (await createSession())._id : null) ||
     (await lastSession())._id
 
   await connect(sessionId)

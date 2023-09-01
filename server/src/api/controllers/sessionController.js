@@ -1,6 +1,7 @@
 import Session from '../../models/session.js'
 import Quest from '../../models/quest.js'
 import { createContainer } from '../../containers/docker.js'
+import SessionHandler from '../../game/sessionHandler.js'
 
 export async function getSessionList(req, res) {
   try {
@@ -45,20 +46,22 @@ export async function createSession(req, res) {
   }
 
   try {
-    const progress = quest.stages[0].id
     const container = await createContainer(
       `quest-${quest.id}-${req.user.username}-${Date.now()}`
     )
     const newSession = new Session({
       user: req.user,
       quest,
-      progress,
       containerId: container.id,
     })
 
-    const session = await newSession.save()
-    res.status(201).json(session)
+    const session = new SessionHandler(newSession)
+    session.addNewTasks()
+
+    await newSession.save()
+    res.status(201).json(newSession)
   } catch (err) {
+    console.error(err)
     res.status(400).json({ message: err.message })
   }
 }
