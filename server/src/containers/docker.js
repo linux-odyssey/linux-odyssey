@@ -15,7 +15,7 @@ const containerOptions = {
     Binds:
       !config.isProduction && config.hostPwd
         ? [
-            `${config.hostPwd}/quests/helloworld/home:/home/rudeus`,
+            `${config.hostPwd}/quests/helloworld/home:/home/commander`,
             `${config.hostPwd}/packages/container:/usr/local/lib/container`,
           ]
         : [],

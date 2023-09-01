@@ -5,9 +5,9 @@ import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
 const sessions = new Map()
 
-function listenToSession(sessionId, event, callback) {
-  const callbacks = sessions.get((sessionId, event)) || []
-  sessions.set((sessionId, event), callbacks.concat(callback))
+function listenToSession(sessionId, callback) {
+  const callbacks = sessions.get(sessionId) || []
+  sessions.set(sessionId, callbacks.concat(callback))
 }
 
 function removeFromSession(sessionId, event, callback) {
@@ -18,10 +18,10 @@ function removeFromSession(sessionId, event, callback) {
   )
 }
 
-export function pushToSession(sessionId, event, data) {
-  const callbacks = sessions.get((sessionId, event))
+export function pushToSession(sessionId, ...args) {
+  const callbacks = sessions.get(sessionId)
   if (callbacks) {
-    callbacks.forEach((callback) => callback(data))
+    callbacks.forEach((callback) => callback(...args))
   }
 }
 
@@ -68,16 +68,16 @@ async function connectClient(socket) {
     stream.socket.write(message)
   })
 
-  const graphCallback = (data) => {
-    socket.emit('graph', data)
+  const socketCallback = (event, data) => {
+    socket.emit(event, data)
   }
 
-  listenToSession(session.id, 'graph', graphCallback)
+  listenToSession(session.id, socketCallback)
 
   socket.on('disconnect', () => {
     console.log('Disconnected from the client.')
     stream.socket.write('exit\n')
-    removeFromSession(session.id, 'graph', graphCallback)
+    removeFromSession(session.id, socketCallback)
     stream.destroy()
   })
 
