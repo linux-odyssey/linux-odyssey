@@ -23,7 +23,7 @@ function debug(...args) {
   }
 }
 
-async function createdSession() {
+async function createSession() {
   console.log('Creating a new session...')
   const res = await api.post('/sessions', {
     quest_id: 'helloworld',
