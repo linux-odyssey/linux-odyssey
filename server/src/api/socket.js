@@ -19,12 +19,69 @@ function removeFromSession(sessionId, event, callback) {
 }
 
 export function pushToSession(sessionId, event, data) {
-  console.log('Push:', sessionId, event)
   const callbacks = sessions.get((sessionId, event))
-  console.debug('Callbacks:', sessionId, callbacks.length)
   if (callbacks) {
     callbacks.forEach((callback) => callback(data))
   }
+}
+
+async function connectClient(socket) {
+  console.log('Connected to the client.')
+  const sessionId = socket.handshake.query.session_id
+  if (!sessionId) {
+    socket.send('Session ID not found.')
+    socket.disconnect()
+    return
+  }
+
+  const session = await Session.findOne({
+    _id: sessionId,
+    user: socket.user,
+    status: 'active',
+  })
+  if (!session) {
+    socket.send('Session not found.')
+    socket.disconnect()
+    return
+  }
+
+  const token = await genSessionJWT(session)
+
+  let container
+  let stream
+  try {
+    container = await getAndStartContainer(session.containerId)
+    stream = await attachContainer(container, { token })
+  } catch (err) {
+    socket.send(err.message)
+    socket.disconnect()
+    return
+  }
+
+  stream.socket.on('data', (chunk) => {
+    socket.emit('terminal', chunk.toString())
+  })
+
+  socket.on('message', console.log)
+
+  socket.on('terminal', function incoming(message) {
+    stream.socket.write(message)
+  })
+
+  const graphCallback = (data) => {
+    socket.emit('graph', data)
+  }
+
+  listenToSession(session.id, 'graph', graphCallback)
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from the client.')
+    stream.socket.write('exit\n')
+    removeFromSession(session.id, 'graph', graphCallback)
+    stream.destroy()
+  })
+
+  socket.send(`${container.id}\n`)
 }
 
 export default (server) => {
@@ -43,60 +100,5 @@ export default (server) => {
     }
   })
 
-  io.on('connection', async (socket) => {
-    console.log('Connected to the client.')
-    const sessionId = socket.handshake.query.session_id
-    if (!sessionId) {
-      socket.send('Session ID not found.')
-      socket.disconnect()
-      return
-    }
-    let session
-    try {
-      session = await Session.findOne({
-        _id: sessionId,
-        user: socket.user,
-        status: 'active',
-      })
-      if (!session) {
-        socket.send('Session not found.')
-        socket.disconnect()
-        return
-      }
-    } catch (err) {
-      socket.send(err.message)
-      socket.disconnect()
-      return
-    }
-
-    const token = await genSessionJWT(session)
-
-    const container = await getAndStartContainer(session.containerId)
-    const stream = await attachContainer(container, { token })
-
-    stream.socket.on('data', (chunk) => {
-      socket.emit('terminal', chunk.toString())
-    })
-
-    socket.on('message', console.log)
-
-    socket.on('terminal', function incoming(message) {
-      stream.socket.write(message)
-    })
-
-    const graphCallback = (data) => {
-      socket.emit('graph', data)
-    }
-
-    listenToSession(session.id, 'graph', graphCallback)
-
-    socket.on('disconnect', () => {
-      console.log('Disconnected from the client.')
-      stream.socket.write('exit\n')
-      removeFromSession(session.id, 'graph', graphCallback)
-      stream.destroy()
-    })
-
-    socket.send(`${container.id}\n`)
-  })
+  io.on('connection', connectClient)
 }
