@@ -82,10 +82,6 @@ async function connect(sessionId) {
     debug('receive graph:', data)
   })
 
-  socket.on('graph', (data) => {
-    debug('receive graph:', data)
-  })
-
   socket.on('tasks', (data) => {
     debug('receive tasks:', data)
   })

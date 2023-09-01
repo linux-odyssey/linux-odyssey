@@ -53,37 +53,53 @@ export default class CommandHandler extends SessionHandler {
     this.session.graph = graph
   }
 
+  getTask(stage) {
+    return this.session.tasks.find((t) => t.id === stage.id)
+  }
+
+  isCompleted(stage) {
+    const task = this.getTask(stage)
+    return task ? task.completed : false
+  }
+
   getStages() {
-    return this.quest.stages.filter((s) =>
-      s.requirements.every((r) => this.session.completed.includes(r))
+    return this.quest.stages.filter(
+      (stage) =>
+        stage.requirements.every((r) => this.isCompleted({ id: r })) &&
+        (stage.repeatable || !this.isCompleted(stage))
     )
   }
 
-  matchStage(stage) {
-    const commandMatch = checkMatch(
-      stage.condition.command,
-      this.commandInput.command
+  isMatch(stage) {
+    const keys = ['command', 'output', 'error', 'pwd']
+    return keys.every((k) =>
+      checkMatch(stage.condition[k], this.commandInput[k])
     )
-    const outputMatch = checkMatch(
-      stage.condition.output,
-      this.commandInput.output
-    )
-    const errorMatch = checkMatch(
-      stage.condition.error,
-      this.commandInput.output
-    )
+  }
 
-    if (!commandMatch || !outputMatch || !errorMatch) return {}
-
-    this.session.completed.push(stage.id)
+  execute(stage) {
+    this.session.tasks
+      .filter((t) => t.id === stage.id)
+      .forEach((t) => {
+        t.completed = true
+      })
     this.session.hints.push(...stage.hints)
     if (stage.id === 'END') {
       this.session.status = 'finished'
       this.session.finishedAt = new Date()
     }
+    const stages = this.getStages()
+    console.debug(stages)
+    const newTasks = stages
+      .filter((s) => s.task)
+      .map((s) => ({ id: s.id, name: s.task, completed: false }))
+
+    this.session.tasks.push(...newTasks)
+    pushToSession(this.session.id, 'tasks', this.session.tasks)
     return {
       responses: stage.responses,
       hints: stage.hints,
+      tasks: newTasks,
     }
   }
 
@@ -91,18 +107,18 @@ export default class CommandHandler extends SessionHandler {
     this.quest = await Quest.findById(this.session.quest)
     const stages = this.getStages()
     if (stages.length === 0) {
-      console.error('stage not found', this.session.progress)
+      console.error('stage not found', this.session.tasks)
       return {}
     }
 
     this.handleEvent()
     this.handleCommand()
 
-    const response = stages.reduce(
-      (r, s) => ({ ...r, ...this.matchStage(s) }),
-      {}
-    )
+    const response = stages
+      .filter((s) => this.isMatch(s))
+      .reduce((r, s) => ({ ...r, ...this.execute(s) }), {})
 
+    console.log(this.session)
     return {
       end: this.session.status === 'finished',
       ...response,
