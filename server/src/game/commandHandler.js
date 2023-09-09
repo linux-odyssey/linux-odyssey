@@ -71,9 +71,35 @@ export default class CommandHandler extends SessionHandler {
     this.handleEvent()
     this.handleCommand()
 
-    const response = stages
-      .filter((s) => this.isMatch(s))
-      .reduce((r, s) => ({ ...r, ...this.execute(s) }), {})
+    const commandMatch = checkMatch(
+      stage.condition.command,
+      this.commandInput.command
+    )
+    const outputMatch = checkMatch(
+      stage.condition.output,
+      this.commandInput.output
+    )
+    const errorMatch = checkMatch(
+      stage.condition.error,
+      this.commandInput.output
+    )
+
+    if (!commandMatch || !outputMatch || !errorMatch) return {}
+
+    this.session.completion.push(this.session.progress)
+    this.session.hints.push(...stage.hints)
+
+    this.session.progress = stage.next
+    await this.session.save()
+
+    if (stage.next === 'END') {
+      this.session.status = 'finished'
+      this.session.finishedAt = new Date()
+      await this.session.save()
+      pushToSession(this.session.id, 'hint', {
+        hints: this.additionalData.hints,
+      })
+    }
 
     return {
       end: this.session.status === 'finished',
