@@ -6,7 +6,7 @@ class SessionManager {
   constructor(questId) {
     this.questId = questId
     this.session = ref(null)
-    this.hint = ref(null)
+    this.hints = ref([String])
     this.graph = ref(
       new FileGraph({
         path: '/',
@@ -25,7 +25,7 @@ class SessionManager {
     console.log('Update session:', session)
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
-    this.hint.value = ''
+    this.hints.value = [String]
   }
 
   handleGraphUpdate(event) {
@@ -40,7 +40,7 @@ class SessionManager {
   handleHintUpdate(event) {
     // haven't check the variable and call funtions
     if (event.required) {
-      this.hint.value = event.hint
+      this.hints.value = event.hints
     }
   }
 

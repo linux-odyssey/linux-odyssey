@@ -89,6 +89,9 @@ export default class CommandHandler {
       this.session.status = 'finished'
       this.session.finishedAt = new Date()
       await this.session.save()
+      pushToSession(this.session.id, 'hint', {
+        hints: this.additionalData.hints,
+      })
     }
 
     return {
