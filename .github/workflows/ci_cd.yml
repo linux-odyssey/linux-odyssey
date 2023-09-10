@@ -55,6 +55,14 @@ jobs:
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:app
 
+      - name: Build base image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./quests/Dockerfile
+          push: false
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:base
+
       - name: Build quest helloworld
         uses: docker/build-push-action@v2
         with:
