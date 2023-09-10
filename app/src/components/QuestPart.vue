@@ -24,7 +24,7 @@ onMounted(async () => {
     <h1 id="topic" class="text-text" v-else-if="questData">
       {{ questData.title }}
     </h1>
-    <hr class="border-text-line border-2 my-2" />
+    <hr class="border-text-tertiary border-2 my-2" />
     <div>
       <div v-if="questData">
         <p class="text-text">{{ questData.instruction }}</p>

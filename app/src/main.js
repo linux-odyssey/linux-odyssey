@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 import './style.css'
 
 /* import the fontawesome core */
@@ -24,7 +25,10 @@ import {
   faCircleQuestion,
   faCircleRight,
 } from '@fortawesome/free-regular-svg-icons'
+
 import App from './App.vue'
+import GamePage from './views/GamePage.vue'
+import AuthPage from './views/AuthPage.vue'
 
 /* add icons to the library */
 library.add(
@@ -41,4 +45,20 @@ library.add(
   faTerminal
 )
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+const routes = [
+  { path: '/', name: 'Home', component: AuthPage },
+  { path: '/game', name: 'Game', component: GamePage },
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+const app = createApp(App)
+
+app.component('font-awesome-icon', FontAwesomeIcon)
+
+app.use(router)
+
+app.mount('#app')

@@ -12,7 +12,7 @@
       <button id="backward" class="flex items-center">
         <font-awesome-icon
           :icon="['fas', 'arrow-left']"
-          class="text-text-line h-5 w-5"
+          class="text-text-tertiary h-5 w-5"
         />
       </button>
       <button>
