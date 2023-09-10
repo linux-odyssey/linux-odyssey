@@ -193,6 +193,35 @@ describe('FileNode', () => {
     mergeTest(files1, files2, expected)
   })
 
+  test('merge-hidden', () => {
+    const root = {
+      path: '/',
+      type: 'folder',
+    }
+    const files1 = [
+      root,
+      { path: '/a', type: 'file', discovered: true },
+      { path: '/.b', type: 'file', discovered: false },
+      { path: '/c', type: 'folder', discovered: true },
+      { path: '/c/.d', type: 'file', discovered: false },
+    ]
+
+    const files2 = [
+      { path: '/c', type: 'folder', discovered: true },
+      { path: '/c/.d', type: 'file', discovered: true },
+    ]
+
+    const expected = [
+      root,
+      { path: '/a', type: 'file', discovered: true },
+      { path: '/.b', type: 'file', discovered: false },
+      { path: '/c', type: 'folder', discovered: true },
+      { path: '/c/.d', type: 'file', discovered: true },
+    ]
+
+    mergeTest(files1, files2, expected)
+  })
+
   test('remove-child', () => {
     const root = {
       path: '/',
@@ -218,4 +247,40 @@ describe('FileNode', () => {
 
     removeChildTest(files, fileToRemove, expected)
   })
+})
+
+test('load nested fileNode', () => {
+  const data = {
+    path: '/',
+    type: 'folder',
+    children: [
+      {
+        path: '/a',
+        type: 'file',
+      },
+      {
+        path: '/b',
+        type: 'folder',
+        children: [
+          {
+            path: '/b/c',
+            type: 'folder',
+            children: [
+              {
+                path: '/b/c/d',
+                type: 'file',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  }
+
+  const node = new FileNode(data)
+
+  console.log(node.toString())
+  expect(node.children.length).toBe(2)
+  expect(node.children[1].children.length).toBe(1)
+  expect(node.children[1].children[0].children.length).toBe(1)
 })

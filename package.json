@@ -13,10 +13,12 @@
   "scripts": {
     "app": "yarn workspace app dev",
     "app:local": "yarn workspace app dev:local",
+    "build": "yarn workspace app build",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
     "lint": "eslint --ext .js,.vue .",
     "format": "prettier --ignore-path .prettierignore --write app server",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "clean": "yarn workspace server clean"
   },
   "devDependencies": {

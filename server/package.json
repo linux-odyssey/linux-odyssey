@@ -10,6 +10,7 @@
     "clean": "node src/cli/clean.js"
   },
   "dependencies": {
+    "@linux-odyssey/file-graph": "*",
     "commander": "^11.0.0",
     "dockerode": "^3.3.5",
     "express": "^4.18.2",

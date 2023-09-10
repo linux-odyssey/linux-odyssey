@@ -15,7 +15,7 @@ const containerOptions = {
     Binds:
       !config.isProduction && config.hostPwd
         ? [
-            `${config.hostPwd}/quests/helloworld/home:/home/rudeus`,
+            `${config.hostPwd}/quests/helloworld/home:/home/commander`,
             `${config.hostPwd}/packages/container:/usr/local/lib/container`,
           ]
         : [],
@@ -35,16 +35,11 @@ export async function createContainer(name) {
 
 export async function getAndStartContainer(id) {
   console.log(`Getting container: ${id}`)
-  let container
-  try {
-    container = engine.getContainer(id)
-    if (!(await container.inspect()).State.Running) {
-      await container.start()
-    }
-    return container
-  } catch (error) {
-    throw new Error(`Container not found: ${id}`)
+  const container = engine.getContainer(id)
+  if (!(await container.inspect()).State.Running) {
+    await container.start()
   }
+  return container
 }
 
 export async function attachContainer(container, { token }) {
@@ -63,7 +58,7 @@ export async function attachContainer(container, { token }) {
     Tty: true,
   })
 
-  return execOutput.socket
+  return execOutput
 }
 
 export async function deleteContainer(id) {

@@ -5,17 +5,83 @@ import { defaultUser, genSessionJWT } from '../utils/auth.js'
 
 const sessions = new Map()
 
-function listenToSession(sessionId, event, callback) {
-  const callbacks = sessions.get((sessionId, event)) || []
-  sessions.set((sessionId, event), callbacks.concat(callback))
+function listenToSession(sessionId, callback) {
+  const callbacks = sessions.get(sessionId) || []
+  sessions.set(sessionId, callbacks.concat(callback))
 }
 
-export function pushToSession(sessionId, event, data) {
-  console.log('Push:', sessionId, event)
-  const callbacks = sessions.get((sessionId, event))
+function removeFromSession(sessionId, event, callback) {
+  const callbacks = sessions.get((sessionId, event)) || []
+  sessions.set(
+    (sessionId, event),
+    callbacks.filter((cb) => cb !== callback)
+  )
+}
+
+export function pushToSession(sessionId, event, ...args) {
+  const callbacks = sessions.get(sessionId)
   if (callbacks) {
-    callbacks.forEach((callback) => callback(data))
+    callbacks.forEach((callback) => callback(event, ...args))
   }
+}
+
+async function connectClient(socket) {
+  console.log('Connected to the client.')
+  const sessionId = socket.handshake.query.session_id
+  if (!sessionId) {
+    socket.send('Session ID not found.')
+    socket.disconnect()
+    return
+  }
+
+  const session = await Session.findOne({
+    _id: sessionId,
+    user: socket.user,
+    status: 'active',
+  })
+  if (!session) {
+    socket.send('Session not found.')
+    socket.disconnect()
+    return
+  }
+
+  const token = await genSessionJWT(session)
+
+  let container
+  let stream
+  try {
+    container = await getAndStartContainer(session.containerId)
+    stream = await attachContainer(container, { token })
+  } catch (err) {
+    socket.send(err.message)
+    socket.disconnect()
+    return
+  }
+
+  stream.socket.on('data', (chunk) => {
+    socket.emit('terminal', chunk.toString())
+  })
+
+  socket.on('message', console.log)
+
+  socket.on('terminal', function incoming(message) {
+    stream.socket.write(message)
+  })
+
+  const socketCallback = (event, ...data) => {
+    socket.emit(event, ...data)
+  }
+
+  listenToSession(session.id, socketCallback)
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from the client.')
+    stream.socket.write('exit\n')
+    removeFromSession(session.id, socketCallback)
+    stream.destroy()
+  })
+
+  socket.send(`${container.id}\n`)
 }
 
 export default (server) => {
@@ -34,55 +100,5 @@ export default (server) => {
     }
   })
 
-  io.on('connection', async (socket) => {
-    console.log('Connected to the client.')
-    const sessionId = socket.handshake.query.session_id
-    if (!sessionId) {
-      socket.send('Session ID not found.')
-      socket.disconnect()
-      return
-    }
-    let session
-    try {
-      session = await Session.findOne({
-        _id: sessionId,
-        user: socket.user,
-        status: 'active',
-      })
-      if (!session) {
-        socket.send('Session not found.')
-        socket.disconnect()
-        return
-      }
-    } catch (err) {
-      socket.send(err.message)
-      socket.disconnect()
-      return
-    }
-
-    const token = await genSessionJWT(session)
-
-    const container = await getAndStartContainer(session.containerId)
-    const stream = await attachContainer(container, { token })
-
-    stream.on('data', (chunk) => {
-      socket.emit('terminal', chunk.toString())
-    })
-
-    socket.on('message', console.log)
-
-    socket.on('terminal', function incoming(message) {
-      stream.write(message)
-    })
-
-    socket.on('close', () => {
-      console.log('Disconnected from the client.')
-    })
-
-    listenToSession(session.id, 'graph', (data) => {
-      socket.emit('graph', data)
-    })
-
-    socket.send(`${container.id}\n`)
-  })
+  io.on('connection', connectClient)
 }

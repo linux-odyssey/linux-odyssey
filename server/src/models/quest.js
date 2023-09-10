@@ -15,19 +15,25 @@ const stageSchema = new Schema({
     type: String,
     required: true,
   },
+  task: {
+    type: String,
+  },
+  requirements: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  repeatable: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   condition: {
-    command: {
-      type: [String],
-      required: false,
-    },
-    output: {
-      type: [String],
-      required: false,
-    },
-    error: {
-      type: [String],
-      required: false,
-    },
+    command: [String],
+    output: [String],
+    error: [String],
+    pwd: [String],
   },
   responses: {
     type: [responseSchema],
@@ -35,10 +41,6 @@ const stageSchema = new Schema({
   },
   hints: {
     type: [String],
-    required: true,
-  },
-  next: {
-    type: String,
     required: true,
   },
 })
@@ -50,6 +52,18 @@ const Quest = model(
     title: String,
     order: Number,
     instruction: String,
+    tasks: {
+      id: String,
+      content: String,
+      display: {
+        type: Boolean,
+        default: false,
+      },
+      completed: {
+        type: Boolean,
+        default: false,
+      },
+    },
     stages: [stageSchema],
   })
 )

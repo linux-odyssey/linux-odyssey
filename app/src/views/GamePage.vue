@@ -18,6 +18,12 @@ onMounted(async () => {
   socket.on('disconnect', function close() {
     console.log('Disconnected from the server.')
   })
+  socket.on('graph', (event) => {
+    sessionManager.handleGraphUpdate(event)
+  })
+  socket.on('tasks', (tasks) => {
+    sessionManager.setTasks(tasks)
+  })
   socket.on('message', console.log)
 })
 </script>
