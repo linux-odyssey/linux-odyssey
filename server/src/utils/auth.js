@@ -19,7 +19,7 @@ export function genSessionJWT(session) {
     jwt.sign(
       { session_id: session.id },
       config.jwtSecret,
-      { expiresIn: '1h' },
+      { expiresIn: config.expiry },
       (err, token) => {
         if (err) {
           reject(err)

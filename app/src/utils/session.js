@@ -35,6 +35,10 @@ class SessionManager {
     }
   }
 
+  setTasks(tasks) {
+    this.session.value.tasks = tasks
+  }
+
   async createSession() {
     console.log('Creating a new session...')
     const res = await api.post('/sessions', { quest_id: this.questId })
