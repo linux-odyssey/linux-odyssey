@@ -4,7 +4,7 @@
   <div
     class="bg-background border-8 border-background-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
-    <h1 class="text-text-primary text-3xl font-black mb-8">Linux Odysssey</h1>
+    <h1 class="text-text-primary text-3xl font-black mb-8">Linux Odyssey</h1>
     <form action="" class="w-full">
       <div class="mb-6">
         <label for="email" class="text-sm font-semibold text-text">Email</label
@@ -25,12 +25,14 @@
           placeholder="Enter your password"
         />
       </div>
-      <button
+      <router-link
         type="submit"
         class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-text-primary text-background w-full"
+        to="/game"
       >
-        <span>Log in / Sign up</span></button
-      ><input type="hidden" name="remember" value="true" />
+        <span>Log in / Sign up</span>
+      </router-link>
+      <input type="hidden" name="remember" value="true" />
     </form>
   </div>
 </template>

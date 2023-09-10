@@ -1,6 +1,6 @@
 <script setup>
-import AuthenticationPart from './components/AuthenticationPart.vue'
-import Background from './components/DynamicBackground.vue'
+import AuthenticationPart from '../components/AuthenticationPart.vue'
+import Background from '../components/DynamicBackground.vue'
 </script>
 <template>
   <div class="relative w-screen h-screen">
