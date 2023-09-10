@@ -7,6 +7,6 @@ import sessionManager from '../utils/session'
   <h1 class="inline text-text font-xl">Hint</h1>
   <div id="hint">
     <p class="text-text">--Hint--</p>
-    <p class="text-text">{{ sessionManager.hint.value }}</p>
+    <p class="text-text">{{ sessionManager.hints.value }}</p>
   </div>
 </template>
