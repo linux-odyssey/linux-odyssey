@@ -19,6 +19,7 @@
     "axios": "^1.4.0",
     "socket.io-client": "^4.7.1",
     "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
     "xterm": "^5.2.1",
     "xterm-addon-attach": "^0.8.0",
     "xterm-addon-fit": "^0.7.0"

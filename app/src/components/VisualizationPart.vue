@@ -42,7 +42,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  treeRef.value.removeEventListener('mousedown', mouseDownHandler)
+  treeRef?.value?.removeEventListener('mousedown', mouseDownHandler)
 })
 </script>
 
