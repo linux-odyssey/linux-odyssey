@@ -4,6 +4,7 @@ import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 
+import './auth/passport.js'
 import socketServer from './api/socket.js'
 import connectDB from './db.js'
 import apiRouter from './api/routes/index.js'

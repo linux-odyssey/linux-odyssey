@@ -1,40 +1,18 @@
 import { Router } from 'express'
 import passport from 'passport'
-import LocalStrategy from 'passport-local'
-import bcrypt from 'bcrypt'
 
-import User from '../../models/user.js'
-import { genUserJWT } from '../../utils/auth.js'
-
-passport.use(
-  new LocalStrategy(async function verify(username, password, done) {
-    try {
-      const user = await User.findOne({ username })
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' })
-      }
-
-      const isPasswordValid = await bcrypt.compare(
-        password,
-        user.hashedPassword
-      )
-      if (!isPasswordValid) {
-        return done(null, false, { message: 'Incorrect username or password.' })
-      }
-      return done(null, user)
-    } catch (err) {
-      return done(err)
-    }
-  })
-)
+import { genJwt } from '../../utils/auth.js'
 
 const router = Router()
 
 async function issueToken(req, res) {
-  const token = await genUserJWT(req.user)
-  res.json({
-    token,
+  const { user } = req
+  const token = await genJwt({
+    _id: user.id,
+    username: user.username,
+    email: user.email,
   })
+  res.json({ token })
 }
 
 router.post(

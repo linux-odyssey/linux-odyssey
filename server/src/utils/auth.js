@@ -27,27 +27,10 @@ export async function defaultUser() {
   return user
 }
 
-export function genUserJWT(user) {
+export function genJwt(payload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
-      { _id: user.id, username: user.username, email: user.email },
-      config.jwtSecret,
-      { expiresIn: config.expiry, issuer: 'linuxodyssey.xyz' },
-      (err, token) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(token)
-        }
-      }
-    )
-  })
-}
-
-export function genSessionJWT(session) {
-  return new Promise((resolve, reject) => {
-    jwt.sign(
-      { session_id: session.id },
+      payload,
       config.jwtSecret,
       { expiresIn: config.expiry },
       (err, token) => {
@@ -61,7 +44,7 @@ export function genSessionJWT(session) {
   })
 }
 
-export function verifySessionJWT(token) {
+export function verifyJWT(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
