@@ -27,7 +27,7 @@ export async function defaultUser() {
   return user
 }
 
-export function genJwt(payload) {
+export function genJWT(payload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,

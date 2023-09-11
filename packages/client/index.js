@@ -57,19 +57,27 @@ async function lastSession() {
   return session
 }
 
-async function connect(sessionId) {
+async function connect(sessionId, token) {
   console.log(`Session ID: ${sessionId}`)
   console.log('Use Ctrl + D to exit.')
   if (!sessionId) exit()
 
   const socket = io(program.opts().host, {
+    auth: {
+      token,
+    },
     query: {
       session_id: sessionId,
     },
   })
 
-  socket.on('open', function open() {
+  socket.on('connection', function open() {
     console.log('Connected to the server.')
+  })
+
+  socket.on('connect_error', (err) => {
+    console.error(err.message)
+    exit(1)
   })
 
   socket.on('message', console.log)
@@ -101,6 +109,26 @@ async function connect(sessionId) {
   })
 }
 
+async function login() {
+  try {
+    const res = await api.post('/login/password', {
+      username: program.opts().user,
+      password: program.opts().password,
+    })
+    const { token } = res.data
+    if (!token) {
+      console.error(res.data)
+      exit(1)
+    }
+    console.log('Login success.')
+    return token
+  } catch (err) {
+    console.error(err.message)
+    exit(1)
+    return null
+  }
+}
+
 async function main() {
   api = axios.create({
     baseURL: `${program.opts().host}/api/v1`,
@@ -111,18 +139,27 @@ async function main() {
   console.log(program.opts().session)
   // main()
 
+  const token = await login()
+  api.defaults.headers.common.Authorization = `Bearer ${token}`
+
   const sessionId =
     program.opts().session ||
     (program.opts().create ? (await createSession())._id : null) ||
     (await lastSession())._id
 
-  await connect(sessionId)
+  await connect(sessionId, token)
 }
 
 program
   .option('-s, --session <string>', 'Session ID')
   .option('-c, --create', 'Create a new session')
   .option('-d, --debug', 'Debug mode')
+  .option('-u, --user <string>', 'Username', get('USERNAME', 'testUser'))
+  .option(
+    '-p, --password <string>',
+    'Password',
+    get('PASSWORD', 'testPassword')
+  )
   .option(
     '-h, --host <string>',
     'Server host',

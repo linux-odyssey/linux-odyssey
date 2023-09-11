@@ -303,6 +303,10 @@ paths:
   /commands:
     post:
       summary: Record a command that was executed in a session
+      tags:
+        - signed-in
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -433,13 +437,9 @@ components:
     Command:
       type: object
       required:
-        - token
         - pwd
         - command
       properties:
-        token:
-          type: string
-          description: The JWT token of the session
         pwd:
           type: string
           example: '/root'

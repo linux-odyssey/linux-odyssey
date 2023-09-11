@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import Session from '../models/session.js'
-import { defaultUser, genSessionJWT } from '../utils/auth.js'
+import { genJWT, verifyJWT } from '../utils/auth.js'
 
 const sessions = new Map()
 
@@ -45,7 +45,9 @@ async function connectClient(socket) {
     return
   }
 
-  const token = await genSessionJWT(session)
+  const token = await genJWT({
+    session_id: session.id,
+  })
 
   let container
   let stream
@@ -90,8 +92,14 @@ export default (server) => {
   io.use(async (socket, next) => {
     console.log('Authenticating...')
     try {
-      const user = await defaultUser()
+      const { token } = socket.handshake.auth
+      if (!token) {
+        next(new Error('Token not found.'))
+        return
+      }
+      const user = await verifyJWT(token)
       // eslint-disable-next-line no-param-reassign
+      console.log(user)
       socket.user = user
       next()
     } catch (err) {

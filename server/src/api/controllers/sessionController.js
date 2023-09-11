@@ -5,7 +5,7 @@ import SessionHandler from '../../game/sessionHandler.js'
 
 export async function getSessionList(req, res) {
   try {
-    const query = { user: req.user.id }
+    const query = { user: req.user._id }
     if (req.query.quest_id) {
       query.quest = req.query.quest_id
     }
@@ -70,7 +70,7 @@ export async function getSessionById(req, res) {
   try {
     const session = await Session.findOne({
       _id: req.params.id,
-      user: req.user.id,
+      user: req.user._id,
     })
 
     if (!session) {
@@ -88,7 +88,7 @@ export async function deleteSessionById(req, res) {
   try {
     const session = await Session.findOneAndDelete({
       _id: req.params.id,
-      user: req.user.id,
+      user: req.user._id,
     })
 
     if (!session) {
