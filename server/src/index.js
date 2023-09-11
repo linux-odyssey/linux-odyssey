@@ -11,12 +11,16 @@ import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
+import { createTestUser } from './utils/auth.js'
 
 async function main() {
   const app = express()
   const server = http.createServer(app)
   socketServer(server)
   await connectDB()
+
+  await createTestUser()
+
   await loadAndUpdateQuests()
   expiryRemovalScheduler()
 

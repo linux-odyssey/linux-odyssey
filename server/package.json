@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@linux-odyssey/file-graph": "*",
+    "bcrypt": "^5.1.1",
     "commander": "^11.0.0",
     "dockerode": "^3.3.5",
     "express": "^4.18.2",
@@ -18,6 +19,9 @@
     "minimist": "^1.2.8",
     "mongoose": "^7.4.0",
     "node-schedule": "^2.1.1",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "socket.io": "^4.7.1",
     "swagger-ui-express": "^5.0.0",
     "yaml": "^2.3.1"

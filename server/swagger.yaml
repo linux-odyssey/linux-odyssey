@@ -198,7 +198,7 @@ paths:
                     type: string
                     example: User already exists
 
-  /login:
+  /login/password:
     post:
       summary: Log in a user
       requestBody:
