@@ -32,7 +32,7 @@ export function genUserJWT(user) {
     jwt.sign(
       { _id: user.id, username: user.username, email: user.email },
       config.jwtSecret,
-      { expiresIn: config.expiry },
+      { expiresIn: config.expiry, issuer: 'linuxodyssey.xyz' },
       (err, token) => {
         if (err) {
           reject(err)
