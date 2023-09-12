@@ -3,6 +3,10 @@ import bcrypt from 'bcrypt'
 import config from '../config.js'
 import User from '../models/user.js'
 
+export function hashPassword(password) {
+  return bcrypt.hash(password, 10)
+}
+
 export async function createTestUser() {
   let user = await User.findOne({ username: 'testUser' })
   if (!user) {
@@ -10,7 +14,7 @@ export async function createTestUser() {
       username: 'testUser',
       email: 'test@example.com',
     })
-    user.hashedPassword = await bcrypt.hash('testPassword', 10)
+    user.hashedPassword = await hashPassword('testPassword')
     await user.save()
   }
 }

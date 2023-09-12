@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   res.send('Hello API!')
 })
 
-router.use(authRouter)
+router.use('/auth', authRouter)
 router.use('/quests', quests)
 router.use(
   '/sessions',

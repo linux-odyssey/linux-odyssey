@@ -27,6 +27,7 @@ async function main() {
 
   const file = await fs.readFile('./swagger.yaml', 'utf8')
   const swaggerDocument = YAML.parse(file)
+  app.use(errorHandler)
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
   app.use(express.json())
 
@@ -35,8 +36,6 @@ async function main() {
   })
 
   app.use('/api/v1', apiRouter)
-
-  app.use(errorHandler)
 
   server.listen(config.port, config.host, () => {
     console.log(`Server listening at http://${config.host}:${config.port}`)

@@ -150,7 +150,7 @@ paths:
                     type: string
                     example: 'Unauthorized.'
 
-  /register:
+  /auth/register:
     post:
       summary: Register a new user
       requestBody:
@@ -162,10 +162,16 @@ paths:
               properties:
                 username:
                   type: string
+                  format: username
+                  example: alex
                 email:
                   type: string
+                  format: email
+                  example: alex@example.com
                 password:
                   type: string
+                  format: password
+                  example: 123456
       responses:
         '201':
           description: User created
@@ -174,9 +180,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  token:
                     type: string
-                    example: User created successfully
+                    description: Access token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         '400':
           description: Bad Request
           content:
@@ -198,7 +205,7 @@ paths:
                     type: string
                     example: User already exists
 
-  /login/password:
+  /auth/login:
     post:
       summary: Log in a user
       requestBody:
@@ -210,8 +217,12 @@ paths:
               properties:
                 username:
                   type: string
+                  format: username
+                  example: alex
                 password:
                   type: string
+                  format: password
+                  example: 123456
       responses:
         '200':
           description: User logged in
@@ -220,12 +231,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
-                    type: string
-                    example: Login successful
                   token:
                     type: string
                     description: Access token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         '400':
           description: Bad Request
           content:
@@ -246,6 +255,40 @@ paths:
                   message:
                     type: string
                     example: Incorrect username or password
+
+  /auth/check:
+    get:
+      summary: Check if the username is already taken
+      parameters:
+        - in: query
+          name: username
+          description: username to check
+          required: true
+          schema:
+            type: string
+            format: username
+            example: alex
+      responses:
+        '200':
+          description: Username is available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Username is available
+        '409':
+          description: Username is already taken
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Username is already taken
 
   /profile:
     get:
