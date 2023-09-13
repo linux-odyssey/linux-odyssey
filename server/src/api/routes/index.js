@@ -15,12 +15,12 @@ router.use('/auth', authRouter)
 router.use('/quests', quests)
 router.use(
   '/sessions',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false, failWithError: true }),
   sessions
 )
 router.use(
   '/commands',
-  passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false, failWithError: true }),
   commands
 )
 

@@ -11,7 +11,7 @@ const router = Router()
 
 router.post(
   '/login',
-  passport.authenticate('local', { session: false }),
+  passport.authenticate('local', { session: false, failWithError: true }),
   issueToken
 )
 
