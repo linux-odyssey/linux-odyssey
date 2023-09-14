@@ -17,32 +17,40 @@ export async function issueToken(req, res) {
 }
 
 export async function checkUsername(req, res) {
-  const { username } = req.query
-  if (isValidEmail(username)) {
-    if (await User.exists({ email: username })) {
+  const { username, email } = req.query
+  const cred = username || email
+  if (!cred) {
+    res.status(400).json({
+      message: 'username or email is required',
+    })
+    return
+  }
+
+  if (isValidEmail(cred)) {
+    if (await User.exists({ email: cred })) {
       res.status(409).json({
         type: 'email',
-        message: `"${username}" already exists`,
+        message: `"${cred}" already exists`,
       })
       return
     }
     res.status(200).json({
       type: 'email',
-      message: `"${username}" is available`,
+      message: `"${cred}" is available`,
     })
     return
   }
-  if (isValidUsername(username)) {
-    if (await User.exists({ username })) {
+  if (isValidUsername(cred)) {
+    if (await User.exists({ username: cred })) {
       res.status(409).json({
         type: 'username',
-        message: `"${username}" already exists`,
+        message: `"${cred}" already exists`,
       })
       return
     }
     res.status(200).json({
       type: 'username',
-      message: `"${username}" is available`,
+      message: `"${cred}" is available`,
     })
     return
   }
@@ -63,15 +71,23 @@ export async function register(req, res, next) {
     res.status(409).json({
       message: 'username or email already exists',
     })
+    console.log(await User.find({ $or: [{ username }, { email }] }))
     return
   }
   const user = new User({
     username,
     email,
   })
-  user.hashedPassword = await hashPassword(password)
-  await user.save()
-  req.user = user
-  res.status(201)
-  next()
+  try {
+    user.hashedPassword = await hashPassword(password)
+    await user.save()
+    req.user = user
+    res.status(201)
+    next()
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({
+      message: 'error registering user',
+    })
+  }
 }
