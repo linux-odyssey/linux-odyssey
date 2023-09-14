@@ -1,5 +1,10 @@
 import User from '../../models/user.js'
-import { genJWT, hashPassword } from '../../utils/auth.js'
+import {
+  genJWT,
+  hashPassword,
+  isValidEmail,
+  isValidUsername,
+} from '../../utils/auth.js'
 
 export async function issueToken(req, res) {
   const { user } = req
@@ -13,16 +18,37 @@ export async function issueToken(req, res) {
 
 export async function checkUsername(req, res) {
   const { username } = req.query
-  const exists = await User.exists({ username })
-  if (exists) {
-    res.status(409).json({
-      message: `"${username}" already exists`,
-    })
-  } else {
+  if (isValidEmail(username)) {
+    if (await User.exists({ email: username })) {
+      res.status(409).json({
+        type: 'email',
+        message: `"${username}" already exists`,
+      })
+      return
+    }
     res.status(200).json({
+      type: 'email',
       message: `"${username}" is available`,
     })
+    return
   }
+  if (isValidUsername(username)) {
+    if (await User.exists({ username })) {
+      res.status(409).json({
+        type: 'username',
+        message: `"${username}" already exists`,
+      })
+      return
+    }
+    res.status(200).json({
+      type: 'username',
+      message: `"${username}" is available`,
+    })
+    return
+  }
+  res.status(400).json({
+    message: 'invalid username or email',
+  })
 }
 
 export async function register(req, res, next) {

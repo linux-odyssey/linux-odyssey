@@ -8,27 +8,15 @@ export function hashPassword(password) {
 }
 
 export async function createTestUser() {
-  let user = await User.findOne({ username: 'testUser' })
+  let user = await User.findOne({ username: 'alex' })
   if (!user) {
     user = new User({
-      username: 'testUser',
-      email: 'test@example.com',
+      username: 'alex',
+      email: 'alex@example.com',
     })
-    user.hashedPassword = await hashPassword('testPassword')
+    user.hashedPassword = await hashPassword('123456')
     await user.save()
   }
-}
-
-export async function defaultUser() {
-  let user = await User.findOne({ username: 'defaultUser' })
-  if (!user) {
-    user = new User({
-      username: 'defaultUser',
-      email: 'jackson@example.com',
-    })
-    await user.save()
-  }
-  return user
 }
 
 export function genJWT(payload) {
