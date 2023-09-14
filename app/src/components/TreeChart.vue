@@ -1,126 +1,74 @@
 <script setup>
-import FileNode from './FileNode.vue'
+import { ref, onMounted } from 'vue'
+import * as echarts from 'echarts/core'
+import { TooltipComponent } from 'echarts/components'
+import { TreeChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
 import sessionManager from '../utils/session.js'
+
+import treedata from './treedata.js'
+import folderImage from './images/folder.svg'
+import fileImage from './images/file.svg'
+
+console.log(folderImage)
+
+echarts.use([TooltipComponent, TreeChart, CanvasRenderer])
+
+const canvas = ref(null)
+
+// const data = seesionManager.graph.value
+const data = treedata
+
+const option = {
+  tooltip: {
+    trigger: 'items',
+    triggerOn: 'mousemove',
+  },
+  series: [
+    {
+      type: 'tree',
+      data: [data],
+      top: '20%',
+      left: '20%',
+      bottom: '20%',
+      right: '20%',
+      symbol: folderImage,
+      symbolSize: 40,
+      edgeShape: 'polyline',
+      edgeForkPosition: '50%',
+      initialTreeDepth: 4,
+      lineStyle: {
+        width: 3,
+      },
+      label: {
+        backgroundColor: '#fff',
+        position: 'left',
+        verticalAlign: 'middle',
+        align: 'right',
+      },
+      leaves: {
+        label: {
+          position: 'right',
+          verticalAlign: 'middle',
+          align: 'left',
+        },
+      },
+      emphasis: {
+        focus: 'descendant',
+      },
+      expandAndCollapse: true,
+      animationDuration: 550,
+      animationDurationUpdate: 750,
+    },
+  ],
+}
+
+onMounted(() => {
+  const pie = echarts.init(canvas.value)
+  pie.setOption(option)
+})
 </script>
 
 <template>
-  <div class="tree w-max h-max">
-    <ul>
-      <li>
-        <FileNode
-          :node="sessionManager.graph.value"
-          :pwd="sessionManager.pwd.value"
-        />
-      </li>
-    </ul>
-  </div>
+  <div ref="canvas" style="width: 500px; height: 400px"></div>
 </template>
-
-<style>
-.tree ul {
-  padding-top: 20px;
-  position: relative;
-
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-}
-
-.tree li {
-  display: inline-block;
-  text-align: center;
-  list-style-type: none;
-  position: relative;
-  padding: 20px 5px 0 5px;
-  vertical-align: top;
-
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-}
-
-.tree li::before,
-.tree li::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 50%;
-  border-top: 1px solid #ccc;
-  width: 50%;
-  height: 20px;
-}
-.tree li::after {
-  right: auto;
-  left: 50%;
-  border-left: 1px solid #ccc;
-}
-
-.tree li:only-child::after,
-.tree li:only-child::before {
-  display: none;
-}
-
-.tree li:only-child {
-  padding-top: 0;
-}
-
-.tree li:first-child::before,
-.tree li:last-child::after {
-  border: 0 none;
-}
-
-.tree li:last-child::before {
-  border-right: 1px solid #ccc;
-  border-radius: 0 5px 0 0;
-  -webkit-border-radius: 0 5px 0 0;
-  -moz-border-radius: 0 5px 0 0;
-}
-.tree li:first-child::after {
-  border-radius: 5px 0 0 0;
-  -webkit-border-radius: 5px 0 0 0;
-  -moz-border-radius: 5px 0 0 0;
-}
-
-.tree ul ul::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  border-left: 1px solid #ccc;
-  width: 0;
-  height: 20px;
-}
-
-.tree li a {
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  text-decoration: none;
-  color: #666;
-  font-family: arial, verdana, tahoma;
-  font-size: 11px;
-  display: inline-block;
-
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-}
-
-a.discovered {
-  background: #c8e4f8;
-  color: #000;
-  border: 1px solid #94a0b4;
-}
-
-ul.discovered,
-li.discovered {
-  border-color: #94a0b4;
-}
-
-a.pwd {
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 水平偏移、垂直偏移、模糊半徑、顏色 */
-}
-</style>

@@ -18,12 +18,12 @@
       />
       <p class="text-text-primary inline">Reset</p>
     </button>
-    <button id="continue" class="bg-disabled-background rounded-lg p-2">
+    <button id="continue" class="bg-background-secondary rounded-lg p-2">
       <font-awesome-icon
         :icon="['far', 'circle-right']"
-        class="text-disabled-text"
+        class="text-text-primary"
       />
-      <p class="text-disabled-text inline">Continue</p>
+      <p class="text-text-primary inline">Continue</p>
     </button>
   </section>
 </template>
