@@ -21,6 +21,9 @@ onMounted(async () => {
   socket.on('graph', (event) => {
     sessionManager.handleGraphUpdate(event)
   })
+  socket.on('hints', (event) => {
+    sessionManager.handleHintUpdate(event)
+  })
   socket.on('tasks', (tasks) => {
     sessionManager.setTasks(tasks)
   })
