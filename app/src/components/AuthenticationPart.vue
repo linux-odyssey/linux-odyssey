@@ -129,7 +129,7 @@ const goBack = () => {
           placeholder="Enter your email or username"
           v-model="username"
           @input="clearError"
-          autofocus
+          autocomplete="username"
         />
       </div>
       <div class="mb-6" v-if="isRegister">
@@ -142,6 +142,7 @@ const goBack = () => {
           placeholder="Enter your email or username"
           v-model="email"
           @input="clearError"
+          autocomplete="email"
         />
       </div>
       <div class="mb-6">

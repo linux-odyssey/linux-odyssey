@@ -4,7 +4,9 @@ import User from '../models/user.js'
 
 async function verifyPassword(username, password, done) {
   try {
-    const user = await User.findOne({ username })
+    const user = await User.findOne({
+      $or: [{ username }, { email: username }],
+    })
     if (!user) {
       return done(null, false, { message: 'Incorrect username.' })
     }
