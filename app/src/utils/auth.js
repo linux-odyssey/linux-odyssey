@@ -41,21 +41,14 @@ export const login = async (username, password) => {
 }
 
 export const register = async (username, email, password) => {
-  try {
-    const res = await api.post('/auth/register', {
-      username,
-      password,
-      email,
-    })
-    const { token } = res.data
-    myToken.value = token
-    return true
-  } catch (err) {
-    if (err.response?.status === 409) {
-      return false
-    }
-    throw err
-  }
+  const res = await api.post('/auth/register', {
+    username,
+    password,
+    email,
+  })
+  const { token } = res.data
+  myToken.value = token
+  return true
 }
 
 export const logout = () => {

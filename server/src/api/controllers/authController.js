@@ -67,13 +67,23 @@ export async function register(req, res, next) {
     })
     return
   }
-  if (await User.exists({ $or: [{ username }, { email }] })) {
+
+  if (await User.exists({ username })) {
     res.status(409).json({
-      message: 'username or email already exists',
+      type: 'username',
+      message: 'username already exists',
     })
-    console.log(await User.find({ $or: [{ username }, { email }] }))
     return
   }
+
+  if (await User.exists({ email })) {
+    res.status(409).json({
+      type: 'email',
+      message: 'username already exists',
+    })
+    return
+  }
+
   const user = new User({
     username,
     email,

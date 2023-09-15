@@ -57,25 +57,9 @@ async function check() {
   }
 }
 
-async function handleSubmit() {
-  if (!isRegister.value) {
-    check()
-    return
-  }
-  // register
+function handleRegister() {
   console.log('register', username.value, email.value, password.value)
-  api
-    .get('/auth/check', {
-      params: { username: username.value },
-    })
-    .then(() => {
-      // Username is available, now check if the email already exists
-      return api.get('/auth/check', { params: { email: email.value } })
-    })
-    .then(() => {
-      // Both username and email are available, proceed with registration
-      return register(username.value, email.value, password.value)
-    })
+  register(username.value, email.value, password.value)
     .then((isSuccess) => {
       if (isSuccess) {
         success()
@@ -100,6 +84,15 @@ async function handleSubmit() {
         console.error(err)
       }
     })
+}
+
+async function handleSubmit() {
+  if (!isRegister.value) {
+    check()
+    return
+  }
+  // register
+  handleRegister()
 }
 
 const clearError = () => {
