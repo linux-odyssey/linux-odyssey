@@ -4,9 +4,9 @@ import sessions from './sessions.js'
 import quests from './quests.js'
 import commands from './commands.js'
 import authRouter from './auth.js'
+import authRequired from '../../middleware/authRequired.js'
 
 const router = Router()
-router.use(passport.authenticate('session'))
 
 router.get('/', (req, res) => {
   res.send('Hello API!')
@@ -15,10 +15,11 @@ router.get('/', (req, res) => {
 router.use('/auth', authRouter)
 router.use('/quests', quests)
 
-const authZone = Router()
-authZone.use('/sessions', sessions)
-authZone.use('/commands', commands)
-
-router.use(authZone)
+router.use('/sessions', authRequired, sessions)
+router.use(
+  '/commands',
+  passport.authenticate('jwt', { session: false }),
+  commands
+)
 
 export default router

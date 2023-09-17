@@ -3,6 +3,7 @@ import express from 'express'
 import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
+import passport from 'passport'
 
 import './auth/passport.js'
 import socketServer from './api/socket.js'
@@ -16,7 +17,7 @@ import expiryRemovalScheduler from './containers/expiryChecker.js'
 import { createTestUser } from './utils/auth.js'
 
 async function main() {
-  const db = await connectDB()
+  await connectDB()
 
   await createTestUser()
 
@@ -30,7 +31,8 @@ async function main() {
   const server = http.createServer(app)
   socketServer(server)
   app.use(errorHandler)
-  app.use(sessionMiddleware(db))
+  app.use(sessionMiddleware)
+  app.use(passport.session())
   app.use(
     '/api-docs',
     swaggerUI.serve,

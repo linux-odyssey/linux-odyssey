@@ -118,6 +118,6 @@ export function logout(req, res) {
       })
       return
     }
-    res.json({ message: 'success' })
+    res.redirect('/login')
   })
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { isAuthenticated, logout } from '../utils/auth'
+import { logout } from '../utils/auth'
 
 const router = useRouter()
 
@@ -56,7 +56,7 @@ const handleLogout = () => {
           class="text-text-primary h-5 w-5"
         />
       </button>
-      <button v-if="isAuthenticated" @click="handleLogout">
+      <button @click="handleLogout">
         <font-awesome-icon
           :icon="['fas', 'arrow-right-from-bracket']"
           class="text-text-primary h-5 w-5"

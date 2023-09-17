@@ -1,7 +1,5 @@
 import io from 'socket.io-client'
 
-import { getToken } from './auth'
-
 class SocketWrapper {
   constructor() {
     this.socket = null
@@ -17,9 +15,6 @@ class SocketWrapper {
     this.socket = io('', {
       query: {
         session_id: session._id,
-      },
-      auth: {
-        token: getToken(),
       },
     })
 

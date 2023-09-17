@@ -1,36 +1,9 @@
-import { computed, ref, watch } from 'vue'
-import api, { setToken } from './api'
-
-const TOKEN_KEY = 'JWT_TOKEN'
-
-const myStorage = window.localStorage
-const myToken = ref(myStorage.getItem(TOKEN_KEY))
-
-if (myToken.value) {
-  setToken(myToken.value)
-}
-
-// watch the token and store it in localStorage
-watch(myToken, (newToken) => {
-  if (newToken) {
-    console.log('update token:', newToken)
-    myStorage.setItem(TOKEN_KEY, newToken)
-    setToken(newToken)
-  } else {
-    myStorage.removeItem(TOKEN_KEY)
-    setToken(null)
-  }
-})
-
-export const getToken = () => {
-  return myToken.value
-}
+import api from './api'
 
 export const login = async (username, password) => {
   try {
     const res = await api.post('/auth/login', { username, password })
-    const { token } = res.data
-    myToken.value = token
+    console.log(res.data)
     return true
   } catch (err) {
     if (err.response?.status === 401) {
@@ -40,19 +13,14 @@ export const login = async (username, password) => {
   }
 }
 
-export const register = async (username, email, password) => {
-  const res = await api.post('/auth/register', {
+export const register = (username, email, password) => {
+  return api.post('/auth/register', {
     username,
     password,
     email,
   })
-  const { token } = res.data
-  myToken.value = token
-  return true
 }
 
 export const logout = () => {
-  myToken.value = null
+  return api.post('/auth/logout')
 }
-
-export const isAuthenticated = computed(() => !!myToken.value)
