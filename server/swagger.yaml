@@ -285,7 +285,7 @@ paths:
                     type: string
                     example: Logged out successfully
 
-  /auth/check:
+  /auth/check-username:
     get:
       summary: Check if the username is already taken
       parameters:
@@ -318,6 +318,21 @@ paths:
                   message:
                     type: string
                     example: Username is already taken
+
+  /auth/check-session:
+    get:
+      summary: Check if the session is valid
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  loggedIn:
+                    type: boolean
+                    example: true
 
   /quests:
     get:

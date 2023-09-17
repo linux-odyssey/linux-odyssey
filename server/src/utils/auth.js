@@ -24,7 +24,7 @@ export function genJWT(payload) {
     jwt.sign(
       payload,
       config.jwtSecret,
-      { expiresIn: config.expiry },
+      { expiresIn: config.containerExpiry },
       (err, token) => {
         if (err) {
           reject(err)

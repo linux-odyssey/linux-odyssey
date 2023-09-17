@@ -118,7 +118,9 @@ export function logout(req, res) {
       })
       return
     }
-    res.redirect('/login')
+    res.status(200).json({
+      message: 'logged out',
+    })
   })
 }
 
