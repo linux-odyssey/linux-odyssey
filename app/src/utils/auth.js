@@ -1,5 +1,11 @@
 import api from './api'
 
+export async function isLoggedIn() {
+  const res = await api.get('/auth/check-session')
+  const { loggedIn } = res.data
+  return loggedIn
+}
+
 export const login = async (username, password) => {
   try {
     const res = await api.post('/auth/login', { username, password })

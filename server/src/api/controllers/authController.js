@@ -121,3 +121,9 @@ export function logout(req, res) {
     res.redirect('/login')
   })
 }
+
+export function checkSession(req, res) {
+  res.json({
+    loggedIn: req.isAuthenticated(),
+  })
+}

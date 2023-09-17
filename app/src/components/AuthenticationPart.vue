@@ -31,7 +31,7 @@ const handleLogin = async () => {
 async function check() {
   const user = username.value.trim()
   try {
-    const res = await api.get('/auth/check', {
+    const res = await api.get('/auth/check-username', {
       params: { username: user },
     })
     // user not exists, try register

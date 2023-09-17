@@ -4,6 +4,7 @@ import passport from 'passport'
 import {
   register,
   checkUsername,
+  checkSession,
   logout,
 } from '../controllers/authController.js'
 
@@ -21,6 +22,8 @@ router.post('/register', register)
 
 router.post('/logout', logout)
 
-router.get('/check', checkUsername)
+router.get('/check-username', checkUsername)
+
+router.get('/check-session', checkSession)
 
 export default router
