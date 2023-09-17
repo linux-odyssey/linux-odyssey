@@ -24,7 +24,7 @@ paths:
         - signed-in
       summary: list existing sessions of current user
       security:
-        - BearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: query
           name: quest_id
@@ -52,7 +52,7 @@ paths:
       tags:
         - signed-in
       security:
-        - BearerAuth: []
+        - cookieAuth: []
       requestBody:
         description: session data
         content:
@@ -86,7 +86,7 @@ paths:
         - signed-in
       summary: get a specific session of current user by ID
       security:
-        - BearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: path
           name: session_id
@@ -117,7 +117,7 @@ paths:
         - signed-in
       summary: delete a specific session by ID
       security:
-        - BearerAuth: []
+        - cookieAuth: []
       parameters:
         - in: path
           name: session_id
@@ -176,6 +176,11 @@ paths:
       responses:
         '201':
           description: User created
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: connect.sid=s%3Aq1Z; Path=/; HttpOnly; SameSite=Strict; Secure
           content:
             application/json:
               schema:
@@ -227,15 +232,19 @@ paths:
       responses:
         '200':
           description: User logged in
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: connect.sid=s%3Aq1Z; Path=/; HttpOnly; SameSite=Strict; Secure
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  token:
+                  message:
                     type: string
-                    description: Access token
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                    example: Logged in successfully
         '400':
           description: Bad Request
           content:
@@ -256,6 +265,25 @@ paths:
                   message:
                     type: string
                     example: Incorrect username or password
+
+  /auth/logout:
+    post:
+      summary: Log out a user
+      tags:
+        - signed-in
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User logged out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logged out successfully
 
   /auth/check:
     get:
@@ -290,19 +318,6 @@ paths:
                   message:
                     type: string
                     example: Username is already taken
-
-  /profile:
-    get:
-      summary: Get the profile of current logged-in user
-      security:
-        - BearerAuth: []
-      responses:
-        '200':
-          description: Get user's profile
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
 
   /quests:
     get:
@@ -350,7 +365,7 @@ paths:
       tags:
         - signed-in
       security:
-        - BearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -537,7 +552,7 @@ components:
           example: 'Unix Spirit'
 
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: connect.sid

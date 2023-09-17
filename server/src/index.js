@@ -11,14 +11,12 @@ import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
+import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 import { createTestUser } from './utils/auth.js'
 
 async function main() {
-  const app = express()
-  const server = http.createServer(app)
-  socketServer(server)
-  await connectDB()
+  const db = await connectDB()
 
   await createTestUser()
 
@@ -27,8 +25,19 @@ async function main() {
 
   const file = await fs.readFile('./swagger.yaml', 'utf8')
   const swaggerDocument = YAML.parse(file)
+
+  const app = express()
+  const server = http.createServer(app)
+  socketServer(server)
   app.use(errorHandler)
-  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+  app.use(sessionMiddleware(db))
+  app.use(
+    '/api-docs',
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerDocument, {
+      withCredentials: true,
+    })
+  )
   app.use(express.json())
 
   app.get('/', (req, res) => {

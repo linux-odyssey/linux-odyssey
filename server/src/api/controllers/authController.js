@@ -92,12 +92,32 @@ export async function register(req, res, next) {
     user.hashedPassword = await hashPassword(password)
     await user.save()
     req.user = user
-    res.status(201)
-    next()
+    req.login(user, (err) => {
+      if (err) {
+        next(err)
+        return
+      }
+      res.status(201).json({
+        message: 'user created',
+      })
+    })
   } catch (err) {
     console.error(err)
     res.status(500).json({
       message: 'error registering user',
     })
   }
+}
+
+export function logout(req, res) {
+  req.logout((err) => {
+    if (err) {
+      console.error(err)
+      res.status(500).json({
+        message: 'error logging out',
+      })
+      return
+    }
+    res.json({ message: 'success' })
+  })
 }

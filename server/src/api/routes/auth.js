@@ -2,20 +2,24 @@ import { Router } from 'express'
 import passport from 'passport'
 
 import {
-  issueToken,
   register,
   checkUsername,
+  logout,
 } from '../controllers/authController.js'
 
 const router = Router()
 
 router.post(
   '/login',
-  passport.authenticate('local', { session: false, failWithError: true }),
-  issueToken
+  passport.authenticate('local', { failureMessage: true }),
+  (req, res) => {
+    res.json({ message: 'success' })
+  }
 )
 
-router.post('/register', register, issueToken)
+router.post('/register', register)
+
+router.post('/logout', logout)
 
 router.get('/check', checkUsername)
 
