@@ -4,8 +4,8 @@ import { logout } from '../utils/auth'
 
 const router = useRouter()
 
-const handleLogout = () => {
-  logout()
+const handleLogout = async () => {
+  await logout()
   router.push({ name: 'auth' })
 }
 </script>

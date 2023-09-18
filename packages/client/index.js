@@ -5,6 +5,7 @@ import { io } from 'socket.io-client'
 import { program } from 'commander'
 
 let api = null
+const COOKIE_NAME = 'connect.sid'
 
 function get(key, defaultValue) {
   const value = process.env[key]
@@ -48,7 +49,7 @@ async function lastSession() {
     console.log(
       'No session found. Please use --create to create a new session.'
     )
-    exit(1)
+    return null
   }
   const session = sessions[sessions.length - 1]
   console.log(
@@ -57,14 +58,14 @@ async function lastSession() {
   return session
 }
 
-async function connect(sessionId, token) {
+async function connect(sessionId, cookie) {
   console.log(`Session ID: ${sessionId}`)
   console.log('Use Ctrl + D to exit.')
   if (!sessionId) exit()
 
   const socket = io(program.opts().host, {
-    auth: {
-      token,
+    extraHeaders: {
+      Cookie: cookie,
     },
     query: {
       session_id: sessionId,
@@ -76,7 +77,7 @@ async function connect(sessionId, token) {
   })
 
   socket.on('connect_error', (err) => {
-    console.error(err.message)
+    console.error(err)
     exit(1)
   })
 
@@ -111,21 +112,18 @@ async function connect(sessionId, token) {
 
 async function login() {
   try {
-    const res = await api.post('/login/password', {
+    const res = await api.post('/auth/login', {
       username: program.opts().user,
       password: program.opts().password,
     })
-    const { token } = res.data
-    if (!token) {
-      console.error(res.data)
-      exit(1)
-    }
     console.log('Login success.')
-    return token
+    return res.headers['set-cookie'].find((cookie) =>
+      cookie.startsWith(COOKIE_NAME)
+    )
   } catch (err) {
+    console.log('Login failed.')
     console.error(err.message)
-    exit(1)
-    return null
+    return exit(1)
   }
 }
 
@@ -135,47 +133,36 @@ async function main() {
     headers: {
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   })
-  console.log(program.opts().session)
-  // main()
 
-  const token = await login()
-  api.defaults.headers.common.Authorization = `Bearer ${token}`
+  try {
+    const cookie = await login()
+    api.defaults.headers.Cookie = cookie
+    const sessionId =
+      program.opts().session ||
+      (program.opts().create && (await createSession())?._id) ||
+      (await lastSession())?._id ||
+      (await createSession())?._id
 
-  const sessionId =
-    program.opts().session ||
-    (program.opts().create ? (await createSession())._id : null) ||
-    (await lastSession())._id
-
-  await connect(sessionId, token)
+    await connect(sessionId, cookie)
+  } catch (err) {
+    console.error(err.message)
+    exit(1)
+  }
 }
 
 program
   .option('-s, --session <string>', 'Session ID')
   .option('-c, --create', 'Create a new session')
   .option('-d, --debug', 'Debug mode')
-  .option('-u, --user <string>', 'Username', get('USERNAME', 'testUser'))
-  .option(
-    '-p, --password <string>',
-    'Password',
-    get('PASSWORD', 'testPassword')
-  )
+  .option('-u, --user <string>', 'Username', get('USERNAME', 'alex'))
+  .option('-p, --password <string>', 'Password', get('PASSWORD', '123456'))
   .option(
     '-h, --host <string>',
     'Server host',
     get('API_ENDPOINT', 'http://localhost:3000')
   )
   .action(main)
-
-program
-  .command('list')
-  .description('List all sessions')
-  .action(async () => {
-    const sessions = await getSessionList()
-    sessions.forEach(({ _id, quest, createdAt }) => {
-      console.log(`${_id} ${quest} ${createdAt}`)
-    })
-    exit()
-  })
 
 program.parse()
