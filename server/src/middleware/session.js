@@ -10,8 +10,8 @@ export default session({
   rolling: true,
   cookie: {
     httpOnly: true,
-    secure: config.isProduction,
-    sameSite: 'strict',
+    secure: false,
+    sameSite: 'lax',
     maxAge: config.sessionMaxAge,
   },
   store: MongoStore.create({

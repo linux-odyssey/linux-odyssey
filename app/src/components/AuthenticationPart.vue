@@ -155,7 +155,7 @@ const goBack = () => {
       </p>
       <button
         class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-text-primary text-background w-full"
-        @click="handleSubmit"
+        type="submit"
       >
         <span v-if="isRegister">Sign up</span>
         <span v-else>Log in / Sign up</span>
