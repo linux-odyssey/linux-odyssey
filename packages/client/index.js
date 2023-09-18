@@ -5,6 +5,7 @@ import { io } from 'socket.io-client'
 import { program } from 'commander'
 
 let api = null
+const COOKIE_NAME = 'connect.sid'
 
 function get(key, defaultValue) {
   const value = process.env[key]
@@ -48,7 +49,7 @@ async function lastSession() {
     console.log(
       'No session found. Please use --create to create a new session.'
     )
-    exit(1)
+    return null
   }
   const session = sessions[sessions.length - 1]
   console.log(
@@ -57,19 +58,27 @@ async function lastSession() {
   return session
 }
 
-async function connect(sessionId) {
+async function connect(sessionId, cookie) {
   console.log(`Session ID: ${sessionId}`)
   console.log('Use Ctrl + D to exit.')
   if (!sessionId) exit()
 
   const socket = io(program.opts().host, {
+    extraHeaders: {
+      Cookie: cookie,
+    },
     query: {
       session_id: sessionId,
     },
   })
 
-  socket.on('open', function open() {
+  socket.on('connection', function open() {
     console.log('Connected to the server.')
+  })
+
+  socket.on('connect_error', (err) => {
+    console.error(err)
+    exit(1)
   })
 
   socket.on('message', console.log)
@@ -101,44 +110,59 @@ async function connect(sessionId) {
   })
 }
 
+async function login() {
+  try {
+    const res = await api.post('/auth/login', {
+      username: program.opts().user,
+      password: program.opts().password,
+    })
+    console.log('Login success.')
+    return res.headers['set-cookie'].find((cookie) =>
+      cookie.startsWith(COOKIE_NAME)
+    )
+  } catch (err) {
+    console.log('Login failed.')
+    console.error(err.message)
+    return exit(1)
+  }
+}
+
 async function main() {
   api = axios.create({
     baseURL: `${program.opts().host}/api/v1`,
     headers: {
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   })
-  console.log(program.opts().session)
-  // main()
 
-  const sessionId =
-    program.opts().session ||
-    (program.opts().create ? (await createSession())._id : null) ||
-    (await lastSession())._id
+  try {
+    const cookie = await login()
+    api.defaults.headers.Cookie = cookie
+    const sessionId =
+      program.opts().session ||
+      (program.opts().create && (await createSession())?._id) ||
+      (await lastSession())?._id ||
+      (await createSession())?._id
 
-  await connect(sessionId)
+    await connect(sessionId, cookie)
+  } catch (err) {
+    console.error(err.message)
+    exit(1)
+  }
 }
 
 program
   .option('-s, --session <string>', 'Session ID')
   .option('-c, --create', 'Create a new session')
   .option('-d, --debug', 'Debug mode')
+  .option('-u, --user <string>', 'Username', get('USERNAME', 'alex'))
+  .option('-p, --password <string>', 'Password', get('PASSWORD', '123456'))
   .option(
     '-h, --host <string>',
     'Server host',
     get('API_ENDPOINT', 'http://localhost:3000')
   )
   .action(main)
-
-program
-  .command('list')
-  .description('List all sessions')
-  .action(async () => {
-    const sessions = await getSessionList()
-    sessions.forEach(({ _id, quest, createdAt }) => {
-      console.log(`${_id} ${quest} ${createdAt}`)
-    })
-    exit()
-  })
 
 program.parse()

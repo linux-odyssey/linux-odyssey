@@ -49,7 +49,6 @@ async function main() {
     output,
     error,
     exit_code: CMD_EXIT_CODE,
-    token: TOKEN,
     pwd: PWD,
     ...additionalData,
   }
@@ -58,6 +57,7 @@ async function main() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${TOKEN}`,
       },
       body: JSON.stringify(payload),
     })

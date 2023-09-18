@@ -1,4 +1,14 @@
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router'
+import { logout } from '../utils/auth'
+
+const router = useRouter()
+
+const handleLogout = async () => {
+  await logout()
+  router.push({ name: 'auth' })
+}
+</script>
 
 <template>
   <div class="h-full flex items-center justify-center mx-3">
@@ -43,6 +53,12 @@
       <button id="fullscreen" class="flex items-center">
         <font-awesome-icon
           :icon="['fas', 'expand']"
+          class="text-text-primary h-5 w-5"
+        />
+      </button>
+      <button @click="handleLogout">
+        <font-awesome-icon
+          :icon="['fas', 'arrow-right-from-bracket']"
           class="text-text-primary h-5 w-5"
         />
       </button>

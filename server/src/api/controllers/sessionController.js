@@ -3,35 +3,35 @@ import Quest from '../../models/quest.js'
 import { createContainer } from '../../containers/docker.js'
 import SessionHandler from '../../game/sessionHandler.js'
 
+function sessionSummary(session) {
+  return {
+    _id: session._id,
+    user: session.user._id || session.user,
+    quest: session.quest._id || session.quest,
+    status: session.status,
+    createdAt: session.createdAt,
+    lastActivityAt: session.lastActivityAt,
+  }
+}
+
+function sessionDetail(session) {
+  return {
+    ...sessionSummary(session),
+    hints: session.hints,
+    tasks: session.tasks,
+    graph: session.graph,
+  }
+}
+
 export async function getSessionList(req, res) {
   try {
-    const query = { user: req.user.id }
+    const query = { user: req.user._id }
     if (req.query.quest_id) {
       query.quest = req.query.quest_id
     }
     query.status = req.query.status || 'active'
     const sessions = await Session.find(query)
-    res.json(
-      sessions.map(
-        ({
-          _id,
-          user,
-          quest,
-          status,
-          progress,
-          createdAt,
-          lastActivityAt,
-        }) => ({
-          _id,
-          user,
-          quest,
-          status,
-          progress,
-          createdAt,
-          lastActivityAt,
-        })
-      )
-    )
+    res.json(sessions.map(sessionSummary))
   } catch (err) {
     console.error(err)
     res.status(500).json({ message: err.message })
@@ -59,7 +59,7 @@ export async function createSession(req, res) {
     session.addNewTasks()
 
     await newSession.save()
-    res.status(201).json(newSession)
+    res.status(201).json(sessionDetail(newSession))
   } catch (err) {
     console.error(err)
     res.status(400).json({ message: err.message })
@@ -70,7 +70,7 @@ export async function getSessionById(req, res) {
   try {
     const session = await Session.findOne({
       _id: req.params.id,
-      user: req.user.id,
+      user: req.user._id,
     })
 
     if (!session) {
@@ -78,7 +78,7 @@ export async function getSessionById(req, res) {
       return
     }
 
-    res.json(session)
+    res.json(sessionDetail(session))
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
@@ -88,7 +88,7 @@ export async function deleteSessionById(req, res) {
   try {
     const session = await Session.findOneAndDelete({
       _id: req.params.id,
-      user: req.user.id,
+      user: req.user._id,
     })
 
     if (!session) {

@@ -1,26 +1,18 @@
 /* eslint-disable import/prefer-default-export */
 import Command from '../../models/command.js'
 import Session from '../../models/session.js'
-import { verifySessionJWT } from '../../utils/auth.js'
 import CommandHandler from '../../game/commandHandler.js'
 
 export async function newCommand(req, res) {
   console.log('new command:', req.body)
-  const { token, command, pwd, output, error, ...additionalData } = req.body
+  const { command, pwd, output, error, ...additionalData } = req.body
 
   if (!command) {
     res.status(400).json({ message: 'command is required' })
     return
   }
 
-  let sessionId
-  try {
-    const decoded = await verifySessionJWT(token)
-    sessionId = decoded.session_id
-  } catch (err) {
-    res.status(401).json({ message: 'token not valid' })
-    return
-  }
+  const sessionId = req.user.session_id
 
   const session = await Session.findById(sessionId)
 

@@ -1,7 +1,8 @@
 import { Server } from 'socket.io'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import Session from '../models/session.js'
-import { defaultUser, genSessionJWT } from '../utils/auth.js'
+import SessionMiddleware from '../middleware/session.js'
+import { genJWT } from '../utils/auth.js'
 
 const sessions = new Map()
 
@@ -27,6 +28,13 @@ export function pushToSession(sessionId, event, ...args) {
 
 async function connectClient(socket) {
   console.log('Connected to the client.')
+
+  const user = socket.request.session?.passport?.user
+  if (!user) {
+    socket.send('User not found.')
+    socket.disconnect()
+    return
+  }
   const sessionId = socket.handshake.query.session_id
   if (!sessionId) {
     socket.send('Session ID not found.')
@@ -36,7 +44,7 @@ async function connectClient(socket) {
 
   const session = await Session.findOne({
     _id: sessionId,
-    user: socket.user,
+    user,
     status: 'active',
   })
   if (!session) {
@@ -45,7 +53,9 @@ async function connectClient(socket) {
     return
   }
 
-  const token = await genSessionJWT(session)
+  const token = await genJWT({
+    session_id: session.id,
+  })
 
   let container
   let stream
@@ -87,18 +97,7 @@ async function connectClient(socket) {
 export default (server) => {
   const io = new Server(server)
 
-  io.use(async (socket, next) => {
-    console.log('Authenticating...')
-    try {
-      const user = await defaultUser()
-      // eslint-disable-next-line no-param-reassign
-      socket.user = user
-      next()
-    } catch (err) {
-      console.error(err)
-      next(err)
-    }
-  })
+  io.engine.use(SessionMiddleware)
 
   io.on('connection', connectClient)
 }

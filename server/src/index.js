@@ -3,26 +3,43 @@ import express from 'express'
 import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
+import passport from 'passport'
 
+import './auth/passport.js'
 import socketServer from './api/socket.js'
 import connectDB from './db.js'
 import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
+import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
+import { createTestUser } from './utils/auth.js'
 
 async function main() {
-  const app = express()
-  const server = http.createServer(app)
-  socketServer(server)
   await connectDB()
+
+  await createTestUser()
+
   await loadAndUpdateQuests()
   expiryRemovalScheduler()
 
   const file = await fs.readFile('./swagger.yaml', 'utf8')
   const swaggerDocument = YAML.parse(file)
-  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+
+  const app = express()
+  const server = http.createServer(app)
+  socketServer(server)
+  app.use(errorHandler)
+  app.use(sessionMiddleware)
+  app.use(passport.session())
+  app.use(
+    '/api-docs',
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerDocument, {
+      withCredentials: true,
+    })
+  )
   app.use(express.json())
 
   app.get('/', (req, res) => {
@@ -30,8 +47,6 @@ async function main() {
   })
 
   app.use('/api/v1', apiRouter)
-
-  app.use(errorHandler)
 
   server.listen(config.port, config.host, () => {
     console.log(`Server listening at http://${config.host}:${config.port}`)
