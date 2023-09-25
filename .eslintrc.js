@@ -4,10 +4,12 @@ module.exports = {
     node: true,
     jest: true,
   },
+  plugins: ['cypress'],
   extends: [
     'plugin:vue/vue3-essential',
     'airbnb-base',
     'plugin:prettier/recommended', // We added this
+    'plugin:cypress/recommended',
   ],
   parserOptions: {
     // parser: 'babel-eslint',
