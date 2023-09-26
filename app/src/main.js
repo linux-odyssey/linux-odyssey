@@ -18,6 +18,7 @@ import {
   faExpand,
   faTerminal,
   faArrowRotateLeft,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -42,7 +43,8 @@ library.add(
   faCircleQuestion,
   faArrowRotateLeft,
   faCircleRight,
-  faTerminal
+  faTerminal,
+  faArrowRight
 )
 
 const routes = [
