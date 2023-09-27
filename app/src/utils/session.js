@@ -6,6 +6,7 @@ class SessionManager {
   constructor(questId) {
     this.questId = questId
     this.session = ref(null)
+    this.hints = ref([])
     this.graph = ref(
       new FileGraph({
         path: '/',
@@ -24,6 +25,7 @@ class SessionManager {
     console.log('Update session:', session)
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
+    this.hints.value = session.hints
   }
 
   handleGraphUpdate(event) {
@@ -33,6 +35,11 @@ class SessionManager {
     if (event.pwd) {
       this.pwd.value = event.pwd
     }
+  }
+
+  handleHintUpdate(event) {
+    console.log(event)
+    this.hints.value.push(...event)
   }
 
   setTasks(tasks) {
