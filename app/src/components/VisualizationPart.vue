@@ -47,11 +47,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    id="tree"
-    ref="treeRef"
-    class="h-full w-full overflow-auto cursor-grabbing"
-  >
+  <div id="tree" ref="treeRef" class="h-full w-full overflow-auto">
     <TreeChart />
   </div>
 </template>

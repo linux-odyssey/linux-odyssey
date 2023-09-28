@@ -17,7 +17,7 @@ export default {
         },
         text: {
           primary: {
-            DEFAULT: '#00FF00',
+            DEFAULT: '#80FF50',
           },
           secondary: {
             DEFAULT: '#ADADB5',

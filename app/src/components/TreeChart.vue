@@ -1,23 +1,26 @@
+<!-- eslint-disable func-names -->
+<!-- eslint-disable object-shorthand -->
 <script setup>
 import { ref, onMounted } from 'vue'
 import * as echarts from 'echarts/core'
 import { TooltipComponent } from 'echarts/components'
 import { TreeChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
+import config from '../../tailwind.config.js'
 import sessionManager from '../utils/session.js'
+import { folderImage, fileImage } from './images/svg.js'
 
 import treedata from './treedata.js'
-import folderImage from './images/folder.svg'
-import fileImage from './images/file.svg'
 
-console.log(folderImage)
+const { colors } = config.theme.extend
 
 echarts.use([TooltipComponent, TreeChart, CanvasRenderer])
 
 const canvas = ref(null)
 
-// const data = seesionManager.graph.value
-const data = treedata
+let data = 0
+data = sessionManager.graph
+// data = treedata
 
 const option = {
   tooltip: {
@@ -32,29 +35,43 @@ const option = {
       left: '20%',
       bottom: '20%',
       right: '20%',
-      symbol: folderImage,
-      symbolSize: 40,
+      orient: 'LR',
+      roam: true,
+      symbol: function (value, params) {
+        if (params.data.type === 'folder') {
+          return folderImage
+        }
+        return fileImage
+      },
+      symbolSize: 20,
+      symbolKeepAspect: true,
       edgeShape: 'polyline',
       edgeForkPosition: '50%',
       initialTreeDepth: 4,
+      itemStyle: {
+        color: colors.background.primary.DEFAULT,
+        borderColor: colors.text.primary.DEFAULT,
+      },
       lineStyle: {
-        width: 3,
+        width: 2,
+        color: colors.border.DEFAULT.DEFAULT,
       },
       label: {
-        backgroundColor: '#fff',
-        position: 'left',
-        verticalAlign: 'middle',
-        align: 'right',
+        color: colors.text.primary.DEFAULT,
+        backgroundColor: '',
+        position: 'bottom',
+        verticalAlign: 'top',
+        align: 'center',
       },
       leaves: {
         label: {
-          position: 'right',
-          verticalAlign: 'middle',
-          align: 'left',
+          position: 'bottom',
+          verticalAlign: 'top',
+          align: 'center',
         },
       },
       emphasis: {
-        focus: 'descendant',
+        focus: 'none',
       },
       expandAndCollapse: true,
       animationDuration: 550,
@@ -70,5 +87,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="canvas" style="width: 500px; height: 400px"></div>
+  <div ref="canvas" style="width: 410px; height: 450px"></div>
 </template>
