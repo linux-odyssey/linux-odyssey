@@ -19,6 +19,20 @@ Run everything (frontend, backend, db, swagger, quests):
     docker compose build
     docker compose up -d
 
+## Testing
+
+Run Cypress locally, using the current development containers:
+
+    docker compose up -d
+    yarn test:e2e
+
+Run Cypress in container, create brand-new containers along with it:
+
+    docker compose -f docker-compose.testing.yml run cypress
+
+    # tearing off the containers
+    docker compose -f docker-compose.testing.yml down
+
 ### Deployment
 
     docker compose -f docker-compose.prod.yml build
