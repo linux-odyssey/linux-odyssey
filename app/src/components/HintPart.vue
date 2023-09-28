@@ -36,7 +36,7 @@ const right = () => {
       >
         <font-awesome-icon
           :icon="['fas', 'arrow-right']"
-          style="color: #deddda"
+          class="text-text"
           rotation="180"
         />
       </button>
@@ -51,10 +51,7 @@ const right = () => {
         @click="right"
         :disabled="current === sessionManager.hints.value.length - 1"
       >
-        <font-awesome-icon
-          :icon="['fas', 'arrow-right']"
-          style="color: #deddda"
-        />
+        <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
       </button>
     </div>
   </div>
