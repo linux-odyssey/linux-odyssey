@@ -60,7 +60,7 @@ jobs:
         with:
           context: .
           file: ./quests/Dockerfile
-          push: false
+          push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:base
 
       - name: Build quest helloworld
