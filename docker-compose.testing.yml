@@ -53,6 +53,18 @@ services:
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
 
+  base:
+    image: lancatlin/linux-odyssey:base
+    build:
+      context: .
+      dockerfile: ./quests/Dockerfile
+
+  helloworld:
+    image: lancatlin/linux-odyssey:helloworld
+    build:
+      context: .
+      dockerfile: quests/helloworld/Dockerfile
+
 networks:
   internal:
   players:
