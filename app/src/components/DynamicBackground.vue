@@ -6,6 +6,10 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted } from 'vue'
+import config from '../../tailwind.config.js'
+
+const { colors } = config.theme.extend
 
 const cw = ref(0)
 const ch = ref(0)
@@ -24,10 +28,10 @@ const randomFloat = (min, max) => {
 }
 
 const draw = (point) => {
-  point.value = charArr[randomInt(0, charArr.length)].toUpperCase()
+  point.value = charArr[randomInt(0, charArr.length)]
   if (point.y < 0) point.speed = randomFloat(10, 20)
 
-  ctx.value.fillStyle = '#0F0'
+  ctx.value.fillStyle = colors.text.primary.DEFAULT
   ctx.value.font = `${fontSize.value}px san-serif`
   ctx.value.fillText(point.value, point.x, point.y)
 
@@ -39,7 +43,11 @@ const draw = (point) => {
 }
 
 const update = () => {
-  ctx.value.fillStyle = 'rgba(0,0,0,0.05)'
+  ctx.value.fillStyle = `rgba(
+    ${parseInt(colors.background.secondary.DEFAULT.substr(1, 2), 16)},
+    ${parseInt(colors.background.secondary.DEFAULT.substr(3, 2), 16)},
+    ${parseInt(colors.background.secondary.DEFAULT.substr(5, 2), 16)},
+    0.05)`
   ctx.value.fillRect(0, 0, cw.value, ch.value)
 
   let i = fallingCharArr.value.length
