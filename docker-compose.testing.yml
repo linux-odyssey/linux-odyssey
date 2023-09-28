@@ -1,0 +1,71 @@
+version: '3'
+services:
+  cypress:
+    image: cypress/included
+    networks:
+      - internal
+    volumes:
+      - ./tests:/e2e
+    working_dir: /e2e
+    environment:
+      - BASE_URL=http://app-test
+    depends_on:
+      - app-test
+
+  app-test:
+    image: lancatlin/linux-odyssey:app
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    networks:
+      internal:
+    ports:
+      - 5173:80
+    depends_on:
+      - backend
+
+  backend:
+    image: lancatlin/linux-odyssey:backend
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    depends_on:
+      - db-test
+    networks:
+      - internal
+      - players
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MONGO_URL=mongodb://user:user-password@db-test:27017/odyssey-test
+      - DOCKER_NETWORK=linux-odyssey-players
+
+  db-test:
+    image: mongo
+    networks:
+      - internal
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin-password
+      - MONGO_USER=user
+      - MONGO_PASS=user-password
+      - MONGO_DB=odyssey-test
+
+  base:
+    image: lancatlin/linux-odyssey:base
+    build:
+      context: .
+      dockerfile: ./quests/Dockerfile
+
+  helloworld:
+    image: lancatlin/linux-odyssey:helloworld
+    build:
+      context: .
+      dockerfile: quests/helloworld/Dockerfile
+
+networks:
+  internal:
+  players:
+    name: linux-odyssey-players

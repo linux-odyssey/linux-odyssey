@@ -24,8 +24,28 @@ jobs:
       - name: Test
         run: yarn test
 
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build Test Environment, Stage 1
+        run: docker-compose -f docker-compose.testing.yml build base backend app-test
+
+      - name: Build Test Environment, Stage 2
+        run: docker-compose -f docker-compose.testing.yml build helloworld
+
+      - name: Run Cypress Tests
+        run: docker-compose -f docker-compose.testing.yml run cypress
+
+      - name: Tear Down Test Environment
+        run: docker-compose -f docker-compose.testing.yml down
+
   build-and-push:
-    needs: ci
+    needs:
+      - ci
+      - e2e
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
@@ -60,7 +80,7 @@ jobs:
         with:
           context: .
           file: ./quests/Dockerfile
-          push: false
+          push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:base
 
       - name: Build quest helloworld
