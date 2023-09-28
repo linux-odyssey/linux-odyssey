@@ -12,6 +12,7 @@ import {
   faTerminal,
   faArrowRotateLeft,
   faArrowRightFromBracket,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -33,5 +34,6 @@ library.add(
   faArrowRotateLeft,
   faCircleRight,
   faTerminal,
-  faArrowRightFromBracket
+  faArrowRightFromBracket,
+  faArrowRight
 )
