@@ -10,4 +10,8 @@ export default {
   hostPwd: get('HOST_PWD', ''),
   containerExpiry: get('EXPIRY', 1000 * 60 * 60),
   sessionMaxAge: get('SESSION_MAX_AGE', 1000 * 60 * 60 * 24 * 7),
+  google: {
+    clientID: get('GOOGLE_CLIENT_ID', ''),
+    clientSecret: get('GOOGLE_CLIENT_SECRET', ''),
+  },
 }

@@ -2,7 +2,7 @@
 
 inspect() {
   # default to app, allow overriding by $1
-  SERVICE=${1:-app}
+  SERVICE=${1:-backend}
   echo "Running docker-compose logs for service [$SERVICE]..."
   docker compose logs $SERVICE -f --no-log-prefix
 }

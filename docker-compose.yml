@@ -26,6 +26,8 @@ services:
       - ./server/swagger.yaml:/app/server/swagger.yaml
       - ./packages:/app/packages
       - ./quests:/app/quests
+    env_file:
+      - .env
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players

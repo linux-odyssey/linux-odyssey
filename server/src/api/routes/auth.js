@@ -26,4 +26,14 @@ router.get('/check-username', checkUsername)
 
 router.get('/check-session', checkSession)
 
+router.get('/google', passport.authenticate('google'))
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+  })
+)
+
 export default router
