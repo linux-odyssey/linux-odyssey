@@ -26,12 +26,12 @@ services:
       - ./server/swagger.yaml:/app/server/swagger.yaml
       - ./packages:/app/packages
       - ./quests:/app/quests
-    env_file:
-      - .env
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
       - HOST_PWD=${PWD}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
   db:
     image: mongo
     networks:

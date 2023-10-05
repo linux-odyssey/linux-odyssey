@@ -19,6 +19,10 @@ Run everything (frontend, backend, db, swagger, quests):
     docker compose build
     docker compose up -d
 
+If you want to enable social login, you should have OAuth client token in a `.env` file:
+
+    docker compose --env-file .env up -d
+
 ## Testing
 
 Run Cypress locally, using the current development containers:
@@ -41,6 +45,17 @@ Run Cypress in container, create brand-new containers along with it:
     # Server side
     docker compose -f docker-compose.prod.yml pull
     docker compose -f docker-compose.prod.yml up -d
+
+To enable social login, you should have OAuth client token in a `.env` file:
+You can copy from `example.env`
+
+    # .env
+    GOOGLE_CLIENT_ID=...
+    GOOGLE_CLIENT_SECRET=...
+
+To enable it:
+
+    docker compose --env-file .env -f docker-compose.prod.yml up -d
 
 ## Standalone App (without Docker)
 
