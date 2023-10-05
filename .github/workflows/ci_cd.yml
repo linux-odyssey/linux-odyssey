@@ -37,6 +37,9 @@ jobs:
         run: docker-compose -f docker-compose.testing.yml build helloworld
 
       - name: Run Cypress Tests
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: docker-compose -f docker-compose.testing.yml run cypress
 
       - name: Tear Down Test Environment
