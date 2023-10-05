@@ -4,7 +4,8 @@ const User = model('User', {
   username: {
     type: String,
     unique: true,
-    required: true,
+    required: false, // should be required,
+    // but need to let social login users to pick one after login
   },
   email: {
     type: String,
@@ -12,6 +13,10 @@ const User = model('User', {
     required: true,
   },
   hashedPassword: String,
+  google: {
+    id: String,
+    displayName: String,
+  },
 })
 
 export default User
