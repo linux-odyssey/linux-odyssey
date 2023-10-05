@@ -79,7 +79,7 @@ export async function register(req, res, next) {
   if (await User.exists({ email })) {
     res.status(409).json({
       type: 'email',
-      message: 'username already exists',
+      message: 'email already exists',
     })
     return
   }
