@@ -64,7 +64,6 @@ async function check() {
 }
 
 function handleRegister() {
-  console.log('register', username.value, email.value, password.value)
   register(username.value, email.value, password.value)
     .then((isSuccess) => {
       if (isSuccess) {

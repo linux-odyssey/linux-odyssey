@@ -27,8 +27,6 @@ export function pushToSession(sessionId, event, ...args) {
 }
 
 async function connectClient(socket) {
-  console.log('Connected to the client.')
-
   const user = socket.request.session?.passport?.user
   if (!user) {
     socket.send('User not found.')
@@ -85,7 +83,6 @@ async function connectClient(socket) {
   listenToSession(session.id, socketCallback)
 
   socket.on('disconnect', () => {
-    console.log('Disconnected from the client.')
     stream.socket.write('exit\n')
     removeFromSession(session.id, socketCallback)
     stream.destroy()

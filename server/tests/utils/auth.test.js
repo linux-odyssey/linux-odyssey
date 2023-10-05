@@ -33,12 +33,10 @@ test('check valid email', () => {
   ]
 
   validEmails.forEach((email) => {
-    console.log(email)
     expect(isValidEmail(email)).toBe(true)
   })
 
   invalidEmails.forEach((email) => {
-    console.log(email)
     expect(isValidEmail(email)).toBe(false)
   })
 })

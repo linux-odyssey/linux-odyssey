@@ -4,8 +4,6 @@ import config from '../config.js'
 import User from '../models/user.js'
 
 function verify(issuer, profile, cb) {
-  console.log('Get a google login:', profile)
-
   process.nextTick(async () => {
     const email = profile.emails[0]?.value
     if (!email) {
@@ -20,7 +18,6 @@ function verify(issuer, profile, cb) {
         id: profile.id,
         displayName: profile.displayName,
       }
-      console.log('Existing user:', user)
       if (!user) {
         user = new User({
           email,
