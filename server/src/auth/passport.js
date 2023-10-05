@@ -5,7 +5,17 @@ import googleStrategy from './googleStrategy.js'
 
 passport.use(passwordStrategy)
 passport.use(jwtStrategy)
-passport.use(googleStrategy)
+
+const enabledMethods = {
+  local: true,
+  google: googleStrategy !== null,
+}
+
+console.log('Enabled login methods', enabledMethods)
+
+if (enabledMethods.google) {
+  passport.use(googleStrategy)
+}
 
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
@@ -22,3 +32,5 @@ passport.deserializeUser((user, done) => {
     done(null, user)
   })
 })
+
+export default enabledMethods
