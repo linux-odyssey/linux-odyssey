@@ -8,11 +8,11 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: process.env.API_TARGET || 'http://localhost:3000',
-        changeOrigin: true,
+        changeOrigin: false,
       },
       '/socket.io': {
         target: process.env.API_TARGET || 'ws://localhost:3000',
-        changeOrigin: true,
+        changeOrigin: false,
         ws: true,
       },
     },

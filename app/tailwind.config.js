@@ -22,6 +22,9 @@ export default {
         border: {
           DEFAULT: '#526B4E',
         },
+        icon: {
+          google: '#DB4437',
+        },
       },
     },
   },

@@ -167,6 +167,16 @@ const goBack = () => {
       >
         <span>Back to Login</span>
       </button>
+      <hr class="my-8" />
+      <p class="flex justify-center font-semibold text-text text-m">
+        Log in with social account
+      </p>
+      <a
+        class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-icon-google text-text w-full"
+        href="/api/v1/auth/google"
+      >
+        <span>Google</span>
+      </a>
     </form>
   </div>
 </template>
