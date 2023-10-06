@@ -10,17 +10,11 @@ import config from '../../tailwind.config.js'
 import sessionManager from '../utils/session.js'
 import { folderImage, fileImage } from './images/svg.js'
 
-import treedata from './treedata.js'
-
-const { colors } = config.theme.extend
-
 echarts.use([TooltipComponent, TreeChart, CanvasRenderer])
 
+const { colors } = config.theme.extend
 const canvas = ref(null)
-
-let data = 0
-data = sessionManager.graph
-// data = treedata
+const data = sessionManager.graph
 
 const option = {
   tooltip: {
@@ -37,7 +31,7 @@ const option = {
       right: '20%',
       orient: 'LR',
       roam: true,
-      symbol: function (value, params) {
+      symbol: function (_value, params) {
         if (params.data.type === 'folder') {
           return folderImage
         }

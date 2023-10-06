@@ -6,7 +6,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { ref, onMounted } from 'vue'
 import config from '../../tailwind.config.js'
 
 const { colors } = config.theme.extend
