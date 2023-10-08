@@ -28,15 +28,15 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.add(filesToAdd)
+    const result = fileGraph.add(filesToAdd)
 
-    console.log(fileGraph.toString())
-    expect(fileGraph.children.length).toBe(1)
-    expect(fileGraph.children[0].children[0].children.length).toBe(2)
+    console.log(result.toString())
+    expect(result.children.length).toBe(1)
+    expect(result.children[0].children[0].children.length).toBe(2)
   })
 
   test('remove files from graph', () => {
-    const fileGraph = new FileGraph(root)
+    let fileGraph = new FileGraph(root)
 
     const filesToAdd = [
       {
@@ -61,7 +61,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.add(filesToAdd)
+    fileGraph = fileGraph.add(filesToAdd)
 
     const filesToRemove = [
       {
@@ -74,7 +74,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.remove(filesToRemove)
+    fileGraph = fileGraph.remove(filesToRemove)
 
     console.log(fileGraph.toString())
     expect(fileGraph.children[0].children[0].children.length).toBe(1)
@@ -85,7 +85,7 @@ describe('FileGraph', () => {
   })
 
   test('discover', () => {
-    const fileGraph = new FileGraph(root)
+    let fileGraph = new FileGraph(root)
     const discoverFiles = [
       {
         path: '/home/user/folder1',
@@ -109,7 +109,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.discover(discoverFiles)
+    fileGraph = fileGraph.discover(discoverFiles)
     console.log(fileGraph.toString())
     expect(fileGraph.children[0].children[0].children[0].children.length).toBe(
       3
@@ -117,7 +117,7 @@ describe('FileGraph', () => {
   })
 
   test('discover new files', () => {
-    const fileGraph = new FileGraph(root)
+    let fileGraph = new FileGraph(root)
 
     const filesToAdd = [
       {
@@ -142,7 +142,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.add(filesToAdd)
+    fileGraph = fileGraph.add(filesToAdd)
     console.log(fileGraph.toString())
 
     const newFiles = [
@@ -168,7 +168,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.discover(newFiles)
+    fileGraph = fileGraph.discover(newFiles)
 
     console.log(fileGraph.toString())
     expect(fileGraph.children[0].children[0].children.length).toBe(2)
