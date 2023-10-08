@@ -1,4 +1,4 @@
-import Quest from '../../models/quest.js'
+import { Quest } from '@linux-odyssey/models'
 
 export async function getQuests(req, res) {
   const quests = await Quest.find({}).sort({ order: 1 })

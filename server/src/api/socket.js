@@ -1,6 +1,6 @@
 import { Server } from 'socket.io'
+import { Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
-import Session from '../models/session.js'
 import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
 

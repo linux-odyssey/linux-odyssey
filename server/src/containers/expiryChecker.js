@@ -1,6 +1,6 @@
 import schedule from 'node-schedule'
+import { Session } from '@linux-odyssey/models'
 import config from '../config.js'
-import Session from '../models/session.js'
 import { deleteContainer } from './docker.js'
 
 export async function removeExpired() {
