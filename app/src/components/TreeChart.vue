@@ -1,7 +1,7 @@
 <!-- eslint-disable func-names -->
 <!-- eslint-disable object-shorthand -->
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import * as echarts from 'echarts/core'
 import { TooltipComponent } from 'echarts/components'
 import { TreeChart } from 'echarts/charts'
@@ -12,6 +12,7 @@ import { folderImage, fileImage } from './images/svg.js'
 
 echarts.use([TooltipComponent, TreeChart, CanvasRenderer])
 
+let pie = null
 const { colors } = config.theme.extend
 const canvas = ref(null)
 const data = sessionManager.graph
@@ -75,8 +76,19 @@ const option = {
 }
 
 onMounted(() => {
-  const pie = echarts.init(canvas.value)
+  pie = echarts.init(canvas.value)
   pie.setOption(option)
+})
+
+watch(sessionManager.graph, (graph) => {
+  console.log('Update graph', graph)
+  pie.setOption({
+    series: [
+      {
+        data: [graph],
+      },
+    ],
+  })
 })
 </script>
 
