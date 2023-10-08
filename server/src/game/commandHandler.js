@@ -50,8 +50,7 @@ export default class CommandHandler extends SessionHandler {
 
   async discoverHandler() {
     const graph = new FileGraph(this.session.graph)
-    graph.discover(this.additionalData.discover)
-    this.session.graph = graph
+    this.session.graph = graph.discover(this.additionalData.discover)
   }
 
   async isMatch(condition) {

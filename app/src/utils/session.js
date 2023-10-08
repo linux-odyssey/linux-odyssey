@@ -60,7 +60,7 @@ class SessionManager {
 
   handleGraphUpdate(event) {
     if (event.discover) {
-      this.graph.value.discover(event.discover)
+      this.graph.value = this.graph.value.discover(event.discover)
     }
     if (event.pwd) {
       this.pwd.value = event.pwd
