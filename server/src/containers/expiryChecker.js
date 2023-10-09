@@ -16,7 +16,9 @@ export async function removeExpired() {
       sessions.map(async (session) => {
         console.log('Expiring session: ', session._id, session.containerId)
         await deleteContainer(session.containerId)
-        session.status = 'inactive'
+        if (session.status === 'active') {
+          session.status = 'inactive'
+        }
         session.containerId = null
         await session.save()
       })
