@@ -1,7 +1,8 @@
+import connectDB from '@linux-odyssey/models'
 import { removeExpired } from '../containers/expiryChecker.js'
-import connectDB from '../db.js'
+import config from '../config.js'
 
-connectDB()
+connectDB(config.db)
   .then(removeExpired)
   .then(() => {
     process.exit(0)
