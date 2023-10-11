@@ -1,6 +1,8 @@
 import { Router } from 'express'
 import passport from 'passport'
 
+import enabledMethods from '../../auth/passport.js'
+
 import {
   register,
   checkUsername,
@@ -25,5 +27,20 @@ router.post('/logout', logout)
 router.get('/check-username', checkUsername)
 
 router.get('/check-session', checkSession)
+
+router.get('/available-methods', (req, res) => {
+  res.json(enabledMethods)
+})
+
+if (enabledMethods.google) {
+  router.get('/google', passport.authenticate('google'))
+  router.get(
+    '/google/callback',
+    passport.authenticate('google', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    })
+  )
+}
 
 export default router

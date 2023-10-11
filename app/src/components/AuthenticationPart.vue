@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { login, register } from '../utils/auth'
 import api from '../utils/api'
@@ -12,6 +12,19 @@ const email = ref('')
 const emailInput = ref(null)
 const password = ref('')
 const errorMessage = ref('')
+
+const availableMethods = ref({})
+onMounted(async () => {
+  const res = await api.get('/auth/available-methods')
+  availableMethods.value = res.data
+})
+
+const hasSocialLogins = computed(() => {
+  // There is any key other than 'local' is true
+  return Object.keys(availableMethods.value).some(
+    (method) => method !== 'local' && availableMethods.value[method]
+  )
+})
 
 const success = () => {
   router.push({ name: 'game' })
@@ -58,7 +71,6 @@ async function check() {
 }
 
 function handleRegister() {
-  console.log('register', username.value, email.value, password.value)
   register(username.value, email.value, password.value)
     .then((isSuccess) => {
       if (isSuccess) {
@@ -167,6 +179,19 @@ const goBack = () => {
       >
         <span>Back to Login</span>
       </button>
+      <div v-if="hasSocialLogins">
+        <hr class="my-8" />
+        <p class="flex justify-center font-semibold text-text text-base">
+          Log in with social account
+        </p>
+        <a
+          v-if="availableMethods.google"
+          class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-icon-google text-text w-full"
+          href="/api/v1/auth/google"
+        >
+          <span>Google</span>
+        </a>
+      </div>
     </form>
   </div>
 </template>

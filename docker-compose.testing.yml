@@ -39,6 +39,8 @@ services:
     environment:
       - MONGO_URL=mongodb://user:user-password@db-test:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
 
   db-test:
     image: mongo

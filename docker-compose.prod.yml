@@ -20,6 +20,8 @@ services:
       - players
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - .env
     environment:
       - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
@@ -39,6 +41,8 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
 
   base:
     image: lancatlin/linux-odyssey:base

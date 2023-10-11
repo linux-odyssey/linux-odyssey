@@ -46,7 +46,7 @@ function resizeScreen() {
     // 窗口大小改变时，触发xterm的resize方法使自适应
     fitAddon.fit()
   } catch (e) {
-    console.log('e', e.message)
+    console.error('e', e.message)
   }
 }
 window.addEventListener('resize', resizeScreen)

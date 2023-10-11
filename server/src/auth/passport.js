@@ -1,9 +1,21 @@
 import passport from 'passport'
-import PasswordStrategy from './passwordStrategy.js'
-import JwtStrategy from './jwtStrategy.js'
+import passwordStrategy from './passwordStrategy.js'
+import jwtStrategy from './jwtStrategy.js'
+import googleStrategy from './googleStrategy.js'
 
-passport.use(PasswordStrategy)
-passport.use(JwtStrategy)
+passport.use(passwordStrategy)
+passport.use(jwtStrategy)
+
+const enabledMethods = {
+  local: true,
+  google: googleStrategy !== null,
+}
+
+console.log('Enabled login methods', enabledMethods)
+
+if (enabledMethods.google) {
+  passport.use(googleStrategy)
+}
 
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
@@ -20,3 +32,5 @@ passport.deserializeUser((user, done) => {
     done(null, user)
   })
 })
+
+export default enabledMethods

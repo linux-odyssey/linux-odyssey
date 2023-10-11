@@ -38,7 +38,6 @@ class SessionManager {
   }
 
   handleHintUpdate(event) {
-    console.log(event)
     this.hints.value = [...this.hints.value, ...event]
   }
 

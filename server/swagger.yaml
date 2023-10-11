@@ -319,6 +319,30 @@ paths:
                     type: string
                     example: Username is already taken
 
+  /auth/available-methods:
+    get:
+      summary: Get available login methods
+      responses:
+        '200':
+          description: Available login methods
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  local:
+                    type: boolean
+                    example: true
+                  github:
+                    type: boolean
+                    example: true
+                  google:
+                    type: boolean
+                    example: true
+                  facebook:
+                    type: boolean
+                    example: true
+
   /auth/check-session:
     get:
       summary: Check if the session is valid
@@ -333,6 +357,36 @@ paths:
                   loggedIn:
                     type: boolean
                     example: true
+
+  /auth/google:
+    get:
+      summary: Initiate OAuth2 login with Google
+      operationId: initiateOAuth
+      security:
+        - GoogleOAuth: []
+      responses:
+        302:
+          description: Redirect to Google's OAuth 2.0 authorization endpoint
+        500:
+          description: Internal Server Error
+  /auth/google/callback:
+    get:
+      summary: OAuth2 callback endpoint
+      operationId: oauthCallback
+      parameters:
+        - name: code
+          in: query
+          description: Authorization code from Google
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful Operation
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
 
   /quests:
     get:
@@ -571,3 +625,15 @@ components:
       type: apiKey
       in: cookie
       name: connect.sid
+
+    GoogleOAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.google.com/o/oauth2/auth
+          tokenUrl: https://accounts.google.com/o/oauth2/token
+          scopes:
+            # Define your scopes here
+            openid: OpenID
+            profile: User profile
+            email: User email
