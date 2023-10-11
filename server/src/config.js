@@ -1,6 +1,6 @@
 import { get } from './utils/env.js'
 
-export default {
+const config = {
   host: get('HOST', 'localhost'),
   port: get('PORT', 3000),
   db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
@@ -15,3 +15,7 @@ export default {
     clientSecret: get('GOOGLE_CLIENT_SECRET', ''),
   },
 }
+
+config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
+
+export default config

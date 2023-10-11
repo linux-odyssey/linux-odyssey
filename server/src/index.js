@@ -49,7 +49,7 @@ async function main() {
   app.use('/api/v1', apiRouter)
 
   server.listen(config.port, config.host, () => {
-    console.log(`Server listening at http://${config.host}:${config.port}`)
+    console.log(`Server listening at ${config.baseUrl}`)
   })
 }
 

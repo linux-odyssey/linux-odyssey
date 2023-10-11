@@ -50,6 +50,7 @@ To enable social login, you should have OAuth client token in a `.env` file:
 You can copy from `example.env`
 
     # .env
+    BASE_URL=https://example.com
     GOOGLE_CLIENT_ID=...
     GOOGLE_CLIENT_SECRET=...
 
