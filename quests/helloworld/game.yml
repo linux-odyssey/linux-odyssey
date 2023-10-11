@@ -17,7 +17,7 @@ stages:
         content:
           - 你聽到了一個聲音：
       - type: dialogue
-        speaker: Unix Spirit
+        speaker: Unix 精靈
         content:
           - 你好，指令官，我是你的 Unix 精靈。我已在此恭候多時。
           - 這個世界是在 3560000 時脈以前，由初代王建立了 Unix 律法，所形成的世界。然而在經過了好幾世代的王後，終於誕生了永恆之王——薩加（Saga），她比歷代的君王都更為強大，且從來不會衰老，使得這個世界變得前所未有的強大。
@@ -44,7 +44,7 @@ stages:
           - 一瞬間，視野變得清晰起來，你發現自己身處在一個石頭建築的房間裡，房間裡有一個門，門上有一個鎖。
           - 你發現了一個檔案，檔名是 `forgotten_scroll.txt`。
       - type: dialogue
-        speaker: Unix Spirit
+        speaker: Unix 精靈
         content:
           - 你找到了一個被遺忘的卷軸，上面寫著解除封印的咒語。
           - 使用指令 `cat [檔案名稱]` 來查看檔案內容。
@@ -80,12 +80,12 @@ stages:
         - cat forgotten_scroll.txt
     responses:
       - type: dialogue
-        speaker: Unix Spirit
+        speaker: Unix 精靈
         content:
           - 你找到的是一個被遺忘的卷軸，上面寫著解除封印的咒語。
           - 使用你已經知道的 `echo` 指令來詠唱咒語。
 
-  - id: END
+  - id: unseal
     task: 解除封印
     repeatable: false
     requirements:
@@ -96,9 +96,9 @@ stages:
     responses:
       - type: narrative
         content:
-          - 突然之間，你感覺到一股強大的力量從你的身體中湧出，你的身體開始發光，你的手中出現了一把魔法之劍。
+          - 突然之間，牆壁上出現了一道閃光，閃光消失之後，你發現房間裡多了一扇門，門上有一個壞掉的鎖。
       - type: dialogue
-        speaker: Unix Spirit
+        speaker: Unix 精靈
         content:
           - 恭喜您，我的指令官，您已成功解除了封印。
-          - 請跟著在接下來的關卡，一步步取回 Linux 之根吧！
+          - 這是一間被封印的倉庫，裡面應該會有許多有用的東西。
