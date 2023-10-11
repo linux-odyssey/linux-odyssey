@@ -93,3 +93,4 @@ networks:
   internal:
   players:
     name: linux-odyssey-players
+    internal: true

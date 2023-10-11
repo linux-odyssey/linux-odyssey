@@ -12,6 +12,7 @@ const containerOptions = {
   OpenStdin: true,
   StdinOnce: false,
   HostConfig: {
+    NetworkMode: config.dockerNetwork,
     Binds:
       !config.isProduction && config.hostPwd
         ? [
@@ -22,14 +23,13 @@ const containerOptions = {
   },
 }
 
-const network = engine.getNetwork(config.dockerNetwork)
+// const network = engine.getNetwork(config.dockerNetwork)
 
 export async function createContainer(name) {
   const container = await engine.createContainer({
     ...containerOptions,
     name,
   })
-  await network.connect({ Container: container.id })
   return container
 }
 
