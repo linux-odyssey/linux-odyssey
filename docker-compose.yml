@@ -27,6 +27,7 @@ services:
       - ./packages:/app/packages
       - ./quests:/app/quests
     environment:
+      - BASE_URL=http://localhost:5173
       - MONGO_URL=mongodb://db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
       - HOST_PWD=${PWD}

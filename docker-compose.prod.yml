@@ -36,6 +36,7 @@ services:
       - mongo:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
+      - BASE_URL=https://example.com
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin-password
       - MONGO_USER=user

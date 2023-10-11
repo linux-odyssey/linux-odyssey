@@ -43,7 +43,7 @@ export default enabled
       {
         clientID: config.google.clientID,
         clientSecret: config.google.clientSecret,
-        callbackURL: '/api/v1/auth/google/callback',
+        callbackURL: `${config.baseUrl}/api/v1/auth/google/callback`,
         scope: ['profile', 'email'],
       },
       verify
