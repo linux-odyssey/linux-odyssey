@@ -17,6 +17,10 @@ const User = model('User', {
     id: String,
     displayName: String,
   },
+  github: {
+    id: String,
+    displayName: String,
+  },
 })
 
 export default User
