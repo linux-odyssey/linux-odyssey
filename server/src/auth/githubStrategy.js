@@ -5,8 +5,6 @@ import User from '../models/user.js'
 
 function verify(accessToken, refreshToken, profile, cb) {
   process.nextTick(async () => {
-    console.log(accessToken, refreshToken, profile)
-    // cb('todo')
     const email = profile.emails[0]?.value
     if (!email) {
       cb(new Error('No email found'))
@@ -21,16 +19,18 @@ function verify(accessToken, refreshToken, profile, cb) {
         displayName: profile.displayName,
       }
       if (!user) {
-        user = new User({
+        const newUser = {
           email,
           github,
-        })
-      } else if (user.github?.id) {
+        }
+        cb(null, { newUser })
+        return
+      }
+      if (user.github?.id) {
         cb(new Error('Email already used and binded to another account'))
         return
-      } else {
-        user.github = github
       }
+      user.github = github
       await user.save()
     }
 

@@ -1,5 +1,5 @@
 export default function authRequired(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && !req.session.newUser) {
     next()
     return
   }

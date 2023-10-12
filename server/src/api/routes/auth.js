@@ -8,6 +8,8 @@ import {
   checkUsername,
   checkSession,
   logout,
+  socialLogin,
+  registerFromSession,
 } from '../controllers/authController.js'
 
 const router = Router()
@@ -34,24 +36,14 @@ router.get('/available-methods', (req, res) => {
 
 if (enabledMethods.google) {
   router.get('/google', passport.authenticate('google'))
-  router.get(
-    '/google/callback',
-    passport.authenticate('google', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-    })
-  )
+  router.get('/google/callback', passport.authenticate('google'), socialLogin)
 }
 
 if (enabledMethods.github) {
   router.get('/github', passport.authenticate('github'))
-  router.get(
-    '/github/callback',
-    passport.authenticate('github', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-    })
-  )
+  router.get('/github/callback', passport.authenticate('github'), socialLogin)
 }
+
+router.post('/register-from-session', registerFromSession)
 
 export default router

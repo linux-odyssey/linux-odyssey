@@ -56,7 +56,7 @@ export function isValidUsername(username) {
   if (!usernamePattern.test(username)) return false
 
   // check if the username is between 1 and 32 characters
-  if (username.length < 1 || username.length > 32) {
+  if (username.length < 4 || username.length > 32) {
     return false
   }
 

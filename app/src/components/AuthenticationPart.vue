@@ -34,7 +34,7 @@ const handleLogin = async () => {
   try {
     const isSuccess = await login(username.value, password.value)
     if (isSuccess) success()
-    else errorMessage.value = 'Invalid username or password.'
+    else errorMessage.value = 'Wrong username or password.'
   } catch (err) {
     console.error(err)
     errorMessage.value = 'Something went wrong.'
@@ -47,20 +47,18 @@ async function check() {
     const res = await api.get('/auth/check-username', {
       params: { username: user },
     })
-    // user not exists, try register
-    const { type } = res.data
-    if (type === 'email') {
-      email.value = user
-      username.value = ''
-    }
-    isRegister.value = true
-    usernameInput.value.focus()
-  } catch (err) {
-    if (err.response?.status === 409) {
-      // user already exists, try login
+    const { type, available } = res.data
+    if (available) {
+      if (type === 'email') {
+        email.value = user
+        username.value = ''
+      }
+      isRegister.value = true
+      usernameInput.value.focus()
+    } else {
       await handleLogin()
-      return
     }
+  } catch (err) {
     if (err.response?.status === 400) {
       errorMessage.value = 'Invalid username or email.'
       return

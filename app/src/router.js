@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import GamePage from './views/GamePage.vue'
 import AuthPage from './views/AuthPage.vue'
+import ChooseUsernamePage from './views/ChooseUsernamePage.vue'
 import { isLoggedIn } from './utils/auth'
 
 const routes = [
@@ -19,6 +20,12 @@ const routes = [
     name: 'game',
     component: GamePage,
     meta: { requiresAuth: true },
+  },
+  {
+    path: '/choose-username',
+    name: 'choose-username',
+    component: ChooseUsernamePage,
+    meta: { requiresGuest: true },
   },
 ]
 

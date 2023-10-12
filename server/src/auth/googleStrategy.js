@@ -19,16 +19,18 @@ function verify(issuer, profile, cb) {
         displayName: profile.displayName,
       }
       if (!user) {
-        user = new User({
+        const newUser = new User({
           email,
           google,
         })
-      } else if (user.google?.id) {
+        cb(null, { newUser })
+        return
+      }
+      if (user.google?.id) {
         cb(new Error('Email already used and binded to another account'))
         return
-      } else {
-        user.google = google
       }
+      user.google = google
       await user.save()
     }
 

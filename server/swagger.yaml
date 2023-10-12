@@ -211,6 +211,31 @@ paths:
                     type: string
                     example: User already exists
 
+  /auth/register-from-session:
+    post:
+      summary: Register a new user from a session, for social login to pick a username
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  format: username
+                  example: alex
+      responses:
+        '201':
+          description: User created
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: connect.sid=s%3Aq1Z; Path=/; HttpOnly; SameSite=Strict; Secure
+
   /auth/login:
     post:
       summary: Log in a user
@@ -297,19 +322,30 @@ paths:
             type: string
             format: username
             example: alex
+        - in: query
+          name: email
+          description: email to check
+          required: true
+          schema:
+            type: string
+            format: email
+            example: alex@example.com
       responses:
         '200':
-          description: Username is available
+          description: Username / Email checking result
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
+                  type:
                     type: string
                     example: Username is available
-        '409':
-          description: Username is already taken
+                  available:
+                    type: boolean
+                    example: true
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
