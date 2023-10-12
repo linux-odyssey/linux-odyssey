@@ -1,0 +1,15 @@
+name: CI/CD
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  gpt-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: gpt-review
+        uses: microsoft/gpt-review@v0.9.5
+        with:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
