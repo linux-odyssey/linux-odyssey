@@ -24,6 +24,7 @@ export default {
         },
         icon: {
           google: '#DB4437',
+          github: '#171515',
         },
       },
     },

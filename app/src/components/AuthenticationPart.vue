@@ -191,6 +191,13 @@ const goBack = () => {
         >
           <span>Google</span>
         </a>
+        <a
+          v-if="availableMethods.github"
+          class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-icon-github text-text w-full"
+          href="/api/v1/auth/github"
+        >
+          <span>Github</span>
+        </a>
       </div>
     </form>
   </div>

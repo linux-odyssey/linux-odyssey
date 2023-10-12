@@ -14,6 +14,10 @@ const config = {
     clientID: get('GOOGLE_CLIENT_ID', ''),
     clientSecret: get('GOOGLE_CLIENT_SECRET', ''),
   },
+  github: {
+    clientID: get('GITHUB_CLIENT_ID', ''),
+    clientSecret: get('GITHUB_CLIENT_SECRET', ''),
+  },
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)

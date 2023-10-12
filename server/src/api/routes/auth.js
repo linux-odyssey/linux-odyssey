@@ -43,4 +43,15 @@ if (enabledMethods.google) {
   )
 }
 
+if (enabledMethods.github) {
+  router.get('/github', passport.authenticate('github'))
+  router.get(
+    '/github/callback',
+    passport.authenticate('github', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    })
+  )
+}
+
 export default router
