@@ -1,0 +1,56 @@
+<script setup>
+import AuthForm from '../components/AuthForm.vue'
+import Background from '../components/DynamicBackground.vue'
+
+import api from '../utils/api'
+import { register } from '../utils/auth'
+
+function handleRegister({ username, email, password, success, error }) {
+  register(username, email, password)
+    .then(success)
+    .catch((err) => {
+      if (err.response?.status === 409) {
+        // Handle username or email already exists error here
+        if (err.response.data.type === 'username') {
+          error('Username already exists.')
+        } else if (err.response.data.type === 'email') {
+          error('Email already exists.')
+        } else {
+          error('Something went wrong.')
+        }
+      } else if (err.response?.status === 400) {
+        error('Invalid username or email.')
+      } else {
+        console.error(err)
+      }
+    })
+}
+
+// async function check({ username, password, email }) {
+//   try {
+//     const res = await api.get('/auth/check-username', {
+//       params: { username },
+//     })
+//     const { type, available } = res.data
+//   } catch (err) {
+//     if (err.response?.status === 400) {
+//       errorMessage.value = 'Invalid username or email.'
+//       return
+//     }
+//     errorMessage.value = 'Something went wrong.'
+//     console.error(err)
+//   }
+// }
+</script>
+<template>
+  <div class="relative w-screen h-screen">
+    <Background class="w-full h-full" />
+    <div
+      class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
+    >
+      <div class="h-2/3 w-1/3">
+        <AuthForm @onSubmit="handleRegister" :isRegister="true" />
+      </div>
+    </div>
+  </div>
+</template>
