@@ -43,7 +43,7 @@ const clearError = () => {
 }
 
 const handleSubmit = () => {
-  clearError()
+  if (errorMessage.value) return
   try {
     emit('onSubmit', {
       username: username.value,

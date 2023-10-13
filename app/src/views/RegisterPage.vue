@@ -1,4 +1,5 @@
 <script setup>
+import { isValidEmail, isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 
@@ -26,21 +27,35 @@ function handleRegister({ username, email, password, success, error }) {
     })
 }
 
-// async function check({ username, password, email }) {
-//   try {
-//     const res = await api.get('/auth/check-username', {
-//       params: { username },
-//     })
-//     const { type, available } = res.data
-//   } catch (err) {
-//     if (err.response?.status === 400) {
-//       errorMessage.value = 'Invalid username or email.'
-//       return
-//     }
-//     errorMessage.value = 'Something went wrong.'
-//     console.error(err)
-//   }
-// }
+async function check({ username, email, error }) {
+  if (username && !isValidUsername(username)) {
+    error('Invalid username.')
+    return
+  }
+  if (email && !isValidEmail(email)) {
+    error('Invalid email.')
+    return
+  }
+  if (!username && !email) {
+    return
+  }
+  try {
+    const res = await api.get('/auth/check-username', {
+      params: { username },
+    })
+    const { type, available } = res.data
+    if (!available) {
+      error(`${type} already exists.`)
+    }
+  } catch (err) {
+    if (err.response?.status === 400) {
+      error('Invalid username or email.')
+      return
+    }
+    console.error(err)
+    error('Something went wrong.')
+  }
+}
 </script>
 <template>
   <div class="relative w-screen h-screen">
@@ -49,7 +64,11 @@ function handleRegister({ username, email, password, success, error }) {
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
       <div class="h-2/3 w-1/3">
-        <AuthForm @onSubmit="handleRegister" :isRegister="true" />
+        <AuthForm
+          @onSubmit="handleRegister"
+          @onChange="check"
+          :isRegister="true"
+        />
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@ services:
       - internal
     volumes:
       - ./app:/app/app
-      - ./packages/file-graph:/app/packages/file-graph
+      - ./packages:/app/packages
   backend:
     build:
       context: .

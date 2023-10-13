@@ -4,10 +4,12 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 COPY app/package.json ./app/package.json
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
+COPY packages/utils/package.json ./packages/utils/package.json
 RUN yarn install --frozen-lockfile
 
 COPY app ./app
 COPY packages/file-graph ./packages/file-graph
+COPY packages/utils ./packages/utils
 RUN yarn build
 
 # Production stage
