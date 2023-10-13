@@ -4,11 +4,20 @@ import { RouterLink, useRouter } from 'vue-router'
 import api from '../utils/api'
 
 const emit = defineEmits(['onSubmit', 'onChange'])
-const props = defineProps({
-  isRegister: Boolean,
+defineProps({
+  type: {
+    type: String,
+    default: 'login',
+  },
+  socialLogin: {
+    type: Boolean,
+    default: true,
+  },
+  title: {
+    type: String,
+    default: 'Linux Odyssey',
+  },
 })
-
-console.log(typeof props.isRegister)
 
 const router = useRouter()
 const username = ref('')
@@ -79,37 +88,41 @@ const handleChange = () => {
   <div
     class="bg-background border-8 border-background-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
-    <h1 class="text-text-primary text-3xl font-black mb-8">Linux Odyssey</h1>
+    <h1 class="text-text-primary text-3xl font-black mb-8">{{ title }}</h1>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div class="mb-6">
         <label for="username" class="text-sm font-semibold text-text">{{
-          isRegister ? 'Username' : 'Email / Username'
+          type === 'login' ? 'Email / Username' : 'Username'
         }}</label
         ><input
           type="text"
           id="username"
           ref="usernameInput"
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
-          placeholder="Enter your email or username"
+          :placeholder="
+            type === 'login'
+              ? 'Enter your email or username'
+              : 'Enter your username'
+          "
           v-model="username"
           @input="handleChange()"
           autocomplete="username"
         />
       </div>
-      <div class="mb-6" v-if="isRegister">
+      <div class="mb-6" v-if="type === 'register'">
         <label for="email" class="text-sm font-semibold text-text">Email</label
         ><input
           type="email"
           id="email"
           ref="emailInput"
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
-          placeholder="Enter your email or username"
+          placeholder="Enter your email"
           v-model="email"
           @input="handleChange()"
           autocomplete="email"
         />
       </div>
-      <div class="mb-6">
+      <div class="mb-6" v-if="type === 'login' || type === 'register'">
         <label for="password" class="text-sm font-semibold leading-6 text-text"
           >Password</label
         ><input
@@ -128,18 +141,18 @@ const handleChange = () => {
         class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-text-primary text-background w-full"
         type="submit"
       >
-        <span v-if="isRegister">Register</span>
-        <span v-else>Log in</span>
+        <span v-if="type === 'login'">Log in</span>
+        <span v-else>Register</span>
       </button>
 
       <p class="text-text flex justify-center mt-3">
-        <span v-if="isRegister"
+        <span v-if="type === 'register'"
           >Already have an account?
           <RouterLink class="text-text-primary" to="/login"
             >Log in</RouterLink
           ></span
         >
-        <span v-else
+        <span v-else-if="type === 'login'"
           >Don't have an account?
           <RouterLink class="text-text-primary" to="/register"
             >Register</RouterLink
@@ -147,7 +160,7 @@ const handleChange = () => {
         >
       </p>
 
-      <div v-if="hasSocialLogins">
+      <div v-if="socialLogin && hasSocialLogins">
         <hr class="my-8" />
         <p class="flex justify-center font-semibold text-text text-base">
           Log in with social account

@@ -67,7 +67,7 @@ async function check({ username, email, error }) {
         <AuthForm
           @onSubmit="handleRegister"
           @onChange="check"
-          :isRegister="true"
+          type="register"
         />
       </div>
     </div>
