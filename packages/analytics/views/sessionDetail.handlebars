@@ -1,0 +1,56 @@
+<h1>{{title}}</h1>
+<div>
+  {{#with session}}
+    <table>
+      <tr>
+        <th>Quest</th>
+        <td>{{quest}}</td>
+      </tr>
+      <tr>
+        <th>User</th>
+        <td>{{user}}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{status}}</td>
+      </tr>
+      <tr>
+        <th>Created At</th>
+        <td>{{createdAt}}</td>
+      </tr>
+      <tr>
+        <th>Finished At</th>
+        <td>{{finishedAt}}</td>
+      </tr>
+      <tr>
+        <th>Used Time</th>
+        <td>{{usedTime}}</td>
+      </tr>
+      <tr>
+        <th>Command Count</th>
+        <td>{{commands.length}}</td>
+      </tr>
+    </table>
+
+    <h2>Commands</h2>
+
+    <table>
+      <tr>
+        <th>Command</th>
+        <th>PWD</th>
+        <th>Output</th>
+        <th>Error</th>
+        <th>Created At</th>
+      </tr>
+      {{#each commands}}
+        <tr>
+          <td>{{command}}</td>
+          <td>{{pwd}}</td>
+          <td>{{output}}</td>
+          <td>{{error}}</td>
+          <td>{{createdAt}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  {{/with}}
+</div>

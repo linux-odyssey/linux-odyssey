@@ -39,6 +39,23 @@ services:
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+
+  analytics:
+    build:
+      context: .
+      dockerfile: packages/analytics/Dockerfile.dev
+    depends_on:
+      - db
+    networks:
+      - internal
+    ports:
+      - '3001:3001'
+    environment:
+      - MONGO_URL=mongodb://db:27017/odyssey-test
+    volumes:
+      - ./packages/analytics:/app/packages/analytics
+      - ./packages/models:/app/packages/models
+
   db:
     image: mongo
     networks:

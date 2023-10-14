@@ -1,0 +1,19 @@
+body {
+  font-family: 'sans';
+}
+
+table,
+tr,
+td,
+th {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 2px solid black;
+}
+
+th,
+td {
+  width: 1px;
+  white-space: nowrap;
+}

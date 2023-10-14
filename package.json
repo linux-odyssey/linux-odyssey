@@ -21,6 +21,7 @@
     "format": "prettier --ignore-path .prettierignore --write app server",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "test:e2e": "yarn workspace tests test",
+    "analytics": "yarn workspace analytics dev",
     "clean": "yarn workspace server clean"
   },
   "devDependencies": {

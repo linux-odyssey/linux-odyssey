@@ -25,6 +25,21 @@ services:
     environment:
       - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
+
+  analytics:
+    image: lancatlin/linux-odyssey:analytics
+    build:
+      context: .
+      dockerfile: packages/analytics/Dockerfile
+    depends_on:
+      - db
+    networks:
+      - internal
+    ports:
+      - '3001:3001'
+    environment:
+      - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
+
   db:
     image: mongo
     restart: always

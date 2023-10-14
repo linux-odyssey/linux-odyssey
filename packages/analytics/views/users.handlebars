@@ -1,0 +1,23 @@
+<h1>Users List</h1>
+<div>
+  <table>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Registration Method</th>
+      <th>Registration Time</th>
+      <th>Sessions Count</th>
+      <th>Last Activity</th>
+    </tr>
+    {{#each users}}
+      <tr>
+        <td>{{username}}</td>
+        <td>{{email}}</td>
+        <td>{{method}}</td>
+        <td>{{createdAt}}</td>
+        <td>{{sessionCount}}</td>
+        <td>{{lastActivityAt}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</div>

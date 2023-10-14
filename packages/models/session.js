@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose'
-import { FileNode } from '@linux-odyssey/file-graph'
 
 const nodeSchema = new Schema({
   path: String,
@@ -58,10 +57,10 @@ const Session = model(
       hints: [String],
       graph: {
         type: nodeSchema,
-        default: new FileNode({
+        default: {
           path: '/',
           type: 'folder',
-        }),
+        },
       },
     },
     { timestamps: true }
