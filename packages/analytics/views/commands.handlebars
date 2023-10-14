@@ -1,0 +1,22 @@
+<h1>Commands</h1>
+<div>
+  <h2>Error commands</h2>
+  <table>
+    <tr>
+      <th>Command</th>
+      <th>User</th>
+      <th>Quest</th>
+      <th>Error</th>
+      <th>Created At</th>
+    </tr>
+    {{#each errorCommands}}
+      <tr>
+        <td>{{command}}</td>
+        <td>{{user}}</td>
+        <td>{{quest}}</td>
+        <td>{{error}}</td>
+        <td>{{createdAt}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</div>
