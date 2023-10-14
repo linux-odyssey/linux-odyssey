@@ -15,7 +15,10 @@ export default async function oauthVerify(provider, profile, query, cb) {
         newUser[provider] = profile
         return cb(null, { newUser })
       }
-      user[provider] = profile
+      user[provider] = {
+        id: profile.id,
+        displayName: profile.displayName,
+      }
       await user.save()
     }
 
