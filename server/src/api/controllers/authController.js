@@ -13,8 +13,7 @@ export async function issueToken(req, res) {
 }
 
 async function invalidUsername(username) {
-  const { validation, reason } = isValidUsername(username)
-  return !validation || User.exists({ username })
+  return !isValidUsername(username) || User.exists({ username })
 }
 
 async function invalidEmail(email) {
@@ -24,7 +23,6 @@ async function invalidEmail(email) {
 export async function checkUsername(req, res) {
   const { username, email } = req.query
   const cred = username || email
-  const { validation, reason } = isValidUsername(cred)
   if (!cred) {
     res.status(400).json({
       message: 'username or email is required',
@@ -39,7 +37,7 @@ export async function checkUsername(req, res) {
     })
     return
   }
-  if (validation) {
+  if (isValidUsername(cred)) {
     res.json({
       type: 'username',
       available: !(await User.exists({ username: cred })),

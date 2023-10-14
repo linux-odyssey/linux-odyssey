@@ -28,9 +28,8 @@ function handleRegister({ username, email, password, success, error }) {
 }
 
 async function check({ username, email, error }) {
-  const { validation, reason } = isValidUsername(username)
-  if (username && !validation) {
-    error(`Invalid username. ${reason}`)
+  if (username && !isValidUsername(username)) {
+    error('Invalid username.')
     return
   }
   if (email && !isValidEmail(email)) {
