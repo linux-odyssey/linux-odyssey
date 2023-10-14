@@ -50,7 +50,6 @@ export async function sessionList() {
       },
     },
   ])
-  console.log(sessions)
   return sessions.map(
     ({ user, quest, status, createdAt, finishedAt, commands }) => {
       return {

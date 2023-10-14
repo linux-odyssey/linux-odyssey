@@ -32,7 +32,6 @@ export async function userList() {
     { $unwind: '$userData' },
     { $sort: { 'userData.createdAt': 1 } },
   ])
-  console.log(users)
   return users.map(({ userData, count, lastActivityAt }) => {
     const { username, email, createdAt } = userData
     return {
