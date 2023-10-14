@@ -1,6 +1,6 @@
 import minimist from 'minimist'
 import { FileGraph } from '@linux-odyssey/file-graph'
-import Quest from '../models/quest.js'
+import { Quest } from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 import SessionHandler from './sessionHandler.js'
 

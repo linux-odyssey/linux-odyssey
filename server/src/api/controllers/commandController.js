@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import Command from '../../models/command.js'
-import Session from '../../models/session.js'
+import { Command, Session } from '@linux-odyssey/models'
 import CommandHandler from '../../game/commandHandler.js'
 
 export async function newCommand(req, res) {

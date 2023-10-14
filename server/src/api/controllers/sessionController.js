@@ -1,5 +1,4 @@
-import Session from '../../models/session.js'
-import Quest from '../../models/quest.js'
+import { Session, Quest } from '@linux-odyssey/models'
 import { createContainer } from '../../containers/docker.js'
 import SessionHandler from '../../game/sessionHandler.js'
 

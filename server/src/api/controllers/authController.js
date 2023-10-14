@@ -1,5 +1,5 @@
 import { isValidEmail, isValidUsername } from '@linux-odyssey/utils'
-import User from '../../models/user.js'
+import { User } from '@linux-odyssey/models'
 import { genJWT, hashPassword } from '../../utils/auth.js'
 
 export async function issueToken(req, res) {

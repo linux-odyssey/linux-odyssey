@@ -68,8 +68,8 @@ export async function deleteContainer(id) {
   }
   try {
     await container.stop()
-    await container.remove()
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
+  await container.remove()
 }

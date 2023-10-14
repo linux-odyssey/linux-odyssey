@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
+import { User } from '@linux-odyssey/models'
 import bcrypt from 'bcrypt'
 import config from '../config.js'
-import User from '../models/user.js'
 
 export function hashPassword(password) {
   return bcrypt.hash(password, 10)

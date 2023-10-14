@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import yaml from 'yaml'
 
-import Quest from '../models/quest.js'
+import { Quest } from '@linux-odyssey/models'
 
 const questDirectory = path.join(process.cwd(), '..', 'quests')
 

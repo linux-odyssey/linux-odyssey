@@ -1,4 +1,4 @@
-import User from '../models/user.js'
+import { User } from '@linux-odyssey/models'
 
 export default async function oauthVerify(provider, profile, query, cb) {
   process.nextTick(async () => {

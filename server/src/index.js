@@ -4,10 +4,10 @@ import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 import passport from 'passport'
+import connectDB from '@linux-odyssey/models'
 
 import './auth/passport.js'
 import socketServer from './api/socket.js'
-import connectDB from './db.js'
 import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
@@ -17,7 +17,13 @@ import expiryRemovalScheduler from './containers/expiryChecker.js'
 import { createTestUser } from './utils/auth.js'
 
 async function main() {
-  await connectDB()
+  try {
+    await connectDB(config.db)
+    console.log('Connected to MongoDB')
+  } catch (err) {
+    console.error(err)
+    process.exit(1)
+  }
 
   await createTestUser()
 

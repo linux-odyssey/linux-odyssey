@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import LocalStrategy from 'passport-local'
-import User from '../models/user.js'
+import { User } from '@linux-odyssey/models'
 
 async function verifyPassword(username, password, done) {
   try {

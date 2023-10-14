@@ -1,0 +1,12 @@
+{
+  "name": "@linux-odyssey/models",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "GPL",
+  "exports": "./index.js",
+  "dependencies": {
+    "@linux-odyssey/file-graph": "*",
+    "mongoose": "^7.6.0"
+  }
+}

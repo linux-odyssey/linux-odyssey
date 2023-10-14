@@ -1,6 +1,8 @@
 version: '3'
 services:
   app:
+    depends_on:
+      - backend
     build:
       context: .
       dockerfile: app/Dockerfile.dev
@@ -12,6 +14,8 @@ services:
       - ./app:/app/app
       - ./packages:/app/packages
   backend:
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: server/Dockerfile.dev
