@@ -4,8 +4,7 @@ const User = model('User', {
   username: {
     type: String,
     unique: true,
-    required: false, // should be required,
-    // but need to let social login users to pick one after login
+    required: true,
   },
   email: {
     type: String,

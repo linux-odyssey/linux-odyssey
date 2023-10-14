@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@linux-odyssey/file-graph": "*",
+    "@linux-odyssey/utils": "*",
     "bcrypt": "^5.1.1",
     "commander": "^11.0.0",
     "connect-mongo": "^5.0.0",

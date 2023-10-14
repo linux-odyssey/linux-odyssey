@@ -1,10 +1,6 @@
+import { isValidEmail, isValidUsername } from '@linux-odyssey/utils'
 import User from '../../models/user.js'
-import {
-  genJWT,
-  hashPassword,
-  isValidEmail,
-  isValidUsername,
-} from '../../utils/auth.js'
+import { genJWT, hashPassword } from '../../utils/auth.js'
 
 export async function issueToken(req, res) {
   const { user } = req
@@ -14,6 +10,14 @@ export async function issueToken(req, res) {
     email: user.email,
   })
   res.json({ token })
+}
+
+async function invalidUsername(username) {
+  return !isValidUsername(username) || User.exists({ username })
+}
+
+async function invalidEmail(email) {
+  return !isValidEmail(email) || User.exists({ email })
 }
 
 export async function checkUsername(req, res) {
@@ -27,30 +31,16 @@ export async function checkUsername(req, res) {
   }
 
   if (isValidEmail(cred)) {
-    if (await User.exists({ email: cred })) {
-      res.status(409).json({
-        type: 'email',
-        message: `"${cred}" already exists`,
-      })
-      return
-    }
-    res.status(200).json({
+    res.json({
       type: 'email',
-      message: `"${cred}" is available`,
+      available: !(await User.exists({ email: cred })),
     })
     return
   }
   if (isValidUsername(cred)) {
-    if (await User.exists({ username: cred })) {
-      res.status(409).json({
-        type: 'username',
-        message: `"${cred}" already exists`,
-      })
-      return
-    }
-    res.status(200).json({
+    res.json({
       type: 'username',
-      message: `"${cred}" is available`,
+      available: !(await User.exists({ username: cred })),
     })
     return
   }
@@ -68,18 +58,18 @@ export async function register(req, res, next) {
     return
   }
 
-  if (await User.exists({ username })) {
+  if (await invalidUsername(username)) {
     res.status(409).json({
       type: 'username',
-      message: 'username already exists',
+      message: 'Invalid username',
     })
     return
   }
 
-  if (await User.exists({ email })) {
+  if (await invalidEmail(email)) {
     res.status(409).json({
       type: 'email',
-      message: 'email already exists',
+      message: 'Invalid email',
     })
     return
   }
@@ -126,6 +116,55 @@ export function logout(req, res) {
 
 export function checkSession(req, res) {
   res.json({
-    loggedIn: req.isAuthenticated(),
+    loggedIn: req.isAuthenticated() && !req.session.newUser,
+  })
+}
+
+export async function socialLogin(req, res) {
+  const { newUser } = req.user
+  if (newUser) {
+    req.session.newUser = newUser
+    res.redirect('/choose-username')
+    return
+  }
+  res.redirect('/')
+}
+
+export async function registerFromSession(req, res) {
+  const { username } = req.body
+  const { newUser } = req.session
+
+  if (!newUser) {
+    res.status(400).json({
+      message: 'no new user found',
+    })
+    return
+  }
+
+  if (await invalidUsername(username)) {
+    res.status(409).json({
+      type: 'username',
+      message: 'Invalid username',
+    })
+    return
+  }
+
+  newUser.username = username
+  const user = new User(newUser)
+
+  await user.save()
+
+  req.login(user, (err) => {
+    if (err) {
+      console.error(err)
+      res.status(500).json({
+        message: 'error logging in',
+      })
+      return
+    }
+    delete req.session.newUser
+    res.status(201).json({
+      message: 'user created',
+    })
   })
 }

@@ -6,7 +6,7 @@ const router = useRouter()
 
 const handleLogout = async () => {
   await logout()
-  router.push({ name: 'auth' })
+  router.push({ name: 'login' })
 }
 </script>
 

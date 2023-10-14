@@ -1,0 +1,8 @@
+{
+  "name": "@linux-odyssey/utils",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "exports": "./index.js",
+  "license": "MIT"
+}
