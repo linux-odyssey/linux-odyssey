@@ -16,8 +16,8 @@ async function main() {
   app.use(router)
   app.use(express.static('./public'))
 
-  app.listen(3001, () => {
-    console.log('Server started on http://localhost:3001')
+  app.listen(config.port, config.host, () => {
+    console.log(`Server started on ${config.baseUrl}`)
   })
 }
 
