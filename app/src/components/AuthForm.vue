@@ -108,6 +108,12 @@ const handleChange = () => {
           @input="handleChange()"
           autocomplete="username"
         />
+        <label
+          class="text-sm font-semibold text-text-secondary"
+          v-if="type === 'username' || type === 'register'"
+          >Username should start with lowercase and consist of lowercase,
+          numbers, '_' and '-'
+        </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
         <label for="email" class="text-sm font-semibold text-text">Email</label
