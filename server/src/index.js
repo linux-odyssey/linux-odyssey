@@ -19,6 +19,7 @@ import { createTestUser } from './utils/auth.js'
 async function main() {
   try {
     await connectDB(config.db)
+    console.log('Connected to MongoDB')
   } catch (err) {
     console.error(err)
     process.exit(1)

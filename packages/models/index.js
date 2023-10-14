@@ -11,8 +11,6 @@ export default async function connectDB(uri) {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    console.log('Connected to MongoDB')
-    console.log(mongoose.models)
     return db.connection.getClient()
   } catch (err) {
     console.error(err)
