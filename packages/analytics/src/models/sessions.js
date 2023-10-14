@@ -1,4 +1,4 @@
-import { Session } from '@linux-odyssey/models'
+import { Command, Session } from '@linux-odyssey/models'
 
 export function sessionCount() {
   return Session.find().count()
@@ -51,8 +51,9 @@ export async function sessionList() {
     },
   ])
   return sessions.map(
-    ({ user, quest, status, createdAt, finishedAt, commands }) => {
+    ({ _id, user, quest, status, createdAt, finishedAt, commands }) => {
       return {
+        _id,
         user: user.username,
         quest,
         status,
@@ -63,4 +64,28 @@ export async function sessionList() {
       }
     }
   )
+}
+
+export async function sessionDetail(id) {
+  const session = await Session.findById(id).populate('user').exec()
+  const commands = (await Command.find({ session: id })).map(
+    ({ command, pwd, output, error, createdAt }) => ({
+      command: command?.slice(0, 20),
+      pwd,
+      output: output?.slice(0, 50),
+      error: error?.slice(0, 50),
+      createdAt: createdAt?.toLocaleString(),
+    })
+  )
+  const { _id, user, quest, status, createdAt, finishedAt } = session
+  return {
+    _id,
+    user: user.username,
+    quest,
+    status,
+    createdAt: createdAt?.toLocaleString(),
+    finishedAt: finishedAt?.toLocaleString(),
+    usedTime: finishedAt ? formatTime(finishedAt - createdAt) : '',
+    commands,
+  }
 }

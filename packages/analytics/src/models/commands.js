@@ -22,6 +22,7 @@ export async function errorCommands() {
       createdAt: createdAt?.toLocaleString(),
       user: user?.username,
       quest,
+      session: session._id,
     }
   })
 }
