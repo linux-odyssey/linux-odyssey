@@ -1,5 +1,5 @@
 import { userCount } from '../models/users.js'
-import { sessionCount, sessionCompleted } from '../models/quests.js'
+import { sessionCount, sessionCompleted } from '../models/sessions.js'
 
 // eslint-disable-next-line import/prefer-default-export
 export async function homeController(req, res) {

@@ -1,0 +1,25 @@
+<h1>Sessions</h1>
+<div>
+  <table>
+    <tr>
+      <th>User</th>
+      <th>Quest</th>
+      <th>Status</th>
+      <th>Created At</th>
+      <th>Finished At</th>
+      <th>Used Time</th>
+      <th>Command Count</th>
+    </tr>
+    {{#each sessions}}
+      <tr>
+        <td>{{user}}</td>
+        <td>{{quest}}</td>
+        <td>{{status}}</td>
+        <td>{{createdAt}}</td>
+        <td>{{finishedAt}}</td>
+        <td>{{usedTime}}</td>
+        <td>{{commandCount}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</div>
