@@ -8,6 +8,7 @@ import QuestPart from '../components/QuestPart.vue'
 import TerminalPart from '../components/TerminalPart.vue'
 import VisualizationPart from '../components/VisualizationPart.vue'
 import ControlPalette from '../components/ControlPalette.vue'
+import CompleteModal from '../components/CompleteModal.vue'
 
 onMounted(async () => {
   await sessionManager.lastOrCreate()
@@ -64,6 +65,7 @@ onMounted(async () => {
       </div>
       <ControlPalette />
     </div>
+    <CompleteModal />
   </div>
 </template>
 <script></script>
