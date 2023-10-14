@@ -16,7 +16,6 @@ export default async function connectDB(uri) {
     return db.connection.getClient()
   } catch (err) {
     console.error(err)
-    process.exit(1)
-    return null
+    throw new Error('Failed to connect to MongoDB')
   }
 }

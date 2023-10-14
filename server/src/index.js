@@ -17,7 +17,12 @@ import expiryRemovalScheduler from './containers/expiryChecker.js'
 import { createTestUser } from './utils/auth.js'
 
 async function main() {
-  await connectDB(config.db)
+  try {
+    await connectDB(config.db)
+  } catch (err) {
+    console.error(err)
+    process.exit(1)
+  }
 
   await createTestUser()
 
