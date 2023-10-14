@@ -57,10 +57,10 @@ export async function sessionList() {
         user: user.username,
         quest,
         status,
-        createdAt: createdAt.toLocaleString(),
+        createdAt: createdAt?.toLocaleString(),
         finishedAt: finishedAt?.toLocaleString(),
         usedTime: finishedAt ? formatTime(finishedAt - createdAt) : '',
-        commandCount: commands.length,
+        commandCount: commands?.length,
       }
     }
   )

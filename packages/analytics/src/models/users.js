@@ -38,10 +38,10 @@ export async function userList() {
     return {
       username,
       email,
-      createdAt: createdAt.toLocaleString(),
+      createdAt: createdAt?.toLocaleString(),
       method: loginMethods(userData),
       sessionCount: count,
-      lastActivityAt: lastActivityAt.toLocaleString(),
+      lastActivityAt: lastActivityAt?.toLocaleString(),
     }
   })
 }
