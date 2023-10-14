@@ -2,7 +2,7 @@ import connectDB from '@linux-odyssey/models'
 import express from 'express'
 import { engine } from 'express-handlebars'
 import config from './config.js'
-import { homeController } from './controllers/index.js'
+import router from './router.js'
 
 async function main() {
   await connectDB(config.db)
@@ -13,7 +13,8 @@ async function main() {
   app.set('view engine', 'handlebars')
   app.set('views', './views')
 
-  app.get('/', homeController)
+  app.use(router)
+  app.use(express.static('./public'))
 
   app.listen(3001, () => {
     console.log('Server started on http://localhost:3001')
