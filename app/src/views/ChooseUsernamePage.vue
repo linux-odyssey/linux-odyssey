@@ -6,8 +6,9 @@ import Background from '../components/DynamicBackground.vue'
 import api from '../utils/api'
 
 async function checkUsername({ username, error }) {
-  if (username && !isValidUsername(username)) {
-    error('Invalid username.')
+  const { validation, reason } = isValidUsername(username)
+  if (username && !validation) {
+    error(`Invalid username. ${reason}`)
     return
   }
   if (username.length > 3) {
@@ -21,7 +22,7 @@ async function checkUsername({ username, error }) {
         error('Username is already taken.')
       }
     } catch {
-      error('Invalid username.')
+      error(`Invalid username. ${reason}`)
     }
   }
 }
