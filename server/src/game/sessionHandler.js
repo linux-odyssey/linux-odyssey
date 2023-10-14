@@ -50,6 +50,7 @@ export default class SessionHandler {
     if (stage.id === 'END') {
       this.session.status = 'finished'
       this.session.finishedAt = new Date()
+      pushToSession(this.session.id, 'status', 'finished')
     }
 
     this.addNewTasks()

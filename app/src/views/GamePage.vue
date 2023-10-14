@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import socket from '../utils/socket'
 import sessionManager from '../utils/session'
 import CommandlistPart from '../components/CommandlistPart.vue'
@@ -9,6 +9,8 @@ import TerminalPart from '../components/TerminalPart.vue'
 import VisualizationPart from '../components/VisualizationPart.vue'
 import ControlPalette from '../components/ControlPalette.vue'
 import CompleteModal from '../components/CompleteModal.vue'
+
+const completed = ref(false)
 
 onMounted(async () => {
   await sessionManager.lastOrCreate()
@@ -29,6 +31,14 @@ onMounted(async () => {
     sessionManager.setTasks(tasks)
   })
   socket.on('message', console.log)
+  socket.on('status', (event) => {
+    console.log('status', event)
+    if (event === 'finished') {
+      setTimeout(() => {
+        completed.value = true
+      }, 5000)
+    }
+  })
 })
 </script>
 
@@ -65,7 +75,7 @@ onMounted(async () => {
       </div>
       <ControlPalette />
     </div>
-    <CompleteModal />
+    <CompleteModal v-if="completed" />
   </div>
 </template>
 <script></script>
