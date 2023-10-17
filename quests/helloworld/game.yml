@@ -10,6 +10,8 @@ stages:
     task: 使用 `echo Hello World!` 召喚精靈
     repeatable: false
     condition:
+      pwd:
+        - '^/home/commander$'
       command:
         - echo Hello World
     responses:
@@ -30,19 +32,21 @@ stages:
     hints:
       - 使用 `ls` 指令來查看目前的目錄下有哪些檔案。
 
-  - id: ls
+  - id: find-scroll
     task: 搜索卷軸
     repeatable: false
     requirements:
       - helloworld
     condition:
+      pwd:
+        - '^/home/commander$'
       command:
         - ls
     responses:
       - types: narrative
         content:
           - 一瞬間，視野變得清晰起來，你發現自己身處在一個石頭建築的房間裡，房間裡有一個門，門上有一個鎖。
-          - 你發現了一個檔案，檔名是 `forgotten_scroll.txt`。
+          - 你發現了一個檔案，檔名是 `forgotten-scroll.txt`。
       - type: dialogue
         speaker: Unix 精靈
         content:
@@ -55,11 +59,11 @@ stages:
       - 使用 `cat [檔案名稱]` 指令來查看檔案內容。
       - 使用 `Tab` 鍵來取得指令提示。
 
-  - id: escape
+  - id: jail
     task: 移動到下一個房間
     repeatable: false
     requirements:
-      - ls
+      - find-scroll
     condition:
       pwd:
         - '^/home/commander/jail$'
@@ -70,14 +74,16 @@ stages:
           - 突然，你聽到門上鎖的聲音。
           - 轉身發現，自己被關在了牢房裡。
 
-  - id: cat
+  - id: read-forgotten-scroll
     task: 查看卷軸
     repeatable: false
     requirements:
-      - ls
+      - find-scroll
     condition:
+      pwd:
+        - '^/home/commander$'
       command:
-        - cat forgotten_scroll.txt
+        - cat forgotten-scroll.txt
     responses:
       - type: dialogue
         speaker: Unix 精靈
@@ -85,20 +91,195 @@ stages:
           - 你找到的是一個被遺忘的卷軸，上面寫著解除封印的咒語。
           - 使用你已經知道的 `echo` 指令來詠唱咒語。
 
-  - id: unseal
+  - id: unseal-room
     task: 解除封印
     repeatable: false
     requirements:
-      - cat
+      - read-forgotten-scroll
     condition:
+      pwd:
+        - '^/home/commander$'
       command:
         - echo Unix, rise and guide me!
+    execution:
+      - mv /usr/local/lib/warehouse /home/commander
     responses:
       - type: narrative
         content:
-          - 突然之間，牆壁上出現了一道閃光，閃光消失之後，你發現房間裡多了一扇門，門上有一個壞掉的鎖。
+          - 突然之間，地板開始晃動。
+          - 晃動持續了幾秒後停止了。
       - type: dialogue
         speaker: Unix 精靈
         content:
-          - 恭喜您，我的指令官，您已成功解除了封印。
-          - 這是一間被封印的倉庫，裡面應該會有許多有用的東西。
+          - 我的指令官，剛剛房間內似乎發生了某些變化。
+          - 再次使用 `ls` 來查看現在房間的情況吧。
+
+  - id: find-items
+    task: 搜索房間
+    repeatable: false
+    requirements:
+      - unseal-room
+    condition:
+      pwd:
+        - '^/home/commander$'
+      command:
+        - ls
+    responses:
+      - type: narrative
+        content:
+          - 你看到了房間的地上散落著許多物品。
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 看來這裡隱藏著許多有用的東西。
+          - 我們可以把這裡作為一個根據地。
+          - 但這裡有點太亂了，必須先把這裡整理乾淨。
+          - 首先我們需要一個書櫃來存放這些文件。
+          - 請使用 `mkdir document` 來創造一個書櫃。
+
+  - id: create-bookcase
+    task: 創造書櫃
+    repeatable: false
+    requirements:
+      - find-items
+    condition:
+      pwd:
+        - '^/home/commander$'
+      command:
+        - mkdir document
+    responses:
+      - type: narrative
+        content:
+          - 你創造了一個書櫃。
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 接著把文件都放到書櫃中吧。
+          - 請使用 `mv [檔案名稱] document` 來將物品放入書櫃。
+          - 可以輸入多個檔案名稱，並以空白隔開，來將多個檔案放入書櫃。
+          - 例如：`mv [檔案名稱1] [檔案名稱2] document`
+          - 注意：文件是副檔名為 `.txt` 的檔案，副檔名為 `.trash` 的檔案是垃圾，我們待會再處理。
+
+  - id: store-books
+    task: 收拾文件
+    repeatable: false
+    requirements:
+      - create-bookcase
+    condition:
+      pwd:
+        - '^/home/commander$'
+      include:
+        - !*.txt
+    responses:
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 整理好文件了，接下來把垃圾清理掉吧。
+          - 請使用 `rm [檔案名稱]` 來銷毀垃圾。
+          - 這個 `rm` 指令也可以一次處理多的檔案喔，用法跟 `mv` 一樣。
+          - 如果你忘記的話，看看這個範例：`rm [檔案名稱1] [檔案名稱2]`
+scroll
+  - id: remove-trash
+    task: 銷毀垃圾
+    repeatable: false
+    requirements:
+      - store-books
+    condition:
+      pwd:
+        - '^/home/commander$'
+      include:
+        - !*.trash
+    responses:
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 很好，讓我們看看現在房間的樣子吧。
+
+  - id: look-around-room
+    task: 查看房間
+    repeatable: false
+    requirements:
+      - removetrash
+    condition:
+      pwd:
+        - '^/home/commander$'
+      command:
+        - ls
+    responses:
+      - type: narrative
+        content:
+          - 地上的垃圾都消失了。
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 這樣乾淨多了，讓我們進到書櫃看看。
+          - 使用 `cd [目錄名稱]` 來移動到指定的目錄。
+
+  - id: enter-bookcase
+    task: 進入書櫃
+    repeatable: false
+    requirements:
+      - look-around-room
+    condition:
+      pwd:
+        - '^/home/commander$'
+      command:
+        - cd document
+    responses:
+      - type: narrative
+        content:
+          - 你進入了書櫃。
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 用 `ls` 看看書櫃裡有什麼吧。
+
+  - id: look-around-bookcase
+    task: 查看書櫃
+    repeatable: false
+    requirements:
+      - enter-bookcase
+    condition:
+      pwd:
+        - '^/home/commander/document$'
+      command:
+        - ls
+    responses:
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+        - 現在，你可以使用 `cd ..` 來回到上一層目錄。
+
+  - id: exit-bookcase
+    task: 離開書櫃
+    repeatable: false
+    requirements:
+      - look-around-bookcase
+    condition:
+      pwd:
+        - '^/home/commander/document$'
+      command:
+        - cd ..
+    responses:
+      - type: narrative
+        content:
+          - 你離開了書櫃。
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 這些就是我現在能教你的所有指令了。這個世界還有許多其他的指令，讓你在冒險的過程中去蒐集。
+          - 如果你準備好迎接接下來的冒險，就可以離開這個房間，開始你的旅程了。
+
+  - id: END
+    task: 離開房間
+    repeatable: false
+    requirements:
+      - look-around
+    condition:
+      pwd:
+        - '^/home$'
+    responses:
+      - type: narrative
+        content:
+          - 你踏出了房門，真正的冒險現在才正要開始。
+          
