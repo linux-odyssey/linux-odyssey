@@ -8,7 +8,12 @@ import { TreeChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 import config from '../../tailwind.config.js'
 import sessionManager from '../utils/session.js'
-import { folderImage, fileImage } from './images/svg.js'
+import {
+  folderImage,
+  fileImage,
+  openFolderImage,
+  unknownImage,
+} from './images/svg.js'
 
 echarts.use([TooltipComponent, TreeChart, CanvasRenderer])
 
@@ -32,11 +37,21 @@ const option = {
       right: '20%',
       orient: 'LR',
       roam: true,
-      symbol: function (_value, params) {
-        if (params.data.type === 'folder') {
-          return folderImage
+      symbol: (_value, params) => {
+        console.log(_value, params)
+        const {
+          collapsed,
+          data: { type, discovered },
+        } = params
+        if (!discovered) return unknownImage
+        switch (type) {
+          case 'folder':
+            return collapsed ? folderImage : openFolderImage
+          case 'file':
+            return fileImage
+          default:
+            return unknownImage
         }
-        return fileImage
       },
       symbolSize: 20,
       symbolKeepAspect: true,
@@ -78,6 +93,13 @@ const option = {
 onMounted(() => {
   pie = echarts.init(canvas.value)
   pie.setOption(option)
+  pie.setOption({
+    series: [
+      {
+        data: [sessionManager.graph.value],
+      },
+    ],
+  })
 })
 
 watch(sessionManager.graph, (graph) => {
