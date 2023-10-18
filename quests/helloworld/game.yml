@@ -168,8 +168,9 @@ stages:
     condition:
       pwd:
         - '^/home/commander$'
-      include:
-        - !*.txt
+      files:
+        - path: '*.txt'
+          exists: false
     responses:
       - type: dialogue
         speaker: Unix 精靈
@@ -178,7 +179,7 @@ stages:
           - 請使用 `rm [檔案名稱]` 來銷毀垃圾。
           - 這個 `rm` 指令也可以一次處理多的檔案喔，用法跟 `mv` 一樣。
           - 如果你忘記的話，看看這個範例：`rm [檔案名稱1] [檔案名稱2]`
-scroll
+
   - id: remove-trash
     task: 銷毀垃圾
     repeatable: false
@@ -187,8 +188,9 @@ scroll
     condition:
       pwd:
         - '^/home/commander$'
-      include:
-        - !*.trash
+      files:
+        - path: '*.trash'
+          exists: false
     responses:
       - type: dialogue
         speaker: Unix 精靈
@@ -248,7 +250,7 @@ scroll
       - type: dialogue
         speaker: Unix 精靈
         content:
-        - 現在，你可以使用 `cd ..` 來回到上一層目錄。
+          - 現在，你可以使用 `cd ..` 來回到上一層目錄。
 
   - id: exit-bookcase
     task: 離開書櫃
@@ -282,4 +284,3 @@ scroll
       - type: narrative
         content:
           - 你踏出了房門，真正的冒險現在才正要開始。
-          
