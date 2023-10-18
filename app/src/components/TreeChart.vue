@@ -38,7 +38,6 @@ const option = {
       orient: 'LR',
       roam: true,
       symbol: (_value, params) => {
-        console.log(_value, params)
         const {
           collapsed,
           data: { type, discovered },
@@ -72,6 +71,12 @@ const option = {
         position: 'bottom',
         verticalAlign: 'top',
         align: 'center',
+        formatter: (params) => {
+          const {
+            data: { name, discovered },
+          } = params
+          return discovered ? name : ''
+        },
       },
       leaves: {
         label: {
