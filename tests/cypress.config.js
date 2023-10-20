@@ -8,5 +8,7 @@ const getConfig = (key, defaultValue) => {
 module.exports = defineConfig({
   e2e: {
     baseUrl: getConfig('BASE_URL', 'http://localhost:5173'),
+    viewportWidth: 1920,
+    viewportHeight: 1080,
   },
 })

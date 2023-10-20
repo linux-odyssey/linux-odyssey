@@ -23,3 +23,11 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import '@testing-library/cypress/add-commands'
+
+Cypress.Commands.add('Login', () => {
+  cy.get('a.text-text-primary').should('contain', 'Log in').click()
+  cy.get('#username').type('alex')
+  cy.get('#password').type('123456')
+  cy.findByRole('button', { name: 'Log in' }).click()
+})
