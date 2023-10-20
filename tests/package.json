@@ -5,10 +5,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "cypress run"
-  },
-  "dependencies": {
-    "cypress": "^13.2.0"
+    "test": "cypress run",
+    "test:open": "cypress open"
   },
   "devDependencies": {
     "@testing-library/cypress": "^10.0.1",

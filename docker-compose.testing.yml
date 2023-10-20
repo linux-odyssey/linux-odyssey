@@ -1,12 +1,14 @@
 version: '3'
 services:
   cypress:
-    image: cypress/included
+    build:
+      context: .
+      dockerfile: tests/Dockerfile
     networks:
       - internal
     volumes:
-      - ./tests:/e2e
-    working_dir: /e2e
+      - ./tests:/app/tests
+    working_dir: /app/tests
     environment:
       - BASE_URL=http://app-test
     depends_on:
