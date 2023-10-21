@@ -25,7 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@testing-library/cypress/add-commands'
 
-Cypress.Commands.add('Login', () => {
+Cypress.Commands.add('LoginWithPassword', () => {
+  cy.clearAllCookies()
   cy.get('a.text-text-primary').should('contain', 'Log in').click()
   cy.get('#username').type('alex')
   cy.get('#password').type('123456')
