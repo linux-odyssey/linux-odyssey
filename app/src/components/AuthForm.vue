@@ -88,54 +88,70 @@ const handleChange = () => {
   <div
     class="bg-background border-8 border-background-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
-    <h1 class="text-text-primary text-3xl font-black mb-8">{{ title }}</h1>
+    <h1 class="text-text-primary text-3xl font-black mb-2">{{ title }}</h1>
     <form @submit.prevent="handleSubmit()" class="w-full">
+      <div v-if="socialLogin && hasSocialLogins">
+        <a
+          v-if="availableMethods.google"
+          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-background-primary text-text-secondary w-full border-text-secondary border-2"
+          href="/api/v1/auth/google"
+        >
+          <font-awesome-icon
+            :icon="['fab', 'google']"
+            class="text-text-secondary px-3 text-lg"
+          />
+          <span class="font-medium">Continue with Google</span>
+        </a>
+        <a
+          v-if="availableMethods.github"
+          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-background-primary text-text-secondary w-full border-text-secondary border-2"
+          href="/api/v1/auth/github"
+        >
+          <font-awesome-icon
+            :icon="['fab', 'github']"
+            class="text-text-secondary px-3 text-lg"
+          />
+          <span class="font-medium">Continue with GitHub</span>
+        </a>
+      </div>
+      <p class="text-text-secondary flex justify-center mt-3">or</p>
       <div class="mb-6">
-        <label for="username" class="text-sm font-semibold text-text">{{
-          type === 'login' ? 'Email / Username' : 'Username'
-        }}</label
-        ><input
+        <input
           type="text"
           id="username"
           ref="usernameInput"
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
-          :placeholder="
-            type === 'login'
-              ? 'Enter your email or username'
-              : 'Enter your username'
-          "
+          :placeholder="type === 'login' ? 'Email / Username' : 'Username'"
           v-model="username"
           @input="handleChange()"
           autocomplete="username"
         />
         <label
-          class="text-sm font-semibold text-text-secondary"
+          class="text-sm font-normal text-text-secondary"
           v-if="type === 'username' || type === 'register'"
-          >Username should start with lowercase and consist of lowercase,
-          numbers, '_' and '-'
+        >
+          <p>Username must begin with lowercase letter</p>
+          <p>Username can consist of lowercase, numbers, "_", and "-"</p>
         </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
-        <label for="email" class="text-sm font-semibold text-text">Email</label
-        ><input
+        <input
           type="email"
           id="email"
           ref="emailInput"
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
-          placeholder="Enter your email"
+          placeholder="Email"
           v-model="email"
           @input="handleChange()"
           autocomplete="email"
         />
       </div>
       <div class="mb-6" v-if="type === 'login' || type === 'register'">
-        <label for="password" class="text-sm font-semibold leading-6 text-text"
-          >Password</label
-        ><input
+        <input
           type="password"
           id="password"
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
-          placeholder="Enter your password"
+          placeholder="Password"
           v-model="password"
           @input="handleChange()"
         />
@@ -144,48 +160,27 @@ const handleChange = () => {
         {{ errorMessage }}
       </p>
       <button
-        class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-text-primary text-background w-full"
+        class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-background w-full"
         type="submit"
       >
-        <span v-if="type === 'login'">Log in</span>
-        <span v-else>Register</span>
+        <span v-if="type === 'login'">Log In</span>
+        <span v-else>Sign Up</span>
       </button>
 
       <p class="text-text flex justify-center mt-3">
         <span v-if="type === 'register'"
           >Already have an account?
-          <RouterLink class="text-text-primary" to="/login"
-            >Log in</RouterLink
-          ></span
+          <RouterLink class="text-text-primary font-bold" to="/login">
+            <u>Log in</u>
+          </RouterLink></span
         >
         <span v-else-if="type === 'login'"
           >Don't have an account?
-          <RouterLink class="text-text-primary" to="/register"
-            >Register</RouterLink
-          ></span
+          <RouterLink class="text-text-primary font-bold" to="/register">
+            <u>Sign up</u>
+          </RouterLink></span
         >
       </p>
-
-      <div v-if="socialLogin && hasSocialLogins">
-        <hr class="my-8" />
-        <p class="flex justify-center font-semibold text-text text-base">
-          Log in with social account
-        </p>
-        <a
-          v-if="availableMethods.google"
-          class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-icon-google text-text w-full"
-          href="/api/v1/auth/google"
-        >
-          <span>Google</span>
-        </a>
-        <a
-          v-if="availableMethods.github"
-          class="inline-flex justify-center rounded-lg text-sm font-black py-2 mt-3 bg-icon-github text-text w-full"
-          href="/api/v1/auth/github"
-        >
-          <span>GitHub</span>
-        </a>
-      </div>
     </form>
   </div>
 </template>

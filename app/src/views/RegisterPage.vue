@@ -63,7 +63,7 @@ async function check({ username, email, error }) {
     <div
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
-      <div class="h-2/3 w-1/3">
+      <div class="w-1/3">
         <AuthForm
           @onSubmit="handleRegister"
           @onChange="check"

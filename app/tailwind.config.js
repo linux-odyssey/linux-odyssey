@@ -39,10 +39,6 @@ export default {
             DEFAULT: '#FF0000',
           },
         },
-        icon: {
-          google: '#DB4437',
-          github: '#171515',
-        },
       },
     },
   },
