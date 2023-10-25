@@ -1,4 +1,4 @@
 {
   "watch": ["src", "swagger.yaml", "../quests"],
-  "ext": "js,yaml"
+  "ext": "js,yaml,yml"
 }

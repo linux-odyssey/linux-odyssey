@@ -53,10 +53,14 @@ export default class CommandHandler extends SessionHandler {
     this.session.graph = graph
   }
 
-  isMatch(stage) {
+  isMatch(condition) {
     const keys = ['command', 'output', 'error', 'pwd']
-    return keys.every((k) =>
-      checkMatch(stage.condition[k], this.commandInput[k])
+    console.log('condition', condition)
+    return (
+      keys.every((k) => checkMatch(condition[k], this.commandInput[k])) &&
+      (condition.$or.length === 0 ||
+        condition.$or.some((c) => this.isMatch(c))) &&
+      (!condition.$not || !this.isMatch(condition.$not))
     )
   }
 
@@ -72,7 +76,7 @@ export default class CommandHandler extends SessionHandler {
     this.handleCommand()
 
     const response = stages
-      .filter((s) => this.isMatch(s))
+      .filter((s) => this.isMatch(s.condition))
       .reduce((r, s) => ({ ...r, ...this.execute(s) }), {})
 
     return {

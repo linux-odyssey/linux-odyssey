@@ -25,8 +25,8 @@ const conditionSchema = new Schema({
 })
 
 conditionSchema.add({
-  OR: [conditionSchema],
-  NOT: conditionSchema,
+  $or: [conditionSchema],
+  $not: conditionSchema,
 })
 
 const stageSchema = new Schema({
