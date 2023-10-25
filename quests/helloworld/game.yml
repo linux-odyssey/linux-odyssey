@@ -136,22 +136,16 @@ stages:
         content:
           - You are using `less` or the output contains `wow`.
 
-  - id: nested-condition
-    task: Test nested condition
+  - id: test-file-exists
+    task: Test file exists
     repeatable: true
     condition:
-      $or:
-        - pwd:
-            - '^/etc/zsh$'
-          $not:
-            command:
-              - ls
-        - $not:
-            pwd:
-              - '^/etc/zsh$'
-          command:
-            - ls
+      command:
+        - ls
+      files:
+        - path: /home/commander/jail
+          type: folder
     responses:
       - type: narrative
         content:
-          - You are in `/etc/zsh` and not using `ls`, or you are not in `/etc/zsh` and using `ls`.
+          - There is a jail

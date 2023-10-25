@@ -1,4 +1,6 @@
+import { PassThrough } from 'stream'
 import Docker from 'dockerode'
+import { buildFileCheckCmd } from '@linux-odyssey/utils'
 import config from '../config.js'
 
 const engine = new Docker()
@@ -76,4 +78,48 @@ export async function deleteContainer(id) {
     console.log(error)
   }
   await container.remove()
+}
+
+// Utility function to convert a stream to a string
+function streamToString(stream) {
+  const chunks = []
+  return new Promise((resolve, reject) => {
+    stream.on('data', (chunk) => chunks.push(chunk))
+    stream.on('error', reject)
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+    setTimeout(() => resolve(Buffer.concat(chunks).toString('utf8')), 100)
+  })
+}
+
+export async function checkFiles(id, files) {
+  const container = engine.getContainer(id)
+  if (!container) {
+    throw new Error('Container not found')
+  }
+
+  const cmd = buildFileCheckCmd(files)
+  console.log(cmd)
+  const exec = await container.exec({
+    AttachStdout: true,
+    AttachStderr: true,
+    Cmd: ['sh', '-c', cmd],
+  })
+  const execStream = await exec.start()
+  const outStream = new PassThrough()
+  const errStream = new PassThrough()
+
+  console.log('exec started')
+
+  exec.modem.demuxStream(execStream, outStream, errStream)
+  const [output, errorOutput] = await Promise.all([
+    streamToString(outStream),
+    streamToString(errStream),
+  ])
+
+  console.log('output', output, 'errorOutput', errorOutput)
+
+  const execOutput = await exec.inspect()
+  console.log('exit code', execOutput.ExitCode)
+  console.log('exit code === 0', execOutput.ExitCode === 0)
+  return execOutput.ExitCode === 0
 }

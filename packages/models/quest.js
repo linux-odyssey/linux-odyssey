@@ -11,9 +11,15 @@ const responseSchema = new Schema({
 })
 
 const fileConditionSchema = new Schema({
-  path: String,
+  path: {
+    type: String,
+    required: true,
+  },
   type: String,
-  exists: Boolean,
+  exists: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const conditionSchema = new Schema({
