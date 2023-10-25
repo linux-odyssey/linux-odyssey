@@ -1,9 +1,13 @@
-title: Hello, Linux World!
-order: 2
+title: Learn to spell
 instruction: |
   你身在一個漆黑的房間裡，沒有任何的光線或聲音。你想不起來為什麼自己會來到這裡。但你的腦中隱約感到某個聲音跟你說：
 
   「輸入 echo Hello World!」
+
+conditions:
+  pwd_home: &pwd_home
+    pwd:
+      - '^/home/commander$'
 
 stages:
   - id: helloworld
@@ -38,8 +42,7 @@ stages:
     requirements:
       - helloworld
     condition:
-      pwd:
-        - '^/home/commander$'
+      <<: *pwd_home
       command:
         - ls
     responses:

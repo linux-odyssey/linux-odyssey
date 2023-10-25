@@ -30,7 +30,7 @@ COPY ./packages/container/package.json ./yarn.lock ./
 RUN yarn install --modules-folder /usr/src/node_modules
 ENV NODE_PATH=/usr/src/node_modules
 COPY ./packages/container /usr/local/lib/container
-COPY ./quests/.includes/zshrc /etc/zshrc
+COPY ./quests/.includes/zshrc /etc/zsh/zshrc
 
 ENV USERNAME=commander
 
