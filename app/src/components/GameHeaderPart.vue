@@ -31,7 +31,7 @@ onMounted(async () => {
   >
     <div class="h-full flex items-center justify-center mx-3">
       <div class="flex items-center gap-3">
-        <button id="stream" class="flex items-center">
+        <!-- <button id="stream" class="flex items-center">
           <font-awesome-icon
             :icon="['fas', 'bars']"
             class="text-text-primary h-5 w-5"
@@ -42,7 +42,7 @@ onMounted(async () => {
             :icon="['fas', 'arrow-left']"
             class="text-text-tertiary h-5 w-5"
           />
-        </button>
+        </button> -->
         <button>
           <p
             class="text-text-primary inline-block font-bold whitespace-nowrap"
@@ -53,7 +53,7 @@ onMounted(async () => {
         </button>
       </div>
       <div class="h-full w-full flex gap-3 items-center justify-end">
-        <button id="warning" class="flex items-center">
+        <!-- <button id="warning" class="flex items-center">
           <font-awesome-icon
             :icon="['fas', 'triangle-exclamation']"
             class="text-text-primary h-5 w-5"
@@ -70,7 +70,7 @@ onMounted(async () => {
             :icon="['fas', 'expand']"
             class="text-text-primary h-5 w-5"
           />
-        </button>
+        </button> -->
         <button @click="handleLogout">
           <font-awesome-icon
             :icon="['fas', 'arrow-right-from-bracket']"
