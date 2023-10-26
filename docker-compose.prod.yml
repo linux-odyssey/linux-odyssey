@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
+      target: prod
     networks:
       internal:
     ports:
@@ -15,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: server/Dockerfile
+      target: prod
     networks:
       - internal
       - players
@@ -31,6 +33,7 @@ services:
     build:
       context: .
       dockerfile: packages/analytics/Dockerfile
+      target: prod
     depends_on:
       - db
     networks:
