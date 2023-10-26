@@ -36,12 +36,6 @@ function waitForEnter() {
   })
 }
 
-function waitTime(time) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
-}
-
 function printLine(content, delay, color) {
   const printContent = `${colorize(content, color)}${RETURN_SYMBOL}`
   return new Promise((resolve) => {

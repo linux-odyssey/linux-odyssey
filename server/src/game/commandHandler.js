@@ -3,7 +3,7 @@ import { FileGraph } from '@linux-odyssey/file-graph'
 import { Quest } from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 import SessionHandler from './sessionHandler.js'
-import { checkFiles } from '../containers/docker.js'
+import { checkFiles } from '../containers/cli.js'
 
 // 檢查 pattern 是否符合 input
 const checkMatch = (pattern, input) => {
