@@ -1,5 +1,6 @@
 FROM node:20-alpine AS build
 
+COPY --from=docker:dind /usr/local/bin/docker /usr/local/bin/
 WORKDIR /app
 COPY ./package.json yarn.lock ./
 COPY server/package.json ./server/package.json
@@ -15,23 +16,19 @@ EXPOSE 3000
 # Production
 FROM build as prod
 
-COPY ./server ./server
 COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
 COPY packages/models ./packages/models
+COPY ./server ./server
 COPY quests ./quests
 
 ENV NODE_ENV=production
-
 WORKDIR /app/server
-
 CMD [ "yarn", "start" ]
 
 # Development
 FROM build as dev
 
 RUN yarn install --frozen-lockfile
-
 ENV NODE_ENV=development
-
 CMD [ "yarn", "server" ]

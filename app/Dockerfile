@@ -14,9 +14,9 @@ CMD [ "yarn", "dev:docker", "--host", "0.0.0.0" ]
 
 # Build stage
 FROM base as build
-COPY app ./app
 COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
+COPY app ./app
 RUN yarn build
 
 # Production stage
