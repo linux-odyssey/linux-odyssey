@@ -84,7 +84,7 @@ const handleChange = () => {
 }
 </script>
 <template>
-  <!--login page-->
+  <!-- login page -->
   <div
     class="bg-background border-8 border-background-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
@@ -114,7 +114,12 @@ const handleChange = () => {
           <span class="font-medium">Continue with GitHub</span>
         </a>
       </div>
-      <p class="text-text-secondary flex justify-center mt-3">or</p>
+      <p
+        class="text-text-secondary flex justify-center mt-3"
+        v-if="type === 'login' || type === 'register'"
+      >
+        or
+      </p>
       <div class="mb-6">
         <input
           type="text"
@@ -156,7 +161,7 @@ const handleChange = () => {
           @input="handleChange()"
         />
       </div>
-      <p class="text-red-500 flex justify-center" v-if="errorMessage">
+      <p class="text-error flex justify-center" v-if="errorMessage">
         {{ errorMessage }}
       </p>
       <button
