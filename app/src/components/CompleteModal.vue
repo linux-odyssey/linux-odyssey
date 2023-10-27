@@ -36,7 +36,7 @@ setTimeout(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .modal {
   display: block;
   position: fixed;

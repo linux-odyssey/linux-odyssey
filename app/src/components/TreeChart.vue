@@ -45,14 +45,14 @@ import sessionManager from '../utils/session.js'
   position: absolute;
   top: 0;
   right: 50%;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #00ff00;
   width: 50%;
   height: 20px;
 }
 .tree li::after {
   right: auto;
   left: 50%;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #00ff00;
 }
 
 .tree li:only-child::after,
@@ -70,7 +70,7 @@ import sessionManager from '../utils/session.js'
 }
 
 .tree li:last-child::before {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #00ff00;
   border-radius: 0 5px 0 0;
   -webkit-border-radius: 0 5px 0 0;
   -moz-border-radius: 0 5px 0 0;
@@ -86,16 +86,16 @@ import sessionManager from '../utils/session.js'
   position: absolute;
   top: 0;
   left: 50%;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #00ff00;
   width: 0;
   height: 20px;
 }
 
 .tree li a {
-  border: 1px solid #ccc;
+  border: 1px solid #00ff00;
   padding: 5px 10px;
   text-decoration: none;
-  color: #666;
+  color: #ffffff;
   font-family: arial, verdana, tahoma;
   font-size: 11px;
   display: inline-block;
@@ -110,7 +110,7 @@ import sessionManager from '../utils/session.js'
 }
 
 a.discovered {
-  background: #c8e4f8;
+  background: #526b4e;
   color: #000;
   border: 1px solid #94a0b4;
 }
@@ -121,6 +121,6 @@ li.discovered {
 }
 
 a.pwd {
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 水平偏移、垂直偏移、模糊半徑、顏色 */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 </style>
