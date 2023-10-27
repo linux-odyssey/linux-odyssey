@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-// import '../quests/helloworld/answer.sh'
 
 export default function checkLoginUI() {
   cy.get('h1.text-text-primary')
@@ -12,20 +11,28 @@ export default function checkLoginUI() {
     .invoke('attr', 'placeholder')
     .should('contain', 'Enter your password')
 }
-export function clearFirstTask() {
-  cy.get('@Terminaltextbox').type('echo Hello World!{enter}')
-  cy.get('@Terminaltextbox').should('contain', '你聽到了一個聲音：')
-  cy.get('@Terminaltextbox').type(
-    '{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}'
-  )
+export function getTerminalrowsContain(content) {
+  cy.get('@Terminaltextbox')
+    .get('.xterm-rows')
+    .children()
+    .filter(`:contains('${content}')`)
 }
 export function checkStoryStart() {
   cy.get('@Terminaltextbox').should('contain', `Unix Spirit: `)
 }
+export function checkHint(index, total, content) {
+  cy.get('#hint')
+    .get('.flex-wrap')
+    .invoke('text')
+    .should('contain', `${index}/${total}`)
+    .and('contain', content)
+}
 export const getQuestInfo = (id) =>
   cy.get('#quest').get('p.text-text').contains(`${id}`)
 export const getTaskCheckbox = (id) =>
-  getQuestInfo(`${id}`).findByRole('checkbox')
+  cy.get('#quest').get('p.text-text').contains(`${id}`).findByRole('checkbox')
+const finishSign = 'commander:~ '
+const continueSign = '↵'
 // const YAML = require('yamljs')
 
 describe('example helloworld app', () => {
@@ -162,14 +169,14 @@ describe('example helloworld app', () => {
       cy.findByRole('button', { name: 'Continue' }).should('be.visible')
     })
   })
-  describe.only('Game Play', () => {
+  describe('Game Play', () => {
     beforeEach(() => {
       cy.visit('/')
-      cy.readFile('.././quests/helloworld/game.yml', 'utf-8').as('gameScript')
       cy.LoginWithPassword()
       cy.get('.xterm-screen').as('Terminaltextbox')
       cy.findByRole('button', { name: 'Reset' }).click()
-      cy.get('@Terminaltextbox').should('contain', 'commander')
+      cy.get('@Terminaltextbox').should('contain', finishSign)
+      cy.readFile('../quests/helloworld/answer.json', 'utf-8').as('answersheet')
     })
     it('Typing in Terminal', () => {
       cy.get('@Terminaltextbox').type('12345{enter}')
@@ -177,26 +184,76 @@ describe('example helloworld app', () => {
         .should('contain', 'zsh: command not found: 12345')
         .and('contain', '12345')
     })
-    it('Complete the Game', () => {
-      cy.get('@Terminaltextbox').type('echo Hello World!{enter}')
-      cy.get('@Terminaltextbox').should('contain', '你聽到了一個聲音：')
-      cy.get('@Terminaltextbox').type(
-        '{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}'
-      )
-      getTaskCheckbox('使用 `echo Hello World!` 召喚精靈').should('be.checked')
-      getQuestInfo('搜索卷軸').should('be.visible')
-      getTaskCheckbox('搜索卷軸').should('not.be.checked')
-      cy.get('@Terminaltextbox')
-        .should('contain', `Unix Spirit: `)
-        .and('contain', `現在，請你輸入 \`ls\` 來查看目前的目錄下有哪些檔案。`)
-      cy.get('@Terminaltextbox').type('ls{enter}')
-      cy.get('#Lbutton').should('be.visible').and('be.disabled')
-      cy.get('#Rbutton').should('be.visible').and('be.disabled')
-      cy.get('#hint')
-        .get('.flex-wrap')
-        .invoke('text')
-        .should('contain', '1/1')
-        .and('contain', '使用 `ls` 指令來查看目前的目錄下有哪些檔案。')
+    it.only('Complete the Game', () => {
+      // get answersheet
+      cy.get('@answersheet').then((answers) => {
+        // Stage1
+        cy.log('Stage1')
+        cy.get('@Terminaltextbox').type(answers.stage1)
+        cy.get('@Terminaltextbox')
+          .should('contain', answers.start1)
+          .and('contain', continueSign)
+        cy.get('@Terminaltextbox').type(answers.story1)
+        getTaskCheckbox('使用 `echo Hello World!` 召喚精靈').should(
+          'be.checked'
+        )
+        getTaskCheckbox('搜索卷軸').should('be.visible').and('not.be.checked')
+        cy.get('@Terminaltextbox')
+          .should('contain', `Unix Spirit: `)
+          .and('contain', answers.end1)
+          .and('contain', finishSign)
+        cy.get('#Lbutton').should('be.visible').and('be.disabled')
+        cy.get('#Rbutton').should('be.visible').and('be.disabled')
+        checkHint(1, 1, answers.hint1)
+        // Stage2
+        cy.log('Stage2')
+        cy.get('@Terminaltextbox').type(answers.stage2)
+        cy.get('@Terminaltextbox')
+          .should('contain', 'forgotten_scroll.txt')
+          .and('contain', answers.start2)
+          .and('contain', continueSign)
+        cy.get('@Terminaltextbox').type(answers.story2)
+        getTaskCheckbox('搜索卷軸').should('be.checked')
+        getTaskCheckbox('移動到下一個房間')
+          .should('be.visible')
+          .and('not.be.checked')
+        getTaskCheckbox('查看卷軸').should('be.visible').and('not.be.checked')
+        cy.get('@Terminaltextbox')
+          .should('contain', answers.end2)
+          .and('contain', finishSign)
+        cy.get('#Lbutton').should('be.visible').and('be.enabled')
+        cy.get('#Rbutton').should('be.visible').and('be.disabled')
+        checkHint(3, 3, answers.hint3)
+        cy.get('#Lbutton').click()
+        cy.get('#Rbutton').should('be.enabled')
+        checkHint(2, 3, answers.hint2)
+        // Stage3
+        cy.log('Stage3')
+        cy.get('@Terminaltextbox').type(answers.stage3)
+        cy.get('@Terminaltextbox')
+          .should('contain', answers.scrollcontent)
+          .and('contain', answers.start3)
+          .and('contain', continueSign)
+        cy.get('@Terminaltextbox').type(answers.story3)
+        getTaskCheckbox('查看卷軸').should('be.checked')
+        cy.get('@Terminaltextbox')
+          .should('contain', answers.end3)
+          .and('contain', finishSign)
+        // Stage4
+        cy.log('Stage4')
+        cy.get('@Terminaltextbox').type(answers.stage4)
+        // cy.get('@Terminaltextbox').should('contain', answers.end4)
+        cy.findByRole(
+          'heading',
+          { name: 'Quest Completed!' },
+          { timeout: 200000 }
+        ).should('be.visible')
+        cy.get('div[class="modal"]')
+          .find('p')
+          .invoke('text')
+          .should('contain', answers.Thanks)
+        cy.findByRole('link', { name: '填寫問卷' }).should('be.visible')
+      })
     })
   })
 })

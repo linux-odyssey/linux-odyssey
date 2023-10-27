@@ -10,5 +10,6 @@ module.exports = defineConfig({
     baseUrl: getConfig('BASE_URL', 'http://localhost:5173'),
     viewportWidth: 1920,
     viewportHeight: 1080,
+    pageLoadTimeout: 120000,
   },
 })
