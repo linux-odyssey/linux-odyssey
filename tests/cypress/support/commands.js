@@ -36,7 +36,7 @@ Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen').type(command)
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
-  return cy.get('#quest').get('p.text-text').contains(`${id}`)
+  return cy.get('#quest').find('p.text-text').contains(`${id}`)
 })
 Cypress.Commands.add('getTaskCheckbox', (id) => {
   return cy.getQuestInfo(id).findByRole('checkbox')

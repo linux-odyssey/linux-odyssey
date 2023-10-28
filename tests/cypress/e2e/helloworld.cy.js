@@ -23,7 +23,7 @@ export function checkHint(index, total) {
     .contains(`${index}/${total}`)
     .should('be.visible')
 }
-const finishSign = 'commander:~ '
+const finishSign = 'commander:~ $'
 const continueSign = '↵'
 const storyStart = 'Unix Spirit: '
 
@@ -98,7 +98,7 @@ describe('example helloworld app', () => {
       cy.get('.xterm-screen').as('Terminaltextbox').should('be.visible')
       cy.findByRole('button', { name: 'Reset' }).click()
       cy.typeInCommand('clear{enter}')
-      cy.get('@Terminaltextbox').should('contain', 'commander:~ $')
+      cy.get('@Terminaltextbox').should('contain', finishSign)
     })
     it('Check Header', () => {
       cy.get('#quest').should('be.visible')
