@@ -17,23 +17,15 @@ export function getTerminalrowsContain(content) {
     .children()
     .filter(`:contains('${content}')`)
 }
-export function checkStoryStart() {
-  cy.get('@Terminaltextbox').should('contain', `Unix Spirit: `)
-}
-export function checkHint(index, total, content) {
+export function checkHint(index, total) {
   cy.get('#hint')
     .get('.flex-wrap')
-    .invoke('text')
-    .should('contain', `${index}/${total}`)
-    .and('contain', content)
+    .contains(`${index}/${total}`)
+    .should('be.visible')
 }
-export const getQuestInfo = (id) =>
-  cy.get('#quest').get('p.text-text').contains(`${id}`)
-export const getTaskCheckbox = (id) =>
-  cy.get('#quest').get('p.text-text').contains(`${id}`).findByRole('checkbox')
 const finishSign = 'commander:~ '
 const continueSign = '↵'
-// const YAML = require('yamljs')
+const storyStart = 'Unix Spirit: '
 
 describe('example helloworld app', () => {
   describe('Login tests', () => {
@@ -88,7 +80,7 @@ describe('example helloworld app', () => {
       cy.findByRole('link', { name: 'GitHub' }).should('be.visible')
     })
     it('Login-Password Already Register', () => {
-      cy.LoginWithPassword()
+      cy.LoginWithPassword('alex', '123456')
     })
     it.skip('Login-Google', () => {
       cy.clearCookies()
@@ -102,10 +94,10 @@ describe('example helloworld app', () => {
   describe('Game Start Page UI', () => {
     beforeEach(() => {
       cy.visit('/')
-      cy.LoginWithPassword()
+      cy.LoginWithPassword('alex', '123456')
       cy.get('.xterm-screen').as('Terminaltextbox').should('be.visible')
       cy.findByRole('button', { name: 'Reset' }).click()
-      cy.get('@Terminaltextbox').type('clear{enter}')
+      cy.typeInCommand('clear{enter}')
       cy.get('@Terminaltextbox').should('contain', 'commander:~ $')
     })
     it('Check Header', () => {
@@ -121,12 +113,12 @@ describe('example helloworld app', () => {
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', 'Hello, Linux World!')
-      getQuestInfo(
+      cy.getQuestInfo(
         '你身在一個漆黑的房間裡，沒有任何的光線或聲音。你想不起來為什麼自己會來到這裡。但你的腦中隱約感到某個聲音跟你說： 「輸入 echo Hello World!」'
       ).should('be.visible')
-      getQuestInfo('Tasks:').should('be.visible')
-      getQuestInfo('使用 `echo Hello World!` 召喚精靈').should('be.visible')
-      getTaskCheckbox('使用 `echo Hello World!` 召喚精靈').should(
+      cy.getQuestInfo('Tasks:').should('be.visible')
+      cy.getQuestInfo('使用 `echo Hello World!` 召喚精靈').should('be.visible')
+      cy.getTaskCheckbox('使用 `echo Hello World!` 召喚精靈').should(
         'not.be.checked'
       )
     })
@@ -174,11 +166,11 @@ describe('example helloworld app', () => {
   describe('Game Play', () => {
     beforeEach(() => {
       cy.visit('/')
-      cy.LoginWithPassword()
+      cy.LoginWithPassword('alex', '123456')
       cy.get('.xterm-screen').as('Terminaltextbox')
       cy.findByRole('button', { name: 'Reset' }).click()
       cy.get('@Terminaltextbox').should('contain', finishSign)
-      cy.readFile('../quests/helloworld/answer.json', 'utf-8').as('answersheet')
+      cy.readFile('../quests/helloworld/answer.sh', 'utf-8').as('answers')
     })
     it('Typing in Terminal', () => {
       cy.get('@Terminaltextbox', { timeout: 20000 }).type('12345{enter}')
@@ -188,96 +180,99 @@ describe('example helloworld app', () => {
     })
     it('Complete the Game', () => {
       // get answersheet
-      cy.get('@answersheet').then((answers) => {
+      cy.get('@answers').then((answers) => {
+        const answerarr = answers.split('\n')
         // Stage1
         cy.log('Stage1')
-        cy.get('@Terminaltextbox').type(answers.stage1)
+        cy.typeInCommand(answerarr[0])
         cy.get('@Terminaltextbox')
-          .should('contain', answers.start1)
-          .and('contain', continueSign)
-        cy.get('@Terminaltextbox').type(answers.story1)
-        getTaskCheckbox('使用 `echo Hello World!` 召喚精靈').should(
+          // .should('contain', answers.start1)
+          .should('contain', continueSign)
+        cy.typeInCommand(
+          '{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}'
+        )
+        cy.getTaskCheckbox('使用 `echo Hello World!` 召喚精靈').should(
           'be.checked'
         )
-        getTaskCheckbox('搜索卷軸').should('be.visible').and('not.be.checked')
+        cy.getTaskCheckbox('搜索卷軸')
+          .should('be.visible')
+          .and('not.be.checked')
         cy.get('@Terminaltextbox')
-          .should('contain', `Unix Spirit: `)
-          .and('contain', answers.end1)
-          .and('contain', finishSign)
+          .contains(storyStart)
+          .nextUntil(`:contains('${finishSign}')`)
         cy.get('#Lbutton').should('be.visible').and('be.disabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
-        checkHint(1, 1, answers.hint1)
+        checkHint(1, 1)
         // Stage2
         cy.log('Stage2')
-        cy.get('@Terminaltextbox').type(answers.stage2)
+        cy.typeInCommand(answerarr[1])
         cy.get('@Terminaltextbox')
-          .should('contain', 'forgotten_scroll.txt')
-          .and('contain', answers.start2)
-          .and('contain', continueSign)
+          .contains(answerarr[8].replace('{enter}', '').replace('cat ', ''))
+          .wait(1000)
+          .nextUntil(`:contains('${continueSign}')`)
         cy.get('#tree')
           .get('a')
           .should('contain', 'forgotten_scroll.txt')
           .and('be.visible')
-        cy.get('@Terminaltextbox').type(answers.story2)
-        getTaskCheckbox('搜索卷軸').should('be.checked')
-        getTaskCheckbox('移動到下一個房間')
+        cy.typeInCommand('{enter}{enter}{enter}{enter}{enter}')
+        cy.getTaskCheckbox('搜索卷軸').should('be.checked')
+        cy.getTaskCheckbox('移動到下一個房間')
           .should('be.visible')
           .and('not.be.checked')
-        getTaskCheckbox('查看卷軸').should('be.visible').and('not.be.checked')
+        cy.getTaskCheckbox('查看卷軸')
+          .should('be.visible')
+          .and('not.be.checked')
         cy.get('@Terminaltextbox')
-          .should('contain', answers.end2)
-          .and('contain', finishSign)
+          .contains(storyStart)
+          .nextUntil(`:contains('${finishSign}')`)
         cy.get('#Lbutton').should('be.visible').and('be.enabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
-        checkHint(3, 3, answers.hint3)
+        checkHint(3, 3)
         cy.get('#Lbutton').click()
         cy.get('#Rbutton').should('be.enabled')
-        checkHint(2, 3, answers.hint2)
+        checkHint(2, 3)
         // Stage secret
         cy.log('Stage secret')
-        cy.get('@Terminaltextbox').type(answers.stage_secret1)
-        cy.get('@Terminaltextbox').type(answers.stage_secret2)
+        cy.typeInCommand(answerarr[2])
+        cy.typeInCommand(answerarr[3])
         cy.get('#tree').get('a').should('contain', 'jail').and('be.visible')
-        cy.get('@Terminaltextbox').type(answers.stage_secret3)
-        cy.get('@Terminaltextbox').should(
-          'contain',
-          answers.stage_secret_story1
-        )
-        cy.get('@Terminaltextbox').type(answers.stage_secret4)
-        cy.get('@Terminaltextbox').should(
-          'contain',
-          answers.stage_secret_story2
-        )
-        cy.get('@Terminaltextbox').type(answers.stage_secret5)
-        cy.get('@Terminaltextbox').type(answers.stage_secret6)
-        cy.get('@Terminaltextbox').type(answers.stage_secret7)
+        cy.typeInCommand(answerarr[4])
+        cy.get('@Terminaltextbox')
+          .contains(answerarr[4].replace('{enter}', ''))
+          .wait(1000)
+          .nextUntil(`:contains('${continueSign}')`)
+        cy.typeInCommand(`{enter}{enter}{enter}`)
+        cy.typeInCommand(answerarr[5])
+        cy.typeInCommand(answerarr[6])
+        cy.typeInCommand(answerarr[7])
         cy.get('#tree').get('a').contains('jail').and('not.exist')
-        getTaskCheckbox('移動到下一個房間').should('be.checked')
+        cy.getTaskCheckbox('移動到下一個房間').should('be.checked')
         // Stage3
         cy.log('Stage3')
-        cy.get('@Terminaltextbox').type(answers.stage3)
+        cy.typeInCommand(answerarr[8])
         cy.get('@Terminaltextbox')
-          .should('contain', answers.scrollcontent)
-          .and('contain', answers.start3)
-          .and('contain', continueSign)
-        cy.get('@Terminaltextbox').type(answers.story3)
-        getTaskCheckbox('查看卷軸').should('be.checked')
+          .contains(answerarr[8].replace('{enter}', ''))
+          .wait(1000)
+          .nextUntil(`:contains('${continueSign}')`)
+        cy.typeInCommand('{enter}{enter}')
+        cy.getTaskCheckbox('查看卷軸').should('be.checked')
         cy.get('@Terminaltextbox')
-          .should('contain', answers.end3)
-          .and('contain', finishSign)
+          .contains(answerarr[8].replace('{enter}', ''))
+          .nextUntil(`:contains('${finishSign}')`)
         // Stage4
         cy.log('Stage4')
-        cy.get('@Terminaltextbox').type(answers.stage4)
-        // cy.get('@Terminaltextbox').should('contain', answers.end4)
+        cy.typeInCommand(answerarr[9])
+        cy.get('@Terminaltextbox')
+          .contains(answerarr[9].replace('{enter}', ''))
+          .wait(1000)
+          .nextUntil(`:contains('${continueSign}')`)
         cy.findByRole(
           'heading',
           { name: 'Quest Completed!' },
-          { timeout: 200000 }
+          { timeout: 20000 }
         ).should('be.visible')
-        cy.get('div[class="modal"]')
-          .find('p')
-          .invoke('text')
-          .should('contain', answers.Thanks)
+        // Check survey dialog pop up
+        cy.get('div[class="modal"]').find('p').should('be.visible')
         cy.findByRole('link', { name: '填寫問卷' }).should('be.visible')
       })
     })

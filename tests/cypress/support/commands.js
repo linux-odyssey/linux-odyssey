@@ -32,3 +32,12 @@ Cypress.Commands.add('LoginWithPassword', (username, password) => {
   cy.get('#password').type(password)
   cy.findByRole('button', { name: 'Log in' }).click()
 })
+Cypress.Commands.add('typeInCommand', (command) => {
+  cy.get('.xterm-screen').type(command)
+})
+Cypress.Commands.add('getQuestInfo', (id) => {
+  return cy.get('#quest').get('p.text-text').contains(`${id}`)
+})
+Cypress.Commands.add('getTaskCheckbox', (id) => {
+  return cy.getQuestInfo(id).findByRole('checkbox')
+})
