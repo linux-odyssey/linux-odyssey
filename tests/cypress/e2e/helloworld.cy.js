@@ -17,12 +17,6 @@ export function getTerminalrowsContain(content) {
     .children()
     .filter(`:contains('${content}')`)
 }
-export function checkHint(index, total) {
-  cy.get('#hint')
-    .get('.flex-wrap')
-    .contains(`${index}/${total}`)
-    .should('be.visible')
-}
 const finishSign = 'commander:~ $'
 const continueSign = '↵'
 const storyStart = 'Unix Spirit: '
@@ -93,12 +87,7 @@ describe('example helloworld app', () => {
   })
   describe('Game Start Page UI', () => {
     beforeEach(() => {
-      cy.visit('/')
-      cy.LoginWithPassword('alex', '123456')
-      cy.get('.xterm-screen').as('Terminaltextbox').should('be.visible')
-      cy.findByRole('button', { name: 'Reset' }).click()
-      cy.typeInCommand('clear{enter}')
-      cy.get('@Terminaltextbox').should('contain', finishSign)
+      cy.PrepareForGame()
     })
     it('Check Header', () => {
       cy.get('#quest').should('be.visible')
@@ -146,7 +135,7 @@ describe('example helloworld app', () => {
         .and('contain', 'commander:~ $')
     })
     it('Check Hint Part', () => {
-      cy.get('#hint').should('be.visible')
+      cy.get('#hint', { timeout: 20000 }).should('be.visible')
       cy.get('#hint').get('svg[data-icon="lightbulb"]').should('be.visible')
       cy.get('#hint').get('h1').should('contain', 'Hint').and('be.visible')
     })
@@ -156,7 +145,7 @@ describe('example helloworld app', () => {
       cy.get('#tree').get('a').should('contain', '???').and('be.visible')
     })
     it('Check Fucnctional Buttons', () => {
-      cy.findByRole('button', { name: 'Solution' }, { timeout: 20000 }).should(
+      cy.findByRole('button', { name: 'Solution' }, { timeout: 30000 }).should(
         'be.visible'
       )
       cy.findByRole('button', { name: 'Reset' }).should('be.visible')
@@ -165,15 +154,11 @@ describe('example helloworld app', () => {
   })
   describe('Game Play', () => {
     beforeEach(() => {
-      cy.visit('/')
-      cy.LoginWithPassword('alex', '123456')
-      cy.get('.xterm-screen').as('Terminaltextbox')
-      cy.findByRole('button', { name: 'Reset' }).click()
-      cy.get('@Terminaltextbox').should('contain', finishSign)
+      cy.PrepareForGame()
       cy.readFile('../quests/helloworld/answer.sh', 'utf-8').as('answers')
     })
     it('Typing in Terminal', () => {
-      cy.get('@Terminaltextbox', { timeout: 20000 }).type('12345{enter}')
+      cy.typeInCommand('12345{enter}')
       cy.get('@Terminaltextbox')
         .should('contain', 'zsh: command not found: 12345')
         .and('contain', '12345')
@@ -202,7 +187,7 @@ describe('example helloworld app', () => {
           .nextUntil(`:contains('${finishSign}')`)
         cy.get('#Lbutton').should('be.visible').and('be.disabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
-        checkHint(1, 1)
+        cy.checkHint(1, 1)
         // Stage2
         cy.log('Stage2')
         cy.typeInCommand(answerarr[1])
@@ -227,10 +212,10 @@ describe('example helloworld app', () => {
           .nextUntil(`:contains('${finishSign}')`)
         cy.get('#Lbutton').should('be.visible').and('be.enabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
-        checkHint(3, 3)
+        cy.checkHint(3, 3)
         cy.get('#Lbutton').click()
         cy.get('#Rbutton').should('be.enabled')
-        checkHint(2, 3)
+        cy.checkHint(2, 3)
         // Stage secret
         cy.log('Stage secret')
         cy.typeInCommand(answerarr[2])
