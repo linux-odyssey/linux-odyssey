@@ -233,24 +233,24 @@ describe('example helloworld app', () => {
         cy.get('#Lbutton').click()
         cy.get('#Rbutton').should('be.enabled')
         checkHint(2, 3, answers.hint2)
-        // Stage hidden
-        cy.log('Stage hidden')
-        cy.get('@Terminaltextbox').type(answers.stage_hidden1)
-        cy.get('@Terminaltextbox').type(answers.stage_hidden2)
+        // Stage secret
+        cy.log('Stage secret')
+        cy.get('@Terminaltextbox').type(answers.stage_secret1)
+        cy.get('@Terminaltextbox').type(answers.stage_secret2)
         cy.get('#tree').get('a').should('contain', 'jail').and('be.visible')
-        cy.get('@Terminaltextbox').type(answers.stage_hidden3)
+        cy.get('@Terminaltextbox').type(answers.stage_secret3)
         cy.get('@Terminaltextbox').should(
           'contain',
-          answers.stage_hidden_story1
+          answers.stage_secret_story1
         )
-        cy.get('@Terminaltextbox').type(answers.stage_hidden4)
+        cy.get('@Terminaltextbox').type(answers.stage_secret4)
         cy.get('@Terminaltextbox').should(
           'contain',
-          answers.stage_hidden_story2
+          answers.stage_secret_story2
         )
-        cy.get('@Terminaltextbox').type(answers.stage_hidden5)
-        cy.get('@Terminaltextbox').type(answers.stage_hidden6)
-        cy.get('@Terminaltextbox').type(answers.stage_hidden7)
+        cy.get('@Terminaltextbox').type(answers.stage_secret5)
+        cy.get('@Terminaltextbox').type(answers.stage_secret6)
+        cy.get('@Terminaltextbox').type(answers.stage_secret7)
         cy.get('#tree').get('a').contains('jail').and('not.exist')
         getTaskCheckbox('移動到下一個房間').should('be.checked')
         // Stage3
