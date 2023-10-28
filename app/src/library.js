@@ -14,12 +14,12 @@ import {
   faArrowRightFromBracket,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
-
 import {
   faLightbulb,
   faCircleQuestion,
   faCircleRight,
 } from '@fortawesome/free-regular-svg-icons'
+import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 /* add icons to the library */
 library.add(
@@ -35,5 +35,7 @@ library.add(
   faCircleRight,
   faTerminal,
   faArrowRightFromBracket,
-  faArrowRight
+  faArrowRight,
+  faGithub,
+  faGoogle
 )

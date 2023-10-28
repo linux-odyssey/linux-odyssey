@@ -17,7 +17,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="overflow-auto h-full w-full max-h-full">
+  <div class="h-full w-full max-h-full">
     <h1 id="topic" class="text-red-500" v-if="questErr">
       Failed to get quest infomation
     </h1>

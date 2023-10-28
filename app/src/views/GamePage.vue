@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import socket from '../utils/socket'
 import sessionManager from '../utils/session'
+import GameHeaderPart from '../components/GameHeaderPart.vue'
 import CommandlistPart from '../components/CommandlistPart.vue'
 import HintPart from '../components/HintPart.vue'
 import QuestPart from '../components/QuestPart.vue'
@@ -43,11 +44,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <!--main-->
-  <div id="main" class="h-[94vh] grid grid-cols-3 gap-3 p-3">
-    <!--Topic and Command List-->
-    <div class="bg-background-secondary h-full rounded-lg">
-      <section id="quest" class="h-2/3 m-3">
+  <!-- game header -->
+  <div class="h-[5vh] w-full">
+    <GameHeaderPart />
+  </div>
+  <!-- main -->
+  <div id="main" class="h-[95vh] w-full flex p-3 space-x-3">
+    <!-- Topic and Command List -->
+    <div class="bg-background-secondary h-full w-1/3 rounded-lg">
+      <section id="quest" class="h-2/3 p-3">
         <QuestPart />
       </section>
       <hr class="border-text-tertiary border" />
@@ -55,8 +60,8 @@ onMounted(async () => {
         <CommandlistPart />
       </section>
     </div>
-    <!--Terminal and Hint-->
-    <div class="bg-background h-full rounded-lg">
+    <!-- Terminal and Hint -->
+    <div class="bg-background h-full w-1/3 rounded-lg">
       <section id="terminal" class="h-3/5">
         <TerminalPart />
       </section>
@@ -64,11 +69,14 @@ onMounted(async () => {
         <HintPart />
       </section>
     </div>
-    <!--Visualization-->
-    <div class="h-full">
-      <div class="bg-border rounded-xl h-[90%] px-3 py-6">
-        <div class="bg-background rounded-xl h-full px-1 py-6">
-          <section id="visualization" class="bg-background-primary h-full">
+    <!-- Visualization -->
+    <div class="h-full w-1/3">
+      <div class="bg-border rounded-xl h-[90%] p-2">
+        <div class="bg-background rounded-lg h-full p-2">
+          <section
+            id="visualization"
+            class="bg-background-primary h-full rounded-md"
+          >
             <VisualizationPart />
           </section>
         </div>
