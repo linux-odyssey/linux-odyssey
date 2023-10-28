@@ -23,7 +23,5 @@ module.exports = defineConfig({
     // Cannot read github client id
     // github_client_id: process.env.GITHUB_CLIENT_ID,
     // github_client_secret: process.env.GITHUB_CLIENT_SECRET,
-    username: 'alex',
-    password: '123456',
   },
 })

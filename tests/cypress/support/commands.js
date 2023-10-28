@@ -25,10 +25,10 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@testing-library/cypress/add-commands'
 
-Cypress.Commands.add('LoginWithPassword', () => {
-  cy.clearAllCookies()
+Cypress.Commands.add('LoginWithPassword', (username, password) => {
+  cy.clearAllCookies({ domain: null })
   cy.get('a.text-text-primary').should('contain', 'Log in').click()
-  cy.get('#username').type(Cypress.env('username'))
-  cy.get('#password').type(Cypress.env('password'))
+  cy.get('#username').type(username)
+  cy.get('#password').type(password)
   cy.findByRole('button', { name: 'Log in' }).click()
 })
