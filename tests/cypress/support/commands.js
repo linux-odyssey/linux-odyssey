@@ -28,7 +28,7 @@ import '@testing-library/cypress/add-commands'
 Cypress.Commands.add('LoginWithPassword', () => {
   cy.clearAllCookies()
   cy.get('a.text-text-primary').should('contain', 'Log in').click()
-  cy.get('#username').type('alex')
-  cy.get('#password').type('123456')
+  cy.get('#username').type(Cypress.env('username'))
+  cy.get('#password').type(Cypress.env('password'))
   cy.findByRole('button', { name: 'Log in' }).click()
 })

@@ -142,7 +142,7 @@ describe('example helloworld app', () => {
         .and('be.visible')
     })
     it('Check Terminal', () => {
-      cy.get('#terminal').should('be.visible')
+      cy.get('#terminal', { timeout: 20000 }).should('be.visible')
       cy.get('#terminal').get('svg[data-icon="terminal"]').should('be.visible')
       cy.get('#terminal')
         .findByRole('button')
@@ -159,12 +159,14 @@ describe('example helloworld app', () => {
       cy.get('#hint').get('h1').should('contain', 'Hint').and('be.visible')
     })
     it('Check File TreeChart', () => {
-      cy.get('#visualization').should('be.visible')
+      cy.get('#visualization', { timeout: 20000 }).should('be.visible')
       cy.get('#tree').should('be.visible')
       cy.get('#tree').get('a').should('contain', '???').and('be.visible')
     })
     it('Check Fucnctional Buttons', () => {
-      cy.findByRole('button', { name: 'Solution' }).should('be.visible')
+      cy.findByRole('button', { name: 'Solution' }, { timeout: 20000 }).should(
+        'be.visible'
+      )
       cy.findByRole('button', { name: 'Reset' }).should('be.visible')
       cy.findByRole('button', { name: 'Continue' }).should('be.visible')
     })
@@ -179,12 +181,12 @@ describe('example helloworld app', () => {
       cy.readFile('../quests/helloworld/answer.json', 'utf-8').as('answersheet')
     })
     it('Typing in Terminal', () => {
-      cy.get('@Terminaltextbox').type('12345{enter}')
+      cy.get('@Terminaltextbox', { timeout: 20000 }).type('12345{enter}')
       cy.get('@Terminaltextbox')
         .should('contain', 'zsh: command not found: 12345')
         .and('contain', '12345')
     })
-    it.only('Complete the Game', () => {
+    it('Complete the Game', () => {
       // get answersheet
       cy.get('@answersheet').then((answers) => {
         // Stage1
@@ -212,6 +214,10 @@ describe('example helloworld app', () => {
           .should('contain', 'forgotten_scroll.txt')
           .and('contain', answers.start2)
           .and('contain', continueSign)
+        cy.get('#tree')
+          .get('a')
+          .should('contain', 'forgotten_scroll.txt')
+          .and('be.visible')
         cy.get('@Terminaltextbox').type(answers.story2)
         getTaskCheckbox('搜索卷軸').should('be.checked')
         getTaskCheckbox('移動到下一個房間')
@@ -227,6 +233,26 @@ describe('example helloworld app', () => {
         cy.get('#Lbutton').click()
         cy.get('#Rbutton').should('be.enabled')
         checkHint(2, 3, answers.hint2)
+        // Stage hidden
+        cy.log('Stage hidden')
+        cy.get('@Terminaltextbox').type(answers.stage_hidden1)
+        cy.get('@Terminaltextbox').type(answers.stage_hidden2)
+        cy.get('#tree').get('a').should('contain', 'jail').and('be.visible')
+        cy.get('@Terminaltextbox').type(answers.stage_hidden3)
+        cy.get('@Terminaltextbox').should(
+          'contain',
+          answers.stage_hidden_story1
+        )
+        cy.get('@Terminaltextbox').type(answers.stage_hidden4)
+        cy.get('@Terminaltextbox').should(
+          'contain',
+          answers.stage_hidden_story2
+        )
+        cy.get('@Terminaltextbox').type(answers.stage_hidden5)
+        cy.get('@Terminaltextbox').type(answers.stage_hidden6)
+        cy.get('@Terminaltextbox').type(answers.stage_hidden7)
+        cy.get('#tree').get('a').contains('jail').and('not.exist')
+        getTaskCheckbox('移動到下一個房間').should('be.checked')
         // Stage3
         cy.log('Stage3')
         cy.get('@Terminaltextbox').type(answers.stage3)
