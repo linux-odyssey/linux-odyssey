@@ -58,8 +58,8 @@ export default class CommandHandler extends SessionHandler {
     return (
       this.checkKeys(condition) &&
       (await this.checkFiles(condition.files)) &&
-      (await this.checkNot(condition.$not)) &&
-      (await this.checkOr(condition.$or)) === true
+      (await this.checkNot(condition.not)) &&
+      (await this.checkOr(condition.or)) === true
     )
   }
 
