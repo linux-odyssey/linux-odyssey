@@ -82,7 +82,7 @@ stages:
       pwd:
         - '^/home/commander$'
       command:
-        - cat forgotten-scroll.txt
+        - cat forgotten_scroll.txt
     responses:
       - type: dialogue
         speaker: Unix 精靈

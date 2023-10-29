@@ -113,16 +113,14 @@ export default class CommandHandler extends SessionHandler {
       stages.map((stage) => this.isMatch(stage.condition))
     )
 
-    console.log('matches', matches)
-
     const stage = stages.find((_, i) => matches[i])
-    console.log('stage', stage)
     if (!stage) {
       return {}
     }
     const response = this.execute(stage)
 
     return {
+      stage: stage.id,
       end: this.session.status === 'finished',
       ...response,
     }

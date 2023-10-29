@@ -51,7 +51,16 @@ export async function sessionList() {
     },
   ])
   return sessions.map(
-    ({ _id, user, quest, status, createdAt, finishedAt, commands }) => {
+    ({
+      _id,
+      user,
+      quest,
+      status,
+      createdAt,
+      finishedAt,
+      commands,
+      lastActivityAt,
+    }) => {
       return {
         _id,
         user: user.username,
@@ -59,7 +68,8 @@ export async function sessionList() {
         status,
         createdAt: createdAt?.toLocaleString(),
         finishedAt: finishedAt?.toLocaleString(),
-        usedTime: finishedAt ? formatTime(finishedAt - createdAt) : '',
+        lastActivityAt: lastActivityAt?.toLocaleString(),
+        usedTime: formatTime(lastActivityAt - createdAt),
         commandCount: commands?.length,
       }
     }
@@ -69,9 +79,10 @@ export async function sessionList() {
 export async function sessionDetail(id) {
   const session = await Session.findById(id).populate('user').exec()
   const commands = (await Command.find({ session: id })).map(
-    ({ command, pwd, output, error, createdAt }) => ({
+    ({ command, pwd, output, error, createdAt, stage }) => ({
       command: command?.slice(0, 20),
       pwd,
+      stage,
       output: output?.slice(0, 50),
       error: error?.slice(0, 50),
       createdAt: createdAt?.toLocaleString(),

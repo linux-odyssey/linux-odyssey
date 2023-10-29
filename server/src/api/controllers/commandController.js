@@ -41,6 +41,11 @@ export async function newCommand(req, res) {
 
   const response = await commandHandler.run()
 
+  if (response) {
+    c.stage = response.stage
+    await c.save()
+  }
+
   res.status(201).json(response)
   await session.save()
 }
