@@ -1,6 +1,8 @@
-/* eslint-disable import/prefer-default-export */
 import { Command, Session } from '@linux-odyssey/models'
 import CommandHandler from '../../game/commandHandler.js'
+import { pushToSession } from '../socket.js'
+
+const commandCompleteCallbacks = new Map()
 
 export async function newCommand(req, res) {
   console.log('new command:', req.body)
@@ -44,8 +46,35 @@ export async function newCommand(req, res) {
   if (response) {
     c.stage = response.stage
     await c.save()
+    commandCompleteCallbacks.set(session.id, response.callback)
+    pushToSession(session.id, 'status', 'pending')
   }
 
   res.status(201).json(response)
   await session.save()
+}
+
+export async function completedCommand(req, res) {
+  const sessionId = req.user.session_id
+
+  const session = await Session.findById(sessionId)
+
+  if (!session) {
+    res.status(404).json({ message: 'session not found' })
+    return
+  }
+
+  if (session.status === 'inactive') {
+    res.status(400).json({ message: 'session is not active' })
+    return
+  }
+
+  const callback = commandCompleteCallbacks.get(session.id)
+  if (!callback) {
+    res.status(400).json({ message: 'no callback found' })
+    return
+  }
+  callback()
+  commandCompleteCallbacks.delete(session.id)
+  res.json({ message: 'ok' })
 }

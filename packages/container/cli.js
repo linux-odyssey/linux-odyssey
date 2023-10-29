@@ -2,6 +2,7 @@
 const fs = require('fs').promises
 const { exit } = require('process')
 const minimist = require('minimist')
+const axios = require('axios')
 const { colorize, printResponses } = require('./print.js')
 const discoverFiles = require('./discover.js')
 
@@ -40,6 +41,13 @@ async function main() {
   } = process.env
   if (!CMD_NAME) exit(0)
 
+  const api = axios.create({
+    baseURL: `${API_ENDPOINT}/api/v1`,
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  })
+
   const additionalData = await handleCommand(CMD_NAME)
 
   const output = await readOrNone(CMD_OUTPUT_FILE)
@@ -53,24 +61,19 @@ async function main() {
     ...additionalData,
   }
   try {
-    const res = await fetch(`${API_ENDPOINT}/api/v1/commands`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      body: JSON.stringify(payload),
-    })
-    const data = await res.json()
-    if (data.responses) {
-      await printResponses(data.responses, 60)
+    const res = await api.post('/commands', payload)
+    if (!res.data) return
+    const { responses, hints, end } = res.data
+    if (responses) {
+      await printResponses(responses, 60)
+      await api.post('/commands/completed')
     }
-    if (data.hints) {
-      for (const hint of data.hints) {
+    if (hints) {
+      for (const hint of hints) {
         console.log(colorize(hint, 'yellow'))
       }
     }
-    if (data.end) {
+    if (end) {
       console.log(colorize('Quest completed!', 'blue'))
     }
   } catch (err) {

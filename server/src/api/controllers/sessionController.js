@@ -44,6 +44,12 @@ export async function createSession(req, res) {
     return
   }
 
+  // deactive all active sessions
+  await Session.updateMany(
+    { user: req.user._id, quest, status: 'active' },
+    { status: 'inactive' }
+  )
+
   try {
     const container = await createContainer(
       `quest-${quest.id}-${req.user.username}-${Date.now()}`
