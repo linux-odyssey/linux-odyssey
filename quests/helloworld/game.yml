@@ -58,21 +58,6 @@ stages:
       - 使用 `cat [檔案名稱]` 指令來查看檔案內容。
       - 使用 `Tab` 鍵來取得指令提示。
 
-  - id: jail
-    task: 移動到下一個房間
-    repeatable: false
-    requirements:
-      - find-scroll
-    condition:
-      pwd:
-        - '^/home/commander/jail$'
-    responses:
-      - type: narrative
-        content:
-          - 你進入了一個牢房，牢房裡有一個門，門上有一個鎖。
-          - 突然，你聽到門上鎖的聲音。
-          - 轉身發現，自己被關在了牢房裡。
-
   - id: read-forgotten-scroll
     task: 查看卷軸
     repeatable: false
@@ -103,64 +88,9 @@ stages:
     responses:
       - type: narrative
         content:
-          - 突然之間，地板開始晃動。
-          - 晃動持續了幾秒後停止了。
+          - 突然之間，你感覺到一股強大的力量從你的身體中湧出，你的身體開始發光，你的手中出現了一把魔法之劍。
       - type: dialogue
         speaker: Unix 精靈
         content:
-          - 我的指令官，剛剛房間內似乎發生了某些變化。
-          - 再次使用 `ls` 來查看現在房間的情況吧。
-
-  - id: not-test
-    task: Test "not" condition
-    condition:
-      $not:
-        pwd:
-          - '^/home/commander$'
-    responses:
-      - type: narrative
-        content:
-          - You are not in the home directory.
-
-  - id: or-test
-    task: Test "or" condition
-    repeatable: true
-    condition:
-      $or:
-        - command:
-            - less
-        - output:
-            - wow
-    responses:
-      - type: narrative
-        content:
-          - You are using `less` or the output contains `wow`.
-
-  - id: test-file-exists
-    task: Test file exists
-    repeatable: true
-    condition:
-      command:
-        - ls
-      files:
-        - path: /home/commander/jail
-          type: folder
-    responses:
-      - type: narrative
-        content:
-          - There is a jail
-
-  - id: test-file-not-exist
-    task: Remove the forgotten_scroll.txt
-    repeatable: true
-    condition:
-      command:
-        - ls -a
-      $not:
-        files:
-          - path: /home/commander/forgotten_scroll.txt
-            type: file
-    responses:
-      - type: narrative
-        content:
-          - There is no forgotten_scroll.txt
+          - 恭喜您，我的指令官，您已成功解除了封印。
+          - 請跟著在接下來的關卡，一步步取回 Linux 之根吧！
