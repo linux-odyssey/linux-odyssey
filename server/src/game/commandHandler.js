@@ -72,7 +72,6 @@ export default class CommandHandler extends SessionHandler {
     if (files.length === 0) {
       return true
     }
-    console.log('checkFiles', files)
     try {
       const checks = await Promise.all(
         files.map((f) => checkFile(this.session.containerId, f))

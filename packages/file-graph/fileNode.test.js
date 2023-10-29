@@ -12,13 +12,7 @@ function mergeTest(files1, files2, expectedFiles) {
   const node2 = createNodeFromFiles(files2)
   const expectedNode = createNodeFromFiles(expectedFiles)
 
-  console.log('node1', node1.toString())
-  console.log('node2', node2.toString())
-  console.log('expected', expectedNode.toString())
-
   node1.merge(node2)
-
-  console.log('after-merged', node1.toString())
 
   expect(node1.toString()).toBe(expectedNode.toString())
 }
@@ -103,7 +97,6 @@ describe('FileNode', () => {
 
     expect(rootNode.children.length).toBe(2)
     expect(rootNode.children[1].children.length).toBe(1)
-    console.log(rootNode.toString())
   })
 
   test('adds nested children to the tree with makeParents option', () => {
@@ -116,7 +109,6 @@ describe('FileNode', () => {
 
     rootNode.addChild(file, { makeParents: true })
 
-    console.log(rootNode.toString())
     let currentNode = rootNode
     for (let i = 0; i < 5; i += 1) {
       expect(currentNode.children.length).toBe(1)
@@ -279,7 +271,6 @@ test('load nested fileNode', () => {
 
   const node = new FileNode(data)
 
-  console.log(node.toString())
   expect(node.children.length).toBe(2)
   expect(node.children[1].children.length).toBe(1)
   expect(node.children[1].children[0].children.length).toBe(1)

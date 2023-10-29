@@ -30,7 +30,6 @@ describe('FileGraph', () => {
 
     fileGraph.add(filesToAdd)
 
-    console.log(fileGraph.toString())
     expect(fileGraph.children.length).toBe(1)
     expect(fileGraph.children[0].children[0].children.length).toBe(2)
   })
@@ -76,7 +75,6 @@ describe('FileGraph', () => {
 
     fileGraph.remove(filesToRemove)
 
-    console.log(fileGraph.toString())
     expect(fileGraph.children[0].children[0].children.length).toBe(1)
     expect(fileGraph.children[0].children[0].children[0].name).toBe('folder1')
     expect(fileGraph.children[0].children[0].children[0].children.length).toBe(
@@ -110,7 +108,6 @@ describe('FileGraph', () => {
     ]
 
     fileGraph.discover(discoverFiles)
-    console.log(fileGraph.toString())
     expect(fileGraph.children[0].children[0].children[0].children.length).toBe(
       3
     )
@@ -143,7 +140,6 @@ describe('FileGraph', () => {
     ]
 
     fileGraph.add(filesToAdd)
-    console.log(fileGraph.toString())
 
     const newFiles = [
       {
@@ -170,7 +166,6 @@ describe('FileGraph', () => {
 
     fileGraph.discover(newFiles)
 
-    console.log(fileGraph.toString())
     expect(fileGraph.children[0].children[0].children.length).toBe(2)
     expect(fileGraph.children[0].children[0].children[0].children.length).toBe(
       3

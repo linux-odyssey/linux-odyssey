@@ -5,7 +5,6 @@ import { pushToSession } from '../socket.js'
 const commandCompleteCallbacks = new Map()
 
 export async function newCommand(req, res) {
-  console.log('new command:', req.body)
   const { command, pwd, output, error, ...additionalData } = req.body
 
   if (!command) {

@@ -10,16 +10,12 @@ function sanitizeId(id) {
 export function checkFile(id, file) {
   return new Promise((resolve, reject) => {
     const cmd = buildFileCheckCmd(file)
-    console.log(cmd)
     // WARNING: This is vulnerable to command injection
     execFile(
       'docker',
       ['exec', sanitizeId(id), ...cmd],
       { timeout: 1000 },
-      (error, stdout, stderr) => {
-        if (stderr) console.log('error', error)
-        if (stdout) console.log('stdout', stdout)
-        if (error) console.log('error', error)
+      (error) => {
         const exists = !error
         if (exists === file.exists) {
           resolve(true)

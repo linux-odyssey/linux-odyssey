@@ -23,7 +23,6 @@ class SessionManager {
   }
 
   setSession(session) {
-    console.log('Update session:', session)
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
     this.hints.value = session.hints
