@@ -30,5 +30,6 @@ CMD [ "yarn", "start" ]
 FROM build as dev
 
 RUN yarn install --frozen-lockfile
+COPY server/nodemon.json ./server/nodemon.json
 ENV NODE_ENV=development
 CMD [ "yarn", "server" ]

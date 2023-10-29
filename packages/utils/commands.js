@@ -5,12 +5,12 @@ const fileTypes = {
   socket: '-S',
 }
 
+function sanitizePath(path) {
+  return path.replace(/[^a-zA-Z0-9._/-]/g, '')
+}
+
 // eslint-disable-next-line import/prefer-default-export
-export function buildFileCheckCmd(files) {
-  return files
-    .map(
-      ({ path, type, exists }) =>
-        `${exists ? '' : '! '}test ${fileTypes[type] || '-e'} ${path}`
-    )
-    .join(' && ')
+export function buildFileCheckCmd(file) {
+  const { path, type } = file
+  return ['test', fileTypes[type] || '-e', sanitizePath(path)]
 }

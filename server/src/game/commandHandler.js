@@ -3,7 +3,7 @@ import { FileGraph } from '@linux-odyssey/file-graph'
 import { Quest } from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 import SessionHandler from './sessionHandler.js'
-import { checkFiles } from '../containers/cli.js'
+import { checkFile } from '../containers/cli.js'
 
 // 檢查 pattern 是否符合 input
 const checkMatch = (pattern, input) => {
@@ -55,30 +55,47 @@ export default class CommandHandler extends SessionHandler {
   }
 
   async isMatch(condition) {
-    const keys = ['command', 'output', 'error', 'pwd']
-    if (keys.some((k) => !checkMatch(condition[k], this.commandInput[k]))) {
-      return false
-    }
-    if (condition.files.length > 0) {
-      const match = await this.checkFiles(condition.files)
-      if (!match) return false
-    }
-    if (condition.$not) {
-      const match = await this.isMatch(condition.$not)
-      if (match) return false
-    }
-    if (condition.$or.length > 0) {
-      const matches = await Promise.all(
-        condition.$or.map((c) => this.isMatch(c))
-      )
-      if (matches.every((m) => m === false)) return false
-    }
-    return true
+    return (
+      this.checkKeys(condition) &&
+      (await this.checkFiles(condition.files)) &&
+      (await this.checkNot(condition.$not)) &&
+      (await this.checkOr(condition.$or)) === true
+    )
   }
 
-  checkFiles(files) {
+  checkKeys(condition) {
+    const keys = ['command', 'output', 'error', 'pwd']
+    return keys.every((k) => checkMatch(condition[k], this.commandInput[k]))
+  }
+
+  async checkFiles(files) {
+    if (files.length === 0) {
+      return true
+    }
     console.log('checkFiles', files)
-    return checkFiles(this.session.containerId, files)
+    try {
+      const checks = await Promise.all(
+        files.map((f) => checkFile(this.session.containerId, f))
+      )
+      return checks.every((c) => c === true)
+    } catch (e) {
+      return false
+    }
+  }
+
+  async checkNot(condition) {
+    if (!condition) {
+      return true
+    }
+    return !(await this.isMatch(condition))
+  }
+
+  async checkOr(conditions) {
+    if (conditions.length === 0) {
+      return true
+    }
+    const matches = await Promise.all(conditions.map((c) => this.isMatch(c)))
+    return matches.some((m) => m === true)
   }
 
   async run() {
@@ -98,12 +115,12 @@ export default class CommandHandler extends SessionHandler {
 
     console.log('matches', matches)
 
-    const filteredStages = stages.filter((_, i) => matches[i])
-    console.log('filteredStages', filteredStages)
-    const response = filteredStages.reduce(
-      (r, s) => ({ ...r, ...this.execute(s) }),
-      {}
-    )
+    const stage = stages.find((_, i) => matches[i])
+    console.log('stage', stage)
+    if (!stage) {
+      return {}
+    }
+    const response = this.execute(stage)
 
     return {
       end: this.session.status === 'finished',

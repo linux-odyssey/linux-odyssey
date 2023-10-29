@@ -4,35 +4,38 @@ describe('buildFileCheckCmd function', () => {
   it('builds the file check command correctly', () => {
     const testcases = [
       {
-        input: [{ path: '/etc/passwd', type: 'file', exists: true }],
-        output: 'test -f /etc/passwd',
+        input: { path: '/etc/passwd', type: 'file' },
+        output: ['test', '-f', '/etc/passwd'],
       },
       {
-        input: [{ path: '/etc', type: 'folder', exists: false }],
-        output: '! test -d /etc',
+        input: { path: '/etc', type: 'folder' },
+        output: ['test', '-d', '/etc'],
       },
       {
-        input: [
-          { path: '/etc/passwd', type: 'file', exists: true },
-          { path: '/etc', type: 'folder', exists: false },
-        ],
-        output: 'test -f /etc/passwd && ! test -d /etc',
+        input: { path: '/tmp/socket', type: 'socket' },
+        output: ['test', '-S', '/tmp/socket'],
       },
       {
-        input: [
-          { path: '/tmp/socket', type: 'socket', exists: true },
-          { path: '/tmp/link', type: 'link', exists: false },
-        ],
-        output: 'test -S /tmp/socket && ! test -L /tmp/link',
+        input: { path: '/tmp/link', type: 'link' },
+        output: ['test', '-L', '/tmp/link'],
       },
       {
-        input: [{ path: '/unknown', type: 'unknown', exists: true }],
-        output: 'test -e /unknown',
+        input: { path: '/unknown', type: 'unknown' },
+        output: ['test', '-e', '/unknown'],
+      },
+      // Add some injection tests
+      {
+        input: { path: '/etc/passwd;ls', type: 'file' },
+        output: ['test', '-f', '/etc/passwdls'],
+      },
+      {
+        input: { path: '/etc/passwd && ls', type: 'file' },
+        output: ['test', '-f', '/etc/passwdls'],
       },
     ]
 
     testcases.forEach(({ input, output }) => {
-      expect(buildFileCheckCmd(input)).toBe(output)
+      expect(buildFileCheckCmd(input)).toStrictEqual(output)
     })
   })
 })

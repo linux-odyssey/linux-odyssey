@@ -149,3 +149,18 @@ stages:
       - type: narrative
         content:
           - There is a jail
+
+  - id: test-file-not-exist
+    task: Remove the forgotten_scroll.txt
+    repeatable: true
+    condition:
+      command:
+        - ls -a
+      $not:
+        files:
+          - path: /home/commander/forgotten_scroll.txt
+            type: file
+    responses:
+      - type: narrative
+        content:
+          - There is no forgotten_scroll.txt
