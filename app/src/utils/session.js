@@ -48,13 +48,14 @@ class SessionManager {
     return this.session.value
   }
 
-  setSession(session) {
+  async setSession(session) {
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
     this.hints.value = session.hints
     this.status.value = session.status
-    this.term.clear()
-    this.socket.connect(session)
+    this.term.reset()
+    await this.socket.connect(session)
+    this.term.focus()
   }
 
   handleGraphUpdate(event) {
@@ -92,7 +93,12 @@ class SessionManager {
     })
     const session = res.data
     console.log(session)
-    this.setSession(session)
+    try {
+      await this.setSession(session)
+    } catch (err) {
+      console.log(err)
+      this.createSession().catch(console.error)
+    }
   }
 }
 
