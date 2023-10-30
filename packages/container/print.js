@@ -45,7 +45,8 @@ function printLine(content, delay, color) {
       i += 1
       if (i >= printContent.length) {
         clearInterval(timer)
-        waitForEnter().then(resolve)
+        process.stdout.write('\n')
+        resolve()
       }
     }, delay)
 
@@ -71,7 +72,7 @@ async function printResponses(responses, delay = 100) {
     if (type === 'dialogue') {
       console.log(`${speaker}:`)
       for (const line of content) {
-        await printLine(`\t${line}`, delay, color || 'green')
+        await printLine(`  ${line}`, delay, color || 'green')
       }
     }
   }
