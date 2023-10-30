@@ -10,11 +10,13 @@ async function deactivateSessions(user, quest) {
   })
   return Promise.all(
     sessions.map((session) => {
-      return deleteContainer(session.containerId).then(() => {
-        session.status = 'inactive'
-        session.containerId = null
-        return session.save()
-      })
+      return deleteContainer(session.containerId)
+        .catch(console.error)
+        .finally(() => {
+          session.status = 'inactive'
+          session.containerId = null
+          return session.save()
+        })
     })
   )
 }
@@ -47,4 +49,16 @@ export async function createNewSession(user, questId) {
   const session = sessionHandler.getSession()
   await session.save()
   return session
+}
+
+export async function getOrCreateActiveSession(user, questId) {
+  const session = await Session.findOne({
+    user,
+    quest: questId,
+    status: 'active',
+  })
+  if (session) {
+    return session
+  }
+  return createNewSession(user, questId)
 }

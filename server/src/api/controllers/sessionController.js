@@ -1,5 +1,8 @@
 import { Session } from '@linux-odyssey/models'
-import { createNewSession } from '../../game/sessionManager.js'
+import {
+  createNewSession,
+  getOrCreateActiveSession,
+} from '../../game/sessionManager.js'
 
 function sessionSummary(session) {
   return {
@@ -79,6 +82,17 @@ export async function deleteSessionById(req, res) {
 
     res.status(204).end()
   } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+}
+
+export async function getActiveSession(req, res) {
+  const { quest_id } = req.body
+  try {
+    const session = await getOrCreateActiveSession(req.user, quest_id)
+    res.json(sessionDetail(session))
+  } catch (err) {
+    console.error(err)
     res.status(500).json({ message: err.message })
   }
 }

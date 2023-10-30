@@ -58,33 +58,13 @@ class SessionManager {
     this.setSession(data)
   }
 
-  async getSessionList() {
-    const res = await api.get('/sessions', {
-      params: { quest_id: this.questId },
+  async getActiveSession() {
+    const res = await api.post('/sessions/active', {
+      quest_id: this.questId,
     })
-    const { data } = res
-    return data
-  }
-
-  async lastSession() {
-    const sessions = await this.getSessionList()
-    if (sessions.length === 0) {
-      return
-    }
-    const { _id: sessionId } = sessions[sessions.length - 1]
-    const { data: session } = await api.get(`/sessions/${sessionId}`)
-    console.log(
-      `Last Session ID: ${session._id}, Quest: ${session.quest}, Created At: ${session.createdAt}`
-    )
+    const session = res.data
+    console.log(session)
     this.setSession(session)
-  }
-
-  async lastOrCreate() {
-    await this.lastSession()
-    if (!this.session.value) {
-      await this.createSession()
-    }
-    console.log(this.session.value)
   }
 }
 
