@@ -12,6 +12,7 @@ import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
+import globalRateLimit from './middleware/globalRateLimit.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 import { createTestUser } from './utils/auth.js'
@@ -37,6 +38,7 @@ async function main() {
   const server = http.createServer(app)
   socketServer(server)
   app.use(errorHandler)
+  app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())
   app.use(
