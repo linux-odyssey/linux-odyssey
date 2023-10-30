@@ -8,6 +8,7 @@ services:
       - internal
     volumes:
       - ./tests:/app/tests
+      - ../quests:/app/quests
     working_dir: /app/tests
     environment:
       - BASE_URL=http://app-test
