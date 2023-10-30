@@ -13,7 +13,6 @@ export default {
           primary: '#00FF00',
           secondary: '#ADADB5',
           tertiary: '#4A4B63',
-          error: '#FF0000',
           DEFAULT: '#FFFFFF',
         },
         disabled: {
@@ -22,6 +21,9 @@ export default {
         },
         border: {
           DEFAULT: '#526B4E',
+        },
+        error: {
+          DEFAULT: '#FF0000',
         },
       },
     },
