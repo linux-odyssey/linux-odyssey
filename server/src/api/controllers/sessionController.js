@@ -86,7 +86,7 @@ export async function deleteSessionById(req, res) {
   }
 }
 
-export async function getActiveSession(req, res) {
+export async function getOrCreateSession(req, res) {
   const { quest_id } = req.body
   try {
     const session = await getOrCreateActiveSession(req.user, quest_id)
