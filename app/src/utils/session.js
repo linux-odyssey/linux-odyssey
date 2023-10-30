@@ -15,6 +15,7 @@ class SessionManager {
       })
     )
     this.pwd = ref('')
+    this.status = ref('inactive')
   }
 
   getSession() {
@@ -22,10 +23,10 @@ class SessionManager {
   }
 
   setSession(session) {
-    console.log('Update session:', session)
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
     this.hints.value = session.hints
+    this.status.value = session.status
   }
 
   handleGraphUpdate(event) {
@@ -37,8 +38,12 @@ class SessionManager {
     }
   }
 
-  handleHintUpdate(event) {
-    this.hints.value = [...this.hints.value, ...event]
+  handleHintUpdate(hints) {
+    this.hints.value = [...this.hints.value, ...hints]
+  }
+
+  handleStatusUpdate(status) {
+    this.status.value = status
   }
 
   setTasks(tasks) {

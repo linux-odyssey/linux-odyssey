@@ -69,6 +69,7 @@ jobs:
         with:
           context: .
           file: ./server/Dockerfile
+          target: prod
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:backend
 
@@ -77,6 +78,7 @@ jobs:
         with:
           context: .
           file: ./app/Dockerfile
+          target: prod
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:app
 
@@ -85,6 +87,7 @@ jobs:
         with:
           context: .
           file: ./packages/analytics/Dockerfile
+          target: prod
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:analytics
 

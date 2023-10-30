@@ -36,12 +36,6 @@ function waitForEnter() {
   })
 }
 
-function waitTime(time) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
-}
-
 function printLine(content, delay, color) {
   const printContent = `${colorize(content, color)}${RETURN_SYMBOL}`
   return new Promise((resolve) => {
@@ -51,7 +45,8 @@ function printLine(content, delay, color) {
       i += 1
       if (i >= printContent.length) {
         clearInterval(timer)
-        waitForEnter().then(resolve)
+        process.stdout.write('\n')
+        resolve()
       }
     }, delay)
 
@@ -65,7 +60,6 @@ function printLine(content, delay, color) {
 }
 
 async function printResponses(responses, delay = 100) {
-  await waitTime(1000)
   console.log()
   console.log(colorize('-------------', 'white'))
   for (const response of responses) {
@@ -78,7 +72,7 @@ async function printResponses(responses, delay = 100) {
     if (type === 'dialogue') {
       console.log(`${speaker}:`)
       for (const line of content) {
-        await printLine(`\t${line}`, delay, color || 'green')
+        await printLine(`  ${line}`, delay, color || 'green')
       }
     }
   }

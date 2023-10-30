@@ -5,7 +5,8 @@ services:
       - backend
     build:
       context: .
-      dockerfile: app/Dockerfile.dev
+      dockerfile: app/Dockerfile
+      target: dev
     ports:
       - 5173:5173
     networks:
@@ -18,7 +19,8 @@ services:
       - db
     build:
       context: .
-      dockerfile: server/Dockerfile.dev
+      dockerfile: server/Dockerfile
+      target: dev
     networks:
       - internal
       - players
@@ -43,7 +45,8 @@ services:
   analytics:
     build:
       context: .
-      dockerfile: packages/analytics/Dockerfile.dev
+      dockerfile: packages/analytics/Dockerfile
+      target: dev
     depends_on:
       - db
     networks:

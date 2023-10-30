@@ -42,7 +42,6 @@ describe('File', () => {
   filesToCompare.forEach(({ name, path, answer }) => {
     test(`${name}: ${path}`, () => {
       const fileToCompare = new File({ path, type: 'file', discovered: true })
-      console.log(fileToCompare)
       expect(file.contains(fileToCompare)).toBe(answer)
     })
   })

@@ -4,4 +4,7 @@ To reclaim the root, the forgotten language,
 Must be learned, commands of old rekindled.
 Speak the words of power and awaken the might of Unix:
 
-Unix, rise and guide me!
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Unix, rise and guide me! 
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 

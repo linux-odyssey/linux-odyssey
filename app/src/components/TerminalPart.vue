@@ -9,57 +9,13 @@
 </template>
 
 <script setup>
-import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
-import 'xterm/css/xterm.css'
 import { onMounted, ref } from 'vue'
-import socket from '../utils/socket'
+import socketTerminal from '../utils/terminal'
 
-const rows = ref(40)
-const cols = ref(100)
 const terminal = ref(null)
 
-const term = new Terminal({
-  rendererType: 'canvas', // 渲染类型
-  rows: rows.value, // 行数
-  cols: cols.value, // 不指定行数，自动回车后光标从下一行开始
-  convertEol: true, // 启用时，光标将设置为下一行的开头
-  // scrollback: 50, //终端中的回滚量
-  disableStdin: false, // 是否应禁用输入
-  // cursorStyle: "underline", //光标样式
-  cursorBlink: true, // 光标闪烁
-  theme: {
-    foreground: '#ECECEC', // 字体
-    background: '#000000', // 背景色
-    cursor: 'help', // 设置光标
-    lineHeight: 20,
-  },
-})
-
-const fitAddon = new FitAddon()
-term.loadAddon(fitAddon)
-fitAddon.fit()
-term.writeln('Welcome to \x1b[1;32mLinux Odyssey\x1b[0m!')
-
-function resizeScreen() {
-  try {
-    // 窗口大小改变时，触发xterm的resize方法使自适应
-    fitAddon.fit()
-  } catch (e) {
-    console.error('e', e.message)
-  }
-}
-window.addEventListener('resize', resizeScreen)
-
 onMounted(() => {
-  term.open(terminal.value)
-  term.focus()
-  resizeScreen()
-  socket.on('terminal', (message) => {
-    term.write(message)
-  })
-  term.onData((key) => {
-    socket.emit('terminal', key)
-  })
+  socketTerminal.mount(terminal.value)
+  window.addEventListener('resize', () => socketTerminal.resizeScreen())
 })
 </script>

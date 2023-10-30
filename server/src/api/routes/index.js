@@ -19,6 +19,7 @@ router.use('/sessions', authRequired, sessions)
 router.use(
   '/commands',
   passport.authenticate('jwt', { session: false }),
+  authRequired,
   commands
 )
 

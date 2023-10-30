@@ -10,6 +10,31 @@ const responseSchema = new Schema({
   color: String,
 })
 
+const fileConditionSchema = new Schema({
+  path: {
+    type: String,
+    required: true,
+  },
+  type: String,
+  exists: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+const conditionSchema = new Schema({
+  command: [String],
+  output: [String],
+  error: [String],
+  pwd: [String],
+  files: [fileConditionSchema],
+})
+
+conditionSchema.add({
+  or: [conditionSchema],
+  not: conditionSchema,
+})
+
 const stageSchema = new Schema({
   id: {
     type: String,
@@ -29,12 +54,7 @@ const stageSchema = new Schema({
     required: true,
     default: false,
   },
-  condition: {
-    command: [String],
-    output: [String],
-    error: [String],
-    pwd: [String],
-  },
+  condition: conditionSchema,
   responses: {
     type: [responseSchema],
     required: true,
@@ -52,18 +72,6 @@ const Quest = model(
     title: String,
     order: Number,
     instruction: String,
-    tasks: {
-      id: String,
-      content: String,
-      display: {
-        type: Boolean,
-        default: false,
-      },
-      completed: {
-        type: Boolean,
-        default: false,
-      },
-    },
     stages: [stageSchema],
   })
 )

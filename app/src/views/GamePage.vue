@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import socket from '../utils/socket'
 import sessionManager from '../utils/session'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
@@ -11,7 +11,9 @@ import VisualizationPart from '../components/VisualizationPart.vue'
 import ControlPalette from '../components/ControlPalette.vue'
 import CompleteModal from '../components/CompleteModal.vue'
 
-const completed = ref(false)
+const completed = computed(() => {
+  return sessionManager.status.value === 'finished'
+})
 
 onMounted(async () => {
   await sessionManager.lastOrCreate()
@@ -33,12 +35,7 @@ onMounted(async () => {
   })
   socket.on('message', console.log)
   socket.on('status', (event) => {
-    console.log('status', event)
-    if (event === 'finished') {
-      setTimeout(() => {
-        completed.value = true
-      }, 5000)
-    }
+    sessionManager.handleStatusUpdate(event)
   })
 })
 </script>
@@ -48,6 +45,12 @@ onMounted(async () => {
   <div class="h-[5vh] w-full">
     <GameHeaderPart />
   </div>
+  <!-- current status indicator -->
+  <input
+    type="hidden"
+    id="currentStatus"
+    :value="sessionManager.status.value"
+  />
   <!-- main -->
   <div id="main" class="h-[95vh] w-full flex p-3 space-x-3">
     <!-- Topic and Command List -->

@@ -25,6 +25,10 @@ const Command = model(
         type: String,
         required: false,
       },
+      stage: {
+        type: String,
+        required: false,
+      },
     },
     { timestamps: true }
   )

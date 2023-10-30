@@ -17,6 +17,7 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
+      target: prod
     networks:
       internal:
     ports:
@@ -29,6 +30,7 @@ services:
     build:
       context: .
       dockerfile: server/Dockerfile
+      target: prod
     depends_on:
       - db-test
     networks:

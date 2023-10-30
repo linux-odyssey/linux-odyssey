@@ -34,7 +34,6 @@ export default class SessionHandler {
   addNewTasks() {
     const newTasks = this.getNewTasks()
     this.session.tasks.push(...newTasks)
-    pushToSession(this.session.id, 'tasks', this.session.tasks)
   }
 
   execute(stage) {
@@ -45,12 +44,10 @@ export default class SessionHandler {
       })
 
     this.session.hints.push(...stage.hints)
-    pushToSession(this.session.id, 'hints', stage.hints)
 
     if (stage.id === 'END') {
       this.session.status = 'finished'
       this.session.finishedAt = new Date()
-      pushToSession(this.session.id, 'status', 'finished')
     }
 
     this.addNewTasks()
@@ -58,6 +55,11 @@ export default class SessionHandler {
     return {
       responses: stage.responses,
       hints: stage.hints,
+      callback: () => {
+        pushToSession(this.session.id, 'tasks', this.session.tasks)
+        pushToSession(this.session.id, 'hints', stage.hints)
+        pushToSession(this.session.id, 'status', this.session.status)
+      },
     }
   }
 }

@@ -50,7 +50,11 @@ export async function attachContainer(container, { token }) {
     AttachStderr: true,
     Cmd: ['/bin/zsh'],
     Tty: true,
-    Env: [`TOKEN=${token}`, `API_ENDPOINT=http://backend:3000`],
+    Env: [
+      `TOKEN=${token}`,
+      `API_ENDPOINT=http://backend:3000`,
+      'ZDOTDIR=/etc/zsh',
+    ],
   })
 
   const execOutput = await exec.start({
