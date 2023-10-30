@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import socket from '../utils/socket'
 import sessionManager from '../utils/session'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 import CommandlistPart from '../components/CommandlistPart.vue'
@@ -16,27 +15,7 @@ const completed = computed(() => {
 })
 
 onMounted(async () => {
-  await sessionManager.getActiveSession()
-  socket.connect(sessionManager.getSession())
-  socket.on('connect', function open() {
-    console.log('Connected to the server.')
-  })
-  socket.on('disconnect', function close() {
-    console.log('Disconnected from the server.')
-  })
-  socket.on('graph', (event) => {
-    sessionManager.handleGraphUpdate(event)
-  })
-  socket.on('hints', (event) => {
-    sessionManager.handleHintUpdate(event)
-  })
-  socket.on('tasks', (tasks) => {
-    sessionManager.setTasks(tasks)
-  })
-  socket.on('message', console.log)
-  socket.on('status', (event) => {
-    sessionManager.handleStatusUpdate(event)
-  })
+  await sessionManager.init()
 })
 </script>
 
