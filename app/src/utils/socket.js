@@ -22,6 +22,14 @@ class SocketWrapper {
       console.log('Socket connected to session', session._id)
     })
 
+    this.socket.on('disconnect', () => {
+      console.log('Socket disconnected from session', session._id)
+    })
+
+    this.socket.on('error', (err) => {
+      console.log('Socket error', err)
+    })
+
     this.bindListeners()
   }
 
@@ -29,6 +37,12 @@ class SocketWrapper {
     this.listeners.push({ event, callback })
     if (this.socket) {
       this.socket.on(event, callback)
+    }
+  }
+
+  once(event, callback) {
+    if (this.socket) {
+      this.socket.once(event, callback)
     }
   }
 
@@ -47,4 +61,4 @@ class SocketWrapper {
   }
 }
 
-export default new SocketWrapper()
+export default SocketWrapper
