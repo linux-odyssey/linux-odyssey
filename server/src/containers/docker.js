@@ -25,17 +25,19 @@ const containerOptions = {
 
 // const network = engine.getNetwork(config.dockerNetwork)
 
-export async function createContainer(name) {
-  const container = await engine.createContainer({
+export function createContainer(name) {
+  return engine.createContainer({
     ...containerOptions,
     name,
   })
-  return container
 }
 
 export async function getAndStartContainer(id) {
   console.log(`Getting container: ${id}`)
   const container = engine.getContainer(id)
+  if (!container) {
+    throw new Error(`Container ${id} not found`)
+  }
   if (!(await container.inspect()).State.Running) {
     await container.start()
   }

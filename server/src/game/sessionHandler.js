@@ -6,6 +6,10 @@ export default class SessionHandler {
     this.quest = session.quest
   }
 
+  getSession() {
+    return this.session
+  }
+
   getTask(stage) {
     return this.session.tasks.find((t) => t.id === stage.id)
   }
