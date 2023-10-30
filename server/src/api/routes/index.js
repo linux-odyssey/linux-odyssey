@@ -12,6 +12,10 @@ router.get('/', (req, res) => {
   res.send('Hello API!')
 })
 
+router.get('/ip', (req, res) => {
+  res.json({ ip: req.ip })
+})
+
 router.use('/auth', authRouter)
 router.use('/quests', quests)
 

@@ -38,7 +38,6 @@ async function main() {
   const server = http.createServer(app)
   socketServer(server)
   app.set('trust proxy', true)
-  app.use(errorHandler)
   app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())
@@ -56,6 +55,7 @@ async function main() {
   })
 
   app.use('/api/v1', apiRouter)
+  app.use(errorHandler)
 
   server.listen(config.port, config.host, () => {
     console.log(`Server listening at ${config.baseUrl}`)
