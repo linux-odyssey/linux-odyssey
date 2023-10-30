@@ -35,7 +35,7 @@ async function connectClient(socket) {
   }
   const sessionId = socket.handshake.query.session_id
   if (!sessionId) {
-    socket.send('Session ID not found.')
+    socket.emit('error', 'Session ID not found.')
     socket.disconnect()
     return
   }
@@ -46,7 +46,7 @@ async function connectClient(socket) {
     status: 'active',
   })
   if (!session) {
-    socket.send('Session not found.')
+    socket.emit('error', 'Session not found.')
     socket.disconnect()
     return
   }
@@ -61,7 +61,7 @@ async function connectClient(socket) {
     container = await getAndStartContainer(session.containerId)
     stream = await attachContainer(container, { token })
   } catch (err) {
-    socket.send(err.message)
+    socket.emit('error', 'Failed to start container.')
     socket.disconnect()
     return
   }

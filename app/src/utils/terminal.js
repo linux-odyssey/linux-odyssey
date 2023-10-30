@@ -33,6 +33,10 @@ class SocketTerminal {
     this.term.onData(callback)
   }
 
+  focus() {
+    this.term.focus()
+  }
+
   resizeScreen() {
     this.fitAddon.fit()
   }
@@ -43,8 +47,8 @@ class SocketTerminal {
     this.resizeScreen()
   }
 
-  clear() {
-    this.term.clear()
+  reset() {
+    this.term.reset()
   }
 }
 

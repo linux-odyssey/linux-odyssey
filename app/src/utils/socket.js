@@ -7,30 +7,28 @@ class SocketWrapper {
   }
 
   connect(session) {
-    if (this.socket) {
-      this.socket.off()
-      this.socket.disconnect()
-    }
+    return new Promise((resolve, reject) => {
+      if (this.socket) {
+        this.socket.off()
+        this.socket.disconnect()
+      }
 
-    this.socket = io('', {
-      query: {
-        session_id: session._id,
-      },
+      this.socket = io('', {
+        query: {
+          session_id: session._id,
+        },
+      })
+
+      this.socket.on('connect', () => {
+        console.log('Socket connected to session', session._id)
+      })
+
+      this.socket.once('terminal', () => {
+        resolve()
+      })
+      this.socket.once('error', reject)
+      this.bindListeners()
     })
-
-    this.socket.on('connect', () => {
-      console.log('Socket connected to session', session._id)
-    })
-
-    this.socket.on('disconnect', () => {
-      console.log('Socket disconnected from session', session._id)
-    })
-
-    this.socket.on('error', (err) => {
-      console.log('Socket error', err)
-    })
-
-    this.bindListeners()
   }
 
   on(event, callback) {
