@@ -1,5 +1,5 @@
 import { Session, Quest } from '@linux-odyssey/models'
-import { createContainer } from '../../containers/docker.js'
+import { createContainer, deleteContainer } from '../../containers/docker.js'
 import SessionHandler from '../../game/sessionHandler.js'
 
 function sessionSummary(session) {
@@ -37,6 +37,23 @@ export async function getSessionList(req, res) {
   }
 }
 
+async function deactivateSessions(user, quest) {
+  const sessions = await Session.find({
+    user,
+    quest,
+    status: 'active',
+  })
+  return Promise.all(
+    sessions.map((session) => {
+      return deleteContainer(session.containerId).then(() => {
+        session.status = 'inactive'
+        session.containerId = null
+        return session.save()
+      })
+    })
+  )
+}
+
 export async function createSession(req, res) {
   const quest = await Quest.findById(req.body.quest_id)
   if (!quest) {
@@ -44,11 +61,10 @@ export async function createSession(req, res) {
     return
   }
 
-  // deactive all active sessions
-  await Session.updateMany(
-    { user: req.user._id, quest, status: 'active' },
-    { status: 'inactive' }
-  )
+  // deactivate all active sessions
+  deactivateSessions(req.user._id, quest._id).catch((err) => {
+    console.error(err)
+  })
 
   try {
     const container = await createContainer(
