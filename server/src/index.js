@@ -37,6 +37,7 @@ async function main() {
   const app = express()
   const server = http.createServer(app)
   socketServer(server)
+  app.set('trust proxy', true)
   app.use(errorHandler)
   app.use(globalRateLimit)
   app.use(sessionMiddleware)
