@@ -5,6 +5,7 @@ const router = Router()
 
 router.get('/', sessionController.getSessionList)
 router.post('/', sessionController.createSession)
+router.post('/active', sessionController.getActiveSession)
 router.get('/:id', sessionController.getSessionById)
 router.delete('/:id', sessionController.deleteSessionById)
 

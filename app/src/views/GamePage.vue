@@ -16,7 +16,7 @@ const completed = computed(() => {
 })
 
 onMounted(async () => {
-  await sessionManager.lastOrCreate()
+  await sessionManager.getActiveSession()
   socket.connect(sessionManager.getSession())
   socket.on('connect', function open() {
     console.log('Connected to the server.')
