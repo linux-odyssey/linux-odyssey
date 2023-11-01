@@ -17,6 +17,14 @@ import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 
 async function main() {
+  if (!config.secret) {
+    console.warn(
+      'No SECRET_KEY found in .env! To set up a persistent key, please run the setup script:'
+    )
+    console.warn('yarn setup')
+    process.exit(1)
+  }
+
   try {
     await connectDB(config.db)
     console.log('Connected to MongoDB')

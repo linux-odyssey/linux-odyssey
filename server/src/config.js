@@ -22,12 +22,4 @@ const config = {
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
 
-if (!config.secret) {
-  console.warn(
-    'No SECRET_KEY found in .env! To set up a persistent key, please run the setup script:'
-  )
-  console.warn('yarn setup')
-  process.exit(1)
-}
-
 export default config
