@@ -4,7 +4,7 @@ import MongoStore from 'connect-mongo'
 import config from '../config.js'
 
 export default session({
-  secret: config.jwtSecret,
+  secret: config.secret,
   resave: false,
   saveUninitialized: false,
   rolling: true,
