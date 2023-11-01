@@ -7,25 +7,29 @@ import Background from '../components/DynamicBackground.vue'
 
 import api from '../utils/api'
 import { register } from '../utils/auth'
+import {
+  UnauthorizedError,
+  TooManyRequestsError,
+  ValidationError,
+} from '../utils/errors'
 
 function handleRegister({ username, email, password, success, error }) {
   register(username, email, password)
     .then(success)
     .catch((err) => {
-      if (err.response?.status === 409) {
-        // Handle username or email already exists error here
-        if (err.response.data.type === 'username') {
-          error('Username already exists.')
-        } else if (err.response.data.type === 'email') {
-          error('Email already exists.')
-        } else {
-          error('Something went wrong.')
-        }
-      } else if (err.response?.status === 400) {
-        error('Invalid username or email.')
-      } else {
-        console.error(err)
+      if (err instanceof TooManyRequestsError) {
+        error('Too many requests. Try again in 2 minutes.')
+        return
       }
+      if (err instanceof UnauthorizedError) {
+        error('Invalid username or password.')
+        return
+      }
+      if (err instanceof ValidationError) {
+        error(err.message)
+        return
+      }
+      console.error(err)
     })
 }
 

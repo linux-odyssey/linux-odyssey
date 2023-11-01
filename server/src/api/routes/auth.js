@@ -16,11 +16,13 @@ import {
   registerFromSessionValidators,
   registerValidators,
 } from '../validators/authValidator.js'
+import { authenticateRateLimit } from '../../middleware/rateLimiter.js'
 
 const router = Router()
 
 router.post(
   '/login',
+  authenticateRateLimit,
   loginValidators,
   passport.authenticate('local', { failureMessage: true }),
   (req, res) => {
@@ -28,9 +30,9 @@ router.post(
   }
 )
 
-router.post('/register', registerValidators, register)
+router.post('/register', authenticateRateLimit, registerValidators, register)
 
-router.post('/logout', logout)
+router.post('/logout', authenticateRateLimit, logout)
 
 router.get('/check-username', checkUsernameValidators, (req, res) =>
   res.json({ available: true })
@@ -43,16 +45,27 @@ router.get('/available-methods', (req, res) => {
 
 if (enabledMethods.google) {
   router.get('/google', passport.authenticate('google'))
-  router.get('/google/callback', passport.authenticate('google'), socialLogin)
+  router.get(
+    '/google/callback',
+    authenticateRateLimit,
+    passport.authenticate('google'),
+    socialLogin
+  )
 }
 
 if (enabledMethods.github) {
   router.get('/github', passport.authenticate('github'))
-  router.get('/github/callback', passport.authenticate('github'), socialLogin)
+  router.get(
+    '/github/callback',
+    authenticateRateLimit,
+    passport.authenticate('github'),
+    socialLogin
+  )
 }
 
 router.post(
   '/register-from-session',
+  authenticateRateLimit,
   registerFromSessionValidators,
   registerFromSession
 )

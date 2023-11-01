@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as sessionController from '../controllers/sessionController.js'
-import sessionRateLimit from '../../middleware/sessionRateLimit.js'
+import { sessionRateLimit } from '../../middleware/rateLimiter.js'
 
 const router = Router()
 
