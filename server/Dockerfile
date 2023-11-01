@@ -6,6 +6,7 @@ COPY server/package.json ./server/package.json
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
 COPY packages/utils/package.json ./packages/utils/package.json
 COPY packages/models/package.json ./packages/models/package.json
+COPY packages/constants/package.json ./packages/constants/package.json
 RUN yarn install --frozen-lockfile --production
 # Install docker cli
 COPY --from=docker:dind /usr/local/bin/docker /usr/local/bin/
@@ -20,6 +21,7 @@ FROM build as prod
 COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
 COPY packages/models ./packages/models
+COPY packages/constants ./packages/constants
 COPY ./server ./server
 COPY quests ./quests
 

@@ -1,10 +1,11 @@
-import { query } from 'express-validator'
+import { check } from 'express-validator'
 
 import { isValidUsername } from '@linux-odyssey/utils'
 import { User } from '@linux-odyssey/models'
+import { passwordPolicy } from '@linux-odyssey/constants'
 
 export const checkUsername = () =>
-  query('username')
+  check('username')
     .notEmpty()
     .isString()
     .custom((username) => {
@@ -23,7 +24,7 @@ export const checkNewUsername = () =>
     return true
   })
 
-export const checkEmail = () => query('email').notEmpty().isEmail().trim()
+export const checkEmail = () => check('email').notEmpty().isEmail().trim()
 
 export const checkNewEmail = () =>
   checkEmail().custom(async (email) => {
@@ -34,10 +35,4 @@ export const checkNewEmail = () =>
   })
 
 export const checkPassword = () =>
-  query('password').notEmpty().isStrongPassword({
-    minLength: 8,
-    minNumbers: 1,
-    minLowercase: 1,
-    minUppercase: 1,
-    minSymbols: 0,
-  })
+  check('password').notEmpty().isStrongPassword(passwordPolicy)

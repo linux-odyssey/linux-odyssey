@@ -1,5 +1,7 @@
 <script setup>
-import { isValidEmail, isValidUsername } from '@linux-odyssey/utils'
+import validator from 'validator'
+import { isValidUsername } from '@linux-odyssey/utils'
+import { passwordPolicy } from '@linux-odyssey/constants'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 
@@ -27,29 +29,35 @@ function handleRegister({ username, email, password, success, error }) {
     })
 }
 
-async function check({ username, email, error }) {
+async function check({ username, email, password, error }) {
   if (username && !isValidUsername(username)) {
     error('Invalid username.')
     return
   }
-  if (email && !isValidEmail(email)) {
+  if (email && !validator.isEmail(email)) {
     error('Invalid email.')
     return
   }
-  if (!username && !email) {
+  if (password && !validator.isStrongPassword(password, passwordPolicy)) {
+    error(
+      'Your password must be 8+ characters with at least one number, one upper and one lower case letter.'
+    )
+    return
+  }
+  if (!(username && email && password)) {
     return
   }
   try {
     const res = await api.get('/auth/check-username', {
       params: { username },
     })
-    const { type, available } = res.data
+    const { available } = res.data
     if (!available) {
-      error(`${type} already exists.`)
+      error(`Username already exists.`)
     }
   } catch (err) {
     if (err.response?.status === 400) {
-      error('Invalid username or email.')
+      error('Invalid username.')
       return
     }
     console.error(err)

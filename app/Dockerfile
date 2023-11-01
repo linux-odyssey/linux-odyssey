@@ -5,6 +5,7 @@ COPY package.json yarn.lock ./
 COPY app/package.json ./app/package.json
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
 COPY packages/utils/package.json ./packages/utils/package.json
+COPY packages/constants/package.json ./packages/constants/package.json
 RUN yarn install --frozen-lockfile
 
 # Dev stage
@@ -16,6 +17,7 @@ CMD [ "yarn", "dev:docker", "--host", "0.0.0.0" ]
 FROM base as build
 COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
+COPY packages/constants ./packages/constants
 COPY app ./app
 RUN yarn build
 
