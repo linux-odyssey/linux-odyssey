@@ -15,7 +15,6 @@ import errorHandler from './middleware/error.js'
 import globalRateLimit from './middleware/globalRateLimit.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
-import { createTestUser } from './utils/auth.js'
 
 async function main() {
   try {
@@ -25,8 +24,6 @@ async function main() {
     console.error(err)
     process.exit(1)
   }
-
-  await createTestUser()
 
   await loadAndUpdateQuests()
   expiryRemovalScheduler()
