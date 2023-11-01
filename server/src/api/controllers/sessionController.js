@@ -1,3 +1,4 @@
+import { matchedData } from 'express-validator'
 import { Session } from '@linux-odyssey/models'
 import {
   createNewSession,
@@ -40,7 +41,7 @@ export async function getSessionList(req, res) {
 }
 
 export async function createSession(req, res) {
-  const { quest_id } = req.body
+  const { quest_id } = matchedData(req)
   try {
     const session = await createNewSession(req.user, quest_id)
     res.status(201).json(sessionDetail(session))
@@ -87,7 +88,7 @@ export async function deleteSessionById(req, res) {
 }
 
 export async function getOrCreateSession(req, res) {
-  const { quest_id } = req.body
+  const { quest_id } = matchedData(req)
   try {
     const session = await getOrCreateActiveSession(req.user, quest_id)
     res.json(sessionDetail(session))
