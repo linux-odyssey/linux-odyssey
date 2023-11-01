@@ -26,7 +26,7 @@ onMounted(async () => {
     </h1>
     <hr class="border-text-tertiary border-2 my-2" />
     <div>
-      <div v-if="questData">
+      <div v-if="questData" class="whitespace-pre-line">
         <p class="text-text">{{ questData.instruction }}</p>
         <br />
         <p class="text-text">Tasks:</p>
