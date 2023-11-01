@@ -1,4 +1,4 @@
-import { isValidEmail, isValidUsername } from '@linux-odyssey/utils'
+import { matchedData } from 'express-validator'
 import { User } from '@linux-odyssey/models'
 import { genJWT, hashPassword } from '../../utils/auth.js'
 
@@ -12,67 +12,8 @@ export async function issueToken(req, res) {
   res.json({ token })
 }
 
-async function invalidUsername(username) {
-  return !isValidUsername(username) || User.exists({ username })
-}
-
-async function invalidEmail(email) {
-  return !isValidEmail(email) || User.exists({ email })
-}
-
-export async function checkUsername(req, res) {
-  const { username, email } = req.query
-  const cred = username || email
-  if (!cred) {
-    res.status(400).json({
-      message: 'username or email is required',
-    })
-    return
-  }
-
-  if (isValidEmail(cred)) {
-    res.json({
-      type: 'email',
-      available: !(await User.exists({ email: cred })),
-    })
-    return
-  }
-  if (isValidUsername(cred)) {
-    res.json({
-      type: 'username',
-      available: !(await User.exists({ username: cred })),
-    })
-    return
-  }
-  res.status(400).json({
-    message: 'invalid username or email',
-  })
-}
-
 export async function register(req, res, next) {
-  const { username, password, email } = req.body
-  if (!(username && password && email)) {
-    res.status(400).json({
-      message: 'username, password, and email are required',
-    })
-    return
-  }
-
-  if (await invalidUsername(username)) {
-    res.status(409).json({
-      type: 'username',
-      message: 'Invalid username',
-    })
-    return
-  }
-
-  if (await invalidEmail(email)) {
-    res.status(409).json({
-      type: 'email',
-      message: 'Invalid email',
-    })
-    return
-  }
+  const { username, password, email } = matchedData(req)
 
   const user = new User({
     username,
@@ -81,7 +22,6 @@ export async function register(req, res, next) {
   try {
     user.hashedPassword = await hashPassword(password)
     await user.save()
-    req.user = user
     req.login(user, (err) => {
       if (err) {
         next(err)
@@ -131,20 +71,12 @@ export async function socialLogin(req, res) {
 }
 
 export async function registerFromSession(req, res) {
-  const { username } = req.body
+  const { username } = matchedData(req)
   const { newUser } = req.session
 
   if (!newUser) {
     res.status(400).json({
       message: 'no new user found',
-    })
-    return
-  }
-
-  if (await invalidUsername(username)) {
-    res.status(409).json({
-      type: 'username',
-      message: 'Invalid username',
     })
     return
   }
