@@ -1,10 +1,11 @@
 import { check } from 'express-validator'
 
-import { isValidUsername } from '@linux-odyssey/utils'
+import { isValidUsername, isValidEmail } from '@linux-odyssey/utils'
 import { User } from '@linux-odyssey/models'
 import { passwordPolicy } from '@linux-odyssey/constants'
+import { noError } from '../../middleware/validator.js'
 
-export const checkUsername = () =>
+const checkUsername = () =>
   check('username')
     .notEmpty()
     .isString()
@@ -16,7 +17,7 @@ export const checkUsername = () =>
     })
     .trim()
 
-export const checkNewUsername = () =>
+const checkNewUsername = () =>
   checkUsername().custom(async (username) => {
     if (await User.exists({ username })) {
       throw new Error('Username taken')
@@ -24,9 +25,9 @@ export const checkNewUsername = () =>
     return true
   })
 
-export const checkEmail = () => check('email').notEmpty().isEmail().trim()
+const checkEmail = () => check('email').notEmpty().isString().isEmail().trim()
 
-export const checkNewEmail = () =>
+const checkNewEmail = () =>
   checkEmail().custom(async (email) => {
     if (await User.exists({ email })) {
       throw new Error('Email taken')
@@ -34,5 +35,30 @@ export const checkNewEmail = () =>
     return true
   })
 
-export const checkPassword = () =>
+const checkPassword = () =>
   check('password').notEmpty().isStrongPassword(passwordPolicy)
+
+const checkLogin = () =>
+  check('username')
+    .isString()
+    .notEmpty()
+    .trim()
+    .custom((login) => {
+      if (!isValidUsername(login) && !isValidEmail(login)) {
+        throw new Error('Invalid login')
+      }
+      return true
+    })
+
+export const registerValidators = [
+  checkNewUsername(),
+  checkNewEmail(),
+  checkPassword(),
+  noError,
+]
+
+export const registerFromSessionValidators = [checkNewUsername(), noError]
+
+export const loginValidators = [checkLogin(), noError]
+
+export const checkUsernameValidators = [checkUsername(), noError]

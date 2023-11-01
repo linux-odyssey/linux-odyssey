@@ -6,8 +6,8 @@ export function noError(req, res, next) {
     next()
     return
   }
-  console.log(result.array())
   res.status(400).json({
+    message: 'Validation failed',
     errors: result.array(),
   })
 }

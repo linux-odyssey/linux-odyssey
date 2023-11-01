@@ -11,34 +11,28 @@ import {
   registerFromSession,
 } from '../controllers/authController.js'
 import {
-  checkNewEmail,
-  checkNewUsername,
-  checkPassword,
+  checkUsernameValidators,
+  loginValidators,
+  registerFromSessionValidators,
+  registerValidators,
 } from '../validators/authValidator.js'
-import { noError } from '../../middleware/validator.js'
 
 const router = Router()
 
 router.post(
   '/login',
+  loginValidators,
   passport.authenticate('local', { failureMessage: true }),
   (req, res) => {
     res.json({ message: 'success' })
   }
 )
 
-router.post(
-  '/register',
-  checkNewUsername(),
-  checkNewEmail(),
-  checkPassword(),
-  noError,
-  register
-)
+router.post('/register', registerValidators, register)
 
 router.post('/logout', logout)
 
-router.get('/check-username', checkNewUsername(), noError, (req, res) =>
+router.get('/check-username', checkUsernameValidators, (req, res) =>
   res.json({ available: true })
 )
 router.get('/check-session', checkSession)
@@ -59,8 +53,7 @@ if (enabledMethods.github) {
 
 router.post(
   '/register-from-session',
-  checkNewUsername(),
-  noError,
+  registerFromSessionValidators,
   registerFromSession
 )
 
