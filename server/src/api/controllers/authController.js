@@ -75,7 +75,7 @@ export async function registerFromSession(req, res) {
   const { newUser } = req.session
 
   if (!newUser) {
-    res.status(400).json({
+    res.status(401).json({
       message: 'no new user found',
     })
     return
