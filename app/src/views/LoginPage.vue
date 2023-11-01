@@ -11,6 +11,7 @@ const handleLogin = async ({ username, password, success, error }) => {
     else error('Wrong username or password.')
   } catch (err) {
     console.error(err)
+    error('Something went wrong.')
   }
 }
 </script>

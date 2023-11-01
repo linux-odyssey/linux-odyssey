@@ -8,7 +8,7 @@ async function verifyPassword(username, password, done) {
       $or: [{ username }, { email: username }],
     })
     if (!user) {
-      return done(null, false, { message: 'Incorrect username.' })
+      return done(null, false, { message: 'Incorrect username or password.' })
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.hashedPassword)
