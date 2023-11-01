@@ -36,12 +36,12 @@ services:
       - BASE_URL=http://localhost:5173
       - MONGO_URL=mongodb://db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
+      - SECRET_KEY=b1d2e917-17b9-4fce-9055-082dee6ec5d6 # Only for testing
       - HOST_PWD=${PWD}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
-      - SECRET_KEY=${SECRET_KEY}
 
   analytics:
     build:
