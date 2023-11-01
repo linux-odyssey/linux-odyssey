@@ -55,8 +55,8 @@ const right = () => {
       </button>
     </div>
   </div>
-  <div id="hint" class="bg-background flex flex-wrap">
-    <div class="bg-background h-full rounded-lg p-8 m-1">
+  <div id="hint" class="bg-bg flex flex-wrap">
+    <div class="bg-bg h-full rounded-lg p-8 m-1">
       <p class="inline text-text font-xl font-xl">
         {{ sessionManager.hints.value[current] }}
       </p>
