@@ -3,7 +3,7 @@ import config from '../config.js'
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.jwtSecret,
+  secretOrKey: config.secret,
 }
 
 function verifyJwt(jwtPayload, done) {

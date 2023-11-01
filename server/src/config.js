@@ -1,10 +1,10 @@
-import { get } from './utils/env.js'
+import { get, genSecret } from './utils/env.js'
 
 const config = {
   host: get('HOST', 'localhost'),
   port: get('PORT', 3000),
   db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
-  jwtSecret: get('JWT_SECRET', 'secret'),
+  secret: get('SECRET_KEY', ''),
   dockerNetwork: get('DOCKER_NETWORK', 'linux-odyssey-players'),
   isProduction: process.env.NODE_ENV === 'production',
   hostPwd: get('HOST_PWD', ''),
@@ -21,5 +21,12 @@ const config = {
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
+
+if (!config.secret) {
+  config.secret = genSecret()
+  console.warn(
+    'No SECRET_KEY found in .env! A temporary secret key has been generated. To set up a persistent key, please run the setup script.'
+  )
+}
 
 export default config
