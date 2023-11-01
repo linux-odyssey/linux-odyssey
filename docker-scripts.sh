@@ -18,4 +18,15 @@ clean() {
   docker rm -f $containers
 }
 
+test() {
+  if [ "$1" = "--build"]; then
+    docker compose -f docker-compose.testing.yml build
+  fi
+  docker compose -f docker-compose.testing.yml run --rm cypress
+}
+
+down() {
+  docker compose -f docker-compose.testing.yml down
+}
+
 $@
