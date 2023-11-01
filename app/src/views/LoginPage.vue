@@ -2,14 +2,30 @@
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 
+import {
+  TooManyRequestsError,
+  UnauthorizedError,
+  ValidationError,
+} from '../utils/errors'
 import { login } from '../utils/auth'
 
 const handleLogin = async ({ username, password, success, error }) => {
   try {
     const isSuccess = await login(username, password)
     if (isSuccess) success()
-    else error('Wrong username or password.')
   } catch (err) {
+    if (err instanceof TooManyRequestsError) {
+      error('Too many requests. Try again in 2 minutes.')
+      return
+    }
+    if (err instanceof UnauthorizedError) {
+      error('Wrong username or password.')
+      return
+    }
+    if (err instanceof ValidationError) {
+      error('Invalid username or password.')
+      return
+    }
     console.error(err)
     error('Something went wrong.')
   }

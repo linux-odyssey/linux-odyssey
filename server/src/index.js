@@ -12,7 +12,7 @@ import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
-import globalRateLimit from './middleware/globalRateLimit.js'
+import { globalRateLimit } from './middleware/rateLimiter.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 
