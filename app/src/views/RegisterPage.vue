@@ -29,6 +29,7 @@ function handleRegister({ username, email, password, success, error }) {
         return
       }
       console.error(err)
+      error('Something went wrong.')
     })
 }
 
@@ -53,8 +54,12 @@ async function check({ username, email, password, error }) {
   try {
     await checkUsername(username)
   } catch (err) {
-    if (err.response?.status === 400) {
-      error('Invalid username.')
+    if (err instanceof ValidationError) {
+      error(err.message)
+      return
+    }
+    if (err instanceof TooManyRequestsError) {
+      error('Too many requests. Try again in 2 minutes.')
       return
     }
     console.error(err)

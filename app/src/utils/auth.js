@@ -17,6 +17,7 @@ export const login = async (username, password) => {
     await api.post('/auth/login', { username, password })
     return true
   } catch (err) {
+    if (!err.response) throw err
     const { status } = err.response
     switch (status) {
       case 401:
@@ -43,6 +44,7 @@ export const register = async (username, email, password) => {
     })
     return true
   } catch (err) {
+    if (!err.response) throw err
     const { status } = err.response
     if (status === 429) {
       throw new TooManyRequestsError(err.response.data.message)
@@ -78,6 +80,7 @@ export const checkUsername = async (username) => {
     })
     return true
   } catch (err) {
+    if (!err.response) throw err
     const { status } = err.response
     if (status === 429) {
       throw new TooManyRequestsError('Too many requests')
@@ -93,6 +96,7 @@ export const chooseUsername = async (username) => {
   try {
     await api.post('/auth/register-from-session', { username })
   } catch (err) {
+    if (!err.response) throw err
     switch (err.response?.status) {
       case 400:
         throw new ValidationError('Username is already taken')
