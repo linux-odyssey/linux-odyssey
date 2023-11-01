@@ -5,12 +5,17 @@ import enabledMethods from '../../auth/passport.js'
 
 import {
   register,
-  checkUsername,
   checkSession,
   logout,
   socialLogin,
   registerFromSession,
 } from '../controllers/authController.js'
+import {
+  checkNewEmail,
+  checkNewUsername,
+  checkPassword,
+} from '../validators/authValidator.js'
+import { noError } from '../../middleware/validator.js'
 
 const router = Router()
 
@@ -22,12 +27,20 @@ router.post(
   }
 )
 
-router.post('/register', register)
+router.post(
+  '/register',
+  checkNewUsername(),
+  checkNewEmail(),
+  checkPassword(),
+  noError,
+  register
+)
 
 router.post('/logout', logout)
 
-router.get('/check-username', checkUsername)
-
+router.get('/check-username', checkNewUsername(), noError, (req, res) =>
+  res.json({ available: true })
+)
 router.get('/check-session', checkSession)
 
 router.get('/available-methods', (req, res) => {
@@ -44,6 +57,11 @@ if (enabledMethods.github) {
   router.get('/github/callback', passport.authenticate('github'), socialLogin)
 }
 
-router.post('/register-from-session', registerFromSession)
+router.post(
+  '/register-from-session',
+  checkNewUsername(),
+  noError,
+  registerFromSession
+)
 
 export default router
