@@ -128,6 +128,7 @@ const handleChange = () => {
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
           :placeholder="type === 'login' ? 'Email / Username' : 'Username'"
           v-model="username"
+          required
           @input="handleChange()"
           autocomplete="username"
         />
@@ -147,6 +148,7 @@ const handleChange = () => {
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
           placeholder="Email"
           v-model="email"
+          required
           @input="handleChange()"
           autocomplete="email"
         />
@@ -158,6 +160,7 @@ const handleChange = () => {
           class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
           placeholder="Password"
           v-model="password"
+          required
           @input="handleChange()"
         />
       </div>

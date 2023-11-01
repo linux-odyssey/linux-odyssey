@@ -1,4 +1,4 @@
-import { get, genSecret } from './utils/env.js'
+import { get } from './utils/env.js'
 
 const config = {
   host: get('HOST', 'localhost'),
@@ -23,10 +23,11 @@ const config = {
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
 
 if (!config.secret) {
-  config.secret = genSecret()
   console.warn(
-    'No SECRET_KEY found in .env! A temporary secret key has been generated. To set up a persistent key, please run the setup script.'
+    'No SECRET_KEY found in .env! To set up a persistent key, please run the setup script:'
   )
+  console.warn('yarn setup')
+  process.exit(1)
 }
 
 export default config
