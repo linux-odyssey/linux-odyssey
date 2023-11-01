@@ -15,7 +15,13 @@ export async function removeExpired() {
     await Promise.all(
       sessions.map(async (session) => {
         console.log('Expiring session: ', session._id, session.containerId)
-        await deleteContainer(session.containerId)
+        try {
+          await deleteContainer(session.containerId)
+        } catch (err) {
+          if (err.statusCode !== 404) {
+            throw err
+          }
+        }
         if (session.status === 'active') {
           session.status = 'inactive'
         }
@@ -25,7 +31,7 @@ export async function removeExpired() {
     )
     console.log('Done checking for expired sessions')
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
   }
 }
 
