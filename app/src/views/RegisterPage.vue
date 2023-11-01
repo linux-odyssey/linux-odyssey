@@ -5,8 +5,7 @@ import { passwordPolicy } from '@linux-odyssey/constants'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 
-import api from '../utils/api'
-import { register } from '../utils/auth'
+import { checkUsername, register } from '../utils/auth'
 import {
   UnauthorizedError,
   TooManyRequestsError,
@@ -52,13 +51,7 @@ async function check({ username, email, password, error }) {
     return
   }
   try {
-    const res = await api.get('/auth/check-username', {
-      params: { username },
-    })
-    const { available } = res.data
-    if (!available) {
-      error(`Username already exists.`)
-    }
+    await checkUsername(username)
   } catch (err) {
     if (err.response?.status === 400) {
       error('Invalid username.')
