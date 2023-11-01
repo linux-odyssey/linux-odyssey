@@ -4,20 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: {
+        bg: {
           primary: '#282A33',
           secondary: '#131313',
+          disabled: '#454552',
           DEFAULT: '#000000',
         },
         text: {
           primary: '#00FF00',
           secondary: '#ADADB5',
           tertiary: '#4A4B63',
+          disabled: '#6A6B8C',
           DEFAULT: '#FFFFFF',
-        },
-        disabled: {
-          background: '#454552',
-          text: '#6A6B8C',
         },
         border: {
           DEFAULT: '#526B4E',

@@ -4,7 +4,7 @@
   <div
     id="terminal"
     ref="terminal"
-    class="bg-background-secondary h-[calc(100%-5%)] p-0.5"
+    class="bg-bg-secondary h-[calc(100%-5%)] p-0.5"
   ></div>
 </template>
 

@@ -86,14 +86,14 @@ const handleChange = () => {
 <template>
   <!-- login page -->
   <div
-    class="bg-background border-8 border-background-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
+    class="bg-bg border-8 border-bg-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
     <h1 class="text-text-primary text-3xl font-black mb-2">{{ title }}</h1>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">
         <a
           v-if="availableMethods.google"
-          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-background-primary text-text-secondary w-full border-text-secondary border-2"
+          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/google"
         >
           <font-awesome-icon
@@ -104,7 +104,7 @@ const handleChange = () => {
         </a>
         <a
           v-if="availableMethods.github"
-          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-background-primary text-text-secondary w-full border-text-secondary border-2"
+          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/github"
         >
           <font-awesome-icon
@@ -125,7 +125,7 @@ const handleChange = () => {
           type="text"
           id="username"
           ref="usernameInput"
-          class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           :placeholder="type === 'login' ? 'Email / Username' : 'Username'"
           v-model="username"
           required
@@ -145,7 +145,7 @@ const handleChange = () => {
           type="email"
           id="email"
           ref="emailInput"
-          class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           placeholder="Email"
           v-model="email"
           required
@@ -157,7 +157,7 @@ const handleChange = () => {
         <input
           type="password"
           id="password"
-          class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           placeholder="Password"
           v-model="password"
           required
@@ -168,7 +168,7 @@ const handleChange = () => {
         {{ errorMessage }}
       </p>
       <button
-        class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-background w-full"
+        class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-bg w-full"
         type="submit"
       >
         <span v-if="type === 'login'">Log In</span>
