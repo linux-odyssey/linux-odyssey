@@ -136,6 +136,7 @@ const handleChange = () => {
           class="text-sm font-normal text-text-secondary"
           v-if="type === 'username' || type === 'register'"
         >
+          <p>Username can be up to 32 characters</p>
           <p>Username must begin with lowercase letter</p>
           <p>Username can consist of lowercase, numbers, "_", and "-"</p>
         </label>
