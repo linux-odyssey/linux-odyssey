@@ -1,4 +1,15 @@
+import validator from 'validator'
 import { get } from './utils/env.js'
+
+function getTrustProxies(key) {
+  if (!process.env[key]) {
+    return []
+  }
+  return process.env[key]
+    .split(',')
+    .map((p) => validator.trim(p))
+    .filter((p) => validator.isIPRange(p) || validator.isIP(p))
+}
 
 const config = {
   host: get('HOST', 'localhost'),
@@ -18,6 +29,7 @@ const config = {
     clientID: get('GITHUB_CLIENT_ID', ''),
     clientSecret: get('GITHUB_CLIENT_SECRET', ''),
   },
+  trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
