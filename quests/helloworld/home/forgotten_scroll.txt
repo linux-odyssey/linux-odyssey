@@ -1,10 +1,9 @@
-Once a mighty kingdom, now in darkness,
-The power of Unix lies dormant, waiting.
-To reclaim the root, the forgotten language,
-Must be learned, commands of old rekindled.
-Speak the words of power and awaken the might of Unix:
+曾經輝煌的王國　如今被陰霾壟罩
+Unix之力沉睡著　等待復甦的時機
+必須不斷的學習　掌握古老的咒語
+恢復王國的根基　那被遺忘的文明
 
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Unix, rise and guide me! 
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
+用指令念出咒語　Unix之力將甦醒
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+         Hello  World
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
