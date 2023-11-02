@@ -1,21 +1,20 @@
 title: Hello, Linux World!
 instruction: |
-  你身在一個漆黑寂靜的地方。
-  你似乎失去了記憶。
-  你的感覺腦中有某個聲音跟你說：
+  你身在一個漆黑寂靜的地方，似乎失去了記憶。
+  你感到腦中有某個聲音跟你說：
 
   使用 `echo [咒語]` 指令來朗誦以下咒語
-  「 Hello World! 」
+  「 help 」
 
 stages:
-  - id: helloworld
-    task: 輸入 `echo Hello World!` 來朗誦咒語
+  - id: help
+    task: 輸入 `echo help` 來朗誦咒語
     repeatable: false
     condition:
       pwd:
         - '^/home/commander$'
       command:
-        - echo Hello World
+        - echo [Hh]elp
     responses:
       - type: narrative
         content:
@@ -38,7 +37,7 @@ stages:
     task: 搜索卷軸
     repeatable: false
     requirements:
-      - helloworld
+      - help
     condition:
       pwd:
         - '^/home/commander$'
@@ -59,7 +58,7 @@ stages:
     hints:
       - 使用 `cat [檔案名稱]` 指令來查看檔案內容。
       - 使用 `Tab` 鍵來取得指令提示。
-      - 如果卡在未知的情況，按下 `Ctrl + C` 或 `q` 嘗試離開。
+      - 如果卡在未知的情況，按下 `Ctrl + C` 嘗試離開。
 
   - id: read-forgotten-scroll
     task: 查看卷軸
@@ -77,6 +76,8 @@ stages:
         content:
           - 你找到的是一個被遺忘的卷軸，上面寫著解除封印的咒語。
           - 使用你已經知道的 `echo [咒語]` 指令來詠唱咒語。
+    hints:
+      - 輸入 `echo Hello World` 來詠唱咒語。
 
   - id: END
     task: 解除封印
@@ -87,7 +88,7 @@ stages:
       pwd:
         - '^/home/commander$'
       command:
-        - echo Unix, rise and guide me
+        - echo [Hh]ello\s*[Ww]orld
     responses:
       - type: narrative
         content:
