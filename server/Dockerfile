@@ -2,11 +2,11 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 COPY ./package.json yarn.lock ./
-COPY server/package.json ./server/package.json
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
 COPY packages/utils/package.json ./packages/utils/package.json
 COPY packages/models/package.json ./packages/models/package.json
 COPY packages/constants/package.json ./packages/constants/package.json
+COPY server/package.json ./server/package.json
 RUN yarn install --frozen-lockfile --production
 # Install docker cli
 COPY --from=docker:dind /usr/local/bin/docker /usr/local/bin/

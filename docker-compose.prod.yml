@@ -2,6 +2,8 @@ version: '3'
 services:
   app:
     image: lancatlin/linux-odyssey:app
+    depends_on:
+      - backend
     build:
       context: .
       dockerfile: app/Dockerfile
@@ -12,6 +14,8 @@ services:
       - 8080:80
   backend:
     image: lancatlin/linux-odyssey:backend
+    depends_on:
+      - db
     restart: on-failure
     build:
       context: .
@@ -25,7 +29,7 @@ services:
     env_file:
       - .env
     environment:
-      - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
+      - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@db:27017/${MONGO_DB}
       - DOCKER_NETWORK=linux-odyssey-players
       - SECRET_KEY=${SECRET_KEY}
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
@@ -43,7 +47,7 @@ services:
     ports:
       - '3001:3001'
     environment:
-      - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
+      - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@db:27017/${MONGO_DB}
 
   db:
     image: mongo
@@ -58,10 +62,10 @@ services:
     environment:
       - BASE_URL=${BASE_URL}
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin-password
-      - MONGO_USER=user
-      - MONGO_PASS=user-password
-      - MONGO_DB=odyssey-test
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASS=${MONGO_PASSWORD}
+      - MONGO_DB=${MONGO_DB}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}

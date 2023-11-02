@@ -19,7 +19,7 @@ clean() {
 }
 
 test() {
-  if [ "$1" = "--build"]; then
+  if [ "$1" = "--build" ]; then
     docker compose -f docker-compose.testing.yml build
   fi
   docker compose -f docker-compose.testing.yml run --rm cypress
