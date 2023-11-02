@@ -61,4 +61,4 @@ export const registerFromSessionValidators = [checkNewUsername(), noError]
 
 export const loginValidators = [checkLogin(), noError]
 
-export const checkUsernameValidators = [checkUsername(), noError]
+export const checkUsernameValidators = [checkNewUsername(), noError]

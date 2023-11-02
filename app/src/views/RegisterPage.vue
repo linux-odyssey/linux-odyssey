@@ -48,9 +48,6 @@ async function check({ username, email, password, error }) {
     )
     return
   }
-  if (!(username && email && password)) {
-    return
-  }
   try {
     await checkUsername(username)
   } catch (err) {

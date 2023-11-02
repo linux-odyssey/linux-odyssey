@@ -6,11 +6,11 @@ import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
 
 async function check({ username, error }) {
-  if (username && !isValidUsername(username)) {
-    error('Invalid username.')
-    return
-  }
-  if (username.length > 3) {
+  if (username) {
+    if (!isValidUsername(username)) {
+      error('Invalid username.')
+      return
+    }
     try {
       await checkUsername(username)
     } catch (err) {
