@@ -32,10 +32,14 @@ Run Cypress locally, using the current development containers:
 
 Run Cypress in container, create brand-new containers along with it:
 
-    docker compose -f docker-compose.testing.yml run cypress
+    ./docker-scripts.sh test
+
+    # or with building
+
+    ./docker-scripts.sh test --build
 
     # tearing off the containers
-    docker compose -f docker-compose.testing.yml down
+    ./docker-scripts.sh down
 
 ### Deployment
 

@@ -12,11 +12,19 @@ import apiRouter from './api/routes/index.js'
 import loadAndUpdateQuests from './utils/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
+import { globalRateLimit } from './middleware/rateLimiter.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
-import { createTestUser } from './utils/auth.js'
 
 async function main() {
+  if (!config.secret) {
+    console.warn(
+      'No SECRET_KEY found in .env! To set up a persistent key, please run the setup script:'
+    )
+    console.warn('yarn setup')
+    process.exit(1)
+  }
+
   try {
     await connectDB(config.db)
     console.log('Connected to MongoDB')
@@ -24,8 +32,6 @@ async function main() {
     console.error(err)
     process.exit(1)
   }
-
-  await createTestUser()
 
   await loadAndUpdateQuests()
   expiryRemovalScheduler()
@@ -36,7 +42,14 @@ async function main() {
   const app = express()
   const server = http.createServer(app)
   socketServer(server)
-  app.use(errorHandler)
+  app.set('trust proxy', [
+    'loopback',
+    'linklocal',
+    'uniquelocal',
+    ...config.trustedProxies,
+  ])
+  console.log('Trusted proxies:', config.trustedProxies)
+  app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())
   app.use(
@@ -53,6 +66,7 @@ async function main() {
   })
 
   app.use('/api/v1', apiRouter)
+  app.use(errorHandler)
 
   server.listen(config.port, config.host, () => {
     console.log(`Server listening at ${config.baseUrl}`)

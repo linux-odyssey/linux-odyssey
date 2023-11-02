@@ -27,5 +27,6 @@ module.exports = {
     'no-var': 'error',
     'no-plusplus': 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto', semi: false }],
+    'import/prefer-default-export': 'off',
   },
 }

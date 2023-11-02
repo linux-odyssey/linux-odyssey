@@ -1,0 +1,9 @@
+{
+  "name": "@linux-odyssey/constants",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "exports": "./index.js",
+  "license": "GPL"
+}

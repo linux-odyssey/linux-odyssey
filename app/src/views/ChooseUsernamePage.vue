@@ -2,44 +2,46 @@
 import { isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
+import { TooManyRequestsError, ValidationError } from '../utils/errors'
+import { checkUsername, chooseUsername } from '../utils/auth'
 
-import api from '../utils/api'
-
-async function checkUsername({ username, error }) {
-  if (username && !isValidUsername(username)) {
-    error('Invalid username.')
-    return
-  }
-  if (username.length > 3) {
-    try {
-      const { data } = await api.get('/auth/check-username', {
-        params: { username },
-      })
-
-      const { available } = data
-      if (!available) {
-        error('Username is already taken.')
-      }
-    } catch {
+async function check({ username, error }) {
+  if (username) {
+    if (!isValidUsername(username)) {
       error('Invalid username.')
+      return
+    }
+    try {
+      await checkUsername(username)
+    } catch (err) {
+      if (err instanceof TooManyRequestsError) {
+        error('Too many requests. Try again in 2 minutes.')
+        return
+      }
+      if (err instanceof ValidationError) {
+        error(err.message)
+        return
+      }
+      error('Something went wrong. Please try again later.')
     }
   }
 }
 
-function handleSubmit({ username, success, error }) {
-  api
-    .post('/auth/register-from-session', {
-      username,
-    })
-    .then(success)
-    .catch((err) => {
-      if (err.response?.status === 409) {
-        error('Username is already taken.')
-      } else {
-        console.error(err.message)
-        error('Something went wrong.')
-      }
-    })
+async function handleSubmit({ username, success, error }) {
+  try {
+    await chooseUsername(username)
+    success()
+  } catch (err) {
+    if (err instanceof TooManyRequestsError) {
+      error('Too many requests. Try again in 2 minutes.')
+      return
+    }
+    if (err instanceof ValidationError) {
+      error(err.message)
+      return
+    }
+    error(err.message)
+  }
 }
 </script>
 <template>
@@ -51,7 +53,7 @@ function handleSubmit({ username, success, error }) {
       <div class="h-2/3 w-1/3">
         <AuthForm
           @onSubmit="handleSubmit"
-          @onChange="checkUsername"
+          @onChange="check"
           type="username"
           :socialLogin="false"
         />

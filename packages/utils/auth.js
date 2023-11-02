@@ -1,14 +1,14 @@
 export function isValidUsername(username) {
+  // check if the username is between 1 and 32 characters
+  if (username.length > 32) {
+    return false
+  }
+
   // Define a regular expression pattern for a valid Linux username.
   const usernamePattern = /^[a-z][a-z0-9_-]*$/
 
   // Test the username against the pattern.
   if (!usernamePattern.test(username)) return false
-
-  // check if the username is between 1 and 32 characters
-  if (username.length < 4 || username.length > 32) {
-    return false
-  }
 
   const reservedWords = [
     'root',

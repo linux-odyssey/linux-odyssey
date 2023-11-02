@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import { FileGraph } from '@linux-odyssey/file-graph'
 import api from './api'
+import Socket from './socket'
+import SocketTerminal from './terminal'
 
 class SessionManager {
   constructor(questId) {
@@ -16,17 +18,44 @@ class SessionManager {
     )
     this.pwd = ref('')
     this.status = ref('inactive')
+    this.socket = new Socket()
+    this.term = new SocketTerminal(40, 80)
+  }
+
+  init() {
+    this.socket.on('terminal', (data) => {
+      this.term.write(data)
+    })
+    this.term.onData((data) => {
+      this.socket.emit('terminal', data)
+    })
+    this.socket.on('graph', (event) => {
+      this.handleGraphUpdate(event)
+    })
+    this.socket.on('hints', (event) => {
+      this.handleHintUpdate(event)
+    })
+    this.socket.on('tasks', (tasks) => {
+      this.setTasks(tasks)
+    })
+    this.socket.on('status', (event) => {
+      this.handleStatusUpdate(event)
+    })
+    return this.getActiveSession()
   }
 
   getSession() {
     return this.session.value
   }
 
-  setSession(session) {
+  async setSession(session) {
     this.session.value = session
     this.graph.value = new FileGraph(session.graph)
     this.hints.value = session.hints
     this.status.value = session.status
+    this.term.reset()
+    await this.socket.connect(session)
+    this.term.focus()
   }
 
   handleGraphUpdate(event) {
@@ -58,33 +87,18 @@ class SessionManager {
     this.setSession(data)
   }
 
-  async getSessionList() {
-    const res = await api.get('/sessions', {
-      params: { quest_id: this.questId },
+  async getActiveSession() {
+    const res = await api.post('/sessions/active', {
+      quest_id: this.questId,
     })
-    const { data } = res
-    return data
-  }
-
-  async lastSession() {
-    const sessions = await this.getSessionList()
-    if (sessions.length === 0) {
-      return
+    const session = res.data
+    console.log(session)
+    try {
+      await this.setSession(session)
+    } catch (err) {
+      console.log(err)
+      this.createSession().catch(console.error)
     }
-    const { _id: sessionId } = sessions[sessions.length - 1]
-    const { data: session } = await api.get(`/sessions/${sessionId}`)
-    console.log(
-      `Last Session ID: ${session._id}, Quest: ${session.quest}, Created At: ${session.createdAt}`
-    )
-    this.setSession(session)
-  }
-
-  async lastOrCreate() {
-    await this.lastSession()
-    if (!this.session.value) {
-      await this.createSession()
-    }
-    console.log(this.session.value)
   }
 }
 

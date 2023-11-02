@@ -80,6 +80,37 @@ paths:
                   message:
                     type: string
 
+  /sessions/active:
+    post:
+      summary: 'Get or create an active session.'
+      tags:
+        - signed-in
+      description: 'This endpoint returns the latest active session for the user, or creates a new one if no active session exists.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              required:
+                - quest_id
+              properties:
+                quest_id:
+                  type: 'string'
+                  description: 'The ID of the quest.'
+                  example: 'helloworld'
+      responses:
+        200:
+          description: 'Return a active session.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        400:
+          description: 'Bad Request. The request is invalid or malformed.'
+        500:
+          description: 'Internal Server Error.'
+
   /sessions/{session_id}:
     get:
       tags:
@@ -488,6 +519,20 @@ paths:
           description: Invalid request body
         '401':
           description: Unauthorized
+  /ip:
+    get:
+      summary: Get client IP address
+      responses:
+        '200':
+          description: IP address
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ip:
+                    type: string
+                    example: '127.0.0.1'
 
 components:
   schemas:

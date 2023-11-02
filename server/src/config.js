@@ -1,10 +1,21 @@
+import validator from 'validator'
 import { get } from './utils/env.js'
+
+function getTrustProxies(key) {
+  if (!process.env[key]) {
+    return []
+  }
+  return process.env[key]
+    .split(',')
+    .map((p) => validator.trim(p))
+    .filter((p) => validator.isIPRange(p) || validator.isIP(p))
+}
 
 const config = {
   host: get('HOST', 'localhost'),
   port: get('PORT', 3000),
   db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
-  jwtSecret: get('JWT_SECRET', 'secret'),
+  secret: get('SECRET_KEY', ''),
   dockerNetwork: get('DOCKER_NETWORK', 'linux-odyssey-players'),
   isProduction: process.env.NODE_ENV === 'production',
   hostPwd: get('HOST_PWD', ''),
@@ -18,6 +29,7 @@ const config = {
     clientID: get('GITHUB_CLIENT_ID', ''),
     clientSecret: get('GITHUB_CLIENT_SECRET', ''),
   },
+  trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)

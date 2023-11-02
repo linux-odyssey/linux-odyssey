@@ -1,6 +1,5 @@
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
-import socket from './socket'
 import 'xterm/css/xterm.css'
 
 class SocketTerminal {
@@ -24,13 +23,18 @@ class SocketTerminal {
     this.fitAddon = new FitAddon()
     this.term.loadAddon(this.fitAddon)
     this.fitAddon.fit()
-    this.socket = socket
-    this.socket.on('terminal', (message) => {
-      this.term.write(message)
-    })
-    this.term.onData((key) => {
-      this.socket.emit('terminal', key)
-    })
+  }
+
+  write(message) {
+    this.term.write(message)
+  }
+
+  onData(callback) {
+    this.term.onData(callback)
+  }
+
+  focus() {
+    this.term.focus()
   }
 
   resizeScreen() {
@@ -43,9 +47,9 @@ class SocketTerminal {
     this.resizeScreen()
   }
 
-  clear() {
-    this.term.clear()
+  reset() {
+    this.term.reset()
   }
 }
 
-export default new SocketTerminal(40, 100)
+export default SocketTerminal

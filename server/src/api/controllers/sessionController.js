@@ -1,6 +1,9 @@
-import { Session, Quest } from '@linux-odyssey/models'
-import { createContainer, deleteContainer } from '../../containers/docker.js'
-import SessionHandler from '../../game/sessionHandler.js'
+import { matchedData } from 'express-validator'
+import { Session } from '@linux-odyssey/models'
+import {
+  createNewSession,
+  getOrCreateActiveSession,
+} from '../../game/sessionManager.js'
 
 function sessionSummary(session) {
   return {
@@ -37,53 +40,14 @@ export async function getSessionList(req, res) {
   }
 }
 
-async function deactivateSessions(user, quest) {
-  const sessions = await Session.find({
-    user,
-    quest,
-    status: 'active',
-  })
-  return Promise.all(
-    sessions.map((session) => {
-      return deleteContainer(session.containerId).then(() => {
-        session.status = 'inactive'
-        session.containerId = null
-        return session.save()
-      })
-    })
-  )
-}
-
 export async function createSession(req, res) {
-  const quest = await Quest.findById(req.body.quest_id)
-  if (!quest) {
-    res.status(400).json({ message: 'Quest not found.' })
-    return
-  }
-
-  // deactivate all active sessions
-  deactivateSessions(req.user._id, quest._id).catch((err) => {
-    console.error(err)
-  })
-
+  const { quest_id } = matchedData(req)
   try {
-    const container = await createContainer(
-      `quest-${quest.id}-${req.user.username}-${Date.now()}`
-    )
-    const newSession = new Session({
-      user: req.user,
-      quest,
-      containerId: container.id,
-    })
-
-    const session = new SessionHandler(newSession)
-    session.addNewTasks()
-
-    await newSession.save()
-    res.status(201).json(sessionDetail(newSession))
+    const session = await createNewSession(req.user, quest_id)
+    res.status(201).json(sessionDetail(session))
   } catch (err) {
     console.error(err)
-    res.status(400).json({ message: err.message })
+    res.status(500).json({ message: err.message })
   }
 }
 
@@ -119,6 +83,17 @@ export async function deleteSessionById(req, res) {
 
     res.status(204).end()
   } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+}
+
+export async function getOrCreateSession(req, res) {
+  const { quest_id } = matchedData(req)
+  try {
+    const session = await getOrCreateActiveSession(req.user, quest_id)
+    res.json(sessionDetail(session))
+  } catch (err) {
+    console.error(err)
     res.status(500).json({ message: err.message })
   }
 }
