@@ -42,7 +42,13 @@ async function main() {
   const app = express()
   const server = http.createServer(app)
   socketServer(server)
-  app.set('trust proxy', true)
+  app.set('trust proxy', [
+    'loopback',
+    'linklocal',
+    'uniquelocal',
+    ...config.trustedProxies,
+  ])
+  console.log('Trusted proxies:', config.trustedProxies)
   app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())

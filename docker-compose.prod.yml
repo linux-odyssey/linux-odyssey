@@ -28,6 +28,7 @@ services:
       - MONGO_URL=mongodb://user:user-password@db:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
       - SECRET_KEY=${SECRET_KEY}
+      - TRUSTED_PROXIES=${TRUSTED_PROXIES}
 
   analytics:
     image: lancatlin/linux-odyssey:analytics
