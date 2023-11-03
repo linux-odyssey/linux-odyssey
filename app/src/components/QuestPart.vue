@@ -36,7 +36,7 @@ onMounted(async () => {
               <span class="">✓</span>
               {{ task.name }}
             </p>
-            <p v-if="!task.completed" class="text-text">
+            <p v-else class="text-text">
               <span class="">➤</span>
               {{ task.name }}
             </p>
