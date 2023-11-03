@@ -89,6 +89,13 @@ const handleChange = () => {
     class="bg-bg border-8 border-bg-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
     <h1 class="text-text-primary text-3xl font-black mb-2">{{ title }}</h1>
+    <div class="text-error inline-flex justify-center items-center xl:hidden">
+      <font-awesome-icon
+        :icon="['fas', 'circle-exclamation']"
+        class="px-1 text-sm"
+      />
+      <span>建議使用電腦全螢幕執行</span>
+    </div>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">
         <a
@@ -113,13 +120,13 @@ const handleChange = () => {
           />
           <span class="font-medium">Continue with GitHub</span>
         </a>
+        <p
+          class="text-text-secondary flex justify-center mt-3"
+          v-if="type === 'login' || type === 'register'"
+        >
+          or
+        </p>
       </div>
-      <p
-        class="text-text-secondary flex justify-center mt-3"
-        v-if="type === 'login' || type === 'register'"
-      >
-        or
-      </p>
       <div class="mb-6">
         <input
           type="text"
@@ -136,9 +143,8 @@ const handleChange = () => {
           class="text-sm font-normal text-text-secondary"
           v-if="type === 'username' || type === 'register'"
         >
-          <p>Username can be up to 32 characters</p>
-          <p>Username must begin with lowercase letter</p>
-          <p>Username can consist of lowercase, numbers, "_", and "-"</p>
+          <p>可用小寫字母、數字、"_"和"-"</p>
+          <p>小寫字母開頭，至多32字元</p>
         </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
