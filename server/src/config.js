@@ -11,6 +11,14 @@ function getTrustProxies(key) {
     .filter((p) => validator.isIPRange(p) || validator.isIP(p))
 }
 
+function getUrl(key) {
+  const url = get(key, '')
+  if (validator.isURL(url)) {
+    return validator.trim(url)
+  }
+  return ''
+}
+
 const config = {
   host: get('HOST', 'localhost'),
   port: get('PORT', 3000),
@@ -30,8 +38,8 @@ const config = {
     clientSecret: get('GITHUB_CLIENT_SECRET', ''),
   },
   trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
-  surveyUrl: get('SURVEY_URL', ''),
-  bugReportUrl: get('BUG_REPORT_URL', ''),
+  surveyUrl: getUrl('SURVEY_URL', ''),
+  bugReportUrl: getUrl('BUG_REPORT_URL', ''),
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
