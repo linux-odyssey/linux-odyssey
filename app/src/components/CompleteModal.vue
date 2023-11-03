@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const SURVEY_URL = 'https://www.surveycake.com/s/z67xG'
+const SURVEY_URL = '/api/v1/survey'
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 

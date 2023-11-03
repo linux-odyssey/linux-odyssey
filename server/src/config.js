@@ -30,6 +30,8 @@ const config = {
     clientSecret: get('GITHUB_CLIENT_SECRET', ''),
   },
   trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
+  surveyUrl: get('SURVEY_URL', ''),
+  bugReportUrl: get('BUG_REPORT_URL', ''),
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)

@@ -11,7 +11,7 @@ const handleLogout = async () => {
   router.push({ name: 'login' })
 }
 
-const bugReportUrl = 'https://www.surveycake.com/s/gOreA'
+const bugReportUrl = '/api/v1/bug-report'
 
 const questData = ref(null)
 const questErr = ref(null)
