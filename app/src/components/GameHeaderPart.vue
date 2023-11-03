@@ -11,7 +11,7 @@ const handleLogout = async () => {
   router.push({ name: 'login' })
 }
 
-const bugReport = () => {}
+const bugReportUrl = 'https://www.surveycake.com/s/gOreA'
 
 const questData = ref(null)
 const questErr = ref(null)
@@ -70,12 +70,17 @@ onMounted(async () => {
             class="text-text-primary h-full w-full"
           />
         </button> -->
-        <button title="Bug Report" @click="bugReport" class="h-5 w-5">
+        <a
+          title="Bug Report"
+          :href="bugReportUrl"
+          target="_blank"
+          class="h-5 w-5"
+        >
           <font-awesome-icon
             :icon="['fas', 'bug']"
             class="text-text-primary h-full w-full"
           />
-        </button>
+        </a>
         <button title="Sign Out" @click="handleLogout" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'arrow-right-from-bracket']"
