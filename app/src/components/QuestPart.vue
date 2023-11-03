@@ -32,13 +32,13 @@ onMounted(async () => {
         <p class="text-text">Tasks:</p>
         <ul v-if="sessionManager.session.value">
           <li v-for="task in sessionManager.session.value.tasks" :key="task.id">
-            <p class="text-text">
-              <input
-                type="checkbox"
-                class="form-checkbox"
-                disabled
-                :checked="task.completed"
-              />{{ task.name }}
+            <p v-if="task.completed" class="text-text-primary">
+              <span class="">✓</span>
+              {{ task.name }}
+            </p>
+            <p v-else class="text-text">
+              <span class="">➤</span>
+              {{ task.name }}
             </p>
           </li>
         </ul>
