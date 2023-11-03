@@ -30,4 +30,20 @@ router.use(
   commands
 )
 
+router.get('/survey', (req, res) => {
+  if (!config.surveyUrl) {
+    res.status(404).send('Survey not configured')
+    return
+  }
+  res.redirect(config.surveyUrl)
+})
+
+router.get('/bug-report', (req, res) => {
+  if (!config.bugReportUrl) {
+    res.status(404).send('Bug report not configured')
+    return
+  }
+  res.redirect(config.bugReportUrl)
+})
+
 export default router

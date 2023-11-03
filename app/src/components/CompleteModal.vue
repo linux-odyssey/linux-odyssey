@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-
-const SURVEY_URL = 'https://www.surveycake.com/s/z67xG'
+import { surveyUrl } from '../config'
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 
@@ -27,7 +26,7 @@ setTimeout(() => {
         如果您能撥冗填寫這份問卷，我們將不勝感激，這對我們非常重要！
       </p>
       <a
-        :href="SURVEY_URL"
+        :href="surveyUrl"
         target="_blank"
         class="inline-flex justify-center rounded-lg text-base font-black py-2 mt-3 bg-text-primary w-full"
         >填寫問卷</a
