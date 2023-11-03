@@ -86,14 +86,21 @@ const handleChange = () => {
 <template>
   <!-- login page -->
   <div
-    class="bg-background border-8 border-background-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
+    class="bg-bg border-8 border-bg-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
     <h1 class="text-text-primary text-3xl font-black mb-2">{{ title }}</h1>
+    <div class="text-error inline-flex justify-center items-center xl:hidden">
+      <font-awesome-icon
+        :icon="['fas', 'circle-exclamation']"
+        class="px-1 text-sm"
+      />
+      <span>建議使用電腦全螢幕執行</span>
+    </div>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">
         <a
           v-if="availableMethods.google"
-          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-background-primary text-text-secondary w-full border-text-secondary border-2"
+          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/google"
         >
           <font-awesome-icon
@@ -104,7 +111,7 @@ const handleChange = () => {
         </a>
         <a
           v-if="availableMethods.github"
-          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-background-primary text-text-secondary w-full border-text-secondary border-2"
+          class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/github"
         >
           <font-awesome-icon
@@ -113,19 +120,19 @@ const handleChange = () => {
           />
           <span class="font-medium">Continue with GitHub</span>
         </a>
+        <p
+          class="text-text-secondary flex justify-center mt-3"
+          v-if="type === 'login' || type === 'register'"
+        >
+          or
+        </p>
       </div>
-      <p
-        class="text-text-secondary flex justify-center mt-3"
-        v-if="type === 'login' || type === 'register'"
-      >
-        or
-      </p>
       <div class="mb-6">
         <input
           type="text"
           id="username"
           ref="usernameInput"
-          class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           :placeholder="type === 'login' ? 'Email / Username' : 'Username'"
           v-model="username"
           required
@@ -136,8 +143,8 @@ const handleChange = () => {
           class="text-sm font-normal text-text-secondary"
           v-if="type === 'username' || type === 'register'"
         >
-          <p>Username must begin with lowercase letter</p>
-          <p>Username can consist of lowercase, numbers, "_", and "-"</p>
+          <p>可用小寫字母、數字、"_"和"-"</p>
+          <p>小寫字母開頭，至多32字元</p>
         </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
@@ -145,7 +152,7 @@ const handleChange = () => {
           type="email"
           id="email"
           ref="emailInput"
-          class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           placeholder="Email"
           v-model="email"
           required
@@ -157,7 +164,7 @@ const handleChange = () => {
         <input
           type="password"
           id="password"
-          class="my-4 bg-background-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-background-secondary"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           placeholder="Password"
           v-model="password"
           required
@@ -168,7 +175,7 @@ const handleChange = () => {
         {{ errorMessage }}
       </p>
       <button
-        class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-background w-full"
+        class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-bg w-full"
         type="submit"
       >
         <span v-if="type === 'login'">Log In</span>

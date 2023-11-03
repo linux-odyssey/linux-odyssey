@@ -45,12 +45,12 @@ async function handleSubmit({ username, success, error }) {
 }
 </script>
 <template>
-  <div class="relative w-screen h-screen">
+  <div class="w-screen h-screen">
     <Background class="w-full h-full" />
     <div
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
-      <div class="h-2/3 w-1/3">
+      <div class="w-fit">
         <AuthForm
           @onSubmit="handleSubmit"
           @onChange="check"

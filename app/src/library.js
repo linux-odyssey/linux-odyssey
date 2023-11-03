@@ -13,6 +13,8 @@ import {
   faArrowRotateLeft,
   faArrowRightFromBracket,
   faArrowRight,
+  faBug,
+  faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faLightbulb,
@@ -25,17 +27,19 @@ import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons'
 library.add(
   faBars,
   faArrowLeft,
-  faTriangleExclamation,
-  faGear,
-  faExpand,
   faList,
-  faLightbulb,
-  faCircleQuestion,
-  faArrowRotateLeft,
-  faCircleRight,
+  faGear,
+  faTriangleExclamation,
+  faExpand,
   faTerminal,
+  faArrowRotateLeft,
   faArrowRightFromBracket,
   faArrowRight,
+  faBug,
+  faCircleExclamation,
+  faLightbulb,
+  faCircleQuestion,
+  faCircleRight,
   faGithub,
   faGoogle
 )

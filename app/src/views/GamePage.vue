@@ -21,7 +21,7 @@ onMounted(async () => {
 
 <template>
   <!-- game header -->
-  <div class="h-[5vh] w-full">
+  <div class="h-[6vh] w-full">
     <GameHeaderPart />
   </div>
   <!-- current status indicator -->
@@ -31,9 +31,9 @@ onMounted(async () => {
     :value="sessionManager.status.value"
   />
   <!-- main -->
-  <div id="main" class="h-[95vh] w-full flex p-3 space-x-3">
+  <div id="main" class="h-[94vh] w-full flex p-3 space-x-3">
     <!-- Topic and Command List -->
-    <div class="bg-background-secondary h-full w-1/3 rounded-lg">
+    <div class="bg-bg-secondary h-full w-1/3 rounded-lg">
       <section id="quest" class="h-2/3 p-3">
         <QuestPart />
       </section>
@@ -43,7 +43,7 @@ onMounted(async () => {
       </section>
     </div>
     <!-- Terminal and Hint -->
-    <div class="bg-background h-full w-1/3 rounded-lg">
+    <div class="bg-bg h-full w-1/3 rounded-lg">
       <section id="terminal" class="h-3/5">
         <TerminalPart />
       </section>
@@ -54,11 +54,8 @@ onMounted(async () => {
     <!-- Visualization -->
     <div class="h-full w-1/3">
       <div class="bg-border rounded-xl h-[90%] p-2">
-        <div class="bg-background rounded-lg h-full p-2">
-          <section
-            id="visualization"
-            class="bg-background-primary h-full rounded-md"
-          >
+        <div class="bg-bg rounded-lg h-full p-2">
+          <section id="visualization" class="bg-bg-primary h-full rounded-md">
             <VisualizationPart />
           </section>
         </div>
