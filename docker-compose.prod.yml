@@ -4,6 +4,7 @@ services:
     image: lancatlin/linux-odyssey:app
     depends_on:
       - backend
+    restart: always
     build:
       context: .
       dockerfile: app/Dockerfile
@@ -16,7 +17,7 @@ services:
     image: lancatlin/linux-odyssey:backend
     depends_on:
       - db
-    restart: on-failure
+    restart: always
     build:
       context: .
       dockerfile: server/Dockerfile
@@ -40,6 +41,7 @@ services:
       context: .
       dockerfile: packages/analytics/Dockerfile
       target: prod
+    restart: always
     depends_on:
       - db
     networks:
