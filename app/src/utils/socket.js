@@ -35,20 +35,10 @@ class SocketWrapper {
     }
   }
 
-  once(event, callback) {
-    if (this.socket) {
-      this.socket.once(event, callback)
-    }
-  }
-
   bindListeners() {
     this.listeners.forEach(({ event, callback }) => {
       this.socket.on(event, callback)
     })
-  }
-
-  send(data) {
-    this.socket.send(data)
   }
 
   emit(event, data) {
@@ -64,7 +54,6 @@ class SocketWrapper {
 
   reset() {
     this.disconnect()
-    this.listeners = []
   }
 }
 

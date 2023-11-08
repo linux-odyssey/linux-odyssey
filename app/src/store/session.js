@@ -5,13 +5,14 @@ import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 
 function newSession() {
+  const graph = new FileGraph({
+    path: '/',
+    type: 'folder',
+    discovered: false,
+  })
   return {
     status: 'inactive',
-    graph: new FileGraph({
-      path: '/',
-      type: 'folder',
-      discovered: false,
-    }),
+    graph,
     pwd: '',
     hints: [],
     tasks: [],
@@ -46,7 +47,7 @@ export async function createSession() {
   console.log('Creating a new session...')
   const res = await api.post('/sessions', { quest_id: store.questId })
   const { data } = res
-  setSession(data)
+  await setSession(data)
 }
 
 async function getActiveSession(questId) {
@@ -58,7 +59,7 @@ async function getActiveSession(questId) {
     await setSession(session)
   } catch (err) {
     console.log(err)
-    createSession().catch(console.error)
+    await createSession().catch(console.error)
   }
 }
 
@@ -87,9 +88,20 @@ export function useTerminal() {
   return term
 }
 
-export async function init(questId) {
-  await setQuest(questId)
+export function reset() {
   socket.reset()
+  term.reset()
+  store.session = newSession()
+  store.quest = null
+}
+
+export async function init(questId) {
+  reset()
+  await setQuest(questId)
+  await getActiveSession(questId)
+}
+
+function setup() {
   socket.on('terminal', (data) => {
     term.write(data)
   })
@@ -108,12 +120,8 @@ export async function init(questId) {
   socket.on('status', (event) => {
     updateStatus(event)
   })
-  return getActiveSession(questId)
 }
 
-export function reset() {
-  socket.reset()
-  store.session = newSession()
-}
+setup()
 
 export default store
