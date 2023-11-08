@@ -25,10 +25,10 @@
 </template>
 
 <script setup>
-import sessionManager from '../utils/session'
+import { createSession } from '../store/session'
 
 const reset = async () => {
   console.log('resetting...')
-  await sessionManager.createSession()
+  await createSession()
 }
 </script>

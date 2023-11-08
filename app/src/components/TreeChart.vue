@@ -1,6 +1,6 @@
 <script setup>
 import FileNode from './FileNode.vue'
-import sessionManager from '../utils/session.js'
+import sessionStore from '../store/session.js'
 </script>
 
 <template>
@@ -8,8 +8,8 @@ import sessionManager from '../utils/session.js'
     <ul>
       <li>
         <FileNode
-          :node="sessionManager.graph.value"
-          :pwd="sessionManager.pwd.value"
+          :node="sessionStore.session.graph"
+          :pwd="sessionStore.session.pwd"
         />
       </li>
     </ul>

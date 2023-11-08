@@ -4,12 +4,18 @@ import { useRouter } from 'vue-router'
 import { logout } from '../utils/auth'
 import { bugReportUrl } from '../config'
 import api from '../utils/api'
+import { reset } from '../store/session'
 
 const router = useRouter()
 
 const handleLogout = async () => {
-  await logout()
-  router.push({ name: 'login' })
+  try {
+    await logout()
+    reset()
+    router.push({ name: 'login' })
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 const questData = ref(null)
