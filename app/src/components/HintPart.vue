@@ -1,11 +1,15 @@
 <script setup>
 import { ref, watch } from 'vue'
-import sessionManager from '../utils/session'
+import sessionStore from '../store/session'
 
 const current = ref(-1)
-watch(sessionManager.hints, (hints) => {
-  current.value = hints.length - 1
-})
+watch(
+  () => sessionStore.session.hints,
+  (hints) => {
+    current.value = hints.length - 1
+  },
+  { deep: true }
+)
 
 const left = () => {
   if (current.value > 0) {
@@ -14,7 +18,7 @@ const left = () => {
 }
 
 const right = () => {
-  if (current.value < sessionManager.hints.value.length - 1) {
+  if (current.value < sessionStore.session.hints.length - 1) {
     current.value += 1
   }
 }
@@ -43,13 +47,13 @@ const right = () => {
       <p class="inline text-text font-xl w-1/14 p-2 m-1">{{ current + 1 }}</p>
       <p class="inline text-text font-xl w-1/14 p-2 m-1">/</p>
       <p class="inline text-text font-xl w-1/14 p-2 m-1">
-        {{ sessionManager.hints.value.length }}
+        {{ sessionStore.session.hints.length }}
       </p>
       <button
         class="p-2 m-1 w-1/8"
         id="Rbutton"
         @click="right"
-        :disabled="current === sessionManager.hints.value.length - 1"
+        :disabled="current === sessionStore.session.hints.length - 1"
       >
         <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
       </button>
@@ -57,7 +61,7 @@ const right = () => {
   </div>
   <div id="hint" class="bg-bg flex flex-wrap p-8">
     <p class="text-text font-xl whitespace-pre-wrap">
-      {{ sessionManager.hints.value[current] }}
+      {{ sessionStore.session.hints[current] }}
     </p>
     <br />
   </div>

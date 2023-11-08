@@ -8,10 +8,7 @@ class SocketWrapper {
 
   connect(session) {
     return new Promise((resolve, reject) => {
-      if (this.socket) {
-        this.socket.off()
-        this.socket.disconnect()
-      }
+      this.disconnect()
 
       this.socket = io('', {
         query: {
@@ -38,24 +35,25 @@ class SocketWrapper {
     }
   }
 
-  once(event, callback) {
-    if (this.socket) {
-      this.socket.once(event, callback)
-    }
-  }
-
   bindListeners() {
     this.listeners.forEach(({ event, callback }) => {
       this.socket.on(event, callback)
     })
   }
 
-  send(data) {
-    this.socket.send(data)
-  }
-
   emit(event, data) {
     this.socket.emit(event, data)
+  }
+
+  disconnect() {
+    if (this.socket) {
+      this.socket.off()
+      this.socket.disconnect()
+    }
+  }
+
+  reset() {
+    this.disconnect()
   }
 }
 
