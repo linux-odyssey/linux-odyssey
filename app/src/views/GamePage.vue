@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import sessionManager from '../utils/session'
+import sessionStore, { init } from '../store/session'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 import CommandlistPart from '../components/CommandlistPart.vue'
 import HintPart from '../components/HintPart.vue'
@@ -11,11 +11,11 @@ import ControlPalette from '../components/ControlPalette.vue'
 import CompleteModal from '../components/CompleteModal.vue'
 
 const completed = computed(() => {
-  return sessionManager.status.value === 'finished'
+  return sessionStore.session.status === 'finished'
 })
 
 onMounted(async () => {
-  await sessionManager.init()
+  await init('helloworld')
 })
 </script>
 
@@ -28,7 +28,7 @@ onMounted(async () => {
   <input
     type="hidden"
     id="currentStatus"
-    :value="sessionManager.status.value"
+    :value="sessionStore.session.status"
   />
   <!-- main -->
   <div id="main" class="h-[94vh] w-full flex p-3 space-x-3">

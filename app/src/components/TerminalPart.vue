@@ -10,12 +10,13 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import sessionManager from '../utils/session'
+import { useTerminal } from '../store/session'
 
 const terminal = ref(null)
 
 onMounted(() => {
-  sessionManager.term.mount(terminal.value)
-  window.addEventListener('resize', () => sessionManager.term.resizeScreen())
+  const term = useTerminal()
+  term.mount(terminal.value)
+  window.addEventListener('resize', () => term.resizeScreen())
 })
 </script>

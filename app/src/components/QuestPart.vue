@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import api from '../utils/api'
-import sessionManager from '../utils/session'
+import sessionStore from '../store/session'
 
 const questData = ref(null)
 const questErr = ref(null)
@@ -30,8 +30,8 @@ onMounted(async () => {
         <p class="text-text">{{ questData.instruction }}</p>
         <br />
         <p class="text-text">Tasks:</p>
-        <ul v-if="sessionManager.session.value">
-          <li v-for="task in sessionManager.session.value.tasks" :key="task.id">
+        <ul v-if="sessionStore.session">
+          <li v-for="task in sessionStore.session.tasks" :key="task.id">
             <p v-if="task.completed" class="text-text-primary">
               <span class="">✓</span>
               {{ task.name }}
