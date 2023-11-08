@@ -31,7 +31,7 @@ export default async function loadAndUpdateQuests() {
           return Quest.findByIdAndUpdate(
             id,
             {
-              id,
+              _id: id,
               ...quest,
             },
             {

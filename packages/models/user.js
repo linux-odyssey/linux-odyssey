@@ -1,5 +1,24 @@
 import { model, Schema } from 'mongoose'
 
+const progressSchema = new Schema({
+  quest: {
+    type: String,
+    ref: 'Quest',
+  },
+  sessions: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Session',
+    },
+  ],
+  completionStatus: {
+    type: String,
+    enum: ['incomplete', 'completed'],
+  },
+  startedAt: Date,
+  finishedAt: Date,
+})
+
 const User = model(
   'User',
   new Schema(
@@ -23,6 +42,7 @@ const User = model(
         id: String,
         displayName: String,
       },
+      progress: [progressSchema],
     },
     {
       timestamps: true,

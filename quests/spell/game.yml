@@ -4,6 +4,10 @@ instruction: |
 
   「輸入 echo Hello World!」
 
+requirements:
+  - helloworld
+  - noexists
+
 conditions:
   pwd_home: &pwd_home
     pwd:
