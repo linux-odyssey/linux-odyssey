@@ -21,10 +21,18 @@ function newSession() {
 const store = reactive({
   session: newSession(),
   questId: '',
+  quest: null,
 })
 
 const socket = new Socket()
 const term = new SocketTerminal(40, 80)
+
+function setQuest(questId) {
+  api.get(`/quests/${questId}`).then((res) => {
+    store.questId = res.data._id
+    store.quest = res.data
+  })
+}
 
 async function setSession(session) {
   store.session = session
@@ -36,14 +44,14 @@ async function setSession(session) {
 
 export async function createSession() {
   console.log('Creating a new session...')
-  const res = await api.post('/sessions', { quest_id: this.questId })
+  const res = await api.post('/sessions', { quest_id: store.questId })
   const { data } = res
   setSession(data)
 }
 
-async function getActiveSession() {
+async function getActiveSession(questId) {
   const res = await api.post('/sessions/active', {
-    quest_id: store.questId,
+    quest_id: questId,
   })
   const session = res.data
   try {
@@ -64,7 +72,7 @@ function updateGraph(event) {
 }
 
 function updateHints(hints) {
-  store.session.hints.push(hints)
+  store.session.hints.push(...hints)
 }
 
 function updateStatus(status) {
@@ -79,8 +87,8 @@ export function useTerminal() {
   return term
 }
 
-export function init(questId) {
-  store.questId = questId
+export async function init(questId) {
+  await setQuest(questId)
   socket.reset()
   socket.on('terminal', (data) => {
     term.write(data)
@@ -100,7 +108,7 @@ export function init(questId) {
   socket.on('status', (event) => {
     updateStatus(event)
   })
-  return getActiveSession()
+  return getActiveSession(questId)
 }
 
 export function reset() {

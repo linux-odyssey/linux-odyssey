@@ -3,10 +3,13 @@ import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
 
 const current = ref(-1)
-watch(sessionStore.session.hints, (hints) => {
-  debugger
-  current.value = hints.length - 1
-})
+watch(
+  () => sessionStore.session.hints,
+  (hints) => {
+    current.value = hints.length - 1
+  },
+  { deep: true }
+)
 
 const left = () => {
   if (current.value > 0) {
