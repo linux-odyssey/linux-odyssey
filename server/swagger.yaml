@@ -79,6 +79,8 @@ paths:
                 properties:
                   message:
                     type: string
+        '403':
+          description: This quest is locked.
 
   /sessions/active:
     post:
@@ -108,6 +110,8 @@ paths:
                 $ref: '#/components/schemas/Session'
         400:
           description: 'Bad Request. The request is invalid or malformed.'
+        403:
+          description: This quest is locked.
         500:
           description: 'Internal Server Error.'
 

@@ -3,6 +3,7 @@ import { Session } from '@linux-odyssey/models'
 import {
   createNewSession,
   getOrCreateActiveSession,
+  isQuestUnlocked,
 } from '../../game/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 
@@ -39,8 +40,12 @@ export const getSessionList = asyncHandler(async (req, res) => {
 
 export const createSession = asyncHandler(async (req, res) => {
   const { questId } = matchedData(req)
-  const session = await createNewSession(req.user, questId)
-  res.status(201).json(sessionDetail(session))
+  if (await isQuestUnlocked(req.user, questId)) {
+    const session = await createNewSession(req.user, questId)
+    res.status(201).json(sessionDetail(session))
+  } else {
+    res.status(403).json({ message: 'Quest is locked.' })
+  }
 })
 
 export const getSessionById = asyncHandler(async (req, res) => {
@@ -60,6 +65,10 @@ export const getSessionById = asyncHandler(async (req, res) => {
 
 export const getOrCreateSession = asyncHandler(async (req, res) => {
   const { questId } = matchedData(req)
-  const session = await getOrCreateActiveSession(req.user, questId)
-  res.json(sessionDetail(session))
+  if (await isQuestUnlocked(req.user, questId)) {
+    const session = await getOrCreateActiveSession(req.user, questId)
+    res.json(sessionDetail(session))
+  } else {
+    res.status(403).json({ message: 'Quest is locked.' })
+  }
 })

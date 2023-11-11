@@ -99,3 +99,18 @@ export async function finishSession(session) {
   }
   await userProfile.save()
 }
+
+export async function isQuestUnlocked(user, questId) {
+  const userProfile = await UserProfile.findOne({ user: user._id })
+  if (!userProfile) {
+    throw new Error(`UserProfile ${user._id} not found`)
+  }
+  const quest = await Quest.findById(questId)
+  if (!quest) {
+    throw new Error(`Quest ${questId} not found`)
+  }
+  return quest.requirements.every((requiredQuestId) => {
+    const progress = userProfile.progress.get(requiredQuestId)
+    return progress && progress.completed
+  })
+}
