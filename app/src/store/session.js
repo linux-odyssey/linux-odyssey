@@ -39,36 +39,40 @@ function setQuest(questId) {
 }
 
 async function setSession(session) {
-  store.session = session
-  store.session.graph = new FileGraph(session.graph)
-  term.reset()
-  await socket.connect(session)
-  term.focus()
+  try {
+    store.session = session
+    store.session.graph = new FileGraph(session.graph)
+    term.reset()
+    await socket.connect(session)
+    term.focus()
+  } catch (err) {
+    console.error(err)
+    toast.error(err.message)
+    throw err
+  }
 }
 
 export async function createSession() {
-  console.log('Creating a new session...')
-  const res = await api.post('/sessions', { questId: store.questId })
-  const { data } = res
-  await setSession(data)
+  try {
+    console.log('Creating a new session...')
+    const res = await api.post('/sessions', { questId: store.questId })
+    const { data } = res
+    await setSession(data)
+  } catch (err) {
+    console.error(err)
+    toast.error('Failed to create a new session. Please try again later.')
+  }
 }
 
-function getActiveSession(questId) {
-  return api
-    .post('/sessions/active', { questId })
-    .then((res) => {
-      const session = res.data
-      return setSession(session)
-    })
-    .catch((err) => {
-      console.log(err)
-      toast.warning('Failed to connect previous session. Creating a new one...')
-      return createSession()
-    })
-    .catch((err) => {
-      console.log(err)
-      toast.error('Failed to create a new session. Please try again later.')
-    })
+async function getActiveSession(questId) {
+  try {
+    const res = await api.post('/sessions/active', { questId })
+    await setSession(res.data)
+  } catch (err) {
+    console.error(err)
+    toast.warning('Failed to connect previous session. Creating a new one...')
+    await createSession()
+  }
 }
 
 function updateGraph(event) {

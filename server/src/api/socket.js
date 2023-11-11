@@ -28,7 +28,6 @@ export function pushToSession(sessionId, event, ...args) {
 }
 
 async function connectContainer(socket, next) {
-  console.log(next)
   const user = socket.request.session?.passport?.user
   // console.log(user)
   if (!user) {
