@@ -3,9 +3,7 @@ import { checkQuestId } from './questValidator.js'
 import { noError } from '../../middleware/validator.js'
 
 const checkSessionStatus = () =>
-  check('status')
-    .isString()
-    .custom((value) => ['active', 'inactive', 'finished'].includes(value))
+  check('status').isString().isIn(['active', 'inactive', 'finished'])
 
 export const checkSessionId = () =>
   check('sessionId').notEmpty().isString().isMongoId()

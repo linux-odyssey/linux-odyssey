@@ -1,20 +1,20 @@
 import { UserProfile } from '@linux-odyssey/models'
+import { asyncHandler } from '../../middleware/error.js'
 
-export async function me(req, res) {
+export const me = asyncHandler(async (req, res) => {
   const userProfile = await UserProfile.findOne({
     user: req.user._id,
-  }).populate('user')
+  })
   if (!userProfile) {
-    res.status(404).json({ message: 'User not found' })
-    return
+    throw new Error(
+      `UserProfile not found for user ${req.user.username} ${req.user._id}!`
+    )
   }
-  const {
-    user: { username, email },
-    progress,
-  } = userProfile
+  const { username, email } = req.user
+  const { progress } = userProfile
   res.json({
     username,
     email,
     progress,
   })
-}
+})

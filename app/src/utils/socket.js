@@ -23,7 +23,7 @@ class SocketWrapper {
       this.socket.once('terminal', () => {
         resolve()
       })
-      this.socket.once('connect_error', reject)
+      this.socket.on('connect_error', reject)
       this.bindListeners()
     })
   }

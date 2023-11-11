@@ -48,7 +48,7 @@ async function main() {
     },
   })
 
-  const additionalData = await handleCommand(CMD_NAME)
+  const params = await handleCommand(CMD_NAME)
 
   const output = await readOrNone(CMD_OUTPUT_FILE)
   const error = await readOrNone(CMD_ERROR_FILE)
@@ -58,7 +58,7 @@ async function main() {
     error,
     exit_code: CMD_EXIT_CODE,
     pwd: PWD,
-    ...additionalData,
+    params,
   }
   try {
     const res = await api.post('/commands', payload)
@@ -77,7 +77,11 @@ async function main() {
       console.log(colorize('Quest completed!', 'blue'))
     }
   } catch (err) {
-    console.error(err)
+    if (err.response) {
+      console.error(err.response.data)
+      return
+    }
+    console.error(err.message)
   }
 }
 

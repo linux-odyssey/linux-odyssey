@@ -15,16 +15,16 @@ const checkMatch = (pattern, input) => {
 }
 
 export default class CommandHandler extends SessionHandler {
-  constructor(session, commandInput, additionalData) {
+  constructor(session, commandInput, params) {
     super(session)
     this.commandInput = commandInput
     this.argv = minimist(this.commandInput.command.split(' '))
 
-    this.additionalData = additionalData
+    this.params = params
   }
 
   handleEvent() {
-    if (this.additionalData.discover) this.discoverHandler()
+    if (this.params.discover) this.discoverHandler()
   }
 
   handleCommand() {
@@ -39,7 +39,7 @@ export default class CommandHandler extends SessionHandler {
       case 'ls':
         pushToSession(this.session.id, 'graph', {
           pwd: this.commandInput.pwd,
-          discover: this.additionalData.discover,
+          discover: this.params.discover,
         })
         break
 
@@ -50,7 +50,7 @@ export default class CommandHandler extends SessionHandler {
 
   async discoverHandler() {
     const graph = new FileGraph(this.session.graph)
-    graph.discover(this.additionalData.discover)
+    graph.discover(this.params.discover)
     this.session.graph = graph
   }
 

@@ -1,27 +1,21 @@
 import { Command, Session } from '@linux-odyssey/models'
+import { matchedData } from 'express-validator'
 import CommandHandler from '../../game/commandHandler.js'
 import { pushToSession } from '../socket.js'
 import { finishSession } from '../../game/sessionManager.js'
+import { asyncHandler } from '../../middleware/error.js'
 
 const commandCompleteCallbacks = new Map()
 
-export async function newCommand(req, res) {
-  const { command, pwd, output, error, ...additionalData } = req.body
-
-  if (!command) {
-    res.status(400).json({ message: 'command is required' })
-    return
-  }
+export const newCommand = asyncHandler(async (req, res) => {
+  const { command, pwd, output, error, params } = matchedData(req)
 
   const { sessionId } = req.user
-
   const session = await Session.findById(sessionId)
-
   if (!session) {
     res.status(404).json({ message: 'session not found' })
     return
   }
-
   if (session.status === 'finished') {
     // Allow commands to be sent to finished sessions
     res.status(200).end()
@@ -44,10 +38,8 @@ export async function newCommand(req, res) {
 
   await c.save()
 
-  const commandHandler = new CommandHandler(session, c, additionalData)
-
+  const commandHandler = new CommandHandler(session, c, params)
   const response = await commandHandler.run()
-
   if (response) {
     c.stage = response.stage
     await c.save()
@@ -61,9 +53,9 @@ export async function newCommand(req, res) {
 
   res.status(201).json(response)
   await session.save()
-}
+})
 
-export async function completedCommand(req, res) {
+export const completedCommand = asyncHandler(async (req, res) => {
   const { sessionId } = req.user
 
   const session = await Session.findById(sessionId)
@@ -86,4 +78,4 @@ export async function completedCommand(req, res) {
   callback()
   commandCompleteCallbacks.delete(session.id)
   res.json({ message: 'ok' })
-}
+})
