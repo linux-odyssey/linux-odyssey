@@ -13,7 +13,7 @@ export async function newCommand(req, res) {
     return
   }
 
-  const sessionId = req.user.session_id
+  const { sessionId } = req.user
 
   const session = await Session.findById(sessionId)
 
@@ -64,7 +64,7 @@ export async function newCommand(req, res) {
 }
 
 export async function completedCommand(req, res) {
-  const sessionId = req.user.session_id
+  const { sessionId } = req.user
 
   const session = await Session.findById(sessionId)
 

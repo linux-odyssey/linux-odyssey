@@ -143,44 +143,6 @@ paths:
                 properties:
                   message:
                     type: string
-    delete:
-      tags:
-        - signed-in
-      summary: delete a specific session by ID
-      security:
-        - cookieAuth: []
-      parameters:
-        - in: path
-          name: sessionId
-          required: true
-          schema:
-            type: string
-            format: objectId
-            example: 64b7a3a3c182b4826dd1aaa1
-      responses:
-        '204':
-          description: Session successfully deleted
-
-        '404':
-          description: Session not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Session not found.'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Unauthorized.'
 
   /auth/register:
     post:

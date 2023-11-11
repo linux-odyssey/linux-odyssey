@@ -27,7 +27,7 @@ function debug(...args) {
 async function createSession() {
   console.log('Creating a new session...')
   const res = await api.post('/sessions', {
-    quest_id: 'helloworld',
+    questId: 'helloworld',
   })
   const { data } = await res
   if (!data._id) {
@@ -68,7 +68,7 @@ async function connect(sessionId, cookie) {
       Cookie: cookie,
     },
     query: {
-      session_id: sessionId,
+      sessionId,
     },
   })
 

@@ -45,15 +45,13 @@ async function setSession(session) {
 
 export async function createSession() {
   console.log('Creating a new session...')
-  const res = await api.post('/sessions', { quest_id: store.questId })
+  const res = await api.post('/sessions', { questId: store.questId })
   const { data } = res
   await setSession(data)
 }
 
 async function getActiveSession(questId) {
-  const res = await api.post('/sessions/active', {
-    quest_id: questId,
-  })
+  const res = await api.post('/sessions/active', { questId })
   const session = res.data
   try {
     await setSession(session)

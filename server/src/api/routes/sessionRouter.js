@@ -4,11 +4,13 @@ import { sessionRateLimit } from '../../middleware/rateLimiter.js'
 import {
   createSessionValidator,
   activeSessionValidator,
+  sessionListValidator,
+  sessionDetailValidator,
 } from '../validators/sessionValidator.js'
 
 const router = Router()
 
-router.get('/', sessionController.getSessionList)
+router.get('/', sessionListValidator, sessionController.getSessionList)
 router.post(
   '/',
   createSessionValidator,
@@ -20,7 +22,6 @@ router.post(
   activeSessionValidator,
   sessionController.getOrCreateSession
 )
-router.get('/:id', sessionController.getSessionById)
-router.delete('/:id', sessionController.deleteSessionById)
+router.get('/:id', sessionDetailValidator, sessionController.getSessionById)
 
 export default router

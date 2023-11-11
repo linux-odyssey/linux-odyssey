@@ -28,10 +28,11 @@ function sessionDetail(session) {
 export async function getSessionList(req, res) {
   try {
     const query = { user: req.user._id }
-    if (req.query.quest_id) {
-      query.quest = req.query.quest_id
+    const { questId, status } = matchedData(req)
+    if (questId) {
+      query.quest = questId
     }
-    query.status = req.query.status || 'active'
+    query.status = status || 'active'
     const sessions = await Session.find(query)
     res.json(sessions.map(sessionSummary))
   } catch (err) {
@@ -41,9 +42,9 @@ export async function getSessionList(req, res) {
 }
 
 export async function createSession(req, res) {
-  const { quest_id } = matchedData(req)
+  const { questId } = matchedData(req)
   try {
-    const session = await createNewSession(req.user, quest_id)
+    const session = await createNewSession(req.user, questId)
     res.status(201).json(sessionDetail(session))
   } catch (err) {
     console.error(err)
@@ -53,8 +54,9 @@ export async function createSession(req, res) {
 
 export async function getSessionById(req, res) {
   try {
+    const { sessionId } = matchedData(req)
     const session = await Session.findOne({
-      _id: req.params.id,
+      _id: sessionId,
       user: req.user._id,
     })
 
@@ -69,28 +71,10 @@ export async function getSessionById(req, res) {
   }
 }
 
-export async function deleteSessionById(req, res) {
-  try {
-    const session = await Session.findOneAndDelete({
-      _id: req.params.id,
-      user: req.user._id,
-    })
-
-    if (!session) {
-      res.status(404).json({ message: 'Session not found.' })
-      return
-    }
-
-    res.status(204).end()
-  } catch (err) {
-    res.status(500).json({ message: err.message })
-  }
-}
-
 export async function getOrCreateSession(req, res) {
-  const { quest_id } = matchedData(req)
+  const { questId } = matchedData(req)
   try {
-    const session = await getOrCreateActiveSession(req.user, quest_id)
+    const session = await getOrCreateActiveSession(req.user, questId)
     res.json(sessionDetail(session))
   } catch (err) {
     console.error(err)

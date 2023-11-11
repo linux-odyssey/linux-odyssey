@@ -1,8 +1,10 @@
 import { Server } from 'socket.io'
+import validator from 'validator'
 import { Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
+import { checkSessionId } from './validators/sessionValidator.js'
 
 const sessions = new Map()
 
@@ -26,33 +28,26 @@ export function pushToSession(sessionId, event, ...args) {
   }
 }
 
-async function connectClient(socket) {
+async function connectClient(socket, next) {
   const user = socket.request.session?.passport?.user
   if (!user) {
-    socket.send('User not found.')
-    socket.disconnect()
+    next(new Error('User not found.'))
     return
   }
-  const sessionId = socket.handshake.query.session_id
-  if (!sessionId) {
-    socket.emit('error', 'Session ID not found.')
-    socket.disconnect()
+  const { sessionId } = socket.handshake.query
+  if (!validator.isMongoId(sessionId)) {
+    next(new Error('Invalid Session ID.'))
     return
   }
 
-  const session = await Session.findOne({
-    _id: sessionId,
-    user,
-    status: 'active',
-  })
+  const session = await Session.findById(sessionId)
   if (!session) {
-    socket.emit('error', 'Session not found.')
-    socket.disconnect()
+    next(new Error('Session not found.'))
     return
   }
 
   const token = await genJWT({
-    session_id: session.id,
+    sessionId: session.id,
   })
 
   let container
@@ -61,8 +56,7 @@ async function connectClient(socket) {
     container = await getAndStartContainer(session.containerId)
     stream = await attachContainer(container, { token })
   } catch (err) {
-    socket.emit('error', 'Failed to start container.')
-    socket.disconnect()
+    next(new Error('Failed to start container.'))
     return
   }
 
@@ -95,6 +89,10 @@ export default (server) => {
   const io = new Server(server)
 
   io.engine.use(SessionMiddleware)
+  io.engine.use(checkSessionId())
 
   io.on('connection', connectClient)
+  io.on('connect_error', (err) => {
+    console.error(err)
+  })
 }
