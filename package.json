@@ -2,8 +2,8 @@
   "name": "linux-odyssey",
   "version": "0.0.0",
   "main": "index.js",
-  "repository": "https://github.com/lancatlin/linux-odyssey",
-  "license": "MIT",
+  "repository": "https://github.com/linux-odyssey/linux-odyssey",
+  "license": "GPL",
   "private": true,
   "workspaces": [
     "app",
