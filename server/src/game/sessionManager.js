@@ -79,3 +79,23 @@ export async function getOrCreateActiveSession(user, questId) {
   }
   return createNewSession(user, questId)
 }
+
+export async function finishSession(session) {
+  session.status = 'finished'
+  await session.save()
+
+  const userProfile = await UserProfile.findOne({ user: session.user })
+  if (!userProfile) {
+    throw new Error(`UserProfile ${session.user} not found`)
+  }
+
+  const progress = userProfile.progress.get(session.quest)
+  if (!progress) {
+    throw new Error(`Progress ${session.quest} not found`)
+  }
+  if (!progress.completed) {
+    progress.finishedAt = new Date()
+    progress.completed = true
+  }
+  await userProfile.save()
+}

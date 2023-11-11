@@ -1,6 +1,7 @@
 import { Command, Session } from '@linux-odyssey/models'
 import CommandHandler from '../../game/commandHandler.js'
 import { pushToSession } from '../socket.js'
+import { finishSession } from '../../game/sessionManager.js'
 
 const commandCompleteCallbacks = new Map()
 
@@ -21,6 +22,11 @@ export async function newCommand(req, res) {
     return
   }
 
+  if (session.status === 'finished') {
+    // Allow commands to be sent to finished sessions
+    res.status(200).end()
+    return
+  }
   if (session.status !== 'active') {
     res.status(400).json({ message: 'session is not active' })
     return
@@ -45,6 +51,10 @@ export async function newCommand(req, res) {
   if (response) {
     c.stage = response.stage
     await c.save()
+
+    if (response.stage === 'END') {
+      await finishSession(session)
+    }
     commandCompleteCallbacks.set(session.id, response.callback)
     pushToSession(session.id, 'status', 'pending')
   }
