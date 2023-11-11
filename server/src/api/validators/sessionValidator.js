@@ -10,11 +10,7 @@ const checkSessionStatus = () =>
 export const checkSessionId = () =>
   check('sessionId').notEmpty().isString().isMongoId()
 
-export const sessionListValidator = [
-  checkQuestId(),
-  checkSessionStatus(),
-  noError,
-]
+export const sessionListValidator = [checkQuestId(), checkSessionStatus()]
 export const sessionDetailValidator = [checkSessionId(), noError]
 export const createSessionValidator = [checkQuestId(), noError]
 export const activeSessionValidator = [checkQuestId(), noError]
