@@ -27,7 +27,7 @@ paths:
         - cookieAuth: []
       parameters:
         - in: query
-          name: quest_id
+          name: questId
           description: find sessions by quest id
           schema:
             type: string
@@ -60,7 +60,7 @@ paths:
             schema:
               type: object
               properties:
-                quest_id:
+                questId:
                   type: string
                   example: helloworld
       responses:
@@ -93,9 +93,9 @@ paths:
             schema:
               type: 'object'
               required:
-                - quest_id
+                - questId
               properties:
-                quest_id:
+                questId:
                   type: 'string'
                   description: 'The ID of the quest.'
                   example: 'helloworld'
@@ -111,7 +111,7 @@ paths:
         500:
           description: 'Internal Server Error.'
 
-  /sessions/{session_id}:
+  /sessions/{sessionId}:
     get:
       tags:
         - signed-in
@@ -120,7 +120,7 @@ paths:
         - cookieAuth: []
       parameters:
         - in: path
-          name: session_id
+          name: sessionId
           description: ID of the session to retrieve
           required: true
           schema:
@@ -151,7 +151,7 @@ paths:
         - cookieAuth: []
       parameters:
         - in: path
-          name: session_id
+          name: sessionId
           required: true
           schema:
             type: string
@@ -468,12 +468,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/QuestSummary'
 
-  /quests/{quest_id}:
+  /quests/{questId}:
     get:
       summary: get a quest's detail by name
       parameters:
         - in: path
-          name: quest_id
+          name: questId
           description: name of the quest to retrieve
           required: true
           schema:
@@ -534,6 +534,23 @@ paths:
                     type: string
                     example: '127.0.0.1'
 
+  /users/me:
+    get:
+      summary: Get current user's profile
+      tags:
+        - signed-in
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized
+
 components:
   schemas:
     User:
@@ -549,6 +566,46 @@ components:
         email:
           type: string
           format: email
+
+    UserProfile:
+      type: object
+      properties:
+        username:
+          type: string
+          example: 'alex'
+        email:
+          type: string
+          format: email
+          example: alex@example.com
+        progress:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Progress'
+
+    Progress:
+      type: object
+      properties:
+        questId:
+          type: string
+          example: helloworld
+        sessions:
+          type: array
+          items:
+            type: string
+            format: objectId
+            example: 64b7a3a3c182b4826dd1aaa1
+        completed:
+          type: boolean
+          example: true
+        startedAt:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+        finishedAt:
+          type: string
+          format: date-time
+          example: 2020-01-01T00:00:00.000Z
+
     Quest:
       type: object
       properties:
@@ -587,13 +644,13 @@ components:
           $ref: '#/components/schemas/User'
         quest:
           $ref: '#/components/schemas/Quest'
-        created_at:
+        createdAt:
           type: string
           format: date-time
-        updated_at:
+        updatedAt:
           type: string
           format: date-time
-        finished_at:
+        finishedAt:
           type: string
           format: date-time
         hints:
@@ -621,13 +678,13 @@ components:
           example: 64b7a3a3c182b4826dd1aaa1
         quest:
           $ref: '#/components/schemas/Quest'
-        created_at:
+        createdAt:
           type: string
           format: date-time
-        updated_at:
+        updatedAt:
           type: string
           format: date-time
-        finished_at:
+        finishedAt:
           type: string
           format: date-time
 

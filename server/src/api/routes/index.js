@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import passport from 'passport'
-import sessions from './sessions.js'
-import quests from './quests.js'
-import commands from './commands.js'
-import authRouter from './auth.js'
+import sessions from './sessionRouter.js'
+import quests from './questRouter.js'
+import commands from './commandRouter.js'
+import authRouter from './authRouter.js'
 import authRequired from '../../middleware/authRequired.js'
+import userRouter from './userRouter.js'
 import config from '../../config.js'
 
 const router = Router()
@@ -21,6 +22,7 @@ if (!config.isProduction) {
 
 router.use('/auth', authRouter)
 router.use('/quests', quests)
+router.use('/users', userRouter)
 
 router.use('/sessions', authRequired, sessions)
 router.use(
