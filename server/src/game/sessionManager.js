@@ -1,4 +1,4 @@
-import { Session, Quest } from '@linux-odyssey/models'
+import { Session, Quest, UserProfile } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
 import SessionHandler from './sessionHandler.js'
 
@@ -48,6 +48,23 @@ export async function createNewSession(user, questId) {
 
   const session = sessionHandler.getSession()
   await session.save()
+
+  const userProfile = await UserProfile.findOne({ user: user._id })
+  if (!userProfile) {
+    throw new Error(`UserProfile ${user._id} not found`)
+  }
+
+  const progress = userProfile.progress.get(quest._id)
+  if (!progress) {
+    userProfile.progress.set(quest._id, {
+      quest: quest._id,
+      sessions: [session._id],
+      startedAt: new Date(),
+    })
+  } else {
+    progress.sessions.push(session._id)
+  }
+  await userProfile.save()
   return session
 }
 
