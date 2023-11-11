@@ -1,8 +1,11 @@
 import { reactive } from 'vue'
+import { useToast } from 'vue-toastification'
 import { FileGraph } from '@linux-odyssey/file-graph'
 import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
+
+const toast = useToast()
 
 function newSession() {
   const graph = new FileGraph({
@@ -50,15 +53,22 @@ export async function createSession() {
   await setSession(data)
 }
 
-async function getActiveSession(questId) {
-  const res = await api.post('/sessions/active', { questId })
-  const session = res.data
-  try {
-    await setSession(session)
-  } catch (err) {
-    console.log(err)
-    await createSession().catch(console.error)
-  }
+function getActiveSession(questId) {
+  return api
+    .post('/sessions/active', { questId })
+    .then((res) => {
+      const session = res.data
+      return setSession(session)
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.warning('Failed to connect previous session. Creating a new one...')
+      return createSession()
+    })
+    .catch((err) => {
+      console.log(err)
+      toast.error('Failed to create a new session. Please try again later.')
+    })
 }
 
 function updateGraph(event) {
