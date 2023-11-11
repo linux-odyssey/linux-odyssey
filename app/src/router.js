@@ -23,9 +23,10 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
-    path: '/game',
+    path: '/game/:questId',
     name: 'game',
     component: GamePage,
+    props: true,
     meta: { requiresAuth: true },
   },
   {

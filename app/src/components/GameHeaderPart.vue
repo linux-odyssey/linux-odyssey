@@ -1,10 +1,8 @@
 <script setup>
-import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../utils/auth'
 import { bugReportUrl } from '../config'
-import api from '../utils/api'
-import { reset } from '../store/session'
+import sessionStore, { reset } from '../store/session'
 
 const router = useRouter()
 
@@ -17,18 +15,6 @@ const handleLogout = async () => {
     console.error(err)
   }
 }
-
-const questData = ref(null)
-const questErr = ref(null)
-
-onMounted(async () => {
-  try {
-    const res = await api.get('/quests/helloworld')
-    questData.value = res.data
-  } catch (err) {
-    questErr.value = err
-  }
-})
 </script>
 
 <template>
@@ -50,9 +36,9 @@ onMounted(async () => {
         <button>
           <p
             class="text-text-primary inline-block font-bold whitespace-nowrap"
-            v-if="questData"
+            v-if="sessionStore.quest"
           >
-            {{ questData.title }}
+            {{ sessionStore.quest.title }}
           </p>
         </button>
       </div>

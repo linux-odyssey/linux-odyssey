@@ -14,8 +14,15 @@ const completed = computed(() => {
   return sessionStore.session.status === 'finished'
 })
 
+const props = defineProps({
+  questId: {
+    type: String,
+    required: true,
+  },
+})
+
 onMounted(async () => {
-  await init('helloworld')
+  await init(props.questId)
 })
 </script>
 
