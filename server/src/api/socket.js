@@ -4,7 +4,6 @@ import { Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
-import { checkSessionId } from './validators/sessionValidator.js'
 
 const sessions = new Map()
 
@@ -28,14 +27,18 @@ export function pushToSession(sessionId, event, ...args) {
   }
 }
 
-async function connectClient(socket, next) {
+async function connectContainer(socket, next) {
+  console.log(next)
   const user = socket.request.session?.passport?.user
+  // console.log(user)
   if (!user) {
     next(new Error('User not found.'))
     return
   }
+  // console.log(socket.handshake)
   const { sessionId } = socket.handshake.query
-  if (!validator.isMongoId(sessionId)) {
+  if (!(sessionId && validator.isMongoId(sessionId))) {
+    console.warn('Invalid Session ID.', sessionId)
     next(new Error('Invalid Session ID.'))
     return
   }
@@ -50,16 +53,21 @@ async function connectClient(socket, next) {
     sessionId: session.id,
   })
 
-  let container
-  let stream
   try {
-    container = await getAndStartContainer(session.containerId)
-    stream = await attachContainer(container, { token })
+    const container = await getAndStartContainer(session.containerId)
+    const stream = await attachContainer(container, { token })
+    socket.context = {
+      session,
+      stream,
+    }
+    next()
   } catch (err) {
     next(new Error('Failed to start container.'))
-    return
   }
+}
 
+function onConnect(socket) {
+  const { session, stream } = socket.context
   stream.socket.on('data', (chunk) => {
     socket.emit('terminal', chunk.toString())
   })
@@ -81,17 +89,15 @@ async function connectClient(socket, next) {
     removeFromSession(session.id, socketCallback)
     stream.destroy()
   })
-
-  socket.send(`${container.id}\n`)
 }
 
 export default (server) => {
   const io = new Server(server)
 
   io.engine.use(SessionMiddleware)
-  io.engine.use(checkSessionId())
+  io.use(connectContainer)
 
-  io.on('connection', connectClient)
+  io.on('connection', onConnect)
   io.on('connect_error', (err) => {
     console.error(err)
   })
