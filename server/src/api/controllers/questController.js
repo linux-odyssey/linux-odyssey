@@ -2,12 +2,12 @@ import { Quest } from '@linux-odyssey/models'
 import { matchedData } from 'express-validator'
 
 export async function getQuests(req, res) {
-  const quests = await Quest.find({}).sort({ order: 1 })
+  const quests = await Quest.find({})
   res.json(
-    quests.map(({ title, order, _id }) => ({
+    quests.map(({ title, _id, requirements }) => ({
       _id,
       title,
-      order,
+      requirements,
     }))
   )
 }

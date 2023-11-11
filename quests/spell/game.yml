@@ -6,7 +6,6 @@ instruction: |
 
 requirements:
   - helloworld
-  - noexists
 
 conditions:
   pwd_home: &pwd_home
