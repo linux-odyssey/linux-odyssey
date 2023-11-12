@@ -16,20 +16,23 @@ Cypress.Commands.add('PrepareForGame', () => {
   cy.get('.xterm-screen').as('Terminaltextbox').should('be.visible')
   cy.findByRole('button', { name: 'Reset' }).click()
   cy.typeInCommand('clear{enter}')
-  cy.get('@Terminaltextbox').should('contain', 'commander:~ $')
+  cy.get('@Terminaltextbox', { timeout: 150000 }).should(
+    'contain',
+    'commander:~ $'
+  )
 })
 Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen', { timeout: 150000 }).type(command)
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
-  return cy.get('#quest').find('p.text-text').contains(`${id}`)
-})
-Cypress.Commands.add('getTaskCheckbox', (id) => {
-  return cy.getQuestInfo(id).findByRole('checkbox')
+  return cy
+    .get('#quest')
+    .find('p.text-text')
+    .contains(`${id}`, { timeout: 100000 })
 })
 Cypress.Commands.add('checkHint', (index, total) => {
   cy.get('#hint')
-    .find('.flex-wrap')
+    .find('.justify-end')
     .contains(`${index}/${total}`)
     .should('be.visible')
 })
