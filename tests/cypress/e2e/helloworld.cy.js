@@ -8,13 +8,6 @@ export default function checkLoginUI() {
     .invoke('attr', 'placeholder')
     .should('contain', 'Password')
 }
-export function getTerminalrowsContain(content) {
-  cy.get('@Terminaltextbox')
-    .get('.xterm-rows')
-    .children()
-    .filter(`:contains('${content}')`)
-}
-
 describe('example helloworld app', () => {
   describe('Login tests', () => {
     beforeEach(() => {
