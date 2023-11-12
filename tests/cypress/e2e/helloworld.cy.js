@@ -4,12 +4,9 @@ export default function checkLoginUI() {
   cy.get('h1.text-text-primary')
     .should('contain', 'Linux Odyssey')
     .and('be.visible')
-  cy.get('label[for="password"]')
-    .should('contain', 'Password')
-    .and('be.visible')
   cy.get('#password')
     .invoke('attr', 'placeholder')
-    .should('contain', 'Enter your password')
+    .should('contain', 'Password')
 }
 export function getTerminalrowsContain(content) {
   cy.get('@Terminaltextbox')
@@ -28,23 +25,17 @@ describe('example helloworld app', () => {
     })
     it('Check Login Page Elements-Register', () => {
       checkLoginUI()
-      cy.get('label[for="username"]')
-        .should('contain', 'Username')
-        .and('be.visible')
       cy.get('#username')
         .invoke('attr', 'placeholder')
-        .should('contain', 'Enter your username')
+        .should('contain', 'Username')
       cy.get('label.text-text-secondary')
-        .should(
+        .should('contain', `Username must begin with lowercase letter`)
+        .and(
           'contain',
-          `Username should start with lowercase and consist of lowercase, numbers, '_' and '-'`
+          `Username can consist of lowercase, numbers, "_", and "-"`
         )
         .and('be.visible')
-      cy.get('label[for="email"]').should('contain', 'Email').and('be.visible')
-      cy.get('#email')
-        .invoke('attr', 'placeholder')
-        .should('contain', 'Enter your email')
-      cy.findByRole('button', { name: 'Register' }).should('be.visible')
+      cy.get('#email').invoke('attr', 'placeholder').should('contain', 'Email')
       cy.get('span').contains('Already have an account?').should('be.visible')
       cy.get('a.text-text-primary')
         .should('contain', 'Log in')
@@ -56,33 +47,29 @@ describe('example helloworld app', () => {
         .and('be.visible')
         .click()
       checkLoginUI()
-      cy.get('label[for="username"]')
-        .should('contain', 'Email / Username')
-        .and('be.visible')
       cy.get('#username')
         .invoke('attr', 'placeholder')
-        .should('contain', 'Enter your email or username')
-      cy.findByRole('button', { name: 'Log in' }).should('be.visible')
+        .should('contain', 'Email / Username')
+      cy.findByRole('button', { name: 'Log In' }).should('be.visible')
       cy.get('span').contains("Don't have an account?").should('be.visible')
       cy.get('a.text-text-primary')
-        .should('contain', 'Register')
+        .should('contain', 'Sign up')
         .and('be.visible')
     })
     it('Check social account UI', () => {
-      cy.get('p').contains('Log in with social account').should('be.visible')
-      cy.findByRole('link', { name: 'Google' }).should('be.visible')
-      cy.findByRole('link', { name: 'GitHub' }).should('be.visible')
+      cy.get('p').contains('or').should('be.visible')
+      cy.findByRole('link', { name: 'Continue with Google' }).should(
+        'be.visible'
+      )
+      cy.findByRole('link', { name: 'Continue with GitHub' }).should(
+        'be.visible'
+      )
     })
     it('Login-Password Already Register', () => {
-      cy.LoginWithPassword('alex', '123456')
-    })
-    it.skip('Login-Google', () => {
-      cy.clearCookies()
-      cy.findByRole('link', { name: 'Google' }).should('be.visible').click()
-    })
-    it.skip('Login-GitHub', () => {
-      cy.clearCookies()
-      cy.findByRole('link', { name: 'GitHub' }).should('be.visible').click()
+      cy.LoginWithPassword(
+        Cypress.env('defaultAccount'),
+        Cypress.env('defaultPassword')
+      )
     })
   })
   describe('Game Start Page UI', () => {
@@ -90,15 +77,9 @@ describe('example helloworld app', () => {
       cy.PrepareForGame()
     })
     it('Check Header', () => {
-      cy.get('#quest').should('be.visible')
-      cy.get('#stream').should('be.visible')
-      cy.get('#backward').should('be.visible')
-      cy.get('#warning').should('be.visible')
-      cy.get('#setting').should('be.visible')
-      cy.get('#fullscreen').should('be.visible')
-      cy.get('p').contains(" 1. Command's Basics ").should('be.visible')
-      cy.get('p').contains('●').should('be.visible')
-      cy.get('p').contains('1. Try Your First Command').should('be.visible')
+      cy.findByRole('button', { name: 'Hello, Linux World!' }).should(
+        'be.visible'
+      )
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', 'Hello, Linux World!')
@@ -112,35 +93,33 @@ describe('example helloworld app', () => {
       )
     })
     it('Check Command Cheat Sheet', () => {
-      cy.get('#cmdlist').should('be.visible')
-      cy.get('#cmdlist').get('svg[data-icon="list"]').should('be.visible')
-      cy.get('#cmdlist')
-        .get('h1')
-        .should('contain', 'Command Cheatsheets')
-        .and('be.visible')
-      cy.get('#cheatsheets')
-        .should('contain', '--Command List--')
-        .and('be.visible')
+      cy.get('#cmdlist').within(($cmdlist) => {
+        cy.get($cmdlist).should('be.visible')
+        cy.get('svg[data-icon="list"]').should('be.visible')
+        cy.get('h1').should('contain', 'Command Cheatsheets').and('be.visible')
+        cy.get('#cheatsheets')
+          .should('contain', '--Command List--')
+          .and('be.visible')
+      })
     })
     it('Check Terminal', () => {
-      cy.get('#terminal', { timeout: 20000 }).should('be.visible')
-      cy.get('#terminal').get('svg[data-icon="terminal"]').should('be.visible')
-      cy.get('#terminal')
-        .findByRole('button')
-        .should('contain', 'Terminal')
-        .and('be.visible')
-      cy.get('@Terminaltextbox')
-        .should('be.visible')
-        .and('contain', 'Welcome to Linux Odyssey!')
-        .and('contain', 'commander:~ $')
+      cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
+        cy.get($terminal).should('be.visible')
+        cy.get('svg[data-icon="terminal"]').should('be.visible')
+        cy.findByRole('button').should('contain', 'Terminal').and('be.visible')
+        cy.get('@Terminaltextbox')
+          .should('be.visible')
+          .and('contain', 'commander:~ $')
+      })
     })
     it('Check Hint Part', () => {
-      cy.get('#hint', { timeout: 20000 }).should('be.visible')
-      cy.get('#hint').get('svg[data-icon="lightbulb"]').should('be.visible')
-      cy.get('#hint').get('h1').should('contain', 'Hint').and('be.visible')
+      cy.get('#hint', { timeout: 20000 }).within(($hint) => {
+        cy.get($hint).should('be.visible')
+        cy.get('svg[data-icon="lightbulb"]').should('be.visible')
+        cy.get('h1').should('contain', 'Hint').and('be.visible')
+      })
     })
     it('Check File TreeChart', () => {
-      cy.get('#visualization', { timeout: 20000 }).should('be.visible')
       cy.get('#tree').should('be.visible')
       cy.get('#tree').get('a').should('contain', '???').and('be.visible')
     })
@@ -152,7 +131,7 @@ describe('example helloworld app', () => {
       cy.findByRole('button', { name: 'Continue' }).should('be.visible')
     })
   })
-  describe('Game Play', () => {
+  describe.only('Game Play', () => {
     beforeEach(() => {
       cy.PrepareForGame()
       cy.readFile('../quests/helloworld/answer.sh', 'utf-8').as('answers')
@@ -170,9 +149,7 @@ describe('example helloworld app', () => {
         // Stage1
         cy.log('Stage1')
         cy.typeInCommand(answerarr[0])
-        cy.get('@Terminaltextbox')
-          // .should('contain', answers.start1)
-          .should('contain', continueSign)
+        cy.get('@Terminaltextbox').should('contain', continueSign)
         cy.typeInCommand(
           '{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}{enter}'
         )

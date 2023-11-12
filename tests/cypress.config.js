@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress')
-// require('./.env').config()
+require('dotenv').config()
 const process = require('process')
 
 const getConfig = (key, defaultValue) => {
@@ -12,8 +12,12 @@ module.exports = defineConfig({
     viewportWidth: 1920,
     viewportHeight: 1080,
     pageLoadTimeout: 120000,
+    setupNodeEvents(on, config) {},
   },
   env: {
+    ...process.env,
+    defaultAccount: process.env.default_USERNAME,
+    defaultPassword: process.env.default_PASSWORD,
     // google_username: process.env.GOOGLE_USERNAME,
     // google_password: process.env.GOOGLE_PASSWORD,
     // google_client_id: process.env.GOOGLE_CLIENT_ID,
