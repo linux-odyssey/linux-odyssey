@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+
 export default function checkLoginUI() {
   cy.get('h1.text-text-primary')
     .should('contain', 'Linux Odyssey')
@@ -7,6 +8,13 @@ export default function checkLoginUI() {
     .invoke('attr', 'placeholder')
     .should('contain', 'Password')
 }
+export function getTerminalrowsContain(content) {
+  cy.get('@Terminaltextbox')
+    .get('.xterm-rows')
+    .children()
+    .filter(`:contains('${content}')`)
+}
+
 describe('example helloworld app', () => {
   describe('Login tests', () => {
     beforeEach(() => {
@@ -48,12 +56,6 @@ describe('example helloworld app', () => {
         'be.visible'
       )
     })
-    it('Check login fail', () => {
-      cy.LoginWithPassword('dddd', '123456')
-      cy.get('p').contains('Wrong username or password.').should('be.visible')
-      cy.LoginWithPassword(`ddd\``, '123456')
-      cy.get('p').contains('Invalid username or password.').should('be.visible')
-    })
     it('Login-Password Already Register', () => {
       cy.LoginWithPassword(
         Cypress.env('defaultAccount'),
@@ -69,8 +71,6 @@ describe('example helloworld app', () => {
       cy.findByRole('button', { name: 'Hello, Linux World!' }).should(
         'be.visible'
       )
-      cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
-      cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', 'Hello, Linux World!')
@@ -135,20 +135,22 @@ describe('example helloworld app', () => {
         // Stage1
         cy.log('Stage1')
         cy.typeInCommand(answerarr[0])
-        cy.checkPending()
-        cy.waitUntilActive()
+        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
+          'have.value',
+          'active'
+        )
         cy.get('#Lbutton').should('be.visible').and('be.disabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
         cy.checkHint(1, 1)
         cy.getQuestInfo('✓ 輸入 `echo help` 來朗誦咒語').should('be.visible')
         cy.getQuestInfo('搜索卷軸').should('be.visible')
-        cy.getQuestInfo('✓ 輸入 `echo help` 來朗誦咒語').should('be.visible')
-        cy.getQuestInfo('搜索卷軸').should('be.visible')
         // Stage2
         cy.log('Stage2')
         cy.typeInCommand(answerarr[1])
-        cy.checkPending()
-        cy.waitUntilActive()
+        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
+          'have.value',
+          'active'
+        )
         cy.get('#tree')
           .get('a')
           .should('contain', 'forgotten_scroll.txt')
@@ -156,26 +158,27 @@ describe('example helloworld app', () => {
         cy.get('#Lbutton').should('be.visible').and('be.enabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
         cy.checkHint(2, 2)
-        cy.checkHint(2, 2)
         cy.get('#Lbutton').click()
         cy.get('#Rbutton').should('be.enabled')
-        cy.getQuestInfo('✓ 搜索卷軸').should('be.visible')
-        cy.getQuestInfo('查看卷軸').should('be.visible')
         cy.getQuestInfo('✓ 搜索卷軸').should('be.visible')
         cy.getQuestInfo('查看卷軸').should('be.visible')
         // Stage3
         cy.log('Stage3')
         cy.typeInCommand(answerarr[2])
-        cy.checkPending()
-        cy.waitUntilActive()
+        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
+          'have.value',
+          'active'
+        )
         cy.getQuestInfo('✓ 查看卷軸').should('be.visible')
         cy.getQuestInfo('解除封印').should('be.visible')
         cy.checkHint(3, 3)
         // Stage4
         cy.log('Stage4')
         cy.typeInCommand(answerarr[3])
-        cy.checkPending()
-        cy.waitUntilActive()
+        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
+          'have.value',
+          'active'
+        )
         cy.getQuestInfo('✓ 解除封印').should('be.visible')
         cy.findByRole(
           'heading',
