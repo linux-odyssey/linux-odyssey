@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-
 export default function checkLoginUI() {
   cy.get('h1.text-text-primary')
     .should('contain', 'Linux Odyssey')
@@ -49,6 +48,12 @@ describe('example helloworld app', () => {
         'be.visible'
       )
     })
+    it('Check login fail', () => {
+      cy.LoginWithPassword('dddd', '123456')
+      cy.get('p').contains('Wrong username or password.').should('be.visible')
+      cy.LoginWithPassword(`ddd\``, '123456')
+      cy.get('p').contains('Invalid username or password.').should('be.visible')
+    })
     it('Login-Password Already Register', () => {
       cy.LoginWithPassword(
         Cypress.env('defaultAccount'),
@@ -64,6 +69,8 @@ describe('example helloworld app', () => {
       cy.findByRole('button', { name: 'Hello, Linux World!' }).should(
         'be.visible'
       )
+      cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
+      cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', 'Hello, Linux World!')
@@ -128,10 +135,8 @@ describe('example helloworld app', () => {
         // Stage1
         cy.log('Stage1')
         cy.typeInCommand(answerarr[0])
-        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
-          'have.value',
-          'active'
-        )
+        cy.checkPending()
+        cy.waitUntilActive()
         cy.get('#Lbutton').should('be.visible').and('be.disabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
         cy.checkHint(1, 1)
@@ -140,10 +145,8 @@ describe('example helloworld app', () => {
         // Stage2
         cy.log('Stage2')
         cy.typeInCommand(answerarr[1])
-        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
-          'have.value',
-          'active'
-        )
+        cy.checkPending()
+        cy.waitUntilActive()
         cy.get('#tree')
           .get('a')
           .should('contain', 'forgotten_scroll.txt')
@@ -158,20 +161,16 @@ describe('example helloworld app', () => {
         // Stage3
         cy.log('Stage3')
         cy.typeInCommand(answerarr[2])
-        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
-          'have.value',
-          'active'
-        )
+        cy.checkPending()
+        cy.waitUntilActive()
         cy.getQuestInfo('✓ 查看卷軸').should('be.visible')
         cy.getQuestInfo('解除封印').should('be.visible')
         cy.checkHint(3, 3)
         // Stage4
         cy.log('Stage4')
         cy.typeInCommand(answerarr[3])
-        cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
-          'have.value',
-          'active'
-        )
+        cy.checkPending()
+        cy.waitUntilActive()
         cy.getQuestInfo('✓ 解除封印').should('be.visible')
         cy.findByRole(
           'heading',

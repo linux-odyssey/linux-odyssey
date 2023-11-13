@@ -27,7 +27,8 @@ Cypress.Commands.add('typeInCommand', (command) => {
 Cypress.Commands.add('getQuestInfo', (id) => {
   return cy
     .get('#quest')
-    .find('p.text-text')
+    .find('li')
+    .find('p')
     .contains(`${id}`, { timeout: 100000 })
 })
 Cypress.Commands.add('checkHint', (index, total) => {
@@ -35,4 +36,22 @@ Cypress.Commands.add('checkHint', (index, total) => {
     .find('.justify-end')
     .contains(`${index}/${total}`)
     .should('be.visible')
+})
+Cypress.Commands.add('waitUntilActive', () => {
+  cy.get('input[id="currentStatus"]', { timeout: 1000000 })
+    .invoke('val')
+    .then((value) => {
+      if (value === 'active' || value === 'finished') {
+        cy.log('story ends')
+        return
+      }
+      cy.typeInCommand('{enter}')
+      cy.waitUntilActive()
+    })
+})
+Cypress.Commands.add('checkPending', () => {
+  cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
+    'have.value',
+    'pending'
+  )
 })
