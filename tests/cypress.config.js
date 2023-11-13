@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress')
 const process = require('process')
+require('dotenv').config()
 
 const getConfig = (key, defaultValue) => {
   return process.env[key] || defaultValue

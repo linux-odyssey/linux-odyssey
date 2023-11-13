@@ -8,6 +8,12 @@
     "test": "cypress run"
   },
   "dependencies": {
-    "cypress": "^13.2.0"
+    "cypress": "^13.2.0",
+    "dotenv": "^16.3.1",
+    "save": "^2.9.0"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^10.0.1",
+    "cypress": "^13.5.0"
   }
 }
