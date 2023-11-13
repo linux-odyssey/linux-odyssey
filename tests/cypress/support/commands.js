@@ -20,6 +20,10 @@ Cypress.Commands.add('PrepareForGame', () => {
     'contain',
     'commander:~ $'
   )
+  cy.get('@Terminaltextbox', { timeout: 150000 }).should(
+    'contain',
+    'commander:~ $'
+  )
 })
 Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen', { timeout: 150000 }).type(command)

@@ -142,6 +142,8 @@ describe('example helloworld app', () => {
         cy.checkHint(1, 1)
         cy.getQuestInfo('✓ 輸入 `echo help` 來朗誦咒語').should('be.visible')
         cy.getQuestInfo('搜索卷軸').should('be.visible')
+        cy.getQuestInfo('✓ 輸入 `echo help` 來朗誦咒語').should('be.visible')
+        cy.getQuestInfo('搜索卷軸').should('be.visible')
         // Stage2
         cy.log('Stage2')
         cy.typeInCommand(answerarr[1])
@@ -154,8 +156,11 @@ describe('example helloworld app', () => {
         cy.get('#Lbutton').should('be.visible').and('be.enabled')
         cy.get('#Rbutton').should('be.visible').and('be.disabled')
         cy.checkHint(2, 2)
+        cy.checkHint(2, 2)
         cy.get('#Lbutton').click()
         cy.get('#Rbutton').should('be.enabled')
+        cy.getQuestInfo('✓ 搜索卷軸').should('be.visible')
+        cy.getQuestInfo('查看卷軸').should('be.visible')
         cy.getQuestInfo('✓ 搜索卷軸').should('be.visible')
         cy.getQuestInfo('查看卷軸').should('be.visible')
         // Stage3
