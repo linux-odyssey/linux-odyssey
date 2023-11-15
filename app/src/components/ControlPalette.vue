@@ -1,6 +1,15 @@
+<script setup>
+import { createSession } from '../store/session'
+
+const reset = async () => {
+  console.log('resetting...')
+  await createSession()
+}
+</script>
+
 <template>
   <section class="h-[10%] p-3 grid grid-cols-3 gap-4 place-content-between">
-    <button id="solution" class="bg-bg-disabled rounded-lg p-2">
+    <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
       <font-awesome-icon
         :icon="['far', 'circle-question']"
         class="text-text-disabled"
@@ -14,7 +23,7 @@
       />
       <p class="text-text-primary inline ml-1">Reset</p>
     </button>
-    <button id="continue" class="bg-bg-disabled rounded-lg p-2">
+    <button disabled id="continue" class="bg-bg-disabled rounded-lg p-2">
       <font-awesome-icon
         :icon="['far', 'circle-right']"
         class="text-text-disabled"
@@ -23,12 +32,3 @@
     </button>
   </section>
 </template>
-
-<script setup>
-import { createSession } from '../store/session'
-
-const reset = async () => {
-  console.log('resetting...')
-  await createSession()
-}
-</script>

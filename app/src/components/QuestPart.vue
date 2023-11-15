@@ -4,14 +4,14 @@ import sessionStore from '../store/session'
 
 <template>
   <div class="h-full w-full max-h-full">
-    <h1 id="topic" class="text-text" v-if="sessionStore.quest">
+    <p id="topic" class="text-text font-black" v-if="sessionStore.quest">
       {{ sessionStore.quest.title }}
-    </h1>
-    <hr class="border-text-tertiary border-2 my-2" />
+    </p>
+    <br />
     <div>
       <div v-if="sessionStore.quest" class="whitespace-pre-wrap">
         <p class="text-text">{{ sessionStore.quest.instruction }}</p>
-        <br />
+        <hr class="border-border border-2 my-2" />
         <p class="text-text">Tasks:</p>
         <ul v-if="sessionStore.session">
           <li v-for="task in sessionStore.session.tasks" :key="task.id">

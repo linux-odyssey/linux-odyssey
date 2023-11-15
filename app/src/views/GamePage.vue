@@ -63,7 +63,7 @@ onMounted(async () => {
       <section id="quest" class="h-2/3 p-3">
         <QuestPart />
       </section>
-      <hr class="border-text-tertiary border" />
+      <hr class="border-border border" />
       <section id="cmdlist" class="h-1/3">
         <CommandlistPart />
       </section>
@@ -73,6 +73,7 @@ onMounted(async () => {
       <section id="terminal" class="h-3/5">
         <TerminalPart />
       </section>
+      <hr class="border-border border" />
       <section id="hint" class="h-2/5">
         <HintPart />
       </section>
@@ -91,4 +92,3 @@ onMounted(async () => {
     <CompleteModal v-if="completed" />
   </div>
 </template>
-<script></script>
