@@ -32,7 +32,7 @@ router.post(
 
 router.post('/register', authenticateRateLimit, registerValidators, register)
 
-router.post('/logout', authenticateRateLimit, logout)
+router.post('/logout', logout)
 
 router.get('/check-username', checkUsernameValidators, (req, res) =>
   res.json({ available: true })

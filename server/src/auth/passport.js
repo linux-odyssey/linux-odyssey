@@ -1,4 +1,5 @@
 import passport from 'passport'
+import { UserProfile } from '@linux-odyssey/models'
 import passwordStrategy from './passwordStrategy.js'
 import jwtStrategy from './jwtStrategy.js'
 import googleStrategy from './googleStrategy.js'
@@ -24,7 +25,10 @@ if (enabledMethods.github) {
 }
 
 passport.serializeUser((user, done) => {
-  process.nextTick(() => {
+  process.nextTick(async () => {
+    if (!(await UserProfile.exists({ user: user._id }))) {
+      UserProfile.create({ user: user._id })
+    }
     done(null, {
       _id: user._id,
       username: user.username,

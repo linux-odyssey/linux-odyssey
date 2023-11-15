@@ -1,8 +1,11 @@
 import { reactive } from 'vue'
+import { useToast } from 'vue-toastification'
 import { FileGraph } from '@linux-odyssey/file-graph'
 import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
+
+const toast = useToast()
 
 function newSession() {
   const graph = new FileGraph({
@@ -36,30 +39,39 @@ function setQuest(questId) {
 }
 
 async function setSession(session) {
-  store.session = session
-  store.session.graph = new FileGraph(session.graph)
-  term.reset()
-  await socket.connect(session)
-  term.focus()
+  try {
+    store.session = session
+    store.session.graph = new FileGraph(session.graph)
+    term.reset()
+    await socket.connect(session)
+    term.focus()
+  } catch (err) {
+    console.error(err)
+    toast.error(err.message)
+    throw err
+  }
 }
 
 export async function createSession() {
-  console.log('Creating a new session...')
-  const res = await api.post('/sessions', { quest_id: store.questId })
-  const { data } = res
-  await setSession(data)
+  try {
+    console.log('Creating a new session...')
+    const res = await api.post('/sessions', { questId: store.questId })
+    const { data } = res
+    await setSession(data)
+  } catch (err) {
+    console.error(err)
+    toast.error('Failed to create a new session. Please try again later.')
+  }
 }
 
 async function getActiveSession(questId) {
-  const res = await api.post('/sessions/active', {
-    quest_id: questId,
-  })
-  const session = res.data
   try {
-    await setSession(session)
+    const res = await api.post('/sessions/active', { questId })
+    await setSession(res.data)
   } catch (err) {
-    console.log(err)
-    await createSession().catch(console.error)
+    console.error(err)
+    toast.warning('Failed to connect previous session. Creating a new one...')
+    await createSession()
   }
 }
 

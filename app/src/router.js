@@ -8,7 +8,12 @@ import { isLoggedIn } from './utils/auth'
 const routes = [
   {
     path: '/',
-    redirect: '/game',
+    redirect: {
+      name: 'game',
+      params: {
+        questId: 'helloworld',
+      },
+    },
   },
   {
     path: '/login',
@@ -23,9 +28,10 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
-    path: '/game',
+    path: '/game/:questId',
     name: 'game',
     component: GamePage,
+    props: true,
     meta: { requiresAuth: true },
   },
   {
@@ -54,6 +60,9 @@ router.beforeEach(async (to, from, next) => {
   } else if (to.meta.requiresGuest && loggedIn) {
     next({
       name: 'game', // Or any default authenticated user route
+      params: {
+        questId: 'helloworld',
+      },
     })
   } else {
     next() // Always call next() at the end

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 import api from '../utils/api'
 
 const emit = defineEmits(['onSubmit', 'onChange'])
@@ -24,6 +25,7 @@ const username = ref('')
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const toast = useToast()
 
 const availableMethods = ref({})
 onMounted(async () => {
@@ -39,11 +41,10 @@ const hasSocialLogins = computed(() => {
 })
 
 const success = () => {
-  router.push({ name: 'game' })
+  router.push({ name: 'game', params: { questId: 'helloworld' } })
 }
 
 const error = (err) => {
-  console.error(err)
   errorMessage.value = err
 }
 
@@ -62,8 +63,8 @@ const handleSubmit = () => {
       error,
     })
   } catch (err) {
+    toast.error('Something went wrong.')
     console.error(err)
-    errorMessage.value = 'Something went wrong'
   }
 }
 
