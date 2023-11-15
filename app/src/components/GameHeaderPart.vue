@@ -34,7 +34,7 @@ const handleLogout = async () => {
         <button id="backward" class="flex items-center h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'arrow-left']"
-            class="text-text-tertiary h-full w-full"
+            class="text-border h-full w-full"
           />
         </button> -->
         <p

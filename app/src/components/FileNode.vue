@@ -1,12 +1,3 @@
-<template>
-  <a href="#" :class="nodeClass()">{{ node.discovered ? node.name : '???' }}</a>
-  <ul :class="nodeClass()" v-if="node.children && node.children.length > 0">
-    <li :class="nodeClass()" v-for="child in node.children" :key="child.path">
-      <FileNode :node="child" :pwd="pwd" />
-    </li>
-  </ul>
-</template>
-
 <script setup>
 const props = defineProps({
   node: {
@@ -27,3 +18,12 @@ function nodeClass() {
   return classes
 }
 </script>
+
+<template>
+  <a href="#" :class="nodeClass()">{{ node.discovered ? node.name : '???' }}</a>
+  <ul :class="nodeClass()" v-if="node.children && node.children.length > 0">
+    <li :class="nodeClass()" v-for="child in node.children" :key="child.path">
+      <FileNode :node="child" :pwd="pwd" />
+    </li>
+  </ul>
+</template>

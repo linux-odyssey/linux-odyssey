@@ -1,9 +1,3 @@
-<template>
-  <div id="box">
-    <canvas ref="canvas"></canvas>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 
@@ -78,6 +72,12 @@ onMounted(() => {
   update()
 })
 </script>
+
+<template>
+  <div id="box">
+    <canvas ref="canvas"></canvas>
+  </div>
+</template>
 
 <style scoped>
 #box {
