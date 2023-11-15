@@ -3,6 +3,7 @@ import GamePage from './views/GamePage.vue'
 import LoginPage from './views/LoginPage.vue'
 import RegisterPage from './views/RegisterPage.vue'
 import ChooseUsernamePage from './views/ChooseUsernamePage.vue'
+import QuestMapPage from './views/QuestMapPage.vue'
 import { isLoggedIn } from './utils/auth'
 
 const routes = [
@@ -39,6 +40,12 @@ const routes = [
     name: 'choose-username',
     component: ChooseUsernamePage,
     meta: { requiresGuest: true },
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: QuestMapPage,
+    meta: { requiresAuth: true },
   },
 ]
 
