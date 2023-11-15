@@ -2,9 +2,6 @@ export default class DAG {
   constructor(nodes) {
     this.nodes = new Map(nodes.map((node) => [node._id, node]))
     this.edges = new Set()
-  }
-
-  format() {
     this.nodes.forEach((_, id) => {
       this.setLayer(id)
       this.addEdges(id)

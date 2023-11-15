@@ -13,7 +13,6 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    dag.format()
     expect(dag.get('helloworld').layer).toBe(1)
     expect(dag.get('spell').layer).toBe(2)
   })
@@ -33,7 +32,6 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    dag.format()
     expect(dag.get('helloworld').layer).toBe(1)
     expect(dag.get('spell').layer).toBe(2)
     expect(dag.get('discover').layer).toBe(2)
@@ -54,7 +52,6 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    dag.format()
     expect(dag.get('A').layer).toBe(1)
     expect(dag.get('B').layer).toBe(1)
     expect(dag.get('C').layer).toBe(2)
@@ -79,7 +76,6 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    dag.format()
     expect(dag.get('A').layer).toBe(1)
     expect(dag.get('B').layer).toBe(1)
     expect(dag.get('C').layer).toBe(2)
@@ -101,7 +97,6 @@ describe('dag edges', () => {
     ]
 
     const dag = new DAG(data)
-    dag.format()
     expect(dag.edges).toEqual(new Set([['helloworld', 'spell']]))
   })
 
@@ -122,7 +117,6 @@ describe('dag edges', () => {
     ]
 
     const dag = new DAG(data)
-    dag.format()
     expect(dag.edges).toEqual(
       new Set([
         ['helloworld', 'discover'],
