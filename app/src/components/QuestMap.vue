@@ -1,20 +1,14 @@
 <template>
   <div>
     <h1 class="text-text-primary text-xl">Quest Map</h1>
-    <!-- <div class="flex flex-col items-center">
-      <div v-for="layer in layers" :key="layer" class="flex flex-row">
-        <div v-for="node in layer" :key="node.name">
-          <div class="text-text m-5">{{ node.name }}</div>
-        </div>
-      </div>
-    </div> -->
-    <div ref="chartContainer" style="width: 410px; height: 450px"></div>
+    <div ref="chartContainer" style="width: 600px; height: 600px"></div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 import { use, init } from 'echarts/core'
 import { GraphChart } from 'echarts/charts'
 import { SVGRenderer } from 'echarts/renderers'
@@ -40,10 +34,17 @@ async function getQuests() {
   }
 }
 
+async function getProgress() {
+  try {
+    const res = await api.get('/users/me')
+    return res.data.progress
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
+}
+
 const genOption = (nodes, edges) => ({
-  title: {
-    text: 'Quest Map',
-  },
   rendener: 'svg',
   tooltip: {},
   animationDurationUpdate: 1500,
@@ -74,15 +75,20 @@ const genOption = (nodes, edges) => ({
   ],
 })
 
-function getOption(quests) {
+function getOption(quests, progress) {
   const dag = new DAG(quests)
+  console.log(progress)
 
   const nodes = dag.getNodes().map((node) => ({
     id: node._id,
     name: node.title,
     x: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
     y: marginY * node.layer,
+    completed: progress[node._id]?.completed || false,
+    unlocked: node.requirements.every((req) => progress[req]?.completed),
   }))
+
+  console.log(nodes)
 
   const edges = dag.getEdgesArray().map((edge) => ({
     source: edge[0],
@@ -92,6 +98,7 @@ function getOption(quests) {
 }
 
 const router = useRouter()
+const toast = useToast()
 
 function initChart(option) {
   console.log('initChart', chartContainer.value)
@@ -99,16 +106,21 @@ function initChart(option) {
   chartInstance.setOption(option)
   chartInstance.on('click', (params) => {
     const {
-      data: { id },
+      data: { id, unlocked },
     } = params
 
-    router.push({ name: 'game', params: { questId: id } })
+    if (unlocked) {
+      router.push({ name: 'game', params: { questId: id } })
+    } else {
+      toast.warning('You have not completed the previous quest yet!')
+    }
   })
 }
 
 onMounted(async () => {
   const quests = await getQuests()
-  const option = getOption(quests)
+  const progress = await getProgress()
+  const option = getOption(quests, progress)
   initChart(option)
 })
 </script>
