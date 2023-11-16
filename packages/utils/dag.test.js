@@ -125,3 +125,41 @@ describe('dag edges', () => {
     )
   })
 })
+
+describe('dag layers', () => {
+  it('two layer', () => {
+    const data = [
+      {
+        _id: 'helloworld',
+        requirements: [],
+      },
+      {
+        _id: 'spell',
+        requirements: ['helloworld'],
+      },
+    ]
+
+    const dag = new DAG(data)
+    expect(dag.getLayers()).toEqual([1, 1])
+  })
+
+  it('branch layers', () => {
+    const data = [
+      {
+        _id: 'helloworld',
+        requirements: [],
+      },
+      {
+        _id: 'spell',
+        requirements: ['helloworld'],
+      },
+      {
+        _id: 'discover',
+        requirements: ['helloworld'],
+      },
+    ]
+
+    const dag = new DAG(data)
+    expect(dag.getLayers()).toEqual([1, 2])
+  })
+})

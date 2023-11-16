@@ -30,6 +30,18 @@ export default class DAG {
     return Array.from(this.#edges.values())
   }
 
+  getLayers() {
+    return this.#layers
+  }
+
+  getLayer(id) {
+    const node = this.getNode(id)
+    if (!node) {
+      throw new Error(`Node ${id} not found`)
+    }
+    return this.#layers[node.layer - 1]
+  }
+
   #setLayer(id) {
     const node = this.getNode(id)
     if (!node) {

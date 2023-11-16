@@ -53,12 +53,15 @@ const data = [
   },
 ]
 
+const marginX = 100
+const marginY = 100
+
 const dag = new DAG(data)
 const nodes = dag.getNodes().map((node) => ({
   id: node._id,
   name: node.title,
-  x: 50 * node.index,
-  y: 100 * node.layer,
+  x: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
+  y: marginY * node.layer,
 }))
 
 const edges = dag.getEdgesArray().map((edge) => ({
