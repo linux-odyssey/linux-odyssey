@@ -16,13 +16,13 @@ import { globalRateLimit } from './middleware/rateLimiter.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 import setupTest from './utils/setupTest.js'
+import logger from './utils/logger.js'
 
 async function main() {
   if (!config.secret) {
-    console.warn(
-      'No SECRET_KEY found in .env! To set up a persistent key, please run the setup script:'
+    logger.error(
+      'No SECRET_KEY found in .env! To set up a persistent key, please run `yarn setup`:'
     )
-    console.warn('yarn setup')
     process.exit(1)
   }
 
