@@ -78,3 +78,41 @@ export async function deleteContainer(id) {
   }
   await container.remove()
 }
+
+export function buildQuestImage(questPath, questId) {
+  return new Promise((resolve, reject) => {
+    engine.buildImage(
+      {
+        context: questPath,
+        src: ['Dockerfile', 'home'],
+      },
+      { t: `${config.dockerImage}:${questId}` },
+      (err, response) => {
+        if (err) {
+          reject(err)
+        }
+        response.on('data', (data) => {
+          // Process the data (this could be Docker build output)
+          const { stream, error } = JSON.parse(data.toString())
+          if (stream) {
+            console.log(stream)
+          }
+          if (error) {
+            console.error(error)
+            reject(error)
+          }
+        })
+
+        response.on('end', () => {
+          console.log(`Build completed for ${questId}`)
+          resolve(questId)
+        })
+
+        response.on('error', (error) => {
+          console.error(`Build failed for ${questId}:`, error)
+          reject(error)
+        })
+      }
+    )
+  })
+}

@@ -23,7 +23,8 @@
     "test:e2e": "yarn workspace tests test",
     "analytics": "yarn workspace analytics dev",
     "setup": "yarn workspace server setup",
-    "clean": "yarn workspace server clean"
+    "clean": "yarn workspace server clean",
+    "build:image": "yarn workspace server build"
   },
   "devDependencies": {
     "@vue/eslint-config-prettier": "^7.1.0",
