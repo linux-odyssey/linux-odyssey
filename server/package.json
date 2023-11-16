@@ -9,7 +9,7 @@
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "setup": "node src/cli/setup.js",
     "clean": "node src/cli/clean.js",
-    "build": "node src/cli/build.js"
+    "build:quests": "node src/cli/build.js"
   },
   "dependencies": {
     "@linux-odyssey/constants": "*",

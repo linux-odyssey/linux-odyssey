@@ -33,8 +33,8 @@ jobs:
       - name: Build Test Environment, Stage 1
         run: docker-compose -f docker-compose.testing.yml build base backend app-test
 
-      - name: Build Test Environment, Stage 2
-        run: docker-compose -f docker-compose.testing.yml build helloworld
+      - name: Build Test Quests
+        run: docker-compose -f docker-compose.testing.yml run --rm backend yarn build:quests
 
       - name: Run Cypress Tests
         env:
@@ -98,14 +98,6 @@ jobs:
           file: ./quests/Dockerfile
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:base
-
-      - name: Build quest helloworld
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./quests/helloworld/Dockerfile
-          push: true
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-odyssey:helloworld
 
   deploy:
     needs: build-and-push

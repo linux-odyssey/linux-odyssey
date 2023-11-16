@@ -24,7 +24,7 @@
     "analytics": "yarn workspace analytics dev",
     "setup": "yarn workspace server setup",
     "clean": "yarn workspace server clean",
-    "build:image": "yarn workspace server build"
+    "build:quests": "yarn workspace server build:quests"
   },
   "devDependencies": {
     "@vue/eslint-config-prettier": "^7.1.0",
