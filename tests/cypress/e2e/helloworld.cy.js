@@ -128,7 +128,7 @@ describe('example helloworld app', () => {
         .should('contain', 'zsh: command not found: 12345')
         .and('contain', '12345')
     })
-    it('Complete the Game', () => {
+    it.only('Complete the Game(relating UI)', () => {
       // get answersheet
       cy.get('@answers').then((answers) => {
         const answerarr = answers.split('\n')

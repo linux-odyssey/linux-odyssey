@@ -59,3 +59,6 @@ Cypress.Commands.add('checkPending', () => {
     'pending'
   )
 })
+Cypress.Commands.add('Complete the Stage (only command)', () => {
+  cy.log('')
+})
