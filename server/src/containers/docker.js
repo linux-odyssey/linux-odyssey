@@ -86,7 +86,11 @@ export function buildQuestImage(questPath, questId) {
         context: questPath,
         src: ['Dockerfile', 'home'],
       },
-      { t: `${config.dockerImage}:${questId}` },
+      {
+        t: `${config.dockerImage}:${questId}`,
+        networkmode: 'none',
+        memory: 10 * 1e6,
+      },
       (err, response) => {
         if (err) {
           reject(err)
