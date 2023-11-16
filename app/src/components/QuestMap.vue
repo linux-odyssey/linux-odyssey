@@ -20,56 +20,27 @@ import { GraphChart } from 'echarts/charts'
 import { SVGRenderer } from 'echarts/renderers'
 import { TitleComponent, TooltipComponent } from 'echarts/components'
 import { DAG } from '@linux-odyssey/utils'
+import api from '../utils/api'
+
+const marginX = 100
+const marginY = 100
 
 const chartContainer = ref(null)
 let chartInstance = null
 
 use([GraphChart, SVGRenderer, TitleComponent, TooltipComponent])
 
-const data = [
-  {
-    _id: 'discover',
-    title: 'Discover the World!',
-    requirements: ['spell'],
-  },
-  {
-    _id: 'read',
-    title: 'Read the File',
-    requirements: ['spell'],
-  },
-  {
-    _id: 'helloworld',
-    title: 'Hello, Linux World!',
-    requirements: [],
-  },
-  {
-    _id: 'spell',
-    title: 'Learn to spell',
-    requirements: ['helloworld'],
-  },
-  {
-    _id: 'move',
-    requirements: ['read', 'discover'],
-  },
-]
+async function getQuests() {
+  try {
+    const res = await api.get('/quests')
+    return res.data
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
+}
 
-const marginX = 100
-const marginY = 100
-
-const dag = new DAG(data)
-const nodes = dag.getNodes().map((node) => ({
-  id: node._id,
-  name: node.title,
-  x: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
-  y: marginY * node.layer,
-}))
-
-const edges = dag.getEdgesArray().map((edge) => ({
-  source: edge[0],
-  target: edge[1],
-}))
-
-const option = {
+const genOption = (nodes, edges) => ({
   title: {
     text: 'Quest Map',
   },
@@ -101,16 +72,32 @@ const option = {
       },
     },
   ],
+})
+
+function getOption(quests) {
+  const dag = new DAG(quests)
+
+  const nodes = dag.getNodes().map((node) => ({
+    id: node._id,
+    name: node.title,
+    x: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
+    y: marginY * node.layer,
+  }))
+
+  const edges = dag.getEdgesArray().map((edge) => ({
+    source: edge[0],
+    target: edge[1],
+  }))
+  return genOption(nodes, edges)
 }
 
 const router = useRouter()
 
-function initChart() {
+function initChart(option) {
   console.log('initChart', chartContainer.value)
   chartInstance = init(chartContainer.value)
   chartInstance.setOption(option)
   chartInstance.on('click', (params) => {
-    console.log('click', params)
     const {
       data: { id },
     } = params
@@ -119,7 +106,9 @@ function initChart() {
   })
 }
 
-onMounted(() => {
-  initChart()
+onMounted(async () => {
+  const quests = await getQuests()
+  const option = getOption(quests)
+  initChart(option)
 })
 </script>
