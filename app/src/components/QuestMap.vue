@@ -14,16 +14,17 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { use, init } from 'echarts/core'
 import { GraphChart } from 'echarts/charts'
-import { CanvasRenderer } from 'echarts/renderers'
+import { SVGRenderer } from 'echarts/renderers'
 import { TitleComponent, TooltipComponent } from 'echarts/components'
 import { DAG } from '@linux-odyssey/utils'
 
 const chartContainer = ref(null)
 let chartInstance = null
 
-use([GraphChart, CanvasRenderer, TitleComponent, TooltipComponent])
+use([GraphChart, SVGRenderer, TitleComponent, TooltipComponent])
 
 const data = [
   {
@@ -46,16 +47,21 @@ const data = [
     title: 'Learn to spell',
     requirements: ['helloworld'],
   },
+  {
+    _id: 'move',
+    requirements: ['read', 'discover'],
+  },
 ]
 
 const dag = new DAG(data)
 const nodes = dag.getNodes().map((node) => ({
-  name: node._id,
-  x: 0,
+  id: node._id,
+  name: node.title,
+  x: 50 * node.index,
   y: 100 * node.layer,
 }))
 
-const edges = dag.getEdges().map((edge) => ({
+const edges = dag.getEdgesArray().map((edge) => ({
   source: edge[0],
   target: edge[1],
 }))
@@ -64,7 +70,7 @@ const option = {
   title: {
     text: 'Quest Map',
   },
-  rendener: 'canvas',
+  rendener: 'svg',
   tooltip: {},
   animationDurationUpdate: 1500,
   animationEasingUpdate: 'quinticInOut',
@@ -93,12 +99,21 @@ const option = {
     },
   ],
 }
+
+const router = useRouter()
+
 function initChart() {
   console.log('initChart', chartContainer.value)
   chartInstance = init(chartContainer.value)
   chartInstance.setOption(option)
-  console.log(dag.getNodes())
-  console.log(dag.getEdges())
+  chartInstance.on('click', (params) => {
+    console.log('click', params)
+    const {
+      data: { id },
+    } = params
+
+    router.push({ name: 'game', params: { questId: id } })
+  })
 }
 
 onMounted(() => {
