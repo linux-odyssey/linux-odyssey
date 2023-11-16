@@ -79,6 +79,10 @@ const Quest = model(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      required: true,
+    },
     requirements: {
       type: [
         {

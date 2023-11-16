@@ -7,31 +7,38 @@ import { Quest } from '@linux-odyssey/models'
 const questDirectory = path.join(process.cwd(), '..', 'quests')
 
 export default async function loadAndUpdateQuests() {
-  const questNames = await fs.readdir(questDirectory)
+  const questNames = await fs.readdir(questDirectory, {
+    withFileTypes: true,
+  })
 
   const quests = Promise.all(
     questNames
-      .filter((name) => !name.startsWith('.'))
-      .map(async (id) => {
-        // Check if id is directory
-        const stat = await fs.stat(path.join(questDirectory, id))
-        if (!stat.isDirectory()) {
-          return null
+      .filter((dirent) => dirent.isDirectory() && !dirent.name.startsWith('.'))
+      .map(async (dirent) => {
+        const id = dirent.name
+        const questPath = path.join(questDirectory, id)
+        const files = await fs.readdir(questPath)
+        if (!files.includes('game.yml')) {
+          throw new Error(`Quest ${id} is missing game.yml`)
         }
-        const fullPath = path.join(questDirectory, id, 'game.yml')
 
         try {
-          // Read and parse the README.md file.
-          const body = await fs.readFile(fullPath, 'utf-8')
+          const body = await fs.readFile(
+            path.join(questPath, 'game.yml'),
+            'utf-8'
+          )
 
           const quest = yaml.parse(body, {
             merge: true,
           })
 
+          const image = files.includes('Dockerfile') ? id : 'base'
+
           return Quest.findByIdAndUpdate(
             id,
             {
               _id: id,
+              image,
               ...quest,
             },
             {
