@@ -13,8 +13,8 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    expect(dag.get('helloworld').layer).toBe(1)
-    expect(dag.get('spell').layer).toBe(2)
+    expect(dag.getNode('helloworld').layer).toBe(1)
+    expect(dag.getNode('spell').layer).toBe(2)
   })
   it('branch', () => {
     const data = [
@@ -32,9 +32,9 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    expect(dag.get('helloworld').layer).toBe(1)
-    expect(dag.get('spell').layer).toBe(2)
-    expect(dag.get('discover').layer).toBe(2)
+    expect(dag.getNode('helloworld').layer).toBe(1)
+    expect(dag.getNode('spell').layer).toBe(2)
+    expect(dag.getNode('discover').layer).toBe(2)
   })
   it('merge', () => {
     const data = [
@@ -52,9 +52,9 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    expect(dag.get('A').layer).toBe(1)
-    expect(dag.get('B').layer).toBe(1)
-    expect(dag.get('C').layer).toBe(2)
+    expect(dag.getNode('A').layer).toBe(1)
+    expect(dag.getNode('B').layer).toBe(1)
+    expect(dag.getNode('C').layer).toBe(2)
   })
   it('skip', () => {
     const data = [
@@ -76,10 +76,10 @@ describe('dag layers', () => {
       },
     ]
     const dag = new DAG(data)
-    expect(dag.get('A').layer).toBe(1)
-    expect(dag.get('B').layer).toBe(1)
-    expect(dag.get('C').layer).toBe(2)
-    expect(dag.get('D').layer).toBe(3)
+    expect(dag.getNode('A').layer).toBe(1)
+    expect(dag.getNode('B').layer).toBe(1)
+    expect(dag.getNode('C').layer).toBe(2)
+    expect(dag.getNode('D').layer).toBe(3)
   })
 })
 
@@ -97,7 +97,7 @@ describe('dag edges', () => {
     ]
 
     const dag = new DAG(data)
-    expect(dag.edges).toEqual(new Set([['helloworld', 'spell']]))
+    expect(dag.getEdges()).toEqual(new Set([['helloworld', 'spell']]))
   })
 
   it('branch edges', () => {
@@ -117,7 +117,7 @@ describe('dag edges', () => {
     ]
 
     const dag = new DAG(data)
-    expect(dag.edges).toEqual(
+    expect(dag.getEdges()).toEqual(
       new Set([
         ['helloworld', 'discover'],
         ['helloworld', 'spell'],

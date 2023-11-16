@@ -1,53 +1,61 @@
 export default class DAG {
+  #nodes = new Map()
+
+  #edges = new Set()
+
+  #layers = []
+
   constructor(nodes) {
-    this.nodes = new Map(nodes.map((node) => [node._id, node]))
-    this.edges = new Set()
-    this.layers = []
-    this.nodes.forEach((_, id) => {
-      this.setLayer(id)
-      this.addEdges(id)
+    this.#nodes = new Map(nodes.map((node) => [node._id, node]))
+    this.#edges = new Set()
+    this.#nodes.forEach((_, id) => {
+      this.#setLayer(id)
+      this.#addEdges(id)
     })
   }
 
-  get(id) {
-    return this.nodes.get(id)
+  getNode(id) {
+    return this.#nodes.get(id)
   }
 
   getNodes() {
-    return Array.from(this.nodes.values())
+    return Array.from(this.#nodes.values())
   }
 
   getEdges() {
-    return Array.from(this.edges.values())
+    return this.#edges
   }
 
-  setLayer(id) {
-    console.log(`setLayer(${id})`)
-    const node = this.nodes.get(id)
+  getEdgesArray() {
+    return Array.from(this.#edges.values())
+  }
+
+  #setLayer(id) {
+    const node = this.getNode(id)
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
     if (node.layer !== undefined) {
       return node.layer
     }
-    const previousLayer = node.requirements.map((rId) => this.setLayer(rId))
+    const previousLayer = node.requirements.map((rId) => this.#setLayer(rId))
     node.layer = Math.max(...previousLayer, 0) + 1
-    if (this.layers.length < node.layer) {
-      this.layer.push(1)
+    if (this.#layers.length < node.layer) {
+      this.#layers.push(1)
     } else {
-      this.layers[node.layer - 1] += 1
+      this.#layers[node.layer - 1] += 1
     }
-    node.count = this.layers[node.layer - 1]
+    node.index = this.#layers[node.layer - 1]
     return node.layer
   }
 
-  addEdges(id) {
-    const node = this.nodes.get(id)
+  #addEdges(id) {
+    const node = this.getNode(id)
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
     node.requirements.forEach((rId) => {
-      this.edges.add([rId, id])
+      this.#edges.add([rId, id])
     })
   }
 }
