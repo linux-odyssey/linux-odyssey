@@ -45,6 +45,9 @@ services:
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
       - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - TESTING=true
+      - TESTING_USERNAME=alex
+      - TESTING_PASSWORD=Alex1234
 
   analytics:
     build:

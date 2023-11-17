@@ -15,6 +15,7 @@ import errorHandler from './middleware/error.js'
 import { globalRateLimit } from './middleware/rateLimiter.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
+import setupTest from './utils/test.js'
 
 async function main() {
   if (!config.secret) {
@@ -31,6 +32,10 @@ async function main() {
   } catch (err) {
     console.error(err)
     process.exit(1)
+  }
+
+  if (config.testing.enabled) {
+    await setupTest()
   }
 
   await loadAndUpdateQuests()

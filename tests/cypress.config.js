@@ -1,9 +1,17 @@
 const { defineConfig } = require('cypress')
 const process = require('process')
-require('dotenv').config()
+require('dotenv').config({ path: '../.env' })
 
 const getConfig = (key, defaultValue) => {
   return process.env[key] || defaultValue
+}
+
+const getOrFail = (key) => {
+  const value = getConfig(key)
+  if (!value) {
+    throw new Error(`Missing required environment variable ${key}`)
+  }
+  return value
 }
 
 module.exports = defineConfig({
@@ -14,9 +22,8 @@ module.exports = defineConfig({
     pageLoadTimeout: 120000,
   },
   env: {
-    ...process.env,
-    defaultAccount: process.env.default_USERNAME,
-    defaultPassword: process.env.default_PASSWORD,
+    defaultAccount: getOrFail('TESTING_USERNAME'),
+    defaultPassword: getOrFail('TESTING_PASSWORD'),
     // google_username: process.env.GOOGLE_USERNAME,
     // google_password: process.env.GOOGLE_PASSWORD,
     // google_client_id: process.env.GOOGLE_CLIENT_ID,
