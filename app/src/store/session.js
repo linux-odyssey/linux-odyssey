@@ -4,6 +4,7 @@ import { FileGraph } from '@linux-odyssey/file-graph'
 import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
+import { LoadQuestError, LoadSessionError } from '../utils/errors'
 
 const toast = useToast()
 
@@ -32,7 +33,7 @@ const socket = new Socket()
 const term = new SocketTerminal(40, 80)
 
 function setQuest(questId) {
-  api.get(`/quests/${questId}`).then((res) => {
+  return api.get(`/quests/${questId}`).then((res) => {
     store.questId = res.data._id
     store.quest = res.data
   })
@@ -108,9 +109,20 @@ export function reset() {
 }
 
 export async function init(questId) {
+  if (!questId) throw new Error('No quest ID provided')
   reset()
-  await setQuest(questId)
-  await getActiveSession(questId)
+  try {
+    await setQuest(questId)
+  } catch (err) {
+    console.error(err)
+    throw new LoadQuestError('Failed to load quest', questId)
+  }
+  try {
+    await getActiveSession(questId)
+  } catch (err) {
+    console.error(err)
+    throw new LoadSessionError('Failed to load session', questId)
+  }
 }
 
 function setup() {

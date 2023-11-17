@@ -4,7 +4,7 @@ import {
   createNewSession,
   getOrCreateActiveSession,
   isQuestUnlocked,
-} from '../../game/sessionManager.js'
+} from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 
 function sessionSummary(session) {

@@ -1,6 +1,6 @@
 import { Session, Quest, UserProfile } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
-import SessionHandler from './sessionHandler.js'
+import SessionHandler from '../game/sessionHandler.js'
 
 async function deactivateSessions(user, quest) {
   const sessions = await Session.find({

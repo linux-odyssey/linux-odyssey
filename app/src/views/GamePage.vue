@@ -10,6 +10,7 @@ import TerminalPart from '../components/TerminalPart.vue'
 import VisualizationPart from '../components/VisualizationPart.vue'
 import ControlPalette from '../components/ControlPalette.vue'
 import CompleteModal from '../components/CompleteModal.vue'
+import { LoadQuestError, LoadSessionError } from '../utils/errors'
 
 const completed = computed(() => {
   return sessionStore.session.status === 'finished'
@@ -28,8 +29,18 @@ onMounted(async () => {
   try {
     await init(props.questId)
   } catch (err) {
+    if (err instanceof LoadQuestError) {
+      toast.error(`Failed to load quest: ${err.questId}. Please check the URL.`)
+      return
+    }
+    if (err instanceof LoadSessionError) {
+      toast.error(
+        `Failed to create session for quest: ${err.questId}. Please re-login and try again.`
+      )
+      return
+    }
     console.error(err)
-    toast.error('Failed to initialize game session')
+    toast.error(err.message)
   }
 })
 </script>
