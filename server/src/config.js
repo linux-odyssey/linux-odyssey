@@ -40,6 +40,9 @@ const config = {
   trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
   surveyUrl: getUrl('SURVEY_URL', ''),
   bugReportUrl: getUrl('BUG_REPORT_URL', ''),
+  dockerImage: get('DOCKER_IMAGE', 'lancatlin/linux-odyssey'),
+
+  mountQuest: get('MOUNT_QUEST', ''),
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)

@@ -33,7 +33,8 @@ export async function createNewSession(user, questId) {
   })
 
   const container = await createContainer(
-    `quest-${quest.id}-${user.username}-${Date.now()}`
+    `quest-${quest.id}-${user.username}-${Date.now()}`,
+    quest.image
   )
 
   const sessionHandler = new SessionHandler(

@@ -23,6 +23,33 @@ If you want to enable social login, you should have OAuth client token in a `.en
 
     docker compose --env-file .env up -d
 
+### Build Quest Images
+
+In each quest folder, there is a `game.yml` file, which is the quest definition. And a optional `Dockerfile` to overwrite the base image. If you want to include additional files, put them in a `home` folder. The files in `home` will **not** be copied to the image automatically, you have to copy them in the `Dockerfile`.
+
+    quests/
+    ├── Dockerfile      # Base image
+    ├── discover
+    │   └── game.yml
+    ├── helloworld
+    │   ├── Dockerfile  # Overwrite the image
+    │   ├── game.yml
+    │   └── home        # Include additional files
+    │       └── forgotten_scroll.txt
+    ├── read
+    │   └── game.yml
+    └── spell
+        ├── Dockerfile
+        ├── game.yml
+        └── home
+            └── ancient_scroll.txt
+
+To build all quests:
+
+    yarn build:quests
+
+The base image is built with docker-compose, so you can use `docker compose build base` to rebuild it. Once you rebuild the base image, you have to rebuild all quests.
+
 ## Testing
 
 Run Cypress locally, using the current development containers:
