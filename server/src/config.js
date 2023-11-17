@@ -40,13 +40,13 @@ const config = {
   trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
   surveyUrl: getUrl('SURVEY_URL', ''),
   bugReportUrl: getUrl('BUG_REPORT_URL', ''),
-  testing: {
-    enabled: process.env.TESTING === 'true',
-    username: get('TESTING_USERNAME', ''),
-    password: get('TESTING_PASSWORD', ''),
-  },
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
+config.testing = {
+  enabled: !config.isProduction && process.env.TESTING === 'true',
+  username: get('TESTING_USERNAME', ''),
+  password: get('TESTING_PASSWORD', ''),
+}
 
 export default config
