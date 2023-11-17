@@ -44,9 +44,6 @@ jobs:
           GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
         run: docker-compose -f docker-compose.testing.yml run cypress
 
-      - name: Tear Down Test Environment
-        run: docker-compose -f docker-compose.testing.yml down
-
   build-and-push:
     needs:
       - ci
