@@ -13,7 +13,9 @@ Cypress.Commands.add('PrepareForGame', () => {
     Cypress.env('defaultAccount'),
     Cypress.env('defaultPassword')
   )
-  cy.get('.xterm-screen').as('Terminaltextbox').should('be.visible')
+  cy.get('.xterm-screen', { timeout: 150000 })
+    .as('Terminaltextbox')
+    .should('be.visible')
   cy.findByRole('button', { name: 'Reset' }).click()
   cy.typeInCommand('clear{enter}')
   cy.get('@Terminaltextbox', { timeout: 150000 }).should(
