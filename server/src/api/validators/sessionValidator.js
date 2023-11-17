@@ -1,8 +1,14 @@
 import { check } from 'express-validator'
+import { checkQuestId } from './questValidator.js'
 import { noError } from '../../middleware/validator.js'
 
-const checkQuestId = () =>
-  check('quest_id').notEmpty().isString().isLowercase().isLength({ max: 64 })
+const checkSessionStatus = () =>
+  check('status').isString().isIn(['active', 'inactive', 'finished'])
 
+export const checkSessionId = () =>
+  check('sessionId').notEmpty().isString().isMongoId()
+
+export const sessionListValidator = [checkQuestId(), checkSessionStatus()]
+export const sessionDetailValidator = [checkSessionId(), noError]
 export const createSessionValidator = [checkQuestId(), noError]
 export const activeSessionValidator = [checkQuestId(), noError]

@@ -54,7 +54,10 @@ const stageSchema = new Schema({
     required: true,
     default: false,
   },
-  condition: conditionSchema,
+  condition: {
+    type: conditionSchema,
+    required: true,
+  },
   responses: {
     type: [responseSchema],
     required: true,
@@ -68,11 +71,31 @@ const stageSchema = new Schema({
 const Quest = model(
   'Quest',
   new Schema({
-    _id: String,
-    title: String,
-    order: Number,
-    instruction: String,
-    stages: [stageSchema],
+    _id: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    requirements: {
+      type: [
+        {
+          type: String,
+          ref: 'Quest',
+        },
+      ],
+      required: true,
+    },
+    instruction: {
+      type: String,
+      required: true,
+    },
+    stages: {
+      type: [stageSchema],
+      required: true,
+    },
   })
 )
 

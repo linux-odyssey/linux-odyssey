@@ -12,7 +12,7 @@ class SocketWrapper {
 
       this.socket = io('', {
         query: {
-          session_id: session._id,
+          sessionId: session._id,
         },
       })
 
@@ -23,7 +23,7 @@ class SocketWrapper {
       this.socket.once('terminal', () => {
         resolve()
       })
-      this.socket.once('error', reject)
+      this.socket.on('connect_error', reject)
       this.bindListeners()
     })
   }

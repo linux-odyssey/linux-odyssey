@@ -1,23 +1,25 @@
 import { Quest } from '@linux-odyssey/models'
+import { matchedData } from 'express-validator'
+import { asyncHandler } from '../../middleware/error.js'
 
-export async function getQuests(req, res) {
-  const quests = await Quest.find({}).sort({ order: 1 })
+export const getQuests = asyncHandler(async (req, res) => {
+  const quests = await Quest.find({})
   res.json(
-    quests.map(({ title, order, _id }) => ({
+    quests.map(({ title, _id, requirements }) => ({
       _id,
       title,
-      order,
+      requirements,
     }))
   )
-}
+})
 
-export async function getQuestDetail(req, res) {
-  const { id } = req.params
-  const quest = await Quest.findById(id)
+export const getQuestDetail = asyncHandler(async (req, res) => {
+  const { questId } = matchedData(req)
+  const quest = await Quest.findById(questId)
   if (!quest) {
     res.status(404).json({ message: 'Quest not found.' })
     return
   }
   const { _id, title, order, instruction } = quest
   res.json({ _id, title, order, instruction })
-}
+})

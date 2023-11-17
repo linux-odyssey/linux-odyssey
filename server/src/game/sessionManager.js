@@ -1,4 +1,4 @@
-import { Session, Quest } from '@linux-odyssey/models'
+import { Session, Quest, UserProfile } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
 import SessionHandler from './sessionHandler.js'
 
@@ -48,6 +48,23 @@ export async function createNewSession(user, questId) {
 
   const session = sessionHandler.getSession()
   await session.save()
+
+  const userProfile = await UserProfile.findOne({ user: user._id })
+  if (!userProfile) {
+    throw new Error(`UserProfile ${user._id} not found`)
+  }
+
+  const progress = userProfile.progress.get(quest._id)
+  if (!progress) {
+    userProfile.progress.set(quest._id, {
+      quest: quest._id,
+      sessions: [session._id],
+      startedAt: new Date(),
+    })
+  } else {
+    progress.sessions.push(session._id)
+  }
+  await userProfile.save()
   return session
 }
 
@@ -61,4 +78,39 @@ export async function getOrCreateActiveSession(user, questId) {
     return session
   }
   return createNewSession(user, questId)
+}
+
+export async function finishSession(session) {
+  session.status = 'finished'
+  await session.save()
+
+  const userProfile = await UserProfile.findOne({ user: session.user })
+  if (!userProfile) {
+    throw new Error(`UserProfile ${session.user} not found`)
+  }
+
+  const progress = userProfile.progress.get(session.quest)
+  if (!progress) {
+    throw new Error(`Progress ${session.quest} not found`)
+  }
+  if (!progress.completed) {
+    progress.finishedAt = new Date()
+    progress.completed = true
+  }
+  await userProfile.save()
+}
+
+export async function isQuestUnlocked(user, questId) {
+  const userProfile = await UserProfile.findOne({ user: user._id })
+  if (!userProfile) {
+    throw new Error(`UserProfile ${user._id} not found`)
+  }
+  const quest = await Quest.findById(questId)
+  if (!quest) {
+    throw new Error(`Quest ${questId} not found`)
+  }
+  return quest.requirements.every((requiredQuestId) => {
+    const progress = userProfile.progress.get(requiredQuestId)
+    return progress && progress.completed
+  })
 }

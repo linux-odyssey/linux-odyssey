@@ -1,12 +1,13 @@
 <script setup>
-import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 import { logout } from '../utils/auth'
 import { bugReportUrl } from '../config'
-import api from '../utils/api'
-import { reset } from '../store/session'
+import sessionStore, { reset } from '../store/session'
 
 const router = useRouter()
+
+const toast = useToast()
 
 const handleLogout = async () => {
   try {
@@ -14,21 +15,10 @@ const handleLogout = async () => {
     reset()
     router.push({ name: 'login' })
   } catch (err) {
+    toast.error('Failed to logout')
     console.error(err)
   }
 }
-
-const questData = ref(null)
-const questErr = ref(null)
-
-onMounted(async () => {
-  try {
-    const res = await api.get('/quests/helloworld')
-    questData.value = res.data
-  } catch (err) {
-    questErr.value = err
-  }
-})
 </script>
 
 <template>
@@ -47,14 +37,12 @@ onMounted(async () => {
             class="text-text-tertiary h-full w-full"
           />
         </button> -->
-        <button>
-          <p
-            class="text-text-primary inline-block font-bold whitespace-nowrap"
-            v-if="questData"
-          >
-            {{ questData.title }}
-          </p>
-        </button>
+        <p
+          class="text-text-primary inline-block font-bold whitespace-nowrap"
+          v-if="sessionStore.quest"
+        >
+          {{ sessionStore.quest.title }}
+        </p>
       </div>
       <div class="h-full w-full flex gap-3 items-center justify-end">
         <!-- <button id="warning" class="flex items-center h-5 w-5">

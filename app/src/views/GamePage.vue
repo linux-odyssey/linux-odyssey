@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
+import { useToast } from 'vue-toastification'
 import sessionStore, { init } from '../store/session'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 import CommandlistPart from '../components/CommandlistPart.vue'
@@ -14,8 +15,22 @@ const completed = computed(() => {
   return sessionStore.session.status === 'finished'
 })
 
+const props = defineProps({
+  questId: {
+    type: String,
+    required: true,
+  },
+})
+
+const toast = useToast()
+
 onMounted(async () => {
-  await init('helloworld')
+  try {
+    await init(props.questId)
+  } catch (err) {
+    console.error(err)
+    toast.error('Failed to initialize game session')
+  }
 })
 </script>
 

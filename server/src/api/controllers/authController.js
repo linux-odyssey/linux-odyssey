@@ -1,8 +1,9 @@
 import { matchedData } from 'express-validator'
 import { User } from '@linux-odyssey/models'
 import { genJWT, hashPassword } from '../../utils/auth.js'
+import { asyncHandler } from '../../middleware/error.js'
 
-export async function issueToken(req, res) {
+export const issueToken = asyncHandler(async (req, res) => {
   const { user } = req
   const token = await genJWT({
     _id: user.id,
@@ -10,34 +11,27 @@ export async function issueToken(req, res) {
     email: user.email,
   })
   res.json({ token })
-}
+})
 
-export async function register(req, res, next) {
+export const register = asyncHandler(async (req, res, next) => {
   const { username, password, email } = matchedData(req)
 
   const user = new User({
     username,
     email,
   })
-  try {
-    user.hashedPassword = await hashPassword(password)
-    await user.save()
-    req.login(user, (err) => {
-      if (err) {
-        next(err)
-        return
-      }
-      res.status(201).json({
-        message: 'user created',
-      })
+  user.hashedPassword = await hashPassword(password)
+  await user.save()
+  req.login(user, (err) => {
+    if (err) {
+      next(err)
+      return
+    }
+    res.status(201).json({
+      message: 'user created',
     })
-  } catch (err) {
-    console.error(err)
-    res.status(500).json({
-      message: 'error registering user',
-    })
-  }
-}
+  })
+})
 
 export function logout(req, res) {
   req.logout((err) => {
@@ -60,7 +54,7 @@ export function checkSession(req, res) {
   })
 }
 
-export async function socialLogin(req, res) {
+export function socialLogin(req, res) {
   const { newUser } = req.user
   if (newUser) {
     req.session.newUser = newUser
@@ -70,7 +64,7 @@ export async function socialLogin(req, res) {
   res.redirect('/')
 }
 
-export async function registerFromSession(req, res) {
+export const registerFromSession = asyncHandler(async (req, res, next) => {
   const { username } = matchedData(req)
   const { newUser } = req.session
 
@@ -88,10 +82,7 @@ export async function registerFromSession(req, res) {
 
   req.login(user, (err) => {
     if (err) {
-      console.error(err)
-      res.status(500).json({
-        message: 'error logging in',
-      })
+      next(err)
       return
     }
     delete req.session.newUser
@@ -99,4 +90,4 @@ export async function registerFromSession(req, res) {
       message: 'user created',
     })
   })
-}
+})

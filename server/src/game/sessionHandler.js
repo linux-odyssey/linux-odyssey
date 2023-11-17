@@ -49,11 +49,6 @@ export default class SessionHandler {
 
     this.session.hints.push(...stage.hints)
 
-    if (stage.id === 'END') {
-      this.session.status = 'finished'
-      this.session.finishedAt = new Date()
-    }
-
     this.addNewTasks()
 
     return {

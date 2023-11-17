@@ -4,6 +4,9 @@ instruction: |
 
   「輸入 echo Hello World!」
 
+requirements:
+  - helloworld
+
 conditions:
   pwd_home: &pwd_home
     pwd:

@@ -1,4 +1,5 @@
 import { Server } from 'socket.io'
+import validator from 'validator'
 import { Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
@@ -26,46 +27,46 @@ export function pushToSession(sessionId, event, ...args) {
   }
 }
 
-async function connectClient(socket) {
+async function connectContainer(socket, next) {
   const user = socket.request.session?.passport?.user
+  // console.log(user)
   if (!user) {
-    socket.send('User not found.')
-    socket.disconnect()
+    next(new Error('User not found.'))
     return
   }
-  const sessionId = socket.handshake.query.session_id
-  if (!sessionId) {
-    socket.emit('error', 'Session ID not found.')
-    socket.disconnect()
+  // console.log(socket.handshake)
+  const { sessionId } = socket.handshake.query
+  if (!(sessionId && validator.isMongoId(sessionId))) {
+    console.warn('Invalid Session ID.', sessionId)
+    next(new Error('Invalid Session ID.'))
     return
   }
 
-  const session = await Session.findOne({
-    _id: sessionId,
-    user,
-    status: 'active',
-  })
+  const session = await Session.findById(sessionId)
   if (!session) {
-    socket.emit('error', 'Session not found.')
-    socket.disconnect()
+    next(new Error('Session not found.'))
     return
   }
 
   const token = await genJWT({
-    session_id: session.id,
+    sessionId: session.id,
   })
 
-  let container
-  let stream
   try {
-    container = await getAndStartContainer(session.containerId)
-    stream = await attachContainer(container, { token })
+    const container = await getAndStartContainer(session.containerId)
+    const stream = await attachContainer(container, { token })
+    socket.context = {
+      session,
+      stream,
+    }
+    next()
   } catch (err) {
-    socket.emit('error', 'Failed to start container.')
-    socket.disconnect()
-    return
+    next(new Error('Failed to start container.'))
   }
+}
 
+function onConnect(socket) {
+  const { session, stream } = socket.context
   stream.socket.on('data', (chunk) => {
     socket.emit('terminal', chunk.toString())
   })
@@ -87,14 +88,16 @@ async function connectClient(socket) {
     removeFromSession(session.id, socketCallback)
     stream.destroy()
   })
-
-  socket.send(`${container.id}\n`)
 }
 
 export default (server) => {
   const io = new Server(server)
 
   io.engine.use(SessionMiddleware)
+  io.use(connectContainer)
 
-  io.on('connection', connectClient)
+  io.on('connection', onConnect)
+  io.on('connect_error', (err) => {
+    console.error(err)
+  })
 }
