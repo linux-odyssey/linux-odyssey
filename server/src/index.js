@@ -15,7 +15,7 @@ import errorHandler from './middleware/error.js'
 import { globalRateLimit } from './middleware/rateLimiter.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
-import setupTest from './utils/test.js'
+import setupTest from './utils/setupTest.js'
 
 async function main() {
   if (!config.secret) {
