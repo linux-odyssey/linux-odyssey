@@ -2,7 +2,7 @@ import { Command, Session } from '@linux-odyssey/models'
 import { matchedData } from 'express-validator'
 import CommandHandler from '../../game/commandHandler.js'
 import { pushToSession } from '../socket.js'
-import { finishSession } from '../../game/sessionManager.js'
+import { finishSession } from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 
 const commandCompleteCallbacks = new Map()

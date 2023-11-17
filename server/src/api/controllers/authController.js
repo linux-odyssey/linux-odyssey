@@ -1,6 +1,7 @@
 import { matchedData } from 'express-validator'
 import { User } from '@linux-odyssey/models'
-import { genJWT, hashPassword } from '../../utils/auth.js'
+import { genJWT } from '../../utils/auth.js'
+import { createUser } from '../../models/userManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 
 export const issueToken = asyncHandler(async (req, res) => {
@@ -16,12 +17,7 @@ export const issueToken = asyncHandler(async (req, res) => {
 export const register = asyncHandler(async (req, res, next) => {
   const { username, password, email } = matchedData(req)
 
-  const user = new User({
-    username,
-    email,
-  })
-  user.hashedPassword = await hashPassword(password)
-  await user.save()
+  const user = await createUser(username, email, password)
   req.login(user, (err) => {
     if (err) {
       next(err)

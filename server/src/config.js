@@ -43,5 +43,10 @@ const config = {
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
+config.testing = {
+  enabled: !config.isProduction && process.env.TESTING === 'true',
+  username: get('TESTING_USERNAME', ''),
+  password: get('TESTING_PASSWORD', ''),
+}
 
 export default config

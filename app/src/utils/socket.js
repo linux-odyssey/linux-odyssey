@@ -42,6 +42,10 @@ class SocketWrapper {
   }
 
   emit(event, data) {
+    if (!this.socket) {
+      console.warn('Socket is not connected!')
+      return
+    }
     this.socket.emit(event, data)
   }
 
