@@ -2,10 +2,11 @@ import '@testing-library/cypress/add-commands'
 
 Cypress.Commands.add('LoginWithPassword', (username, password) => {
   cy.clearAllCookies({ domain: null })
-  cy.get('a.text-text-primary', { timeout: 100000 }).contains('Log in').click()
+  cy.visit('/login')
   cy.get('#username').type(username)
   cy.get('#password').type(password)
   cy.findByRole('button', { name: 'Log In' }).click()
+  cy.url().should('include', '/game')
 })
 Cypress.Commands.add('PrepareForGame', () => {
   cy.visit('/')
@@ -13,7 +14,8 @@ Cypress.Commands.add('PrepareForGame', () => {
     Cypress.env('defaultAccount'),
     Cypress.env('defaultPassword')
   )
-  cy.get('.xterm-screen', { timeout: 150000 })
+  cy.visit('/game/helloworld')
+  cy.get('.xterm-screen', { timeout: 10000 })
     .as('Terminaltextbox')
     .should('be.visible')
   cy.findByRole('button', { name: 'Reset' }).click()
