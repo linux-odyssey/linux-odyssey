@@ -20,8 +20,18 @@ export class UnauthorizedError extends Error {
   }
 }
 
-export default {
-  TooManyRequestsError,
-  ValidationError,
-  UnauthorizedError,
+export class LoadQuestError extends Error {
+  constructor(message, questId) {
+    super(message)
+    this.name = 'LoadQuestError'
+    this.questId = questId
+  }
+}
+
+export class LoadSessionError extends Error {
+  constructor(message, questId) {
+    super(message)
+    this.name = 'LoadSessionError'
+    this.questId = questId
+  }
 }
