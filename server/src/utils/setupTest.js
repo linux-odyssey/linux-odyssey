@@ -17,6 +17,6 @@ export default async function setupTest() {
     return
   }
 
-  await createUser(username, email, password)
+  await createUser(username, email, { password })
   console.log('Created testing account')
 }

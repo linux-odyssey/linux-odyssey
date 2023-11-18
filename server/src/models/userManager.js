@@ -8,9 +8,10 @@ export async function createUser(username, email, { password, socialLogin }) {
   })
   if (password) {
     user.hashedPassword = await hashPassword(password)
-  }
-  if (socialLogin) {
+  } else if (socialLogin) {
     user.socialLogins.set(socialLogin.provider, socialLogin)
+  } else {
+    throw new Error('No password or social login provided')
   }
   await user.save()
 

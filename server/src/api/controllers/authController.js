@@ -16,7 +16,7 @@ export const issueToken = asyncHandler(async (req, res) => {
 export const register = asyncHandler(async (req, res, next) => {
   const { username, password, email } = matchedData(req)
 
-  const user = await createUser(username, email, password)
+  const user = await createUser(username, email, { password })
   req.login(user, (err) => {
     if (err) {
       next(err)
