@@ -24,7 +24,6 @@ const config = {
   port: get('PORT', 3000),
   db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
   secret: get('SECRET_KEY', ''),
-  dockerNetwork: get('DOCKER_NETWORK', 'linux-odyssey-players'),
   isProduction: process.env.NODE_ENV === 'production',
   hostPwd: get('HOST_PWD', ''),
   containerExpiry: get('EXPIRY', 1000 * 60 * 60),
@@ -40,9 +39,13 @@ const config = {
   trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
   surveyUrl: getUrl('SURVEY_URL', ''),
   bugReportUrl: getUrl('BUG_REPORT_URL', ''),
-  dockerImage: get('DOCKER_IMAGE', 'lancatlin/linux-odyssey'),
 
-  mountQuest: get('MOUNT_QUEST', ''),
+  docker: {
+    network: get('DOCKER_NETWORK', 'linux-odyssey-players'),
+    defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
+    imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
+    mountQuest: get('MOUNT_QUEST', ''),
+  },
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
@@ -50,6 +53,10 @@ config.testing = {
   enabled: !config.isProduction && process.env.TESTING === 'true',
   username: get('TESTING_USERNAME', ''),
   password: get('TESTING_PASSWORD', ''),
+}
+
+export function getQuestImage(id) {
+  return `${config.docker.imagePrefix}${id}`
 }
 
 export default config

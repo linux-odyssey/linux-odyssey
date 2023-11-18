@@ -1,3 +1,3 @@
-FROM lancatlin/linux-odyssey:base
+FROM linuxodyssey/quest-base
 
 COPY home ${HOME}
