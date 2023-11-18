@@ -1,5 +1,20 @@
 import { model, Schema } from 'mongoose'
 
+const socialLoginSchema = new Schema({
+  provider: {
+    type: String,
+    required: true,
+  },
+  id: {
+    type: String,
+    required: true,
+  },
+  displayName: {
+    type: String,
+    required: false,
+  },
+})
+
 const User = model(
   'User',
   new Schema(
@@ -15,13 +30,11 @@ const User = model(
         required: true,
       },
       hashedPassword: String,
-      google: {
-        id: String,
-        displayName: String,
-      },
-      github: {
-        id: String,
-        displayName: String,
+      socialLogins: {
+        type: Map,
+        of: socialLoginSchema,
+        default: {},
+        required: true,
       },
     },
     {

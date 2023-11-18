@@ -7,8 +7,8 @@ import {
   register,
   checkSession,
   logout,
-  socialLogin,
   registerFromSession,
+  socialLoginHandler,
 } from '../controllers/authController.js'
 import {
   checkUsernameValidators,
@@ -49,7 +49,7 @@ if (enabledMethods.google) {
     '/google/callback',
     authenticateRateLimit,
     passport.authenticate('google'),
-    socialLogin
+    socialLoginHandler
   )
 }
 
@@ -59,7 +59,7 @@ if (enabledMethods.github) {
     '/github/callback',
     authenticateRateLimit,
     passport.authenticate('github'),
-    socialLogin
+    socialLoginHandler
   )
 }
 

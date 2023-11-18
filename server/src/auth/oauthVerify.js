@@ -7,18 +7,19 @@ export default async function oauthVerify(provider, profile, query, cb) {
       return cb(new Error('No email found'))
     }
 
+    const socialLogin = {
+      provider,
+      id: profile.id,
+      displayName: profile.displayName,
+    }
     let user = await User.findOne(query)
     if (!user) {
       user = await User.findOne({ email })
       if (!user) {
-        const newUser = { email }
-        newUser[provider] = profile
+        const newUser = { email, socialLogin }
         return cb(null, { newUser })
       }
-      user[provider] = {
-        id: profile.id,
-        displayName: profile.displayName,
-      }
+      user.socialLogins.set(provider, socialLogin)
       await user.save()
     }
 

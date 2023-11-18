@@ -4,7 +4,7 @@ import config from '../config.js'
 import oauthVerify from './oauthVerify.js'
 
 function verify(issuer, profile, cb) {
-  oauthVerify('google', profile, { 'google.id': profile.id }, cb)
+  oauthVerify('google', profile, { 'socialLogins.google.id': profile.id }, cb)
 }
 
 const enabled = config.google.clientID && config.google.clientSecret

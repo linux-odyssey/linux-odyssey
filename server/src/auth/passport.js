@@ -26,14 +26,18 @@ if (enabledMethods.github) {
 
 passport.serializeUser((user, done) => {
   process.nextTick(async () => {
-    if (!(await UserProfile.exists({ user: user._id }))) {
-      UserProfile.create({ user: user._id })
+    try {
+      if (user._id && !(await UserProfile.exists({ user: user._id }))) {
+        await UserProfile.create({ user: user._id })
+      }
+      done(null, {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+      })
+    } catch (err) {
+      done(err)
     }
-    done(null, {
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-    })
   })
 })
 
