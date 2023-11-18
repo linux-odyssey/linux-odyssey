@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Test Environment, Stage 1
-        run: docker-compose -f docker-compose.testing.yml build base backend app-test
+        run: docker-compose -f docker-compose.testing.yml build base backend app-test cypress
 
       - name: Build Test Quests
         run: docker-compose -f docker-compose.testing.yml run --rm backend yarn build:quests

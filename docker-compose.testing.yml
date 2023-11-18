@@ -69,6 +69,8 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
+    ports:
+      - 27017:27017
 
   base:
     image: lancatlin/linux-odyssey:base
