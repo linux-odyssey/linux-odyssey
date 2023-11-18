@@ -1,7 +1,37 @@
 <template>
-  <div>
-    <h1 class="text-text-primary text-xl">Quest Map</h1>
-    <div ref="chartContainer" style="width: 600px; height: 600px"></div>
+  <div class="p-2.5 bg-black w-screen h-screen">
+    <div class="text-slate-600 absolute w-screen z-0 p-2">
+      <h1 class="relative left-1/3">01010111 01100101 01101100 01100011</h1>
+      <h1 class="relative left-1/4">
+        01101111 01101101 01100101 00100000 01110100 01101111
+      </h1>
+      <h1 class="relative left-1/4">
+        00100000 01001100 01101001 01101110 01110101 01111000 00100000
+      </h1>
+      <h1 class="relative left-1/4">
+        01001111 01100100 01111001 01110011 01110011 01100101 01111001
+      </h1>
+      <h1 class="relative left-1/4">
+        00100001 01010111 01100101 01101100 01100011 01101111 01101101 01100101
+      </h1>
+      <h1 class="relative left-1/4">
+        00100000 01110100 01101111 00100000 01001100 01101001 01101110 01110101
+      </h1>
+      <h1 class="relative left-1/4">
+        01111000 00100000 01001111 01100100 01111001 01110011 01110011 01100101
+      </h1>
+      <h1 class="relative left-1/4">01111001 00100001</h1>
+    </div>
+    <h1 class="text-text-primary text-xl relative left-2 w-screen z-1">
+      Get through your linux journey!
+    </h1>
+    <div class="p-2.5 absolute w-screen h-screen z-2">
+      <div
+        ref="chartContainer"
+        class="p-2.5 relative w-screen h-screen"
+        style="width: 100%; height: 80%"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -17,8 +47,8 @@ import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
 
 const marginX = 100
-const marginY = 100
-
+const marginY = 70
+const rectImage = '../img/rectImg.png'
 const chartContainer = ref(null)
 let chartInstance = null
 
@@ -45,7 +75,7 @@ async function getProgress() {
 }
 
 const genOption = (nodes, edges) => ({
-  rendener: 'svg',
+  render: 'svg',
   tooltip: {},
   animationDurationUpdate: 1500,
   animationEasingUpdate: 'quinticInOut',
@@ -53,22 +83,23 @@ const genOption = (nodes, edges) => ({
     {
       type: 'graph',
       layout: 'none',
-      symbolSize: 50,
+      Symbol: `image://${rectImage}`,
+      symbolSize: [100, 50],
       roam: true,
       label: {
         show: true,
       },
       edgeSymbol: ['circle', 'arrow'],
-      edgeSymbolSize: [4, 10],
+      edgeSymbolSize: [5, 12],
       edgeLabel: {
-        fontSize: 20,
+        fontSize: 25,
       },
       data: nodes,
       // links: [],
       links: edges,
       lineStyle: {
-        opacity: 0.9,
-        width: 2,
+        opacity: 4,
+        width: 3,
         curveness: 0,
       },
     },
