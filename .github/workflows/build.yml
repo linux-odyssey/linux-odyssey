@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+  build-backend:
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      imageName: 'linuxodyssey/backend'
+      dockerfilePath: './server/Dockerfile'
+      target: prod
+
+  build-frontend:
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      imageName: 'linuxodyssey/frontend'
+      dockerfilePath: './app/Dockerfile'
+      target: prod
+
+  build-analytics:
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      imageName: 'linuxodyssey/analytics'
+      dockerfilePath: './packages/analytics/Dockerfile'
+      target: prod
+
+  build-base:
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      imageName: 'linuxodyssey/base'
+      dockerfilePath: './quests/Dockerfile'
