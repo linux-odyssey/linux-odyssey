@@ -1,6 +1,6 @@
 <template>
-  <div class="p-2.5 bg-black w-screen h-screen">
-    <div class="text-slate-600 absolute w-screen z-0 p-2">
+  <div class="p-2.5 bg-black w-full h-full flex">
+    <div class="text-slate-600 absolute w-full z-0 p-2">
       <h1 class="relative left-1/3">01010111 01100101 01101100 01100011</h1>
       <h1 class="relative left-1/4">
         01101111 01101101 01100101 00100000 01110100 01101111
@@ -22,15 +22,11 @@
       </h1>
       <h1 class="relative left-1/4">01111001 00100001</h1>
     </div>
-    <h1 class="text-text-primary text-xl relative left-2 w-screen z-1">
+    <h1 class="text-text-primary text-xl absolute left-2 w-full z-1">
       Get through your linux journey!
     </h1>
-    <div class="p-2.5 absolute w-screen h-screen z-2">
-      <div
-        ref="chartContainer"
-        class="p-2.5 relative w-screen h-screen"
-        style="width: 100%; height: 80%"
-      ></div>
+    <div class="p-2.5 relative w-full h-full z-2">
+      <div ref="chartContainer" class="p-2.5 w-full h-full"></div>
     </div>
   </div>
 </template>
@@ -45,10 +41,10 @@ import { SVGRenderer } from 'echarts/renderers'
 import { TitleComponent, TooltipComponent } from 'echarts/components'
 import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
+import { NodeImage } from '../img/svg.js'
 
 const marginX = 100
 const marginY = 70
-const rectImage = '../img/rectImg.png'
 const chartContainer = ref(null)
 let chartInstance = null
 
@@ -83,11 +79,14 @@ const genOption = (nodes, edges) => ({
     {
       type: 'graph',
       layout: 'none',
-      Symbol: `image://${rectImage}`,
-      symbolSize: [100, 50],
+      symbol: () => {
+        return NodeImage
+      },
+      symbolSize: [200, 100],
       roam: true,
       label: {
         show: true,
+        fontSize: 20,
       },
       edgeSymbol: ['circle', 'arrow'],
       edgeSymbolSize: [5, 12],
@@ -102,6 +101,7 @@ const genOption = (nodes, edges) => ({
         width: 3,
         curveness: 0,
       },
+      itemStyle: { color: '#454552' },
     },
   ],
 })
