@@ -24,5 +24,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
   build:
-    uses: ./.github/workflows/build.yml
     needs: ci-checks
+    uses: ./.github/workflows/build.yml
+    secrets: inherit

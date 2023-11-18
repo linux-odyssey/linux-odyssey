@@ -10,8 +10,9 @@ jobs:
     uses: ./.github/workflows/ci-checks.yml
 
   build:
-    uses: ./.github/workflows/build.yml
     needs: ci-checks
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
 
   deploy:
     needs: build

@@ -16,6 +16,12 @@ on:
         required: false
         description: 'Target to build'
 
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
