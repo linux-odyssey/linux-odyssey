@@ -3,8 +3,7 @@ import { Session, User } from '@linux-odyssey/models'
 function loginMethods(user) {
   const methods = []
   if (user.hashedPassword) methods.push('password')
-  if (user.google?.id) methods.push('google')
-  if (user.github?.id) methods.push('github')
+  if (user.socialLogins) methods.push(...Object.keys(user.socialLogins))
   return methods
 }
 
