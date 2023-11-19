@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+concurrency:
+  group: production
+  cancel-in-progress: true
+
 jobs:
   ci-checks:
     uses: ./.github/workflows/ci-checks.yml

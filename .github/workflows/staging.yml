@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: staging
+  cancel-in-progress: true
+
 jobs:
   ci-checks:
     uses: ./.github/workflows/ci-checks.yml
