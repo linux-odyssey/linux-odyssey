@@ -51,6 +51,8 @@ services:
       - '3001:3001'
     environment:
       - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@db:27017/${MONGO_DB}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
 
   db:
     image: mongo
