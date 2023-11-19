@@ -1,0 +1,57 @@
+name: Build Docker Image
+
+on:
+  workflow_call:
+    inputs:
+      imageName:
+        type: string
+        required: true
+        description: 'Name of the image to build'
+      dockerfilePath:
+        type: string
+        required: true
+        description: 'Path to the Dockerfile'
+      target:
+        type: string
+        required: false
+        description: 'Target to build'
+
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ inputs.imageName }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ${{ inputs.dockerfilePath }}
+          target: ${{ inputs.target }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}

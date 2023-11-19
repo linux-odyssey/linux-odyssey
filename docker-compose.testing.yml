@@ -16,7 +16,7 @@ services:
       - app-test
 
   app-test:
-    image: lancatlin/linux-odyssey:app
+    image: linuxodyssey/app
     build:
       context: .
       dockerfile: app/Dockerfile
@@ -29,7 +29,7 @@ services:
       - backend
 
   backend:
-    image: lancatlin/linux-odyssey:backend
+    image: linuxodyssey/backend
     build:
       context: .
       dockerfile: server/Dockerfile
@@ -69,9 +69,11 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
+    ports:
+      - 27017:27017
 
   base:
-    image: lancatlin/linux-odyssey:base
+    image: linuxodyssey/quest-base
     build:
       context: .
       dockerfile: ./quests/Dockerfile

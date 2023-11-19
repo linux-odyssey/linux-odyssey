@@ -4,7 +4,7 @@ import config from '../config.js'
 import oauthVerify from './oauthVerify.js'
 
 function verify(accessToken, refreshToken, profile, cb) {
-  oauthVerify('github', profile, { 'github.id': profile.id }, cb)
+  oauthVerify('github', profile, { 'socialLogins.github.id': profile.id }, cb)
 }
 
 const enabled = config.github.clientID && config.github.clientSecret

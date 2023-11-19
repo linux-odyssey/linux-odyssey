@@ -1,5 +1,4 @@
 import { matchedData } from 'express-validator'
-import { User } from '@linux-odyssey/models'
 import { genJWT } from '../../utils/auth.js'
 import { createUser } from '../../models/userManager.js'
 import { asyncHandler } from '../../middleware/error.js'
@@ -17,7 +16,7 @@ export const issueToken = asyncHandler(async (req, res) => {
 export const register = asyncHandler(async (req, res, next) => {
   const { username, password, email } = matchedData(req)
 
-  const user = await createUser(username, email, password)
+  const user = await createUser(username, email, { password })
   req.login(user, (err) => {
     if (err) {
       next(err)
@@ -50,7 +49,7 @@ export function checkSession(req, res) {
   })
 }
 
-export function socialLogin(req, res) {
+export function socialLoginHandler(req, res) {
   const { newUser } = req.user
   if (newUser) {
     req.session.newUser = newUser
@@ -71,10 +70,13 @@ export const registerFromSession = asyncHandler(async (req, res, next) => {
     return
   }
 
-  newUser.username = username
-  const user = new User(newUser)
+  const { email, socialLogin } = newUser
 
-  await user.save()
+  if (!socialLogin) {
+    throw new Error('Socail Login not found')
+  }
+
+  const user = await createUser(username, email, { socialLogin })
 
   req.login(user, (err) => {
     if (err) {

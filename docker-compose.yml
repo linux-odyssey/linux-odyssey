@@ -14,6 +14,7 @@ services:
     volumes:
       - ./app:/app/app
       - ./packages:/app/packages
+
   backend:
     depends_on:
       - db
@@ -62,6 +63,8 @@ services:
       - '3001:3001'
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test
+      - USERNAME=user
+      - PASSWORD=user
     volumes:
       - ./packages/analytics:/app/packages/analytics
       - ./packages/models:/app/packages/models
@@ -85,7 +88,7 @@ services:
       - SWAGGER_FILE=/tmp/swagger.yaml
 
   base:
-    image: lancatlin/linux-odyssey:base
+    image: linuxodyssey/quest-base
     build:
       context: .
       dockerfile: ./quests/Dockerfile

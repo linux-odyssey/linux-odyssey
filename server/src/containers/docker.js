@@ -1,5 +1,5 @@
 import Docker from 'dockerode'
-import config from '../config.js'
+import config, { getQuestImage } from '../config.js'
 
 const engine = new Docker()
 
@@ -11,17 +11,17 @@ const containerOptions = {
   OpenStdin: true,
   StdinOnce: false,
   HostConfig: {
-    NetworkMode: config.dockerNetwork,
+    NetworkMode: config.docker.network,
   },
 }
 
 // const network = engine.getNetwork(config.dockerNetwork)
 
-export function createContainer(name, tag) {
+export function createContainer(name, questId) {
   const option = {
     ...containerOptions,
     name,
-    Image: `${config.dockerImage}:${tag}`,
+    Image: getQuestImage(questId),
   }
   if (!config.isProduction && config.hostPwd && config.mountQuest) {
     option.HostConfig.Bind = [
@@ -87,7 +87,7 @@ export function buildQuestImage(questPath, questId) {
         src: ['Dockerfile', 'home'],
       },
       {
-        t: `${config.dockerImage}:${questId}`,
+        t: getQuestImage(questId),
         networkmode: 'none',
         memory: 10 * 1e6,
       },

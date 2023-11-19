@@ -1,11 +1,17 @@
-name: Code Review GPT
+name: Pull Request Workflow
 
 on:
   pull_request:
-    branches: [main]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  run_code_review:
+  ci-checks:
+    uses: ./.github/workflows/ci-checks.yml
+
+  code_review:
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
@@ -18,5 +24,10 @@ jobs:
         uses: mattzcarey/code-review-gpt@v0.1.4-alpha
         with:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          MODEL: 'gpt-3.5-turbo'
+          MODEL: 'gpt-4'
           GITHUB_TOKEN: ${{ github.token }}
+
+  build:
+    needs: ci-checks
+    uses: ./.github/workflows/build.yml
+    secrets: inherit

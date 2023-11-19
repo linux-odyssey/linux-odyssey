@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: lancatlin/linux-odyssey:app
+    image: linuxodyssey/frontend
     depends_on:
       - backend
     restart: always
@@ -13,8 +13,9 @@ services:
       internal:
     ports:
       - 8080:80
+
   backend:
-    image: lancatlin/linux-odyssey:backend
+    image: linuxodyssey/backend
     depends_on:
       - db
     restart: always
@@ -36,7 +37,7 @@ services:
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
 
   analytics:
-    image: lancatlin/linux-odyssey:analytics
+    image: linuxodyssey/analytics
     build:
       context: .
       dockerfile: packages/analytics/Dockerfile
@@ -50,6 +51,8 @@ services:
       - '3001:3001'
     environment:
       - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASSWORD}@db:27017/${MONGO_DB}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
 
   db:
     image: mongo
@@ -76,7 +79,7 @@ services:
       - BUG_REPORT_URL=${BUG_REPORT_URL}
 
   base:
-    image: lancatlin/linux-odyssey:base
+    image: linuxodyssey/quest-base
     build:
       context: .
       dockerfile: ./quests/Dockerfile

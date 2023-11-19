@@ -1,6 +1,7 @@
 import connectDB from '@linux-odyssey/models'
 import express from 'express'
 import { engine } from 'express-handlebars'
+import basicAuth from 'express-basic-auth'
 import config from './config.js'
 import router from './router.js'
 
@@ -13,6 +14,13 @@ async function main() {
   app.set('view engine', 'handlebars')
   app.set('views', './views')
 
+  app.use(
+    basicAuth({
+      users: { [config.username]: config.password },
+      challenge: true,
+      realm: 'Linux Odyssey Admin Dashboard',
+    })
+  )
   app.use(router)
   app.use(express.static('./public'))
 

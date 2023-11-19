@@ -1,0 +1,32 @@
+name: Production Deployment
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+jobs:
+  ci-checks:
+    uses: ./.github/workflows/ci-checks.yml
+
+  build:
+    needs: ci-checks
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into server and update service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.GCP_SSH_HOST }}
+          port: ${{ secrets.GCP_SSH_PORT }}
+          username: ${{ secrets.GCP_SSH_USER }}
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
