@@ -1,16 +1,15 @@
 <template>
   <div class="h-[6vh] w-full">
     <GameHeaderPart />
+    <p
+      class="text-text-primary absolute z-1 left-[3vh] top-[1vh] h-fit font-bold inline-block"
+    >
+      Quest Map
+    </p>
   </div>
-  <div class="flex flex-col justify-center items-center h-[94vh]">
+  <div class="flex flex-col justify-center items-center w-full h-[94vh]">
     <QuestMap />
-    <!-- <div id="header" class="p-2 bg-slate-700 w-screen flex h-[6vh]">
-      <h1 class="text-teal-300 text-4xl font-mono font-black skew-y-3">
-        Quest Map
-      </h1> -->
-    <!-- <p>Quest Map Page</p> -->
   </div>
-  <!-- </div> -->
 </template>
 
 <script setup>
