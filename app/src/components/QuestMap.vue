@@ -1,211 +1,10 @@
 <template>
   <div class="relative bg-black w-full h-full flex">
-    <div
-      class="text-slate-500 relative flex flex-col blur-[2px] w-1/2 h-full flex-wrap"
-    >
-      <h1 class="relative flex w-fit" style="left: 38%; height: 3%">
-        01111000 00100000 01001111 01100100 01111001 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 26%; height: 3%">
-        01110011 01100101 01111001 00100001 01010111 01100101
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 20%; height: 3%">
-        01101100 01100011 01101111 01101101 01100101 00100000
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 15%; height: 3%">
-        01110100 01101111 00100000 01001100 01101001 01101110
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 5%; height: 3%">
-        01101101 01100101 00100000 01110100 01101111 01101111
-        <h1 class="relative flex w-fit" style="left: 13%; height: 3%">
-          01101110 01110101 01111000 00100000 01001111 01100100
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 5%; height: 3%">
-          01010111 01100101 01101100 01100011 01111000
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 3%; height: 3%">
-          01101111 01101101 01100101 00100000 01110100
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 13%; height: 3%">
-          00100000 01001100 01101001 01101110 01110101
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 16%; height: 3%">
-          00100000 01001111 01100100 01111001 01110011
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 17%; height: 3%">
-          01110011 01100101 01111001 00100001 01010111
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 12%; height: 3%">
-          01100101 01101100 01100011 01101111 01101101
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 8%; height: 3%">
-          01100101 00100000 01110100 01101111 01010111
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 8%; height: 3%">
-          00100000 01001100 01101001 01101110 01110101
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 9%; height: 3%">
-          01111000 00100000 01001111 01100100 01111001
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 6%; height: 3%">
-          01110011 01110011 01100101 01101100 01101100 01101001
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 5%; height: 3%">
-          01111001 00100001 01010111 01100011 01100101 01101001
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 9%; height: 3%">
-          01100101 01101100 01110101 01111000 01001100
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 7%; height: 3%">
-          00100000 01001111 01100100 01111001 01110011 01110011
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 3%; height: 3%">
-          01100101 01111001 00100001 01010111 01100101
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 6%; height: 3%">
-          01101111 01101101 01010111 01100101 01101100 01100011
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 5%; height: 3%">
-          01101101 01100101 00100000 01110100 01101111 00100000
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 3%; height: 3%">
-          01101110 01110101 01111000 00100000 01001111 01100100
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 6%; height: 3%">
-          01100011 01101111 01101101 01111001 01110011
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 9%; height: 3%">
-          01100101 00100000 01110100 01001100
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 7%; height: 3%">
-          01101111 00100000 01001100 01101111 01101111
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 5%; height: 3%">
-          01101001 01101110 011101010 1111001 01110011
-        </h1>
-        <h1 class="relative flex w-fit" style="left: 6%; height: 3%">
-          01111000 00100000 01001111 00100000
-        </h1>
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 4%; height: 3%">
-        01100100 01111001 01110011 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 3%; height: 3%">
-        01100101 01111001 00100001
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 5%; height: 3%">
-        01100101 01101100 01100011 01101111
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 2%; height: 3%">
-        01101101 01100101 00100000 01110100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 3%; height: 3%">
-        00100000 01001100 01101001 01101110 01110101
-      </h1>
-    </div>
-    <div
-      class="text-slate-500 relative flex flex-col blur-[2px] w-1/2 h-full flex-wrap"
-    >
-      <h1 class="relative flex w-fit" style="left: 7%; height: 3%">
-        01010111 01100101 01101100 01100011 01001100 01101001 00100000
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 14%; height: 3%">
-        01101111 01101101 01100101 00100000 01110100 01101111 01100100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 18%; height: 3%">
-        00100000 01001100 01101001 01101110 01110101 01111000
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 19%; height: 3%">
-        00100000 01001111 01100100 01111001 01110011 01101111
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 25%; height: 3%">
-        01110011 01100101 01111001 00100001 01010111 01100100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 24%; height: 3%">
-        01100101 01101100 01100011 01101111 01101101 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 23%; height: 3%">
-        01100101 00100000 01110100 01101111 00100000 01111001
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 23%; height: 3%">
-        00100000 01001100 01101001 01101110 01110101 01111001 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 27%; height: 3%">
-        01111000 00100000 01001111 01100100 01111001 01100100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 29%; height: 3%">
-        01110011 01110011 01100101 01111001 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 35%; height: 3%">
-        01111001 00100001 01010111 01101110 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 30%; height: 3%">
-        01100101 01101100 01100011 01100101 01101100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 20%; height: 3%">
-        01100011 01101111 01101101 01100100 01111001 01110011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 23%; height: 3%">
-        01100101 00100000 01110100 01101111 01100101 01101001
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 27%; height: 3%">
-        01101111 00100000 01001100 01100101 01101100 01101111
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 28%; height: 3%">
-        01101001 01101110 01110101 01001100 01101001 01001111
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 35%; height: 3%">
-        01111000 00100000 01001111 00100000 01100011
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 32%; height: 3%">
-        01100100 01111001 01110011 01110011 01010111 01100101
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 29%; height: 3%">
-        01100101 01111001 00100001 01010111 01010111 01101100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 43%; height: 3%">
-        01100101 01101100 01100011 01101111 01001111
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 46%; height: 3%">
-        01101101 01100101 00100000 01110100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 43%; height: 3%">
-        00100000 01001100 01101001 01101110 01110101
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 45%; height: 3%">
-        01111000 00100000 01001111 01100100 01111001
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 52%; height: 3%">
-        01110011 01100101 01111001 00100001
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 48%; height: 3%">
-        01101100 01100011 01101111 01101101
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 53%; height: 3%">
-        01110100 01101111 00100000 01001100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 52%; height: 3%">
-        01110101 01111000 00100000 01001111
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 59%; height: 3%">
-        01100101 01111001 00100001
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 50%; height: 3%">
-        01101111 01101101 01010111 01100101
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 51%; height: 3%">
-        01101101 01100101 00100000 01110100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 50%; height: 3%">
-        01101110 01110101 01111000 00100000
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 52%; height: 3%">
-        01101101 01100101 00100000 01110100
-      </h1>
-      <h1 class="relative flex w-fit" style="left: 43%; height: 3%">
-        01101110 01110101 01111000 00100000 01101111
-      </h1>
-    </div>
+    <img
+      src="../img/catelogbg.svg"
+      alt="bg"
+      class="p-2 stroke-2 scale-120 justify-center items-center"
+    />
     <h1
       class="text-text-primary text-xl p-2.5 absolute w-fit z-2 font-mono font-bold flex flax-wrap"
     >
@@ -284,9 +83,23 @@ const genOption = (nodes, edges) => ({
       // links: [],
       links: edges,
       lineStyle: {
-        opacity: 4,
         width: 3,
+        color: 'gray',
+        opacity: 4,
         curveness: 0.08,
+        // type: 'dashed',
+        type: (params) => {
+          const {
+            data: { unlocked },
+          } = params
+          console.log(unlocked)
+          switch (unlocked) {
+            case true:
+              return 'line'
+            default:
+              return 'dashed'
+          }
+        },
       },
       itemStyle: {
         color: (params) => {
