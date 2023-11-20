@@ -61,19 +61,21 @@ function printLine(content, delay, color) {
 
 async function printResponses(responses, delay = 100) {
   console.log()
-  console.log(colorize('-------------', 'white'))
+  console.log(colorize('==============================', 'green'))
   for (const response of responses) {
     const { type, content, speaker, color } = response
     if (type === 'narrative') {
       for (const line of content) {
-        await printLine(line, delay, color || 'white')
+        await printLine(line, delay, color || 'cyan')
       }
+      console.log()
     }
     if (type === 'dialogue') {
-      console.log(`${speaker}:`)
+      console.log(colorize(`${speaker}:`, 'green'))
       for (const line of content) {
-        await printLine(`  ${line}`, delay, color || 'green')
+        await printLine(`  ${line}`, delay, color || 'cyan')
       }
+      console.log()
     }
   }
   rl.close()
