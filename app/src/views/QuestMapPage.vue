@@ -2,7 +2,8 @@
   <div class="h-[6vh] w-full">
     <GameHeaderPart />
     <p
-      class="text-text-primary absolute z-1 left-[3vh] top-[1vh] h-fit font-bold inline-block"
+      class="text-text-primary absolute z-1 font-bold inline-block"
+      style="left: 1.2%; top: 1.5%; height: 100%"
     >
       Quest Map
     </p>
