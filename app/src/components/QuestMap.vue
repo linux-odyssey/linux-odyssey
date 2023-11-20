@@ -1,21 +1,3 @@
-<template>
-  <div class="relative bg-black w-full h-full flex">
-    <img
-      src="../img/catelogbg.svg"
-      alt="bg"
-      class="p-2 stroke-2 scale-y-120 justify-center items-center"
-    />
-    <h1
-      class="text-text-primary text-xl p-2.5 absolute w-fit z-2 font-mono font-bold flex flax-wrap"
-    >
-      Get through your linux journey!
-    </h1>
-    <div class="flex flex-wrap absolute w-full h-full z-1">
-      <div ref="chartContainer" class="w-full h-full flex flex-wrap"></div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -151,3 +133,21 @@ onMounted(async () => {
   initChart(option)
 })
 </script>
+
+<template>
+  <div class="relative bg-black w-full h-full flex">
+    <img
+      src="../img/catelogbg.svg"
+      alt="bg"
+      class="p-2 stroke-2 scale-y-120 justify-center items-center"
+    />
+    <h1
+      class="text-text-primary text-xl p-2.5 absolute w-fit z-2 font-mono font-bold flex flax-wrap"
+    >
+      Get through your linux journey!
+    </h1>
+    <div class="flex flex-wrap absolute w-full h-full z-1">
+      <div ref="chartContainer" class="w-full h-full flex flex-wrap"></div>
+    </div>
+  </div>
+</template>

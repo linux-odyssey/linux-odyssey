@@ -1,3 +1,8 @@
+<script setup>
+import QuestMap from '../components/QuestMap.vue'
+import GameHeaderPart from '../components/GameHeaderPart.vue'
+</script>
+
 <template>
   <div class="h-[6vh] w-full">
     <GameHeaderPart />
@@ -12,8 +17,3 @@
     <QuestMap />
   </div>
 </template>
-
-<script setup>
-import QuestMap from '../components/QuestMap.vue'
-import GameHeaderPart from '../components/GameHeaderPart.vue'
-</script>
