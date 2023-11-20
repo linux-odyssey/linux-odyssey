@@ -78,15 +78,6 @@ services:
     volumes:
       - ./data:/data/db
 
-  swagger:
-    image: swaggerapi/swagger-editor:latest
-    ports:
-      - 8080:8080
-    volumes:
-      - ./server/swagger.yaml:/tmp/swagger.yaml
-    environment:
-      - SWAGGER_FILE=/tmp/swagger.yaml
-
   base:
     image: linuxodyssey/quest-base
     build:
