@@ -28,9 +28,9 @@ async function main() {
 
   try {
     await connectDB(config.db)
-    console.log('Connected to MongoDB')
+    logger.info('Connected to MongoDB')
   } catch (err) {
-    console.error(err)
+    logger.error(err)
     process.exit(1)
   }
 
@@ -53,7 +53,7 @@ async function main() {
     'uniquelocal',
     ...config.trustedProxies,
   ])
-  console.log('Trusted proxies:', config.trustedProxies)
+  logger.info('Trusted proxies:', config.trustedProxies)
   app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())
@@ -74,8 +74,8 @@ async function main() {
   app.use(errorHandler)
 
   server.listen(config.port, config.host, () => {
-    console.log(`Server listening at ${config.baseUrl}`)
+    logger.info(`Server listening at ${config.baseUrl}`)
   })
 }
 
-main().catch((err) => console.log(err))
+main().catch((err) => logger.error(err))

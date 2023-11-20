@@ -4,6 +4,7 @@ import { Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
+import logger from '../utils/logger.js'
 
 const sessions = new Map()
 
@@ -37,7 +38,7 @@ async function connectContainer(socket, next) {
   // console.log(socket.handshake)
   const { sessionId } = socket.handshake.query
   if (!(sessionId && validator.isMongoId(sessionId))) {
-    console.warn('Invalid Session ID.', sessionId)
+    logger.warn('Invalid Session ID.', user.username, sessionId)
     next(new Error('Invalid Session ID.'))
     return
   }
@@ -71,7 +72,7 @@ function onConnect(socket) {
     socket.emit('terminal', chunk.toString())
   })
 
-  socket.on('message', console.log)
+  socket.on('message', logger.info)
 
   socket.on('terminal', function incoming(message) {
     stream.socket.write(message)
@@ -98,6 +99,6 @@ export default (server) => {
 
   io.on('connection', onConnect)
   io.on('connect_error', (err) => {
-    console.error(err)
+    logger.error('Socket connect error: ', err)
   })
 }
