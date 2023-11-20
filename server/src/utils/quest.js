@@ -38,7 +38,7 @@ export function loadAndUpdateQuests() {
 
       const image = files.includes('Dockerfile') ? id : 'base'
 
-      return Quest.findByIdAndUpdate(
+      return await Quest.findByIdAndUpdate(
         id,
         {
           _id: id,
@@ -50,7 +50,7 @@ export function loadAndUpdateQuests() {
         }
       )
     } catch (error) {
-      console.error(`Error parsing quest ${id}:`, error)
+      console.error(`Error parsing quest ${id}:`, error.message)
       throw error
     }
   })
