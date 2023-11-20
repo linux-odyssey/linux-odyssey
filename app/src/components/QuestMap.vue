@@ -93,10 +93,15 @@ function getOption(quests, progress) {
     unlocked: node.requirements.every((req) => progress[req]?.completed),
   }))
   const lineAppearence = (node) => {
-    const { unlocked } = node
-    return {
-      type: unlocked ? 'line' : 'dashed',
-      color: unlocked ? '#ADADB5' : '#454552',
+    try {
+      const { unlocked } = node
+      return {
+        type: unlocked ? 'line' : 'dashed',
+        color: unlocked ? '#ADADB5' : '#454552',
+      }
+    } catch (err) {
+      console.error(err)
+      throw err
     }
   }
   const edges = dag.getEdgesArray().map((edge) => ({
