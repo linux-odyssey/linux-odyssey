@@ -38,7 +38,7 @@ async function getProgress() {
 }
 
 const genOption = (nodes, edges) => ({
-  render: 'svg',
+  renderer: 'svg',
   tooltip: {},
   animationDurationUpdate: 1500,
   animationEasingUpdate: 'quinticInOut',
