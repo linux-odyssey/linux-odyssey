@@ -19,7 +19,8 @@ setTimeout(() => {
     <div class="modal-content bg-bg-secondary rounded-lg">
       <span class="close text-text" @click="closeModal">&times;</span>
       <h2 class="text-2xl text-text mb-5 w-full inline-flex justify-center">
-        Quest Completed!
+        <!-- Quest Completed! -->
+        關卡完成！
       </h2>
       <p class="text-base text-text">
         您已成功完成挑戰，真的非常感謝您的參與！<br />

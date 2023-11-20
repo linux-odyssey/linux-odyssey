@@ -108,7 +108,10 @@ const handleChange = () => {
             :icon="['fab', 'google']"
             class="text-text-secondary px-3 text-lg"
           />
-          <span class="font-medium">Continue with Google</span>
+          <span class="font-medium">
+            <!-- Continue with Google -->
+            以Google繼續
+          </span>
         </a>
         <a
           v-if="availableMethods.github"
@@ -119,22 +122,37 @@ const handleChange = () => {
             :icon="['fab', 'github']"
             class="text-text-secondary px-3 text-lg"
           />
-          <span class="font-medium">Continue with GitHub</span>
+          <span class="font-medium">
+            <!-- Continue with GitHub -->
+            以Github繼續
+          </span>
         </a>
         <p
           class="text-text-secondary flex justify-center mt-3"
           v-if="type === 'login' || type === 'register'"
         >
-          or
+          <!-- or -->
+          或
         </p>
       </div>
       <div class="mb-6">
-        <input
+        <!-- <input
           type="text"
           id="username"
           ref="usernameInput"
           class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           :placeholder="type === 'login' ? 'Email / Username' : 'Username'"
+          v-model="username"
+          required
+          @input="handleChange()"
+          autocomplete="username"
+        /> -->
+        <input
+          type="text"
+          id="username"
+          ref="usernameInput"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
+          :placeholder="type === 'login' ? '電子郵件 / 帳號名稱' : '帳號名稱'"
           v-model="username"
           required
           @input="handleChange()"
@@ -149,7 +167,7 @@ const handleChange = () => {
         </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
-        <input
+        <!-- <input
           type="email"
           id="email"
           ref="emailInput"
@@ -159,14 +177,34 @@ const handleChange = () => {
           required
           @input="handleChange()"
           autocomplete="email"
+        /> -->
+        <input
+          type="email"
+          id="email"
+          ref="emailInput"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
+          placeholder="電子郵件"
+          v-model="email"
+          required
+          @input="handleChange()"
+          autocomplete="email"
         />
       </div>
       <div class="mb-6" v-if="type === 'login' || type === 'register'">
-        <input
+        <!-- <input
           type="password"
           id="password"
           class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
           placeholder="Password"
+          v-model="password"
+          required
+          @input="handleChange()"
+        /> -->
+        <input
+          type="password"
+          id="password"
+          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
+          placeholder="密碼"
           v-model="password"
           required
           @input="handleChange()"
@@ -179,21 +217,35 @@ const handleChange = () => {
         class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-bg w-full"
         type="submit"
       >
-        <span v-if="type === 'login'">Log In</span>
-        <span v-else>Sign Up</span>
+        <span v-if="type === 'login'">
+          <!-- Log In -->
+          登入
+        </span>
+        <span v-else>
+          <!-- Sign Up -->
+          註冊
+        </span>
       </button>
 
       <p class="text-text flex justify-center mt-3">
-        <span v-if="type === 'register'"
-          >Already have an account?
+        <span v-if="type === 'register'">
+          <!-- Already have an account? -->
+          已經有帳號了嗎？
           <RouterLink class="text-text-primary font-bold" to="/login">
-            <u>Log in</u>
+            <u>
+              <!-- Log in -->
+              登入
+            </u>
           </RouterLink></span
         >
-        <span v-else-if="type === 'login'"
-          >Don't have an account?
+        <span v-else-if="type === 'login'">
+          <!-- Don't have an account? -->
+          還沒有帳號嗎？
           <RouterLink class="text-text-primary font-bold" to="/register">
-            <u>Sign up</u>
+            <u>
+              <!-- Sign up -->
+              註冊
+            </u>
           </RouterLink></span
         >
       </p>

@@ -39,6 +39,7 @@ const handleLogout = async () => {
         </button> -->
         <p
           class="text-text-primary inline-block font-bold whitespace-nowrap"
+          style="font-size: 2vh"
           v-if="sessionStore.quest"
         >
           {{ sessionStore.quest.title }}

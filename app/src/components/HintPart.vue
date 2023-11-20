@@ -30,7 +30,10 @@ const right = () => {
       :icon="['far', 'lightbulb']"
       class="text-yellow-200 p-2 content-center"
     />
-    <h1 class="inline text-text font-xl p-2 m-1">Hint</h1>
+    <h1 class="inline text-text font-xl p-2 m-1">
+      <!-- Hint -->
+      提示
+    </h1>
     <div v-if="current !== -1" class="w-full flex justify-end">
       <button
         class="p-2 m-1 w-1/8"
