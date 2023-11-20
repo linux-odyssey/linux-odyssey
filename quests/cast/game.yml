@@ -47,7 +47,7 @@ stages:
       - 01
     condition:
       command:
-        - echo
+        - echo$
     hints: |
       ➤  在 `echo` 後面還需要加上一些文字
 
@@ -56,8 +56,8 @@ stages:
     requirements:
       - 01
     condition:
-      - command:
-          - .*[Hh]ow are you
+      command:
+        - ^[Hh]ow are you
     hints: |
       ➤  在 `How are you?` 前面必須加上 `echo`
 
@@ -67,8 +67,8 @@ stages:
     requirements:
       - 01
     condition:
-      - command:
-          - echo [Hh]ow are you
+      command:
+        - echo [Hh]ow are you
     responses:
       - type: narrative
         content:
