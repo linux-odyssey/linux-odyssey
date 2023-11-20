@@ -3,7 +3,7 @@
     <img
       src="../img/catelogbg.svg"
       alt="bg"
-      class="p-2 stroke-2 scale-120 justify-center items-center"
+      class="p-2 stroke-2 scale-y-120 justify-center items-center"
     />
     <h1
       class="text-text-primary text-xl p-2.5 absolute w-fit z-2 font-mono font-bold flex flax-wrap"
@@ -48,7 +48,6 @@ async function getQuests() {
 async function getProgress() {
   try {
     const res = await api.get('/users/me')
-    console.log(res.data.progress)
     return res.data.progress
   } catch (err) {
     console.error(err)
@@ -87,31 +86,13 @@ const genOption = (nodes, edges) => ({
         color: 'gray',
         opacity: 4,
         curveness: 0.08,
-        // type: 'dashed',
-        type: (params) => {
-          const {
-            data: { unlocked },
-          } = params
-          console.log(unlocked)
-          switch (unlocked) {
-            case true:
-              return 'line'
-            default:
-              return 'dashed'
-          }
-        },
       },
       itemStyle: {
         color: (params) => {
           const {
             data: { completed },
           } = params
-          switch (completed) {
-            case true:
-              return '#ADADB5'
-            default:
-              return '#454552'
-          }
+          return completed ? '#ADADB5' : '#454552'
         },
       },
     },
@@ -120,7 +101,6 @@ const genOption = (nodes, edges) => ({
 
 function getOption(quests, progress) {
   const dag = new DAG(quests)
-  console.log(progress)
 
   const nodes = dag.getNodes().map((node) => ({
     id: node._id,
@@ -130,12 +110,17 @@ function getOption(quests, progress) {
     completed: progress[node._id]?.completed || false,
     unlocked: node.requirements.every((req) => progress[req]?.completed),
   }))
-
-  console.log(nodes)
-
+  const lineAppearence = (node) => {
+    const { unlocked } = node
+    return {
+      type: unlocked ? 'line' : 'dashed',
+      color: unlocked ? '#ADADB5' : '#454552',
+    }
+  }
   const edges = dag.getEdgesArray().map((edge) => ({
     source: edge[0],
     target: edge[1],
+    lineStyle: lineAppearence(nodes.find((node) => node.id === edge[1])),
   }))
   return genOption(nodes, edges)
 }
@@ -144,7 +129,6 @@ const router = useRouter()
 const toast = useToast()
 
 function initChart(option) {
-  console.log('initChart', chartContainer.value)
   chartInstance = init(chartContainer.value)
   chartInstance.setOption(option)
   chartInstance.on('click', (params) => {
