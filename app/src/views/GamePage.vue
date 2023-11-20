@@ -60,7 +60,7 @@ onMounted(async () => {
   <div id="main" class="h-[94vh] w-full flex p-3 space-x-3">
     <!-- Topic and Command List -->
     <div class="bg-bg-secondary h-full w-1/3 rounded-lg">
-      <section id="quest" class="h-2/3 p-3">
+      <section id="quest" class="h-2/3 p-3 overflow-auto">
         <QuestPart />
       </section>
       <hr class="border-border border" />
@@ -70,7 +70,7 @@ onMounted(async () => {
     </div>
     <!-- Terminal and Hint -->
     <div class="bg-bg h-full w-1/3 rounded-lg">
-      <section id="terminal" class="h-3/5">
+      <section id="terminal" class="h-3/5 overflow-hidden">
         <TerminalPart />
       </section>
       <hr class="border-border border" />

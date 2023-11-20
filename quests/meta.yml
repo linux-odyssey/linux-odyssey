@@ -1,6 +1,6 @@
 quests:
-  - helloworld
-  - spell
+  - get-started
+  - cast
   - discover
   - read
   - create
