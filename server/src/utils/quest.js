@@ -38,7 +38,6 @@ export async function loadAndUpdateQuests() {
       })
 
       const image = files.includes('Dockerfile') ? id : 'base'
-
       const quest = new Quest({
         _id: id,
         image,
