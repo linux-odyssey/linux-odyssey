@@ -22,7 +22,8 @@ async function mapQuests(callback) {
   )
 }
 
-export function loadAndUpdateQuests() {
+export async function loadAndUpdateQuests() {
+  await Quest.deleteMany({})
   return mapQuests(async (id, questPath) => {
     const files = await fs.readdir(questPath)
     if (!files.includes('game.yml')) {
@@ -32,23 +33,17 @@ export function loadAndUpdateQuests() {
     try {
       const body = await fs.readFile(path.join(questPath, 'game.yml'), 'utf-8')
 
-      const quest = yaml.parse(body, {
+      const questData = yaml.parse(body, {
         merge: true,
       })
 
       const image = files.includes('Dockerfile') ? id : 'base'
-
-      return await Quest.findByIdAndUpdate(
-        id,
-        {
-          _id: id,
-          image,
-          ...quest,
-        },
-        {
-          upsert: true,
-        }
-      )
+      const quest = new Quest({
+        _id: id,
+        image,
+        ...questData,
+      })
+      await quest.save()
     } catch (error) {
       console.error(`Error parsing quest ${id}:`, error.message)
       throw error

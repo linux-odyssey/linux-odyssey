@@ -2,10 +2,10 @@
 FROM node:20-alpine as base
 WORKDIR /app
 COPY package.json yarn.lock ./
-COPY app/package.json ./app/package.json
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
 COPY packages/utils/package.json ./packages/utils/package.json
 COPY packages/constants/package.json ./packages/constants/package.json
+COPY app/package.json ./app/package.json
 RUN yarn install --frozen-lockfile
 
 # Dev stage
