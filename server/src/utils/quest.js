@@ -3,7 +3,7 @@ import path from 'path'
 import yaml from 'yaml'
 
 import { Quest } from '@linux-odyssey/models'
-import logger from './logger'
+import logger from './logger.js'
 
 const questDirectory = path.join(process.cwd(), '..', 'quests')
 
