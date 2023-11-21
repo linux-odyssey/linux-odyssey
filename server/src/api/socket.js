@@ -72,8 +72,6 @@ function onConnect(socket) {
     socket.emit('terminal', chunk.toString())
   })
 
-  socket.on('message', logger.info)
-
   socket.on('terminal', function incoming(message) {
     stream.socket.write(message)
   })
