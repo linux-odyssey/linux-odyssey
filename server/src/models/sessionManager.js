@@ -110,6 +110,9 @@ export async function isQuestUnlocked(user, questId) {
   if (!quest) {
     throw new Error(`Quest ${questId} not found`)
   }
+  if (!quest.requirements) {
+    return true
+  }
   return quest.requirements.every((requiredQuestId) => {
     const progress = userProfile.progress.get(requiredQuestId)
     return progress && progress.completed
