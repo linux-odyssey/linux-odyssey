@@ -1,42 +1,46 @@
-title: 搜索指令
+title: 在終端機中探索檔案
 instruction: |
-  在這一關，你將會學到如何使用 `ls` 指令。
+  在這一關，你將會學到如何使用終端機探索檔案。
 
-  請輸入 `echo Start` 來開始這一關。
-
-requirements:
-  - get-started
+  請輸入 `echo start` 來開始這一關。
 
 stages:
-  - id: 00
-    task: 輸入 `echo Start` 來開始教程
-    repeatable: false
+  - id: warning-01
+    repeatable: true
     condition:
       command:
-        - echo Start
+        - '　'
+    hints: |
+      !! 請勿使用全形空格 !!
+
+  - id: 00
+    task: 輸入 `echo start` 來開始教程
+    repeatable: false
+    condition:
+      output:
+        - ^start$
     responses:
       - type: narrative
         content:
-          - 這次要學習的指令是 `ls` 指令。
-          - 在終端機裡，你無法直接看到目前所在資料夾中有哪些檔案。
-          -
-          - \`ls` 指令可以列出目前所在資料夾中的所有檔案。
+          - 在終端機中，並沒有圖形介面可以讓你查看資料夾中的檔案。
+          - 但是你可以透過 `ls` 指令來查看資料夾中的檔案。
+          - 在輸入 `ls` 指令後，終端機會顯示出資料夾中的檔案。
+          - 現在，請你試著輸入 `ls` 指令，並查看資料夾中的檔案。
     hints: |
-      ➤  輸入 `echo` 並在後面加上一些文字
-      ➤  例如：`echo Example`
+      ➤  輸入 `ls` 並查看資料夾中的檔案
 
   - id: 01
-    task: 使用 `echo` 指令來讓終端機顯示任意文字
+    task: 查看資料夾中的檔案
     repeatable: false
     requirements:
       - 00
     condition:
       command:
-        - echo .*
+        - ls
     responses:
       - type: narrative
         content:
-          - 你應該可以看到終端機上顯示了你剛才輸入的文字。
+          - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
           - 接下來，請你試著在終端機上顯示 `How are you?`。
     hints: |
       ➤  利用 `echo` 指令來在終端機上顯示 `How are you?`
@@ -47,7 +51,7 @@ stages:
       - 01
     condition:
       command:
-        - echo$
+        - ^echo$
     hints: |
       ➤  在 `echo` 後面還需要加上一些文字
 
@@ -67,30 +71,30 @@ stages:
     requirements:
       - 01
     condition:
-      command:
-        - echo [Hh]ow are you
+      output:
+        - ^[Hh]ow are you\??$
     responses:
       - type: narrative
         content:
-          - 非常好，相信你已經了解 `echo` 指令的用法了。
+          - 你成功的在終端機上顯示了 `How are you?`。
+          - 相信你已經了解 `echo` 指令的用法了。
           - 接下來，要像你介紹 `echo` 在遊戲中的特殊功能，那就是詠唱咒語。
           - 你可以通過輸入 `echo [咒語]` 來詠唱咒語，並產生對應的特殊效果。
           - 但是要注意，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
-          - 在真實的 Linux 環境中，詠唱咒語並不會有任何特殊效果，它只會將咒語視為一串文字顯示出來而已。
+          - 在真實的 Linux 環境中，詠唱咒語並不會有任何特殊效果。
           - 現在，有一段咒語叫做 `HELP`，請你試著使用 `echo` 詠唱這段咒語。
     hints: |
       ➤  試著使用 `echo` 來詠唱 `HELP` 咒語
-      ➤  輸入 `echo HELP` 來詠唱咒語
-      ➤  注意：大小寫會有影響
+      ➤  注意：咒語要使用大寫
 
   - id: 03
-    task: 用 `echo` 指令詠唱 `HELP` 咒語
+    task: 詠唱 `HELP` 咒語
     repeatable: false
     requirements:
       - 02
     condition:
-      command:
-        - echo HELP
+      output:
+        - ^HELP$
     responses:
       - type: narrative
         content:
@@ -103,15 +107,17 @@ stages:
           - 讓我想想... 好了，我想到了一個咒語，叫做 `WATER`。
           - 這是施展水魔法的咒語。詠唱這個咒語可以施展水魔法，產生少量的水。
           - 試著使用 `echo` 詠唱這個咒語吧。
+    hints: |
+      ➤  詠唱 `WATER` 咒語
 
   - id: END
-    task: 解除封印
+    task: 詠唱 `WATER` 咒語
     repeatable: false
     requirements:
       - 03
     condition:
-      command:
-        - echo WATER
+      output:
+        - ^WATER$
     responses:
       - type: narrative
         content:
@@ -128,3 +134,8 @@ stages:
           - 不要忘了，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
           - 在真實的 Linux 環境中，咒語只會被視為一串文字顯示出來而已。
           - 以上就是 `echo` 指令的用法，請繼續努力，完成接下來的關卡吧！
+    hints: |
+      複習：
+      　　通過輸入 `echo [文字]` 來在終端機上顯示文字
+      　　通過輸入 `echo [咒語]` 來詠唱咒語
+      　　咒語只有在 Linux Odyssey 中才會有特殊效果

@@ -68,6 +68,7 @@ async function printResponses(responses, delay = 100) {
       for (const line of content) {
         await printLine(line, delay, color || 'cyan')
       }
+      console.log(colorize('------------------------------', 'green'))
       console.log()
     }
     if (type === 'dialogue') {
@@ -75,6 +76,7 @@ async function printResponses(responses, delay = 100) {
       for (const line of content) {
         await printLine(`  ${line}`, delay, color || 'cyan')
       }
+      console.log(colorize('------------------------------', 'green'))
       console.log()
     }
   }
