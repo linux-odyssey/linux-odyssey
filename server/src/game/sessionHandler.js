@@ -47,7 +47,8 @@ export default class SessionHandler {
         t.completed = true
       })
 
-    this.session.hints.push(stage.hints)
+    if (stage.hints && stage.hints.length > 0)
+      this.session.hints.push(stage.hints)
 
     this.addNewTasks()
 
@@ -56,7 +57,8 @@ export default class SessionHandler {
       hints: stage.hints,
       callback: () => {
         pushToSession(this.session.id, 'tasks', this.session.tasks)
-        pushToSession(this.session.id, 'hints', stage.hints)
+        if (stage.hints && stage.hints.length > 0)
+          pushToSession(this.session.id, 'hints', stage.hints)
         pushToSession(this.session.id, 'status', this.session.status)
       },
     }
