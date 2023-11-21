@@ -1,6 +1,6 @@
 <template>
   <font-awesome-icon :icon="['fas', 'terminal']" class="text-text p-1" />
-  <button class="text-text h-[5%]">
+  <button id="Terminal" class="text-text h-[5%]">
     <!-- Terminal -->
     終端機
   </button>

@@ -12,7 +12,7 @@ import sessionStore from '../store/session'
       <div v-if="sessionStore.quest" class="whitespace-pre-wrap">
         <p class="text-text">{{ sessionStore.quest.instruction }}</p>
         <br />
-        <p class="text-text">
+        <p id="tasks" class="text-text">
           <!-- Tasks: -->
           任務：
         </p>

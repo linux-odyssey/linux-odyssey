@@ -99,7 +99,7 @@ const handleChange = () => {
     </div>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">
-        <a
+        <a id="GoogleLogin"
           v-if="availableMethods.google"
           class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/google"
@@ -113,7 +113,7 @@ const handleChange = () => {
             以Google繼續
           </span>
         </a>
-        <a
+        <a id="GitHubLogin"
           v-if="availableMethods.github"
           class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/github"
@@ -124,10 +124,11 @@ const handleChange = () => {
           />
           <span class="font-medium">
             <!-- Continue with GitHub -->
-            以Github繼續
+            以GitHub繼續
           </span>
         </a>
         <p
+          id="or"
           class="text-text-secondary flex justify-center mt-3"
           v-if="type === 'login' || type === 'register'"
         >
@@ -210,10 +211,11 @@ const handleChange = () => {
           @input="handleChange()"
         />
       </div>
-      <p class="text-error flex justify-center" v-if="errorMessage">
+      <p id="ErrorDisplay" class="text-error flex justify-center" v-if="errorMessage">
         {{ errorMessage }}
       </p>
       <button
+        id="LogInOrSignUp"
         class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-bg w-full"
         type="submit"
       >
@@ -227,21 +229,21 @@ const handleChange = () => {
         </span>
       </button>
 
-      <p class="text-text flex justify-center mt-3">
-        <span v-if="type === 'register'">
+      <p id="SwitchLoginRegister" class="text-text flex justify-center mt-3">
+        <span id="CheckRegistered" v-if="type === 'register'">
           <!-- Already have an account? -->
           已經有帳號了嗎？
-          <RouterLink class="text-text-primary font-bold" to="/login">
+          <RouterLink id="SwitchtoLogin" class="text-text-primary font-bold" to="/login">
             <u>
               <!-- Log in -->
               登入
             </u>
           </RouterLink></span
         >
-        <span v-else-if="type === 'login'">
+        <span id="CheckRegistered" v-else-if="type === 'login'">
           <!-- Don't have an account? -->
           還沒有帳號嗎？
-          <RouterLink class="text-text-primary font-bold" to="/register">
+          <RouterLink id="SwitchtoRegister" class="text-text-primary font-bold" to="/register">
             <u>
               <!-- Sign up -->
               註冊

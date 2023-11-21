@@ -42,7 +42,7 @@ const handleLogin = async ({ username, password, success, error }) => {
       class="w-screen h-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
       <div class="w-fit">
-        <AuthForm @onSubmit="handleLogin" type="login" />
+        <AuthForm  @onSubmit="handleLogin" type="login" />
       </div>
     </div>
   </div>

@@ -3,9 +3,7 @@ export default function checkLoginUI() {
   cy.get('h1.text-text-primary')
     .should('contain', 'Linux Odyssey')
     .and('be.visible')
-  cy.get('#password')
-    .invoke('attr', 'placeholder')
-    .should('contain', 'Password')
+  cy.CheckPlaceholder('#password','密碼','Password')
 }
 describe('example helloworld app', () => {
   describe('Login tests', () => {
@@ -14,51 +12,37 @@ describe('example helloworld app', () => {
     })
     it('Check Login Page Elements-Register', () => {
       checkLoginUI()
-      cy.get('#username')
-        .invoke('attr', 'placeholder')
-        .should('contain', 'Username')
+      cy.CheckPlaceholder('#username','帳號名稱','Username')
       cy.get('label.text-text-secondary').should('be.visible') // check the rules is displayed
-      cy.get('#email').invoke('attr', 'placeholder').should('contain', 'Email')
-      cy.get('span').contains('Already have an account?').should('be.visible')
-      cy.get('a.text-text-primary')
-        .should('contain', 'Log in')
-        .and('be.visible')
+      cy.CheckPlaceholder('#email','電子郵件','Email')
+      cy.CheckTextElement('#CheckRegistered','已經有帳號了嗎？','Already have an account?')
+      cy.CheckTextElement('#SwitchtoLogin','登入','Log in')
     })
     it('Check Login Page Elements-Login', () => {
-      cy.get('a.text-text-primary')
-        .should('contain', 'Log in')
-        .and('be.visible')
-        .click()
+      cy.get('#SwitchtoLogin').click()
       checkLoginUI()
-      cy.get('#username')
-        .invoke('attr', 'placeholder')
-        .should('contain', 'Email / Username')
-      cy.findByRole('button', { name: 'Log In' }).should('be.visible')
-      cy.get('span').contains("Don't have an account?").should('be.visible')
-      cy.get('a.text-text-primary')
-        .should('contain', 'Sign up')
-        .and('be.visible')
+      cy.CheckPlaceholder('#username','電子郵件 / 帳號名稱', 'Email / Username')
+      cy.get('#LogInOrSignUp').should('be.visible')
+      cy.CheckTextElement('#CheckRegistered','還沒有帳號嗎？',"Don't have an account?")
+      cy.CheckTextElement('#SwitchtoRegister','註冊','Sign up')
     })
     it('Check social account UI', () => {
-      cy.get('p').contains('or').should('be.visible')
-      cy.findByRole('link', { name: 'Continue with Google' }).should(
-        'be.visible'
-      )
-      cy.findByRole('link', { name: 'Continue with GitHub' }).should(
-        'be.visible'
-      )
+      cy.CheckTextElement('#or','或','or')
+      cy.CheckTextElement('#GoogleLogin','以Google繼續','Continue with Google')
+      cy.CheckTextElement('#GitHubLogin','以GitHub繼續','Continue with GitHub')
     })
     it('Check login fail', () => {
       cy.LoginWithPassword('dddd', '123456')
-      cy.get('p').contains('Wrong username or password.').should('be.visible')
+      cy.CheckTextElement('#ErrorDisplay','錯誤的帳號名稱或密碼。','Wrong username or password.')
       cy.LoginWithPassword(`ddd\``, '123456')
-      cy.get('p').contains('Invalid username or password.').should('be.visible')
+      cy.CheckTextElement('#ErrorDisplay','無效的帳號名稱或密碼。','Invalid username or password.')
     })
     it('Login-Password Already Register', () => {
       cy.LoginWithPassword(
         Cypress.env('defaultAccount'),
         Cypress.env('defaultPassword')
       )
+      cy.url().should('include', '/game')
     })
   })
   describe('Game Start Page UI', () => {
@@ -66,33 +50,29 @@ describe('example helloworld app', () => {
       cy.PrepareForGame()
     })
     it('Check Header', () => {
-      cy.findByRole('button', { name: 'Hello, Linux World!' }).should(
-        'be.visible'
-      )
+      cy.get('#HeaderText').should('contain','Hello, Linux World!').and('be.visible')
       cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
       cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', 'Hello, Linux World!')
       cy.get('#quest').find('p.text-text').should('have.length', 3)
-      cy.getQuestInfo('Tasks:').should('be.visible')
+      cy.CheckTextElement('#tasks','任務','Tasks:')
       cy.getQuestInfo('輸入 `echo help` 來朗誦咒語').should('be.visible')
     })
     it('Check Command Cheat Sheet', () => {
       cy.get('#cmdlist').within(($cmdlist) => {
         cy.get($cmdlist).should('be.visible')
         cy.get('svg[data-icon="list"]').should('be.visible')
-        cy.get('h1').should('contain', 'Command Cheatsheets').and('be.visible')
-        cy.get('#cheatsheets')
-          .should('contain', '--Command List--')
-          .and('be.visible')
+        cy.CheckTextElement('#CommandBook','指令之書','Command Cheatsheets')
+        cy.CheckTextElement('#cheatsheets','-- --指令列表-- --','--Command List--')
       })
     })
     it('Check Terminal', () => {
       cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
         cy.get($terminal).should('be.visible')
         cy.get('svg[data-icon="terminal"]').should('be.visible')
-        cy.findByRole('button').should('contain', 'Terminal').and('be.visible')
+        cy.CheckTextElement('#Terminal','終端機','Terminal')
         cy.get('@Terminaltextbox')
           .should('be.visible')
           .and('contain', 'commander:~ $')
@@ -102,19 +82,17 @@ describe('example helloworld app', () => {
       cy.get('#hint', { timeout: 20000 }).within(($hint) => {
         cy.get($hint).should('be.visible')
         cy.get('svg[data-icon="lightbulb"]').should('be.visible')
-        cy.get('h1').should('contain', 'Hint').and('be.visible')
       })
+      cy.CheckTextElement('#hint','提示','Hint')
     })
     it('Check File TreeChart', () => {
       cy.get('#tree').should('be.visible')
       cy.get('#tree').get('a').should('contain', '???').and('be.visible')
     })
     it('Check Fucnctional Buttons', () => {
-      cy.findByRole('button', { name: 'Solution' }, { timeout: 30000 }).should(
-        'be.visible'
-      )
-      cy.findByRole('button', { name: 'Reset' }).should('be.visible')
-      cy.findByRole('button', { name: 'Continue' }).should('be.visible')
+      cy.CheckTextElement('#solution','解答','Solution')
+      cy.CheckTextElement('#reset','重來','Reset')
+      cy.CheckTextElement('#continue','繼續','Continue')
     })
   })
   describe('Game Play', () => {
@@ -128,7 +106,7 @@ describe('example helloworld app', () => {
         .should('contain', 'zsh: command not found: 12345')
         .and('contain', '12345')
     })
-    it.only('Complete the Game(relating UI)', () => {
+    it('Complete the Game(relating UI)', () => {
       // get answersheet
       cy.get('@answers').then((answers) => {
         const answerarr = answers.split('\n')
@@ -172,12 +150,8 @@ describe('example helloworld app', () => {
         cy.checkPending()
         cy.waitUntilActive()
         cy.getQuestInfo('✓ 解除封印').should('be.visible')
-        cy.findByRole(
-          'heading',
-          { name: 'Quest Completed!' },
-          { timeout: 20000 }
-        ).should('be.visible')
         // Check survey dialog pop up
+        cy.CheckTextElement('#QuestCompleted','關卡完成！','Quest Completed!')
         cy.get('div[class="modal"]').find('p').should('be.visible')
         cy.findByRole('link', { name: '填寫問卷' }).should('be.visible')
       })
