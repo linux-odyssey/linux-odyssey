@@ -18,7 +18,7 @@ Cypress.Commands.add('PrepareForGame', () => {
   cy.get('.xterm-screen', { timeout: 10000 })
     .as('Terminaltextbox')
     .should('be.visible')
-  cy.CheckTextElement('#reset','重來','Reset').click()
+  cy.CheckTextElement('#reset', '重來', 'Reset').click()
   cy.typeInCommand('clear{enter}')
   cy.get('@Terminaltextbox', { timeout: 150000 }).should(
     'contain',
@@ -66,23 +66,23 @@ Cypress.Commands.add('checkPending', () => {
 Cypress.Commands.add('Complete the Stage (only command)', () => {
   cy.log('')
 })
-Cypress.Commands.add('CheckTextElement',(id,chText,enText)=>{
-    cy.get(id).within(($element)=>{
-      if(Cypress.env('isCHVersion')){
-      cy.get($element).should('contain',chText).and('be.visible')
-    }
-    else{
-      cy.get($element).should('contain',enText).and('be.visible')
+Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
+  cy.get(id).within(($element) => {
+    if (Cypress.env('isCHVersion')) {
+      cy.get($element).should('contain', chText).and('be.visible')
+    } else {
+      cy.get($element).should('contain', enText).and('be.visible')
     }
   })
 })
-Cypress.Commands.add('CheckPlaceholder',(id,chText,enText)=>{
-  cy.get(id).invoke('attr', 'placeholder').then(($placeHolder)=>{
-  if(Cypress.env('isCHVersion')){
-      expect($placeHolder).eq(chText)
-  }
-  else{
-    expect($placeHolder).eq(enText)
-  }
-})
+Cypress.Commands.add('CheckPlaceholder', (id, chText, enText) => {
+  cy.get(id)
+    .invoke('attr', 'placeholder')
+    .then(($placeHolder) => {
+      if (Cypress.env('isCHVersion')) {
+        expect($placeHolder).eq(chText)
+      } else {
+        expect($placeHolder).eq(enText)
+      }
+    })
 })
