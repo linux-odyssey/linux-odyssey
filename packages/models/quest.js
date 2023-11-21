@@ -35,6 +35,26 @@ conditionSchema.add({
   not: conditionSchema,
 })
 
+const exceptionSchema = new Schema({
+  condition: {
+    type: conditionSchema,
+    required: false,
+  },
+  catchAll: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  responses: {
+    type: [responseSchema],
+    required: true,
+  },
+  hints: {
+    type: [String],
+    required: true,
+  },
+})
+
 const stageSchema = new Schema({
   id: {
     type: String,
@@ -64,6 +84,10 @@ const stageSchema = new Schema({
   },
   hints: {
     type: [String],
+    required: true,
+  },
+  exceptions: {
+    type: [exceptionSchema],
     required: true,
   },
 })

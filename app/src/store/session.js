@@ -86,7 +86,7 @@ function updateGraph(event) {
 }
 
 function updateHints(hints) {
-  store.session.hints.push(...hints)
+  store.session.hints.push(hints)
 }
 
 function updateStatus(status) {

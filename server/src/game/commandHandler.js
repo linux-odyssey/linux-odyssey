@@ -97,6 +97,19 @@ export default class CommandHandler extends SessionHandler {
     return matches.some((m) => m === true)
   }
 
+  async checkException(stage) {
+    const exceptions = stage.exceptions || []
+    for (const exception of exceptions) {
+      console.log(exception)
+      // eslint-disable-next-line no-await-in-loop
+      if (exception.condition && (await this.isMatch(exception.condition))) {
+        return exception
+      }
+      if (exception.catchAll) return exception
+    }
+    return null
+  }
+
   async run() {
     this.quest = await Quest.findById(this.session.quest)
     const stages = this.getStages()
@@ -114,6 +127,14 @@ export default class CommandHandler extends SessionHandler {
 
     const stage = stages.find((_, i) => matches[i])
     if (!stage) {
+      for (const s of stages) {
+        // eslint-disable-next-line no-await-in-loop
+        const exception = await this.checkException(s)
+        if (exception) {
+          console.log('Got exception', exception)
+          return this.executeException(exception)
+        }
+      }
       return {}
     }
     const response = this.execute(stage)
