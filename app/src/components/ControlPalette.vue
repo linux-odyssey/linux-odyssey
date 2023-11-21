@@ -20,12 +20,16 @@
         重來
       </p>
     </button>
-    <button id="continue" class="bg-bg-disabled rounded-lg p-2">
+    <button
+      id="continue"
+      class="bg-bg-secondary rounded-lg p-2"
+      @click="continuePlay"
+    >
       <font-awesome-icon
         :icon="['far', 'circle-right']"
-        class="text-text-disabled"
+        class="text-text-primary"
       />
-      <p class="text-text-disabled inline ml-1">
+      <p class="text-text-primary inline ml-1">
         <!-- Continue -->
         繼續
       </p>
@@ -34,10 +38,22 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 import { createSession } from '../store/session'
 
+const router = useRouter()
 const reset = async () => {
   console.log('resetting...')
   await createSession()
+}
+const continuePlay = async () => {
+  try {
+    router.push({ name: 'map' })
+  } catch (err) {
+    // useToast().error('Failed to load map')
+    useToast().error('無法讀取地圖')
+    console.error(err)
+  }
 }
 </script>

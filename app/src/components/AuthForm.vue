@@ -41,7 +41,7 @@ const hasSocialLogins = computed(() => {
 })
 
 const success = () => {
-  router.push({ name: 'game', params: { questId: 'helloworld' } })
+  router.push({ name: 'map' })
 }
 
 const error = (err) => {
