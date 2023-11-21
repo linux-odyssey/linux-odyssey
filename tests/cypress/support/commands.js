@@ -13,7 +13,7 @@ Cypress.Commands.add('PrepareForGame', () => {
     Cypress.env('defaultAccount'),
     Cypress.env('defaultPassword')
   )
-  cy.url().should('include', '/game')
+  cy.url().should('include', '/map')
   cy.visit('/game/helloworld')
   cy.get('.xterm-screen', { timeout: 10000 })
     .as('Terminaltextbox')

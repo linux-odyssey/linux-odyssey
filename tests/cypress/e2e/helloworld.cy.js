@@ -70,7 +70,7 @@ describe('example helloworld app', () => {
         Cypress.env('defaultAccount'),
         Cypress.env('defaultPassword')
       )
-      cy.url().should('include', '/game')
+      cy.url().should('include', '/map')
     })
   })
   describe('Game Start Page UI', () => {
