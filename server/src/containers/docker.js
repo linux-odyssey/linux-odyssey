@@ -80,6 +80,16 @@ export async function deleteContainer(id) {
   await container.remove()
 }
 
+function parseJSONOutput(data) {
+  const { stream, error } = JSON.parse(data.toString())
+  if (stream) {
+    logger.info(stream)
+  }
+  if (error) {
+    throw error
+  }
+}
+
 export function buildQuestImage(questPath, questId) {
   return new Promise((resolve, reject) => {
     engine.buildImage(
@@ -98,12 +108,16 @@ export function buildQuestImage(questPath, questId) {
         }
         response.on('data', (data) => {
           // Process the data (this could be Docker build output)
-          const { stream, error } = JSON.parse(data.toString())
-          if (stream) {
-            logger.info(stream)
-          }
-          if (error) {
-            logger.error(error)
+          try {
+            data
+              .toString()
+              .split('\n')
+              .map((line) => line.trim())
+              .filter((line) => line !== '')
+              .forEach((line) => {
+                parseJSONOutput(line)
+              })
+          } catch (error) {
             reject(error)
           }
         })

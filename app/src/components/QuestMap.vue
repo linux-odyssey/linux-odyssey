@@ -14,6 +14,7 @@ const marginX = 100
 const marginY = 65
 const chartContainer = ref(null)
 let chartInstance = null
+const fullwidth = window.screen.width
 
 use([GraphChart, SVGRenderer, TitleComponent, TooltipComponent])
 
@@ -49,11 +50,11 @@ const genOption = (nodes, edges) => ({
       symbol: () => {
         return NodeImage
       },
-      symbolSize: [200, 100],
-      roam: true,
+      symbolSize: [fullwidth / 10, fullwidth / 20],
+      roam: false,
       label: {
         show: true,
-        fontSize: 22,
+        fontSize: fullwidth / 90,
       },
       edgeSymbol: ['pin', 'arrow'],
       edgeSymbolSize: [2, 15],
@@ -126,7 +127,8 @@ function initChart(option) {
     if (unlocked) {
       router.push({ name: 'game', params: { questId: id } })
     } else {
-      toast.warning('You have not completed the previous quest yet!')
+      // toast.warning('You have not completed the previous quest yet!')
+      toast.warning('你還沒完成前一個關卡!')
     }
   })
 }
@@ -147,9 +149,11 @@ onMounted(async () => {
       class="p-2 stroke-2 scale-y-120 justify-center items-center"
     />
     <h1
-      class="text-text-primary text-xl p-2.5 absolute w-fit z-2 font-mono font-bold flex flax-wrap"
+      class="p-4 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
+      style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
     >
-      Get through your linux journey!
+      <!-- Get through your linux journey! -->
+      踏上你的Linux冒險之旅吧！
     </h1>
     <div class="flex flex-wrap absolute w-full h-full z-1">
       <div ref="chartContainer" class="w-full h-full flex flex-wrap"></div>
