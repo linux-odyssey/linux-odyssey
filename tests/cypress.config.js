@@ -24,7 +24,7 @@ module.exports = defineConfig({
   env: {
     defaultAccount: getOrFail('TESTING_USERNAME'),
     defaultPassword: getOrFail('TESTING_PASSWORD'),
-    isCHVersion:true,
+    isCHVersion: true,
     // google_username: process.env.GOOGLE_USERNAME,
     // google_password: process.env.GOOGLE_PASSWORD,
     // google_client_id: process.env.GOOGLE_CLIENT_ID,

@@ -116,8 +116,8 @@ export function buildQuestImage(questPath, questId) {
               .forEach((line) => {
                 parseJSONOutput(line.trim())
               })
-          } catch (err) {
-            reject(err)
+          } catch (error) {
+            reject(error)
           }
         })
 
