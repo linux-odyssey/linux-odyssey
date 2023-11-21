@@ -170,11 +170,14 @@ stages:
           - 接下來我們要來學習如何複製資料夾。
           - 現在目錄下有一個 `notes` 資料夾，裡面有一個 `note.txt` 的檔案。
           - 我們要能整個資料夾包含裡面的檔案一起複製到 `notes2`。
-          - 跟複製單一檔案不一樣的是，複製資料夾時，我們要加上 `-r` 的參數，recursive，代表遞迴地將資料夾中的所有檔案都複製出來。
+          - 跟複製單一檔案不一樣的是，複製資料夾時，我們要加上 `-r` 的選項（recursive）代表將資料夾中的所有檔案都一起複製。
+          - 在使用指令時，如果想要調整指令的行為，可以在指令後面加上選項。
+          - 選項的格式通常是 `-` 加上一個字母，例如 `-r`。
+          - 選項擺放的位置沒有特別的限制，通常會跟在指令的後面，置於檔案名稱的前面。
           - 請你使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`。
     hints:
       - 使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
-      - 記得要加上 `-r` 的參數來複製所有檔案
+      - 記得要加上 `-r` 的選項來複製所有檔案
 
   - id: cp-notes
     requirements:
@@ -182,7 +185,7 @@ stages:
     task: 複製 `notes` 資料夾到 `notes2`
     condition:
       command:
-        - ^cp -r notes notes2$
+        - ^cp
       files:
         - path: notes2
           type: directory
@@ -195,6 +198,15 @@ stages:
           - 我們打開來確認一下 `notes2` 資料夾的內容吧！
     hints:
       - 使用 `ls notes2` 來查看 `notes2` 資料夾的內容
+    exceptions:
+      - condition:
+          error:
+            - 'cp: omitting directory'
+        responses:
+          - type: narrative
+            content:
+              - 你忘記加上 `-r` 的參數了嗎？
+              - 請輸入 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
 
   - id: ls-notes2
     requirements:
