@@ -42,7 +42,7 @@ stages:
       command:
         - ls
     responses:
-      - types: narrative
+      - type: narrative
         content:
           - 一瞬間，視野變得清晰起來，你發現自己身處在一個石頭建築的房間裡。
           - 你發現了一個檔案，檔名是 `forgotten-scroll.txt`。

@@ -34,7 +34,7 @@ stages:
       command:
         - echo .*
     responses:
-      - types: narrative
+      - type: narrative
         content:
           - 你應該可以看到終端機上顯示了你剛才輸入的文字。
           - 接下來，請你試著在終端機上顯示 `How are you?`。
