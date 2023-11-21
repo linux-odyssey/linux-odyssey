@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { genSecret } from '../utils/env.js'
 
 function setup() {

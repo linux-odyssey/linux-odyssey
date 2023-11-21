@@ -2,6 +2,7 @@ import { matchedData } from 'express-validator'
 import { genJWT } from '../../utils/auth.js'
 import { createUser } from '../../models/userManager.js'
 import { asyncHandler } from '../../middleware/error.js'
+import logger from '../../utils/logger.js'
 
 export const issueToken = asyncHandler(async (req, res) => {
   const { user } = req
@@ -31,7 +32,7 @@ export const register = asyncHandler(async (req, res, next) => {
 export function logout(req, res) {
   req.logout((err) => {
     if (err) {
-      console.error(err)
+      logger.error(err)
       res.status(500).json({
         message: 'error logging out',
       })

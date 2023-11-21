@@ -1,5 +1,6 @@
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
+import logger from '../utils/logger.js'
 
 const engine = new Docker()
 
@@ -33,7 +34,7 @@ export function createContainer(name, questId) {
 }
 
 export async function getAndStartContainer(id) {
-  console.log(`Getting container: ${id}`)
+  logger.debug(`Getting container: ${id}`)
   const container = engine.getContainer(id)
   if (!container) {
     throw new Error(`Container ${id} not found`)
@@ -74,7 +75,7 @@ export async function deleteContainer(id) {
   try {
     await container.stop()
   } catch (error) {
-    console.log(error)
+    logger.warn(error)
   }
   await container.remove()
 }
@@ -82,7 +83,7 @@ export async function deleteContainer(id) {
 function parseJSONOutput(data) {
   const { stream, error } = JSON.parse(data.toString())
   if (stream) {
-    console.log(stream)
+    logger.info(stream)
   }
   if (error) {
     throw error
@@ -122,12 +123,12 @@ export function buildQuestImage(questPath, questId) {
         })
 
         response.on('end', () => {
-          console.log(`Build completed for ${questId}`)
+          logger.info(`Build completed for ${questId}`)
           resolve(questId)
         })
 
         response.on('error', (error) => {
-          console.error(`Build failed for ${questId}:`, error)
+          logger.error(`Build failed for ${questId}:`, error)
           reject(error)
         })
       }

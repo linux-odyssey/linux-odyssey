@@ -46,6 +46,10 @@ const config = {
     imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
     mountQuest: get('MOUNT_QUEST', ''),
   },
+
+  log: {
+    path: get('LOG_PATH', '../logs'),
+  },
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
