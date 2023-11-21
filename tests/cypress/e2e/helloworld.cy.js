@@ -41,13 +41,13 @@ describe('example helloworld app', () => {
     it('Check social account UI', () => {
       cy.CheckTextElement(
         '#GoogleLogin',
-        '以Google繼續',
+        '以 Google 繼續',
         'Continue with Google'
       )
       cy.CheckTextElement('#or', '或', 'or')
       cy.CheckTextElement(
         '#GitHubLogin',
-        '以GitHub繼續',
+        '以 GitHub 繼續',
         'Continue with GitHub'
       )
     })

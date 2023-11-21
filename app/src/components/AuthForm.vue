@@ -111,7 +111,7 @@ const handleChange = () => {
           />
           <span class="font-medium">
             <!-- Continue with Google -->
-            以Google繼續
+            以 Google 繼續
           </span>
         </a>
         <a
@@ -126,7 +126,7 @@ const handleChange = () => {
           />
           <span class="font-medium">
             <!-- Continue with GitHub -->
-            以GitHub繼續
+            以 GitHub 繼續
           </span>
         </a>
         <p

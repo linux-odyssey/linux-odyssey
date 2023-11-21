@@ -115,7 +115,7 @@ export function buildQuestImage(questPath, questId) {
               .map((line) => line.trim())
               .filter((line) => line !== '')
               .forEach((line) => {
-                parseJSONOutput(line.trim())
+                parseJSONOutput(line)
               })
           } catch (error) {
             reject(error)
