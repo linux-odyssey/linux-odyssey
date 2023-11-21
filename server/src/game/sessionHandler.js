@@ -47,7 +47,7 @@ export default class SessionHandler {
         t.completed = true
       })
 
-    this.session.hints.push(...stage.hints)
+    this.session.hints.push(stage.hints)
 
     this.addNewTasks()
 
