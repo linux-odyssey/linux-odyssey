@@ -63,4 +63,19 @@ export default class SessionHandler {
       },
     }
   }
+
+  executeException(exception) {
+    const { hints, responses } = exception
+    if (hints && hints.length > 0) this.session.hints.push(hints)
+
+    return {
+      responses,
+      hints,
+      callback: () => {
+        if (hints && hints.length > 0)
+          pushToSession(this.session.id, 'hints', hints)
+        pushToSession(this.session.id, 'status', this.session.status)
+      },
+    }
+  }
 }

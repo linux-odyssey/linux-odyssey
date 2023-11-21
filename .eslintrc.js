@@ -28,5 +28,6 @@ module.exports = {
     'no-plusplus': 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto', semi: false }],
     'import/prefer-default-export': 'off',
+    'no-restricted-syntax': ['off', 'ForOfStatement'],
   },
 }

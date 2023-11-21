@@ -1,6 +1,27 @@
 title: 複製檔案
 instruction: |
-  複製檔案
+  在這個關卡中，你將學習如何複製檔案。
 
 requirements:
   - create
+
+stages:
+  - id: start
+    task: 輸入 `echo start` 來開始
+    condition:
+      output:
+        - start
+    exceptions:
+      - condition:
+          command:
+            - ^echo$
+        responses:
+          - type: narrative
+            content:
+              - 你忘記輸入 `start` 了嗎？
+              - 請輸入 `echo start` 來開始
+      - catchAll: true
+        responses:
+          - type: narrative
+            content:
+              - 請輸入 `echo start` 來開始
