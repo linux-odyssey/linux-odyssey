@@ -66,7 +66,7 @@ export const getSessionById = asyncHandler(async (req, res) => {
 
 export const getOrCreateSession = asyncHandler(async (req, res) => {
   const { questId } = matchedData(req)
-  if ((await isQuestUnlocked(req.user, questId)) || config.testing.enable) {
+  if ((await isQuestUnlocked(req.user, questId)) || config.testing.enabled) {
     const session = await getOrCreateActiveSession(req.user, questId)
     res.json(sessionDetail(session))
   } else {
