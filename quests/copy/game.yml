@@ -1,3 +1,6 @@
-title: Read the File
+title: 複製檔案
 instruction: |
-  閱讀檔案
+  複製檔案
+
+requirements:
+  - create

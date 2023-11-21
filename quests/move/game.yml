@@ -1,3 +1,6 @@
-title: Read the File
+title: 移動檔案
 instruction: |
-  閱讀檔案
+  移動檔案
+
+requirements:
+  - create
