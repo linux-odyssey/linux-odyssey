@@ -6,6 +6,7 @@ import {
   isQuestUnlocked,
 } from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
+import config from '../../config.js'
 
 function sessionSummary(session) {
   return {
@@ -65,7 +66,7 @@ export const getSessionById = asyncHandler(async (req, res) => {
 
 export const getOrCreateSession = asyncHandler(async (req, res) => {
   const { questId } = matchedData(req)
-  if (await isQuestUnlocked(req.user, questId)) {
+  if ((await isQuestUnlocked(req.user, questId)) || config.testing.enable) {
     const session = await getOrCreateActiveSession(req.user, questId)
     res.json(sessionDetail(session))
   } else {
