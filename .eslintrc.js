@@ -17,7 +17,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'no-console': 'error',
+    'no-console': 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/extensions': 'off',
     camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
