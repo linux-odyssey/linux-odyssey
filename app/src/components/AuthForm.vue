@@ -99,7 +99,8 @@ const handleChange = () => {
     </div>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">
-        <a id="GoogleLogin"
+        <a
+          id="GoogleLogin"
           v-if="availableMethods.google"
           class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/google"
@@ -113,7 +114,8 @@ const handleChange = () => {
             以Google繼續
           </span>
         </a>
-        <a id="GitHubLogin"
+        <a
+          id="GitHubLogin"
           v-if="availableMethods.github"
           class="inline-flex justify-center items-center rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
           href="/api/v1/auth/github"
@@ -211,7 +213,11 @@ const handleChange = () => {
           @input="handleChange()"
         />
       </div>
-      <p id="ErrorDisplay" class="text-error flex justify-center" v-if="errorMessage">
+      <p
+        id="ErrorDisplay"
+        class="text-error flex justify-center"
+        v-if="errorMessage"
+      >
         {{ errorMessage }}
       </p>
       <button
@@ -233,7 +239,11 @@ const handleChange = () => {
         <span id="CheckRegistered" v-if="type === 'register'">
           <!-- Already have an account? -->
           已經有帳號了嗎？
-          <RouterLink id="SwitchtoLogin" class="text-text-primary font-bold" to="/login">
+          <RouterLink
+            id="SwitchtoLogin"
+            class="text-text-primary font-bold"
+            to="/login"
+          >
             <u>
               <!-- Log in -->
               登入
@@ -243,7 +253,11 @@ const handleChange = () => {
         <span id="CheckRegistered" v-else-if="type === 'login'">
           <!-- Don't have an account? -->
           還沒有帳號嗎？
-          <RouterLink id="SwitchtoRegister" class="text-text-primary font-bold" to="/register">
+          <RouterLink
+            id="SwitchtoRegister"
+            class="text-text-primary font-bold"
+            to="/register"
+          >
             <u>
               <!-- Sign up -->
               註冊

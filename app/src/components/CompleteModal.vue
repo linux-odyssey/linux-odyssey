@@ -18,7 +18,10 @@ setTimeout(() => {
   <div v-if="showModal" class="modal">
     <div class="modal-content bg-bg-secondary rounded-lg">
       <span class="close text-text" @click="closeModal">&times;</span>
-      <h2 id="QuestCompleted" class="text-2xl text-text mb-5 w-full inline-flex justify-center">
+      <h2
+        id="QuestCompleted"
+        class="text-2xl text-text mb-5 w-full inline-flex justify-center"
+      >
         <!-- Quest Completed! -->
         關卡完成！
       </h2>
