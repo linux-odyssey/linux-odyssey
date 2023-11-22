@@ -34,12 +34,16 @@ async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
 
 async function discoverFiles(argv) {
   const targetPath = argv._.length < 2 ? ['.'] : argv._.slice(1)
-  const result = await Promise.all(
-    targetPath
-      .map((p) => path.resolve(process.cwd(), p))
-      .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
-  )
-  return { discover: result.flat() }
+  try {
+    const result = await Promise.all(
+      targetPath
+        .map((p) => path.resolve(process.cwd(), p))
+        .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
+    )
+    return { discover: result.flat() }
+  } catch (err) {
+    return {}
+  }
 }
 
 module.exports = discoverFiles

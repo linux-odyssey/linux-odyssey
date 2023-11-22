@@ -18,14 +18,19 @@ setTimeout(() => {
   <div v-if="showModal" class="modal">
     <div class="modal-content bg-bg-secondary rounded-lg">
       <span class="close text-text" @click="closeModal">&times;</span>
-      <h2 class="text-2xl text-text mb-5 w-full inline-flex justify-center">
-        Quest Completed!
+      <h2
+        id="QuestCompleted"
+        class="text-2xl text-text mb-5 w-full inline-flex justify-center"
+      >
+        <!-- Quest Completed! -->
+        關卡完成！
       </h2>
       <p class="text-base text-text">
         您已成功完成挑戰，真的非常感謝您的參與！<br />
         如果您能撥冗填寫這份問卷，我們將不勝感激，這對我們非常重要！
       </p>
       <a
+        id="SurveyButton"
         :href="surveyUrl"
         target="_blank"
         class="inline-flex justify-center rounded-lg text-base font-black py-2 mt-3 bg-text-primary w-full"

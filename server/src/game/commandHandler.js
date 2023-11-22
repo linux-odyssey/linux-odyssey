@@ -4,6 +4,7 @@ import { Quest } from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 import SessionHandler from './sessionHandler.js'
 import { checkFile } from '../containers/cli.js'
+import logger from '../utils/logger.js'
 
 // 檢查 pattern 是否符合 input
 const checkMatch = (pattern, input) => {
@@ -114,7 +115,7 @@ export default class CommandHandler extends SessionHandler {
     this.quest = await Quest.findById(this.session.quest)
     const stages = this.getStages()
     if (stages.length === 0) {
-      console.error('stage not found', this.session.tasks)
+      logger.warn('stage not found', this.session.tasks)
       return {}
     }
 

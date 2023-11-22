@@ -16,21 +16,21 @@ import { globalRateLimit } from './middleware/rateLimiter.js'
 import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 import setupTest from './utils/setupTest.js'
+import logger from './utils/logger.js'
 
 async function main() {
   if (!config.secret) {
-    console.warn(
-      'No SECRET_KEY found in .env! To set up a persistent key, please run the setup script:'
+    logger.error(
+      'No SECRET_KEY found in .env! To set up a persistent key, please run `yarn setup`:'
     )
-    console.warn('yarn setup')
     process.exit(1)
   }
 
   try {
     await connectDB(config.db)
-    console.log('Connected to MongoDB')
+    logger.info('Connected to MongoDB')
   } catch (err) {
-    console.error(err)
+    logger.error(err)
     process.exit(1)
   }
 
@@ -53,7 +53,7 @@ async function main() {
     'uniquelocal',
     ...config.trustedProxies,
   ])
-  console.log('Trusted proxies:', config.trustedProxies)
+  logger.info('Trusted proxies:', config.trustedProxies)
   app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())
@@ -74,8 +74,8 @@ async function main() {
   app.use(errorHandler)
 
   server.listen(config.port, config.host, () => {
-    console.log(`Server listening at ${config.baseUrl}`)
+    logger.info(`Server listening at ${config.baseUrl}`)
   })
 }
 
-main().catch((err) => console.log(err))
+main().catch((err) => logger.error(err))

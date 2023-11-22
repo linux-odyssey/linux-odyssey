@@ -1,6 +1,9 @@
 title: 建立檔案與資料夾
 instruction: |
-  在這個關卡中，你將學習如何建立檔案與資料夾。
+  在這個關卡中，你會學習到：
+  1. 如何使用 `touch` 建立檔案
+  2. 如何使用 `mkdir` 建立資料夾
+  準備好就輸入 `echo start` 開始吧！
 
 stages:
   - id: start
@@ -47,7 +50,22 @@ stages:
       - type: narrative
         content:
           - 你應該可以看到終端機上顯示了 `hello.txt` 這個檔案。
-          - 我們再來試試建立其他的檔案吧！
+          - 我們來看看 `hello.txt` 檔案的內容吧！
+          - 我們可以使用之前學過的 `cat` 指令來查看檔案內容。
+    hints:
+      - 輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
+
+  - id: cat
+    condition:
+      command:
+        - ^cat hello.txt$
+    responses:
+      - type: narrative
+        content:
+          - 咦？竟然什麼都沒有！
+          - 沒錯，使用 `touch` 指令建立的檔案是空的。
+          - 我們在未來會學習如何編輯檔案的內容。
+          - 再來試試建立其他的檔案吧！
           - 請你試著在終端機上建立另一個檔案，檔名為 `world.txt`。
     hints:
       - 輸入 `touch world.txt` 來建立一個檔案

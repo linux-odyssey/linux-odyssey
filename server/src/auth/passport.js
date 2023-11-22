@@ -4,6 +4,7 @@ import passwordStrategy from './passwordStrategy.js'
 import jwtStrategy from './jwtStrategy.js'
 import googleStrategy from './googleStrategy.js'
 import githubStrategy from './githubStrategy.js'
+import logger from '../utils/logger.js'
 
 passport.use(passwordStrategy)
 passport.use(jwtStrategy)
@@ -14,7 +15,7 @@ const enabledMethods = {
   github: githubStrategy !== null,
 }
 
-console.log('Enabled login methods', enabledMethods)
+logger.info('Enabled login methods', enabledMethods)
 
 if (enabledMethods.google) {
   passport.use(googleStrategy)

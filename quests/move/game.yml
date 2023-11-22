@@ -1,6 +1,219 @@
 title: 移動檔案
 instruction: |
-  移動檔案
+  在這個關卡中，你會學到：
+  1. 如何用 `mv` 移動檔案與資料夾
+  準備好就輸入 `echo start` 來開始吧！
 
 requirements:
   - create
+
+stages:
+  - id: start
+    task: 輸入 `echo start` 來開始
+    condition:
+      command:
+        - ^echo start$
+    responses:
+      - type: narrative
+        content:
+          - 今天我們要學習如何移動檔案與資料夾。
+          - 現在資料夾裡有一個 `hello.txt` 跟一個 `world.txt`，以及一個 `notes` 資料夾。
+          - 請先用 `ls` 與 `cat` 來查看它們的內容。
+          - 看完之後，使用 `echo continue` 來繼續吧！
+    hints:
+      - 用 `ls`、`ls notes` 來查看資料夾內的檔案
+      - 用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
+      - 完成後輸入 `echo continue` 來繼續
+
+  - id: continue
+    requirements:
+      - start
+    task: 查看檔案內容，完成後輸入 `echo continue` 來繼續
+    condition:
+      command:
+        - ^echo continue$
+    responses:
+      - type: narrative
+        content:
+          - 現在我們要來學習如何移動檔案與資料夾。
+          - '`mv` 指令是移動 move 的縮寫，可以用來移動檔案與資料夾。'
+          - 使用方式為 `mv [來源] [目的地]`。
+          - 我們先來將 `hello.txt` 移動到 `notes` 資料夾中吧！
+    hints:
+      - 使用 `mv hello.txt notes` 來將 `hello.txt` 移動到 `notes` 資料夾中
+
+  - id: mv-hello
+    requirements:
+      - continue
+    task: 將 `hello.txt` 移動到 `notes` 資料夾中
+    condition:
+      command:
+        - ^mv hello.txt notes$
+      files:
+        - path: notes/hello.txt
+          type: file
+        - path: hello.txt
+          exists: false
+    responses:
+      - type: narrative
+        content:
+          - 你做得很好！
+          - 我們用 `ls` 跟 `ls notes` 來查看一下資料夾內的檔案吧！
+    hints:
+      - 使用 `ls`、`ls notes` 來查看資料夾內的檔案
+
+  - id: ls-no-hello
+    requirements:
+      - mv-hello
+    task: 檢查 `hello.txt` 是否還在資料夾中
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls$
+    responses:
+      - type: narrative
+        content:
+          - '`hello.txt` 已經不在資料夾中了！'
+
+  - id: ls-notes-hello
+    requirements:
+      - mv-hello
+    task: 檢查 `hello.txt` 是否在 `notes` 資料夾中
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls notes$
+      output:
+        - hello.txt
+    responses:
+      - type: narrative
+        content:
+          - '`hello.txt` 出現在 `notes` 資料夾中了！'
+
+  - id: continue-mv
+    requirements:
+      - ls-no-hello
+      - ls-notes-hello
+    task: 輸入 `echo continue` 來繼續
+    condition:
+      command:
+        - ^echo continue$
+    responses:
+      - type: narrative
+        content:
+          - '`mv` 指令也可以用來更改檔案名稱。'
+          - '只要將目的地改成新的檔案名稱就可以了。'
+          - 現在我們要將 `world.txt` 更名為 `wow.txt`。
+    hints:
+      - 使用 `mv world.txt wow.txt` 來將 `world.txt` 更名為 `wow.txt`
+
+  - id: mv-world
+    requirements:
+      - continue-mv
+    task: 將 `world.txt` 更名為 `wow.txt`
+    condition:
+      command:
+        - ^mv
+      files:
+        - path: wow.txt
+          type: file
+        - path: world.txt
+          exists: false
+    responses:
+      - type: narrative
+        content:
+          - 你做得很好！
+          - 我們用 `ls` 來確認一下資料夾內的檔案吧！
+    hints:
+      - 使用 `ls` 來查看資料夾內的檔案
+
+  - id: ls-wow
+    requirements:
+      - mv-world
+    task: 檢查 `wow.txt` 是否存在
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls$
+      output:
+        - wow.txt
+    responses:
+      - type: narrative
+        content:
+          - '`world.txt` 現在已經變成 `wow.txt` 了。'
+          - 接下來我們來學習如何移動資料夾吧！
+          - 移動資料夾非常簡單，方法跟移動檔案一樣。
+          - '`mv` 指令會自動將資料夾內的所有檔案一起移動'
+          - 我們先來將 `notes` 資料夾改名叫作 `docs` 吧！
+    hints:
+      - 使用 `mv notes docs` 來將 `notes` 資料夾改名叫作 `docs`
+
+  - id: mv-notes
+    requirements:
+      - ls-wow
+    task: 將 `notes` 資料夾改名叫作 `docs`
+    condition:
+      command:
+        - ^mv
+      files:
+        - path: docs
+          type: directory
+        - path: notes
+          exists: false
+    responses:
+      - type: narrative
+        content:
+          - 你做得很好！
+          - 我們用 `ls` 來確認一下資料夾內的檔案吧！
+    hints:
+      - 使用 `ls` 來查看資料夾內的檔案
+
+  - id: ls-docs
+    requirements:
+      - mv-notes
+    task: 檢查 `docs` 資料夾是否存在
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls$
+      output:
+        - docs
+    responses:
+      - type: narrative
+        content:
+          - '`notes` 資料夾已經變成 `docs` 了。'
+          - 那麼最後來考考你：
+          - 試著將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`。
+          - 如果你不知道怎麼做，可以輸入 `echo hint` 來取得提示。
+
+  - id: END
+    requirements:
+      - ls-docs
+    task: 將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
+    condition:
+      command:
+        - ^mv
+      files:
+        - path: hi.txt
+          type: file
+        - path: docs/hello.txt
+          exists: false
+    responses:
+      - type: narrative
+        content:
+          - 你做得很好！
+          - 你已經學會如何移動檔案與資料夾了！
+    exceptions:
+      - condition:
+          command:
+            - ^echo hint$
+        responses:
+          - type: narrative
+            content:
+              - 你可以使用 `mv docs/hello.txt hi.txt` 來完成這個任務。
+        hints:
+          - 使用 `mv docs/hello.txt hi.txt` 來將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
