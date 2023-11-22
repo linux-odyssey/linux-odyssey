@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
+import { anime } from 'animejs'
 import sessionStore, { init } from '../store/session'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 import CommandlistPart from '../components/CommandlistPart.vue'

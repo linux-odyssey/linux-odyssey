@@ -25,6 +25,7 @@ async function getQuests() {
     return res.data
   } catch (err) {
     console.error(err)
+
     throw err
   }
 }
@@ -92,7 +93,6 @@ const genOption = (nodes, edges) => ({
               return '#454552'
             }
           }
-          // return completed ? '#ADADB5' : '#454552'
         },
       },
     },
