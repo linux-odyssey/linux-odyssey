@@ -85,7 +85,8 @@ export async function deleteContainer(id) {
 function parseJSONOutput(data) {
   const { stream, error } = JSON.parse(data.toString())
   if (stream) {
-    logger.info(stream)
+    // eslint-disable-next-line no-console
+    console.log(stream)
   }
   if (error) {
     throw error
