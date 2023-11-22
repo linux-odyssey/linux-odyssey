@@ -188,19 +188,6 @@ stages:
           - 試著將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`。
           - 如果你不知道怎麼做，可以輸入 `echo hint` 來取得提示。
 
-  - id: hint
-    requirements:
-      - ls-docs
-    condition:
-      command:
-        - ^echo hint$
-    responses:
-      - type: narrative
-        content:
-          - 你可以使用 `mv docs/hello.txt hi.txt` 來完成這個任務。
-    hints:
-      - 使用 `mv docs/hello.txt hi.txt` 來將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
-
   - id: END
     requirements:
       - ls-docs
@@ -218,3 +205,13 @@ stages:
         content:
           - 你做得很好！
           - 你已經學會如何移動檔案與資料夾了！
+    exceptions:
+      - condition:
+          command:
+            - ^echo hint$
+        responses:
+          - type: narrative
+            content:
+              - 你可以使用 `mv docs/hello.txt hi.txt` 來完成這個任務。
+        hints:
+          - 使用 `mv docs/hello.txt hi.txt` 來將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
