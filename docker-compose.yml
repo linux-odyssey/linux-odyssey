@@ -41,7 +41,6 @@ services:
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
       - SURVEY_URL=${SURVEY_URL}
       - BUG_REPORT_URL=${BUG_REPORT_URL}
-      - HOST_PWD=${PWD}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
@@ -49,6 +48,8 @@ services:
       - TESTING=true
       - TESTING_USERNAME=alex
       - TESTING_PASSWORD=Alex1234
+      - HOST_PWD=${PWD}
+      - MOUNT_QUEST=${MOUNT_QUEST}
 
   analytics:
     build:

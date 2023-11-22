@@ -23,10 +23,12 @@ export function createContainer(name, questId) {
     name,
     Image: getQuestImage(questId),
   }
-  if (!config.isProduction && config.hostPwd && config.mountQuest) {
-    option.HostConfig.Bind = [
-      `${config.hostPwd}/quests/${config.mountQuest}/home:/home/commander`,
-      `${config.hostPwd}/packages/container:/usr/local/lib/container`,
+  const { hostPwd, mountQuest } = config.docker
+  if (!config.isProduction && hostPwd && mountQuest) {
+    console.log('Mounting quest folder', mountQuest)
+    option.HostConfig.Binds = [
+      `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
+      `${hostPwd}/packages/container:/usr/local/lib/container`,
     ]
   }
   return engine.createContainer(option)
