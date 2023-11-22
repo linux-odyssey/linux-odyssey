@@ -17,7 +17,7 @@ export async function loadUserProfile() {
     return store
   } catch (err) {
     console.error(err)
-    throw new Error('Failed to load user profile', err)
+    throw new Error(`Failed to load user profile: ${err.message}`)
   }
 }
 

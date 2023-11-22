@@ -5,7 +5,10 @@ import { useToast } from 'vue-toastification'
 import { logout } from '../utils/auth'
 import { bugReportUrl } from '../config'
 import { reset } from '../store/session'
-import userProfileStore, { loadUserProfile } from '../store/userProfile'
+import userProfileStore, {
+  loadUserProfile,
+  resetUserProfile,
+} from '../store/userProfile'
 
 const router = useRouter()
 
@@ -14,6 +17,7 @@ const toast = useToast()
 const handleLogout = async () => {
   try {
     await logout()
+    resetUserProfile()
     reset()
     router.push({ name: 'login' })
   } catch (err) {
