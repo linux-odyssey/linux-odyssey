@@ -76,7 +76,7 @@ export async function deleteContainer(id) {
   try {
     await container.stop()
   } catch (error) {
-    console.log(error)
+    console.warn('Failed to stop container', id)
   }
   await container.remove()
 }

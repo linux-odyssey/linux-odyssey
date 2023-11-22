@@ -35,10 +35,12 @@ const Session = model(
       user: {
         type: Schema.ObjectId,
         ref: 'User',
+        required: true,
       },
       quest: {
         type: String,
         ref: 'Quest',
+        required: true,
       },
       containerId: String,
       status: {
