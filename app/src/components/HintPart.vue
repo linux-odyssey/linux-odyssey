@@ -66,7 +66,7 @@ const right = () => {
         :key="hint"
         class="text-text font-xl whitespace-pre-wrap"
       >
-        ➤ {{ hint }}
+        {{ hint }}
       </li>
     </ul>
     <br />

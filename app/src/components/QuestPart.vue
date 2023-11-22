@@ -16,7 +16,7 @@ import sessionStore from '../store/session'
         <ul v-if="sessionStore.session">
           <li v-for="task in sessionStore.session.tasks" :key="task.id">
             <p v-if="task.completed" class="text-text-primary">
-              <span class="">✓</span>
+              <span class=""> ✓</span>
               {{ task.name }}
             </p>
             <p v-else class="text-text">

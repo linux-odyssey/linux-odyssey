@@ -10,10 +10,10 @@ stages:
     condition:
       command:
         - '　'
-    hints: |
-      !! 請勿使用全形空格 !!
+    hints:
+      - '!! 請勿使用全形空格 !!'
 
-  - id: 00
+  - id: start
     task: 輸入 `echo start` 來開始教程
     repeatable: false
     condition:
@@ -26,15 +26,15 @@ stages:
           - '`echo` 指令可以將後方接續的文字輸出到終端機上。'
           - 例如你輸入 `echo Hello`，終端機就會顯示 `Hello`。
           - 你可以試著輸入 `echo` 並在後面加上一些文字，然後按下 Enter 鍵，就可以看到終端機上顯示了你剛才輸入的文字。
-    hints: |
-      ➤  輸入 `echo` 並在後面加上一些文字
-      ➤  例如：`echo example`
+    hints:
+      - ➤  輸入 `echo` 並在後面加上一些文字
+      - ➤  例如：`echo example`
 
-  - id: 01
+  - id: echo
     task: 在終端機上顯示顯示任意文字
     repeatable: false
     requirements:
-      - 00
+      - start
     condition:
       command:
         - ^echo .*
@@ -43,34 +43,14 @@ stages:
         content:
           - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
           - 接下來，請你試著在終端機上顯示 `How are you?`。
-    hints: |
-      ➤  利用 `echo` 指令來在終端機上顯示 `How are you?`
+    hints:
+      - ➤  利用 `echo` 指令來在終端機上顯示 `How are you?`
 
-  - id: 02.1
-    repeatable: false
-    requirements:
-      - 01
-    condition:
-      command:
-        - ^echo$
-    hints: |
-      ➤  在 `echo` 後面還需要加上一些文字
-
-  - id: 02.2
-    repeatable: false
-    requirements:
-      - 01
-    condition:
-      command:
-        - ^[Hh]ow are you
-    hints: |
-      ➤  在 `How are you?` 前面必須加上 `echo`
-
-  - id: 02
+  - id: how-are-you
     task: 在終端機上顯示 `How are you?`
     repeatable: false
     requirements:
-      - 01
+      - echo
     condition:
       output:
         - ^[Hh]ow are you\??$
@@ -84,15 +64,26 @@ stages:
           - 但是要注意，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
           - 在真實的 Linux 環境中，詠唱咒語並不會有任何特殊效果。
           - 現在，有一段咒語叫做 `HELP`，請你試著使用 `echo` 詠唱這段咒語。
-    hints: |
-      ➤  試著使用 `echo` 來詠唱 `HELP` 咒語
-      ➤  注意：咒語要使用大寫
+    hints:
+      - ➤  試著使用 `echo` 來詠唱 `HELP` 咒語
+      - ➤  注意：咒語要使用大寫
+    exceptions:
+      - condition:
+          command:
+            - ^[Hh]ow are you\??$
+        hints:
+          - ➤  在 `How are you?` 前面必須加上 `echo`
+      - condition:
+          command:
+            - ^echo$
+        hints:
+          - ➤  在 `echo` 後面還需要加上一些文字
 
-  - id: 03
+  - id: help
     task: 詠唱 `HELP` 咒語
     repeatable: false
     requirements:
-      - 02
+      - how-are-you
     condition:
       output:
         - ^HELP$
@@ -108,14 +99,14 @@ stages:
           - 讓我想想... 好了，我想到了一個咒語，叫做 `WATER`。
           - 這是施展水魔法的咒語。詠唱這個咒語可以施展水魔法，產生少量的水。
           - 試著使用 `echo` 詠唱這個咒語吧。
-    hints: |
-      ➤  詠唱 `WATER` 咒語
+    hints:
+      - ➤  詠唱 `WATER` 咒語
 
   - id: END
     task: 詠唱 `WATER` 咒語
     repeatable: false
     requirements:
-      - 03
+      - help
     condition:
       output:
         - ^WATER$
@@ -137,6 +128,6 @@ stages:
           - 以上就是 `echo` 指令的用法，請繼續努力，完成接下來的關卡吧！
     hints: |
       複習：
-      　　通過輸入 `echo [文字]` 來在終端機上顯示文字
-      　　通過輸入 `echo [咒語]` 來詠唱咒語
-      　　咒語只有在 Linux Odyssey 中才會有特殊效果
+        通過輸入 `echo [文字]` 來在終端機上顯示文字
+        通過輸入 `echo [咒語]` 來詠唱咒語
+        咒語只有在 Linux Odyssey 中才會有特殊效果

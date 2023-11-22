@@ -10,10 +10,10 @@ stages:
     condition:
       command:
         - '　'
-    hints: |
-      !! 請勿使用全形空格 !!
+    hints:
+      - '!! 請勿使用全形空格 !!'
 
-  - id: 00
+  - id: start
     task: 輸入 `echo start` 來開始教程
     repeatable: false
     condition:
@@ -26,14 +26,13 @@ stages:
           - 但是你可以透過 `ls` 指令來查看資料夾中的檔案。
           - 在輸入 `ls` 指令後，終端機會顯示出資料夾中的檔案。
           - 現在，請你試著輸入 `ls` 指令，並查看資料夾中的檔案。
-    hints: |
-      ➤  輸入 `ls` 並查看資料夾中的檔案
+    hints:
+      - 輸入 `ls` 並查看資料夾中的檔案
 
-  - id: 01
+  - id: ls
     task: 查看資料夾中的檔案
-    repeatable: false
     requirements:
-      - 00
+      - start
     condition:
       command:
         - ls
@@ -42,18 +41,26 @@ stages:
         content:
           - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
           - 接下來，請你試著在終端機上顯示 `How are you?`。
-    hints: |
-      ➤  利用 `echo` 指令來在終端機上顯示 `How are you?`
+    hints:
+      - 利用 `echo` 指令來在終端機上顯示 `How are you?`
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - /home/commander
+        hints:
+          - 請先回到 `/home/commander/` 資料夾
+          - 輸入 `cd ~` 來回到 `/home/commander/` 資料夾
 
   - id: 02.1
     repeatable: false
     requirements:
-      - 01
+      - ls
     condition:
       command:
         - ^echo$
-    hints: |
-      ➤  在 `echo` 後面還需要加上一些文字
+    hints:
+      - 在 `echo` 後面還需要加上一些文字
 
   - id: 02.2
     repeatable: false
@@ -62,8 +69,8 @@ stages:
     condition:
       command:
         - ^[Hh]ow are you
-    hints: |
-      ➤  在 `How are you?` 前面必須加上 `echo`
+    hints:
+      - 在 `How are you?` 前面必須加上 `echo`
 
   - id: 02
     task: 在終端機上顯示 `How are you?`
@@ -83,9 +90,9 @@ stages:
           - 但是要注意，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
           - 在真實的 Linux 環境中，詠唱咒語並不會有任何特殊效果。
           - 現在，有一段咒語叫做 `HELP`，請你試著使用 `echo` 詠唱這段咒語。
-    hints: |
-      ➤  試著使用 `echo` 來詠唱 `HELP` 咒語
-      ➤  注意：咒語要使用大寫
+    hints:
+      - 試著使用 `echo` 來詠唱 `HELP` 咒語
+      - 注意：咒語要使用大寫
 
   - id: 03
     task: 詠唱 `HELP` 咒語
@@ -107,8 +114,8 @@ stages:
           - 讓我想想... 好了，我想到了一個咒語，叫做 `WATER`。
           - 這是施展水魔法的咒語。詠唱這個咒語可以施展水魔法，產生少量的水。
           - 試著使用 `echo` 詠唱這個咒語吧。
-    hints: |
-      ➤  詠唱 `WATER` 咒語
+    hints:
+      - 詠唱 `WATER` 咒語
 
   - id: END
     task: 詠唱 `WATER` 咒語
@@ -134,8 +141,7 @@ stages:
           - 不要忘了，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
           - 在真實的 Linux 環境中，咒語只會被視為一串文字顯示出來而已。
           - 以上就是 `echo` 指令的用法，請繼續努力，完成接下來的關卡吧！
-    hints: |
-      複習：
-      　　通過輸入 `echo [文字]` 來在終端機上顯示文字
-      　　通過輸入 `echo [咒語]` 來詠唱咒語
-      　　咒語只有在 Linux Odyssey 中才會有特殊效果
+    hints: 複習：
+      通過輸入 `echo [文字]` 來在終端機上顯示文字
+      通過輸入 `echo [咒語]` 來詠唱咒語
+      咒語只有在 Linux Odyssey 中才會有特殊效果
