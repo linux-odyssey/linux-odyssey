@@ -5,6 +5,9 @@ instruction: |
   2. 如何使用 `mkdir` 建立資料夾
   準備好就輸入 `echo start` 開始吧！
 
+requirements:
+  - read
+
 stages:
   - id: start
     task: 輸入 `echo start` 來開始

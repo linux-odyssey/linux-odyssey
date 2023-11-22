@@ -4,6 +4,9 @@ instruction: |
   你感到腦中有某個聲音跟你說：
   「使用 `echo [ 咒語 ]` 指令來朗誦咒語 "help" 」
 
+requirements:
+  - remove
+
 stages:
   - id: help
     task: 輸入 `echo help` 來朗誦咒語

@@ -1,8 +1,13 @@
-title: 在終端機上顯示文字
+title: 在終端機中查看檔案的內容
 instruction: |
-  在這一關，你將會學到如何使用 `echo` 指令，以及它在遊戲中的特殊功能。
+  在這個關卡中，你將會學到：
+  1. 如何使用 `cat` 查看檔案的內容
 
   請輸入 `echo start` 來開始這一關。
+
+requirements:
+  - cast
+  - explore
 
 stages:
   - id: warning-01
@@ -15,119 +20,129 @@ stages:
 
   - id: start
     task: 輸入 `echo start` 來開始教程
-    repeatable: false
     condition:
       output:
         - ^start$
     responses:
-      - type: narrative
-        content:
-          - 你剛才使用的指令叫做 `echo`。
-          - '`echo` 指令可以將後方接續的文字輸出到終端機上。'
-          - 例如你輸入 `echo Hello`，終端機就會顯示 `Hello`。
-          - 你可以試著輸入 `echo` 並在後面加上一些文字，然後按下 Enter 鍵，就可以看到終端機上顯示了你剛才輸入的文字。
+      - content:
+          - 在終端機中，並沒有圖形介面可以讓你查看檔案的內容。
+          - 但是你可以透過 `cat` 指令來查看檔案的內容。
+          - '`cat` 指令是 concatenate 的縮寫，也就是串接的意思。'
+          - 在輸入 `cat [檔案名稱]` 指令後，終端機會輸出檔案的內容。
+          - 請你先查看這個資料夾中哪些檔案。
     hints:
-      - ➤  輸入 `echo` 並在後面加上一些文字
-      - ➤  例如：`echo example`
+      - ➤  請輸入 `ls` 來查看這個資料夾中的檔案。
 
-  - id: echo
-    task: 在終端機上顯示顯示任意文字
-    repeatable: false
+  - id: ls-~
+    task: 查看資料夾中的檔案
     requirements:
       - start
     condition:
+      pwd:
+        - ^/home/commander$
       command:
-        - ^echo .*
+        - ^ls$
     responses:
-      - type: narrative
-        content:
-          - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
-          - 接下來，請你試著在終端機上顯示 `How are you?`。
+      - content:
+          - 這個資料夾中有一個檔案和一個資料夾。
+          - 現在你可以使用 `cat` 指令來查看 `file.txt` 的內容。
     hints:
-      - ➤  利用 `echo` 指令來在終端機上顯示 `How are you?`
+      - ➤  請輸入 `cat file.txt` 來查看檔案的內容。
 
-  - id: how-are-you
-    task: 在終端機上顯示 `How are you?`
-    repeatable: false
+  - id: cat-file
+    task: 查看 `file.txt` 的內容
     requirements:
-      - echo
+      - ls-~
     condition:
-      output:
-        - ^[Hh]ow are you\??$
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^cat file.txt$
     responses:
-      - type: narrative
-        content:
-          - 你成功的在終端機上顯示了 `How are you?`。
-          - 相信你已經了解 `echo` 指令的用法了。
-          - 接下來，要像你介紹 `echo` 在遊戲中的特殊功能，那就是詠唱咒語。
-          - 你可以通過輸入 `echo [咒語]` 來詠唱咒語，並產生對應的特殊效果。
-          - 但是要注意，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
-          - 在真實的 Linux 環境中，詠唱咒語並不會有任何特殊效果。
-          - 現在，有一段咒語叫做 `HELP`，請你試著使用 `echo` 詠唱這段咒語。
+      - content:
+          - 你應該能看到檔案的內容了。
+          - 檔案的內容是一首李白的詩，叫做「靜夜思」。
+          - 另外，如果我們在指令的後面加上 `-n` 參數，就可以用顯示行數的方式查看檔案時。
+          - 請試著用這個方式來查看 `file.txt` 的內容。
     hints:
-      - ➤  試著使用 `echo` 來詠唱 `HELP` 咒語
-      - ➤  注意：咒語要使用大寫
-    exceptions:
-      - condition:
-          command:
-            - ^[Hh]ow are you\??$
-        hints:
-          - ➤  在 `How are you?` 前面必須加上 `echo`
-      - condition:
-          command:
-            - ^echo$
-        hints:
-          - ➤  在 `echo` 後面還需要加上一些文字
+      - ➤  請輸入 `cat -n file.txt` 來查看檔案的內容並顯示行數。
 
-  - id: help
-    task: 詠唱 `HELP` 咒語
-    repeatable: false
+  - id: cat-n-file
+    task: 查看 `file.txt` 的內容並顯示行數
     requirements:
-      - how-are-you
+      - cat-file
     condition:
-      output:
-        - ^HELP$
+      pwd:
+        - ^/home/commander$
+      or:
+        - command:
+            - ^cat -n file.txt$
+        - command:
+            - ^cat file.txt -n$
     responses:
-      - type: narrative
-        content:
-          - 你詠唱了 `HELP` 咒語，一位精靈出現了。
-      - type: dialogue
-        speaker: Unix 精靈
-        content:
-          - 你好，我是 Unix 精靈。
-          - 既然你使用了 `HELP` 咒語呼喚我，就讓我來教你一個咒語吧。
-          - 讓我想想... 好了，我想到了一個咒語，叫做 `WATER`。
-          - 這是施展水魔法的咒語。詠唱這個咒語可以施展水魔法，產生少量的水。
-          - 試著使用 `echo` 詠唱這個咒語吧。
+      - content:
+          - 你應該能看到檔案的內容和行數了。
+          - 接下來，請你進入 `folder` 資料夾，並查看資料夾內有哪些檔案。
     hints:
-      - ➤  詠唱 `WATER` 咒語
+      - ➤  輸入 `cd folder` 來進入 `folder` 資料夾
+
+  - id: cd-folder
+    task: 進入 `folder` 資料夾
+    requirements:
+      - cat-n-file
+    condition:
+      pwd:
+        - ^/home/commander/folder$
+    responses:
+      - content:
+          - 現在你已經進入 `folder` 資料夾了。
+          - 請查看資料夾內有哪些檔案。
+    hints:
+      - ➤  請輸入 `ls` 來查看資料夾中的檔案。
+
+  - id: ls-folder
+    task: 查看 `folder` 資料夾中的檔案
+    requirements:
+      - cd-folder
+    condition:
+      pwd:
+        - ^/home/commander/folder$
+      command:
+        - ^ls$
+    responses:
+      - content:
+          - 這個資料夾中有一個檔案，叫做 `words.txt`。
+          - 請用 `cat` 指令找出檔案中第 139 行的內容。
+    hints:
+      - ➤  請輸入 `cat -n words.txt` 來查看檔案的內容。
+
+  - id: cat-n-words
+    task: 查看 `words.txt` 的內容
+    requirements:
+      - ls-folder
+    condition:
+      pwd:
+        - ^/home/commander/folder$
+      or:
+        - command:
+            - ^cat -n words.txt$
+        - command:
+            - ^cat words.txt -n$
+    responses:
+      - content:
+          - 你應該能看到檔案的內容和行數了。
+          - 請用 `echo` 指令來在終端機顯示檔案中第 139 行的內容。
+    hints:
+      - ➤  請輸入 `echo [第 139 行的內容]` 來顯示檔案中第 139 行的內容。
 
   - id: END
-    task: 詠唱 `WATER` 咒語
-    repeatable: false
-    requirements:
-      - help
+    task: 這是教學的結束
     condition:
-      output:
-        - ^WATER$
+      command:
+        - '　'
     responses:
-      - type: narrative
-        content:
-          - 你施展了水魔法，一個水球出現在你的手中。
-      - type: dialogue
-        speaker: Unix 精靈
-        content:
-          - 很好，你已經學會了水魔法。
-      - type: narrative
-        content:
-          - 真厲害，你已經了解如何使用 `echo` 指令，並且學會了詠唱咒語的方法。
-          - 最後複習一下，你可以通過輸入 `echo [文字]` 來在終端機上顯示文字。
-          - 你也可以通過輸入 `echo [咒語]` 來詠唱咒語，並產生對應的特殊效果。
-          - 不要忘了，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
-          - 在真實的 Linux 環境中，咒語只會被視為一串文字顯示出來而已。
-          - 以上就是 `echo` 指令的用法，請繼續努力，完成接下來的關卡吧！
-    hints: |
-      複習：
-        通過輸入 `echo [文字]` 來在終端機上顯示文字
-        通過輸入 `echo [咒語]` 來詠唱咒語
-        咒語只有在 Linux Odyssey 中才會有特殊效果
+      - content:
+          - 這是教學的結束。
+          - 請輸入 `echo end` 來結束這一關。
+    hints:
+      - ➤  請輸入 `echo end` 來結束這一關。

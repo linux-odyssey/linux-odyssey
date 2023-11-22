@@ -6,6 +6,9 @@ instruction: |
 
   請輸入 `echo start` 來開始這一關。
 
+requirements:
+  - get-started
+
 stages:
   - id: warning-01
     repeatable: true
@@ -22,8 +25,7 @@ stages:
       output:
         - ^start$
     responses:
-      - type: narrative
-        content:
+      - content:
           - 在終端機中，並沒有圖形介面可以讓你查看資料夾的內容。
           - 但是你可以透過 `ls` 指令來查看資料夾的內容。
           - '`ls` 指令是 list 的縮寫，也就是列出檔案的意思。'
@@ -39,11 +41,6 @@ stages:
     condition:
       command:
         - ^ls$
-      files:
-        - path: folder1
-          type: folder
-        - path: folder2
-          type: folder
     responses:
       - type: dialogue
         speaker: Unix 精靈
@@ -90,7 +87,7 @@ stages:
           - 你成功的進入 `folder1` 資料夾了。
           - 你可以發現指令提示符從原本的
           - '`commander:~ $` 變成了'
-          - '`commander:~/folder1 $'
+          - '`commander:~/folder1 $` 。'
           - 這表示你現在正位在 `folder1` 資料夾中。
           - 現在，請試著查看 `folder1` 資料夾的內容。
     hints:
@@ -140,4 +137,54 @@ stages:
       - type: narrative
         content:
           - 你成功的回到上一層資料夾了。
-          - 現在，請你試著進入 `folder2` 資料夾。
+          - 現在，請你剛才所學的指令，進入 `folder2` 資料夾，檢查 `folder2` 資料夾的內容，最後回到這個資料夾。
+    hints:
+      - ➤  使用 `cd` 指令進出資料夾
+      - ➤  使用 `ls` 指令查看資料夾的內容
+
+  - id: cd-folder2
+    task: 進入 `folder2` 資料夾
+    requirements:
+      - cd-..
+    condition:
+      pwd:
+        - /home/commander/folder2
+    responses:
+      - content:
+          - 你成功的進入 `folder2` 資料夾了。
+          - 現在，請你查看 `folder2` 資料夾的內容。
+    hints:
+      - ➤  使用 `ls` 查看資料夾的內容
+
+  - id: ls-folder2
+    task: 查看 `folder2` 資料夾的內容
+    requirements:
+      - cd-folder2
+    condition:
+      pwd:
+        - /home/commander/folder2
+      command:
+        - ls
+    responses:
+      - type: narrative
+        content:
+          - 你看到了 `folder2` 資料夾中的檔案，分別是 `file3.txt` 跟 `file4.txt`。
+          - 現在你可以離開 `folder2` 回到原本的資料夾了。
+    hints:
+      - ➤  使用 `cd ..` 回到上一層資料夾
+
+  - id: END
+    task: 回到原本的資料夾
+    requirements:
+      - ls-folder2
+    condition:
+      pwd:
+        - /home/commander
+    responses:
+      - type: narrative
+        content:
+          - 你成功的回到原本的資料夾了。
+          - 恭喜你學會了 `ls` 和 `cd` 指令的用法。
+    hints:
+      - ➤  使用 `cd` 指令進出資料夾
+      - ➤  使用 `ls` 指令查看資料夾的內容
