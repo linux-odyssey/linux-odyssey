@@ -1,6 +1,8 @@
 title: 複製檔案
 instruction: |
-  在這個關卡中，你將學習如何複製檔案。
+  在這個關卡中，你會學習到：
+  1. 如何用 `cp` 指令複製檔案。
+  準備好就輸入 `echo start` 來開始吧！
 
 requirements:
   - create

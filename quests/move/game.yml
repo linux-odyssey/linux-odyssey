@@ -1,6 +1,8 @@
 title: 移動檔案
 instruction: |
-  在這個關卡中，你會學習如何移動檔案與資料夾。準備好就輸入 `echo start` 來開始吧！
+  在這個關卡中，你會學到：
+  1. 如何用 `mv` 移動檔案與資料夾
+  準備好就輸入 `echo start` 來開始吧！
 
 requirements:
   - create
