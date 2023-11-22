@@ -10,11 +10,9 @@ const routes = [
   {
     path: '/',
     redirect: {
-      name: 'game',
-      params: {
-        questId: 'helloworld',
-      },
+      name: 'register',
     },
+    meta: { requiresGuest: true },
   },
   {
     path: '/login',
@@ -66,13 +64,10 @@ router.beforeEach(async (to, from, next) => {
     })
   } else if (to.meta.requiresGuest && loggedIn) {
     next({
-      name: 'game', // Or any default authenticated user route
-      params: {
-        questId: 'helloworld',
-      },
+      name: 'map',
     })
   } else {
-    next() // Always call next() at the end
+    next()
   }
 })
 

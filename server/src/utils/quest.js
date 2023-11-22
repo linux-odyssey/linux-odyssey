@@ -3,6 +3,7 @@ import path from 'path'
 import yaml from 'yaml'
 
 import { Quest } from '@linux-odyssey/models'
+import logger from './logger.js'
 
 const questDirectory = path.join(process.cwd(), '..', 'quests')
 
@@ -45,7 +46,7 @@ export async function loadAndUpdateQuests() {
       })
       await quest.save()
     } catch (error) {
-      console.error(`Error parsing quest ${id}:`, error.message)
+      logger.error(`Error parsing quest ${id}:`, error)
       throw error
     }
   })

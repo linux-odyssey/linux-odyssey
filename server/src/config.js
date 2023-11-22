@@ -46,6 +46,10 @@ const config = {
     mountQuest: get('MOUNT_QUEST', ''),
     hostPwd: get('HOST_PWD', ''),
   },
+
+  log: {
+    path: get('LOG_PATH', '../logs'),
+  },
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)

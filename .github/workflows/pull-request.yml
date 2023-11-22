@@ -10,6 +10,7 @@ concurrency:
 jobs:
   ci-checks:
     uses: ./.github/workflows/ci-checks.yml
+    secrets: inherit
 
   code_review:
     permissions:

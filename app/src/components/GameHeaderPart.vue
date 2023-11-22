@@ -15,7 +15,17 @@ const handleLogout = async () => {
     reset()
     router.push({ name: 'login' })
   } catch (err) {
-    toast.error('Failed to logout')
+    // toast.error('Failed to logout')
+    toast.error('登出失敗')
+    console.error(err)
+  }
+}
+const handleMap = async () => {
+  try {
+    router.push({ name: 'map' })
+  } catch (err) {
+    // toast.error('Failed to load map')
+    toast.error('無法讀取地圖')
     console.error(err)
   }
 }
@@ -38,7 +48,9 @@ const handleLogout = async () => {
           />
         </button> -->
         <p
+          id="HeaderText"
           class="text-text-primary inline-block font-bold whitespace-nowrap"
+          style="font-size: 2vh"
           v-if="sessionStore.quest"
         >
           {{ sessionStore.quest.title }}
@@ -63,6 +75,12 @@ const handleLogout = async () => {
             class="text-text-primary h-full w-full"
           />
         </button> -->
+        <button title="Map" @click="handleMap" class="h-5 w-5">
+          <font-awesome-icon
+            :icon="['fas', 'map']"
+            class="text-text-primary h-full w-full"
+          />
+        </button>
         <a
           title="Bug Report"
           :href="bugReportUrl"

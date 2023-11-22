@@ -1,6 +1,7 @@
 import { Session, Quest, UserProfile } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
 import SessionHandler from '../game/sessionHandler.js'
+import logger from '../utils/logger.js'
 
 async function deactivateSessions(user, quest) {
   const sessions = await Session.find({
@@ -11,7 +12,7 @@ async function deactivateSessions(user, quest) {
   return Promise.all(
     sessions.map((session) => {
       return deleteContainer(session.containerId)
-        .catch(console.error)
+        .catch((err) => logger.error('Failed to delete container', err))
         .finally(() => {
           session.status = 'inactive'
           session.containerId = null
@@ -29,7 +30,7 @@ export async function createNewSession(user, questId) {
 
   // deactivate all active sessions
   deactivateSessions(user._id, quest._id).catch((err) => {
-    console.error(err)
+    logger.error(err)
   })
 
   const container = await createContainer(

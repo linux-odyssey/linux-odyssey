@@ -1,5 +1,6 @@
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
+import logger from '../utils/logger.js'
 
 const engine = new Docker()
 
@@ -25,7 +26,7 @@ export function createContainer(name, questId) {
   }
   const { hostPwd, mountQuest } = config.docker
   if (!config.isProduction && hostPwd && mountQuest) {
-    console.log('Mounting quest folder', mountQuest)
+    logger.debug('Mounting quest folder', mountQuest)
     option.HostConfig.Binds = [
       `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
       `${hostPwd}/packages/container:/usr/local/lib/container`,
@@ -35,7 +36,7 @@ export function createContainer(name, questId) {
 }
 
 export async function getAndStartContainer(id) {
-  console.log(`Getting container: ${id}`)
+  logger.debug(`Getting container: ${id}`)
   const container = engine.getContainer(id)
   if (!container) {
     throw new Error(`Container ${id} not found`)
@@ -76,9 +77,19 @@ export async function deleteContainer(id) {
   try {
     await container.stop()
   } catch (error) {
-    console.warn('Failed to stop container', id)
+    logger.warn('Failed to stop container', id)
   }
   await container.remove()
+}
+
+function parseJSONOutput(data) {
+  const { stream, error } = JSON.parse(data.toString())
+  if (stream) {
+    logger.info(stream)
+  }
+  if (error) {
+    throw error
+  }
 }
 
 export function buildQuestImage(questPath, questId) {
@@ -99,23 +110,27 @@ export function buildQuestImage(questPath, questId) {
         }
         response.on('data', (data) => {
           // Process the data (this could be Docker build output)
-          const { stream, error } = JSON.parse(data.toString())
-          if (stream) {
-            console.log(stream)
-          }
-          if (error) {
-            console.error(error)
+          try {
+            data
+              .toString()
+              .split('\n')
+              .map((line) => line.trim())
+              .filter((line) => line !== '')
+              .forEach((line) => {
+                parseJSONOutput(line)
+              })
+          } catch (error) {
             reject(error)
           }
         })
 
         response.on('end', () => {
-          console.log(`Build completed for ${questId}`)
+          logger.info(`Build completed for ${questId}`)
           resolve(questId)
         })
 
         response.on('error', (error) => {
-          console.error(`Build failed for ${questId}:`, error)
+          logger.error(`Build failed for ${questId}:`, error)
           reject(error)
         })
       }

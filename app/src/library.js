@@ -15,6 +15,7 @@ import {
   faArrowRight,
   faBug,
   faCircleExclamation,
+  faMap,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faLightbulb,
@@ -36,6 +37,7 @@ library.add(
   faArrowRightFromBracket,
   faArrowRight,
   faBug,
+  faMap,
   faCircleExclamation,
   faLightbulb,
   faCircleQuestion,

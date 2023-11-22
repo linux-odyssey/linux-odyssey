@@ -2,6 +2,7 @@ import schedule from 'node-schedule'
 import { Session } from '@linux-odyssey/models'
 import config from '../config.js'
 import { deleteContainer } from './docker.js'
+import logger from '../utils/logger.js'
 
 async function disableSession(session) {
   try {
@@ -29,7 +30,6 @@ export async function removeExpired() {
   // Find all sessions that are containerId is not null and lastActivityAt is
   // less than the current time minus the expiry time
   try {
-    console.log('Checking for expired sessions')
     const sessions = await Session.find({
       containerId: { $ne: null },
       lastActivityAt: { $lt: new Date(Date.now() - config.containerExpiry) },
@@ -42,7 +42,7 @@ export async function removeExpired() {
       )
     )
   } catch (err) {
-    console.error('Remove expiring failed:', err)
+    logger.error('Remove expiring failed:', err)
   }
 }
 

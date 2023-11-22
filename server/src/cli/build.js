@@ -1,12 +1,13 @@
 import { getQuestDockerfiles } from '../utils/quest.js'
 import { buildQuestImage } from '../containers/docker.js'
+import logger from '../utils/logger.js'
 
 async function buildImages() {
   const quests = await getQuestDockerfiles()
-  console.log(`Building ${quests.length} images`)
+  logger.info(`Building ${quests.length} images`)
   return Promise.all(
     quests.map(({ id, questPath }) => {
-      console.log(`Building image for ${id}`)
+      logger.info(`Building image for ${id}`)
       return buildQuestImage(questPath, id)
     })
   )
@@ -14,11 +15,11 @@ async function buildImages() {
 
 buildImages()
   .then((result) => {
-    console.log(result)
-    console.log('Done!')
+    logger.info(result)
+    logger.info('Done!')
     process.exit(0)
   })
   .catch((err) => {
-    console.error(err)
+    logger.error(err)
     process.exit(1)
   })

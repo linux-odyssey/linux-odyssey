@@ -11,8 +11,11 @@ import sessionStore from '../store/session'
     <div>
       <div v-if="sessionStore.quest" class="whitespace-pre-wrap">
         <p class="text-text">{{ sessionStore.quest.instruction }}</p>
-        <hr class="border-border border-2 my-2" />
-        <p class="text-text">Tasks:</p>
+        <br />
+        <p id="tasks" class="text-text">
+          <!-- Tasks: -->
+          任務：
+        </p>
         <ul v-if="sessionStore.session">
           <li v-for="task in sessionStore.session.tasks" :key="task.id">
             <p v-if="task.completed" class="text-text-primary">

@@ -33,6 +33,7 @@ services:
       - ./server/swagger.yaml:/app/server/swagger.yaml
       - ./packages:/app/packages
       - ./quests:/app/quests
+      - ./logs:/app/logs
     environment:
       - BASE_URL=http://localhost:5173
       - MONGO_URL=mongodb://db:27017/odyssey-test
