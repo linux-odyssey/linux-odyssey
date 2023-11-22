@@ -1,12 +1,17 @@
 quests:
   - get-started
+
   - cast
-  - discover
-  - transport
+
+  - explore
 
   - read
 
   - create
+
   - copy
   - move
+
   - remove
+
+  - hello-world

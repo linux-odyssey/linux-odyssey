@@ -1,6 +1,8 @@
 title: 在終端機中探索檔案
 instruction: |
-  在這一關，你將會學到如何使用終端機探索檔案。
+  在這個關卡中，你將會學到：
+  1. 如何使用 `ls` 查看資料夾的內容
+  2. 如何使用 `cd` 在資料夾之間移動
 
   請輸入 `echo start` 來開始這一關。
 
@@ -22,12 +24,13 @@ stages:
     responses:
       - type: narrative
         content:
-          - 在終端機中，並沒有圖形介面可以讓你查看資料夾中的檔案。
-          - 但是你可以透過 `ls` 指令來查看資料夾中的檔案。
-          - 在輸入 `ls` 指令後，終端機會顯示出資料夾中的檔案。
-          - 現在，請你試著輸入 `ls` 指令，並查看資料夾中的檔案。
+          - 在終端機中，並沒有圖形介面可以讓你查看資料夾的內容。
+          - 但是你可以透過 `ls` 指令來查看資料夾的內容。
+          - '`ls` 指令是 list 的縮寫，也就是列出檔案的意思。'
+          - 在輸入 `ls` 指令後，終端機會輸出資料夾中包含的檔案和資料夾。
+          - 現在，請你試著輸入 `ls` 指令，查看資料夾中有什麼東西。
     hints:
-      - 輸入 `ls` 並查看資料夾中的檔案
+      - ➤  輸入 `ls` 並查看資料夾的內容
 
   - id: ls
     task: 查看資料夾中的檔案
@@ -35,113 +38,106 @@ stages:
       - start
     condition:
       command:
-        - ls
+        - ^ls$
+      files:
+        - path: folder1
+          type: folder
+        - path: folder2
+          type: folder
     responses:
-      - type: narrative
+      - type: dialogue
+        speaker: Unix 精靈
         content:
-          - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
-          - 接下來，請你試著在終端機上顯示 `How are you?`。
+          - 你應該能看到資料夾中的內容了。
+          - 在畫面右邊的檔案樹也有了改變。
+          - 可以看出，在這個資料夾中包含了兩個資料夾，分別是 `folder1` 和 `folder2`。
+      - type: dialogue
+        speaker: Unix 精靈
+        content:
+          - 接下來，我要教你如何進入資料夾。
+          - '`cd` 指令是 change directory 的縮寫，也就是改變路徑的意思。'
+          - 你可以通過輸入 `cd [資料夾名稱]` 來進入資料夾。
+          - 例如你要進入 `folder1` 資料夾，你可以輸入
+          - '`cd folder1`。'
+          - 現在，請你試著進入 `folder1` 資料夾。
     hints:
-      - 利用 `echo` 指令來在終端機上顯示 `How are you?`
+      - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
     exceptions:
       - condition:
           not:
             pwd:
               - /home/commander
         hints:
-          - 請先回到 `/home/commander/` 資料夾
-          - 輸入 `cd ~` 來回到 `/home/commander/` 資料夾
+          - ➤  請先回到 `/home/commander/` 資料夾
+          - ➤  輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+      - condition:
+          command:
+            - ^[Ii]s$
+        hints:
+          - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
 
-  - id: 02.1
-    repeatable: false
+  - id: cd-folder1
+    task: 進入 `folder1` 資料夾
     requirements:
       - ls
     condition:
-      command:
-        - ^echo$
-    hints:
-      - 在 `echo` 後面還需要加上一些文字
-
-  - id: 02.2
-    repeatable: false
-    requirements:
-      - 01
-    condition:
-      command:
-        - ^[Hh]ow are you
-    hints:
-      - 在 `How are you?` 前面必須加上 `echo`
-
-  - id: 02
-    task: 在終端機上顯示 `How are you?`
-    repeatable: false
-    requirements:
-      - 01
-    condition:
-      output:
-        - ^[Hh]ow are you\??$
+      pwd:
+        - /home/commander/folder1
     responses:
-      - type: narrative
-        content:
-          - 你成功的在終端機上顯示了 `How are you?`。
-          - 相信你已經了解 `echo` 指令的用法了。
-          - 接下來，要像你介紹 `echo` 在遊戲中的特殊功能，那就是詠唱咒語。
-          - 你可以通過輸入 `echo [咒語]` 來詠唱咒語，並產生對應的特殊效果。
-          - 但是要注意，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
-          - 在真實的 Linux 環境中，詠唱咒語並不會有任何特殊效果。
-          - 現在，有一段咒語叫做 `HELP`，請你試著使用 `echo` 詠唱這段咒語。
-    hints:
-      - 試著使用 `echo` 來詠唱 `HELP` 咒語
-      - 注意：咒語要使用大寫
-
-  - id: 03
-    task: 詠唱 `HELP` 咒語
-    repeatable: false
-    requirements:
-      - 02
-    condition:
-      output:
-        - ^HELP$
-    responses:
-      - type: narrative
-        content:
-          - 你詠唱了 `HELP` 咒語，一位精靈出現了。
       - type: dialogue
         speaker: Unix 精靈
         content:
-          - 你好，我是 Unix 精靈。
-          - 既然你使用了 `HELP` 咒語呼喚我，就讓我來教你一個咒語吧。
-          - 讓我想想... 好了，我想到了一個咒語，叫做 `WATER`。
-          - 這是施展水魔法的咒語。詠唱這個咒語可以施展水魔法，產生少量的水。
-          - 試著使用 `echo` 詠唱這個咒語吧。
+          - 你成功的進入 `folder1` 資料夾了。
+          - 你可以發現指令提示符從原本的
+          - '`commander:~ $` 變成了'
+          - '`commander:~/folder1 $'
+          - 這表示你現在正位在 `folder1` 資料夾中。
+          - 現在，請試著查看 `folder1` 資料夾的內容。
     hints:
-      - 詠唱 `WATER` 咒語
+      - ➤  輸入 `ls` 查看資料夾的內容
+    exceptions:
+      - condition:
+          pwd:
+            - /home/commander
+        hints:
+          - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
+      - condition:
+          not:
+            pwd:
+              - /home/commander
+        hints:
+          - ➤  請先回到 `/home/commander/` 資料夾
+          - ➤  輸入 `cd ~` 來返回 `/home/commander/` 資料夾
 
-  - id: END
-    task: 詠唱 `WATER` 咒語
+  - id: ls-folder1
+    task: 查看 `folder1` 資料夾的內容
     repeatable: false
     requirements:
-      - 03
+      - cd-folder1
     condition:
-      output:
-        - ^WATER$
+      pwd:
+        - /home/commander/folder1
+      command:
+        - ls
     responses:
       - type: narrative
         content:
-          - 你施展了水魔法，一個水球出現在你的手中。
-      - type: dialogue
-        speaker: Unix 精靈
-        content:
-          - 很好，你已經學會了水魔法。
+          - 你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
+          - 現在我們可以離開 `folder1` 回到原本的資料夾了。
+          - 你可以使用 `cd ..` 回到上一層資料夾。
+          - 這裡的 `..` 代表的是上一層的資料夾。
+    hints:
+      - 輸入 `cd ..` 回到上一層資料夾
+
+  - id: cd-..
+    task: 回到上一層資料夾
+    requirements:
+      - ls-folder1
+    condition:
+      pwd:
+        - /home/commander
+    responses:
       - type: narrative
         content:
-          - 真厲害，你已經了解如何使用 `echo` 指令，並且學會了詠唱咒語的方法。
-          - 最後複習一下，你可以通過輸入 `echo [文字]` 來在終端機上顯示文字。
-          - 你也可以通過輸入 `echo [咒語]` 來詠唱咒語，並產生對應的特殊效果。
-          - 不要忘了，詠唱咒語只有在 Linux Odyssey 中才會有特殊效果。
-          - 在真實的 Linux 環境中，咒語只會被視為一串文字顯示出來而已。
-          - 以上就是 `echo` 指令的用法，請繼續努力，完成接下來的關卡吧！
-    hints: 複習：
-      通過輸入 `echo [文字]` 來在終端機上顯示文字
-      通過輸入 `echo [咒語]` 來詠唱咒語
-      咒語只有在 Linux Odyssey 中才會有特殊效果
+          - 你成功的回到上一層資料夾了。
+          - 現在，請你試著進入 `folder2` 資料夾。
