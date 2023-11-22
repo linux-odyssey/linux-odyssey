@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -73,9 +74,25 @@ const genOption = (nodes, edges) => ({
       itemStyle: {
         color: (params) => {
           const {
-            data: { completed },
+            data: { completed, unlocked },
           } = params
-          return completed ? '#ADADB5' : '#454552'
+          switch (completed !== unlocked) {
+            case false: {
+              // completed==unlocked, when completed or not yet unlocked
+              if (completed) {
+                return '#00ff00'
+              }
+              return '#454552'
+            }
+            case true: {
+              // completed!=unlocked, only when unlocked but not completed
+              return '#ADADB5'
+            }
+            default: {
+              return '#454552'
+            }
+          }
+          // return completed ? '#ADADB5' : '#454552'
         },
       },
     },
