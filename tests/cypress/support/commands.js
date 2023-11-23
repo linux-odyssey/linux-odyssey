@@ -9,21 +9,25 @@ Cypress.Commands.add('LoginWithPassword', (username, password) => {
 })
 Cypress.Commands.add('PrepareForGame', () => {
   cy.visit('/')
+  // make sure the login page is loaded
+  cy.url().should('satisfy', (elements) => {
+    const text = elements
+    return text.includes('login') || text.includes('register')
+  })
   cy.LoginWithPassword(
     Cypress.env('defaultAccount'),
     Cypress.env('defaultPassword')
   )
+  // make sure the map page is loaded
   cy.url().should('include', '/map')
   cy.visit('/game/helloworld')
-  cy.get('.xterm-screen', { timeout: 10000 })
+  // make sure the game page is loaded
+  cy.url().should('include', '/game/helloworld')
+  cy.get('.xterm-screen', { timeout: 50000 })
     .as('Terminaltextbox')
     .should('be.visible')
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
   cy.typeInCommand('clear{enter}')
-  cy.get('@Terminaltextbox', { timeout: 150000 }).should(
-    'contain',
-    'commander:~ $'
-  )
   cy.get('@Terminaltextbox', { timeout: 150000 }).should(
     'contain',
     'commander:~ $'

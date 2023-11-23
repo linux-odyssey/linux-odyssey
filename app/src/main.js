@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import './library'
 /* import Vue Toastification */
 import Toast, { POSITION } from 'vue-toastification'
+/* import Vue Lottie */
+import Vue3Lottie from 'vue3-lottie'
 import 'vue-toastification/dist/index.css'
 
 import App from './App.vue'
@@ -21,5 +23,7 @@ const options = {
 }
 
 app.use(Toast, options)
+
+app.use(Vue3Lottie, { name: 'Vue3Lottie' })
 
 app.mount('#app')

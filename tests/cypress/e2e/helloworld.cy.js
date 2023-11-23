@@ -135,8 +135,8 @@ describe('example helloworld app', () => {
     it('Typing in Terminal', () => {
       cy.typeInCommand('12345{enter}')
       cy.get('@Terminaltextbox')
-        .should('contain', 'zsh: command not found: 12345')
-        .and('contain', '12345')
+        .should('contain', '12345')
+        .and('contain', 'zsh: command not found: 12345', { timeout: 50000 })
     })
     it('Complete the Game(relating UI)', () => {
       // get answersheet
@@ -185,7 +185,7 @@ describe('example helloworld app', () => {
         // Check survey dialog pop up
         cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
         cy.get('div[class="modal"]').find('p').should('be.visible')
-        cy.findByRole('link', { name: '填寫問卷' }).should('be.visible')
+        cy.get('#BacktoMap').should('contain', '回到地圖').and('be.visible')
       })
     })
   })

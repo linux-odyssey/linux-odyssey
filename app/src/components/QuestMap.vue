@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -24,6 +25,7 @@ async function getQuests() {
     return res.data
   } catch (err) {
     console.error(err)
+
     throw err
   }
 }
@@ -73,9 +75,15 @@ const genOption = (nodes, edges) => ({
       itemStyle: {
         color: (params) => {
           const {
-            data: { completed },
+            data: { completed, unlocked },
           } = params
-          return completed ? '#ADADB5' : '#454552'
+          if (completed) {
+            return '#00ff00'
+          }
+          if (unlocked) {
+            return '#ADADB5'
+          }
+          return '454552'
         },
       },
     },
