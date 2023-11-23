@@ -6,6 +6,23 @@ const axios = require('axios')
 const { colorize, printResponses, printHints } = require('./print.js')
 const discoverFiles = require('./discover.js')
 
+const {
+  API_ENDPOINT,
+  TOKEN,
+  PWD,
+  CMD_NAME,
+  CMD_OUTPUT_FILE,
+  CMD_ERROR_FILE,
+  CMD_EXIT_CODE,
+} = process.env
+
+const api = axios.create({
+  baseURL: `${API_ENDPOINT}/api/v1`,
+  headers: {
+    Authorization: `Bearer ${TOKEN}`,
+  },
+})
+
 async function readOrNone(file) {
   try {
     return await fs.readFile(file, 'utf8')
@@ -29,24 +46,21 @@ async function handleCommand(command) {
   }, {})
 }
 
-async function main() {
-  const {
-    API_ENDPOINT,
-    TOKEN,
-    PWD,
-    CMD_NAME,
-    CMD_OUTPUT_FILE,
-    CMD_ERROR_FILE,
-    CMD_EXIT_CODE,
-  } = process.env
-  if (!CMD_NAME) exit(0)
+async function handleResponse({ responses, hints, end }) {
+  if (responses) {
+    await printResponses(responses, 60)
+  }
+  if (hints) {
+    await printHints(hints, 60)
+  }
+  if (end) {
+    console.log(colorize('Quest completed!', 'blue'))
+  }
+  await api.post('/commands/completed')
+}
 
-  const api = axios.create({
-    baseURL: `${API_ENDPOINT}/api/v1`,
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  })
+async function main() {
+  if (!CMD_NAME) exit(0)
 
   const params = await handleCommand(CMD_NAME)
 
@@ -62,18 +76,8 @@ async function main() {
   }
   try {
     const res = await api.post('/commands', payload)
-    if (!res.data) return
-    const { responses, hints, end } = res.data
-    if (responses) {
-      await printResponses(responses, 60)
-    }
-    if (hints) {
-      await printHints(hints, 60)
-    }
-    if (end) {
-      console.log(colorize('Quest completed!', 'blue'))
-    }
-    await api.post('/commands/completed')
+    if (!res.data || !res.data.responses) return
+    await handleResponse(res.data)
   } catch (err) {
     if (err.response) {
       console.error(err.response.data)
