@@ -34,7 +34,7 @@ onMounted(async () => {
       </div>
       <div class="w-fit h-[94vh] m-3">
         <div
-          class="h-full bg-bg border-8 border-bg-primary flex flex-col items-center justify-center rounded-3xl p-10"
+          class="h-full bg-bg border-8 border-bg-primary flex flex-col items-center rounded-3xl p-10"
         >
           <h1 class="text-text-primary text-3xl mb-5">排行榜</h1>
           <div class="max-h-300 overflow-auto">
