@@ -1,5 +1,17 @@
 <template>
-  <section class="h-[10%] p-3 grid grid-cols-3 gap-4 place-content-between">
+  <section class="h-[10%] p-3 grid grid-cols-4 gap-4 place-content-between">
+    <button id="survey" class="bg-bg-secondary rounded-lg p-2">
+      <a title="Survey" :href="surveyUrl" target="_blank" class="h-5 w-5">
+        <font-awesome-icon
+          :icon="['fas', 'file-invoice']"
+          class="text-text-primary"
+        />
+        <p class="text-text-primary inline ml-1">
+          <!-- Survey -->
+          問卷
+        </p>
+      </a>
+    </button>
     <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
       <font-awesome-icon
         :icon="['far', 'circle-question']"
@@ -41,6 +53,7 @@
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { createSession } from '../store/session'
+import { surveyUrl } from '../config'
 
 const router = useRouter()
 const reset = async () => {

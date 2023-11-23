@@ -3,7 +3,7 @@ import { defineProps, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { logout } from '../utils/auth'
-import { bugReportUrl } from '../config'
+import { bugReportUrl, surveyUrl } from '../config'
 import { reset } from '../store/session'
 import userProfileStore, {
   loadUserProfile,
@@ -32,6 +32,15 @@ const handleMap = async () => {
   } catch (err) {
     // toast.error('Failed to load map')
     toast.error('無法讀取地圖')
+    console.error(err)
+  }
+}
+const handleLeaderBoard = async () => {
+  try {
+    router.push({ name: 'leaderboard' })
+  } catch (err) {
+    // toast.error('Failed to load map')
+    toast.error('無法讀取排行榜')
     console.error(err)
   }
 }
@@ -110,6 +119,18 @@ onMounted(async () => {
         >
           {{ userProfileStore.username }}
         </p>
+        <a title="Survey" :href="surveyUrl" target="_blank" class="h-5 w-5">
+          <font-awesome-icon
+            :icon="['fas', 'file-invoice']"
+            class="text-text-primary h-full w-full"
+          />
+        </a>
+        <button title="LeaderBoard" @click="handleLeaderBoard" class="h-5 w-5">
+          <font-awesome-icon
+            :icon="['fas', 'trophy']"
+            class="text-text-primary h-full w-full"
+          />
+        </button>
         <button title="Map" @click="handleMap" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'map']"
