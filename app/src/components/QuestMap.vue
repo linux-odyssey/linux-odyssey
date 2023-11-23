@@ -71,7 +71,7 @@ const genOption = (nodes, edges) => ({
       },
       symbolSize: [fullwidth / 10, fullwidth / 25],
       roam: 'move',
-      zoom: 2,
+      zoom: 1,
       label: {
         show: true,
         fontSize: fullwidth / 90,
@@ -108,8 +108,8 @@ function getOption(quests, progress) {
   const nodes = dag.getNodes().map((node) => ({
     id: node._id,
     name: node.title,
-    x: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
-    y: marginY * node.layer,
+    y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
+    x: marginY * node.layer * 2,
     completed: progress[node._id]?.completed || false,
     unlocked: node.requirements.every((req) => progress[req]?.completed),
   }))
