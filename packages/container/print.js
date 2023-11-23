@@ -52,6 +52,7 @@ function printLine(content, delay, color) {
 
     waitForEnter().then(() => {
       clearInterval(timer)
+      if (i >= printContent.length) return
       process.stdout.write(printContent.slice(i))
       process.stdout.write('\n')
       resolve()
@@ -68,22 +69,26 @@ async function printResponses(responses, delay = 100) {
       for (const line of content) {
         await printLine(line, delay, color || 'cyan')
       }
-      console.log(colorize('------------------------------', 'green'))
-      console.log()
     }
     if (type === 'dialogue') {
       console.log(colorize(`${speaker}:`, 'green'))
       for (const line of content) {
         await printLine(`  ${line}`, delay, color || 'cyan')
       }
-      console.log(colorize('------------------------------', 'green'))
-      console.log()
     }
+    console.log(colorize('------------------------------', 'green'))
+    console.log()
   }
-  rl.close()
+}
+
+async function printHints(hints, delay = 100) {
+  for (const hint of hints) {
+    await printLine(hint, delay, 'yellow')
+  }
 }
 
 module.exports = {
   printResponses,
+  printHints,
   colorize,
 }

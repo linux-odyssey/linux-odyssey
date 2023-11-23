@@ -3,7 +3,7 @@ const fs = require('fs').promises
 const { exit } = require('process')
 const minimist = require('minimist')
 const axios = require('axios')
-const { colorize, printResponses } = require('./print.js')
+const { colorize, printResponses, printHints } = require('./print.js')
 const discoverFiles = require('./discover.js')
 
 async function readOrNone(file) {
@@ -66,16 +66,14 @@ async function main() {
     const { responses, hints, end } = res.data
     if (responses) {
       await printResponses(responses, 60)
-      await api.post('/commands/completed')
     }
     if (hints) {
-      for (const hint of hints) {
-        console.log(colorize(hint, 'yellow'))
-      }
+      await printHints(hints, 60)
     }
     if (end) {
       console.log(colorize('Quest completed!', 'blue'))
     }
+    await api.post('/commands/completed')
   } catch (err) {
     if (err.response) {
       console.error(err.response.data)
