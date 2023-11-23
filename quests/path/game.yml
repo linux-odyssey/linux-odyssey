@@ -4,7 +4,7 @@ instruction: |
   1. 絕對路徑和相對路徑
   2. 如何使用 `pwd` 顯示目前的路徑
 
-  請輸入 `echo start` 來開始這一關。
+  準備好就輸入 `echo start` 開始吧！
 
 requirements:
   - cast
@@ -72,6 +72,15 @@ stages:
         - ^/home/commander/folder2$
       command:
         - ^cd \.\./folder2$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander/folder1$
+        responses:
+          - type: narrative
+            content:
+              - 請先回到 `folder1` 資料夾，並用指定的方式進入 `folder2` 資料夾。
     responses:
       - content:
           - 你成功的用相對路徑進入了 `folder2` 資料夾。
@@ -80,13 +89,6 @@ stages:
           - 試著用這個方式查看 `folder1` 資料夾中的檔案吧。
     hints:
       - ➤  請輸入 `ls ../folder1` 來查看 `folder1` 資料夾中的檔案。
-    exceptions:
-      - condition:
-          not:
-            pwd:
-              - ^/home/commander/folder1$
-        hints:
-          - ➤  請先回到 `folder1` 資料夾，並用指定的方式進入 `folder2` 資料夾。
 
   - id: ls-folder1
     task: 查看 `folder1` 資料夾中的檔案
@@ -97,6 +99,15 @@ stages:
         - ^/home/commander/folder2$
       command:
         - ^ls \.\.\/folder1$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander/folder2$
+        responses:
+          - type: narrative
+            content:
+              - 請先回到 `folder2` 資料夾，並用指定的方式查看 `folder1` 資料夾的內容。
     responses:
       - content:
           - 很好，你現在知道如何運用相對路徑了。
@@ -107,13 +118,6 @@ stages:
           - 現在請你使用 `pwd` 來查看目前所在的絕對路徑。
     hints:
       - ➤  輸入 `pwd` 查看目前所在的絕對路徑
-    exceptions:
-      - condition:
-          not:
-            pwd:
-              - ^/home/commander/folder2$
-        hints:
-          - ➤  請先回到 `folder2` 資料夾，並用指定的方式查看 `folder1` 資料夾的內容。
 
   - id: pwd
     task: 查看目前所在的絕對路徑
@@ -129,8 +133,10 @@ stages:
           not:
             pwd:
               - ^/home/commander/folder2$
-        hints:
-          - ➤  請先回到 `folder2` 資料夾，並用 `pwd` 來查看目前所在的絕對路徑
+        responses:
+          - type: narrative
+            content:
+              - 請先回到 `folder2` 資料夾，並用 `pwd` 來查看目前所在的絕對路徑
     responses:
       - content:
           - 你可以看到你現在的絕對路徑是 `/home/commander/folder2`。
@@ -167,8 +173,10 @@ stages:
       - condition:
           pwd:
             - ^/home/commander$
-        hints:
-          - ➤  請使用 `cd ~` 回到家目錄
+        responses:
+          - type: narrative
+            content:
+              - 請使用 `cd ~` 回到家目錄
     responses:
       - content:
           - 你回到家目錄了。

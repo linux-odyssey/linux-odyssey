@@ -1,8 +1,9 @@
 title: 移動檔案
 instruction: |
-  在這個關卡中，你會學到：
+  在這個關卡中，你將會學到：
   1. 如何用 `mv` 移動檔案與資料夾
-  準備好就輸入 `echo start` 來開始吧！
+
+  準備好就輸入 `echo start` 開始吧！
 
 requirements:
   - create
@@ -202,11 +203,6 @@ stages:
           type: file
         - path: docs/hello.txt
           exists: false
-    responses:
-      - type: narrative
-        content:
-          - 你做得很好！
-          - 你已經學會如何移動檔案與資料夾了！
     exceptions:
       - condition:
           command:
@@ -217,3 +213,8 @@ stages:
               - 你可以使用 `mv docs/hello.txt hi.txt` 來完成這個任務。
         hints:
           - 使用 `mv docs/hello.txt hi.txt` 來將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
+    responses:
+      - type: narrative
+        content:
+          - 你做得很好！
+          - 你已經學會如何移動檔案與資料夾了！

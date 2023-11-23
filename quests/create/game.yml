@@ -1,8 +1,9 @@
 title: 建立檔案與資料夾
 instruction: |
-  在這個關卡中，你會學習到：
+  在這個關卡中，你將會學到：
   1. 如何使用 `touch` 建立檔案
   2. 如何使用 `mkdir` 建立資料夾
+
   準備好就輸入 `echo start` 開始吧！
 
 requirements:

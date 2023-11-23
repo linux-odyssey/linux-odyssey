@@ -1,8 +1,10 @@
 title: 輸出文字
 instruction: |
-  在這一關，你將會學到如何使用 `echo` 指令，以及它在遊戲中的特殊功能。
+  在這個關卡中，你將會學到：
+  1. 如何使用 `echo` 指令
+  2. `echo` 指令在遊戲中的用途
 
-  請輸入 `echo start` 來開始這一關。
+  準備好就輸入 `echo start` 開始吧！
 
 requirements:
   - get-started
@@ -18,7 +20,6 @@ stages:
 
   - id: start
     task: 輸入 `echo start` 來開始教程
-    repeatable: false
     condition:
       output:
         - ^start$
@@ -34,7 +35,6 @@ stages:
 
   - id: echo
     task: 在終端機上顯示顯示任意文字
-    repeatable: false
     requirements:
       - start
     condition:
@@ -49,12 +49,26 @@ stages:
 
   - id: how-are-you
     task: 在終端機上顯示 `How are you?`
-    repeatable: false
     requirements:
       - echo
     condition:
       output:
         - ^[Hh]ow are you\??$
+    exceptions:
+      - condition:
+          command:
+            - ^[Hh]ow are you\??$
+        responses:
+          - type: narrative
+            content:
+              - 在 `How are you?` 前面必須加上 `echo`
+      - condition:
+          command:
+            - ^echo$
+        responses:
+          - type: narrative
+            content:
+              - 在 `echo` 後面還需要加上一些文字
     responses:
       - content:
           - 你成功的在終端機上顯示了 `How are you?`。
@@ -67,21 +81,9 @@ stages:
     hints:
       - ➤  試著使用 `echo` 來詠唱 `HELP` 咒語
       - ➤  注意：咒語要使用大寫
-    exceptions:
-      - condition:
-          command:
-            - ^[Hh]ow are you\??$
-        hints:
-          - ➤  在 `How are you?` 前面必須加上 `echo`
-      - condition:
-          command:
-            - ^echo$
-        hints:
-          - ➤  在 `echo` 後面還需要加上一些文字
 
   - id: help
     task: 詠唱 `HELP` 咒語
-    repeatable: false
     requirements:
       - how-are-you
     condition:
@@ -103,7 +105,6 @@ stages:
 
   - id: END
     task: 詠唱 `WATER` 咒語
-    repeatable: false
     requirements:
       - help
     condition:

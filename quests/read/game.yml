@@ -3,7 +3,7 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何使用 `cat` 查看檔案的內容
 
-  請輸入 `echo start` 來開始這一關。
+  準備好就輸入 `echo start` 開始吧！
 
 requirements:
   - path

@@ -10,7 +10,6 @@ requirements:
 stages:
   - id: help
     task: 輸入 `echo help` 來朗誦咒語
-    repeatable: false
     condition:
       pwd:
         - '^/home/commander$'
@@ -36,7 +35,6 @@ stages:
 
   - id: find-scroll
     task: 搜索卷軸
-    repeatable: false
     requirements:
       - help
     condition:
@@ -63,7 +61,6 @@ stages:
 
   - id: read-forgotten-scroll
     task: 查看卷軸
-    repeatable: false
     requirements:
       - find-scroll
     condition:
@@ -82,7 +79,6 @@ stages:
 
   - id: END
     task: 解除封印
-    repeatable: false
     requirements:
       - read-forgotten-scroll
     condition:

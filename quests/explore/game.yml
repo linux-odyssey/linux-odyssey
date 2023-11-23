@@ -4,7 +4,7 @@ instruction: |
   1. 如何使用 `ls` 查看資料夾的內容
   2. 如何使用 `cd` 在資料夾之間移動
 
-  請輸入 `echo start` 來開始這一關。
+  準備好就輸入 `echo start` 開始吧！
 
 requirements:
   - get-started
@@ -20,7 +20,6 @@ stages:
 
   - id: start
     task: 輸入 `echo start` 來開始教程
-    repeatable: false
     condition:
       output:
         - ^start$
@@ -41,6 +40,23 @@ stages:
     condition:
       command:
         - ^ls$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - /home/commander
+        responses:
+          - type: narrative
+            content:
+              - 請先回到 `/home/commander/` 資料夾
+              - 輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+      - condition:
+          command:
+            - ^[Ii]s$
+        responses:
+          - type: narrative
+            content:
+              - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
     responses:
       - content:
           - 你應該能看到資料夾中的內容了。
@@ -55,19 +71,6 @@ stages:
           - 現在，請你進入 `folder1` 資料夾。
     hints:
       - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
-    exceptions:
-      - condition:
-          not:
-            pwd:
-              - /home/commander
-        hints:
-          - ➤  請先回到 `/home/commander/` 資料夾
-          - ➤  輸入 `cd ~` 來返回 `/home/commander/` 資料夾
-      - condition:
-          command:
-            - ^[Ii]s$
-        hints:
-          - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
 
   - id: cd-folder1
     task: 進入 `folder1` 資料夾
@@ -76,6 +79,23 @@ stages:
     condition:
       pwd:
         - /home/commander/folder1
+    exceptions:
+      - condition:
+          pwd:
+            - /home/commander
+        responses:
+          - type: narrative
+            content:
+              - 輸入 `cd folder1` 來進入 `folder1` 資料夾
+      - condition:
+          not:
+            pwd:
+              - /home/commander
+        responses:
+          - type: narrative
+            content:
+              - 請先回到 `/home/commander/` 資料夾
+              - 輸入 `cd ~` 來返回 `/home/commander/` 資料夾
     responses:
       - content:
           - 你成功的進入 `folder1` 資料夾了。
@@ -86,23 +106,9 @@ stages:
           - 現在，請查看 `folder1` 資料夾的內容。
     hints:
       - ➤  輸入 `ls` 查看資料夾的內容
-    exceptions:
-      - condition:
-          pwd:
-            - /home/commander
-        hints:
-          - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
-      - condition:
-          not:
-            pwd:
-              - /home/commander
-        hints:
-          - ➤  請先回到 `/home/commander/` 資料夾
-          - ➤  輸入 `cd ~` 來返回 `/home/commander/` 資料夾
 
   - id: ls-folder1
     task: 查看 `folder1` 資料夾的內容
-    repeatable: false
     requirements:
       - cd-folder1
     condition:
