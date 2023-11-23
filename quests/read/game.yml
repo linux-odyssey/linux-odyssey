@@ -60,14 +60,12 @@ stages:
     responses:
       - content:
           - 你應該能看到檔案的內容了。
-          - 檔案的內容是一首李白的詩，叫做「靜夜思」。
-          - 另外，如果我們在指令的後面加上 `-n` 參數，就可以用顯示行數的方式查看檔案時。
-          - 請試著用這個方式來查看 `file.txt` 的內容。
+          - 接下來，請你嘗試進入 `folder` 資料夾，並查看資料夾中的檔案內容。
     hints:
       - ➤  請輸入 `cat -n file.txt` 來查看檔案的內容並顯示行數。
 
-  - id: cat-n-file
-    task: 查看 `file.txt` 的內容並顯示行數
+  - id: cd-folder
+    task: 進入 `folder` 資料夾
     requirements:
       - cat-file
     condition:
