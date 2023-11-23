@@ -21,7 +21,6 @@ stages:
 
   - id: start
     task: 輸入 `echo start` 來開始教程
-    repeatable: false
     condition:
       output:
         - ^start$
@@ -30,159 +29,147 @@ stages:
           - 在 Linux 系統中，每個資料夾和檔案都有獨一無二的路徑。
           - 而路徑又分為相對路徑和絕對路徑。
           - 相對路徑是從目前所在的資料夾開始的路徑，而絕對路徑則是從根目錄開始的路徑。
-          - 你在之前使用的 `cd folder` 或 `cd ..` ，後面的 `folder` 和 `..` 就是相對路徑。
+          - 請你先用 `ls` 指令查看這個資料夾中的檔案。
 
-          - 你可以使用 `pwd` 指令來顯示目前所在的絕對路徑。
-          - '`pwd` 是 print working directory 的縮寫，也就是顯示目前所在的路徑的意思。'
-          - 現在，請你輸入 `pwd` 指令，查看目前所在的絕對路徑。
-    hints:
-      - ➤  輸入 `pwd` 查看目前所在的絕對路徑
-
-  - id: pwd
+  - id: ls-~
     task: 查看資料夾中的檔案
     requirements:
       - start
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^ls$
     responses:
       - content:
-          - 你應該能看到資料夾中的內容了。
-          - 在畫面右邊的檔案樹也有了改變。
-          - 可以看出，在這個資料夾中包含了兩個資料夾，分別是 `folder1` 和 `folder2`。
-      - content:
-          - 接下來，我要教你如何進入資料夾。
-          - '`cd` 指令是 change directory 的縮寫，也就是改變路徑的意思。'
-          - 你可以通過輸入 `cd [資料夾名稱]` 來進入資料夾。
-          - 例如你要進入 `folder1` 資料夾，你可以輸入
-          - '`cd folder1`。'
-          - 現在，請你進入 `folder1` 資料夾。
-    hints:
-      - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
-    exceptions:
-      - condition:
-          not:
-            pwd:
-              - /home/commander
-        hints:
-          - ➤  請先回到 `/home/commander/` 資料夾
-          - ➤  輸入 `cd ~` 來返回 `/home/commander/` 資料夾
-      - condition:
-          command:
-            - ^[Ii]s$
-        hints:
-          - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
+          - 現在你使用 `cd` 指令進入 `folder1` 資料夾。
 
   - id: cd-folder1
     task: 進入 `folder1` 資料夾
     requirements:
-      - ls
+      - ls-~
     condition:
       pwd:
-        - /home/commander/folder1
+        - ^/home/commander/folder1$
     responses:
       - content:
-          - 你成功的進入 `folder1` 資料夾了。
-          - 你可以發現指令提示符從原本的
-          - '`commander:~ $` 變成了'
-          - '`commander:~/folder1 $` 。'
-          - 這表示你現在正位在 `folder1` 資料夾中。
-          - 現在，請查看 `folder1` 資料夾的內容。
+          - 你進入了 `folder1` 資料夾。
+          - 在進入 `folder1` 資料夾時，使用的 `cd folder1` 中的 `folder1` 就是相對路徑。
+          - 相同的道理 `cd ..` 中的 `..` 也是相對路徑。
+          - 相對路徑可以不只有一層資料夾。
+          - 例如：現在想要進入 `folder2` 資料夾的話，可以使用 `cd ..` 回到上一層資料夾，再使用 `cd folder2` 進入 `folder2` 資料夾。
+          - 然而，你也可以用 `/` 將 `..` 和 `folder2` 依序連接起來，使用 `cd ../folder2` 來一次進入 `folder2` 資料夾。
+          - 現在試著用這個方式進入 `folder2` 資料夾看看吧。
     hints:
-      - ➤  輸入 `ls` 查看資料夾的內容
-    exceptions:
-      - condition:
-          pwd:
-            - /home/commander
-        hints:
-          - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
-      - condition:
-          not:
-            pwd:
-              - /home/commander
-        hints:
-          - ➤  請先回到 `/home/commander/` 資料夾
-          - ➤  輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+      - ➤  請輸入 `cd ../folder2` 來進入 `folder2` 資料夾。
 
-  - id: ls-folder1
-    task: 查看 `folder1` 資料夾的內容
-    repeatable: false
+  - id: cd-folder2
+    task: 用指定方式進入 `folder2` 資料夾
     requirements:
       - cd-folder1
     condition:
       pwd:
-        - /home/commander/folder1
+        - ^/home/commander/folder2$
       command:
-        - ls
-    responses:
-      - type: narrative
-        content:
-          - 你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
-          - 現在我們可以離開 `folder1` 回到原本的資料夾了。
-          - 你可以使用 `cd ..` 回到上一層資料夾。
-          - 這裡的 `..` 代表的是上一層的資料夾。
-    hints:
-      - 輸入 `cd ..` 回到上一層資料夾
-
-  - id: cd-..
-    task: 回到上一層資料夾
-    requirements:
-      - ls-folder1
-    condition:
-      pwd:
-        - /home/commander
-    responses:
-      - type: narrative
-        content:
-          - 你成功的回到上一層資料夾了。
-          - 現在，請你剛才所學的指令，進入 `folder2` 資料夾，檢查 `folder2` 資料夾的內容，最後回到這個資料夾。
-    hints:
-      - ➤  使用 `cd` 指令進出資料夾
-      - ➤  使用 `ls` 指令查看資料夾的內容
-
-  - id: cd-folder2
-    task: 進入 `folder2` 資料夾
-    requirements:
-      - cd-..
-    condition:
-      pwd:
-        - /home/commander/folder2
+        - ^cd \.\./folder2$
     responses:
       - content:
-          - 你成功的進入 `folder2` 資料夾了。
-          - 現在，請你查看 `folder2` 資料夾的內容。
+          - 你成功的用相對路徑進入了 `folder2` 資料夾。
+          - 而你也能夠在 `ls` 後加上相對路徑來查看其他資料夾的內容。
+          - 例如：現在你想要查看 `folder1` 資料夾中有哪些檔案，你可以使用 `ls ../folder1` 來查看。
+          - 試著用這個方式查看 `folder1` 資料夾中的檔案吧。
     hints:
-      - ➤  使用 `ls` 查看資料夾的內容
+      - ➤  請輸入 `ls ../folder1` 來查看 `folder1` 資料夾中的檔案。
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander/folder1$
+        hints:
+          - ➤  請先回到 `folder1` 資料夾，並用指定的方式進入 `folder2` 資料夾。
 
-  - id: ls-folder2
-    task: 查看 `folder2` 資料夾的內容
+  - id: ls-folder1
+    task: 查看 `folder1` 資料夾中的檔案
     requirements:
       - cd-folder2
     condition:
       pwd:
-        - /home/commander/folder2
+        - ^/home/commander/folder2$
       command:
-        - ls
+        - ^ls \.\.\/folder1$
     responses:
-      - type: narrative
-        content:
-          - 你看到了 `folder2` 資料夾中的檔案，分別是 `file3.txt` 跟 `file4.txt`。
-          - 現在你可以離開 `folder2` 回到原本的資料夾了。
+      - content:
+          - 很好，你現在知道如何運用相對路徑了。
+          - 接下來要介紹的是絕對路徑。
+          - 絕對路徑是從根目錄開始的路徑，根目錄是位於檔案樹的最上層的資料夾。
+          - 你可以使用 `pwd` 來查看目前所在的絕對路徑。
+          - '`pwd` 的意思是 `print working directory`，也就是顯示目前所在的路徑。'
+          - 現在請你使用 `pwd` 來查看目前所在的絕對路徑。
     hints:
-      - ➤  使用 `cd ..` 回到上一層資料夾
+      - ➤  輸入 `pwd` 查看目前所在的絕對路徑
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander/folder2$
+        hints:
+          - ➤  請先回到 `folder2` 資料夾，並用指定的方式查看 `folder1` 資料夾的內容。
 
-  - id: END
-    task: 回到原本的資料夾
+  - id: pwd
+    task: 查看目前所在的絕對路徑
     requirements:
-      - ls-folder2
+      - ls-folder1
     condition:
       pwd:
-        - /home/commander
+        - ^/home/commander/folder2$
+      command:
+        - ^pwd$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander/folder2$
+        hints:
+          - ➤  請先回到 `folder2` 資料夾，並用 `pwd` 來查看目前所在的絕對路徑
     responses:
-      - type: narrative
-        content:
-          - 你成功的回到原本的資料夾了。
-          - 恭喜你學會了 `ls` 和 `cd` 指令的用法。
+      - content:
+          - 你可以看到你現在的絕對路徑是 `/home/commander/folder2`。
+          - 而絕對路徑其實也顯示在你的命令提示符中。
+          - '`commander:~/folder2 $` 中的 `~/folder2` 就是你的絕對路徑。'
+          - 而 `~` 則是 `/home/commander` 這個絕對路徑的縮寫，又稱為家目錄，你每次遊戲都會從這裡開始。
+          - '`ls` 和 `cd` 指令也可以使用絕對路徑。'
+          - 例如：你可以使用 `ls ~` 來查看家目錄的內容，或使用 `cd ~` 來回到家目錄。
+          - 現在請你使用 `ls ~` 來查看家目錄的內容。
     hints:
-      - ➤  使用 `cd` 指令進出資料夾
-      - ➤  使用 `ls` 指令查看資料夾的內容
+      - ➤  輸入 `ls ~` 來查看家目錄的內容
+
+  - id: ls-~
+    task: 查看家目錄的內容
+    requirements:
+      - pwd
+    condition:
+      command:
+        - ^ls ~$
+    responses:
+      - content:
+          - 現在請使用 `cd ~` 回到家目錄。
+    hints:
+      - ➤  輸入 `cd ~` 來回到家目錄
+
+  - id: END
+    task: 回到家目錄
+    requirements:
+      - ls-~
+    condition:
+      command:
+        - ^cd ~$
+    exceptions:
+      - condition:
+          pwd:
+            - ^/home/commander$
+        hints:
+          - ➤  請使用 `cd ~` 回到家目錄
+    responses:
+      - content:
+          - 你回到家目錄了。
+          - 恭喜！現在你已經知道如何運用絕對路徑和相對路徑，以及查看目前所在的絕對路徑了。
