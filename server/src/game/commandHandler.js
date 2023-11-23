@@ -101,7 +101,6 @@ export default class CommandHandler extends SessionHandler {
   async checkException(stage) {
     const exceptions = stage.exceptions || []
     for (const exception of exceptions) {
-      console.log(exception)
       // eslint-disable-next-line no-await-in-loop
       if (exception.condition && (await this.isMatch(exception.condition))) {
         return exception
@@ -132,7 +131,6 @@ export default class CommandHandler extends SessionHandler {
         // eslint-disable-next-line no-await-in-loop
         const exception = await this.checkException(s)
         if (exception) {
-          console.log('Got exception', exception)
           return this.executeException(exception)
         }
       }
