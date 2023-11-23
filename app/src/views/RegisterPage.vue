@@ -72,6 +72,7 @@ async function check({ username, email, password, error }) {
   }
 }
 </script>
+
 <template>
   <div class="w-screen h-screen">
     <Background class="w-full h-full" />

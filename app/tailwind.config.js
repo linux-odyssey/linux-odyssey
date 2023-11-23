@@ -18,7 +18,7 @@ export default {
           DEFAULT: '#FFFFFF',
         },
         border: {
-          DEFAULT: '#526B4E',
+          DEFAULT: '#4A4B63',
         },
         error: {
           DEFAULT: '#FF0000',

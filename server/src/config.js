@@ -25,7 +25,6 @@ const config = {
   db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
   secret: get('SECRET_KEY', ''),
   isProduction: process.env.NODE_ENV === 'production',
-  hostPwd: get('HOST_PWD', ''),
   containerExpiry: get('EXPIRY', 1000 * 60 * 60),
   sessionMaxAge: get('SESSION_MAX_AGE', 1000 * 60 * 60 * 24 * 7),
   google: {
@@ -45,6 +44,7 @@ const config = {
     defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
     imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
     mountQuest: get('MOUNT_QUEST', ''),
+    hostPwd: get('HOST_PWD', ''),
   },
 
   log: {

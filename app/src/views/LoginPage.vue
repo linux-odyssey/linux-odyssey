@@ -35,6 +35,7 @@ const handleLogin = async ({ username, password, success, error }) => {
   }
 }
 </script>
+
 <template>
   <div class="w-screen h-screen">
     <Background class="w-full h-full" />

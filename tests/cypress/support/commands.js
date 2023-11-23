@@ -20,10 +20,9 @@ Cypress.Commands.add('PrepareForGame', () => {
   )
   // make sure the map page is loaded
   cy.url().should('include', '/map')
-  cy.visit('/game/helloworld')
-  // make sure the game page is loaded
-  cy.url().should('include', '/game/helloworld')
-  cy.get('.xterm-screen', { timeout: 50000 })
+  cy.visit('/game/get-started')
+  cy.url().should('include', '/game/get-started')
+  cy.get('.xterm-screen', { timeout: 10000 })
     .as('Terminaltextbox')
     .should('be.visible')
   cy.CheckTextElement('#reset', '重來', 'Reset').click()

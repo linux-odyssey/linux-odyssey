@@ -72,7 +72,7 @@ export const completedCommand = asyncHandler(async (req, res) => {
 
   const callback = commandCompleteCallbacks.get(session.id)
   if (!callback) {
-    res.status(400).json({ message: 'no callback found' })
+    res.status(200).json({ message: 'no callback found' })
     return
   }
   callback()

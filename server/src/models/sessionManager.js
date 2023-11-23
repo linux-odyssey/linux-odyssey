@@ -12,7 +12,7 @@ async function deactivateSessions(user, quest) {
   return Promise.all(
     sessions.map((session) => {
       return deleteContainer(session.containerId)
-        .catch(logger.error)
+        .catch((err) => logger.error('Failed to delete container', err))
         .finally(() => {
           session.status = 'inactive'
           session.containerId = null
@@ -110,6 +110,9 @@ export async function isQuestUnlocked(user, questId) {
   const quest = await Quest.findById(questId)
   if (!quest) {
     throw new Error(`Quest ${questId} not found`)
+  }
+  if (!quest.requirements) {
+    return true
   }
   return quest.requirements.every((requiredQuestId) => {
     const progress = userProfile.progress.get(requiredQuestId)

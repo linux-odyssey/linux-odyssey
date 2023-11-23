@@ -6,18 +6,28 @@ import { useToast } from 'vue-toastification'
 import { use, init } from 'echarts/core'
 import { GraphChart } from 'echarts/charts'
 import { SVGRenderer } from 'echarts/renderers'
-import { TitleComponent, TooltipComponent } from 'echarts/components'
+import {
+  TitleComponent,
+  TooltipComponent,
+  DataZoomComponent,
+} from 'echarts/components'
 import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
 import { NodeImage } from '../img/svg.js'
 
-const marginX = 100
+const marginX = 200
 const marginY = 65
 const chartContainer = ref(null)
 let chartInstance = null
 const fullwidth = window.screen.width
 
-use([GraphChart, SVGRenderer, TitleComponent, TooltipComponent])
+use([
+  GraphChart,
+  SVGRenderer,
+  TitleComponent,
+  TooltipComponent,
+  DataZoomComponent,
+])
 
 async function getQuests() {
   try {
@@ -45,6 +55,15 @@ const genOption = (nodes, edges) => ({
   tooltip: {},
   animationDurationUpdate: 1500,
   animationEasingUpdate: 'quinticInOut',
+  // dataZoom: [
+  //   {
+  //     type: 'slider', // This type means "slider data zoom" which provides a slider bar for zooming
+  //     orient: 'vertical', // This makes the data zoom component vertical
+  //     start: 0, // The starting percentage of the window out of the data extent
+  //     end: 100, // The ending percentage of the window out of the data extent
+  //     show: true,
+  //   },
+  // ],
   series: [
     {
       type: 'graph',
@@ -52,8 +71,9 @@ const genOption = (nodes, edges) => ({
       symbol: () => {
         return NodeImage
       },
-      symbolSize: [fullwidth / 10, fullwidth / 20],
-      roam: false,
+      symbolSize: [fullwidth / 10, fullwidth / 25],
+      roam: 'move',
+      zoom: 1,
       label: {
         show: true,
         fontSize: fullwidth / 90,
@@ -96,8 +116,8 @@ function getOption(quests, progress) {
   const nodes = dag.getNodes().map((node) => ({
     id: node._id,
     name: node.title,
-    x: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
-    y: marginY * node.layer,
+    y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
+    x: marginY * node.layer * 2,
     completed: progress[node._id]?.completed || false,
     unlocked: node.requirements.every((req) => progress[req]?.completed),
   }))

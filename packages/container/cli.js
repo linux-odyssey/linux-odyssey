@@ -3,8 +3,25 @@ const fs = require('fs').promises
 const { exit } = require('process')
 const minimist = require('minimist')
 const axios = require('axios')
-const { colorize, printResponses } = require('./print.js')
+const { colorize, printResponses, printHints } = require('./print.js')
 const discoverFiles = require('./discover.js')
+
+const {
+  API_ENDPOINT,
+  TOKEN,
+  PWD,
+  CMD_NAME,
+  CMD_OUTPUT_FILE,
+  CMD_ERROR_FILE,
+  CMD_EXIT_CODE,
+} = process.env
+
+const api = axios.create({
+  baseURL: `${API_ENDPOINT}/api/v1`,
+  headers: {
+    Authorization: `Bearer ${TOKEN}`,
+  },
+})
 
 async function readOrNone(file) {
   try {
@@ -29,24 +46,21 @@ async function handleCommand(command) {
   }, {})
 }
 
-async function main() {
-  const {
-    API_ENDPOINT,
-    TOKEN,
-    PWD,
-    CMD_NAME,
-    CMD_OUTPUT_FILE,
-    CMD_ERROR_FILE,
-    CMD_EXIT_CODE,
-  } = process.env
-  if (!CMD_NAME) exit(0)
+async function handleResponse({ responses, hints, end }) {
+  if (responses) {
+    await printResponses(responses, 60)
+  }
+  if (hints) {
+    await printHints(hints, 60)
+  }
+  if (end) {
+    console.log(colorize('Quest completed!', 'blue'))
+  }
+  await api.post('/commands/completed')
+}
 
-  const api = axios.create({
-    baseURL: `${API_ENDPOINT}/api/v1`,
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  })
+async function main() {
+  if (!CMD_NAME) exit(0)
 
   const params = await handleCommand(CMD_NAME)
 
@@ -62,20 +76,8 @@ async function main() {
   }
   try {
     const res = await api.post('/commands', payload)
-    if (!res.data) return
-    const { responses, hints, end } = res.data
-    if (responses) {
-      await printResponses(responses, 60)
-      await api.post('/commands/completed')
-    }
-    if (hints) {
-      for (const hint of hints) {
-        console.log(colorize(hint, 'yellow'))
-      }
-    }
-    if (end) {
-      console.log(colorize('Quest completed!', 'blue'))
-    }
+    if (!res.data || !res.data.responses) return
+    await handleResponse(res.data)
   } catch (err) {
     if (err.response) {
       console.error(err.response.data)
@@ -85,4 +87,12 @@ async function main() {
   }
 }
 
-main().then(exit)
+main()
+  .then(exit)
+  .catch((err) => {
+    console.log(
+      '發生預期外的錯誤，請嘗試重新啟動 Quest，如果問題持續發生，請幫我們填寫右上角的錯誤回報表單。'
+    )
+    console.error(err)
+    exit(1)
+  })

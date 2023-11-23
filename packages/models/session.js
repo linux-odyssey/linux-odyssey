@@ -35,10 +35,12 @@ const Session = model(
       user: {
         type: Schema.ObjectId,
         ref: 'User',
+        required: true,
       },
       quest: {
         type: String,
         ref: 'Quest',
+        required: true,
       },
       containerId: String,
       status: {
@@ -54,7 +56,7 @@ const Session = model(
         required: true,
       },
       tasks: [taskSchema],
-      hints: [String],
+      hints: [[String]],
       graph: {
         type: nodeSchema,
         default: {

@@ -3,10 +3,12 @@ import { model, Schema } from 'mongoose'
 const responseSchema = new Schema({
   type: {
     type: String,
+    enum: ['narrative', 'dialogue'],
+    default: 'dialogue',
     required: true,
   },
   content: [String],
-  speaker: String,
+  speaker: { type: String, default: 'Ada' },
   color: String,
 })
 
@@ -33,6 +35,26 @@ const conditionSchema = new Schema({
 conditionSchema.add({
   or: [conditionSchema],
   not: conditionSchema,
+})
+
+const exceptionSchema = new Schema({
+  condition: {
+    type: conditionSchema,
+    required: false,
+  },
+  catchAll: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  responses: {
+    type: [responseSchema],
+    required: true,
+  },
+  hints: {
+    type: [String],
+    required: true,
+  },
 })
 
 const stageSchema = new Schema({
@@ -64,6 +86,10 @@ const stageSchema = new Schema({
   },
   hints: {
     type: [String],
+    required: true,
+  },
+  exceptions: {
+    type: [exceptionSchema],
     required: true,
   },
 })

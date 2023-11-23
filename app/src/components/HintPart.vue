@@ -63,9 +63,15 @@ const right = () => {
     </div>
   </div>
   <div id="hint" class="bg-bg flex flex-wrap p-8">
-    <p class="text-text font-xl whitespace-pre-wrap">
-      {{ sessionStore.session.hints[current] }}
-    </p>
+    <ul>
+      <li
+        v-for="hint in sessionStore.session.hints[current]"
+        :key="hint"
+        class="text-text font-xl whitespace-pre-wrap"
+      >
+        {{ hint }}
+      </li>
+    </ul>
     <br />
   </div>
 </template>

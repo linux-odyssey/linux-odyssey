@@ -48,6 +48,7 @@ async function handleSubmit({ username, success, error }) {
   }
 }
 </script>
+
 <template>
   <div class="w-screen h-screen">
     <Background class="w-full h-full" />

@@ -74,6 +74,7 @@ describe('example helloworld app', () => {
     })
   })
   describe('Game Start Page UI', () => {
+    const title = '終端機的基本知識'
     beforeEach(() => {
       cy.PrepareForGame()
     })
@@ -83,22 +84,10 @@ describe('example helloworld app', () => {
       cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
     })
     it('Check QuestInfo', () => {
-      cy.get('#topic').should('contain', 'Hello, Linux World!')
-      cy.get('#quest').find('p.text-text').should('have.length', 3)
+      cy.get('#topic').should('contain', title)
+      cy.get('#quest').find('p.text-text').should('have.length', 4)
       cy.CheckTextElement('#tasks', '任務', 'Tasks:')
       cy.getQuestInfo('輸入 `echo help` 來朗誦咒語').should('be.visible')
-    })
-    it('Check Command Cheat Sheet', () => {
-      cy.get('#cmdlist').within(($cmdlist) => {
-        cy.get($cmdlist).should('be.visible')
-        cy.get('svg[data-icon="list"]').should('be.visible')
-        cy.CheckTextElement('#CommandBook', '指令之書', 'Command Cheatsheets')
-        cy.CheckTextElement(
-          '#cheatsheets',
-          '-- --指令列表-- --',
-          '--Command List--'
-        )
-      })
     })
     it('Check Terminal', () => {
       cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
@@ -130,7 +119,6 @@ describe('example helloworld app', () => {
   describe('Game Play', () => {
     beforeEach(() => {
       cy.PrepareForGame()
-      cy.readFile('../quests/helloworld/answer.sh', 'utf-8').as('answers')
     })
     it('Typing in Terminal', () => {
       cy.typeInCommand('12345{enter}')
@@ -139,54 +127,41 @@ describe('example helloworld app', () => {
         .and('contain', 'zsh: command not found: 12345', { timeout: 50000 })
     })
     it('Complete the Game(relating UI)', () => {
-      // get answersheet
-      cy.get('@answers').then((answers) => {
-        const answerarr = answers.split('\n')
-        // Stage1
-        cy.log('Stage1')
-        cy.typeInCommand(answerarr[0])
-        cy.checkPending()
-        cy.waitUntilActive()
-        cy.get('#Lbutton').should('be.visible').and('be.disabled')
-        cy.get('#Rbutton').should('be.visible').and('be.disabled')
-        cy.checkHint(1, 1)
-        cy.getQuestInfo('✓ 輸入 `echo help` 來朗誦咒語').should('be.visible')
-        cy.getQuestInfo('搜索卷軸').should('be.visible')
-        // Stage2
-        cy.log('Stage2')
-        cy.typeInCommand(answerarr[1])
-        cy.checkPending()
-        cy.waitUntilActive()
-        cy.get('#tree')
-          .get('a')
-          .should('contain', 'forgotten_scroll.txt')
-          .and('be.visible')
-        cy.get('#Lbutton').should('be.visible').and('be.enabled')
-        cy.get('#Rbutton').should('be.visible').and('be.disabled')
-        cy.checkHint(2, 2)
-        cy.get('#Lbutton').click()
-        cy.get('#Rbutton').should('be.enabled')
-        cy.getQuestInfo('✓ 搜索卷軸').should('be.visible')
-        cy.getQuestInfo('查看卷軸').should('be.visible')
-        // Stage3
-        cy.log('Stage3')
-        cy.typeInCommand(answerarr[2])
-        cy.checkPending()
-        cy.waitUntilActive()
-        cy.getQuestInfo('✓ 查看卷軸').should('be.visible')
-        cy.getQuestInfo('解除封印').should('be.visible')
-        cy.checkHint(3, 3)
-        // Stage4
-        cy.log('Stage4')
-        cy.typeInCommand(answerarr[3])
-        cy.checkPending()
-        cy.waitUntilActive()
-        cy.getQuestInfo('✓ 解除封印').should('be.visible')
-        // Check survey dialog pop up
-        cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
-        cy.get('div[class="modal"]').find('p').should('be.visible')
-        cy.get('#BacktoMap').should('contain', '回到地圖').and('be.visible')
-      })
+      // Stage1
+      cy.log('Stage1')
+      cy.typeInCommand('echo start{enter}')
+      cy.checkPending()
+      cy.waitUntilActive()
+      cy.get('#Lbutton').should('be.visible').and('be.disabled')
+      cy.get('#Rbutton').should('be.visible').and('be.disabled')
+      cy.checkHint(1, 1)
+      cy.getQuestInfo('✓ 輸入 `echo start` 來開始教程').should('be.visible')
+      cy.getQuestInfo('➤ 在終端機輸入 `echo hello`').should('be.visible')
+      // Stage2
+      cy.log('Stage2')
+      cy.typeInCommand('echo hello{enter}')
+      cy.checkPending()
+      cy.waitUntilActive()
+      // cy.get('#tree')
+      //   .get('a')
+      //   .should('contain', 'forgotten_scroll.txt')
+      //   .and('be.visible')
+      cy.get('#Lbutton').should('be.visible').and('be.enabled')
+      cy.get('#Rbutton').should('be.visible').and('be.disabled')
+      cy.checkHint(2, 2)
+      cy.get('#Lbutton').click()
+      cy.get('#Rbutton').should('be.enabled')
+      cy.getQuestInfo('✓ 在終端機輸入 `echo hello`').should('be.visible')
+      cy.getQuestInfo('➤ 結束關卡').should('be.visible')
+      // Stage3
+      cy.log('Stage3')
+      cy.typeInCommand('echo finish{enter}')
+      cy.checkPending()
+      cy.waitUntilActive()
+      cy.getQuestInfo('✓ 結束關卡').should('be.visible')
+      cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
+      cy.get('div[class="modal"]').find('p').should('be.visible')
+      cy.findByRole('link', { name: '填寫問卷' }).should('be.visible')
     })
   })
 })

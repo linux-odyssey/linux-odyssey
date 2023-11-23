@@ -1,6 +1,6 @@
 <template>
   <section class="h-[10%] p-3 grid grid-cols-3 gap-4 place-content-between">
-    <button id="solution" class="bg-bg-disabled rounded-lg p-2">
+    <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
       <font-awesome-icon
         :icon="['far', 'circle-question']"
         class="text-text-disabled"
