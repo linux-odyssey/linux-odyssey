@@ -65,8 +65,8 @@ services:
       - '3001:3001'
     environment:
       - MONGO_URL=mongodb://db:27017/odyssey-test
-      - USERNAME=user
-      - PASSWORD=user
+      - ADMIN_USERNAME=alex
+      - ADMIN_PASSWORD=Alex1234
     volumes:
       - ./packages/analytics:/app/packages/analytics
       - ./packages/models:/app/packages/models
