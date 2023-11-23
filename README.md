@@ -1,5 +1,8 @@
 # Linux Odyssey
 
+[![Production](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/production.yml/badge.svg)](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/production.yml)
+[![Staging](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/staging.yml/badge.svg)](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/staging.yml)
+
 ## Requirements
 
 - NodeJS
