@@ -31,7 +31,7 @@ stages:
           - 相對路徑是從目前所在的資料夾開始的路徑，而絕對路徑則是從根目錄開始的路徑。
           - 請你先用 `ls` 指令查看這個資料夾中的檔案。
 
-  - id: ls-~
+  - id: ls
     task: 查看資料夾中的檔案
     requirements:
       - start
@@ -47,7 +47,7 @@ stages:
   - id: cd-folder1
     task: 進入 `folder1` 資料夾
     requirements:
-      - ls-~
+      - ls
     condition:
       pwd:
         - ^/home/commander/folder1$
