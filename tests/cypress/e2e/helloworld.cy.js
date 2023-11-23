@@ -137,8 +137,8 @@ describe('example helloworld app', () => {
     it('Typing in Terminal', () => {
       cy.typeInCommand('12345{enter}')
       cy.get('@Terminaltextbox')
-        .should('contain', 'zsh: command not found: 12345', { timeout: 50000 })
-        .and('contain', '12345')
+        .should('contain', '12345')
+        .and('contain', 'zsh: command not found: 12345', { timeout: 50000 })
     })
     it('Complete the Game(relating UI)', () => {
       // get answersheet
