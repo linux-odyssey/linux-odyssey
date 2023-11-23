@@ -4,6 +4,8 @@ quests:
   - cast
   - explore
 
+  - path
+
   - read
 
   - create

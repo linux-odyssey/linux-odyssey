@@ -23,8 +23,7 @@ stages:
       output:
         - ^start$
     responses:
-      - type: narrative
-        content:
+      - content:
           - 你剛才使用的指令叫做 `echo`。
           - '`echo` 指令可以將後方接續的文字輸出到終端機上。'
           - 例如你輸入 `echo Hello`，終端機就會顯示 `Hello`。
@@ -42,8 +41,7 @@ stages:
       command:
         - ^echo .*
     responses:
-      - type: narrative
-        content:
+      - content:
           - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
           - 接下來，請你試著在終端機上顯示 `How are you?`。
     hints:
@@ -58,8 +56,7 @@ stages:
       output:
         - ^[Hh]ow are you\??$
     responses:
-      - type: narrative
-        content:
+      - content:
           - 你成功的在終端機上顯示了 `How are you?`。
           - 相信你已經了解 `echo` 指令的用法了。
           - 接下來，要像你介紹 `echo` 在遊戲中的特殊功能，那就是詠唱咒語。
@@ -91,8 +88,7 @@ stages:
       output:
         - ^HELP$
     responses:
-      - type: narrative
-        content:
+      - content:
           - 你詠唱了 `HELP` 咒語，一位精靈出現了。
       - type: dialogue
         speaker: Unix 精靈
@@ -114,15 +110,13 @@ stages:
       output:
         - ^WATER$
     responses:
-      - type: narrative
-        content:
+      - content:
           - 你施展了水魔法，一個水球出現在你的手中。
       - type: dialogue
         speaker: Unix 精靈
         content:
           - 很好，你已經學會了水魔法。
-      - type: narrative
-        content:
+      - content:
           - 真厲害，你已經了解如何使用 `echo` 指令，並且學會了詠唱咒語的方法。
           - 最後複習一下，你可以通過輸入 `echo [文字]` 來在終端機上顯示文字。
           - 你也可以通過輸入 `echo [咒語]` 來詠唱咒語，並產生對應的特殊效果。

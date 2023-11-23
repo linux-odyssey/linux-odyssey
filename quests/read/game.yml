@@ -6,8 +6,7 @@ instruction: |
   請輸入 `echo start` 來開始這一關。
 
 requirements:
-  - cast
-  - explore
+  - path
 
 stages:
   - id: warning-01

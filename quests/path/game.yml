@@ -1,13 +1,14 @@
-title: 探索檔案
+title: 檔案路徑
 instruction: |
   在這個關卡中，你將會學到：
-  1. 如何使用 `ls` 查看資料夾的內容
-  2. 如何使用 `cd` 在資料夾之間移動
+  1. 絕對路徑和相對路徑
+  2. 如何使用 `pwd` 顯示目前的路徑
 
   請輸入 `echo start` 來開始這一關。
 
 requirements:
-  - get-started
+  - cast
+  - explore
 
 stages:
   - id: warning-01
@@ -111,7 +112,8 @@ stages:
       command:
         - ls
     responses:
-      - content:
+      - type: narrative
+        content:
           - 你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
           - 現在我們可以離開 `folder1` 回到原本的資料夾了。
           - 你可以使用 `cd ..` 回到上一層資料夾。
@@ -127,7 +129,8 @@ stages:
       pwd:
         - /home/commander
     responses:
-      - content:
+      - type: narrative
+        content:
           - 你成功的回到上一層資料夾了。
           - 現在，請你剛才所學的指令，進入 `folder2` 資料夾，檢查 `folder2` 資料夾的內容，最後回到這個資料夾。
     hints:
@@ -158,7 +161,8 @@ stages:
       command:
         - ls
     responses:
-      - content:
+      - type: narrative
+        content:
           - 你看到了 `folder2` 資料夾中的檔案，分別是 `file3.txt` 跟 `file4.txt`。
           - 現在你可以離開 `folder2` 回到原本的資料夾了。
     hints:
@@ -172,7 +176,8 @@ stages:
       pwd:
         - /home/commander
     responses:
-      - content:
+      - type: narrative
+        content:
           - 你成功的回到原本的資料夾了。
           - 恭喜你學會了 `ls` 和 `cd` 指令的用法。
     hints:
