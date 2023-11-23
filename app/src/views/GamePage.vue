@@ -90,8 +90,7 @@ onMounted(async () => {
       </div>
       <ControlPalette />
     </div>
-    <CompleteModal />
-    <!-- v-if="completed" -->
+    <CompleteModal v-if="completed" />
   </div>
 </template>
 <script></script>
