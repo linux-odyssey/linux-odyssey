@@ -32,12 +32,12 @@ onMounted(async () => {
       <div class="absolute top-0 h-[6vh] w-full">
         <GameHeaderPart title="排行榜" />
       </div>
-      <div class="w-fit h-full">
+      <div class="w-fit h-[94vh]">
         <div
-          class="bg-bg border-8 border-bg-primary flex flex-col items-center justify-center rounded-3xl p-10"
+          class="h-full bg-bg border-8 border-bg-primary flex flex-col items-center justify-center rounded-3xl p-10"
         >
           <h1 class="text-text-primary text-3xl mb-5">排行榜</h1>
-          <div class="max-h-300 overflow-y-auto">
+          <div class="max-h-300 overflow-auto">
             <table class="w-full text-sm text-left text-text">
               <thead
                 class="text-xs text-text-secondary uppercase bg-bg-secondary"
