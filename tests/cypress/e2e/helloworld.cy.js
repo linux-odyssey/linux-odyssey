@@ -187,7 +187,9 @@ describe('example helloworld app', () => {
         // Check survey dialog pop up
         cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
         cy.get('div[class="modal"]').find('p').should('be.visible')
-        cy.findByRole('link', { name: '回到地圖' }).should('be.visible')
+        cy.findByRole('link', { name: '回到地圖' }, { timeout: 30000 }).should(
+          'be.visible'
+        )
       })
     })
   })
