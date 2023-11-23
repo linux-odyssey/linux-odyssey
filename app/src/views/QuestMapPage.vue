@@ -5,14 +5,14 @@ import GameHeaderPart from '../components/GameHeaderPart.vue'
 
 <template>
   <div class="h-[6vh] w-full">
-    <GameHeaderPart />
-    <p
+    <GameHeaderPart title="關卡地圖" />
+    <!-- <p
       class="text-text-primary absolute z-1 font-bold inline-block tracking-widest"
       style="left: 1.2%; top: 1.5%; height: 100%; font-size: 2vh"
     >
-      <!-- Quest Map -->
+      Quest Map
       Unix編年史
-    </p>
+    </p> -->
   </div>
   <div class="flex flex-col justify-center items-center w-full h-[94vh]">
     <QuestMap />

@@ -50,7 +50,7 @@ onMounted(async () => {
 <template>
   <!-- game header -->
   <div class="h-[6vh] w-full">
-    <GameHeaderPart />
+    <GameHeaderPart :title="sessionStore.quest?.title" />
   </div>
   <!-- current status indicator -->
   <input

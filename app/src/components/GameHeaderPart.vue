@@ -1,9 +1,14 @@
 <script setup>
+import { defineProps, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { logout } from '../utils/auth'
 import { bugReportUrl } from '../config'
-import sessionStore, { reset } from '../store/session'
+import { reset } from '../store/session'
+import userProfileStore, {
+  loadUserProfile,
+  resetUserProfile,
+} from '../store/userProfile'
 
 const router = useRouter()
 
@@ -12,6 +17,7 @@ const toast = useToast()
 const handleLogout = async () => {
   try {
     await logout()
+    resetUserProfile()
     reset()
     router.push({ name: 'login' })
   } catch (err) {
@@ -29,6 +35,22 @@ const handleMap = async () => {
     console.error(err)
   }
 }
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+})
+
+onMounted(async () => {
+  try {
+    await loadUserProfile()
+  } catch (err) {
+    // toast.error('Failed to load user profile')
+    toast.error('無法讀取使用者資料')
+  }
+})
 </script>
 
 <template>
@@ -47,13 +69,19 @@ const handleMap = async () => {
             class="text-border h-full w-full"
           />
         </button> -->
-        <p
+        <button
           id="HeaderText"
           class="text-text-primary inline-block font-bold whitespace-nowrap"
           style="font-size: 2vh"
-          v-if="sessionStore.quest"
         >
-          {{ sessionStore.quest.title }}
+          Linux Odyssey
+        </button>
+        <p
+          id="HeaderText"
+          class="text-text inline-block font-bold whitespace-nowrap"
+          style="font-size: 2vh"
+        >
+          {{ title }}
         </p>
       </div>
       <div class="h-full w-full flex gap-3 items-center justify-end">
@@ -75,6 +103,13 @@ const handleMap = async () => {
             class="text-text-primary h-full w-full"
           />
         </button> -->
+        <p
+          id="UsernameText"
+          class="text-text inline-block whitespace-nowrap"
+          style="font-size: 2vh"
+        >
+          {{ userProfileStore.username }}
+        </p>
         <button title="Map" @click="handleMap" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'map']"

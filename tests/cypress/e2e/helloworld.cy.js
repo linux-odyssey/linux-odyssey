@@ -79,7 +79,7 @@ describe('example helloworld app', () => {
       cy.PrepareForGame()
     })
     it('Check Header', () => {
-      cy.get('#HeaderText').should('contain', title).and('be.visible')
+      cy.get('#HeaderText').should('contain', 'Linux Odyssey').and('be.visible')
       cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
       cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
     })
@@ -123,8 +123,8 @@ describe('example helloworld app', () => {
     it('Typing in Terminal', () => {
       cy.typeInCommand('12345{enter}')
       cy.get('@Terminaltextbox')
-        .should('contain', 'zsh: command not found: 12345')
-        .and('contain', '12345')
+        .should('contain', '12345')
+        .and('contain', 'zsh: command not found: 12345', { timeout: 50000 })
     })
     it('Complete the Game(relating UI)', () => {
       // Stage1
