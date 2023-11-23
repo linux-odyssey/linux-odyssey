@@ -8,7 +8,7 @@ import CompleteAnimation from '../img/complete-animation.json'
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
-
+const toast = useToast()
 const closeModal = () => {
   showModal.value = false
 }
@@ -27,7 +27,7 @@ const backtoMap = async () => {
     router.push({ name: 'map' })
   } catch (err) {
     // useToast().error('Failed to load map')
-    useToast().error('無法讀取地圖')
+    toast.error('無法讀取地圖')
     console.error(err)
   }
 }

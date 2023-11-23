@@ -77,22 +77,13 @@ const genOption = (nodes, edges) => ({
           const {
             data: { completed, unlocked },
           } = params
-          switch (completed !== unlocked) {
-            case false: {
-              // completed==unlocked, when completed or not yet unlocked
-              if (completed) {
-                return '#00ff00'
-              }
-              return '#454552'
-            }
-            case true: {
-              // completed!=unlocked, only when unlocked but not completed
-              return '#ADADB5'
-            }
-            default: {
-              return '#454552'
-            }
+          if (completed) {
+            return '#00ff00'
           }
+          if (unlocked) {
+            return '#ADADB5'
+          }
+          return '454552'
         },
       },
     },
