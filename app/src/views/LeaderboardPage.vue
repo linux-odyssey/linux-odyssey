@@ -29,10 +29,10 @@ onMounted(async () => {
     <div
       class="w-screen h-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
-      <div class="absolute top-0 h-[6vh] w-full">
+      <div class="h-[6vh] w-full">
         <GameHeaderPart title="排行榜" />
       </div>
-      <div class="w-fit h-[94vh]">
+      <div class="w-fit h-[94vh] m-3">
         <div
           class="h-full bg-bg border-8 border-bg-primary flex flex-col items-center justify-center rounded-3xl p-10"
         >
