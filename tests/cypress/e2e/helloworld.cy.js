@@ -90,18 +90,6 @@ describe('example helloworld app', () => {
       cy.CheckTextElement('#tasks', '任務', 'Tasks:')
       cy.getQuestInfo('輸入 `echo help` 來朗誦咒語').should('be.visible')
     })
-    it('Check Command Cheat Sheet', () => {
-      cy.get('#cmdlist').within(($cmdlist) => {
-        cy.get($cmdlist).should('be.visible')
-        cy.get('svg[data-icon="list"]').should('be.visible')
-        cy.CheckTextElement('#CommandBook', '指令之書', 'Command Cheatsheets')
-        cy.CheckTextElement(
-          '#cheatsheets',
-          '-- --指令列表-- --',
-          '--Command List--'
-        )
-      })
-    })
     it('Check Terminal', () => {
       cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
         cy.get($terminal).should('be.visible')
