@@ -45,15 +45,15 @@ export function leaderboard() {
     },
     {
       $addFields: {
-        numberOfCompletedQuests: { $size: '$completedQuests' }, // Calculate the size of the completedQuests array
+        score: { $size: '$completedQuests' }, // Calculate the size of the completedQuests array
       },
     },
     {
       $match: {
-        numberOfCompletedQuests: { $gt: 0 }, // Filter out users who haven't completed any quests
+        score: { $gt: 0 }, // Filter out users who haven't completed any quests
       },
     },
-    { $sort: { numberOfCompletedQuests: -1 } },
+    { $sort: { score: -1 } },
     {
       $lookup: {
         from: 'users',

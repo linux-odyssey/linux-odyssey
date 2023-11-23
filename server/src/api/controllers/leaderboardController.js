@@ -6,7 +6,7 @@ export default asyncHandler(async (req, res) => {
   const response = users.map((user) => ({
     username: user.user.username,
     completedQuests: user.completedQuests,
-    numberOfCompletedQuests: user.numberOfCompletedQuests,
+    score: user.score * 1000,
   }))
   res.json(response)
 })
