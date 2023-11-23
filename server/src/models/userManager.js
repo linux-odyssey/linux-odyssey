@@ -22,3 +22,46 @@ export async function createUser(username, email, { password, socialLogin }) {
 
   return user
 }
+
+export function leaderboard() {
+  return UserProfile.aggregate([
+    {
+      $project: {
+        user: true, // Include the user field in the projection
+        completedQuests: {
+          $map: {
+            input: {
+              $filter: {
+                input: { $objectToArray: '$progress' }, // Convert the progress map to an array
+                as: 'prog',
+                cond: { $eq: ['$$prog.v.completed', true] }, // Filter for completed quests
+              },
+            },
+            as: 'completedProg',
+            in: '$$completedProg.k', // Extract the quest IDs
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        numberOfCompletedQuests: { $size: '$completedQuests' }, // Calculate the size of the completedQuests array
+      },
+    },
+    {
+      $match: {
+        numberOfCompletedQuests: { $gt: 0 }, // Filter out users who haven't completed any quests
+      },
+    },
+    { $sort: { numberOfCompletedQuests: -1 } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'user',
+        foreignField: '_id',
+        as: 'user',
+      },
+    },
+    { $unwind: '$user' },
+  ])
+}
