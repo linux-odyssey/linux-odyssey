@@ -26,7 +26,7 @@ stages:
           - '首先要來學習 `rm` 指令。`rm` 指令可以用來刪除檔案。使用方式是 `rm [檔案名稱]`。'
           - '現在請你使用 `rm` 指令刪除 `hello.txt`。'
     hints:
-      - 使用 `rm hello.txt` 來刪除 `hello.txt`。
+      - ➤  使用 `rm hello.txt` 來刪除 `hello.txt`。
 
   - id: rm-hello
     requirements:
@@ -58,9 +58,9 @@ stages:
           - '`rm` 也可以同時刪除多個檔案，只要把檔案名稱用空白隔開就可以了，也就是 `rm [檔案1] [檔案2] ...`。'
           - 現在請你使用 `rm` 刪除 `world.txt` 與 `wow.txt`。
     hints:
-      - 使用 `rm world.txt wow.txt` 來刪除 `world.txt` 與 `wow.txt`。
-      - 檔案名稱之間要用空白隔開。
-      - 名稱的順序不重要。
+      - ➤  使用 `rm world.txt wow.txt` 來刪除 `world.txt` 與 `wow.txt`。
+      - ➤  檔案名稱之間要用空白隔開。
+      - ➤  名稱的順序不重要。
 
   - id: rm-world-wow
     requirements:
@@ -78,7 +78,7 @@ stages:
       - content:
           - '很好！我們一樣用 `ls` 指令確認一下資料夾內容。'
     hints:
-      - 使用 `ls` 來查看資料夾內容。
+      - ➤  使用 `ls` 來查看資料夾內容。
 
   - id: ls-no-world-wow
     requirements:
@@ -93,7 +93,7 @@ stages:
           - '現在我們來學習 `rmdir` 指令。`rmdir` 指令可以用來刪除資料夾。使用方式是 `rmdir [資料夾名稱]`。'
           - '現在請你使用 `rmdir` 指令刪除 `empty` 資料夾。'
     hints:
-      - 使用 `rmdir empty` 來刪除 `empty` 資料夾。
+      - ➤  使用 `rmdir empty` 來刪除 `empty` 資料夾。
 
   - id: rm-empty
     requirements:
@@ -121,7 +121,7 @@ stages:
           - '你會發現 `empty` 資料夾已經不見了。'
           - '現在請你試試看 `rmdir` 指令刪除 `notes` 資料夾。'
     hints:
-      - 使用 `rmdir notes` 來刪除 `notes` 資料夾
+      - ➤  使用 `rmdir notes` 來刪除 `notes` 資料夾
 
   - id: rm-notes-failed
     requirements:
@@ -142,8 +142,8 @@ stages:
           - 我們先來將 `notes` 資料夾的檔案刪除再來試一次。
           - '現在請你使用 `rm` 指令刪除 `notes` 資料夾內的檔案。'
     hints:
-      - 使用 `rm notes/[檔案名稱]` 來刪除 `notes` 資料夾內的檔案。
-      - 你可能需要使用 `ls notes` 來查看 `notes` 資料夾內有哪些檔案。
+      - ➤  使用 `rm notes/[檔案名稱]` 來刪除 `notes` 資料夾內的檔案。
+      - ➤  你可能需要使用 `ls notes` 來查看 `notes` 資料夾內有哪些檔案。
 
   - id: rm-notes-content
     requirements:
@@ -189,7 +189,7 @@ stages:
       - content:
           - '很好！現在我們再使用 `rmdir` 指令刪除 `notes` 資料夾。'
     hints:
-      - 使用 `rmdir notes` 來刪除 `notes` 資料夾。
+      - ➤  使用 `rmdir notes` 來刪除 `notes` 資料夾。
 
   - id: rm-notes
     requirements:
@@ -207,7 +207,7 @@ stages:
           - 接下來我們來刪除 `trash` 資料夾。
           - 先使用 `ls` 指令查看一下 `trash` 資料夾內容。
     hints:
-      - 使用 `ls trash` 來查看 `trash` 中的檔案。
+      - ➤  使用 `ls trash` 來查看 `trash` 中的檔案。
 
   - id: ls-trash
     requirements:
@@ -226,7 +226,7 @@ stages:
           - '`-r` 的意思是遞迴（recursive），也就是會把資料夾中的所有檔案都刪除。'
           - 我們來試試看吧！
     hints:
-      - 使用 `rm -r trash` 來刪除 `trash` 資料夾。
+      - ➤  使用 `rm -r trash` 來刪除 `trash` 資料夾。
 
   - id: rm-trash
     requirements:
@@ -242,7 +242,7 @@ stages:
       - content:
           - '很好！現在請你使用 `ls` 指令查看資料夾內容。'
     hints:
-      - 使用 `ls` 來查看資料夾內容。
+      - ➤  使用 `ls` 來查看資料夾內容。
 
   - id: END
     requirements:

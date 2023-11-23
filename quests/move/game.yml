@@ -22,9 +22,9 @@ stages:
           - 請先用 `ls` 與 `cat` 來查看它們的內容。
           - 看完之後，使用 `echo continue` 來繼續吧！
     hints:
-      - 用 `ls`、`ls notes` 來查看資料夾內的檔案
-      - 用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
-      - 完成後輸入 `echo continue` 來繼續
+      - ➤  用 `ls`、`ls notes` 來查看資料夾內的檔案
+      - ➤  用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
+      - ➤  完成後輸入 `echo continue` 來繼續
 
   - id: continue
     requirements:
@@ -41,7 +41,7 @@ stages:
           - 使用方式為 `mv [來源] [目的地]`。
           - 我們先來將 `hello.txt` 移動到 `notes` 資料夾中吧！
     hints:
-      - 使用 `mv hello.txt notes` 來將 `hello.txt` 移動到 `notes` 資料夾中
+      - ➤  使用 `mv hello.txt notes` 來將 `hello.txt` 移動到 `notes` 資料夾中
 
   - id: mv-hello
     requirements:
@@ -61,7 +61,7 @@ stages:
           - 你做得很好！
           - 我們用 `ls` 跟 `ls notes` 來查看一下資料夾內的檔案吧！
     hints:
-      - 使用 `ls`、`ls notes` 來查看資料夾內的檔案
+      - ➤  使用 `ls`、`ls notes` 來查看資料夾內的檔案
 
   - id: ls-no-hello
     requirements:
@@ -108,7 +108,7 @@ stages:
           - '只要將目的地改成新的檔案名稱就可以了。'
           - 現在我們要將 `world.txt` 更名為 `wow.txt`。
     hints:
-      - 使用 `mv world.txt wow.txt` 來將 `world.txt` 更名為 `wow.txt`
+      - ➤  使用 `mv world.txt wow.txt` 來將 `world.txt` 更名為 `wow.txt`
 
   - id: mv-world
     requirements:
@@ -128,7 +128,7 @@ stages:
           - 你做得很好！
           - 我們用 `ls` 來確認一下資料夾內的檔案吧！
     hints:
-      - 使用 `ls` 來查看資料夾內的檔案
+      - ➤  使用 `ls` 來查看資料夾內的檔案
 
   - id: ls-wow
     requirements:
@@ -150,7 +150,7 @@ stages:
           - '`mv` 指令會自動將資料夾內的所有檔案一起移動'
           - 我們先來將 `notes` 資料夾改名叫作 `docs` 吧！
     hints:
-      - 使用 `mv notes docs` 來將 `notes` 資料夾改名叫作 `docs`
+      - ➤  使用 `mv notes docs` 來將 `notes` 資料夾改名叫作 `docs`
 
   - id: mv-notes
     requirements:
@@ -170,7 +170,7 @@ stages:
           - 你做得很好！
           - 我們用 `ls` 來確認一下資料夾內的檔案吧！
     hints:
-      - 使用 `ls` 來查看資料夾內的檔案
+      - ➤  使用 `ls` 來查看資料夾內的檔案
 
   - id: ls-docs
     requirements:
@@ -212,7 +212,7 @@ stages:
             content:
               - 你可以使用 `mv docs/hello.txt hi.txt` 來完成這個任務。
         hints:
-          - 使用 `mv docs/hello.txt hi.txt` 來將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
+          - ➤  使用 `mv docs/hello.txt hi.txt` 來將 `docs/hello.txt` 移動到家目錄底下的 `hi.txt`
     responses:
       - type: narrative
         content:

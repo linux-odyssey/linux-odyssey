@@ -35,9 +35,9 @@ stages:
           - 現在資料夾裡有一個 `hello.txt` 跟一個 `world.txt`，請使用 `ls` 與 `cat` 來查看它們的內容。
           - 看完之後，使用 `echo continue` 來繼續吧！
     hints:
-      - 使用 `ls` 來查看資料夾內的檔案
-      - 使用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
-      - 如果終端機卡在某個指令無法輸入，請按下 `Ctrl + C` 來取消該指令
+      - ➤  使用 `ls` 來查看資料夾內的檔案
+      - ➤  使用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
+      - ➤  如果終端機卡在某個指令無法輸入，請按下 `Ctrl + C` 來取消該指令
 
   - id: cat-hello
     task: 查看 `hello.txt` 的內容
@@ -100,7 +100,7 @@ stages:
           - 我們可以用 `cp [來源檔案] [目的檔案]` 的方式來複製檔案。
           - 請你使用 `cp` 來複製 `hello.txt` 到 `hello2.txt`。
     hints:
-      - 使用 `cp hello.txt hello2.txt` 來複製 `hello.txt` 到 `hello2.txt`
+      - ➤  使用 `cp hello.txt hello2.txt` 來複製 `hello.txt` 到 `hello2.txt`
 
   - id: cp-hello
     task: 複製 `hello.txt` 到 `hello2.txt`
@@ -118,7 +118,7 @@ stages:
           - 你成功複製 `hello.txt` 到 `hello2.txt` 了！
           - 我們打開來確認一下 `hello2.txt` 的內容吧！
     hints:
-      - 使用 `cat hello2.txt` 來查看 `hello2.txt` 的內容
+      - ➤  使用 `cat hello2.txt` 來查看 `hello2.txt` 的內容
 
   - id: cat-hello2
     requirements:
@@ -136,7 +136,7 @@ stages:
           - 正如我們所見，`hello2.txt` 的內容跟 `hello.txt` 一模一樣。
           - 那我們再來試試看複製 `world.txt` 到 `world2.txt` 吧！
     hints:
-      - 使用 `cp world.txt world2.txt` 來複製 `world.txt` 到 `world2.txt`
+      - ➤  使用 `cp world.txt world2.txt` 來複製 `world.txt` 到 `world2.txt`
 
   - id: cp-world
     requirements:
@@ -154,7 +154,7 @@ stages:
           - 你成功複製 `world.txt` 到 `world2.txt` 了！
           - 我們打開來確認一下 `world2.txt` 的內容吧！
     hints:
-      - 使用 `cat world2.txt` 來查看 `world2.txt` 的內容
+      - ➤  使用 `cat world2.txt` 來查看 `world2.txt` 的內容
 
   - id: cat-world2
     requirements:
@@ -179,8 +179,8 @@ stages:
           - 選項擺放的位置沒有特別的限制，通常會跟在指令的後面，置於檔案名稱的前面。
           - 請你使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`。
     hints:
-      - 使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
-      - 記得要加上 `-r` 的選項來複製所有檔案
+      - ➤  使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
+      - ➤  記得要加上 `-r` 的選項來複製所有檔案
 
   - id: cp-notes
     requirements:
@@ -200,7 +200,7 @@ stages:
           - 你成功複製 `notes` 資料夾到 `notes2` 了！
           - 我們打開來確認一下 `notes2` 資料夾的內容吧！
     hints:
-      - 使用 `ls notes2` 來查看 `notes2` 資料夾的內容
+      - ➤  使用 `ls notes2` 來查看 `notes2` 資料夾的內容
     exceptions:
       - condition:
           error:
@@ -227,7 +227,7 @@ stages:
           - 我們可以看到，整個 `notes` 資料夾包含裡面的檔案，都被複製到 `notes2` 資料夾了。
           - 那麼最後我們要來試試看，如果複製一個檔案到已經存在的檔案會發生什麼事。
     hints:
-      - 使用 `cp hello.txt world.txt` 來複製 `hello.txt` 到 `world.txt`
+      - ➤  使用 `cp hello.txt world.txt` 來複製 `hello.txt` 到 `world.txt`
 
   - id: cp-overwrite
     requirements:
@@ -242,7 +242,7 @@ stages:
           - 你成功複製 `hello.txt` 到 `world.txt` 了！
           - 我們打開來確認一下 `world.txt` 的內容吧！
     hints:
-      - 使用 `cat world.txt`
+      - ➤  使用 `cat world.txt`
 
   - id: END
     requirements:

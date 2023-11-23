@@ -22,7 +22,7 @@ stages:
           - '`touch` 指令可以建立一個檔案。'
           - 接下來，請你試著在終端機上建立一個檔案，檔名為 `hello.txt`。
     hints:
-      - 輸入 `touch hello.txt` 來建立一個檔案
+      - ➤  輸入 `touch hello.txt` 來建立一個檔案
 
   - id: touch
     task: 使用 `touch` 指令來建立一個檔案
@@ -39,7 +39,7 @@ stages:
           - 這表示 `touch` 指令已經成功建立了一個檔案。
           - 接下來，請你用之前學過的 `ls` 指令來查看目前所在資料夾中有哪些檔案。
     hints:
-      - 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
+      - ➤  輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: ls-touch
     task: 使用 `ls` 指令來查看新建立的檔案
@@ -57,7 +57,7 @@ stages:
           - 我們來看看 `hello.txt` 檔案的內容吧！
           - 我們可以使用之前學過的 `cat` 指令來查看檔案內容。
     hints:
-      - 輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
+      - ➤  輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
 
   - id: cat
     condition:
@@ -72,7 +72,7 @@ stages:
           - 再來試試建立其他的檔案吧！
           - 請你試著在終端機上建立另一個檔案，檔名為 `world.txt`。
     hints:
-      - 輸入 `touch world.txt` 來建立一個檔案
+      - ➤  輸入 `touch world.txt` 來建立一個檔案
 
   - id: touch-2
     task: 使用 `touch` 指令來建立另一個檔案 `world.txt`
@@ -88,7 +88,7 @@ stages:
           - 非常好，你已經成功建立了第二個檔案。
           - 接下來，請你用之前學過的 `ls` 指令來查看剛剛建立的兩個檔案。
     hints:
-      - 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
+      - ➤  輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: ls-2
     task: 使用 `ls` 指令來查看剛剛建立的兩個檔案
@@ -109,7 +109,7 @@ stages:
           - 使用方式是 `mkdir [資料夾名稱]`。
           - 請你試著在終端機上建立一個資料夾，名稱為 `notes`。
     hints:
-      - 輸入 `mkdir notes` 來建立一個資料夾
+      - ➤  輸入 `mkdir notes` 來建立一個資料夾
 
   - id: mkdir
     task: 使用 `mkdir` 指令建立 `notes` 資料夾
@@ -142,8 +142,8 @@ stages:
           - 首先，我們要先進入 `notes` 資料夾。
           - 還記得之前的 `cd` 指令嗎？請你試著使用 `cd` 指令來進入 `notes` 資料夾。
     hints:
-      - 輸入 `cd notes` 來進入 `notes` 資料夾
-      - 可以在輸入到 `cd n` 時按下 `Tab` 鍵來自動補齊資料夾名稱
+      - ➤  輸入 `cd notes` 來進入 `notes` 資料夾
+      - ➤  可以在輸入到 `cd n` 時按下 `Tab` 鍵來自動補齊資料夾名稱
 
   - id: cd-notes
     task: 移動到 `notes` 資料夾
@@ -158,7 +158,7 @@ stages:
           - 你已經成功進入了 `notes` 資料夾。
           - 接下來，請你試著在 `notes` 資料夾裡建立一個檔案，檔名為 `note.txt`。
     hints:
-      - 輸入 `touch note.txt` 來建立一個檔案
+      - ➤  輸入 `touch note.txt` 來建立一個檔案
 
   - id: touch-note
     task: 在 `notes` 中建立 `note.txt` 檔案
