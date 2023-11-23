@@ -60,86 +60,53 @@ stages:
     responses:
       - content:
           - 你應該能看到檔案的內容了。
-          - 接下來，請你嘗試進入 `folder` 資料夾，並查看資料夾中的檔案內容。
+          - '`cat` 指令也可以使用路徑來查看檔案內容'
+          - 請你先用 `ls folder` 查看資料夾內的檔案。
     hints:
-      - ➤  請輸入 `cat -n file.txt` 來查看檔案的內容並顯示行數。
+      - ➤  輸入 `ls folder` 查看資料夾內的檔案
 
-  - id: cd-folder
-    task: 進入 `folder` 資料夾
+  - id: ls-folder
+    task: 查看 `folder` 資料夾
     requirements:
       - cat-file
     condition:
       pwd:
         - ^/home/commander$
-      or:
-        - command:
-            - ^cat -n file.txt$
-        - command:
-            - ^cat file.txt -n$
-    responses:
-      - content:
-          - 你應該能看到檔案的內容和行數了。
-          - 接下來，請你進入 `folder` 資料夾，並查看資料夾內有哪些檔案。
-    hints:
-      - ➤  輸入 `cd folder` 來進入 `folder` 資料夾
-
-  - id: cd-folder
-    task: 進入 `folder` 資料夾
-    requirements:
-      - cat-n-file
-    condition:
-      pwd:
-        - ^/home/commander/folder$
-    responses:
-      - content:
-          - 現在你已經進入 `folder` 資料夾了。
-          - 請查看資料夾內有哪些檔案。
-    hints:
-      - ➤  請輸入 `ls` 來查看資料夾中的檔案。
-
-  - id: ls-folder
-    task: 查看 `folder` 資料夾中的檔案
-    requirements:
-      - cd-folder
-    condition:
-      pwd:
-        - ^/home/commander/folder$
       command:
-        - ^ls$
+        - ^ls folder$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        content:
+          - 請留在 `/home/commander` 資料夾中。
+          - 請輸入 `cd ~` 回到 `/home/commander` 資料夾。
     responses:
       - content:
-          - 這個資料夾中有一個檔案，叫做 `words.txt`。
-          - 請用 `cat` 指令找出檔案中第 139 行的內容。
+          - 你現在知道 `folder` 資料夾的內容了。
+          - 請用 `cat` 指令來查看 `folder` 資料夾中的 `file.txt` 檔案。
     hints:
-      - ➤  請輸入 `cat -n words.txt` 來查看檔案的內容。
+      - ➤  輸入 `cat folder/file.txt` 查看 `file.txt` 檔案的內容。
 
-  - id: cat-n-words
-    task: 查看 `words.txt` 的內容
+  - id: END
+    task: 查看 `file.txt` 的內容
     requirements:
       - ls-folder
     condition:
       pwd:
-        - ^/home/commander/folder$
-      or:
-        - command:
-            - ^cat -n words.txt$
-        - command:
-            - ^cat words.txt -n$
-    responses:
-      - content:
-          - 你應該能看到檔案的內容和行數了。
-          - 請用 `echo` 指令來在終端機顯示檔案中第 139 行的內容。
-    hints:
-      - ➤  請輸入 `echo [第 139 行的內容]` 來顯示檔案中第 139 行的內容。
-
-  - id: END
-    task: 這是教學的結束
-    condition:
+        - ^/home/commander$
       command:
-        - '　'
+        - ^cat folder/file.txt$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        content:
+          - 請留在 `/home/commander` 資料夾中。
+          - 請輸入 `cd ~` 回到 `/home/commander` 資料夾。
     responses:
       - content:
-          - 這是教學的結束。
-          - 請輸入 `echo end` 來結束這一關。
-    hints:
-      - ➤  請輸入 `echo end` 來結束這一關。
+          - 你成功地查看到 `file.txt` 的內容了。
+          - 你已經會使用 `cat` 指令查看檔案的內容了。
