@@ -121,7 +121,7 @@ stages:
           - '你會發現 `empty` 資料夾已經不見了。'
           - '現在請你試試看 `rmdir` 指令刪除 `notes` 資料夾。'
     hints:
-      - 使用 `rmdir notes` 來刪除 `notes` 資料夾。
+      - 使用 `rmdir notes` 來刪除 `notes` 資料夾
 
   - id: rm-notes-failed
     requirements:
@@ -178,12 +178,6 @@ stages:
           - content:
               - 這個錯誤的意思是找不到檔案
               - '請先用 `ls notes` 確認 `notes` 資料夾內有哪些檔案，再來試試看吧！'
-    responses:
-      - content:
-          - '很好！現在我們再使用 `rmdir` 指令刪除 `notes` 資料夾。'
-    hints:
-      - 使用 `rmdir notes` 來刪除 `notes` 資料夾。
-
       - condition:
           command:
             - ^ls notes$
@@ -191,6 +185,11 @@ stages:
           - content:
               - '`notes` 資料夾中有著 `note.txt` 檔案。'
               - 那我們就使用 `rm notes/note.txt` 來刪除 `note.txt` 檔案吧！
+    responses:
+      - content:
+          - '很好！現在我們再使用 `rmdir` 指令刪除 `notes` 資料夾。'
+    hints:
+      - 使用 `rmdir notes` 來刪除 `notes` 資料夾。
 
   - id: rm-notes
     requirements:
