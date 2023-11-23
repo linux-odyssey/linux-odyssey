@@ -69,9 +69,16 @@ onMounted(async () => {
             class="text-text-tertiary h-full w-full"
           />
         </button> -->
-        <p
+        <button
           id="HeaderText"
           class="text-text-primary inline-block font-bold whitespace-nowrap"
+          style="font-size: 2vh"
+        >
+          Linux Odyssey
+        </button>
+        <p
+          id="HeaderText"
+          class="text-text inline-block font-bold whitespace-nowrap"
           style="font-size: 2vh"
         >
           {{ title }}

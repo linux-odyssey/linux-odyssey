@@ -4,6 +4,7 @@ import LoginPage from './views/LoginPage.vue'
 import RegisterPage from './views/RegisterPage.vue'
 import ChooseUsernamePage from './views/ChooseUsernamePage.vue'
 import QuestMapPage from './views/QuestMapPage.vue'
+import LeaderboardPage from './views/LeaderboardPage.vue'
 import { isLoggedIn } from './utils/auth'
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
     name: 'map',
     component: QuestMapPage,
     meta: { requiresAuth: true },
+  },
+  {
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: LeaderboardPage,
   },
 ]
 

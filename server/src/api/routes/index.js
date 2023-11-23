@@ -7,6 +7,7 @@ import authRouter from './authRouter.js'
 import authRequired from '../../middleware/authRequired.js'
 import userRouter from './userRouter.js'
 import config from '../../config.js'
+import leaderboardController from '../controllers/leaderboardController.js'
 
 const router = Router()
 
@@ -47,5 +48,7 @@ router.get('/bug-report', (req, res) => {
   }
   res.redirect(config.bugReportUrl)
 })
+
+router.get('/leaderboard', leaderboardController)
 
 export default router

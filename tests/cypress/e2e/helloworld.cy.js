@@ -78,9 +78,7 @@ describe('example helloworld app', () => {
       cy.PrepareForGame()
     })
     it('Check Header', () => {
-      cy.get('#HeaderText')
-        .should('contain', 'Hello, Linux World!')
-        .and('be.visible')
+      cy.get('#HeaderText').should('contain', 'Linux Odyssey').and('be.visible')
       cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
       cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
     })
