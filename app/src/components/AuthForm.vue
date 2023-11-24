@@ -90,7 +90,7 @@ const handleChange = () => {
     class="bg-bg border-8 border-bg-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
     <h1 class="text-text-primary text-3xl font-black mb-2">{{ title }}</h1>
-    <div class="text-error inline-flex justify-center items-center xl:hidden">
+    <div class="text-error inline-flex justify-center items-center md:hidden">
       <font-awesome-icon
         :icon="['fas', 'circle-exclamation']"
         class="px-1 text-sm"

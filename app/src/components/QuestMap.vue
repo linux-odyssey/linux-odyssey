@@ -15,8 +15,8 @@ import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
 import { NodeImage } from '../img/svg.js'
 
-const marginX = 200
-const marginY = 65
+const marginX = 500
+const marginY = 300
 const chartContainer = ref(null)
 let chartInstance = null
 const fullwidth = window.screen.width
@@ -71,9 +71,10 @@ const genOption = (nodes, edges) => ({
       symbol: () => {
         return NodeImage
       },
-      symbolSize: [fullwidth / 10, fullwidth / 25],
+      symbolSize: [fullwidth / 13, fullwidth / 30],
       roam: 'move',
-      zoom: 1,
+      zoom: 1.5,
+      center: ['150%', '50%'],
       label: {
         show: true,
         fontSize: fullwidth / 90,
@@ -103,7 +104,7 @@ const genOption = (nodes, edges) => ({
           if (unlocked) {
             return '#ADADB5'
           }
-          return '454552'
+          return '#505050'
         },
       },
     },
