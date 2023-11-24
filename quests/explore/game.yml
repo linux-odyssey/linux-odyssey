@@ -44,7 +44,7 @@ stages:
       - condition:
           not:
             pwd:
-              - /home/commander
+              - ^/home/commander$
         responses:
           - type: narrative
             content:
@@ -78,11 +78,11 @@ stages:
       - ls
     condition:
       pwd:
-        - /home/commander/folder1
+        - ^/home/commander/folder1$
     exceptions:
       - condition:
           pwd:
-            - /home/commander
+            - ^/home/commander$
         responses:
           - type: narrative
             content:
@@ -90,7 +90,7 @@ stages:
       - condition:
           not:
             pwd:
-              - /home/commander
+              - ^/home/commander$
         responses:
           - type: narrative
             content:
@@ -113,7 +113,7 @@ stages:
       - cd-folder1
     condition:
       pwd:
-        - /home/commander/folder1
+        - ^/home/commander/folder1$
       command:
         - ls
     responses:
@@ -131,7 +131,7 @@ stages:
       - ls-folder1
     condition:
       pwd:
-        - /home/commander
+        - ^/home/commander$
     responses:
       - content:
           - 你成功的回到上一層資料夾了。
@@ -146,7 +146,7 @@ stages:
       - cd-..
     condition:
       pwd:
-        - /home/commander/folder2
+        - ^/home/commander/folder2$
     responses:
       - content:
           - 你成功的進入 `folder2` 資料夾了。
@@ -160,7 +160,7 @@ stages:
       - cd-folder2
     condition:
       pwd:
-        - /home/commander/folder2
+        - ^/home/commander/folder2$
       command:
         - ls
     responses:
@@ -176,7 +176,7 @@ stages:
       - ls-folder2
     condition:
       pwd:
-        - /home/commander
+        - ^/home/commander$
     responses:
       - content:
           - 你成功的回到原本的資料夾了。
