@@ -44,9 +44,9 @@ stages:
     responses:
       - content:
           - 這個資料夾中有一個檔案和一個資料夾。
-          - 現在你可以使用 `cat` 指令來查看 `file.txt` 的內容。
+          - 現在你可以使用 `cat` 指令來查看 `file1.txt` 的內容。
     hints:
-      - ➤  請輸入 `cat file.txt` 來查看檔案的內容。
+      - ➤  請輸入 `cat file1.txt` 來查看檔案的內容。
 
   - id: cat-file
     task: 查看 `file.txt` 的內容
@@ -56,7 +56,7 @@ stages:
       pwd:
         - ^/home/commander$
       command:
-        - ^cat file.txt$
+        - ^cat file1.txt$
     responses:
       - content:
           - 你應該能看到檔案的內容了。
