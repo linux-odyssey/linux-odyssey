@@ -64,14 +64,12 @@ stages:
       - ➤  請輸入 `cd ../folder2` 來進入 `folder2` 資料夾。
 
   - id: cd-folder2
-    task: 用指定方式進入 `folder2` 資料夾
+    task: 進入 `folder2` 資料夾
     requirements:
       - cd-folder1
     condition:
       pwd:
         - ^/home/commander/folder2$
-      command:
-        - ^cd \.\./folder2$
     exceptions:
       - condition:
           not:
@@ -95,10 +93,8 @@ stages:
     requirements:
       - cd-folder2
     condition:
-      pwd:
-        - ^/home/commander/folder2$
-      command:
-        - ^ls \.\.\/folder1$
+      output:
+        - file1.txt
     exceptions:
       - condition:
           not:
@@ -107,7 +103,7 @@ stages:
         responses:
           - type: narrative
             content:
-              - 請先回到 `folder2` 資料夾，並用指定的方式查看 `folder1` 資料夾的內容。
+              - 進到 `folder1` 資料夾並用 `ls` 查看內容。
     responses:
       - content:
           - 很好，你現在知道如何運用相對路徑了。
