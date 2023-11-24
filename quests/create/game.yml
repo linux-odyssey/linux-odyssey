@@ -159,7 +159,7 @@ stages:
       - ls-mkdir
     condition:
       pwd:
-        - notes
+        - ^notes$
     responses:
       - type: narrative
         content:
