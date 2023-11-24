@@ -48,8 +48,8 @@ stages:
     hints:
       - ➤  請輸入 `cat file1.txt` 來查看檔案的內容。
 
-  - id: cat-file
-    task: 查看 `file.txt` 的內容
+  - id: cat-file1
+    task: 查看 `file1.txt` 的內容
     requirements:
       - ls-~
     condition:
