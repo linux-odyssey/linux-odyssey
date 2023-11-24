@@ -50,9 +50,18 @@ export default class CommandHandler extends SessionHandler {
   }
 
   async discoverHandler() {
-    const graph = new FileGraph(this.session.graph)
-    graph.discover(this.params.discover)
-    this.session.graph = graph
+    try {
+      const graph = new FileGraph(this.session.graph)
+      graph.discover(this.params.discover)
+      this.session.graph = graph
+    } catch (e) {
+      logger.error('Update file graph failed', {
+        error: e,
+        session: this.session.id,
+        graph: this.session.graph,
+        discover: this.params.discover,
+      })
+    }
   }
 
   async isMatch(condition) {
@@ -111,37 +120,46 @@ export default class CommandHandler extends SessionHandler {
   }
 
   async run() {
-    this.quest = await Quest.findById(this.session.quest)
-    const stages = this.getStages()
-    if (stages.length === 0) {
-      logger.warn('stage not found', this.session.tasks)
-      return {}
-    }
-
-    this.handleEvent()
-    this.handleCommand()
-
-    const matches = await Promise.all(
-      stages.map((stage) => this.isMatch(stage.condition))
-    )
-
-    const stage = stages.find((_, i) => matches[i])
-    if (!stage) {
-      for (const s of stages) {
-        // eslint-disable-next-line no-await-in-loop
-        const exception = await this.checkException(s)
-        if (exception) {
-          return this.executeException(exception)
-        }
+    try {
+      this.quest = await Quest.findById(this.session.quest)
+      const stages = this.getStages()
+      if (stages.length === 0) {
+        logger.warn('stage not found', this.session.tasks)
+        return {}
       }
-      return {}
-    }
-    const response = this.execute(stage)
 
-    return {
-      stage: stage.id,
-      end: this.session.status === 'finished',
-      ...response,
+      this.handleEvent()
+      this.handleCommand()
+
+      const matches = await Promise.all(
+        stages.map((stage) => this.isMatch(stage.condition))
+      )
+
+      const stage = stages.find((_, i) => matches[i])
+      if (!stage) {
+        for (const s of stages) {
+          // eslint-disable-next-line no-await-in-loop
+          const exception = await this.checkException(s)
+          if (exception) {
+            return this.executeException(exception)
+          }
+        }
+        return {}
+      }
+      const response = this.execute(stage)
+
+      return {
+        stage: stage.id,
+        end: this.session.status === 'finished',
+        ...response,
+      }
+    } catch (err) {
+      logger.error('CommandHandler error', {
+        error: err,
+        session: this.session.id,
+        command: this.commandInput,
+      })
+      return {}
     }
   }
 }
