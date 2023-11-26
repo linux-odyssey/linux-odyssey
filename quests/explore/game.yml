@@ -42,13 +42,6 @@ stages:
             content:
               - 請先回到 `/home/commander/` 資料夾
               - 輸入 `cd ~` 來返回 `/home/commander/` 資料夾
-      - condition:
-          command:
-            - ^[Ii]s$
-        responses:
-          - type: narrative
-            content:
-              - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
     responses:
       - content:
           - 你應該能看到資料夾中的內容了。

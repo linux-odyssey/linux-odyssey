@@ -1,6 +1,67 @@
 exceptions:
   - condition:
       command:
-        - '`'
-    hints:
-      - '!! 不需要輸入上下引號 !!'
+        - '[\uff21-\uff3a\uff41-\uff5a]'
+    responses:
+      - type: narrative
+        content:
+          - '!! 請使用半形英文字母 !!'
+
+  - condition:
+      command:
+        - '　'
+    responses:
+      - type: narrative
+        content:
+          - '!! 請使用半形空格 !!'
+
+  - condition:
+      or:
+        - command:
+            - '`'
+        - command:
+            - \'
+    responses:
+      - type: narrative
+        content:
+          - '!! 不需要輸入上下引號 !!'
+
+  - condition:
+      command:
+        - ^echo\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `echo` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^cd\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `cd` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^ls\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `ls` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^[Ii]s$
+    responses:
+      - type: narrative
+        content:
+          - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
+
+  - condition:
+      command:
+        - 嗨
+    responses:
+      - type: narrative
+        content:
+          - '嗨～'
