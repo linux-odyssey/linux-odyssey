@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import sessionStore from '../store/session'
+import markdown2HTML from '../utils/markdown'
 
 const current = ref(-1)
 watch(
@@ -22,6 +23,12 @@ const right = () => {
     current.value += 1
   }
 }
+
+const hints = computed(() => {
+  return sessionStore.session.hints.map((stageHints) =>
+    stageHints.map(markdown2HTML)
+  )
+})
 </script>
 
 <template>
@@ -50,13 +57,13 @@ const right = () => {
       <p class="inline text-text font-xl w-1/14 p-2 m-1">{{ current + 1 }}</p>
       <p class="inline text-text font-xl w-1/14 p-2 m-1">/</p>
       <p class="inline text-text font-xl w-1/14 p-2 m-1">
-        {{ sessionStore.session.hints.length }}
+        {{ hints.length }}
       </p>
       <button
         class="p-2 m-1 w-1/8"
         id="Rbutton"
         @click="right"
-        :disabled="current === sessionStore.session.hints.length - 1"
+        :disabled="current === hints.length - 1"
       >
         <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
       </button>
@@ -65,12 +72,11 @@ const right = () => {
   <div id="hint" class="bg-bg flex flex-wrap p-8">
     <ul>
       <li
-        v-for="hint in sessionStore.session.hints[current]"
+        v-for="hint in hints[current]"
         :key="hint"
         class="text-text font-xl whitespace-pre-wrap"
-      >
-        {{ hint }}
-      </li>
+        v-html="hint"
+      ></li>
     </ul>
     <br />
   </div>
