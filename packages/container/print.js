@@ -36,12 +36,25 @@ function waitForEnter() {
   })
 }
 
+function isCodeColor(text, isCode) {
+  if (text === '`') {
+    return !isCode
+  }
+  return isCode
+}
+
 function printLine(content, delay, color) {
   const printContent = `${colorize(content, color)}${RETURN_SYMBOL}`
+  let isCode = false
   return new Promise((resolve) => {
     let i = 0
     const timer = setInterval(() => {
-      process.stdout.write(printContent[i])
+      isCode = isCodeColor(printContent[i], isCode)
+      if (isCode) {
+        process.stdout.write(colorize(printContent[i], 'green'))
+      } else {
+        process.stdout.write(printContent[i])
+      }
       i += 1
       if (i >= printContent.length) {
         clearInterval(timer)
