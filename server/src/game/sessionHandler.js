@@ -25,8 +25,13 @@ export default class SessionHandler {
     )
   }
 
+  getStages() {
+    const unlockedStages = this.getUnlockedComponents(this.quest.stages)
+    return unlockedStages.filter((s) => !this.isCompleted(s))
+  }
+
   getNewTasks() {
-    const stages = this.getUnlockedComponents(this.quest.stages)
+    const stages = this.getStages()
     return stages
       .filter((s) => s.task)
       .filter((s) => !this.session.tasks.some((t) => t.id === s.id))
