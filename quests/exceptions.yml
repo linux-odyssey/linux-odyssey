@@ -52,11 +52,11 @@ exceptions:
 
   - condition:
       command:
-        - ^[Ii]s$
+        - ^[Ii1]s$
     responses:
       - type: narrative
         content:
-          - '!! `ls` 的首字母是小寫的 `L`，不是 `I` !!'
+          - '!! `ls` 的首字母是小寫的 `L` !!'
 
   - condition:
       command:
@@ -65,3 +65,20 @@ exceptions:
       - type: narrative
         content:
           - '嗨～'
+
+  # 需改進
+  - condition:
+      command:
+        - folderl
+    responses:
+      - type: narrative
+        content:
+          - '`folder1` 的 `1` 是數字 `1`，不是小寫的 `L` !!'
+
+  - condition:
+      command:
+        - filel
+    responses:
+      - type: narrative
+        content:
+          - '`file1` 的 `1` 是數字 `1`，不是小寫的 `L` !!'
