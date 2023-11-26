@@ -1,5 +1,19 @@
 <script setup>
+import { computed } from 'vue'
+import MarkdownText from './MarkdownText.vue'
 import sessionStore from '../store/session'
+
+const tasks = computed(() => {
+  return sessionStore.session.tasks.map((task) => {
+    const prefix = task.completed ? '✓' : '➤'
+    const color = task.completed ? 'text-text-primary' : 'text-text'
+    return {
+      ...task,
+      class: `${color} markdown-content`,
+      content: `${prefix} ${task.name}`,
+    }
+  })
+})
 </script>
 
 <template>
@@ -10,22 +24,18 @@ import sessionStore from '../store/session'
     <br />
     <div>
       <div v-if="sessionStore.quest" class="whitespace-pre-wrap">
-        <p class="text-text">{{ sessionStore.quest.instruction }}</p>
+        <MarkdownText
+          class="text-text markdown-content"
+          :content="sessionStore.quest.instruction"
+        />
         <br />
         <p id="tasks" class="text-text">
           <!-- Tasks: -->
           任務：
         </p>
         <ul v-if="sessionStore.session">
-          <li v-for="task in sessionStore.session.tasks" :key="task.id">
-            <p v-if="task.completed" class="text-text-primary">
-              <span class=""> ✓</span>
-              {{ task.name }}
-            </p>
-            <p v-else class="text-text">
-              <span class="">➤</span>
-              {{ task.name }}
-            </p>
+          <li v-for="task in tasks" :key="task.id">
+            <MarkdownText :class="task.class" :content="task.content" />
           </li>
         </ul>
       </div>

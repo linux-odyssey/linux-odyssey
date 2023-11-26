@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
+import MarkdownText from './MarkdownText.vue'
 
 const current = ref(-1)
 watch(
@@ -69,7 +70,7 @@ const right = () => {
         :key="hint"
         class="text-text font-xl whitespace-pre-wrap"
       >
-        {{ hint }}
+        <MarkdownText :content="hint" />
       </li>
     </ul>
     <br />
