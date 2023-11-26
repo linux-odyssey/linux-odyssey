@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
-import markdown2HTML from '../utils/markdown'
+import MarkdownText from './MarkdownText.vue'
 
 const current = ref(-1)
 watch(
@@ -23,12 +23,6 @@ const right = () => {
     current.value += 1
   }
 }
-
-const hints = computed(() => {
-  return sessionStore.session.hints.map((stageHints) =>
-    stageHints.map(markdown2HTML)
-  )
-})
 </script>
 
 <template>
@@ -57,13 +51,13 @@ const hints = computed(() => {
       <p class="inline text-text font-xl w-1/14 p-2 m-1">{{ current + 1 }}</p>
       <p class="inline text-text font-xl w-1/14 p-2 m-1">/</p>
       <p class="inline text-text font-xl w-1/14 p-2 m-1">
-        {{ hints.length }}
+        {{ sessionStore.session.hints.length }}
       </p>
       <button
         class="p-2 m-1 w-1/8"
         id="Rbutton"
         @click="right"
-        :disabled="current === hints.length - 1"
+        :disabled="current === sessionStore.session.hints.length - 1"
       >
         <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
       </button>
@@ -72,11 +66,12 @@ const hints = computed(() => {
   <div id="hint" class="bg-bg flex flex-wrap p-8">
     <ul>
       <li
-        v-for="hint in hints[current]"
+        v-for="hint in sessionStore.session.hints[current]"
         :key="hint"
         class="text-text font-xl whitespace-pre-wrap"
-        v-html="hint"
-      ></li>
+      >
+        <MarkdownText :content="hint" />
+      </li>
     </ul>
     <br />
   </div>
