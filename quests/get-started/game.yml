@@ -7,6 +7,7 @@ instruction: |
 
   在畫面的中間可以看到終端機和提示兩個區塊。
   請你在終端機中的 `commander:~ $` 後面輸入 `echo start` 並按下 Enter 來開始教程。
+  !! 注意：不需要輸入上下引號 !!
 
 stages:
   - id: start
@@ -65,6 +66,7 @@ stages:
     hints:
       - ➤  按下 `Ctrl + C` 能夠中斷指令
       - ➤  劇情進行時可以按下 `Enter` 來快速跳過
+      - ➤  輸入 `echo finish` 來結束這一關
 
   - id: END
     task: 結束關卡

@@ -122,7 +122,7 @@ export default class CommandHandler extends SessionHandler {
   async run() {
     try {
       this.quest = await Quest.findById(this.session.quest)
-      const stages = this.getUnlockedComponents(this.quest.stages)
+      const stages = this.getStages()
       if (stages.length === 0) {
         logger.warn('stage not found', { session: this.session.id })
         return {}

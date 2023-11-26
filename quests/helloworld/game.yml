@@ -12,9 +12,9 @@ stages:
     task: 輸入 `echo help` 來朗誦咒語
     condition:
       pwd:
-        - '^/home/commander$'
+        - ^/home/commander$
       command:
-        - echo [Hh]elp
+        - ^echo [Hh]elp$
     responses:
       - type: narrative
         content:
@@ -39,9 +39,9 @@ stages:
       - help
     condition:
       pwd:
-        - '^/home/commander$'
+        - ^/home/commander$
       command:
-        - ls
+        - ^ls$
     responses:
       - type: narrative
         content:
@@ -65,9 +65,9 @@ stages:
       - find-scroll
     condition:
       pwd:
-        - '^/home/commander$'
+        - ^/home/commander$
       command:
-        - cat forgotten_scroll.txt
+        - ^cat forgotten_scroll.txt$
     responses:
       - type: dialogue
         speaker: Unix 精靈
@@ -83,9 +83,9 @@ stages:
       - read-forgotten-scroll
     condition:
       pwd:
-        - '^/home/commander$'
+        - ^/home/commander$
       command:
-        - echo [Hh]ello\s*[Ww]orld
+        - ^echo [Hh]ello\s*[Ww]orld$
     responses:
       - type: narrative
         content:

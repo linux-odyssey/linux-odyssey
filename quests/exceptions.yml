@@ -1,6 +1,142 @@
 exceptions:
   - condition:
       command:
-        - '`'
-    hints:
-      - '!! 不需要輸入上下引號 !!'
+        - '[\uff21-\uff3a\uff41-\uff5a]'
+    responses:
+      - type: narrative
+        content:
+          - '!! 請使用半形英文字母 !!'
+
+  - condition:
+      command:
+        - '　'
+    responses:
+      - type: narrative
+        content:
+          - '!! 請使用半形空格 !!'
+
+  - condition:
+      or:
+        - command:
+            - '`'
+        - command:
+            - \'
+    responses:
+      - type: narrative
+        content:
+          - '!! 不需要輸入上下引號 !!'
+
+  - condition:
+      command:
+        - ^echo\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `echo` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^cd\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `cd` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^ls\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `ls` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^cat\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `cat` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^touch\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `touch` 後面要加空格 !!'
+
+  - condition:
+      not:
+        command:
+          - ^rmdir$
+      command:
+        - ^rm\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `rm` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^mv\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `mv` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^mkdir\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `mkdir` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^rmdir\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `rmdir` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^cp\S$
+    responses:
+      - type: narrative
+        content:
+          - '!! `cp` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^[Ii1]s$
+    responses:
+      - type: narrative
+        content:
+          - '!! `ls` 的首字母是小寫的 `L` !!'
+
+  - condition:
+      command:
+        - 嗨
+    responses:
+      - type: narrative
+        content:
+          - '嗨～'
+
+  - condition:
+      command:
+        - folderl
+    responses:
+      - type: narrative
+        content:
+          - '`folder1` 的 `1` 是數字 `1`，不是小寫的 `L` !!'
+
+  - condition:
+      command:
+        - filel
+    responses:
+      - type: narrative
+        content:
+          - '`file1` 的 `1` 是數字 `1`，不是小寫的 `L` !!'
