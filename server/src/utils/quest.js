@@ -7,6 +7,15 @@ import logger from './logger.js'
 
 const questDirectory = path.join(process.cwd(), '..', 'quests')
 
+class QuestValidationError extends Error {
+  constructor(message, questId, error) {
+    super(message)
+    this.name = 'QuestValidationError'
+    this.questId = questId
+    this.error = error
+  }
+}
+
 async function mapQuests(callback) {
   const questNames = await fs.readdir(questDirectory, {
     withFileTypes: true,
@@ -28,7 +37,7 @@ export async function loadAndUpdateQuests() {
   return mapQuests(async (id, questPath) => {
     const files = await fs.readdir(questPath)
     if (!files.includes('game.yml')) {
-      throw new Error(`Quest ${id} is missing game.yml`)
+      throw new QuestValidationError(`Missing game.yml`, id)
     }
 
     try {
@@ -46,8 +55,8 @@ export async function loadAndUpdateQuests() {
       })
       await quest.save()
     } catch (error) {
-      logger.error(`Error parsing quest ${id}:`, error)
-      throw error
+      logger.error(`Error parsing quest`, { id, error })
+      throw new QuestValidationError(`Error parsing quest`, id, error)
     }
   })
 }
