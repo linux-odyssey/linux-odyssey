@@ -1,7 +1,5 @@
 exceptions:
-  - id: warning-02
-    repeatable: true
-    condition:
+  - condition:
       command:
         - '`'
     hints:
