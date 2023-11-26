@@ -19,16 +19,14 @@ export default class SessionHandler {
     return task ? task.completed : false
   }
 
-  getStages() {
-    return this.quest.stages.filter(
-      (stage) =>
-        stage.requirements.every((r) => this.isCompleted({ id: r })) &&
-        (stage.repeatable || !this.isCompleted(stage))
+  getUnlockedComponents(components) {
+    return components.filter((component) =>
+      component.requirements.every((r) => this.isCompleted({ id: r }))
     )
   }
 
   getNewTasks() {
-    const stages = this.getStages()
+    const stages = this.getUnlockedComponents(this.quest.stages)
     return stages
       .filter((s) => s.task)
       .filter((s) => !this.session.tasks.some((t) => t.id === s.id))

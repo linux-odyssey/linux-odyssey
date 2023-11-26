@@ -56,7 +56,7 @@ export default class CommandHandler extends SessionHandler {
       this.session.graph = graph
     } catch (e) {
       logger.error('Update file graph failed', {
-        error: e,
+        error: e.message,
         session: this.session.id,
         graph: this.session.graph,
         discover: this.params.discover,
@@ -122,9 +122,9 @@ export default class CommandHandler extends SessionHandler {
   async run() {
     try {
       this.quest = await Quest.findById(this.session.quest)
-      const stages = this.getStages()
+      const stages = this.getUnlockedComponents(this.quest.stages)
       if (stages.length === 0) {
-        logger.warn('stage not found', this.session.tasks)
+        logger.warn('stage not found', { session: this.session.id })
         return {}
       }
 
@@ -136,27 +136,45 @@ export default class CommandHandler extends SessionHandler {
       )
 
       const stage = stages.find((_, i) => matches[i])
-      if (!stage) {
-        for (const s of stages) {
+      if (stage) {
+        const response = this.execute(stage)
+
+        return {
+          stage: stage.id,
+          end: this.session.status === 'finished',
+          ...response,
+        }
+      }
+
+      // stage exception
+      for (const s of stages) {
+        // eslint-disable-next-line no-await-in-loop
+        const exception = await this.checkException(s)
+        if (exception) {
+          return this.executeException(exception)
+        }
+      }
+
+      // global exception
+      console.log(this.quest.exceptions)
+      if (this.quest.exceptions.length > 0) {
+        const globalExceptions = this.getUnlockedComponents(
+          this.quest.exceptions
+        )
+        for (const exception of globalExceptions) {
           // eslint-disable-next-line no-await-in-loop
-          const exception = await this.checkException(s)
-          if (exception) {
+          if (await this.isMatch(exception.condition)) {
             return this.executeException(exception)
           }
         }
-        return {}
       }
-      const response = this.execute(stage)
 
-      return {
-        stage: stage.id,
-        end: this.session.status === 'finished',
-        ...response,
-      }
+      return {}
     } catch (err) {
       logger.error('CommandHandler error', {
-        error: err,
-        session: this.session.id,
+        error: err.message,
+        session: this.session._id,
+        quest: this.quest._id,
         command: this.commandInput,
       })
       return {}
