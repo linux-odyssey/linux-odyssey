@@ -64,13 +64,12 @@ stages:
         - ^/home/commander/folder2$
     exceptions:
       - condition:
-          not:
-            pwd:
-              - ^/home/commander/folder1$
+          pwd:
+            - ^/home/commander$
         responses:
           - type: narrative
             content:
-              - 請先回到 `folder1` 資料夾，並用指定的方式進入 `folder2` 資料夾。
+              - 輸入 `cd folder2` 來進入 `folder2` 資料夾
     responses:
       - content:
           - 你成功的用相對路徑進入了 `folder2` 資料夾。
