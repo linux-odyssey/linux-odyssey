@@ -51,6 +51,41 @@ exceptions:
           - '!! `ls` 後面要加空格 !!'
 
   - condition:
+      not:
+        command:
+          - ^rmdir$
+      command:
+        - ^rm\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `rm` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^mv\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `mv` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^rmdir\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `rmdir` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^cp\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `cp` 後面要加空格 !!'
+
+  - condition:
       command:
         - ^[Ii1]s$
     responses:
@@ -66,7 +101,6 @@ exceptions:
         content:
           - '嗨～'
 
-  # 需改進
   - condition:
       command:
         - folderl
