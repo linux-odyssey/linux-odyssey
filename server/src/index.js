@@ -38,7 +38,12 @@ async function main() {
     await setupTest()
   }
 
-  await loadAndUpdateQuests()
+  try {
+    await loadAndUpdateQuests()
+  } catch (err) {
+    logger.error('Failed to load quests', err)
+    return
+  }
   expiryRemovalScheduler()
 
   const file = await fs.readFile('./swagger.yaml', 'utf8')

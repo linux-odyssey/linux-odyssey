@@ -9,22 +9,6 @@ instruction: |
   請你在終端機中的 `commander:~ $` 後面輸入 `echo start` 並按下 Enter 來開始教程。
 
 stages:
-  - id: warning-01
-    repeatable: true
-    condition:
-      command:
-        - '　'
-    hints:
-      - '!! 請勿使用全形空格 !!'
-
-  - id: warning-02
-    repeatable: true
-    condition:
-      command:
-        - '`'
-    hints:
-      - '!! 不需要輸入上下引號 !!'
-
   - id: start
     task: 輸入 `echo start` 來開始教程
     condition:

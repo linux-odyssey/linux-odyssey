@@ -1,98 +1,6 @@
 import { model, Schema } from 'mongoose'
-
-const responseSchema = new Schema({
-  type: {
-    type: String,
-    enum: ['narrative', 'dialogue'],
-    default: 'dialogue',
-    required: true,
-  },
-  content: [String],
-  speaker: { type: String, default: 'Ada' },
-  color: String,
-})
-
-const fileConditionSchema = new Schema({
-  path: {
-    type: String,
-    required: true,
-  },
-  type: String,
-  exists: {
-    type: Boolean,
-    default: true,
-  },
-})
-
-const conditionSchema = new Schema({
-  command: [String],
-  output: [String],
-  error: [String],
-  pwd: [String],
-  files: [fileConditionSchema],
-})
-
-conditionSchema.add({
-  or: [conditionSchema],
-  not: conditionSchema,
-})
-
-const exceptionSchema = new Schema({
-  condition: {
-    type: conditionSchema,
-    required: false,
-  },
-  catchAll: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  responses: {
-    type: [responseSchema],
-    required: true,
-  },
-  hints: {
-    type: [String],
-    required: true,
-  },
-})
-
-const stageSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-  },
-  task: {
-    type: String,
-  },
-  requirements: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-  repeatable: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  condition: {
-    type: conditionSchema,
-    required: true,
-  },
-  responses: {
-    type: [responseSchema],
-    required: true,
-  },
-  hints: {
-    type: [String],
-    required: true,
-  },
-  exceptions: {
-    type: [exceptionSchema],
-    required: true,
-  },
-})
+import stageSchema from './stage.js'
+import globalExceptionSchema from './globalException.js'
 
 const Quest = model(
   'Quest',
@@ -124,6 +32,10 @@ const Quest = model(
     },
     stages: {
       type: [stageSchema],
+      required: true,
+    },
+    exceptions: {
+      type: [globalExceptionSchema],
       required: true,
     },
   })

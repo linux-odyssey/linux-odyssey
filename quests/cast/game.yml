@@ -9,14 +9,6 @@ requirements:
   - get-started
 
 stages:
-  - id: warning-01
-    repeatable: true
-    condition:
-      command:
-        - '　'
-    hints:
-      - '!! 請勿使用全形空格 !!'
-
   - id: start
     task: 輸入 `echo start` 來開始教程
     condition:
@@ -73,3 +65,11 @@ stages:
           - 你成功的在終端機上顯示了 `How are you?`。
           - 相信你已經了解如何使用 `echo` 指令來顯示文字了。
           - 之後如果要在終端機顯示文字，記得可以使用 `echo` 指令。
+
+exceptions:
+  - repeatable: true
+    condition:
+      command:
+        - '　'
+    hints:
+      - '!! 請勿使用全形空格 !!'

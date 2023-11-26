@@ -10,14 +10,6 @@ requirements:
   - get-started
 
 stages:
-  - id: warning-01
-    repeatable: true
-    condition:
-      command:
-        - '　'
-    hints:
-      - '!! 請勿使用全形空格 !!'
-
   - id: start
     task: 輸入 `echo start` 來開始教程
     condition:
@@ -115,7 +107,7 @@ stages:
       pwd:
         - ^/home/commander/folder1$
       command:
-        - ls
+        - ^ls$
     responses:
       - content:
           - 你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
