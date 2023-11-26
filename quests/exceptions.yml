@@ -51,6 +51,22 @@ exceptions:
           - '!! `ls` 後面要加空格 !!'
 
   - condition:
+      command:
+        - ^cat\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `cat` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^touch\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `touch` 後面要加空格 !!'
+
+  - condition:
       not:
         command:
           - ^rmdir$
@@ -68,6 +84,14 @@ exceptions:
       - type: narrative
         content:
           - '!! `mv` 後面要加空格 !!'
+
+  - condition:
+      command:
+        - ^mkdir\S*$
+    responses:
+      - type: narrative
+        content:
+          - '!! `mkdir` 後面要加空格 !!'
 
   - condition:
       command:
