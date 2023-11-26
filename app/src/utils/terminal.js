@@ -17,7 +17,7 @@ class SocketTerminal {
       background: '#000000', // 背景色
       cursor: 'help', // 设置光标
       fontSize: 18,
-      fontWeight: 'bold',
+      fontWeight: 'normal',
     })
     this.fitAddon = new FitAddon()
     this.term.loadAddon(this.fitAddon)
