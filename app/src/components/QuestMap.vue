@@ -74,7 +74,7 @@ const genOption = (nodes, edges) => ({
       symbolSize: [fullwidth / 13, fullwidth / 30],
       roam: 'move',
       zoom: 1.5,
-      center: ['150%', '50%'],
+      center: ['120%', '30%'],
       label: {
         show: true,
         fontSize: fullwidth / 90,
