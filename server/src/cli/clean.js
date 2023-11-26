@@ -9,6 +9,6 @@ connectDB(config.db)
     process.exit(0)
   })
   .catch((err) => {
-    logger.error(err)
+    logger.error('Clean up containers failed', err)
     process.exit(1)
   })

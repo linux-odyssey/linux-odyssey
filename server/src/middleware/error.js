@@ -8,6 +8,6 @@ export function asyncHandler(fn) {
 
 // eslint-disable-next-line no-unused-vars
 export default function errorHandler(err, req, res, next) {
-  logger.error(err) // Log error stack trace to the console
+  logger.error('Error thrown through request', err, req) // Log error stack trace to the console
   res.status(500).send({ message: 'Something broke!' }) // Send error response
 }

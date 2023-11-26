@@ -30,7 +30,7 @@ async function main() {
     await connectDB(config.db)
     logger.info('Connected to MongoDB')
   } catch (err) {
-    logger.error(err)
+    logger.error('Connect DB failed', err)
     process.exit(1)
   }
 
@@ -78,4 +78,4 @@ async function main() {
   })
 }
 
-main().catch((err) => logger.error(err))
+main().catch((err) => logger.error('System panic', err))

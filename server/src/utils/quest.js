@@ -46,7 +46,7 @@ export async function loadAndUpdateQuests() {
       })
       await quest.save()
     } catch (error) {
-      logger.error(`Error parsing quest ${id}:`, error)
+      logger.error(`Error parsing quest`, id, error)
       throw error
     }
   })

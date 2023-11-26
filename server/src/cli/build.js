@@ -20,6 +20,6 @@ buildImages()
     process.exit(0)
   })
   .catch((err) => {
-    logger.error(err)
+    logger.error('Build images failed', err)
     process.exit(1)
   })

@@ -1,0 +1,1252 @@
+{
+  "level": "error",
+  "service": "backend",
+  "timestamp": "2023-11-24T01:34:26.443Z"
+}
+{
+  "json": {
+    "message": "removal of container b5877db6865dad1b98361afb19e1aa69c6bf9138f005dc1911bf4aaeede02fa7 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container b5877db6865dad1b98361afb19e1aa69c6bf9138f005dc1911bf4aaeede02fa7 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container b5877db6865dad1b98361afb19e1aa69c6bf9138f005dc1911bf4aaeede02fa7 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T01:35:58.675Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T01:35:58.675Z",
+  "version": 12
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "json": {
+    "message": "removal of container a75baf3c7dfc1f8fc5cbd4a1c072428f448ac1998bcc71e23439aebea8d988d8 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container a75baf3c7dfc1f8fc5cbd4a1c072428f448ac1998bcc71e23439aebea8d988d8 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container a75baf3c7dfc1f8fc5cbd4a1c072428f448ac1998bcc71e23439aebea8d988d8 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "json": {
+    "message": "removal of container a75baf3c7dfc1f8fc5cbd4a1c072428f448ac1998bcc71e23439aebea8d988d8 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container a75baf3c7dfc1f8fc5cbd4a1c072428f448ac1998bcc71e23439aebea8d988d8 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container a75baf3c7dfc1f8fc5cbd4a1c072428f448ac1998bcc71e23439aebea8d988d8 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 1
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 1
+}
+{
+  "json": {
+    "message": "removal of container 173be9634aca44a1b8e7544e88104163857ef2ff01d4e726f82c4158247388da is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 173be9634aca44a1b8e7544e88104163857ef2ff01d4e726f82c4158247388da is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 173be9634aca44a1b8e7544e88104163857ef2ff01d4e726f82c4158247388da is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "json": {
+    "message": "removal of container 2a2e6dcf579a346861505fc5b812b9fad91424c9a623182a286cbc20240b55f6 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 2a2e6dcf579a346861505fc5b812b9fad91424c9a623182a286cbc20240b55f6 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 2a2e6dcf579a346861505fc5b812b9fad91424c9a623182a286cbc20240b55f6 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 8
+}
+{
+  "json": {
+    "message": "removal of container 6a1f892895b0c798cfb73c6f76d72e8fccb7ad88d0108447a4f3116395399cef is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 6a1f892895b0c798cfb73c6f76d72e8fccb7ad88d0108447a4f3116395399cef is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 410) unexpected - removal of container 6a1f892895b0c798cfb73c6f76d72e8fccb7ad88d0108447a4f3116395399cef is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 1
+}
+{
+  "json": {
+    "message": "removal of container 7eb4fd41e2c5fd3854f6acc49027a27de27465a2023d6883b03f1b40e72b9c7b is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 7eb4fd41e2c5fd3854f6acc49027a27de27465a2023d6883b03f1b40e72b9c7b is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 7eb4fd41e2c5fd3854f6acc49027a27de27465a2023d6883b03f1b40e72b9c7b is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "json": {
+    "message": "removal of container 7eb4fd41e2c5fd3854f6acc49027a27de27465a2023d6883b03f1b40e72b9c7b is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 7eb4fd41e2c5fd3854f6acc49027a27de27465a2023d6883b03f1b40e72b9c7b is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 7eb4fd41e2c5fd3854f6acc49027a27de27465a2023d6883b03f1b40e72b9c7b is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 2
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 2
+}
+{
+  "json": {
+    "message": "removal of container 5edf100557c7f07a2510e0f2428ce3f4a7af70949f30cba1611843d14a93ffcc is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 5edf100557c7f07a2510e0f2428ce3f4a7af70949f30cba1611843d14a93ffcc is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 5edf100557c7f07a2510e0f2428ce3f4a7af70949f30cba1611843d14a93ffcc is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "json": {
+    "message": "removal of container 5edf100557c7f07a2510e0f2428ce3f4a7af70949f30cba1611843d14a93ffcc is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 5edf100557c7f07a2510e0f2428ce3f4a7af70949f30cba1611843d14a93ffcc is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 5edf100557c7f07a2510e0f2428ce3f4a7af70949f30cba1611843d14a93ffcc is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "json": {
+    "message": "No such container: a93326eb39ad1d3b49b6b57866530825bbb14beaf5d4dc4d46ce323bc1da00c2"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 404) no such container - No such container: a93326eb39ad1d3b49b6b57866530825bbb14beaf5d4dc4d46ce323bc1da00c2 ",
+  "reason": "no such container",
+  "service": "backend",
+  "stack": "Error: (HTTP code 404) no such container - No such container: a93326eb39ad1d3b49b6b57866530825bbb14beaf5d4dc4d46ce323bc1da00c2 \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 404,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "json": {
+    "message": "removal of container 0a113d67186ad4d12f1246f4bea55885e2dd1ea9a4015aee728b90be8b26e7f0 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 0a113d67186ad4d12f1246f4bea55885e2dd1ea9a4015aee728b90be8b26e7f0 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 0a113d67186ad4d12f1246f4bea55885e2dd1ea9a4015aee728b90be8b26e7f0 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 2
+}
+{
+  "json": {
+    "message": "removal of container dec8e8075768f81be5834e152ca0e685e953f3d33ec8a5763355e3194980ab7d is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container dec8e8075768f81be5834e152ca0e685e953f3d33ec8a5763355e3194980ab7d is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container dec8e8075768f81be5834e152ca0e685e953f3d33ec8a5763355e3194980ab7d is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "json": {
+    "message": "removal of container dec8e8075768f81be5834e152ca0e685e953f3d33ec8a5763355e3194980ab7d is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container dec8e8075768f81be5834e152ca0e685e953f3d33ec8a5763355e3194980ab7d is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container dec8e8075768f81be5834e152ca0e685e953f3d33ec8a5763355e3194980ab7d is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 1
+}
+{
+  "json": {
+    "message": "removal of container 4d9bdd1964160e352dd975be0fff5873508a8742ba042c541a7bc77d439d8b5e is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 4d9bdd1964160e352dd975be0fff5873508a8742ba042c541a7bc77d439d8b5e is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 4d9bdd1964160e352dd975be0fff5873508a8742ba042c541a7bc77d439d8b5e is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 1
+}
+{
+  "json": {
+    "message": "removal of container 9e2f866e36a72fbe722521a75417e5fc2ef734169dcb70fec9149c2c2ac6537e is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container 9e2f866e36a72fbe722521a75417e5fc2ef734169dcb70fec9149c2c2ac6537e is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container 9e2f866e36a72fbe722521a75417e5fc2ef734169dcb70fec9149c2c2ac6537e is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 12
+}
+{
+  "json": {
+    "message": "removal of container a73dcb1818f83b4016405401976f59764c6478bcb33f48b6c986a23485b541b1 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container a73dcb1818f83b4016405401976f59764c6478bcb33f48b6c986a23485b541b1 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container a73dcb1818f83b4016405401976f59764c6478bcb33f48b6c986a23485b541b1 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 18
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 1
+}
+{
+  "json": {
+    "message": "removal of container b22564b556fe4aec2aa4f7bad4eafeec22baf12830c2c33eeb19bb171d3f1e19 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container b22564b556fe4aec2aa4f7bad4eafeec22baf12830c2c33eeb19bb171d3f1e19 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container b22564b556fe4aec2aa4f7bad4eafeec22baf12830c2c33eeb19bb171d3f1e19 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:01:19.575Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:01:19.575Z",
+  "version": 0
+}
+{
+  "json": {
+    "message": "removal of container c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "json": {
+    "message": "removal of container c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 2
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 2
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 2
+}
+{
+  "json": {
+    "message": "No such container: c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 404) no such container - No such container: c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b ",
+  "reason": "no such container",
+  "service": "backend",
+  "stack": "Error: (HTTP code 404) no such container - No such container: c3d95fb2fa354278ebfe8069e5cf98bda9a1ae48f0a2886f666b080a6e36962b \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 404,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "json": {
+    "message": "No such container: 7699dbcc28684cf9a8b99dcd694ee0ee4e7ffba0215fe93a14184e862bfcd94d"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 404) no such container - No such container: 7699dbcc28684cf9a8b99dcd694ee0ee4e7ffba0215fe93a14184e862bfcd94d ",
+  "reason": "no such container",
+  "service": "backend",
+  "stack": "Error: (HTTP code 404) no such container - No such container: 7699dbcc28684cf9a8b99dcd694ee0ee4e7ffba0215fe93a14184e862bfcd94d \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 404,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "json": {
+    "message": "No such container: b44e0fedf08bb546d8d943996f2d95fa359c6c595af0b92682ae91c0b9b718b3"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 404) no such container - No such container: b44e0fedf08bb546d8d943996f2d95fa359c6c595af0b92682ae91c0b9b718b3 ",
+  "reason": "no such container",
+  "service": "backend",
+  "stack": "Error: (HTTP code 404) no such container - No such container: b44e0fedf08bb546d8d943996f2d95fa359c6c595af0b92682ae91c0b9b718b3 \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 404,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 0
+}
+{
+  "json": {
+    "message": "No such container: 4a141ad7d0f3f4df79e077ab3b1750515479357e733709267d431fd91605a5d9"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 404) no such container - No such container: 4a141ad7d0f3f4df79e077ab3b1750515479357e733709267d431fd91605a5d9 ",
+  "reason": "no such container",
+  "service": "backend",
+  "stack": "Error: (HTTP code 404) no such container - No such container: 4a141ad7d0f3f4df79e077ab3b1750515479357e733709267d431fd91605a5d9 \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 404,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "json": {
+    "message": "removal of container e6a57c71b9eb9258d575446265127e8d8b7e9c02c7e1fba83c5c06417c745753 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container e6a57c71b9eb9258d575446265127e8d8b7e9c02c7e1fba83c5c06417c745753 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container e6a57c71b9eb9258d575446265127e8d8b7e9c02c7e1fba83c5c06417c745753 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "json": {
+    "message": "removal of container e6a57c71b9eb9258d575446265127e8d8b7e9c02c7e1fba83c5c06417c745753 is already in progress"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 409) unexpected - removal of container e6a57c71b9eb9258d575446265127e8d8b7e9c02c7e1fba83c5c06417c745753 is already in progress ",
+  "service": "backend",
+  "stack": "Error: (HTTP code 409) unexpected - removal of container e6a57c71b9eb9258d575446265127e8d8b7e9c02c7e1fba83c5c06417c745753 is already in progress \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 409,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 8
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 8
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T02:48:56.901Z",
+  "version": 5
+}
+{
+  "json": {
+    "message": "No such container: abb3c01c8e623ee91cb0c94eb68898b9d74c03952ff604dda7d76426d4d1dca0"
+  },
+  "level": "error",
+  "message": "Failed to delete container (HTTP code 404) no such container - No such container: abb3c01c8e623ee91cb0c94eb68898b9d74c03952ff604dda7d76426d4d1dca0 ",
+  "reason": "no such container",
+  "service": "backend",
+  "stack": "Error: (HTTP code 404) no such container - No such container: abb3c01c8e623ee91cb0c94eb68898b9d74c03952ff604dda7d76426d4d1dca0 \n    at /app/node_modules/docker-modem/lib/modem.js:343:17\n    at getCause (/app/node_modules/docker-modem/lib/modem.js:373:7)\n    at Modem.buildPayload (/app/node_modules/docker-modem/lib/modem.js:342:5)\n    at IncomingMessage.<anonymous> (/app/node_modules/docker-modem/lib/modem.js:310:16)\n    at IncomingMessage.emit (node:events:526:35)\n    at endReadableNT (node:internal/streams/readable:1408:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+  "statusCode": 404,
+  "timestamp": "2023-11-24T02:48:56.901Z"
+}
+{
+  "level": "error",
+  "modifiedPaths": [
+    "status",
+    "containerId"
+  ],
+  "service": "backend",
+  "timestamp": "2023-11-24T03:43:02.988Z",
+  "version": 3
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "commander",
+      "path": "/home/commander",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "folder1",
+      "path": "/home/commander/folder1",
+      "type": "folder"
+    },
+    {
+      "discovered": false,
+      "name": "file1.txt",
+      "path": "/home/commander/folder1/file1.txt",
+      "type": "file"
+    },
+    {
+      "discovered": false,
+      "name": "file2.txt",
+      "path": "/home/commander/folder1/file2.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "folder2",
+      "path": "/home/commander/folder2",
+      "type": "folder"
+    },
+    {
+      "discovered": false,
+      "name": "file3.txt",
+      "path": "/home/commander/folder2/file3.txt",
+      "type": "file"
+    },
+    {
+      "discovered": false,
+      "name": "file4.txt",
+      "path": "/home/commander/folder2/file4.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "folder2",
+      "path": "/home/commander/folder2",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "file3.txt",
+      "path": "/home/commander/folder2/file3.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "file4.txt",
+      "path": "/home/commander/folder2/file4.txt",
+      "type": "file"
+    }
+  ],
+  "error": {
+    "name": "DuplicateItemError"
+  },
+  "graph": {
+    "_id": "656037880d176487bd19c447",
+    "children": [
+      {
+        "_id": "656037880d176487bd19c448",
+        "children": [
+          {
+            "_id": "656037880d176487bd19c449",
+            "children": [
+              {
+                "_id": "656037880d176487bd19c44a",
+                "children": [
+                  {
+                    "_id": "656037880d176487bd19c44b",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/folder1/file1.txt",
+                    "type": "file"
+                  },
+                  {
+                    "_id": "656037880d176487bd19c44c",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/folder1/file2.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/folder1",
+                "type": "folder"
+              },
+              {
+                "_id": "656037880d176487bd19c44d",
+                "children": [
+                  {
+                    "_id": "656037880d176487bd19c44e",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/folder2/file3.txt",
+                    "type": "file"
+                  },
+                  {
+                    "_id": "656037880d176487bd19c44f",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/folder2/file4.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/folder2",
+                "type": "folder"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "656036d80d176487bd1987b2",
+  "timestamp": "2023-11-24T05:04:50.483Z"
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "folder",
+      "path": "/home/commander/folder",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "file.txt",
+      "path": "/home/commander/folder/file.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "commander",
+      "path": "/home/commander",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "file1.txt",
+      "path": "/home/commander/file1.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "folder",
+      "path": "/home/commander/folder",
+      "type": "folder"
+    },
+    {
+      "discovered": false,
+      "name": "file.txt",
+      "path": "/home/commander/folder/file.txt",
+      "type": "file"
+    }
+  ],
+  "error": {},
+  "graph": {
+    "_id": "656043ee0d176487bd1bfe9b",
+    "children": [
+      {
+        "_id": "656043ee0d176487bd1bfe9c",
+        "children": [
+          {
+            "_id": "656043ee0d176487bd1bfe9d",
+            "children": [
+              {
+                "_id": "656043ee0d176487bd1bfe9e",
+                "children": [],
+                "discovered": true,
+                "path": "/home/commander/file1.txt",
+                "type": "file"
+              },
+              {
+                "_id": "656043ee0d176487bd1bfe9f",
+                "children": [
+                  {
+                    "_id": "656043ee0d176487bd1bfea0",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/folder/file.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/folder",
+                "type": "folder"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "656043d70d176487bd1bf681",
+  "timestamp": "2023-11-24T05:04:50.483Z"
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "file3.txt",
+      "path": "/home/commander/folder2/file3.txt",
+      "type": "file"
+    }
+  ],
+  "error": {
+    "name": "DuplicateItemError"
+  },
+  "graph": {
+    "_id": "656045570d176487bd1ca367",
+    "children": [
+      {
+        "_id": "656045570d176487bd1ca368",
+        "children": [
+          {
+            "_id": "656045570d176487bd1ca369",
+            "children": [
+              {
+                "_id": "656045570d176487bd1ca36a",
+                "children": [
+                  {
+                    "_id": "656045570d176487bd1ca36b",
+                    "children": [],
+                    "discovered": true,
+                    "path": "/home/commander/folder1/file1.txt",
+                    "type": "file"
+                  },
+                  {
+                    "_id": "656045570d176487bd1ca36c",
+                    "children": [],
+                    "discovered": true,
+                    "path": "/home/commander/folder1/file2.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/folder1",
+                "type": "folder"
+              },
+              {
+                "_id": "656045570d176487bd1ca36d",
+                "children": [
+                  {
+                    "_id": "656045570d176487bd1ca36e",
+                    "children": [],
+                    "discovered": true,
+                    "path": "/home/commander/folder2/file3.txt",
+                    "type": "file"
+                  },
+                  {
+                    "_id": "656045570d176487bd1ca36f",
+                    "children": [],
+                    "discovered": true,
+                    "path": "/home/commander/folder2/file4.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/folder2",
+                "type": "folder"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "656043f90d176487bd1c02f1",
+  "timestamp": "2023-11-24T05:04:50.483Z"
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "notes",
+      "path": "/home/commander/notes",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "note.txt",
+      "path": "/home/commander/notes/note.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "commander",
+      "path": "/home/commander",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "hello.txt",
+      "path": "/home/commander/hello.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "notes",
+      "path": "/home/commander/notes",
+      "type": "folder"
+    },
+    {
+      "discovered": false,
+      "name": "note.txt",
+      "path": "/home/commander/notes/note.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "world.txt",
+      "path": "/home/commander/world.txt",
+      "type": "file"
+    }
+  ],
+  "error": {},
+  "graph": {
+    "_id": "6560465d0d176487bd1cf6ed",
+    "children": [
+      {
+        "_id": "6560465d0d176487bd1cf6ee",
+        "children": [
+          {
+            "_id": "6560465d0d176487bd1cf6ef",
+            "children": [
+              {
+                "_id": "6560465d0d176487bd1cf6f0",
+                "children": [],
+                "discovered": true,
+                "path": "/home/commander/hello.txt",
+                "type": "file"
+              },
+              {
+                "_id": "6560465d0d176487bd1cf6f1",
+                "children": [
+                  {
+                    "_id": "6560465d0d176487bd1cf6f2",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/notes/note.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/notes",
+                "type": "folder"
+              },
+              {
+                "_id": "6560465d0d176487bd1cf6f3",
+                "children": [],
+                "discovered": true,
+                "path": "/home/commander/world.txt",
+                "type": "file"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "656046380d176487bd1ced14",
+  "timestamp": "2023-11-24T05:04:50.483Z"
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "notes",
+      "path": "/home/commander/notes",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "hello.txt",
+      "path": "/home/commander/notes/hello.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "note.txt",
+      "path": "/home/commander/notes/note.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "commander",
+      "path": "/home/commander",
+      "type": "folder"
+    },
+    {
+      "discovered": true,
+      "name": "notes",
+      "path": "/home/commander/notes",
+      "type": "folder"
+    },
+    {
+      "discovered": false,
+      "name": "hello.txt",
+      "path": "/home/commander/notes/hello.txt",
+      "type": "file"
+    },
+    {
+      "discovered": false,
+      "name": "note.txt",
+      "path": "/home/commander/notes/note.txt",
+      "type": "file"
+    },
+    {
+      "discovered": true,
+      "name": "world.txt",
+      "path": "/home/commander/world.txt",
+      "type": "file"
+    }
+  ],
+  "error": {},
+  "graph": {
+    "_id": "656046be0d176487bd1d178c",
+    "children": [
+      {
+        "_id": "656046be0d176487bd1d178d",
+        "children": [
+          {
+            "_id": "656046be0d176487bd1d178e",
+            "children": [
+              {
+                "_id": "656046be0d176487bd1d178f",
+                "children": [
+                  {
+                    "_id": "656046be0d176487bd1d1790",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/notes/note.txt",
+                    "type": "file"
+                  },
+                  {
+                    "_id": "656046be0d176487bd1d1791",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/notes/hello.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/notes",
+                "type": "folder"
+              },
+              {
+                "_id": "656046be0d176487bd1d1792",
+                "children": [],
+                "discovered": true,
+                "path": "/home/commander/world.txt",
+                "type": "file"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "656046380d176487bd1ced14",
+  "timestamp": "2023-11-24T05:04:50.483Z"
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "hello.txt",
+      "path": "/home/commander/docs/hello.txt",
+      "type": "file"
+    }
+  ],
+  "error": {
+    "name": "DuplicateItemError"
+  },
+  "graph": {
+    "_id": "6560961b59cac4e8ed5d7210",
+    "children": [
+      {
+        "_id": "6560961b59cac4e8ed5d7211",
+        "children": [
+          {
+            "_id": "6560961b59cac4e8ed5d7212",
+            "children": [
+              {
+                "_id": "6560961b59cac4e8ed5d7213",
+                "children": [],
+                "discovered": true,
+                "path": "/home/commander/wow.txt",
+                "type": "file"
+              },
+              {
+                "_id": "6560961b59cac4e8ed5d7214",
+                "children": [
+                  {
+                    "_id": "6560961b59cac4e8ed5d7215",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/docs/hello.txt",
+                    "type": "file"
+                  },
+                  {
+                    "_id": "6560961b59cac4e8ed5d7216",
+                    "children": [],
+                    "discovered": false,
+                    "path": "/home/commander/docs/note.txt",
+                    "type": "file"
+                  }
+                ],
+                "discovered": true,
+                "path": "/home/commander/docs",
+                "type": "folder"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "656093f059cac4e8ed5d6b82",
+  "timestamp": "2023-11-24T06:57:59.776Z"
+}
+{
+  "discover": [
+    {
+      "discovered": true,
+      "name": "forgotten_scroll.txt",
+      "path": "/home/commander/forgotten_scroll.txt",
+      "type": "file"
+    }
+  ],
+  "error": {
+    "name": "DuplicateItemError"
+  },
+  "graph": {
+    "_id": "6560cd8759cac4e8ed5db938",
+    "children": [
+      {
+        "_id": "6560cd8759cac4e8ed5db939",
+        "children": [
+          {
+            "_id": "6560cd8759cac4e8ed5db93a",
+            "children": [
+              {
+                "_id": "6560cd8759cac4e8ed5db93b",
+                "children": [],
+                "discovered": true,
+                "path": "/home/commander/forgotten_scroll.txt",
+                "type": "file"
+              }
+            ],
+            "discovered": true,
+            "path": "/home/commander",
+            "type": "folder"
+          }
+        ],
+        "discovered": false,
+        "path": "/home",
+        "type": "folder"
+      }
+    ],
+    "discovered": false,
+    "path": "/",
+    "type": "folder"
+  },
+  "level": "error",
+  "message": "Update file graph failed",
+  "service": "backend",
+  "session": "6560cc1459cac4e8ed5db734",
+  "timestamp": "2023-11-24T06:57:59.776Z"
+}

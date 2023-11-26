@@ -32,7 +32,7 @@ export const register = asyncHandler(async (req, res, next) => {
 export function logout(req, res) {
   req.logout((err) => {
     if (err) {
-      logger.error(err)
+      logger.error('Failed to log out user', err, req.user)
       res.status(500).json({
         message: 'error logging out',
       })

@@ -30,7 +30,7 @@ export async function createNewSession(user, questId) {
 
   // deactivate all active sessions
   deactivateSessions(user._id, quest._id).catch((err) => {
-    logger.error(err)
+    logger.error('Failed to deactivate sessions', err, user.username, questId)
   })
 
   const container = await createContainer(
