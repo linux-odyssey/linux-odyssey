@@ -1,9 +1,13 @@
-import winston from 'winston'
+import winston, { format } from 'winston'
 import config from '../config.js'
 
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: format.combine(
+    format.errors({ stack: true }),
+    format.timestamp(),
+    format.json()
+  ),
   defaultMeta: { service: 'backend', timestamp: new Date().toISOString() },
   transports: [
     //

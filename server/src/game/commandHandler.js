@@ -156,7 +156,6 @@ export default class CommandHandler extends SessionHandler {
       }
 
       // global exception
-      console.log(this.quest.exceptions)
       if (this.quest.exceptions.length > 0) {
         const globalExceptions = this.getUnlockedComponents(
           this.quest.exceptions
