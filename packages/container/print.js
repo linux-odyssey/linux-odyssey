@@ -6,6 +6,7 @@ const RETURN_SYMBOL = '\u21B5'
 
 // ANSI color map
 const ANSI_COLORS = {
+  default: 0,
   black: 30,
   red: 31,
   green: 32,
@@ -16,10 +17,13 @@ const ANSI_COLORS = {
   white: 37,
 }
 
+function colorCode(color) {
+  return `\x1b[${ANSI_COLORS[color]}m`
+}
+
 function colorize(content, color) {
-  const colorCode = ANSI_COLORS[color]
-  if (!colorCode) return content
-  return `\x1b[${colorCode}m${content}\x1b[0m`
+  if (!color) return content
+  return `${colorCode(color)}${content}${colorCode('default')}`
 }
 
 process.stdin.setRawMode(true)
@@ -36,25 +40,29 @@ function waitForEnter() {
   })
 }
 
-function isCodeColor(text, isCode) {
-  if (text === '`') {
-    return !isCode
+function formatLine(content, color) {
+  let result = colorCode(color)
+  let codeBlock = false
+  for (const c of content) {
+    switch (c) {
+      case '`':
+        result += colorCode(codeBlock ? color : 'green')
+        codeBlock = !codeBlock
+        break
+
+      default:
+        result += c
+    }
   }
-  return isCode
+  return result + colorCode('default') + RETURN_SYMBOL
 }
 
 function printLine(content, delay, color) {
-  const printContent = `${colorize(content, color)}${RETURN_SYMBOL}`
-  let isCode = false
+  const printContent = formatLine(content, color)
   return new Promise((resolve) => {
     let i = 0
     const timer = setInterval(() => {
-      isCode = isCodeColor(printContent[i], isCode)
-      if (isCode) {
-        process.stdout.write(colorize(printContent[i], 'green'))
-      } else {
-        process.stdout.write(printContent[i])
-      }
+      process.stdout.write(printContent[i])
       i += 1
       if (i >= printContent.length) {
         clearInterval(timer)

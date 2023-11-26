@@ -25,8 +25,8 @@ export function createContainer(name, questId) {
     Image: getQuestImage(questId),
   }
   const { hostPwd, mountQuest } = config.docker
-  if (!config.isProduction && hostPwd && mountQuest) {
-    logger.debug('Mounting quest folder', mountQuest)
+  if (!config.isProduction && hostPwd && mountQuest === questId) {
+    logger.info('Mounting quest folder', mountQuest)
     option.HostConfig.Binds = [
       `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
       `${hostPwd}/packages/container:/usr/local/lib/container`,
