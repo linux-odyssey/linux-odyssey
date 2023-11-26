@@ -7,7 +7,10 @@ const responseSchema = new Schema({
     default: 'dialogue',
     required: true,
   },
-  content: [String],
+  content: {
+    type: [String],
+    required: true,
+  },
   speaker: { type: String, default: 'Ada' },
   color: String,
 })
