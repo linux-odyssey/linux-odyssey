@@ -48,10 +48,10 @@ async function handleCommand(command) {
 
 async function handleResponse({ responses, hints, end }) {
   if (responses) {
-    await printResponses(responses, 60)
+    await printResponses(responses, 90)
   }
   if (hints) {
-    await printHints(hints, 60)
+    await printHints(hints, 90)
   }
   if (end) {
     console.log(colorize('Quest completed!', 'blue'))
