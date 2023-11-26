@@ -9,14 +9,6 @@ requirements:
   - create
 
 stages:
-  - id: warning-01
-    repeatable: true
-    condition:
-      command:
-        - '　'
-    hints:
-      - '!! 請勿使用全形空格 !!'
-
   - id: start
     task: 輸入 `echo start` 來開始
     condition:

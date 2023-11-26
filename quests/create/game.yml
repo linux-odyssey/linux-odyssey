@@ -10,14 +10,6 @@ requirements:
   - read
 
 stages:
-  - id: warning-01
-    repeatable: true
-    condition:
-      command:
-        - '　'
-    hints:
-      - '!! 請勿使用全形空格 !!'
-
   - id: start
     task: 輸入 `echo start` 來開始
     condition:
@@ -68,6 +60,7 @@ stages:
       - ➤  輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
 
   - id: cat
+    task: 使用 `cat` 指令來查看 `hello.txt` 檔案的內容
     condition:
       command:
         - ^cat hello.txt$

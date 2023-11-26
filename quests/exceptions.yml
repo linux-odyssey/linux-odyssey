@@ -1,0 +1,8 @@
+exceptions:
+  - id: warning-02
+    repeatable: true
+    condition:
+      command:
+        - '`'
+    hints:
+      - '!! 不需要輸入上下引號 !!'
