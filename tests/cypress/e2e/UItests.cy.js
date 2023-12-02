@@ -1,8 +1,6 @@
 /// <reference types="cypress" />
 export default function checkLoginUI() {
-  cy.get('h1.text-text-primary')
-    .should('contain', 'Linux Odyssey')
-    .and('be.visible')
+  cy.get('#title').should('contain', 'Linux Odyssey').and('be.visible')
   cy.CheckPlaceholder('#password', '密碼', 'Password')
 }
 describe('example helloworld app', () => {
@@ -13,7 +11,7 @@ describe('example helloworld app', () => {
     it('Check Login Page Elements-Register', () => {
       checkLoginUI()
       cy.CheckPlaceholder('#username', '帳號名稱', 'Username')
-      cy.get('label.text-text-secondary').should('be.visible') // check the rules is displayed
+      cy.get('#NameRules').should('be.visible') // check the rules is displayed
       cy.CheckPlaceholder('#email', '電子郵件', 'Email')
       cy.CheckTextElement(
         '#CheckRegistered',
@@ -79,15 +77,23 @@ describe('example helloworld app', () => {
       cy.PrepareForGame()
     })
     it('Check Header', () => {
-      cy.get('#HeaderText').should('contain', 'Linux Odyssey').and('be.visible')
+      cy.get('#GameTitle').should('contain', 'Linux Odyssey').and('be.visible')
+      cy.get('#QuestTitle').should('contain', title).and('be.visible')
+      cy.get('#UsernameText')
+        .should('contain', Cypress.env('defaultAccount'))
+        .and('be.visible')
       cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
       cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
+      cy.findByRole('button', { name: 'Map' }).should('be.visible')
+      cy.findByRole('button', { name: 'LeaderBoard' }).should('be.visible')
+      cy.findByRole('link', { name: 'Survey' }).should('be.visible')
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', title)
-      cy.get('#quest').find('p.text-text').should('have.length', 4)
+      cy.get('#topic').should('be.visible')
+      cy.get('#tasks').should('be.visible')
+      cy.get('#quest').find('p.text-text').should('have.length', 2)
       cy.CheckTextElement('#tasks', '任務', 'Tasks:')
-      cy.getQuestInfo('輸入 `echo help` 來朗誦咒語').should('be.visible')
     })
     it('Check Terminal', () => {
       cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
@@ -114,6 +120,7 @@ describe('example helloworld app', () => {
       cy.CheckTextElement('#solution', '解答', 'Solution')
       cy.CheckTextElement('#reset', '重來', 'Reset')
       cy.CheckTextElement('#continue', '繼續', 'Continue')
+      cy.CheckTextElement('#survey', '問卷', 'Survey')
     })
   })
   describe('Game Play', () => {
@@ -126,42 +133,31 @@ describe('example helloworld app', () => {
         .should('contain', '12345')
         .and('contain', 'zsh: command not found: 12345', { timeout: 50000 })
     })
-    it('Complete the Game(relating UI)', () => {
-      // Stage1
-      cy.log('Stage1')
+    it('Complete the First Quest(relating UI)', () => {
+      cy.checkTaskInit()
+      cy.InitTerminal()
       cy.typeInCommand('echo start{enter}')
       cy.checkPending()
       cy.waitUntilActive()
       cy.get('#Lbutton').should('be.visible').and('be.disabled')
       cy.get('#Rbutton').should('be.visible').and('be.disabled')
       cy.checkHint(1, 1)
-      cy.getQuestInfo('✓ 輸入 `echo start` 來開始教程').should('be.visible')
-      cy.getQuestInfo('➤ 在終端機輸入 `echo hello`').should('be.visible')
-      // Stage2
-      cy.log('Stage2')
+      cy.getQuestInfo('✓ 輸入 echo start 來開始教程').should('be.visible')
+      cy.getQuestInfo('➤ 在終端機輸入 echo hello').should('be.visible')
       cy.typeInCommand('echo hello{enter}')
       cy.checkPending()
       cy.waitUntilActive()
-      // cy.get('#tree')
-      //   .get('a')
-      //   .should('contain', 'forgotten_scroll.txt')
-      //   .and('be.visible')
       cy.get('#Lbutton').should('be.visible').and('be.enabled')
       cy.get('#Rbutton').should('be.visible').and('be.disabled')
       cy.checkHint(2, 2)
       cy.get('#Lbutton').click()
       cy.get('#Rbutton').should('be.enabled')
-      cy.getQuestInfo('✓ 在終端機輸入 `echo hello`').should('be.visible')
+      cy.getQuestInfo('✓ 在終端機輸入 echo hello').should('be.visible')
       cy.getQuestInfo('➤ 結束關卡').should('be.visible')
-      // Stage3
-      cy.log('Stage3')
       cy.typeInCommand('echo finish{enter}')
-      cy.checkPending()
-      cy.waitUntilActive()
-      cy.getQuestInfo('✓ 結束關卡').should('be.visible')
       cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
       cy.get('div[class="modal"]').find('p').should('be.visible')
-      cy.findByRole('link', { name: '填寫問卷' }).should('be.visible')
+      cy.get('#BacktoMap').should('be.visible').and('contain', '回到地圖')
     })
   })
 })

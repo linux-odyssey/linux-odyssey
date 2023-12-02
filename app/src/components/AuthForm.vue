@@ -89,7 +89,9 @@ const handleChange = () => {
   <div
     class="bg-bg border-8 border-bg-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
-    <h1 class="text-text-primary text-3xl font-black mb-2">{{ title }}</h1>
+    <h1 class="text-text-primary text-3xl font-black mb-2" id="title">
+      {{ title }}
+    </h1>
     <div class="text-error inline-flex justify-center items-center md:hidden">
       <font-awesome-icon
         :icon="['fas', 'circle-exclamation']"
@@ -163,6 +165,7 @@ const handleChange = () => {
         />
         <label
           class="text-sm font-normal text-text-secondary"
+          id="NameRules"
           v-if="type === 'username' || type === 'register'"
         >
           <p>可用小寫字母、數字、"_"和"-"</p>
