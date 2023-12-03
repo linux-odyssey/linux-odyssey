@@ -39,7 +39,7 @@ Cypress.Commands.add('InitTerminal', () => {
 })
 Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen', { timeout: 150000 }).type(command, {
-    delay: 100,
+    delay: 60,
   })
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
@@ -66,23 +66,13 @@ Cypress.Commands.add('waitUntilActive', () => {
         cy.log('story ends')
         return
       }
-      cy.typeInCommand('{enter}')
-      cy.waitUntilActive()
-    })
-})
-Cypress.Commands.add('checkFinished', () => {
-  cy.get('input[id="currentStatus"]', { timeout: 1000000 })
-    .invoke('val')
-    .then((value) => {
       if (value === 'finished') {
-        cy.log(value)
         cy.log('Quest Finished')
         return
       }
       if (value === 'pending') {
-        cy.log(value)
         cy.typeInCommand('{enter}')
-        cy.checkFinished()
+        cy.waitUntilActive()
       }
     })
 })
@@ -110,7 +100,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
         cy.waitUntilActive()
       }
       if (answerarr.indexOf(element) + 1 === answerarr.length) {
-        cy.checkFinished()
+        cy.waitUntilActive()
         cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
         cy.get('div[class="modal"]').find('p').should('be.visible')
         cy.get('#BacktoMap').should('be.visible').and('contain', '回到地圖')
