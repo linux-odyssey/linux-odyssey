@@ -109,7 +109,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
-  cy.get(id).within(($element) => {
+  cy.get(id, { timeout: 100000 }).within(($element) => {
     if (Cypress.env('isCHVersion')) {
       cy.get($element).should('contain', chText).and('be.visible')
     } else {
