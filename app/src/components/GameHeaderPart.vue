@@ -78,15 +78,16 @@ onMounted(async () => {
             class="text-border h-full w-full"
           />
         </button> -->
+        <img src="../img/icon_totem.svg" class="h-5" />
         <button
-          id="HeaderText"
+          id="GameTitle"
           class="text-text-primary inline-block font-bold whitespace-nowrap"
           style="font-size: 2vh"
         >
           Linux Odyssey
         </button>
         <p
-          id="HeaderText"
+          id="QuestTitle"
           class="text-text inline-block font-bold whitespace-nowrap"
           style="font-size: 2vh"
         >

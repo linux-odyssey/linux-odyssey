@@ -25,12 +25,17 @@ Cypress.Commands.add('PrepareForGame', () => {
   cy.get('.xterm-screen', { timeout: 10000 })
     .as('Terminaltextbox')
     .should('be.visible')
+  cy.checkTaskInit()
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
-  cy.typeInCommand('clear{enter}')
+  cy.checkTaskInit()
+  cy.InitTerminal()
+})
+Cypress.Commands.add('InitTerminal', () => {
   cy.get('@Terminaltextbox', { timeout: 150000 }).should(
     'contain',
     'commander:~ $'
   )
+  cy.log('Check terminal init done')
 })
 Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen', { timeout: 150000 }).type(command)
@@ -48,16 +53,26 @@ Cypress.Commands.add('checkHint', (index, total) => {
     .contains(`${index}/${total}`)
     .should('be.visible')
 })
-Cypress.Commands.add('waitUntilActive', () => {
+Cypress.Commands.add('checkTaskInit', () => {
+  cy.get('#tasks').next().children().should('be.visible')
+})
+Cypress.Commands.add('waitUntilActive', (last = false) => {
   cy.get('input[id="currentStatus"]', { timeout: 1000000 })
     .invoke('val')
     .then((value) => {
-      if (value === 'active' || value === 'finished') {
+      if (value === 'active') {
         cy.log('story ends')
         return
       }
-      cy.typeInCommand('{enter}')
-      cy.waitUntilActive()
+      if (value === 'finished' && last) {
+        cy.log('Quest Finished')
+        return
+      }
+      if (value === 'pending' && !last) {
+        cy.log(last)
+        cy.typeInCommand('{enter}')
+        cy.waitUntilActive()
+      }
     })
 })
 Cypress.Commands.add('checkPending', () => {
@@ -66,11 +81,34 @@ Cypress.Commands.add('checkPending', () => {
     'pending'
   )
 })
-Cypress.Commands.add('Complete the Stage (only command)', () => {
-  cy.log('')
+Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
+  cy.visit(`/game/${stagename}`)
+  cy.url().should('include', `/game/${stagename}`)
+  cy.log(`Completing stage :${stagename}`)
+  cy.checkTaskInit()
+  cy.CheckTextElement('#reset', '重來', 'Reset').click()
+  cy.checkTaskInit()
+  cy.InitTerminal()
+  cy.readFile(`../quests/${stagename}/answer.sh`, 'utf-8').as('answers')
+  cy.get('@answers').then((answers) => {
+    const answerarr = answers.split('\n')
+    for (const element of answerarr) {
+      cy.typeInCommand(`${element}{enter}`)
+      if (answerarr.indexOf(element) + 1 !== answerarr.length) {
+        cy.checkPending()
+        cy.waitUntilActive()
+      }
+      if (answerarr.indexOf(element) + 1 === answerarr.length) {
+        cy.waitUntilActive(true)
+        cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
+        cy.get('div[class="modal"]').find('p').should('be.visible')
+        cy.get('#BacktoMap').should('be.visible').and('contain', '回到地圖')
+      }
+    }
+  })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
-  cy.get(id).within(($element) => {
+  cy.get(id, { timeout: 50000 }).within(($element) => {
     if (Cypress.env('isCHVersion')) {
       cy.get($element).should('contain', chText).and('be.visible')
     } else {
@@ -88,4 +126,7 @@ Cypress.Commands.add('CheckPlaceholder', (id, chText, enText) => {
         expect($placeHolder).eq(enText)
       }
     })
+})
+Cypress.Commands.add('CheckTreeElement', (element) => {
+  cy.get('#tree').get('a').should('contain', `${element}`).and('be.visible')
 })
