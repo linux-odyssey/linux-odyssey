@@ -39,7 +39,7 @@ Cypress.Commands.add('InitTerminal', () => {
 })
 Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen', { timeout: 150000 }).type(command, {
-    delay: 80,
+    delay: 100,
   })
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
