@@ -39,7 +39,7 @@ Cypress.Commands.add('InitTerminal', () => {
 })
 Cypress.Commands.add('typeInCommand', (command) => {
   cy.get('.xterm-screen', { timeout: 150000 }).type(command, {
-    delay: 100,
+    delay: 50,
   })
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
@@ -109,7 +109,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
-  cy.get(id, { timeout: 100000 }).within(($element) => {
+  cy.get(id, { timeout: 10000 }).within(($element) => {
     if (Cypress.env('isCHVersion')) {
       cy.get($element).should('contain', chText).and('be.visible')
     } else {
