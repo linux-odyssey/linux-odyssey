@@ -90,7 +90,7 @@ const handleChange = () => {
     class="bg-bg border-8 border-bg-primary flex flex-1 flex-col items-center justify-center rounded-3xl p-10"
   >
     <div class="w-full flex items-center justify-center mb-2 gap-3">
-      <img src="../img/icon_totem.svg" class="h-10 top-0 flex" />
+      <img src="../img/icon_totem.svg" class="h-10" />
       <h1 class="text-text-primary text-3xl font-black" id="title">
         {{ title }}
       </h1>
