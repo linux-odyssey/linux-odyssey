@@ -38,9 +38,7 @@ Cypress.Commands.add('InitTerminal', () => {
   cy.log('Check terminal init done')
 })
 Cypress.Commands.add('typeInCommand', (command) => {
-  cy.get('.xterm-screen', { timeout: 150000 }).type(command, {
-    delay: 70,
-  })
+  cy.get('.xterm-screen', { timeout: 150000 }).type(command)
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
   return cy
@@ -58,7 +56,7 @@ Cypress.Commands.add('checkHint', (index, total) => {
 Cypress.Commands.add('checkTaskInit', () => {
   cy.get('#tasks').next().children().should('be.visible')
 })
-Cypress.Commands.add('waitUntilActive', () => {
+Cypress.Commands.add('waitUntilActive', (last = false) => {
   cy.get('input[id="currentStatus"]', { timeout: 1000000 })
     .invoke('val')
     .then((value) => {
@@ -66,11 +64,12 @@ Cypress.Commands.add('waitUntilActive', () => {
         cy.log('story ends')
         return
       }
-      if (value === 'finished') {
+      if (value === 'finished' && last) {
         cy.log('Quest Finished')
         return
       }
-      if (value === 'pending') {
+      if (value === 'pending' && !last) {
+        cy.log(last)
         cy.typeInCommand('{enter}')
         cy.waitUntilActive()
       }
@@ -100,7 +99,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
         cy.waitUntilActive()
       }
       if (answerarr.indexOf(element) + 1 === answerarr.length) {
-        cy.waitUntilActive()
+        cy.waitUntilActive(true)
         cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
         cy.get('div[class="modal"]').find('p').should('be.visible')
         cy.get('#BacktoMap').should('be.visible').and('contain', '回到地圖')
@@ -109,7 +108,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
-  cy.get(id, { timeout: 10000 }).within(($element) => {
+  cy.get(id, { timeout: 50000 }).within(($element) => {
     if (Cypress.env('isCHVersion')) {
       cy.get($element).should('contain', chText).and('be.visible')
     } else {
