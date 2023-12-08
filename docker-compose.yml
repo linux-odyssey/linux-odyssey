@@ -36,7 +36,7 @@ services:
       - ./logs:/app/logs
     environment:
       - BASE_URL=http://localhost:5173
-      - MONGO_URL=mongodb://db:27017/odyssey-test
+      - MONGO_URL=mongodb://db:27017/linux-odyssey
       - DOCKER_NETWORK=linux-odyssey-players
       - SECRET_KEY=b1d2e917-17b9-4fce-9055-082dee6ec5d6 # Only for testing
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
@@ -64,7 +64,7 @@ services:
     ports:
       - '3001:3001'
     environment:
-      - MONGO_URL=mongodb://db:27017/odyssey-test
+      - MONGO_URL=mongodb://db:27017/linux-odyssey
       - ADMIN_USERNAME=alex
       - ADMIN_PASSWORD=Alex1234
     volumes:
