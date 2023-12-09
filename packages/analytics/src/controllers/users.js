@@ -1,6 +1,20 @@
-import { userList } from '../models/users.js'
+import { userList, userCount } from '../models/users.js'
 
-// eslint-disable-next-line import/prefer-default-export
 export async function userListController(req, res) {
-  res.render('users', { users: await userList() })
+  const pageNumber = req.query.page || 1
+  const itemsPerPage = 50
+
+  try {
+    const totalUsers = await userCount()
+    const maxPages = Math.ceil(totalUsers / itemsPerPage)
+
+    const users = await userList(pageNumber, itemsPerPage)
+
+    res.render('users', {
+      users,
+      maxPages: Array.from({ length: maxPages }, (_, index) => index + 1),
+    })
+  } catch (error) {
+    res.status(500).send('Error fetching user data')
+  }
 }

@@ -11,7 +11,9 @@ export function userCount() {
   return User.find().count()
 }
 
-export async function userList() {
+export async function userList(pageNumber, itemsPerPage) {
+  const skipAmount = (pageNumber - 1) * itemsPerPage
+
   const users = await Session.aggregate([
     {
       $group: {
@@ -30,7 +32,10 @@ export async function userList() {
     },
     { $unwind: '$userData' },
     { $sort: { 'userData.createdAt': 1 } },
+    { $skip: skipAmount },
+    { $limit: itemsPerPage },
   ])
+
   return users.map(({ userData, count, lastActivityAt }) => {
     const { username, email, createdAt } = userData
     return {

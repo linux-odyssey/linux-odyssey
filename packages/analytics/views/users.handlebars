@@ -21,3 +21,8 @@
     {{/each}}
   </table>
 </div>
+<div class='pagination'>
+  {{#each maxPages}}
+    <a href='/users?page={{this}}'>{{this}}</a>
+  {{/each}}
+</div>

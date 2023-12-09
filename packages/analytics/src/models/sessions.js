@@ -30,7 +30,9 @@ function formatTime(time) {
   return `${hours}h ${minutes % 60}m ${seconds % 60}s`
 }
 
-export async function sessionList() {
+export async function sessionList(pageNumber, itemsPerPage) {
+  const skipAmount = (pageNumber - 1) * itemsPerPage
+
   const sessions = await Session.aggregate([
     {
       $lookup: {
@@ -50,6 +52,8 @@ export async function sessionList() {
       },
     },
   ])
+    .skip(skipAmount)
+    .limit(itemsPerPage)
   return sessions.map(
     ({
       _id,

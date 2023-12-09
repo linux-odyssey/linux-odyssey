@@ -25,3 +25,8 @@
     {{/each}}
   </table>
 </div>
+<div class='pagination'>
+  {{#each pages}}
+    <a href='/sessions?page={{this}}'>{{this}}</a>
+  {{/each}}
+</div>

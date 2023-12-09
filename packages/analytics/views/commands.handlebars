@@ -22,3 +22,8 @@
     {{/each}}
   </table>
 </div>
+<div class='pagination'>
+  {{#each pages}}
+    <a href='/commands?page={{this}}'>{{this}}</a>
+  {{/each}}
+</div>

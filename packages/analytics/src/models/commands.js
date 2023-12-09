@@ -1,7 +1,9 @@
 import { Command } from '@linux-odyssey/models'
 
 // eslint-disable-next-line import/prefer-default-export
-export async function errorCommands() {
+export async function errorCommands(pageNumber, itemsPerPage) {
+  const skipAmount = (pageNumber - 1) * itemsPerPage
+
   const commands = await Command.find({
     $and: [
       { error: { $exists: true } },
@@ -13,6 +15,8 @@ export async function errorCommands() {
       path: 'session',
       populate: { path: 'user' },
     })
+    .skip(skipAmount)
+    .limit(itemsPerPage)
     .exec()
   return commands.map(({ command, error, createdAt, session }) => {
     const { user, quest } = session
