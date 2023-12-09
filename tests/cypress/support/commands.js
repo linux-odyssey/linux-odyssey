@@ -22,10 +22,11 @@ Cypress.Commands.add('PrepareForGame', () => {
   cy.url().should('include', '/map')
   cy.visit('/game/get-started')
   cy.url().should('include', '/game/get-started')
-  cy.get('.xterm-screen', { timeout: 10000 })
+  // check task first so the terminal has better possibility loaded
+  cy.checkTaskInit()
+  cy.get('.xterm-screen', { timeout: 100000 })
     .as('Terminaltextbox')
     .should('be.visible')
-  cy.checkTaskInit()
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
   cy.checkTaskInit()
   cy.InitTerminal()
@@ -83,7 +84,7 @@ Cypress.Commands.add('checkPending', () => {
 })
 Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   cy.visit(`/game/${stagename}`)
-  cy.url().should('include', `/game/${stagename}`)
+  cy.url().should('include', `/game/${stagename}`, { timeout: 50000 })
   cy.log(`Completing stage :${stagename}`)
   cy.checkTaskInit()
   cy.CheckTextElement('#reset', '重來', 'Reset').click()

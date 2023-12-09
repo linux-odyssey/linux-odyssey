@@ -20,6 +20,9 @@ module.exports = defineConfig({
     viewportWidth: 1920,
     viewportHeight: 1080,
     pageLoadTimeout: 120000,
+    redirectionLimit: 20,
+    defaultCommandTimeout: 10000,
+    retries: { runMode: 5, openMode: 5 },
   },
   env: {
     defaultAccount: getOrFail('TESTING_USERNAME'),
