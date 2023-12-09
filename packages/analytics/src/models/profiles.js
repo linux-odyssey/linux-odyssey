@@ -2,11 +2,11 @@
 /* eslint-disable func-names */
 import { UserProfile } from '@linux-odyssey/models'
 
-export function questCount() {
+export function totalQuests() {
   return UserProfile.find().count()
 }
 
-export function questCompleted() {
+export function totalCompleted() {
   return UserProfile.find({
     $where: function () {
       for (const key in this.progress) {
@@ -17,4 +17,8 @@ export function questCompleted() {
       return false
     },
   }).count()
+}
+
+export function userProfileList() {
+  return UserProfile.find()
 }
