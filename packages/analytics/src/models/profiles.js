@@ -3,20 +3,58 @@
 import { UserProfile } from '@linux-odyssey/models'
 
 export function totalQuests() {
-  return UserProfile.find().count()
+  return UserProfile.aggregate([
+    {
+      $project: {
+        _id: 0,
+        progress: { $objectToArray: '$progress' },
+      },
+    },
+    {
+      $unwind: '$progress',
+    },
+    {
+      $group: {
+        _id: null,
+        totalCount: { $sum: 1 },
+      },
+    },
+  ]).then((results) => {
+    if (results.length === 0) {
+      throw new Error('No documents found')
+    }
+    return results[0].totalCount
+  })
 }
 
 export function totalCompleted() {
-  return UserProfile.find({
-    $where: function () {
-      for (const key in this.progress) {
-        if (this.progress[key].completed === true) {
-          return true
-        }
-      }
-      return false
+  return UserProfile.aggregate([
+    {
+      $project: {
+        _id: 0,
+        progress: { $objectToArray: '$progress' },
+      },
     },
-  }).count()
+    {
+      $unwind: '$progress',
+    },
+    {
+      $match: {
+        'progress.v.completed': true,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalCount: { $sum: 1 },
+      },
+    },
+  ]).then((results) => {
+    if (results.length === 0) {
+      throw new Error('No documents found')
+    }
+    return results[0].totalCount
+  })
 }
 
 export function userProfileList() {
