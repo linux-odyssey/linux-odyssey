@@ -22,30 +22,31 @@ Cypress.Commands.add('PrepareForGame', () => {
   cy.url().should('include', '/map')
   cy.visit('/game/get-started')
   cy.url().should('include', '/game/get-started')
+  // check task first so the terminal has better possibility loaded
+  cy.checkTaskInit()
   cy.get('.xterm-screen', { timeout: 10000 })
     .as('Terminaltextbox')
     .should('be.visible')
-  cy.checkTaskInit()
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
   cy.checkTaskInit()
   cy.InitTerminal()
 })
 Cypress.Commands.add('InitTerminal', () => {
-  cy.get('@Terminaltextbox', { timeout: 150000 }).should(
+  cy.get('@Terminaltextbox', { timeout: 15000 }).should(
     'contain',
     'commander:~ $'
   )
   cy.log('Check terminal init done')
 })
 Cypress.Commands.add('typeInCommand', (command) => {
-  cy.get('.xterm-screen', { timeout: 150000 }).type(command)
+  cy.get('.xterm-screen', { timeout: 15000 }).type(command)
 })
 Cypress.Commands.add('getQuestInfo', (id) => {
   return cy
     .get('#quest')
     .find('li')
     .find('p')
-    .contains(`${id}`, { timeout: 100000 })
+    .contains(`${id}`, { timeout: 10000 })
 })
 Cypress.Commands.add('checkHint', (index, total) => {
   cy.get('#hint')
@@ -57,7 +58,7 @@ Cypress.Commands.add('checkTaskInit', () => {
   cy.get('#tasks').next().children().should('be.visible')
 })
 Cypress.Commands.add('waitUntilActive', (last = false) => {
-  cy.get('input[id="currentStatus"]', { timeout: 1000000 })
+  cy.get('input[id="currentStatus"]', { timeout: 10000 })
     .invoke('val')
     .then((value) => {
       if (value === 'active') {
@@ -76,14 +77,14 @@ Cypress.Commands.add('waitUntilActive', (last = false) => {
     })
 })
 Cypress.Commands.add('checkPending', () => {
-  cy.get('input[id="currentStatus"]', { timeout: 1000000 }).should(
+  cy.get('input[id="currentStatus"]', { timeout: 10000 }).should(
     'have.value',
     'pending'
   )
 })
 Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   cy.visit(`/game/${stagename}`)
-  cy.url().should('include', `/game/${stagename}`)
+  cy.url().should('include', `/game/${stagename}`, { timeout: 50000 })
   cy.log(`Completing stage :${stagename}`)
   cy.checkTaskInit()
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
