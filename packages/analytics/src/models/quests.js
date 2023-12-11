@@ -1,6 +1,6 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
-import { UserProfile, Quest } from '@linux-odyssey/models'
+import { UserProfile } from '@linux-odyssey/models'
 
 export function totalQuests() {
   return UserProfile.aggregate([
@@ -98,7 +98,7 @@ export function questList() {
             else: {
               $round: [
                 { $multiply: [{ $divide: ['$completed', '$started'] }, 100] },
-                2,
+                0,
               ],
             },
           },
@@ -107,7 +107,7 @@ export function questList() {
     },
     {
       $sort: {
-        _id: 1, // 按任务ID升序排序
+        completed: -1,
       },
     },
   ])

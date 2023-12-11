@@ -5,6 +5,7 @@
       <th>Id</th>
       <th>Started</th>
       <th>Completed</th>
+      <th>Failed</th>
       <th>Completed Rate</th>
     </tr>
     {{#each quests}}
@@ -12,7 +13,8 @@
         <td>{{_id}}</td>
         <td>{{started}}</td>
         <td>{{completed}}</td>
-        <td>{{completedRate}}</td>
+        <td>{{failed}}</td>
+        <td>{{completedRate}} %</td>
       </tr>
     {{/each}}
   </table>
