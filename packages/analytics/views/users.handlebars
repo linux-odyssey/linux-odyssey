@@ -3,20 +3,20 @@
   <table>
     <tr>
       <th>Username</th>
-      <th>Email</th>
-      <th>Registration Method</th>
-      <th>Registration Time</th>
-      <th>Sessions Count</th>
       <th>Last Activity</th>
+      <th>Sessions Count</th>
+      <th>Email</th>
+      <th>Registration Time</th>
+      <th>Registration Method</th>
     </tr>
     {{#each users}}
       <tr>
-        <td>{{username}}</td>
-        <td>{{email}}</td>
-        <td>{{method}}</td>
-        <td>{{createdAt}}</td>
-        <td>{{sessionCount}}</td>
+        <td href='/users/{{_id}}'>{{username}}</td>
         <td>{{lastActivityAt}}</td>
+        <td>{{sessionCount}}</td>
+        <td>{{email}}</td>
+        <td>{{createdAt}}</td>
+        <td>{{method}}</td>
       </tr>
     {{/each}}
   </table>

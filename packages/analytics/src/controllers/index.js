@@ -1,5 +1,5 @@
 import { userCount } from '../models/users.js'
-import { totalQuests, totalCompleted } from '../models/profiles.js'
+import { totalQuests, totalCompleted } from '../models/quests.js'
 
 // eslint-disable-next-line import/prefer-default-export
 export async function homeController(req, res) {

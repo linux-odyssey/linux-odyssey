@@ -1,0 +1,18 @@
+<h1>Quests</h1>
+<div>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Started</th>
+      <th>Completed</th>
+      <th>Completed Rate</th>
+    </tr>
+    {{#each quests}}
+      <tr>
+        <td>{{_id}}</td>
+        <td>{{started}}</td>
+        <td>{{completed}}</td>
+        <td>{{completedRate}}</td>
+      </tr>
+    {{/each}}
+  </table>
