@@ -1,3 +1,4 @@
+import { Desc } from '../constants.js'
 import { userList, userCount } from '../models/users.js'
 
 export async function userListController(req, res) {
@@ -8,7 +9,11 @@ export async function userListController(req, res) {
     // const totalUsers = await userCount()
     // const maxPages = Math.ceil(totalUsers / itemsPerPage)
 
-    const users = await userList({ nextKey, itemsPerPage })
+    const users = await userList({
+      nextKey,
+      itemsPerPage,
+      order: new Desc(),
+    })
     const newNextKey = users[users.length - 1]?._id
 
     res.render('users', {
