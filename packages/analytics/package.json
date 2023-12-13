@@ -13,7 +13,8 @@
     "@linux-odyssey/models": "*",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.1",
-    "express-handlebars": "^7.1.2"
+    "express-handlebars": "^7.1.2",
+    "mongoose": "^8.0.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

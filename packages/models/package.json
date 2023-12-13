@@ -6,6 +6,6 @@
   "license": "GPL",
   "exports": "./index.js",
   "dependencies": {
-    "mongoose": "^7.6.0"
+    "mongoose": "^8.0.3"
   }
 }
