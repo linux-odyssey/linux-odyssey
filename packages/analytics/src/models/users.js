@@ -1,4 +1,5 @@
 import { Session, User } from '@linux-odyssey/models'
+import mongoose from 'mongoose'
 
 function loginMethods(user) {
   const methods = []
@@ -11,10 +12,14 @@ export function userCount() {
   return User.find().count()
 }
 
-export async function userList(pageNumber, itemsPerPage) {
-  const skipAmount = (pageNumber - 1) * itemsPerPage
-
+export async function userList({ nextKey, itemsPerPage }) {
+  const key = new mongoose.Types.ObjectId(nextKey)
+  // const matchStage = nextKey ? { user: { $gt: key } } : {}
+  const matchStage = nextKey ? { user: { $gt: key } } : {}
   const users = await Session.aggregate([
+    {
+      $match: matchStage,
+    },
     {
       $group: {
         _id: '$user',
@@ -31,14 +36,14 @@ export async function userList(pageNumber, itemsPerPage) {
       },
     },
     { $unwind: '$userData' },
-    { $sort: { 'userData.createdAt': 1 } },
-    { $skip: skipAmount },
+    { $sort: { 'userData._id': 1 } },
     { $limit: itemsPerPage },
   ])
 
   return users.map(({ userData, count, lastActivityAt }) => {
-    const { username, email, createdAt } = userData
+    const { _id, username, email, createdAt } = userData
     return {
+      _id,
       username,
       email,
       createdAt: createdAt?.toLocaleString(),
