@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist",
     "declaration": true,
+    "sourceMap": true,
     "allowJs": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "src/*.test.js", "dist"]
+  "exclude": ["node_modules", "dist"]
 }

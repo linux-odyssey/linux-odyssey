@@ -1,4 +1,4 @@
-import { DuplicateItemError, ParentNotExistsError } from './errors.js'
+import { DuplicateItemError, ParentNotExistsError } from './errors'
 import FileNode from './fileNode.js'
 
 function createNodeFromFiles(files) {
