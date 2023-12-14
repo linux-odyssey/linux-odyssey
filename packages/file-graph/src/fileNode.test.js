@@ -1,5 +1,5 @@
 import { DuplicateItemError, ParentNotExistsError } from './errors'
-import FileNode from './fileNode.js'
+import FileNode from './fileNode'
 
 function createNodeFromFiles(files) {
   const node = new FileNode(files[0])
