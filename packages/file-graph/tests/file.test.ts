@@ -1,7 +1,7 @@
-import File from './file.js'
+import File from '../src/file'
 
 describe('File', () => {
-  let file
+  let file: File
   beforeEach(() => {
     file = new File({ path: '/home/user', type: 'folder', discovered: true })
   })

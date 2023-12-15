@@ -1,8 +1,12 @@
 {
   "name": "@linux-odyssey/utils",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
-  "exports": "./index.js",
-  "license": "MIT"
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  }
 }
