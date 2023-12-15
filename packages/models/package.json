@@ -1,10 +1,14 @@
 {
   "name": "@linux-odyssey/models",
-  "type": "module",
+  "type": "commonjs",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "GPL",
-  "exports": "./index.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "mongoose": "^8.0.3"
   }

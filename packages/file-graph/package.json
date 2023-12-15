@@ -1,12 +1,12 @@
 {
   "name": "@linux-odyssey/file-graph",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && node post-build-script.js",
+    "build": "tsc",
     "test": "yarn build && jest"
   }
 }

@@ -1,5 +1,5 @@
-import FileGraph from './fileGraph'
-import FileNode from './fileNode'
+import FileGraph from '../src/fileGraph'
+import FileNode from '../src/fileNode'
 
 describe('FileGraph', () => {
   let root
