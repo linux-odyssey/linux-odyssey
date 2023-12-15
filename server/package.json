@@ -2,7 +2,7 @@
   "name": "server",
   "version": "0.0.0",
   "description": "Linux Odyssey Server",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon",
