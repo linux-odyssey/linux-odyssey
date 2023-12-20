@@ -1,16 +1,26 @@
 import { Command } from '@linux-odyssey/models'
+import mongoose from 'mongoose'
 
 // eslint-disable-next-line import/prefer-default-export
-export async function errorCommands(pageNumber, itemsPerPage) {
-  const skipAmount = (pageNumber - 1) * itemsPerPage
+export async function errorCommands({ nextKey, itemsPerPage }) {
+  const key = new mongoose.Types.ObjectId(nextKey)
+  const matchStage = nextKey ? { _id: { $lt: key } } : {}
 
-  const commands = await Command.find({
-    $and: [
-      { error: { $exists: true } },
-      { error: { $ne: null } },
-      { error: { $ne: '' } },
-    ],
-  })
+  const commands = await Command.aggregate([
+    {
+      $match: matchStage,
+    },
+    {
+      $match: {
+        $and: [
+          { error: { $exists: true } },
+          { error: { $ne: null } },
+          { error: { $ne: '' } },
+        ],
+      }
+    }
+    { $limit: itemsPerPage },
+  ])
     .populate({
       path: 'session',
       populate: { path: 'user' },

@@ -1,4 +1,5 @@
 import { Command, Session } from '@linux-odyssey/models'
+import mongoose from 'mongoose'
 
 export function sessionCount() {
   return Session.find().count()
@@ -30,10 +31,14 @@ function formatTime(time) {
   return `${hours}h ${minutes % 60}m ${seconds % 60}s`
 }
 
-export async function sessionList(pageNumber, itemsPerPage) {
-  const skipAmount = (pageNumber - 1) * itemsPerPage
+export async function sessionList({ nextKey, itemsPerPage }) {
+  const key = new mongoose.Types.ObjectId(nextKey)
+  const matchStage = nextKey ? { _id: { $lt: key } } : {}
 
   const sessions = await Session.aggregate([
+    {
+      $match: matchStage,
+    },
     {
       $lookup: {
         from: 'users',
@@ -51,9 +56,10 @@ export async function sessionList(pageNumber, itemsPerPage) {
         as: 'commands',
       },
     },
+    { $sort: { _id: -1 } },
+    { $limit: itemsPerPage },
   ])
-    .skip(skipAmount)
-    .limit(itemsPerPage)
+
   return sessions.map(
     ({
       _id,

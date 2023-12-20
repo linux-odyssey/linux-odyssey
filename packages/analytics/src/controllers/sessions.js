@@ -1,18 +1,17 @@
 import { sessionCount, sessionList, sessionDetail } from '../models/sessions.js'
 
 export async function sessionListController(req, res) {
-  const pageNumber = req.query.page || 1
+  const { nextKey } = req.query
   const itemsPerPage = 100
 
   try {
-    const totalSessions = await sessionCount()
-    const maxPages = Math.ceil(totalSessions / itemsPerPage)
+    // const totalSessions = await sessionCount()
+    // const maxPages = Math.ceil(totalSessions / itemsPerPage)
 
-    const sessions = await sessionList(pageNumber, itemsPerPage)
+    const sessions = await sessionList({ nextKey, itemsPerPage })
+    const newNextKey = sessions[sessions.length - 1]?._id
 
-    const pages = Array.from({ length: maxPages }, (_, index) => index + 1)
-
-    res.render('sessions', { sessions, pages })
+    res.render('sessions', { sessions, nextKey: newNextKey })
   } catch (error) {
     res.status(500).send('Error fetching session data')
   }
