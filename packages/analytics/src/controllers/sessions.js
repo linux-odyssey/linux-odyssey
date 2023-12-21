@@ -1,15 +1,17 @@
-import { Desc } from '../models/pagination.js'
+import Pagination from '../models/pagination.js'
 import { sessionList, sessionDetail } from '../models/sessions.js'
 
 export async function sessionListController(req, res) {
-  const { nextKey } = req.query
+  const { nextKey, order } = req.query
   const itemsPerPage = 50
 
   try {
     // const totalSessions = await sessionCount()
     // const maxPages = Math.ceil(totalSessions / itemsPerPage)
 
-    const sessions = await sessionList(new Desc(itemsPerPage, nextKey))
+    const sessions = await sessionList(
+      new Pagination(order, itemsPerPage, nextKey)
+    )
     const newNextKey = sessions[sessions.length - 1]?._id
 
     res.render('sessions', { sessions, nextKey: newNextKey })

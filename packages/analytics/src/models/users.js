@@ -14,7 +14,7 @@ export function userCount() {
 
 export async function userList(pagination) {
   const users = await Session.aggregate([
-    pagination.matchStage('user'),
+    pagination.match('user'),
     {
       $group: {
         _id: '$user',
@@ -31,7 +31,7 @@ export async function userList(pagination) {
       },
     },
     { $unwind: '$userData' },
-    pagination.order('userData._id'),
+    pagination.sort('userData._id'),
     pagination.limit(),
   ])
 

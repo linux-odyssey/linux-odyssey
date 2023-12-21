@@ -3,7 +3,7 @@ import { Command } from '@linux-odyssey/models'
 // eslint-disable-next-line import/prefer-default-export
 export async function errorCommands(pagination) {
   const commands = await Command.aggregate([
-    pagination.matchStage('_id'),
+    pagination.match('_id'),
     {
       $match: {
         $and: [
@@ -31,7 +31,7 @@ export async function errorCommands(pagination) {
       },
     },
     { $unwind: '$session.user' },
-    pagination.order('_id'),
+    pagination.sort('_id'),
     pagination.limit(),
   ])
 

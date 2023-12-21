@@ -32,7 +32,7 @@ function formatTime(time) {
 
 export async function sessionList(pagination) {
   const sessions = await Session.aggregate([
-    pagination.matchStage('_id'),
+    pagination.match('_id'),
     {
       $lookup: {
         from: 'users',
@@ -50,7 +50,7 @@ export async function sessionList(pagination) {
         as: 'commands',
       },
     },
-    pagination.order('_id'),
+    pagination.sort('_id'),
     pagination.limit(),
   ])
 
