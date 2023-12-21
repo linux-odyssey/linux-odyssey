@@ -17,7 +17,6 @@ buildImages()
   .then((result) => {
     logger.info(result)
     logger.info('Done!')
-    process.exit(0)
   })
   .catch((err) => {
     logger.error(err)
