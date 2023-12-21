@@ -13,7 +13,6 @@ export function userCount() {
 }
 
 export async function userList({ nextKey, itemsPerPage, order }) {
-  console.log(order)
   let matchStage = {}
   if (nextKey) {
     const key = new mongoose.Types.ObjectId(nextKey)
@@ -21,9 +20,7 @@ export async function userList({ nextKey, itemsPerPage, order }) {
   }
   console.log(matchStage)
   const users = await Session.aggregate([
-    {
-      $match: matchStage,
-    },
+    { $match: matchStage },
     {
       $group: {
         _id: '$user',
