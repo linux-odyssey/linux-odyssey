@@ -1,14 +1,14 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "ES5",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "strict": true,
-    "esModuleInterop": true,
-    "outDir": "./dist",
-    "declaration": true,
-    "allowJs": true
+    "outDir": "./dist"
   },
+  "references": [
+    { "path": "../packages/models" },
+    { "path": "../packages/utils" },
+    { "path": "../packages/constants" },
+    { "path": "../packages/file-graph" }
+  ],
   "include": ["src"],
   "exclude": ["node_modules", "src/*.test.js", "dist"]
 }

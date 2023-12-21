@@ -5,11 +5,8 @@
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "./dist",
     "declaration": true,
     "sourceMap": true,
     "allowJs": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  }
 }

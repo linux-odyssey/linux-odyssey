@@ -1,9 +1,10 @@
 {
   "name": "@linux-odyssey/constants",
-  "type": "module",
+  "type": "commonjs",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
-  "exports": "./index.js",
+  "main": "dist/index.js",
+  "exports": "./dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "GPL"
 }

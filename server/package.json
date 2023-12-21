@@ -5,11 +5,11 @@
   "type": "commonjs",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon",
+    "dev": "concurrently \"yarn build -w\" \"nodemon\"",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "setup": "node dist/cli/setup.js",
     "clean": "node dist/cli/clean.js",
-    "build": "tsc",
+    "build": "tsc --build",
     "build:quests": "node src/cli/build.js"
   },
   "dependencies": {
@@ -43,6 +43,7 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/express-session": "^1.17.10",
+    "concurrently": "^8.2.2",
     "jest": "^29.6.1",
     "nodemon": "^3.0.1",
     "typescript": "^5.3.3"
