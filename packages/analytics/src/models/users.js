@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { Session, User } from '@linux-odyssey/models'
 
 function loginMethods(user) {

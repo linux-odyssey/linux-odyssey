@@ -1,28 +1,5 @@
 import { Command, Session } from '@linux-odyssey/models'
 
-export function sessionCount() {
-  return Session.find().count()
-}
-
-export function sessionCompleted() {
-  return Session.find({ status: 'finished' }).count()
-}
-
-export function averageTimeUsage() {
-  return Session.aggregate([
-    {
-      $group: {
-        _id: '$quest',
-        average: {
-          $avg: {
-            $subtract: ['$finishedAt', '$createdAt'],
-          },
-        },
-      },
-    },
-  ])
-}
-
 function formatTime(time) {
   const seconds = Math.floor(time / 1000)
   const minutes = Math.floor(seconds / 60)
