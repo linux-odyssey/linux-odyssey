@@ -35,7 +35,7 @@ export async function sessionList({ nextKey, itemsPerPage, order }) {
   let matchStage = {}
   if (nextKey) {
     const key = new mongoose.Types.ObjectId(nextKey)
-    matchStage = { user: order.matchStage(key) }
+    matchStage = { _id: order.matchStage(key) }
   }
   const sessions = await Session.aggregate([
     {

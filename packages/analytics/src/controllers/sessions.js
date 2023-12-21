@@ -3,7 +3,7 @@ import { sessionCount, sessionList, sessionDetail } from '../models/sessions.js'
 
 export async function sessionListController(req, res) {
   const { nextKey } = req.query
-  const itemsPerPage = 10
+  const itemsPerPage = 50
 
   try {
     // const totalSessions = await sessionCount()
