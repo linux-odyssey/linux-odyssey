@@ -1,5 +1,5 @@
 {
-  "watch": ["src", "swagger.yaml", "../quests", "../packages"],
+  "watch": ["dist", "swagger.yaml", "../quests", "../packages"],
   "ext": "js,ts,yaml,yml",
-  "exec": "ts-node src/index.js"
+  "exec": "node dist/index.js"
 }

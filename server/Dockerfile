@@ -22,7 +22,7 @@ COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
 COPY packages/models ./packages/models
 COPY packages/constants ./packages/constants
-COPY ./server ./server
+COPY server ./server
 COPY quests ./quests
 
 ENV NODE_ENV=production
@@ -34,5 +34,7 @@ FROM build as dev
 
 RUN yarn install --frozen-lockfile
 COPY server/nodemon.json ./server/nodemon.json
+COPY tsconfig.json ./tsconfig.json
+COPY server/tsconfig.json ./server/tsconfig.json
 ENV NODE_ENV=development
 CMD [ "yarn", "server" ]
