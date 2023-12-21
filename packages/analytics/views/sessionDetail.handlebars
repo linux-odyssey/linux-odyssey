@@ -36,20 +36,20 @@
 
     <table>
       <tr>
-        <th>Command</th>
+        <th>Stage</th>
         <th>PWD</th>
+        <th>Input</th>
         <th>Output</th>
         <th>Error</th>
-        <th>Stage</th>
-        <th>Created At</th>
+        <th>Input Time</th>
       </tr>
       {{#each commands}}
         <tr>
-          <td>{{command}}</td>
+          <td>{{stage}}</td>
           <td>{{pwd}}</td>
+          <td>{{command}}</td>
           <td>{{output}}</td>
           <td>{{error}}</td>
-          <td>{{stage}}</td>
           <td>{{createdAt}}</td>
         </tr>
       {{/each}}

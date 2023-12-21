@@ -1,6 +1,22 @@
+import Pagination from '../models/pagination.js'
 import { userList } from '../models/users.js'
 
-// eslint-disable-next-line import/prefer-default-export
 export async function userListController(req, res) {
-  res.render('users', { users: await userList() })
+  const { nextKey, order } = req.query
+  const itemsPerPage = 50
+
+  try {
+    const pagination = new Pagination(order, itemsPerPage, nextKey)
+    const users = await userList(pagination)
+    const newNextKey = users[users.length - 1]?._id
+
+    res.render('users', {
+      users,
+      nextKey: newNextKey,
+      order: pagination.getOrder(),
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Error fetching user data')
+  }
 }

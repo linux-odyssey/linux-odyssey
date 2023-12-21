@@ -11,8 +11,9 @@ export function userCount() {
   return User.find().count()
 }
 
-export async function userList() {
+export async function userList(pagination) {
   const users = await Session.aggregate([
+    pagination.match('user'),
     {
       $group: {
         _id: '$user',
@@ -29,11 +30,14 @@ export async function userList() {
       },
     },
     { $unwind: '$userData' },
-    { $sort: { 'userData.createdAt': 1 } },
+    pagination.sort('userData._id'),
+    pagination.limit(),
   ])
+
   return users.map(({ userData, count, lastActivityAt }) => {
-    const { username, email, createdAt } = userData
+    const { _id, username, email, createdAt } = userData
     return {
+      _id,
       username,
       email,
       createdAt: createdAt?.toLocaleString(),

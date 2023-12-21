@@ -1,28 +1,5 @@
 import { Command, Session } from '@linux-odyssey/models'
 
-export function sessionCount() {
-  return Session.find().count()
-}
-
-export function sessionCompleted() {
-  return Session.find({ status: 'finished' }).count()
-}
-
-export function averageTimeUsage() {
-  return Session.aggregate([
-    {
-      $group: {
-        _id: '$quest',
-        average: {
-          $avg: {
-            $subtract: ['$finishedAt', '$createdAt'],
-          },
-        },
-      },
-    },
-  ])
-}
-
 function formatTime(time) {
   const seconds = Math.floor(time / 1000)
   const minutes = Math.floor(seconds / 60)
@@ -30,8 +7,9 @@ function formatTime(time) {
   return `${hours}h ${minutes % 60}m ${seconds % 60}s`
 }
 
-export async function sessionList() {
+export async function sessionList(pagination) {
   const sessions = await Session.aggregate([
+    pagination.match('_id'),
     {
       $lookup: {
         from: 'users',
@@ -49,7 +27,10 @@ export async function sessionList() {
         as: 'commands',
       },
     },
+    pagination.sort('_id'),
+    pagination.limit(),
   ])
+
   return sessions.map(
     ({
       _id,
