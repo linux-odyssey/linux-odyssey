@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { Command, Session } from '@linux-odyssey/models'
 
 export function sessionCount() {
@@ -31,16 +30,9 @@ function formatTime(time) {
   return `${hours}h ${minutes % 60}m ${seconds % 60}s`
 }
 
-export async function sessionList({ nextKey, itemsPerPage, order }) {
-  let matchStage = {}
-  if (nextKey) {
-    const key = new mongoose.Types.ObjectId(nextKey)
-    matchStage = { _id: order.matchStage(key) }
-  }
+export async function sessionList(pagination) {
   const sessions = await Session.aggregate([
-    {
-      $match: matchStage,
-    },
+    pagination.matchStage('_id'),
     {
       $lookup: {
         from: 'users',
@@ -58,8 +50,8 @@ export async function sessionList({ nextKey, itemsPerPage, order }) {
         as: 'commands',
       },
     },
-    { $sort: { _id: order.order() } },
-    { $limit: itemsPerPage },
+    pagination.order('_id'),
+    pagination.limit(),
   ])
 
   return sessions.map(

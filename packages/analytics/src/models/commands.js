@@ -1,16 +1,9 @@
-import mongoose from 'mongoose'
 import { Command } from '@linux-odyssey/models'
 
 // eslint-disable-next-line import/prefer-default-export
-export async function errorCommands({ nextKey, itemsPerPage, order }) {
-  let matchStage = {}
-  if (nextKey) {
-    const key = new mongoose.Types.ObjectId(nextKey)
-    matchStage = { _id: order.matchStage(key) }
-  }
-  console.log(matchStage, itemsPerPage, nextKey, order)
+export async function errorCommands(pagination) {
   const commands = await Command.aggregate([
-    { $match: matchStage },
+    pagination.matchStage('_id'),
     {
       $match: {
         $and: [
@@ -38,8 +31,8 @@ export async function errorCommands({ nextKey, itemsPerPage, order }) {
       },
     },
     { $unwind: '$session.user' },
-    { $sort: { _id: order.order() } },
-    { $limit: itemsPerPage },
+    pagination.order('_id'),
+    pagination.limit(),
   ])
 
   return commands.map(({ _id, command, error, createdAt, session }) => {

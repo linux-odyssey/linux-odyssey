@@ -1,6 +1,5 @@
 /* eslint-disable object-shorthand */
-import { Desc } from '../constants.js'
-import { Command } from '@linux-odyssey/models'
+import { Desc } from '../models/pagination.js'
 import { errorCommands } from '../models/commands.js'
 
 // eslint-disable-next-line import/prefer-default-export
@@ -9,23 +8,7 @@ export async function commandListController(req, res) {
   const itemsPerPage = 100
 
   try {
-    // const totalCommands = await Command.countDocuments({
-    //   $and: [
-    //     { error: { $exists: true } },
-    //     { error: { $ne: null } },
-    //     { error: { $ne: '' } },
-    //   ],
-    // })
-
-    // const maxPages = Math.ceil(totalCommands / itemsPerPage)
-
-    // const pageNumber = req.query
-
-    const payload = await errorCommands({
-      nextKey,
-      itemsPerPage,
-      order: new Desc(),
-    })
+    const payload = await errorCommands(new Desc(itemsPerPage, nextKey))
     const newNextKey = payload[payload.length - 1]?._id
 
     res.render('commands', { errorCommands: payload, nextKey: newNextKey })

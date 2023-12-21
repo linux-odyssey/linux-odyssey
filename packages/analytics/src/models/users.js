@@ -12,15 +12,9 @@ export function userCount() {
   return User.find().count()
 }
 
-export async function userList({ nextKey, itemsPerPage, order }) {
-  let matchStage = {}
-  if (nextKey) {
-    const key = new mongoose.Types.ObjectId(nextKey)
-    matchStage = { user: order.matchStage(key) }
-  }
-  console.log(matchStage)
+export async function userList(pagination) {
   const users = await Session.aggregate([
-    { $match: matchStage },
+    pagination.matchStage('user'),
     {
       $group: {
         _id: '$user',
@@ -37,8 +31,8 @@ export async function userList({ nextKey, itemsPerPage, order }) {
       },
     },
     { $unwind: '$userData' },
-    { $sort: { 'userData._id': order.order() } },
-    { $limit: itemsPerPage },
+    pagination.order('userData._id'),
+    pagination.limit(),
   ])
 
   return users.map(({ userData, count, lastActivityAt }) => {

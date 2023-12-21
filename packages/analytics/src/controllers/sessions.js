@@ -1,5 +1,5 @@
-import { Desc } from '../constants.js'
-import { sessionCount, sessionList, sessionDetail } from '../models/sessions.js'
+import { Desc } from '../models/pagination.js'
+import { sessionList, sessionDetail } from '../models/sessions.js'
 
 export async function sessionListController(req, res) {
   const { nextKey } = req.query
@@ -9,11 +9,7 @@ export async function sessionListController(req, res) {
     // const totalSessions = await sessionCount()
     // const maxPages = Math.ceil(totalSessions / itemsPerPage)
 
-    const sessions = await sessionList({
-      nextKey,
-      itemsPerPage,
-      order: new Desc(),
-    })
+    const sessions = await sessionList(new Desc(itemsPerPage, nextKey))
     const newNextKey = sessions[sessions.length - 1]?._id
 
     res.render('sessions', { sessions, nextKey: newNextKey })
