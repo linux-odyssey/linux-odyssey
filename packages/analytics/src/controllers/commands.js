@@ -8,12 +8,15 @@ export async function commandListController(req, res) {
   const itemsPerPage = 100
 
   try {
-    const payload = await errorCommands(
-      new Pagination(order, itemsPerPage, nextKey)
-    )
+    const pagination = new Pagination(order, itemsPerPage, nextKey)
+    const payload = await errorCommands(pagination)
     const newNextKey = payload[payload.length - 1]?._id
 
-    res.render('commands', { errorCommands: payload, nextKey: newNextKey })
+    res.render('commands', {
+      errorCommands: payload,
+      nextKey: newNextKey,
+      order: pagination.getOrder(),
+    })
   } catch (error) {
     console.error(error)
     res.status(500).send('Error fetching data')

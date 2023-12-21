@@ -14,6 +14,10 @@ class Asc {
   getOrder() {
     return 1
   }
+
+  getName() {
+    return ASC
+  }
 }
 
 class Desc {
@@ -23,6 +27,10 @@ class Desc {
 
   getOrder() {
     return -1
+  }
+
+  getName() {
+    return DESC
   }
 }
 
@@ -58,5 +66,9 @@ export default class Pagination {
 
   limit() {
     return { $limit: this.itemsPerPage }
+  }
+
+  getOrder() {
+    return this.order.getName()
   }
 }

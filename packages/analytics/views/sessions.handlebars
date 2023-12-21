@@ -1,4 +1,8 @@
 <h1>Sessions</h1>
+<div class='pagination'>
+  <a href='/sessions?order=asc'>Ascending</a>
+  <a href='/sessions?order=desc'>Descending</a>
+</div>
 <div>
   <table>
     <tr>
@@ -26,5 +30,5 @@
   </table>
 </div>
 <div class='pagination'>
-  <a href='/sessions?nextKey={{nextKey}}'>Next</a>
+  <a href='/sessions?nextKey={{nextKey}}&order={{order}}'>Next</a>
 </div>

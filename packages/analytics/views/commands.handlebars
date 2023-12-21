@@ -1,6 +1,10 @@
 <h1>Commands</h1>
 <div>
   <h2>Error commands</h2>
+  <div class='pagination'>
+    <a href='/commands?order=asc'>Ascending</a>
+    <a href='/commands?order=desc'>Descending</a>
+  </div>
   <table>
     <tr>
       <th>Command</th>
@@ -21,7 +25,7 @@
       </tr>
     {{/each}}
   </table>
-</div>
-<div class='pagination'>
-  <a href='/commands?nextKey={{nextKey}}'>Next</a>
+  <div class='pagination'>
+    <a href='/commands?nextKey={{nextKey}}&order={{order}}'>Next</a>
+  </div>
 </div>

@@ -1,4 +1,8 @@
 <h1>Users List</h1>
+<div class='pagination'>
+  <a href='/users?order=asc'>Ascending</a>
+  <a href='/users?order=desc'>Descending</a>
+</div>
 <div>
   <table>
     <tr>
@@ -22,5 +26,5 @@
   </table>
 </div>
 <div class='pagination'>
-  <a href='/users?nextKey={{nextKey}}'>Next</a>
+  <a href='/users?nextKey={{nextKey}}&order={{order}}'>Next</a>
 </div>

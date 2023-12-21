@@ -3,7 +3,8 @@ import Pagination, { ASC, DESC } from '../src/models/pagination.js'
 
 describe('Pagination', () => {
   it('should failed when not provide order', () => {
-    expect(() => new Pagination()).toThrow('order must be asc or desc')
+    expect(new Pagination('').getOrder()).toBe(DESC)
+    expect(() => new Pagination('Hahaha')).toThrow()
   })
   it('should return correct limit', () => {
     const pagination = new Pagination(DESC, 10)

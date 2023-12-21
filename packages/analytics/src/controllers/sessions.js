@@ -6,15 +6,15 @@ export async function sessionListController(req, res) {
   const itemsPerPage = 50
 
   try {
-    // const totalSessions = await sessionCount()
-    // const maxPages = Math.ceil(totalSessions / itemsPerPage)
-
-    const sessions = await sessionList(
-      new Pagination(order, itemsPerPage, nextKey)
-    )
+    const pagination = new Pagination(order, itemsPerPage, nextKey)
+    const sessions = await sessionList(pagination)
     const newNextKey = sessions[sessions.length - 1]?._id
 
-    res.render('sessions', { sessions, nextKey: newNextKey })
+    res.render('sessions', {
+      sessions,
+      nextKey: newNextKey,
+      order: pagination.getOrder(),
+    })
   } catch (error) {
     console.log(error)
     res.status(500).send('Error fetching session data')
