@@ -109,31 +109,33 @@ export function buildQuestImage(questPath, questId) {
         if (err) {
           reject(err)
         }
-        response.on('data', (data) => {
-          // Process the data (this could be Docker build output)
-          try {
-            data
-              .toString()
-              .split('\n')
-              .map((line) => line.trim())
-              .filter((line) => line !== '')
-              .forEach((line) => {
-                parseJSONOutput(line)
-              })
-          } catch (error) {
+        if (response) {
+          response.on('data', (data) => {
+            // Process the data (this could be Docker build output)
+            try {
+              data
+                .toString()
+                .split('\n')
+                .map((line) => line.trim())
+                .filter((line) => line !== '')
+                .forEach((line) => {
+                  parseJSONOutput(line)
+                })
+            } catch (error) {
+              reject(error)
+            }
+          })
+
+          response.on('end', () => {
+            logger.info(`Build completed for ${questId}`)
+            resolve(questId)
+          })
+
+          response.on('error', (error) => {
+            logger.error(`Build failed for ${questId}:`, error)
             reject(error)
-          }
-        })
-
-        response.on('end', () => {
-          logger.info(`Build completed for ${questId}`)
-          resolve(questId)
-        })
-
-        response.on('error', (error) => {
-          logger.error(`Build failed for ${questId}:`, error)
-          reject(error)
-        })
+          })
+        }
       }
     )
   })
