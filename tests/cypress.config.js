@@ -6,8 +6,8 @@ const getConfig = (key, defaultValue) => {
   return process.env[key] || defaultValue
 }
 
-const getOrFail = (key, defaultValue=undefined) => {
-  const value = getConfig(key, defaultValue)
+const getOrFail = (key) => {
+  const value = getConfig(key)
   if (!value) {
     throw new Error(`Missing required environment variable ${key}`)
   }
@@ -25,8 +25,8 @@ module.exports = defineConfig({
     retries: { runMode: 5, openMode: 5 },
   },
   env: {
-    defaultAccount: getOrFail('TESTING_USERNAME', 'alex'),
-    defaultPassword: getOrFail('TESTING_PASSWORD', 'Alex1234'),
+    defaultAccount: getOrFail('TESTING_USERNAME'),
+    defaultPassword: getOrFail('TESTING_PASSWORD'),
     isCHVersion: true,
     // google_username: process.env.GOOGLE_USERNAME,
     // google_password: process.env.GOOGLE_PASSWORD,
