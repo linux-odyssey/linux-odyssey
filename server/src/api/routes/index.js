@@ -8,7 +8,7 @@ import authRequired from '../../middleware/authRequired.js'
 import userRouter from './userRouter.js'
 import config from '../../config.js'
 import leaderboardController from '../controllers/leaderboardController.js'
-
+import csrfProtection from '../../middleware/csrfProtection.js'
 const router = Router()
 
 if (!config.isProduction) {
@@ -22,8 +22,8 @@ if (!config.isProduction) {
 }
 
 router.use('/auth', authRouter)
-router.use('/quests', quests)
-router.use('/users', userRouter)
+router.use('/quests', csrfProtection, quests)
+router.use('/users', csrfProtection, userRouter)
 
 router.use('/sessions', authRequired, sessions)
 router.use(
