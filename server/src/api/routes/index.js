@@ -9,6 +9,7 @@ import userRouter from './userRouter.js'
 import config from '../../config.js'
 import leaderboardController from '../controllers/leaderboardController.js'
 import csrfProtection from '../../middleware/csrfProtection.js'
+
 const router = Router()
 
 if (!config.isProduction) {
