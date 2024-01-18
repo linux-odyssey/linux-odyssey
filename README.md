@@ -53,6 +53,9 @@ To build all quests:
 
 The base image is built with docker-compose, so you can use `docker compose build base` to rebuild it. Once you rebuild the base image, you have to rebuild all quests.
 
+In this step, if you encounter error `Command failed with exit code 1.` it might be a permission issue.
+run `sudo usermod -aG docker <your-username>` and reboot the device would likely fix the problem
+
 ## Testing
 
 Run Cypress locally, using the current development containers:

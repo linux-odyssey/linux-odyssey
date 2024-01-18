@@ -4,14 +4,13 @@ services:
     build:
       context: .
       dockerfile: tests/Dockerfile
+      target: test 
     networks:
       - internal
     volumes:
       - ./tests:/e2e/tests
     environment:
       - BASE_URL=http://app-test
-      - TESTING_USERNAME=alex
-      - TESTING_PASSWORD=Alex1234
     depends_on:
       - app-test
 

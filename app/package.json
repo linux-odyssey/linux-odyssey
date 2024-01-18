@@ -26,6 +26,7 @@
     "socket.io-client": "^4.7.1",
     "validator": "^13.11.0",
     "vue": "^3.3.4",
+    "vue-cli": "^2.9.6",
     "vue-router": "^4.2.4",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-lottie": "^3.2.0",
