@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
+import lusca from 'lusca'
+import cookieParser from 'cookie-parser'
 import sessions from './sessionRouter.js'
 import quests from './questRouter.js'
 import commands from './commandRouter.js'
@@ -8,8 +10,6 @@ import authRequired from '../../middleware/authRequired.js'
 import userRouter from './userRouter.js'
 import config from '../../config.js'
 import leaderboardController from '../controllers/leaderboardController.js'
-import lusca from 'lusca'
-import cookieParser from 'cookie-parser'
 
 const router = Router()
 router.use(cookieParser())
