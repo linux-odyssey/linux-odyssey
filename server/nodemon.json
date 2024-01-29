@@ -1,5 +1,6 @@
 {
   "watch": ["dist", "swagger.yaml", "../quests", "../packages"],
   "ext": "js,ts,yaml,yml",
-  "exec": "node dist/index.js"
+  "exec": "node dist/index.js",
+  "delay": 200
 }
