@@ -5,8 +5,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "cypress run",
-    "test:open": "cypress open"
+    "test": "TESTING_USERNAME=alex TESTING_PASSWORD=Alex1234 cypress run",
+    "test:open": "TESTING_USERNAME=alex TESTING_PASSWORD=Alex1234 cypress open"
   },
   "dependencies": {
     "@testing-library/cypress": "^10.0.1",
