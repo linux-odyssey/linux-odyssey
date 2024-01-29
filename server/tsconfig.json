@@ -3,12 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist"
   },
-  "references": [
-    { "path": "../packages/models" },
-    { "path": "../packages/utils" },
-    { "path": "../packages/constants" },
-    { "path": "../packages/file-graph" }
-  ],
   "include": ["src"],
   "exclude": ["node_modules", "src/*.test.js", "dist"]
 }
