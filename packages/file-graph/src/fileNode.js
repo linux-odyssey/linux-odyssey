@@ -1,9 +1,9 @@
-import File from './file'
+import File from './file.js'
 import {
   DuplicateItemError,
   ParentNotExistsError,
   FileNotExistsError,
-} from './errors'
+} from './errors.js'
 import { basename, dirname } from './utils.js'
 
 export default class FileNode extends File {

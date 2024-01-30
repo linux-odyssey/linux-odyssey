@@ -1,5 +1,5 @@
 /* eslint-disable lines-between-class-members */
-import { basename } from './utils'
+import { basename } from './utils.js'
 
 interface FileObject {
   path: string

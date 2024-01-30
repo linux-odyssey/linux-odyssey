@@ -15,7 +15,7 @@
     "app": "yarn workspace app dev",
     "app:local": "yarn workspace app dev:local",
     "build": "yarn workspace app build",
-    "build:watch": "concurrently -n app,server,file-graph,utils -c blue,green,yellow,cyan \"tsc -w -p app\" \"tsc -w -p server\", \"tsc -w -p packages/file-graph\", \"tsc -w -p packages/utils\"",
+    "build:watch": "concurrently -n server,file-graph,utils,models,constants -c blue,green,yellow,cyan,red \"tsc -w -p server\" \"tsc -w -p packages/file-graph\" \"tsc -w -p packages/utils\" \"tsc -w -p packages/models\" \"tsc -w -p packages/constants\"",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
     "lint": "eslint .",

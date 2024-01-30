@@ -1,12 +1,42 @@
 {
+  // "compilerOptions": {
+  //   "target": "ESNext",
+  //   "module": "ESNext",
+  //   "moduleResolution": "Bundler",
+  //   "strict": true,
+  //   "moduleDetection": "force",
+  //   "skipLibCheck": true,
+  //   "esModuleInterop": true,
+  //   "declaration": true,
+  //   "sourceMap": true,
+  //   "allowJs": true,
+  //   "resolveJsonModule": true,
+  //   "isolatedModules": true,
+  //   "lib": ["ESNext"]
+  // }
+  // "compilerOptions": {
+  //   "esModuleInterop": true,
+  //   "skipLibCheck": true,
+  //   "target": "ESNext",
+  //   "resolveJsonModule": true,
+  //   "isolatedModules": true,
+  //   "moduleDetection": "force",
+  //   "strict": false,
+  //   "noUncheckedIndexedAccess": true,
+  //   "moduleResolution": "NodeNext",
+  //   "module": "NodeNext",
+  //   "noEmit": true,
+  //   "lib": ["es2022", "dom", "dom.iterable"]
+  // }
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "target": "ESNext", // 要編譯成的 JS 目標版本
+    "module": "NodeNext", // 要編譯成的 module
+    "moduleResolution": "NodeNext", // module 解析方式, default "classic"
+    "esModuleInterop": true, // module 兼容, 會影響 build 方式
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "esModuleInterop": true,
-    "declaration": true,
-    "sourceMap": true,
-    "allowJs": true
+    "skipLibCheck": true,
+    "outDir": "dist"
   }
 }
