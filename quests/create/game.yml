@@ -13,8 +13,8 @@ stages:
   - id: start
     task: 輸入 `echo start` 來開始
     condition:
-      command:
-        - ^echo start
+      output:
+        - ^start$
     responses:
       - type: narrative
         content:
