@@ -4,17 +4,16 @@ module.exports = {
     node: true,
     jest: true,
   },
-  plugins: ['@typescript-eslint', 'cypress'],
+  plugins: ['@typescript-eslint', 'cypress', 'vue'],
   extends: [
     'plugin:vue/vue3-essential',
     'airbnb-base',
     'plugin:prettier/recommended', // We added this
     'plugin:cypress/recommended',
   ],
-  parser: '@typescript-eslint/parser', // Specify the TypeScript parser
-
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    ecmaVersion: 13,
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
 
@@ -24,6 +23,9 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
       typescript: {},
+    },
+    vue: {
+      version: '3.0', // Explicitly specify Vue 3
     },
   },
   rules: {
