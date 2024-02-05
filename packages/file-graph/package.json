@@ -1,9 +1,14 @@
 {
   "name": "@linux-odyssey/file-graph",
   "version": "1.0.0",
-  "main": "index.js",
-  "exports": "./index.js",
-  "license": "MIT",
   "type": "module",
-  "scripts": {}
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "yarn build && jest"
+  }
 }

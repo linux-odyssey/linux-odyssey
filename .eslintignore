@@ -2,4 +2,4 @@ vite.config.js
 .gitignore
 data
 mongo-init.js
-app/dist
+dist

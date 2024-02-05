@@ -3,7 +3,12 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
-  "exports": "./index.js",
-  "license": "GPL"
+  "main": "dist/index.js",
+  "exports": "./dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "GPL",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  }
 }

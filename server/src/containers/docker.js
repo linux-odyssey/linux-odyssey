@@ -16,8 +16,6 @@ const containerOptions = {
   },
 }
 
-// const network = engine.getNetwork(config.dockerNetwork)
-
 export function createContainer(name, questId) {
   const option = {
     ...containerOptions,
@@ -56,7 +54,7 @@ export async function attachContainer(container, { token }) {
     Tty: true,
     Env: [
       `TOKEN=${token}`,
-      `API_ENDPOINT=http://backend:3000`,
+      `API_ENDPOINT=${config.backendUrl}`,
       'ZDOTDIR=/etc/zsh',
     ],
   })

@@ -30,6 +30,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./server/src:/app/server/src
+      - ./server/dist:/app/server/dist
       - ./server/swagger.yaml:/app/server/swagger.yaml
       - ./packages:/app/packages
       - ./quests:/app/quests

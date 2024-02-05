@@ -1,4 +1,6 @@
 {
-  "watch": ["src", "swagger.yaml", "../quests", "../packages"],
-  "ext": "js,yaml,yml"
+  "watch": ["dist", "swagger.yaml", "../quests", "../packages"],
+  "ext": "js,ts,yaml,yml",
+  "exec": "node dist/index.js",
+  "delay": 200
 }
