@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "setup": "node dist/cli/setup.js",
     "clean": "node dist/cli/clean.js",
     "build": "tsc",
+    "watch": "concurrently \"tsc -w\" \"nodemon\"",
     "build:quests": "node dist/cli/build.js"
   },
   "dependencies": {

@@ -7,7 +7,8 @@
   "license": "GPL",
   "exports": "./dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc -w"
   },
   "dependencies": {
     "mongoose": "^8.0.3"

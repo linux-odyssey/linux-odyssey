@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "API_TARGET=http://homesrv.dala-banana.ts.net:3000 vite",
-    "dev:local": "vite",
+    "dev": "vite",
     "dev:docker": "API_TARGET=http://backend:3000 vite",
     "build": "vite build",
+    "watch": "yarn dev",
     "preview": "vite preview"
   },
   "dependencies": {

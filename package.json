@@ -14,7 +14,8 @@
   "scripts": {
     "app": "yarn workspace app dev",
     "app:local": "yarn workspace app dev:local",
-    "build": "yarn workspace app build",
+    "build": "yarn workspaces foreach -Apt run build",
+    "watch": "yarn workspaces foreach -Rpi --from '{server,app}' run watch",
     "build:watch": "concurrently -n server,file-graph,utils,models,constants -c blue,green,yellow,cyan,red \"tsc -w -p server\" \"tsc -w -p packages/file-graph\" \"tsc -w -p packages/utils\" \"tsc -w -p packages/models\" \"tsc -w -p packages/constants\"",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
@@ -48,5 +49,6 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }

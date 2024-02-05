@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "watch": "tsc -w",
     "test": "yarn build && jest"
   }
 }
