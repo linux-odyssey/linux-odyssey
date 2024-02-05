@@ -44,7 +44,7 @@ const config = {
   bugReportUrl: getUrl('BUG_REPORT_URL', ''),
 
   docker: {
-    network: get('DOCKER_NETWORK', 'linux-odyssey-players'),
+    network: get('DOCKER_NETWORK', 'host'),
     defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
     imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
     mountQuest: get('MOUNT_QUEST', ''),
@@ -57,6 +57,7 @@ const config = {
 }
 
 config.baseUrl = get('BASE_URL', `http://${config.host}:${config.port}`)
+config.backendUrl = get('BACKEND_URL', config.baseUrl)
 config.testing = {
   enabled: !config.isProduction && process.env.TESTING === 'true',
   username: get('TESTING_USERNAME', ''),
