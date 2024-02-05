@@ -1,8 +1,8 @@
 import validator from 'validator'
+import dotenv from 'dotenv'
 import { get } from './utils/env.js'
 
 // Import dotenv and load ../.env
-import dotenv from 'dotenv'
 dotenv.config({ path: '../.env' })
 
 function getTrustProxies(key) {

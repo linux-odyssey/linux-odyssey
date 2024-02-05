@@ -10,12 +10,10 @@ module.exports = {
     'airbnb-base',
     'plugin:prettier/recommended', // We added this
     'plugin:cypress/recommended',
-    // 'plugin:@typescript-eslint/recommended', // Use recommended rules from the @typescript-eslint/eslint-plugin
   ],
   parser: '@typescript-eslint/parser', // Specify the TypeScript parser
 
   parserOptions: {
-    // parser: 'babel-eslint',
     ecmaVersion: 13,
     sourceType: 'module',
   },
@@ -25,10 +23,11 @@ module.exports = {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
+      typescript: {},
     },
   },
   rules: {
-    'no-console': 'warn',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
     'no-param-reassign': ['error', { props: false }],
@@ -47,7 +46,7 @@ module.exports = {
       'warn',
       'ignorePackages',
       {
-        js: 'never',
+        js: 'off',
         jsx: 'never',
         ts: 'never',
         tsx: 'never',

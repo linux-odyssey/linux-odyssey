@@ -1,33 +1,4 @@
 {
-  // "compilerOptions": {
-  //   "target": "ESNext",
-  //   "module": "ESNext",
-  //   "moduleResolution": "Bundler",
-  //   "strict": true,
-  //   "moduleDetection": "force",
-  //   "skipLibCheck": true,
-  //   "esModuleInterop": true,
-  //   "declaration": true,
-  //   "sourceMap": true,
-  //   "allowJs": true,
-  //   "resolveJsonModule": true,
-  //   "isolatedModules": true,
-  //   "lib": ["ESNext"]
-  // }
-  // "compilerOptions": {
-  //   "esModuleInterop": true,
-  //   "skipLibCheck": true,
-  //   "target": "ESNext",
-  //   "resolveJsonModule": true,
-  //   "isolatedModules": true,
-  //   "moduleDetection": "force",
-  //   "strict": false,
-  //   "noUncheckedIndexedAccess": true,
-  //   "moduleResolution": "NodeNext",
-  //   "module": "NodeNext",
-  //   "noEmit": true,
-  //   "lib": ["es2022", "dom", "dom.iterable"]
-  // }
   "compilerOptions": {
     "target": "ESNext", // 要編譯成的 JS 目標版本
     "module": "NodeNext", // 要編譯成的 module
