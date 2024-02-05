@@ -4,7 +4,8 @@ WORKDIR /app
 COPY ./package.json yarn.lock ./
 COPY packages/analytics/package.json ./packages/analytics/package.json
 COPY packages/models/package.json ./packages/models/package.json
-RUN yarn install --frozen-lockfile --production
+RUN yarn set version berry
+RUN yarn install
 ENV HOST=0.0.0.0
 ENV PORT=3001
 EXPOSE 3001
@@ -15,6 +16,7 @@ COPY packages/analytics ./packages/analytics
 COPY packages/models ./packages/models
 ENV NODE_ENV=production
 WORKDIR /app/packages/analytics
+RUN yarn build
 CMD [ "yarn", "start" ]
 
 # Development stage

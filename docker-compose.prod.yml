@@ -36,6 +36,8 @@ services:
       - DOCKER_NETWORK=linux-odyssey-players
       - SECRET_KEY=${SECRET_KEY}
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
+      - BACKEND_URL=http://backend:3000
+      - BASE_URL=${BASE_URL}
 
   analytics:
     image: linuxodyssey/analytics
