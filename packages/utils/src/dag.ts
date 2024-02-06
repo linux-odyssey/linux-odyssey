@@ -53,7 +53,9 @@ export default class DAG {
     if (node.layer !== undefined) {
       return node.layer
     }
-    const previousLayer = node.requirements.map((rId: string) => this.setLayer(rId))
+    const previousLayer = node.requirements.map((rId: string) =>
+      this.setLayer(rId)
+    )
     node.layer = Math.max(...previousLayer, 0) + 1
     if (this.layers.length < node.layer) {
       this.layers.push(1)

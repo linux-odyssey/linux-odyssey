@@ -40,6 +40,11 @@ module.exports = {
     'prettier/prettier': ['error', { endOfLine: 'auto', semi: false }],
     'import/prefer-default-export': 'off',
     'no-restricted-syntax': ['off', 'ForOfStatement'],
+    'lines-between-class-members': [
+      'error',
+      'always',
+      { exceptAfterSingleLine: true },
+    ],
 
     '@typescript-eslint/explicit-module-boundary-types': 'off',
 
@@ -55,4 +60,12 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['**/tests/**/*.js', '**/tests/**/*.ts'], // Adjust the pattern to match your test files
+      rules: {
+        'import/extensions': 'off', // Turn off the rule for test files
+      },
+    },
+  ],
 }
