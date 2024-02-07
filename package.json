@@ -20,7 +20,7 @@
     "cli": "yarn workspace client start",
     "lint": "eslint .",
     "format": "prettier --ignore-path .prettierignore --write app server",
-    "test": "yarn jest",
+    "test": "yarn node --experimental-vm-modules --no-warnings $(yarn bin jest)",
     "test:e2e": "yarn workspace tests test",
     "test:open": "yarn workspace tests test:open",
     "analytics": "yarn workspace analytics dev",

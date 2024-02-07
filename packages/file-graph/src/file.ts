@@ -1,7 +1,6 @@
-/* eslint-disable lines-between-class-members */
 import { basename } from './utils.js'
 
-interface FileObject {
+export interface FileObject {
   path: string
   type: string
   discovered: boolean

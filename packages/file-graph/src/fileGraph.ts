@@ -1,7 +1,14 @@
+import { FileObject } from './file.js'
 import FileNode from './fileNode.js'
 
+export interface Event {
+  add?: FileObject[]
+  remove?: FileObject[]
+  discover?: FileObject[]
+}
+
 export default class FileGraph extends FileNode {
-  add(files) {
+  add(files: FileObject[]) {
     // Logic to add the file node to the graph
     // You can implement the logic to find the appropriate location in the file graph
     // If the file node already exists, throw an error
@@ -11,7 +18,7 @@ export default class FileGraph extends FileNode {
     })
   }
 
-  remove(files) {
+  remove(files: FileObject[]) {
     // Logic to remove a file node from the graph
     // If the file node is a folder, also remove all children
     // If the file node doesn't exist, throw an error
@@ -21,7 +28,7 @@ export default class FileGraph extends FileNode {
     })
   }
 
-  discover(eventFiles) {
+  discover(eventFiles: FileObject[]) {
     // Logic to handle the discover event
     // Overwrite the file graph with the provided files
     // Remove file nodes that don't exist anymore and add new ones
@@ -35,7 +42,7 @@ export default class FileGraph extends FileNode {
     this.merge(newNode)
   }
 
-  handleEvent(event) {
+  handleEvent(event: Event) {
     // eslint-disable-next-line default-case
     switch (true) {
       case !!event.add:

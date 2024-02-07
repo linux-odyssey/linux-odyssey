@@ -1,19 +1,25 @@
-import File from './file.js'
+import File, { FileObject } from './file.js'
 import {
   DuplicateItemError,
   ParentNotExistsError,
   FileNotExistsError,
 } from './errors.js'
-import { basename, dirname } from './utils.js'
+import { dirname } from './utils.js'
 
 export default class FileNode extends File {
-  constructor(file) {
+  children: FileNode[]
+
+  constructor(file: FileObject | FileNode) {
     super(file)
     this.children = []
-    if (file.children) this.children = file.children.map((f) => new FileNode(f))
+    if ((<FileNode>file).children)
+      this.children = (<FileNode>file).children.map((f) => new FileNode(f))
   }
 
-  addChild(fileInput, { makeParents } = {}) {
+  addChild(
+    fileInput: FileObject,
+    { makeParents }: { makeParents?: boolean } = {}
+  ) {
     const file = new FileNode(fileInput)
     if (file.path === this.path) {
       throw new DuplicateItemError(
@@ -39,7 +45,6 @@ export default class FileNode extends File {
       } else if (makeParents) {
         const parent = new FileNode({
           path: parentPath,
-          name: basename(parentPath),
           type: 'folder',
           discovered: false,
           children: [file],
@@ -53,7 +58,7 @@ export default class FileNode extends File {
     }
   }
 
-  removeChild(fileToRemove) {
+  removeChild(fileToRemove: FileObject) {
     const file = new FileNode(fileToRemove)
     const parentPath = dirname(file.path)
 
@@ -73,7 +78,7 @@ export default class FileNode extends File {
     }
   }
 
-  merge(fileNode) {
+  merge(fileNode: FileNode) {
     // Merge the children of the provided file node into this node
     // If a child already exists, merge the children of that child
     // If a child does not exist, add it to this node
@@ -88,7 +93,7 @@ export default class FileNode extends File {
         if (existingChild) {
           existingChild.merge(child)
         } else {
-          this.children.push(child)
+          this.children.push(new FileNode(child))
         }
       })
 
@@ -112,14 +117,12 @@ export default class FileNode extends File {
       }
     } else {
       throw new Error(
-        'Cannot merge file nodes with different paths',
-        this.path,
-        fileNode.path
+        `Cannot merge file nodes with different paths: ${this.path}, ${fileNode.path}`
       )
     }
   }
 
-  toString(level = 0) {
+  toString(level = 0): string {
     let { name } = this
     const indent = '    '.repeat(level)
     name = `${indent}${name}`
