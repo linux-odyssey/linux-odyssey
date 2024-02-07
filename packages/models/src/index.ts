@@ -6,10 +6,7 @@ export { default as Session } from './session.js'
 export { default as Command } from './command.js'
 export { default as UserProfile } from './userProfile.js'
 
-export default async function connectDB(uri) {
-  const db = await mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+export default async function connectDB(uri: string) {
+  const db = await mongoose.connect(uri)
   return db.connection.getClient()
 }
