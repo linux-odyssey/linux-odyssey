@@ -17,10 +17,13 @@
 
 ## Development
 
+Run mongoDB first:
+
+    docker compose up -d db
+
 Run everything (frontend, backend, db, swagger, quests):
 
-    docker compose build
-    docker compose up -d
+    yarn dev
 
 If you want to enable social login, you should have OAuth client token in a `.env` file:
 
@@ -144,4 +147,3 @@ connect to other host:
 list sessions:
 
     yarn cli list
- 
