@@ -6,8 +6,8 @@ services:
       dockerfile: tests/Dockerfile
     networks:
       - internal
-    volumes:
-      - ./tests:/e2e/tests
+    # volumes:
+      # - ./tests:/e2e/tests
     environment:
       - BASE_URL=http://app-test
       - TESTING_USERNAME=alex

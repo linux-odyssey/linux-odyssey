@@ -4,6 +4,9 @@ import { get } from './utils/env.js'
 
 // Import dotenv and load ../.env
 dotenv.config({ path: '../.env' })
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '../.env.dev' })
+}
 
 function getTrustProxies(key) {
   if (!process.env[key]) {
@@ -67,5 +70,7 @@ config.testing = {
 export function getQuestImage(id) {
   return `${config.docker.imagePrefix}${id}`
 }
+
+console.log(config)
 
 export default config

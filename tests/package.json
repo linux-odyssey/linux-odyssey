@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
+  "type": "module",
   "license": "MIT",
   "scripts": {
-    "test": "TESTING_USERNAME=alex TESTING_PASSWORD=Alex1234 cypress run",
-    "test:open": "TESTING_USERNAME=alex TESTING_PASSWORD=Alex1234 cypress open"
+    "test": "yarn cypress run",
+    "test:open": "yarn cypress open"
   },
   "dependencies": {
     "@testing-library/cypress": "^10.0.1",

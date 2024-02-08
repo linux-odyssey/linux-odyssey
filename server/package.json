@@ -9,7 +9,7 @@
     "setup": "node dist/cli/setup.js",
     "clean": "node dist/cli/clean.js",
     "build": "tsc",
-    "watch": "concurrently \"tsc -w\" \"nodemon\"",
+    "watch": "concurrently \"nodemon\" \"tsc -w\"",
     "build:quests": "node dist/cli/build.js"
   },
   "dependencies": {
