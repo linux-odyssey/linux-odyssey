@@ -1,12 +1,52 @@
-import '@testing-library/cypress/add-commands'
+// import '@testing-library/cypress/add-commands'
+declare global {
+  declare namespace Cypress {
+    interface Chainable {
+      // 確保你有正確的泛型參數
+      fillWith(
+        account: string,
+        password: string
+      ): Chainable<JQuery<HTMLElement>>
+      LoginWithPassword(
+        username: string,
+        password: string
+      ): Chainable<JQuery<HTMLElement>>
+      PrepareForGame(): Chainable<JQuery<HTMLElement>>
+      InitTerminal(): Chainable<JQuery<HTMLElement>>
+      typeInCommand(command: string): Chainable<JQuery<HTMLElement>>
+      getQuestInfo(id: string): Chainable<JQuery<HTMLElement>>
+      checkHint(index: number, total: number): Chainable<JQuery<HTMLElement>> // 修改類型
+      checkTaskInit(): Chainable<JQuery<HTMLElement>>
+      waitUntilActive(last: boolean): Chainable<JQuery<HTMLElement>> // 注意小寫boolean，並且變量名應該是小寫
+      checkPending(): Chainable<JQuery<HTMLElement>>
+      CompleteStageWithCommands(
+        stagename: string
+      ): Chainable<JQuery<HTMLElement>>
+      CheckTextElement(
+        id: string,
+        chText: string,
+        enText: string
+      ): Chainable<JQuery<HTMLElement>>
+      CheckPlaceholder(
+        id: string,
+        chText: string,
+        enText: string
+      ): Chainable<JQuery<HTMLElement>>
+      CheckTreeElement(element: string): Chainable<JQuery<HTMLElement>>
+    }
+  }
+}
 
-Cypress.Commands.add('LoginWithPassword', (username, password) => {
-  cy.clearAllCookies({ domain: null })
-  cy.visit('/login')
-  cy.get('#username').type(username)
-  cy.get('#password').type(password)
-  cy.get('#LogInOrSignUp').click()
-})
+Cypress.Commands.add(
+  'LoginWithPassword',
+  (username: string, password: string) => {
+    cy.clearAllCookies({ domain: null })
+    cy.visit('/login')
+    cy.get('#username').type(username)
+    cy.get('#password').type(password)
+    cy.get('#LogInOrSignUp').click()
+  }
+)
 Cypress.Commands.add('PrepareForGame', () => {
   cy.visit('/')
   // make sure the login page is loaded

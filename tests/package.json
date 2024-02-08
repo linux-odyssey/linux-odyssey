@@ -13,5 +13,8 @@
     "@testing-library/cypress": "^10.0.1",
     "cypress": "^13.5.1",
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
   }
 }

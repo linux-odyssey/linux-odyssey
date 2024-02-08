@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 export default function checkLoginUI() {
   cy.get('#title').should('contain', 'Linux Odyssey').and('be.visible')
   cy.CheckPlaceholder('#password', '密碼', 'Password')
