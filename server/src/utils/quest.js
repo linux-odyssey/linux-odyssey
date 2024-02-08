@@ -41,7 +41,6 @@ async function loadGlobalExceptions() {
 export async function loadAndUpdateQuests() {
   await Quest.deleteMany({})
   const { exceptions } = await loadGlobalExceptions()
-  console.log(exceptions)
   return mapQuests(async (id, questPath) => {
     const files = await fs.readdir(questPath)
     if (!files.includes('game.yml')) {
@@ -64,7 +63,6 @@ export async function loadAndUpdateQuests() {
       quest.exceptions.push(...exceptions)
       await quest.save()
     } catch (error) {
-      console.error(error)
       logger.error(`Error parsing quest`, { id, error })
       throw new QuestValidationError(`Error parsing quest`, id, error)
     }

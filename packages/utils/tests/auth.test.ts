@@ -1,4 +1,4 @@
-import { isValidEmail, isValidUsername } from './auth.js'
+import { isValidEmail, isValidUsername } from '../src/auth'
 
 test('check valid username', () => {
   const valid = ['alex', 'alex123', 'john_doe', 'john-doe', 'rudeus']

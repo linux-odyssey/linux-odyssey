@@ -4,22 +4,33 @@ module.exports = {
     node: true,
     jest: true,
   },
-  plugins: ['cypress'],
+  plugins: ['@typescript-eslint', 'cypress', 'vue'],
   extends: [
     'plugin:vue/vue3-essential',
     'airbnb-base',
     'plugin:prettier/recommended', // We added this
     'plugin:cypress/recommended',
   ],
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    // parser: 'babel-eslint',
-    ecmaVersion: 13,
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
   },
+
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+      typescript: {},
+    },
+    vue: {
+      version: '3.0', // Explicitly specify Vue 3
+    },
+  },
   rules: {
-    'no-console': 'warn',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'import/extensions': 'off',
     camelcase: ['error', { properties: 'never', ignoreDestructuring: true }],
     'no-param-reassign': ['error', { props: false }],
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
@@ -29,5 +40,19 @@ module.exports = {
     'prettier/prettier': ['error', { endOfLine: 'auto', semi: false }],
     'import/prefer-default-export': 'off',
     'no-restricted-syntax': ['off', 'ForOfStatement'],
+
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+
+    // Allow missing file extensions
+    'import/extensions': [
+      'warn',
+      'ignorePackages',
+      {
+        js: 'off',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
 }
