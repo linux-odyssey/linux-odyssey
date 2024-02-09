@@ -3146,6 +3146,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie-parser@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "cookie-parser@npm:1.4.6"
+  dependencies:
+    cookie: "npm:0.4.1"
+    cookie-signature: "npm:1.0.6"
+  checksum: 10c0/9c2ade5459290802cd472a2d2a6e46fbd7de3e8514e02bfed5edfde892d77733c7f89d9d2015f752a9087680429b416972d7aba748bf6824e21eb680c8556383
+  languageName: node
+  linkType: hard
+
 "cookie-signature@npm:1.0.6":
   version: 1.0.6
   resolution: "cookie-signature@npm:1.0.6"
@@ -3157,6 +3167,13 @@ __metadata:
   version: 1.0.7
   resolution: "cookie-signature@npm:1.0.7"
   checksum: 10c0/e7731ad2995ae2efeed6435ec1e22cdd21afef29d300c27281438b1eab2bae04ef0d1a203928c0afec2cee72aa36540b8747406ebe308ad23c8e8cc3c26c9c51
+  languageName: node
+  linkType: hard
+
+"cookie@npm:0.4.1":
+  version: 0.4.1
+  resolution: "cookie@npm:0.4.1"
+  checksum: 10c0/4d7bc798df3d0f34035977949cd6b7d05bbab47d7dcb868667f460b578a550cd20dec923832b8a3a107ef35aba091a3975e14f79efacf6e39282dc0fed6db4a1
   languageName: node
   linkType: hard
 
@@ -6709,6 +6726,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lusca@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "lusca@npm:1.7.0"
+  dependencies:
+    tsscmp: "npm:^1.0.5"
+  checksum: 10c0/73b49c9289bbdff73298421bdafc0633f958d97bef51a0fe747bbd1ec5a8c6bb2ff9ada37e84d3a8e23703ae2db1fcf8e3d1fbea366559e3b7261467c66fbe2e
+  languageName: node
+  linkType: hard
+
 "luxon@npm:^3.2.1":
   version: 3.4.4
   resolution: "luxon@npm:3.4.4"
@@ -8413,6 +8439,7 @@ __metadata:
     commander: "npm:^11.0.0"
     concurrently: "npm:^8.2.2"
     connect-mongo: "npm:^5.0.0"
+    cookie-parser: "npm:^1.4.6"
     dockerode: "npm:^3.3.5"
     dotenv: "npm:^16.4.1"
     express: "npm:^4.18.2"
@@ -8421,6 +8448,7 @@ __metadata:
     express-validator: "npm:^7.0.1"
     jest: "npm:^29.6.1"
     jsonwebtoken: "npm:^9.0.1"
+    lusca: "npm:^1.7.0"
     minimist: "npm:^1.2.8"
     mongodb: "npm:^6.3.0"
     mongoose: "npm:^8.0.3"
@@ -9351,6 +9379,13 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
+  languageName: node
+  linkType: hard
+
+"tsscmp@npm:^1.0.5":
+  version: 1.0.6
+  resolution: "tsscmp@npm:1.0.6"
+  checksum: 10c0/2f79a9455e7e3e8071995f98cdf3487ccfc91b760bec21a9abb4d90519557eafaa37246e87c92fa8bf3fef8fd30cfd0cc3c4212bb929baa9fb62494bfa4d24b2
   languageName: node
   linkType: hard
 

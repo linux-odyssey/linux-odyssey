@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
+import lusca from 'lusca'
+import cookieParser from 'cookie-parser'
 import sessions from './sessionRouter.js'
 import quests from './questRouter.js'
 import commands from './commandRouter.js'
@@ -10,7 +12,7 @@ import config from '../../config.js'
 import leaderboardController from '../controllers/leaderboardController.js'
 
 const router = Router()
-
+router.use(cookieParser())
 if (!config.isProduction) {
   router.get('/', (req, res) => {
     res.send('Hello API!')
@@ -21,17 +23,27 @@ if (!config.isProduction) {
   })
 }
 
-router.use('/auth', authRouter)
-router.use('/quests', quests)
-router.use('/users', userRouter)
-
-router.use('/sessions', authRequired, sessions)
 router.use(
   '/commands',
   passport.authenticate('jwt', { session: false }),
   authRequired,
   commands
 )
+router.use('/auth', authRouter)
+router.use('/sessions', authRequired, sessions)
+router.use(
+  lusca({
+    csrf: {
+      cookie: { name: '_csrf' },
+      header: 'x-csrf-token',
+      secret: config.secret,
+    },
+    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+  })
+)
+
+router.use('/quests', quests)
+router.use('/users', userRouter)
 
 router.get('/survey', (req, res) => {
   if (!config.surveyUrl) {
