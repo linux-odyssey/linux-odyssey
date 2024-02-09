@@ -14,9 +14,9 @@ async function deactivateSessions(user, quest) {
       return deleteContainer(session.containerId)
         .catch((err) => logger.error('Failed to delete container', err))
         .finally(() => {
-          session.status = 'inactive'
-          session.containerId = null
-          return session.save()
+          return Session.findByIdAndUpdate(session._id, {
+            $set: { status: 'inactive', containerId: null },
+          }).catch((err) => logger.error('Failed to update session', err))
         })
     })
   )

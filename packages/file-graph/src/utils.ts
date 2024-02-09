@@ -1,4 +1,4 @@
-export function dirname(path) {
+export function dirname(path: string) {
   const parts = path.split('/')
   if (parts.length <= 2) {
     return '/'
@@ -7,7 +7,7 @@ export function dirname(path) {
   return parts.join('/')
 }
 
-export function basename(path) {
+export function basename(path: string): string {
   const parts = path.split('/')
-  return parts.pop()
+  return parts.pop() ?? ''
 }

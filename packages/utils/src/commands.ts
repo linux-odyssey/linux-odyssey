@@ -3,14 +3,21 @@ const fileTypes = {
   folder: '-d',
   link: '-L',
   socket: '-S',
+  unknown: '-e',
 }
 
-function sanitizePath(path) {
+export type FileType = keyof typeof fileTypes
+
+export type File = {
+  path: string
+  type: FileType
+}
+
+function sanitizePath(path: string): string {
   return path.replace(/[^a-zA-Z0-9._/-]/g, '')
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export function buildFileCheckCmd(file) {
+export function buildFileCheckCmd(file: File): string[] {
   const { path, type } = file
   return ['test', fileTypes[type] || '-e', sanitizePath(path)]
 }

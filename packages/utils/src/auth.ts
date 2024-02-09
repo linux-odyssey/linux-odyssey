@@ -1,4 +1,4 @@
-export function isValidUsername(username) {
+export function isValidUsername(username: string): boolean {
   // check if the username is between 1 and 32 characters
   if (username.length > 32) {
     return false
@@ -29,7 +29,7 @@ export function isValidUsername(username) {
   return true
 }
 
-export function isValidEmail(email) {
+export function isValidEmail(email: string): boolean {
   // Define a regular expression pattern for a valid email address.
   const emailPattern = /^[\w-.+]+@([\w][\w-]*\.)+[\w-]{2,}$/
 

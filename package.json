@@ -20,7 +20,7 @@
     "cli": "yarn workspace client start",
     "lint": "eslint .",
     "format": "prettier --ignore-path .prettierignore --write app server",
-    "test": "yarn jest",
+    "test": "yarn node --experimental-vm-modules --no-warnings $(yarn bin jest)",
     "test:e2e": "yarn workspace tests test",
     "test:open": "yarn workspace tests test:open",
     "analytics": "yarn workspace analytics dev",
@@ -29,7 +29,7 @@
     "build:quests": "yarn workspace server build:quests"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.11",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
