@@ -35,6 +35,7 @@ async function connectContainer(socket, next) {
     next(new Error('User not found.'))
     return
   }
+
   // console.log(socket.handshake)
   const { sessionId } = socket.handshake.query
   if (!(sessionId && validator.isMongoId(sessionId))) {
@@ -68,8 +69,12 @@ async function connectContainer(socket, next) {
 
 function onConnect(socket) {
   const { session, stream } = socket.context
+  console.log(stream)
   stream.socket.on('data', (chunk) => {
     socket.emit('terminal', chunk.toString())
+  })
+  stream.socket.on('error', (err) => {
+    console.error('Stream error:', err)
   })
 
   socket.on('terminal', function incoming(message) {
@@ -96,6 +101,7 @@ export default (server) => {
   io.use(connectContainer)
 
   io.on('connection', onConnect)
+
   io.on('connect_error', (err) => {
     logger.error('Socket connect error: ', err)
   })

@@ -28,7 +28,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock://./pipe/docker_engine
       - ./server/src:/app/server/src
       - ./server/dist:/app/server/dist
       - ./server/swagger.yaml:/app/server/swagger.yaml
@@ -77,7 +77,7 @@ services:
     networks:
       - internal
     ports:
-      - '27017:27017'
+      - '27018:27017'
     volumes:
       - ./data:/data/db
 
