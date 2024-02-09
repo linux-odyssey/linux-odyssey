@@ -1,6 +1,13 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 
-const nodeSchema = new Schema({
+export interface INode {
+  path: string
+  type: string
+  discovered: boolean
+  children?: INode[]
+}
+
+const nodeSchema = new Schema<INode>({
   path: String,
   type: String,
   discovered: {
@@ -13,7 +20,13 @@ nodeSchema.add({
   children: [nodeSchema],
 })
 
-const taskSchema = new Schema({
+export interface ITask {
+  id: string
+  name: string
+  completed: boolean
+}
+
+const taskSchema = new Schema<ITask>({
   id: {
     type: String,
     required: true,
@@ -28,9 +41,23 @@ const taskSchema = new Schema({
   },
 })
 
-const Session = model(
+export interface ISession {
+  user: Types.ObjectId
+  quest: string
+  containerId: string
+  status: string
+  createdAt: Date
+  updatedAt: Date
+  finishedAt?: Date
+  lastActivityAt: Date
+  tasks: ITask[]
+  hints: string[][]
+  graph: INode
+}
+
+export const Session = model<ISession>(
   'Session',
-  new Schema(
+  new Schema<ISession>(
     {
       user: {
         type: Schema.ObjectId,
@@ -68,5 +95,3 @@ const Session = model(
     { timestamps: true }
   )
 )
-
-export default Session

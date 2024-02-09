@@ -1,6 +1,13 @@
 import { Schema } from 'mongoose'
 
-const responseSchema = new Schema({
+export interface IResponse {
+  type: 'narrative' | 'dialogue'
+  content: string[]
+  speaker?: string
+  color?: string
+}
+
+export const responseSchema = new Schema<IResponse>({
   type: {
     type: String,
     enum: ['narrative', 'dialogue'],
@@ -14,5 +21,3 @@ const responseSchema = new Schema({
   speaker: { type: String, default: 'Ada' },
   color: String,
 })
-
-export default responseSchema

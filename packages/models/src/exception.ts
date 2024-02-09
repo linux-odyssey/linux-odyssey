@@ -1,8 +1,11 @@
 import { Schema } from 'mongoose'
-import commandResponderSchema from './commandResponder.js'
+import {
+  commandResponderSchema,
+  ICommandResponder,
+} from './commandResponder.js'
 
-const exceptionSchema = new Schema({})
+export interface IException extends ICommandResponder {}
+
+export const exceptionSchema = new Schema<IException>({})
 
 exceptionSchema.add(commandResponderSchema)
-
-export default exceptionSchema

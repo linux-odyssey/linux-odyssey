@@ -1,6 +1,10 @@
 import { Schema } from 'mongoose'
 
-const requirementSchema = new Schema({
+export interface IRequirement {
+  requirements: string[]
+}
+
+export const requirementSchema = new Schema<IRequirement>({
   requirements: [
     {
       type: String,
@@ -8,5 +12,3 @@ const requirementSchema = new Schema({
     },
   ],
 })
-
-export default requirementSchema

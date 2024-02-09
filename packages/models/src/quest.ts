@@ -1,10 +1,20 @@
 import { model, Schema } from 'mongoose'
-import stageSchema from './stage.js'
-import globalExceptionSchema from './globalException.js'
+import { IStage, stageSchema } from './stage.js'
+import { globalExceptionSchema, IGlobalException } from './globalException.js'
+import { IRequirement } from './requirement.js'
 
-const Quest = model(
+export interface IQuest extends IRequirement {
+  _id: string
+  title: string
+  image: string
+  instruction: string
+  stages: IStage[]
+  exceptions: IGlobalException[]
+}
+
+export const Quest = model<IQuest>(
   'Quest',
-  new Schema({
+  new Schema<IQuest>({
     _id: {
       type: String,
       required: true,
@@ -40,5 +50,3 @@ const Quest = model(
     },
   })
 )
-
-export default Quest
