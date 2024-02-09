@@ -74,8 +74,6 @@ function createConfig() {
 
 const config = createConfig()
 
-console.log(config)
-
 export function getQuestImage(id) {
   return `${config.docker.imagePrefix}${id}`
 }
