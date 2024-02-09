@@ -9,9 +9,10 @@ export default session({
   saveUninitialized: false,
   rolling: true,
   cookie: {
+    domain: config.domain,
     httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
+    secure: config.protocol === 'https:',
+    sameSite: 'strict',
     maxAge: config.sessionMaxAge,
   },
   store: MongoStore.create({
