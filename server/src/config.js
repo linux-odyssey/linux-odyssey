@@ -29,6 +29,7 @@ function createConfig() {
   const port = Number(get('PORT', 3000))
   const baseUrl = get('BASE_URL', `http://${host}:${port}`)
   const url = new URL(baseUrl)
+  const secret = get('SECRET_KEY', '')
   return {
     host,
     port,
@@ -36,8 +37,8 @@ function createConfig() {
     domain: url.hostname,
     protocol: url.protocol,
     backendUrl: get('BACKEND_URL', baseUrl),
+    secret,
     db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
-    secret: get('SECRET_KEY', ''),
     isProduction: process.env.NODE_ENV === 'production',
     containerExpiry: get('EXPIRY', 1000 * 60 * 60),
     sessionMaxAge: get('SESSION_MAX_AGE', 1000 * 60 * 60 * 24 * 7),
@@ -68,6 +69,15 @@ function createConfig() {
       enabled: !isProduction && process.env.TESTING === 'true',
       username: get('TESTING_USERNAME', ''),
       password: get('TESTING_PASSWORD', ''),
+    },
+
+    security: {
+      csrf: {
+        cookie: { name: '_csrf', domain: url.hostname },
+        header: 'x-csrf-token',
+        secret,
+      },
+      hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
     },
   }
 }

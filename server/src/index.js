@@ -1,4 +1,7 @@
 import fs from 'fs/promises'
+import lusca from 'lusca'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 import express from 'express'
 import http from 'http'
 import YAML from 'yaml'
@@ -60,7 +63,14 @@ async function main() {
   ])
   logger.info('Trusted proxies:', config.trustedProxies)
   app.use(globalRateLimit)
+  app.use(cookieParser())
+  app.use(bodyParser.urlencoded({ extended: false }))
   app.use(sessionMiddleware)
+  app.use((req, res, next) => {
+    console.log(req.headers)
+    next()
+  })
+  app.use(lusca.csrf())
   app.use(passport.session())
   app.use(
     '/api-docs',
