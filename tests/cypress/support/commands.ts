@@ -1,52 +1,41 @@
-// import '@testing-library/cypress/add-commands'
+/// <reference types="cypress" />
+import '@testing-library/cypress/add-commands'
+
 declare global {
   declare namespace Cypress {
     interface Chainable {
       // 確保你有正確的泛型參數
-      fillWith(
-        account: string,
-        password: string
-      ): Chainable<JQuery<HTMLElement>>
-      LoginWithPassword(
-        username: string,
-        password: string
-      ): Chainable<JQuery<HTMLElement>>
-      PrepareForGame(): Chainable<JQuery<HTMLElement>>
-      InitTerminal(): Chainable<JQuery<HTMLElement>>
-      typeInCommand(command: string): Chainable<JQuery<HTMLElement>>
-      getQuestInfo(id: string): Chainable<JQuery<HTMLElement>>
-      checkHint(index: number, total: number): Chainable<JQuery<HTMLElement>> // 修改類型
-      checkTaskInit(): Chainable<JQuery<HTMLElement>>
-      waitUntilActive(last: boolean): Chainable<JQuery<HTMLElement>> // 注意小寫boolean，並且變量名應該是小寫
-      checkPending(): Chainable<JQuery<HTMLElement>>
-      CompleteStageWithCommands(
-        stagename: string
-      ): Chainable<JQuery<HTMLElement>>
+      LoginWithPassword(username: string, password: string): Chainable<void>
+      PrepareForGame(): Chainable<void>
+      InitTerminal(): Chainable<void>
+      typeInCommand(command: string): Chainable<void>
+      getQuestInfo(id: string): Chainable<string>
+      checkHint(index: number, total: number): Chainable<void> // 修改類型
+      checkTaskInit(): Chainable<void>
+      waitUntilActive(last?: boolean): Chainable<void> // 注意小寫boolean，並且變量名應該是小寫
+      checkPending(): Chainable<string>
+      CompleteStageWithCommands(stagename: string): Chainable<string>
       CheckTextElement(
         id: string,
         chText: string,
         enText: string
-      ): Chainable<JQuery<HTMLElement>>
+      ): Chainable<string>
       CheckPlaceholder(
         id: string,
         chText: string,
         enText: string
-      ): Chainable<JQuery<HTMLElement>>
-      CheckTreeElement(element: string): Chainable<JQuery<HTMLElement>>
+      ): Chainable<string>
+      CheckTreeElement(element: string): Chainable<string>
     }
   }
 }
-
-Cypress.Commands.add(
-  'LoginWithPassword',
-  (username: string, password: string) => {
-    cy.clearAllCookies({ domain: null })
-    cy.visit('/login')
-    cy.get('#username').type(username)
-    cy.get('#password').type(password)
-    cy.get('#LogInOrSignUp').click()
-  }
-)
+Cypress.Commands.add('LoginWithPassword', (username, password) => {
+  cy.clearAllCookies()
+  cy.visit('/login')
+  cy.get('#username').type(username)
+  cy.get('#password').type(password)
+  cy.get('#LogInOrSignUp').click()
+})
 Cypress.Commands.add('PrepareForGame', () => {
   cy.visit('/')
   // make sure the login page is loaded
@@ -110,7 +99,7 @@ Cypress.Commands.add('waitUntilActive', (last = false) => {
         return
       }
       if (value === 'pending' && !last) {
-        cy.log(last)
+        cy.log(`${last}`)
         cy.typeInCommand('{enter}')
         cy.waitUntilActive()
       }
