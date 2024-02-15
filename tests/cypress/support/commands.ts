@@ -2,9 +2,8 @@
 import '@testing-library/cypress/add-commands'
 
 declare global {
-  declare namespace Cypress {
+  namespace Cypress {
     interface Chainable {
-      // 確保你有正確的泛型參數
       LoginWithPassword(username: string, password: string): Chainable<void>
       PrepareForGame(): Chainable<void>
       InitTerminal(): Chainable<void>
@@ -101,7 +100,7 @@ Cypress.Commands.add('waitUntilActive', (last = false) => {
       if (value === 'pending' && !last) {
         cy.log(`${last}`)
         cy.typeInCommand('{enter}')
-        cy.waitUntilActive()
+        cy.waitUntilActive(last) // Pass `last` parameter
       }
     })
 })
@@ -119,8 +118,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
   cy.checkTaskInit()
   cy.InitTerminal()
-  cy.readFile(`../quests/${stagename}/answer.sh`, 'utf-8').as('answers')
-  cy.get('@answers').then((answers) => {
+  cy.readFile(`../quests/${stagename}/answer.sh`, 'utf-8').then((answers) => {
     const answerarr = answers.split('\n')
     for (const element of answerarr) {
       cy.typeInCommand(`${element}{enter}`)
