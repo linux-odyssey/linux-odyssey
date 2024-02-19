@@ -8,7 +8,10 @@ import logger from './logger.js'
 const questDirectory = path.join(process.cwd(), '..', 'quests')
 
 class QuestValidationError extends Error {
-  constructor(message, questId, error) {
+  questId: string
+  error: any
+
+  constructor(message: string, questId: string, error: any) {
     super(message)
     this.name = 'QuestValidationError'
     this.questId = questId
@@ -16,7 +19,10 @@ class QuestValidationError extends Error {
   }
 }
 
-async function mapQuests(callback) {
+// eslint-disable-next-line no-unused-vars
+type QuestCallback = (id: string, questPath: string) => Promise<any>
+
+async function mapQuests(callback: QuestCallback) {
   const questNames = await fs.readdir(questDirectory, {
     withFileTypes: true,
   })
@@ -44,7 +50,7 @@ export async function loadAndUpdateQuests() {
   return mapQuests(async (id, questPath) => {
     const files = await fs.readdir(questPath)
     if (!files.includes('game.yml')) {
-      throw new QuestValidationError(`Missing game.yml`, id)
+      throw new QuestValidationError(`Missing game.yml`, id, null)
     }
 
     try {

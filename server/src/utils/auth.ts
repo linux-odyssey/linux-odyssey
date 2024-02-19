@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import config from '../config.js'
 
-export function hashPassword(password) {
+export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10)
 }
 
-export function genJWT(payload) {
+export function genJWT(payload: any): Promise<string> {
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,
@@ -15,6 +15,8 @@ export function genJWT(payload) {
       (err, token) => {
         if (err) {
           reject(err)
+        } else if (token === undefined) {
+          reject(new Error('Token is undefined'))
         } else {
           resolve(token)
         }
@@ -23,7 +25,7 @@ export function genJWT(payload) {
   })
 }
 
-export function verifyJWT(token) {
+export function verifyJWT(token: string): Promise<any> {
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {

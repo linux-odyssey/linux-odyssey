@@ -5,17 +5,18 @@ import { get } from './utils/env.js'
 // Import dotenv and load ../.env
 dotenv.config({ path: '../.env' })
 
-function getTrustProxies(key) {
-  if (!process.env[key]) {
+function getTrustProxies(key: string): string[] {
+  const value = process.env[key]
+  if (!value) {
     return []
   }
-  return process.env[key]
+  return value
     .split(',')
     .map((p) => validator.trim(p))
     .filter((p) => validator.isIPRange(p) || validator.isIP(p))
 }
 
-function getUrl(key) {
+function getUrl(key: string): string {
   const url = get(key, '')
   if (validator.isURL(url)) {
     return validator.trim(url)
@@ -50,8 +51,8 @@ function createConfig() {
       clientSecret: get('GITHUB_CLIENT_SECRET', ''),
     },
     trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
-    surveyUrl: getUrl('SURVEY_URL', ''),
-    bugReportUrl: getUrl('BUG_REPORT_URL', ''),
+    surveyUrl: getUrl('SURVEY_URL'),
+    bugReportUrl: getUrl('BUG_REPORT_URL'),
 
     docker: {
       network: get('DOCKER_NETWORK', 'host'),
@@ -74,7 +75,7 @@ function createConfig() {
 
 const config = createConfig()
 
-export function getQuestImage(id) {
+export function getQuestImage(id: string): string {
   return `${config.docker.imagePrefix}${id}`
 }
 

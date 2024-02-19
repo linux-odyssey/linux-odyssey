@@ -1,7 +1,12 @@
 import { User, UserProfile } from '@linux-odyssey/models'
+import { SocialLogin } from '../auth/oauthVerify.js'
 import { hashPassword } from '../utils/auth.js'
 
-export async function createUser(username, email, { password, socialLogin }) {
+export async function createUser(
+  username: string,
+  email: string,
+  { password, socialLogin }: { password?: string; socialLogin?: SocialLogin }
+) {
   const user = new User({
     username,
     email,

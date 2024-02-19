@@ -60,6 +60,11 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'lines-between-class-members': [
+      'error',
+      'always',
+      { exceptAfterSingleLine: true },
+    ],
   },
   overrides: [
     {
