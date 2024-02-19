@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator'
+import type { Request, Response, NextFunction } from 'express'
 
-export function noError(req, res, next) {
+export function noError(req: Request, res: Response, next: NextFunction) {
   const result = validationResult(req)
   if (result.isEmpty()) {
     next()

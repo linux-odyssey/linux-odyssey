@@ -7,12 +7,6 @@ import googleStrategy from './googleStrategy.js'
 import githubStrategy from './githubStrategy.js'
 import logger from '../utils/logger.js'
 
-interface SerializedUser extends Express.User {
-  _id: string
-  username: string
-  email: string
-}
-
 passport.use(passwordStrategy)
 passport.use(jwtStrategy)
 
@@ -32,21 +26,25 @@ if (githubStrategy !== null) {
   passport.use(githubStrategy)
 }
 
-passport.serializeUser((user: Express.User, done: any) => {
+passport.serializeUser((user: Express.User, done) => {
   process.nextTick(async () => {
     try {
-      const serializedUser = user as SerializedUser
-      if (!(await UserProfile.exists({ user: serializedUser._id }))) {
-        await UserProfile.create({ user: serializedUser._id })
+      const id = (user as any)._id
+      if (!id) {
+        done(new Error('User has no _id'))
+        return
       }
-      done(null, serializedUser)
+      if (!(await UserProfile.exists({ user: id }))) {
+        await UserProfile.create({ user: id })
+      }
+      done(null, user)
     } catch (err) {
       done(err)
     }
   })
 })
 
-passport.deserializeUser((user: SerializedUser, done) => {
+passport.deserializeUser((user: Express.User, done) => {
   process.nextTick(() => {
     done(null, user)
   })

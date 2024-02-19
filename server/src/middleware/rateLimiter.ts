@@ -1,9 +1,11 @@
 import rateLimit from 'express-rate-limit'
+import type { Options } from 'express-rate-limit'
+import type { Request, Response, NextFunction } from 'express'
 import config from '../config.js'
 
-function createRateLimiter(options) {
+function createRateLimiter(options: Partial<Options>) {
   if (config.testing.enabled) {
-    return (req, res, next) => next()
+    return (req: Request, res: Response, next: NextFunction) => next()
   }
   return rateLimit(options)
 }
@@ -21,7 +23,7 @@ export const authenticateRateLimit = createRateLimiter({
 export const sessionRateLimit = createRateLimiter({
   windowMs: 10 * 1000,
   max: 1,
-  keyGenerator: (req) => {
-    return req.user ? req.user._id : req.ip
+  keyGenerator: (req: Request) => {
+    return req.user ? (req.user as any)._id : req.ip || ''
   },
 })
