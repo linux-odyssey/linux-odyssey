@@ -155,13 +155,9 @@ export default class CommandHandler extends SessionHandler {
       this.handleEvent()
       this.handleCommand()
 
-      console.log(stages)
-
       const matches = await Promise.all(
         stages.map((stage) => stage.condition && this.isMatch(stage.condition))
       )
-
-      console.log(matches)
 
       const stage = stages.find((_, i) => matches[i])
       if (stage) {

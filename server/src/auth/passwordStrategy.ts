@@ -29,7 +29,11 @@ async function verifyPassword(
     if (!isPasswordValid) {
       return done(null, false, { message: 'Incorrect username or password.' })
     }
-    return done(null, user)
+    return done(null, {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    })
   } catch (err) {
     return done(err)
   }

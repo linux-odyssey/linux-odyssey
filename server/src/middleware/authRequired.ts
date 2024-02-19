@@ -5,7 +5,7 @@ export default function authRequired(
   res: Response,
   next: NextFunction
 ) {
-  if (req.isAuthenticated() && !('newUser' in req.session)) {
+  if (req.isAuthenticated() && !('newUser' in req.user)) {
     next()
     return
   }

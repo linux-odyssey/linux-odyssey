@@ -29,11 +29,11 @@ if (githubStrategy !== null) {
 passport.serializeUser((user: Express.User, done) => {
   process.nextTick(async () => {
     try {
-      const id = (user as any)._id
-      if (!id) {
+      if (!('id' in user)) {
         done(new Error('User has no _id'))
         return
       }
+      const { id } = user
       if (!(await UserProfile.exists({ user: id }))) {
         await UserProfile.create({ user: id })
       }

@@ -2,12 +2,6 @@ import { User } from '@linux-odyssey/models'
 import type { Profile } from 'passport'
 import type { VerifyCallback } from 'passport-oauth2'
 
-export type SocialLogin = {
-  provider: string
-  id: string
-  displayName: string
-}
-
 export default async function oauthVerify(
   provider: string,
   profile: Profile,
@@ -37,7 +31,11 @@ export default async function oauthVerify(
         await user.save()
       }
 
-      return cb(null, user)
+      return cb(null, {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      })
     } catch (err) {
       return cb(
         err instanceof Error ? err : new Error('An unknown error occurred')

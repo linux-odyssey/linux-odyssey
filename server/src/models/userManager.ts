@@ -1,11 +1,14 @@
+import { Express } from 'express'
 import { User, UserProfile } from '@linux-odyssey/models'
-import { SocialLogin } from '../auth/oauthVerify.js'
 import { hashPassword } from '../utils/auth.js'
 
 export async function createUser(
   username: string,
   email: string,
-  { password, socialLogin }: { password?: string; socialLogin?: SocialLogin }
+  {
+    password,
+    socialLogin,
+  }: { password?: string; socialLogin?: Express.SocialLogin }
 ) {
   const user = new User({
     username,
