@@ -1,9 +1,16 @@
-import GitHubStrategy from 'passport-github2'
+import { Strategy as GitHubStrategy } from 'passport-github2'
+import type { Profile } from 'passport'
+import type { VerifyCallback } from 'passport-oauth2'
 
 import config from '../config.js'
 import oauthVerify from './oauthVerify.js'
 
-function verify(accessToken, refreshToken, profile, cb) {
+function verify(
+  accessToken: string,
+  refreshToken: string,
+  profile: Profile,
+  cb: VerifyCallback
+) {
   oauthVerify('github', profile, { 'socialLogins.github.id': profile.id }, cb)
 }
 

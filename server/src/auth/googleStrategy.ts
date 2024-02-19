@@ -1,9 +1,9 @@
-import GoogleStrategy from 'passport-google-oidc'
+import { Strategy as GoogleStrategy } from 'passport-google-oidc'
 
 import config from '../config.js'
 import oauthVerify from './oauthVerify.js'
 
-function verify(issuer, profile, cb) {
+function verify(issuer: string, profile: any, cb: any) {
   oauthVerify('google', profile, { 'socialLogins.google.id': profile.id }, cb)
 }
 
@@ -15,7 +15,6 @@ export default enabled
         clientID: config.google.clientID,
         clientSecret: config.google.clientSecret,
         callbackURL: `${config.baseUrl}/api/v1/auth/google/callback`,
-        scope: ['profile', 'email'],
       },
       verify
     )

@@ -1,8 +1,19 @@
+/* eslint-disable no-unused-vars */
 import bcrypt from 'bcrypt'
-import LocalStrategy from 'passport-local'
+import { Strategy as LocalStrategy } from 'passport-local'
+import type { IVerifyOptions } from 'passport-local'
+import type { Express } from 'express'
 import { User } from '@linux-odyssey/models'
 
-async function verifyPassword(username, password, done) {
+async function verifyPassword(
+  username: string,
+  password: string,
+  done: (
+    error: any,
+    user?: Express.User | false,
+    options?: IVerifyOptions
+  ) => void
+) {
   try {
     const user = await User.findOne({
       $or: [{ username }, { email: username }],
@@ -11,7 +22,10 @@ async function verifyPassword(username, password, done) {
       return done(null, false, { message: 'Incorrect username or password.' })
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.hashedPassword)
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user.hashedPassword || ''
+    )
     if (!isPasswordValid) {
       return done(null, false, { message: 'Incorrect username or password.' })
     }

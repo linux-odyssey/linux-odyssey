@@ -1,4 +1,5 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import type { VerifyCallback } from 'passport-jwt'
 import config from '../config.js'
 
 const jwtOptions = {
@@ -6,7 +7,7 @@ const jwtOptions = {
   secretOrKey: config.secret,
 }
 
-function verifyJwt(jwtPayload, done) {
+function verifyJwt(jwtPayload: any, done: VerifyCallback) {
   return done(null, jwtPayload)
 }
 
