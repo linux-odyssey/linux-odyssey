@@ -3,10 +3,9 @@ import { conditionSchema, ICondition } from './condition.js'
 import { responseSchema, IResponse } from './response.js'
 import { hintSchema, IHint } from './hint.js'
 
-export interface ICommandResponder {
+export interface ICommandResponder extends IHint {
   condition?: ICondition
   responses: IResponse[]
-  hints?: IHint[]
 }
 
 export const commandResponderSchema = new Schema<ICommandResponder>({

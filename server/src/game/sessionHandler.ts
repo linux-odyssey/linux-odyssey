@@ -1,27 +1,51 @@
+import { HydratedDocument } from 'mongoose'
+import type {
+  IException,
+  IQuest,
+  IRequirement,
+  IResponse,
+  ISession,
+  IStage,
+  ITask,
+} from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 
+export interface ExecuteResult {
+  responses: IResponse[]
+  hints: string[]
+  callback: () => void
+  stage?: string
+  end?: boolean
+}
+
 export default class SessionHandler {
-  constructor(session) {
+  session: HydratedDocument<ISession>
+  quest: HydratedDocument<IQuest>
+
+  constructor(
+    session: HydratedDocument<ISession>,
+    quest: HydratedDocument<IQuest>
+  ) {
     this.session = session
-    this.quest = session.quest
+    this.quest = quest
   }
 
-  getSession() {
+  getSession(): HydratedDocument<ISession> {
     return this.session
   }
 
-  getTask(stage) {
+  getTask(stage: Partial<IStage>): ITask | undefined {
     return this.session.tasks.find((t) => t.id === stage.id)
   }
 
-  isCompleted(stage) {
+  isCompleted(stage: Partial<IStage>): boolean {
     const task = this.getTask(stage)
     return task ? task.completed : false
   }
 
-  getUnlockedComponents(components) {
+  getUnlockedComponents<T extends IRequirement>(components: T[]): T[] {
     return components.filter((component) =>
-      component.requirements.every((r) => this.isCompleted({ id: r }))
+      component.requirements.every((r: string) => this.isCompleted({ id: r }))
     )
   }
 
@@ -43,7 +67,7 @@ export default class SessionHandler {
     this.session.tasks.push(...newTasks)
   }
 
-  execute(stage) {
+  execute(stage: IStage): ExecuteResult {
     this.session.tasks
       .filter((t) => t.id === stage.id)
       .forEach((t) => {
@@ -67,7 +91,7 @@ export default class SessionHandler {
     }
   }
 
-  executeException(exception) {
+  executeException(exception: IException): ExecuteResult {
     const { hints, responses } = exception
     if (hints && hints.length > 0) this.session.hints.push(hints)
 

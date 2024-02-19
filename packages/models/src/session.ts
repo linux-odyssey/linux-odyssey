@@ -42,6 +42,7 @@ const taskSchema = new Schema<ITask>({
 })
 
 export interface ISession {
+  _id: Types.ObjectId
   user: Types.ObjectId
   quest: string
   containerId: string | null

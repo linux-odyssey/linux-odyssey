@@ -1,23 +1,41 @@
 import minimist from 'minimist'
+import { HydratedDocument } from 'mongoose'
 import { FileGraph } from '@linux-odyssey/file-graph'
-import { Quest } from '@linux-odyssey/models'
+import {
+  ICommand,
+  ICondition,
+  IFileCondition,
+  IQuest,
+  ISession,
+  IStage,
+  IException,
+} from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
-import SessionHandler from './sessionHandler.js'
+import SessionHandler, { ExecuteResult } from './sessionHandler.js'
 import { checkFile } from '../containers/cli.js'
 import logger from '../utils/logger.js'
 
 // 檢查 pattern 是否符合 input
-const checkMatch = (pattern, input) => {
+const checkMatch = (pattern?: string[], input?: string) => {
   if (!pattern || pattern.length === 0) return true
   return pattern.some((p) => {
     const regex = new RegExp(p)
-    return regex.test(input)
+    return input && regex.test(input)
   })
 }
 
 export default class CommandHandler extends SessionHandler {
-  constructor(session, commandInput, params) {
-    super(session)
+  commandInput: ICommand
+  argv: minimist.ParsedArgs
+  params: Record<string, any>
+
+  constructor(
+    session: HydratedDocument<ISession>,
+    quest: HydratedDocument<IQuest>,
+    commandInput: ICommand,
+    params: Record<string, any>
+  ) {
+    super(session, quest)
     this.commandInput = commandInput
     this.argv = minimist(this.commandInput.command.split(' '))
 
@@ -56,7 +74,7 @@ export default class CommandHandler extends SessionHandler {
       this.session.graph = graph
     } catch (e) {
       logger.error('Update file graph failed', {
-        error: e.message,
+        error: (e as Error).message,
         session: this.session.id,
         graph: this.session.graph,
         discover: this.params.discover,
@@ -64,7 +82,7 @@ export default class CommandHandler extends SessionHandler {
     }
   }
 
-  async isMatch(condition) {
+  async isMatch(condition: ICondition): Promise<boolean> {
     return (
       this.checkKeys(condition) &&
       (await this.checkFiles(condition.files)) &&
@@ -73,18 +91,25 @@ export default class CommandHandler extends SessionHandler {
     )
   }
 
-  checkKeys(condition) {
-    const keys = ['command', 'output', 'error', 'pwd']
-    return keys.every((k) => checkMatch(condition[k], this.commandInput[k]))
+  checkKeys(condition: ICondition) {
+    return (
+      checkMatch(condition.command, this.commandInput.command) &&
+      checkMatch(condition.output, this.commandInput.output) &&
+      checkMatch(condition.error, this.commandInput.error) &&
+      checkMatch(condition.pwd, this.commandInput.pwd)
+    )
   }
 
-  async checkFiles(files) {
-    if (files.length === 0) {
+  async checkFiles(files?: IFileCondition[]): Promise<boolean> {
+    if (!files || files.length === 0) {
       return true
     }
     try {
       const checks = await Promise.all(
-        files.map((f) => checkFile(this.session.containerId, f))
+        files.map(
+          (f) =>
+            this.session.containerId && checkFile(this.session.containerId, f)
+        )
       )
       return checks.every((c) => c === true)
     } catch (e) {
@@ -92,22 +117,22 @@ export default class CommandHandler extends SessionHandler {
     }
   }
 
-  async checkNot(condition) {
+  async checkNot(condition?: ICondition): Promise<boolean> {
     if (!condition) {
       return true
     }
     return !(await this.isMatch(condition))
   }
 
-  async checkOr(conditions) {
-    if (conditions.length === 0) {
+  async checkOr(conditions?: ICondition[]): Promise<boolean> {
+    if (!conditions || conditions.length === 0) {
       return true
     }
     const matches = await Promise.all(conditions.map((c) => this.isMatch(c)))
     return matches.some((m) => m === true)
   }
 
-  async checkException(stage) {
+  async checkException(stage: IStage): Promise<IException | null> {
     const exceptions = stage.exceptions || []
     for (const exception of exceptions) {
       // eslint-disable-next-line no-await-in-loop
@@ -119,21 +144,24 @@ export default class CommandHandler extends SessionHandler {
     return null
   }
 
-  async run() {
+  async run(): Promise<ExecuteResult | null> {
     try {
-      this.quest = await Quest.findById(this.session.quest)
       const stages = this.getStages()
       if (stages.length === 0) {
         logger.warn('stage not found', { session: this.session.id })
-        return {}
+        return null
       }
 
       this.handleEvent()
       this.handleCommand()
 
+      console.log(stages)
+
       const matches = await Promise.all(
-        stages.map((stage) => this.isMatch(stage.condition))
+        stages.map((stage) => stage.condition && this.isMatch(stage.condition))
       )
+
+      console.log(matches)
 
       const stage = stages.find((_, i) => matches[i])
       if (stage) {
@@ -161,22 +189,25 @@ export default class CommandHandler extends SessionHandler {
           this.quest.exceptions
         )
         for (const exception of globalExceptions) {
-          // eslint-disable-next-line no-await-in-loop
-          if (await this.isMatch(exception.condition)) {
+          if (
+            exception.condition &&
+            // eslint-disable-next-line no-await-in-loop
+            (await this.isMatch(exception.condition))
+          ) {
             return this.executeException(exception)
           }
         }
       }
 
-      return {}
+      return null
     } catch (err) {
       logger.error('CommandHandler error', {
-        error: err.message,
+        error: (err as Error).message,
         session: this.session._id,
         quest: this.quest._id,
         command: this.commandInput,
       })
-      return {}
+      return null
     }
   }
 }

@@ -1,28 +1,36 @@
+import { HydratedDocument, Types } from 'mongoose'
 import { Session, Quest, UserProfile } from '@linux-odyssey/models'
+import type { ISession, IUser } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
 import SessionHandler from '../game/sessionHandler.js'
 import logger from '../utils/logger.js'
 
-async function deactivateSessions(user, quest) {
+async function deactivateSessions(userId: Types.ObjectId, quest: string) {
   const sessions = await Session.find({
-    user,
+    user: userId,
     quest,
     status: 'active',
   })
   return Promise.all(
     sessions.map((session) => {
-      return deleteContainer(session.containerId)
-        .catch((err) => logger.error('Failed to delete container', err))
-        .finally(() => {
-          return Session.findByIdAndUpdate(session._id, {
-            $set: { status: 'inactive', containerId: null },
-          }).catch((err) => logger.error('Failed to update session', err))
-        })
+      return (
+        session.containerId &&
+        deleteContainer(session.containerId)
+          .catch((err) => logger.error('Failed to delete container', err))
+          .finally(() => {
+            return Session.findByIdAndUpdate(session._id, {
+              $set: { status: 'inactive', containerId: null },
+            }).catch((err) => logger.error('Failed to update session', err))
+          })
+      )
     })
   )
 }
 
-export async function createNewSession(user, questId) {
+export async function createNewSession(
+  user: HydratedDocument<IUser>,
+  questId: string
+): Promise<ISession> {
   const quest = await Quest.findById(questId)
   if (!quest) {
     throw new Error(`Quest ${questId} not found`)
@@ -38,13 +46,13 @@ export async function createNewSession(user, questId) {
     quest.image
   )
 
-  const sessionHandler = new SessionHandler(
-    new Session({
-      user,
-      quest,
-      containerId: container.id,
-    })
-  )
+  const newSession = new Session({
+    user,
+    quest,
+    containerId: container.id,
+  })
+
+  const sessionHandler = new SessionHandler(newSession, quest)
 
   sessionHandler.addNewTasks()
 
@@ -62,6 +70,7 @@ export async function createNewSession(user, questId) {
       quest: quest._id,
       sessions: [session._id],
       startedAt: new Date(),
+      completed: false,
     })
   } else {
     progress.sessions.push(session._id)
@@ -70,7 +79,10 @@ export async function createNewSession(user, questId) {
   return session
 }
 
-export async function getOrCreateActiveSession(user, questId) {
+export async function getOrCreateActiveSession(
+  user: HydratedDocument<IUser>,
+  questId: string
+): Promise<ISession> {
   const session = await Session.findOne({
     user,
     quest: questId,
@@ -82,7 +94,9 @@ export async function getOrCreateActiveSession(user, questId) {
   return createNewSession(user, questId)
 }
 
-export async function finishSession(session) {
+export async function finishSession(
+  session: HydratedDocument<ISession>
+): Promise<void> {
   session.status = 'finished'
   await session.save()
 
@@ -102,7 +116,10 @@ export async function finishSession(session) {
   await userProfile.save()
 }
 
-export async function isQuestUnlocked(user, questId) {
+export async function isQuestUnlocked(
+  user: HydratedDocument<IUser>,
+  questId: string
+): Promise<boolean> {
   const userProfile = await UserProfile.findOne({ user: user._id })
   if (!userProfile) {
     throw new Error(`UserProfile ${user._id} not found`)
