@@ -95,20 +95,18 @@ describe('example helloworld app', () => {
       cy.CheckTextElement('#tasks', '任務', 'Tasks:')
     })
     it('Check Terminal', () => {
-      cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
-        cy.get($terminal).should('be.visible')
-        cy.get('svg[data-icon="terminal"]').should('be.visible')
-        cy.CheckTextElement('#Terminal', '終端機', 'Terminal')
-        cy.get('@Terminaltextbox')
-          .should('be.visible')
-          .and('contain', 'commander:~ $')
-      })
+      // cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
+      //   cy.get($terminal).should('be.visible')
+      cy.get('#terminal', { timeout: 20000 }).should('be.visible')
+      cy.get('svg[data-icon="terminal"]').should('be.visible')
+      cy.CheckTextElement('#Terminal', '終端機', 'Terminal')
+      cy.get('@Terminaltextbox')
+        .should('be.visible')
+        .and('contain', 'commander:~ $')
     })
     it('Check Hint Part', () => {
-      cy.get('#hint', { timeout: 20000 }).within(($hint) => {
-        cy.get($hint).should('be.visible')
-        cy.get('svg[data-icon="lightbulb"]').should('be.visible')
-      })
+      cy.get('#hint', { timeout: 20000 }).should('be.visible')
+      cy.get('svg[data-icon="lightbulb"]').should('be.visible')
       cy.CheckTextElement('#hint', '提示', 'Hint')
     })
     it('Check File TreeChart', () => {

@@ -8,7 +8,7 @@ declare global {
       PrepareForGame(): Chainable<void>
       InitTerminal(): Chainable<void>
       typeInCommand(command: string): Chainable<void>
-      getQuestInfo(id: string): Chainable<string>
+      getQuestInfo(id: string): Chainable<JQuery<HTMLElement>>
       checkHint(index: number, total: number): Chainable<void> // 修改類型
       checkTaskInit(): Chainable<void>
       waitUntilActive(last?: boolean): Chainable<void> // 注意小寫boolean，並且變量名應該是小寫
@@ -136,13 +136,11 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
-  cy.get(id, { timeout: 50000 }).within(($element) => {
-    if (Cypress.env('isCHVersion')) {
-      cy.get($element).should('contain', chText).and('be.visible')
-    } else {
-      cy.get($element).should('contain', enText).and('be.visible')
-    }
-  })
+  if (Cypress.env('isCHVersion')) {
+    cy.get(id, { timeout: 50000 }).should('contain', chText).and('be.visible')
+  } else {
+    cy.get(id, { timeout: 50000 }).should('contain', enText).and('be.visible')
+  }
 })
 Cypress.Commands.add('CheckPlaceholder', (id, chText, enText) => {
   cy.get(id)
