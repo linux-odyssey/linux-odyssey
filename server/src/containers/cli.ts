@@ -1,13 +1,14 @@
 import { execFile } from 'child_process'
 
 import { buildFileCheckCmd } from '@linux-odyssey/utils'
+import type { IFileCondition } from '@linux-odyssey/models'
 
-function sanitizeId(id) {
+function sanitizeId(id: string) {
   return id.replace(/[^a-zA-Z0-9]/g, '')
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function checkFile(id, file) {
+export function checkFile(id: string, file: IFileCondition) {
   return new Promise((resolve, reject) => {
     const cmd = buildFileCheckCmd(file)
     // WARNING: This is vulnerable to command injection

@@ -2,8 +2,8 @@ import { Schema } from 'mongoose'
 
 export interface IFileCondition {
   path: string
-  type?: string
-  exists?: boolean
+  type: string
+  exists: boolean
 }
 
 export interface ICondition {
