@@ -14,9 +14,12 @@ const containerOptions = {
   HostConfig: {
     NetworkMode: config.docker.network,
   },
-}
+} as Docker.ContainerCreateOptions
 
-export function createContainer(name, questId) {
+export function createContainer(
+  name: string,
+  questId: string
+): Promise<Docker.Container> {
   const option = {
     ...containerOptions,
     name,
@@ -25,7 +28,7 @@ export function createContainer(name, questId) {
   const { hostPwd, mountQuest } = config.docker
   if (!config.isProduction && hostPwd && mountQuest === questId) {
     logger.info('Mounting quest folder', mountQuest)
-    option.HostConfig.Binds = [
+    option.HostConfig!.Binds = [
       `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
       `${hostPwd}/packages/container:/usr/local/lib/container`,
     ]
@@ -33,7 +36,9 @@ export function createContainer(name, questId) {
   return engine.createContainer(option)
 }
 
-export async function getAndStartContainer(id) {
+export async function getAndStartContainer(
+  id: string
+): Promise<Docker.Container> {
   logger.debug(`Getting container: ${id}`)
   const container = engine.getContainer(id)
   if (!container) {
@@ -45,7 +50,10 @@ export async function getAndStartContainer(id) {
   return container
 }
 
-export async function attachContainer(container, { token }) {
+export async function attachContainer(
+  container: Docker.Container,
+  { token }: { token: string }
+) {
   const exec = await container.exec({
     AttachStdin: true,
     AttachStdout: true,
@@ -67,7 +75,7 @@ export async function attachContainer(container, { token }) {
   return execOutput
 }
 
-export async function deleteContainer(id) {
+export async function deleteContainer(id: string) {
   const container = engine.getContainer(id)
   if (!container) {
     return
@@ -80,8 +88,8 @@ export async function deleteContainer(id) {
   await container.remove()
 }
 
-function parseJSONOutput(data) {
-  const { stream, error } = JSON.parse(data.toString())
+function parseJSONOutput(data: string) {
+  const { stream, error } = JSON.parse(data)
   if (stream) {
     // eslint-disable-next-line no-console
     console.log(stream)
@@ -91,7 +99,7 @@ function parseJSONOutput(data) {
   }
 }
 
-export function buildQuestImage(questPath, questId) {
+export function buildQuestImage(questPath: string, questId: string) {
   return new Promise((resolve, reject) => {
     engine.buildImage(
       {
@@ -114,9 +122,9 @@ export function buildQuestImage(questPath, questId) {
               data
                 .toString()
                 .split('\n')
-                .map((line) => line.trim())
-                .filter((line) => line !== '')
-                .forEach((line) => {
+                .map((line: string) => line.trim())
+                .filter((line: string) => line !== '')
+                .forEach((line: string) => {
                   parseJSONOutput(line)
                 })
             } catch (error) {

@@ -1,18 +1,30 @@
 import schedule from 'node-schedule'
 import { Session } from '@linux-odyssey/models'
+import type { ISession } from '@linux-odyssey/models'
+import type { HydratedDocument } from 'mongoose'
 import config from '../config.js'
 import { deleteContainer } from './docker.js'
 import logger from '../utils/logger.js'
 
-async function disableSession(session) {
+async function disableSession(session: HydratedDocument<ISession>) {
+  if (!session.containerId) {
+    logger.warn(`Deleting session ${session._id} has no containerId`)
+    return
+  }
   try {
     await deleteContainer(session.containerId)
   } catch (err) {
-    // If the container doesn't exist, we can ignore the error
-    if (err.statusCode !== 404) {
-      throw new Error(
-        `Failed to delete container ${session.containerId} for session ${session._id}`
-      )
+    // Perform runtime check to safely access statusCode
+    if (typeof err === 'object' && err !== null && 'statusCode' in err) {
+      const error = err as { statusCode: number }
+      if (error.statusCode !== 404) {
+        throw new Error(
+          `Failed to delete container ${session.containerId} for session ${session._id}`
+        )
+      }
+    } else {
+      // Handle the case where err is not the expected type
+      logger.error(`An unexpected error occurred: ${err}`)
     }
   }
   if (session.status === 'active') {

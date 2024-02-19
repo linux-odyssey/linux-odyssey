@@ -1110,10 +1110,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@linux-odyssey/models@npm:*, @linux-odyssey/models@workspace:packages/models":
+"@linux-odyssey/game@workspace:packages/game":
+  version: 0.0.0-use.local
+  resolution: "@linux-odyssey/game@workspace:packages/game"
+  dependencies:
+    "@linux-odyssey/models": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
+"@linux-odyssey/models@npm:*, @linux-odyssey/models@workspace:^, @linux-odyssey/models@workspace:packages/models":
   version: 0.0.0-use.local
   resolution: "@linux-odyssey/models@workspace:packages/models"
   dependencies:
+    "@types/mongoose": "npm:^5.11.97"
     mongoose: "npm:^8.0.3"
   languageName: unknown
   linkType: soft
@@ -1395,6 +1404,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/docker-modem@npm:*":
+  version: 3.0.6
+  resolution: "@types/docker-modem@npm:3.0.6"
+  dependencies:
+    "@types/node": "npm:*"
+    "@types/ssh2": "npm:*"
+  checksum: 10c0/d3ffd273148bc883ff9b1a972b1f84c1add6d9a197d2f4fc9774db4c814f39c2e51cc649385b55d781c790c16fb0bf9c1f4c62499bd0f372a4b920190919445d
+  languageName: node
+  linkType: hard
+
+"@types/dockerode@npm:^3.3.23":
+  version: 3.3.23
+  resolution: "@types/dockerode@npm:3.3.23"
+  dependencies:
+    "@types/docker-modem": "npm:*"
+    "@types/node": "npm:*"
+  checksum: 10c0/b6bdb2851487ac7168d2a790ef35b50f0521cbf01e636feaca8f7192fe9c4c687c22f71c56767f41b25ceb87d60ebbc052c1e28c6f7d6cc7a69327050569c863
+  languageName: node
+  linkType: hard
+
 "@types/express-serve-static-core@npm:^4.17.33":
   version: 4.17.43
   resolution: "@types/express-serve-static-core@npm:4.17.43"
@@ -1516,12 +1545,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mongoose@npm:^5.11.97":
+  version: 5.11.97
+  resolution: "@types/mongoose@npm:5.11.97"
+  dependencies:
+    mongoose: "npm:*"
+  checksum: 10c0/333e692a39734948db700c76f25c7b088f46cb88ba940b80467313acf29752823ff9ed2870045c34e00559c38a4a3b5136ae6634da6dbe56c160a16a50e1dea0
+  languageName: node
+  linkType: hard
+
+"@types/node-schedule@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "@types/node-schedule@npm:2.1.6"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/5b8f810abf1738f4114c771434ebd17b6ec4f5e29d9f4ca4085b7b5d016f88dd6d99c7fa5c9e0d8583a52781e7ab579f34adfd6927071aa03168b44d9d75e7fd
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:>=10.0.0, @types/node@npm:^20.10.4":
   version: 20.11.16
   resolution: "@types/node@npm:20.11.16"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10c0/4886b90278e9c877a84efd3edd4667cd990e032d77268d2a798b99ebc1901ea336fa7dfbe9eaf4ad6ad1da9ce2ec31baf300038a3905838692362eb19904ebde
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.11.18":
+  version: 18.19.17
+  resolution: "@types/node@npm:18.19.17"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10c0/ac2e4910d5f2bb92cb2623f6d4d4d665a39cf1d425993347e6c3756c70a4def21a47241b86f49e1e4f441529753527bbd9be5f08f29fdac38c64035a26b847c7
   languageName: node
   linkType: hard
 
@@ -1649,6 +1705,15 @@ __metadata:
   version: 2.3.8
   resolution: "@types/sizzle@npm:2.3.8"
   checksum: 10c0/ab5460147ae6680cc20c2223a8f17d9f7c97144b70f00a222a1c32d68b5207696d48177ab9784dda88c74d93ed5a78dd31f74d271b15382520b423c81b4aac89
+  languageName: node
+  linkType: hard
+
+"@types/ssh2@npm:*":
+  version: 1.11.19
+  resolution: "@types/ssh2@npm:1.11.19"
+  dependencies:
+    "@types/node": "npm:^18.11.18"
+  checksum: 10c0/d1a6f8bff3602ea40be0f9b41f2c80bdd8debbda412b50cda5d7b973ef3921ede60123ea0c48c9e202d96d71c7dc05c9019b5736e8b2ddc6c457c557f602453e
   languageName: node
   linkType: hard
 
@@ -7178,6 +7243,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mongoose@npm:*":
+  version: 8.1.3
+  resolution: "mongoose@npm:8.1.3"
+  dependencies:
+    bson: "npm:^6.2.0"
+    kareem: "npm:2.5.1"
+    mongodb: "npm:6.3.0"
+    mpath: "npm:0.9.0"
+    mquery: "npm:5.0.0"
+    ms: "npm:2.1.3"
+    sift: "npm:16.0.1"
+  checksum: 10c0/68cf62251b245fb3f9867f0f66895b751f688dcda4c3b9b9016754ad6d78428535d7a4094f013e6e4545158ed2d766aea94aff4478b7a2e3876cefe79a59447c
+  languageName: node
+  linkType: hard
+
 "mongoose@npm:^8.0.3":
   version: 8.1.1
   resolution: "mongoose@npm:8.1.1"
@@ -8530,9 +8610,11 @@ __metadata:
     "@linux-odyssey/models": "npm:*"
     "@linux-odyssey/utils": "npm:*"
     "@types/bcrypt": "npm:^5.0.2"
+    "@types/dockerode": "npm:^3.3.23"
     "@types/express": "npm:^4.17.21"
     "@types/express-session": "npm:^1.17.10"
     "@types/jsonwebtoken": "npm:^9.0.5"
+    "@types/node-schedule": "npm:^2.1.6"
     "@types/passport": "npm:^1.0.16"
     "@types/passport-github2": "npm:^1.2.9"
     "@types/passport-jwt": "npm:^4.0.1"

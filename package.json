@@ -15,7 +15,7 @@
     "app": "yarn workspace app dev",
     "app:local": "yarn workspace app dev:local",
     "build": "yarn workspaces foreach -Apt run build",
-    "dev": "yarn workspaces foreach -Api --include '{server,app}' run watch",
+    "dev": "yarn workspaces foreach -Api --include '{server,app}' run dev",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
     "lint": "eslint .",
