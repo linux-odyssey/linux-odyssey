@@ -9,5 +9,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w"
+  },
+  "devDependencies": {
+    "@linux-odyssey/models": "workspace:^"
   }
 }
