@@ -1,43 +1,56 @@
 import { Server } from 'socket.io'
+import type { Socket } from 'socket.io'
 import validator from 'validator'
+import type { Server as HttpServer } from 'http'
 import { Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
 import logger from '../utils/logger.js'
 
-const sessions = new Map()
+// eslint-disable-next-line no-unused-vars
+type SocketCallback = (event: string, ...args: any[]) => void
 
-function listenToSession(sessionId, callback) {
+const sessions = new Map<string, SocketCallback[]>()
+
+function listenToSession(sessionId: string, callback: SocketCallback) {
   const callbacks = sessions.get(sessionId) || []
   sessions.set(sessionId, callbacks.concat(callback))
 }
 
-function removeFromSession(sessionId, event, callback) {
-  const callbacks = sessions.get((sessionId, event)) || []
+function removeFromSession(sessionId: string, callback: SocketCallback) {
+  const callbacks = sessions.get(sessionId) || []
   sessions.set(
-    (sessionId, event),
+    sessionId,
     callbacks.filter((cb) => cb !== callback)
   )
 }
 
-export function pushToSession(sessionId, event, ...args) {
+export function pushToSession(
+  sessionId: string,
+  event: string,
+  ...args: any[]
+) {
   const callbacks = sessions.get(sessionId)
   if (callbacks) {
     callbacks.forEach((callback) => callback(event, ...args))
   }
 }
 
-async function connectContainer(socket, next) {
-  const user = socket.request.session?.passport?.user
-  // console.log(user)
+// eslint-disable-next-line no-unused-vars
+async function connectContainer(socket: Socket, next: (err?: Error) => void) {
+  const user = (socket.request as any).session?.passport?.user
   if (!user) {
     next(new Error('User not found.'))
     return
   }
   // console.log(socket.handshake)
   const { sessionId } = socket.handshake.query
-  if (!(sessionId && validator.isMongoId(sessionId))) {
+  if (
+    !sessionId ||
+    typeof sessionId !== 'string' ||
+    !validator.isMongoId(sessionId)
+  ) {
     logger.warn('Invalid Session ID.', user.username, sessionId)
     next(new Error('Invalid Session ID.'))
     return
@@ -53,10 +66,15 @@ async function connectContainer(socket, next) {
     sessionId: session.id,
   })
 
+  if (!session.containerId) {
+    next(new Error('Session has no container.'))
+    return
+  }
+
   try {
     const container = await getAndStartContainer(session.containerId)
     const stream = await attachContainer(container, { token })
-    socket.context = {
+    socket.data.context = {
       session,
       stream,
     }
@@ -66,9 +84,9 @@ async function connectContainer(socket, next) {
   }
 }
 
-function onConnect(socket) {
-  const { session, stream } = socket.context
-  stream.socket.on('data', (chunk) => {
+function onConnect(socket: Socket) {
+  const { session, stream } = socket.data.context
+  stream.socket.on('data', (chunk: Buffer) => {
     socket.emit('terminal', chunk.toString())
   })
 
@@ -76,7 +94,7 @@ function onConnect(socket) {
     stream.socket.write(message)
   })
 
-  const socketCallback = (event, ...data) => {
+  const socketCallback = (event: string, ...data: any[]) => {
     socket.emit(event, ...data)
   }
 
@@ -89,7 +107,7 @@ function onConnect(socket) {
   })
 }
 
-export default (server) => {
+export default (server: HttpServer) => {
   const io = new Server(server)
 
   io.engine.use(SessionMiddleware)
