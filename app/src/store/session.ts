@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import { useToast } from 'vue-toastification'
-import { FileGraph } from '@linux-odyssey/file-graph'
+import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
 import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
@@ -33,14 +33,14 @@ const store = reactive({
 const socket = new Socket()
 const term = new SocketTerminal(40, 80)
 
-function setQuest(questId) {
+function setQuest(questId: string) {
   return api.get(`/quests/${questId}`).then((res) => {
     store.questId = res.data._id
     store.quest = res.data
   })
 }
 
-async function setSession(session) {
+async function setSession(session: any) {
   try {
     console.log('Setting session...', session)
     store.session = session
@@ -48,7 +48,7 @@ async function setSession(session) {
     term.reset()
     await socket.connect(session)
     term.focus()
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
     toast.error(err.message)
     throw err
@@ -67,7 +67,7 @@ export async function createSession() {
   }
 }
 
-async function getActiveSession(questId) {
+async function getActiveSession(questId: any) {
   try {
     const res = await api.post('/sessions/active', { questId })
     await setSession(res.data)
@@ -78,7 +78,7 @@ async function getActiveSession(questId) {
   }
 }
 
-function updateGraph(event) {
+function updateGraph(event: { discover: FileObject[]; pwd: string }) {
   if (event.discover) {
     store.session.graph.discover(event.discover)
   }
@@ -87,12 +87,16 @@ function updateGraph(event) {
   }
 }
 
-function newResponse(response) {
-  console.log('newResponse', response, 'session', store.session)
-  store.session.responses.push(response.responses)
-  store.session.hints.push(response.hints)
-  store.session.tasks = response.tasks
-  store.session.status = response.status
+function updateHints(hints: never) {
+  store.session.hints.push(hints)
+}
+
+function updateStatus(status: string) {
+  store.session.status = status
+}
+
+function setTasks(tasks: never[]) {
+  store.session.tasks = tasks
 }
 
 export function useTerminal() {
@@ -106,7 +110,7 @@ export function reset() {
   store.quest = null
 }
 
-export async function init(questId) {
+export async function init(questId: string) {
   if (!questId) throw new Error('No quest ID provided')
   reset()
   try {
@@ -124,17 +128,23 @@ export async function init(questId) {
 }
 
 function setup() {
-  socket.on('terminal', (data) => {
+  socket.on('terminal', (data: any) => {
     term.write(data)
   })
-  term.onData((data) => {
+  term.onData((data: any) => {
     socket.emit('terminal', data)
   })
-  socket.on('graph', (event) => {
+  socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
     updateGraph(event)
   })
-  socket.on('response', (response) => {
-    newResponse(response)
+  socket.on('hints', (event: never) => {
+    updateHints(event)
+  })
+  socket.on('tasks', (tasks: never[]) => {
+    setTasks(tasks)
+  })
+  socket.on('status', (event: string) => {
+    updateStatus(event)
   })
 }
 
