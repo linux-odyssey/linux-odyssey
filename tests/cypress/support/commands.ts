@@ -4,15 +4,15 @@ import '@testing-library/cypress/add-commands'
 declare global {
   namespace Cypress {
     interface Chainable {
-      LoginWithPassword(username: string, password: string): Chainable<void>
+      LoginWithPassword(username: string, password: string): Chainable<string>
       PrepareForGame(): Chainable<void>
       InitTerminal(): Chainable<void>
-      typeInCommand(command: string): Chainable<void>
+      typeInCommand(command: string): Chainable<string>
       getQuestInfo(id: string): Chainable<JQuery<HTMLElement>>
-      checkHint(index: number, total: number): Chainable<void> // 修改類型
+      checkHint(index: number, total: number): Chainable<number> // 修改類型
       checkTaskInit(): Chainable<void>
       waitUntilActive(last?: boolean): Chainable<void> // 注意小寫boolean，並且變量名應該是小寫
-      checkPending(): Chainable<string>
+      checkPending(): Chainable<void>
       CompleteStageWithCommands(stagename: string): Chainable<string>
       CheckTextElement(
         id: string,
