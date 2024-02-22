@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import passport from 'passport'
 
 import enabledMethods from '../../auth/passport.js'
@@ -25,7 +25,7 @@ router.post(
   authenticateRateLimit,
   loginValidators,
   passport.authenticate('local', { failureMessage: true }),
-  (req, res) => {
+  (req: Request, res: Response) => {
     res.json({ message: 'success' })
   }
 )
@@ -34,8 +34,10 @@ router.post('/register', authenticateRateLimit, registerValidators, register)
 
 router.post('/logout', logout)
 
-router.get('/check-username', checkUsernameValidators, (req, res) =>
-  res.json({ available: true })
+router.get(
+  '/check-username',
+  checkUsernameValidators,
+  (req: Request, res: Response) => res.json({ available: true })
 )
 router.get('/check-session', checkSession)
 

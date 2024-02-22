@@ -62,13 +62,7 @@ async function main() {
   app.use(globalRateLimit)
   app.use(sessionMiddleware)
   app.use(passport.session())
-  app.use(
-    '/api-docs',
-    swaggerUI.serve,
-    swaggerUI.setup(swaggerDocument, {
-      withCredentials: true,
-    })
-  )
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
   app.use(express.json())
 
   app.get('/', (req, res) => {
