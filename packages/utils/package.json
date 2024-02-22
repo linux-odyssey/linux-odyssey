@@ -10,7 +10,7 @@
     "build": "tsc",
     "dev": "tsc -w"
   },
-  "devDependencies": {
+  "dependencies": {
     "@linux-odyssey/models": "workspace:^"
   }
 }
