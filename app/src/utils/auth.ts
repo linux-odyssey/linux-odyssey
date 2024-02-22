@@ -12,7 +12,7 @@ export async function isLoggedIn() {
   return loggedIn
 }
 
-function handleRequestError(err) {
+function handleRequestError(err: { response: { data?: any; status?: any } }) {
   if (!err.response) throw err // Not an axios error
   const { status } = err.response
   if (status === 429) {
@@ -41,14 +41,14 @@ function handleRequestError(err) {
   throw err
 }
 
-export const login = (username, password) => {
+export const login = (username: any, password: any) => {
   return api
     .post('/auth/login', { username, password })
     .then(() => true)
     .catch(handleRequestError)
 }
 
-export const register = (username, email, password) => {
+export const register = (username: any, email: any, password: any) => {
   return api
     .post('/auth/register', {
       username,
@@ -59,7 +59,7 @@ export const register = (username, email, password) => {
     .catch(handleRequestError)
 }
 
-export const checkUsername = async (username) => {
+export const checkUsername = async (username: any) => {
   return api
     .get('/auth/check-username', {
       params: { username },
@@ -68,7 +68,7 @@ export const checkUsername = async (username) => {
     .catch(handleRequestError)
 }
 
-export const chooseUsername = async (username) => {
+export const chooseUsername = async (username: any) => {
   return api
     .post('/auth/register-from-session', { username })
     .then(() => true)
