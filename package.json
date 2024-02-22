@@ -13,9 +13,10 @@
   ],
   "scripts": {
     "app": "yarn workspace app dev",
-    "app:local": "yarn workspace app dev:local",
-    "build": "yarn workspaces foreach -Apt run build",
-    "dev": "yarn workspaces foreach -Api --include '{server,app}' run dev",
+    "build:deps": "concurrently \"yarn workspace @linux-odyssey/constants build\" \"yarn workspace @linux-odyssey/file-graph build\" \"yarn workspace @linux-odyssey/models build\" \"yarn workspace @linux-odyssey/utils build\"",
+    "build:apps": "concurrently \"yarn workspace app build\" \"yarn workspace server build\" \"yarn workspace analytics build\"",
+    "build": "yarn build:deps && yarn build:apps",
+    "dev": "concurrently -n \"App,Server\" -c \"bgBlue.bold,bgGreen.bold\" \"yarn workspace app dev\" \"yarn workspace server dev\"",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
     "lint": "eslint .",
@@ -49,6 +50,5 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  },
-  "packageManager": "yarn@4.1.0"
+  }
 }
