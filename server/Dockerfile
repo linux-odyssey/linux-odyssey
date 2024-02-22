@@ -28,7 +28,8 @@ COPY quests ./quests
 ENV NODE_ENV=production
 RUN yarn workspace @linux-odyssey/file-graph build
 RUN yarn workspace @linux-odyssey/utils build
-RUN yarn workspace @linux-odyssey/ build
+RUN yarn workspace @linux-odyssey/models build
+RUN yarn workspace @linux-odyssey/constants build
 RUN yarn workspace server build
 WORKDIR /app/server
 CMD [ "yarn", "start" ]
