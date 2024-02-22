@@ -3,7 +3,10 @@ import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 
 class SocketTerminal {
-  constructor(rows, cols) {
+  private term: Terminal
+  private fitAddon: FitAddon
+
+  constructor(rows: number, cols: number) {
     this.term = new Terminal({
       rendererType: 'canvas', // 渲染类型
       rows, // 行数
@@ -24,29 +27,29 @@ class SocketTerminal {
     this.fitAddon.fit()
   }
 
-  write(message) {
+  write(message: string): void {
     this.term.write(message)
   }
 
-  onData(callback) {
+  onData(callback: any): void {
     this.term.onData(callback)
   }
 
-  focus() {
+  focus(): void {
     this.term.focus()
   }
 
-  resizeScreen() {
+  resizeScreen(): void {
     this.fitAddon.fit()
   }
 
-  mount(reference) {
+  mount(reference: HTMLElement): void {
     this.term.open(reference)
     this.term.focus()
     this.resizeScreen()
   }
 
-  reset() {
+  reset(): void {
     this.term.reset()
   }
 }
