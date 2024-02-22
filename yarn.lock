@@ -1110,7 +1110,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@linux-odyssey/models@npm:*, @linux-odyssey/models@workspace:^, @linux-odyssey/models@workspace:packages/models":
+"@linux-odyssey/models@npm:*, @linux-odyssey/models@workspace:packages/models":
   version: 0.0.0-use.local
   resolution: "@linux-odyssey/models@workspace:packages/models"
   dependencies:
@@ -1122,8 +1122,6 @@ __metadata:
 "@linux-odyssey/utils@npm:*, @linux-odyssey/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@linux-odyssey/utils@workspace:packages/utils"
-  dependencies:
-    "@linux-odyssey/models": "workspace:^"
   languageName: unknown
   linkType: soft
 

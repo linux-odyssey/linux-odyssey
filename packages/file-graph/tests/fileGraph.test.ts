@@ -1,8 +1,8 @@
-import FileGraph from '../src/fileGraph'
-import FileNode from '../src/fileNode'
+import FileGraph from '../src/fileGraph.js'
+import FileNode from '../src/fileNode.js'
 
 describe('FileGraph', () => {
-  let root
+  let root: FileNode
 
   beforeEach(() => {
     root = new FileNode({
@@ -66,10 +66,12 @@ describe('FileGraph', () => {
       {
         path: '/home/user/folder1/file1.txt',
         type: 'folder',
+        discovered: true,
       },
       {
         path: '/home/user/folder2',
         type: 'folder',
+        discovered: true,
       },
     ]
 

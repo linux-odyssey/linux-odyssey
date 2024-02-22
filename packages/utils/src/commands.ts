@@ -1,4 +1,7 @@
-import type { IFileCondition } from '@linux-odyssey/models'
+export interface File {
+  path: string
+  type: string
+}
 
 const fileTypes = new Map([
   ['file', '-f'],
@@ -11,7 +14,7 @@ function sanitizePath(path: string): string {
   return path.replace(/[^a-zA-Z0-9._/-]/g, '')
 }
 
-export function buildFileCheckCmd(file: IFileCondition): string[] {
+export function buildFileCheckCmd(file: File): string[] {
   const { path, type } = file
   return ['test', fileTypes.get(type) || '-e', sanitizePath(path)]
 }
