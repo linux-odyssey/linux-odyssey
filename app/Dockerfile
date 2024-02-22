@@ -1,7 +1,6 @@
 # Base stage
 FROM node:20-alpine as base
 
-RUN yarn set version berry
 WORKDIR /app
 COPY package.json yarn.lock tsconfig.json ./
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
@@ -21,7 +20,10 @@ COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
 COPY packages/constants ./packages/constants
 COPY app ./app
-RUN yarn build
+RUN yarn workspace @linux-odyssey/file-graph build
+RUN yarn workspace @linux-odyssey/utils build
+RUN yarn workspace @linux-odyssey/constants build
+RUN yarn workspace app build
 
 # Production stage
 FROM nginx:stable-alpine as prod
