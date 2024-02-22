@@ -120,9 +120,9 @@ export async function isQuestUnlocked(
   user: HydratedDocument<IUser>,
   questId: string
 ): Promise<boolean> {
-  const userProfile = await UserProfile.findOne({ user: user._id })
+  const userProfile = await UserProfile.findOne({ user: user.id })
   if (!userProfile) {
-    throw new Error(`UserProfile ${user._id} not found`)
+    throw new Error(`UserProfile ${user.id} not found`)
   }
   const quest = await Quest.findById(questId)
   if (!quest) {
