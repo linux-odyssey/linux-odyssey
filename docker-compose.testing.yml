@@ -43,7 +43,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./logs:/app/logs
     environment:
-      - BASE_URL=http://localhost:5173
+      - BASE_URL=http://app-test
       - MONGO_URL=mongodb://user:user-password@db-test:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
       - SECRET_KEY=b1d2e917-17b9-4fce-9055-082dee6ec5d6 # Only for testing
