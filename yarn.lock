@@ -1709,6 +1709,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/source-map-support@npm:^0":
+  version: 0.5.10
+  resolution: "@types/source-map-support@npm:0.5.10"
+  dependencies:
+    source-map: "npm:^0.6.0"
+  checksum: 10c0/48aacf32e1b5a4301407123fb69001b6a79386860d19c756a76ef3b034f71375a843846fa2af2d2461a765411dfbbcb21069b0935761b3c81f8b722b1d9d581f
+  languageName: node
+  linkType: hard
+
 "@types/ssh2@npm:*":
   version: 1.11.19
   resolution: "@types/ssh2@npm:1.11.19"
@@ -8622,6 +8631,7 @@ __metadata:
     "@types/passport-jwt": "npm:^4.0.1"
     "@types/passport-local": "npm:^1.0.38"
     "@types/passport-oauth2": "npm:^1.4.15"
+    "@types/source-map-support": "npm:^0"
     "@types/validator": "npm:^13.11.9"
     bcrypt: "npm:^5.1.1"
     commander: "npm:^11.0.0"
@@ -8648,6 +8658,7 @@ __metadata:
     passport-jwt: "npm:^4.0.1"
     passport-local: "npm:^1.0.0"
     socket.io: "npm:^4.7.1"
+    source-map-support: "npm:^0.5.21"
     swagger-ui-express: "npm:^5.0.0"
     typescript: "npm:^5.3.3"
     validator: "npm:^13.11.0"
@@ -8898,6 +8909,16 @@ __metadata:
     buffer-from: "npm:^1.0.0"
     source-map: "npm:^0.6.0"
   checksum: 10c0/137539f8c453fa0f496ea42049ab5da4569f96781f6ac8e5bfda26937be9494f4e8891f523c5f98f0e85f71b35d74127a00c46f83f6a4f54672b58d53202565e
+  languageName: node
+  linkType: hard
+
+"source-map-support@npm:^0.5.21":
+  version: 0.5.21
+  resolution: "source-map-support@npm:0.5.21"
+  dependencies:
+    buffer-from: "npm:^1.0.0"
+    source-map: "npm:^0.6.0"
+  checksum: 10c0/9ee09942f415e0f721d6daad3917ec1516af746a8120bba7bb56278707a37f1eb8642bde456e98454b8a885023af81a16e646869975f06afc1a711fb90484e7d
   languageName: node
   linkType: hard
 
