@@ -8,6 +8,7 @@
   "exclude": [
     "node_modules/cypress",
     "./cypress.config.mjs",
-    "../packages/utils/**/*.ts"
+    "../packages/utils/**/*.ts",
+    "../packages/file-graph/**/*.ts"
   ]
 }

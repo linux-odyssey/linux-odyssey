@@ -3,6 +3,7 @@
 /// <reference types="cypress" />
 import '@testing-library/cypress/add-commands'
 
+declare const expect: Chai.ExpectStatic
 declare global {
   namespace Cypress {
     interface Chainable {
