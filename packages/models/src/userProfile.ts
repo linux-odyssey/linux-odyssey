@@ -1,6 +1,14 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 
-const progressSchema = new Schema({
+export interface IProgress {
+  quest: string
+  sessions: Types.ObjectId[]
+  completed: boolean
+  startedAt: Date
+  finishedAt?: Date
+}
+
+const progressSchema = new Schema<IProgress>({
   quest: {
     type: String,
     ref: 'Quest',
@@ -25,9 +33,14 @@ const progressSchema = new Schema({
   finishedAt: Date,
 })
 
-const UserProfile = model(
+export interface IUserProfile {
+  user: Types.ObjectId
+  progress: Map<string, IProgress>
+}
+
+export const UserProfile = model<IUserProfile>(
   'UserProfile',
-  new Schema(
+  new Schema<IUserProfile>(
     {
       user: {
         type: Schema.ObjectId,
@@ -47,5 +60,3 @@ const UserProfile = model(
     }
   )
 )
-
-export default UserProfile

@@ -1,6 +1,22 @@
 import { Schema } from 'mongoose'
 
-const fileConditionSchema = new Schema({
+export interface IFileCondition {
+  path: string
+  type: string
+  exists: boolean
+}
+
+export interface ICondition {
+  command?: string[]
+  output?: string[]
+  error?: string[]
+  pwd?: string[]
+  files?: IFileCondition[]
+  or?: ICondition[]
+  not?: ICondition
+}
+
+export const fileConditionSchema = new Schema<IFileCondition>({
   path: {
     type: String,
     required: true,
@@ -12,7 +28,7 @@ const fileConditionSchema = new Schema({
   },
 })
 
-const conditionSchema = new Schema({
+export const conditionSchema = new Schema<ICondition>({
   command: [String],
   output: [String],
   error: [String],
@@ -24,5 +40,3 @@ conditionSchema.add({
   or: [conditionSchema],
   not: conditionSchema,
 })
-
-export default conditionSchema

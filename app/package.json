@@ -7,7 +7,6 @@
     "dev": "vite",
     "dev:docker": "API_TARGET=http://backend:3000 vite",
     "build": "vite build",
-    "watch": "yarn dev",
     "preview": "vite preview"
   },
   "dependencies": {

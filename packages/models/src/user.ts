@@ -1,6 +1,12 @@
 import { model, Schema } from 'mongoose'
 
-const socialLoginSchema = new Schema({
+export interface ISocialLogin {
+  provider: string
+  id: string
+  displayName?: string
+}
+
+const socialLoginSchema = new Schema<ISocialLogin>({
   provider: {
     type: String,
     required: true,
@@ -15,9 +21,18 @@ const socialLoginSchema = new Schema({
   },
 })
 
-const User = model(
+export interface IUser {
+  username: string
+  email: string
+  hashedPassword: string
+  socialLogins: Map<string, ISocialLogin>
+  createdAt: Date
+  updatedAt: Date
+}
+
+export const User = model<IUser>(
   'User',
-  new Schema(
+  new Schema<IUser>(
     {
       username: {
         type: String,
@@ -42,5 +57,3 @@ const User = model(
     }
   )
 )
-
-export default User

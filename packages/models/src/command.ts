@@ -1,8 +1,19 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema, Types } from 'mongoose'
 
-const Command = model(
+export interface ICommand {
+  session: Types.ObjectId
+  pwd: string
+  command: string
+  output?: string
+  error?: string
+  stage?: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export const Command = model<ICommand>(
   'Command',
-  new Schema(
+  new Schema<ICommand>(
     {
       session: {
         type: Schema.ObjectId,
@@ -33,5 +44,3 @@ const Command = model(
     { timestamps: true }
   )
 )
-
-export default Command
