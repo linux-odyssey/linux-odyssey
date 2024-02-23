@@ -36,17 +36,19 @@ describe('example helloworld app', () => {
       cy.CheckTextElement('#SwitchtoRegister', '註冊', 'Sign up')
     })
     it('Check social account UI', () => {
-      cy.CheckTextElement(
-        '#GoogleLogin',
-        '以 Google 繼續',
-        'Continue with Google'
-      )
-      cy.CheckTextElement('#or', '或', 'or')
-      cy.CheckTextElement(
-        '#GitHubLogin',
-        '以 GitHub 繼續',
-        'Continue with GitHub'
-      )
+      if (Cypress.env('EnableoAuth')) {
+        cy.CheckTextElement(
+          '#GoogleLogin',
+          '以 Google 繼續',
+          'Continue with Google'
+        )
+        cy.CheckTextElement('#or', '或', 'or')
+        cy.CheckTextElement(
+          '#GitHubLogin',
+          '以 GitHub 繼續',
+          'Continue with GitHub'
+        )
+      }
     })
     it('Check login fail', () => {
       cy.LoginWithPassword('dddd', '123456')
