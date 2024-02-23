@@ -21,6 +21,10 @@ Run mongoDB first:
 
     docker compose up -d db
 
+Build up :
+
+    yarn build
+
 Run everything (frontend, backend, db, swagger, quests):
 
     yarn dev
