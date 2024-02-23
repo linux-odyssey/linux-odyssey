@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
+    // "rootDir": "utils",
     "outDir": "./dist",
     "allowJs": false
   },
-  "include": ["src", "**/*.test.ts"],
+  "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

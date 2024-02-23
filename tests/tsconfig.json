@@ -4,6 +4,10 @@
     "lib": ["es5", "dom"],
     "types": ["cypress", "@testing-library/cypress"]
   },
-  "include": ["src", "node_modules/cypress", "**/*.ts"],
-  "exclude": ["node_modules/cypress", "./cypress.config.mjs", "**/*.test.ts"]
+  "include": ["node_modules/cypress", "cypress/**/*.ts"],
+  "exclude": [
+    "node_modules/cypress",
+    "./cypress.config.mjs",
+    "../packages/utils/**/*.ts"
+  ]
 }
