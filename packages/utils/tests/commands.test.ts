@@ -1,8 +1,11 @@
-import { buildFileCheckCmd } from '../src/commands'
+import { buildFileCheckCmd, File } from '../src/commands.js'
 
 describe('buildFileCheckCmd function', () => {
   it('builds the file check command correctly', () => {
-    const testcases = [
+    const testcases: {
+      input: File
+      output: string[]
+    }[] = [
       {
         input: { path: '/etc/passwd', type: 'file' },
         output: ['test', '-f', '/etc/passwd'],
