@@ -51,16 +51,16 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     c.stage = response.stage
     await c.save()
 
+    session.responses.push(response.responses)
+
     if (response.stage === 'END') {
       await finishSession(session)
     }
-    commandCompleteCallbacks.set(session.id, response.callback)
-    pushToSession(session.id, 'status', 'pending')
-    res.status(201).json(response)
-  } else {
-    res.status(200).end()
+    // commandCompleteCallbacks.set(session.id, response.callback)
+    pushToSession(session.id, 'response', response)
   }
 
+  res.status(200).end()
   await session.save()
 })
 

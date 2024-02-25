@@ -72,12 +72,12 @@ onMounted(async () => {
     </div>
     <!-- Terminal and Hint -->
     <div class="bg-bg h-full w-1/3 rounded-lg">
-      <section id="terminal" class="h-3/5 overflow-hidden">
-        <TerminalPart />
-      </section>
-      <hr class="border-border border" />
       <section id="hint" class="h-2/5">
         <HintPart />
+      </section>
+      <hr class="border-border border" />
+      <section id="terminal" class="h-3/5 overflow-hidden">
+        <TerminalPart />
       </section>
     </div>
     <!-- Visualization -->
