@@ -20,6 +20,7 @@ function newSession() {
     pwd: '',
     hints: [],
     tasks: [],
+    responses: [],
   }
 }
 
@@ -41,6 +42,7 @@ function setQuest(questId) {
 
 async function setSession(session) {
   try {
+    console.log('Setting session...', session)
     store.session = session
     store.session.graph = new FileGraph(session.graph)
     term.reset()
@@ -85,16 +87,16 @@ function updateGraph(event) {
   }
 }
 
-function updateHints(hints) {
-  store.session.hints.push(hints)
+function newResponse(response) {
+  console.log('newResponse', response, 'session', store.session)
+  store.session.responses.push(response.responses)
+  store.session.hints.push(response.hints)
+  store.session.tasks = response.tasks
+  store.session.status = response.status
 }
 
 function updateStatus(status) {
   store.session.status = status
-}
-
-function setTasks(tasks) {
-  store.session.tasks = tasks
 }
 
 export function useTerminal() {
@@ -135,11 +137,14 @@ function setup() {
   socket.on('graph', (event) => {
     updateGraph(event)
   })
-  socket.on('hints', (event) => {
-    updateHints(event)
-  })
-  socket.on('tasks', (tasks) => {
-    setTasks(tasks)
+  // socket.on('hints', (event) => {
+  //   updateHints(event)
+  // })
+  // socket.on('tasks', (tasks) => {
+  //   setTasks(tasks)
+  // })
+  socket.on('response', (response) => {
+    newResponse(response)
   })
   socket.on('status', (event) => {
     updateStatus(event)

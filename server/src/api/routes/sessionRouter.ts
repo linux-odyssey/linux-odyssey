@@ -22,6 +22,10 @@ router.post(
   activeSessionValidator,
   sessionController.getOrCreateSession
 )
-router.get('/:id', sessionDetailValidator, sessionController.getSessionById)
+router.get(
+  '/:sessionId',
+  sessionDetailValidator,
+  sessionController.getSessionById
+)
 
 export default router
