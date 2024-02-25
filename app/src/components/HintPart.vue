@@ -26,7 +26,7 @@ const right = () => {
 </script>
 
 <template>
-  <div class="w-full flex items-center p-2">
+  <div class="w-full flex items-center p-2 overflow-auto">
     <font-awesome-icon
       :icon="['far', 'lightbulb']"
       class="text-yellow-200 p-2 content-center"
@@ -63,8 +63,17 @@ const right = () => {
       </button>
     </div>
   </div>
-  <div id="hint" class="bg-bg flex flex-wrap p-8">
+  <div id="hint" class="bg-bg flex flex-wrap p-8 overflow-auto">
     <ul>
+      <li
+        v-for="response in sessionStore.session.responses[current]"
+        :key="response"
+        class="text-text font-xl whitespace-pre-wrap"
+      >
+        <div v-for="content in response.content" :key="content">
+          <MarkdownText :content="content" />
+        </div>
+      </li>
       <li
         v-for="hint in sessionStore.session.hints[current]"
         :key="hint"

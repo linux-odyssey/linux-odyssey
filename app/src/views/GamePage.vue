@@ -61,7 +61,7 @@ onMounted(async () => {
   <!-- main -->
   <div id="main" class="h-[94vh] w-full flex p-3 space-x-3">
     <!-- Topic and Command List -->
-    <div class="bg-bg-secondary h-full w-1/3 rounded-lg">
+    <div class="bg-bg-secondary h-full w-1/4 rounded-lg">
       <section id="quest" class="h-full p-3 overflow-auto">
         <QuestPart />
       </section>
@@ -71,17 +71,17 @@ onMounted(async () => {
       </section> -->
     </div>
     <!-- Terminal and Hint -->
-    <div class="bg-bg h-full w-1/3 rounded-lg">
-      <section id="hint" class="h-2/5">
+    <div class="bg-bg h-full w-1/2 rounded-lg">
+      <section id="hint" class="h-3/5">
         <HintPart />
       </section>
       <hr class="border-border border" />
-      <section id="terminal" class="h-3/5 overflow-hidden">
+      <section id="terminal" class="h-2/5 overflow-hidden">
         <TerminalPart />
       </section>
     </div>
     <!-- Visualization -->
-    <div class="h-full w-1/3">
+    <div class="h-full w-1/4">
       <div class="bg-border rounded-xl h-[90%] p-2">
         <div class="bg-bg rounded-lg h-full p-2">
           <section id="visualization" class="bg-bg-primary h-full rounded-md">
