@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import sessionStore, { init } from '../store/session'
@@ -28,7 +28,7 @@ const toast = useToast()
 onMounted(async () => {
   try {
     await init(props.questId)
-  } catch (err) {
+  } catch (err: any) {
     if (err instanceof LoadQuestError) {
       // toast.error(`Failed to load quest: ${err.questId}. Please check the URL.`)
       toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)

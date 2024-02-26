@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 
@@ -9,7 +9,17 @@ import {
 } from '../utils/errors'
 import { login } from '../utils/auth'
 
-const handleLogin = async ({ username, password, success, error }) => {
+const handleLogin = async ({
+  username,
+  password,
+  success,
+  error,
+}: {
+  username: string
+  password: string
+  success: any
+  error: any
+}) => {
   try {
     const isSuccess = await login(username, password)
     if (isSuccess) success()

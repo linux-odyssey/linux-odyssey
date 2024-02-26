@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import DynamicBackground from '../components/DynamicBackground.vue'
@@ -12,7 +12,7 @@ async function getLeaderboard() {
   try {
     const res = await api.get('/leaderboard')
     leaderboard.value = res.data
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
     toast.error('讀取排行榜失敗')
   }

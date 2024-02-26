@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import validator from 'validator'
 import { isValidUsername } from '@linux-odyssey/utils'
 import { passwordPolicy } from '@linux-odyssey/constants'
@@ -12,7 +12,19 @@ import {
   ValidationError,
 } from '../utils/errors'
 
-function handleRegister({ username, email, password, success, error }) {
+function handleRegister({
+  username,
+  email,
+  password,
+  success,
+  error,
+}: {
+  username: string
+  email: string
+  password: string
+  success: any
+  error: any
+}) {
   register(username, email, password)
     .then(success)
     .catch((err) => {
@@ -36,7 +48,17 @@ function handleRegister({ username, email, password, success, error }) {
     })
 }
 
-async function check({ username, email, password, error }) {
+async function check({
+  username,
+  email,
+  password,
+  error,
+}: {
+  username: string
+  email: string
+  password: string
+  error: any
+}) {
   if (username && !isValidUsername(username)) {
     // error('Invalid username.')
     error('無效的帳號名稱')

@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
 
-async function check({ username, error }) {
+async function check({ username, error }: { username: string; error: any }) {
   if (username) {
     if (!isValidUsername(username)) {
       // error('Invalid username.')
@@ -30,11 +30,19 @@ async function check({ username, error }) {
   }
 }
 
-async function handleSubmit({ username, success, error }) {
+async function handleSubmit({
+  username,
+  success,
+  error,
+}: {
+  username: string
+  success: any
+  error: any
+}) {
   try {
     await chooseUsername(username)
     success()
-  } catch (err) {
+  } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
       // error('Too many requests. Try again in 2 minutes.')
       error('太多請求，兩分鐘後再試一次。')

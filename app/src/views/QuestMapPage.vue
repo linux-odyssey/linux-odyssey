@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import QuestMap from '../components/QuestMap.vue'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 </script>
