@@ -4,6 +4,7 @@ import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
+import { debounce } from '../utils/debouncing'
 
 async function check({
   username,
@@ -19,7 +20,7 @@ async function check({
       return
     }
     try {
-      await checkUsername(username)
+      await debounce(checkUsername(username), 500)
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
         error('太多請求，兩分鐘後再試一次。')
