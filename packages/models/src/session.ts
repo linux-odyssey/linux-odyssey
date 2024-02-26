@@ -48,7 +48,7 @@ export interface ISession {
   user: Types.ObjectId
   quest: string
   containerId: string | null
-  status: string
+  status: 'active' | 'finished' | 'inactive'
   createdAt: Date
   updatedAt: Date
   finishedAt?: Date

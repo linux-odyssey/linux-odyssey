@@ -95,10 +95,6 @@ function newResponse(response) {
   store.session.status = response.status
 }
 
-function updateStatus(status) {
-  store.session.status = status
-}
-
 export function useTerminal() {
   return term
 }
@@ -137,17 +133,8 @@ function setup() {
   socket.on('graph', (event) => {
     updateGraph(event)
   })
-  // socket.on('hints', (event) => {
-  //   updateHints(event)
-  // })
-  // socket.on('tasks', (tasks) => {
-  //   setTasks(tasks)
-  // })
   socket.on('response', (response) => {
     newResponse(response)
-  })
-  socket.on('status', (event) => {
-    updateStatus(event)
   })
 }
 
