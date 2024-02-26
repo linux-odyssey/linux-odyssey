@@ -21,7 +21,6 @@ const handleLogout = async () => {
     reset()
     router.push({ name: 'login' })
   } catch (err) {
-    // toast.error('Failed to logout')
     toast.error('登出失敗')
     console.error(err)
   }
@@ -38,7 +37,6 @@ onMounted(async () => {
   try {
     await loadUserProfile()
   } catch (err) {
-    // toast.error('Failed to load user profile')
     toast.error('無法讀取使用者資料')
   }
 })

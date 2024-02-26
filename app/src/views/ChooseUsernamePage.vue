@@ -8,7 +8,6 @@ import { checkUsername, chooseUsername } from '../utils/auth'
 async function check({ username, error }: { username: string; error: any }) {
   if (username) {
     if (!isValidUsername(username)) {
-      // error('Invalid username.')
       error('無效的帳號名稱')
       return
     }
@@ -16,7 +15,6 @@ async function check({ username, error }: { username: string; error: any }) {
       await checkUsername(username)
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
-        // error('Too many requests. Try again in 2 minutes.')
         error('太多請求，兩分鐘後再試一次。')
         return
       }
@@ -24,7 +22,6 @@ async function check({ username, error }: { username: string; error: any }) {
         error(err.message)
         return
       }
-      // error('Something went wrong. Please try again later.')
       error('出了點問題，請再試一次。')
     }
   }
@@ -44,7 +41,6 @@ async function handleSubmit({
     success()
   } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
-      // error('Too many requests. Try again in 2 minutes.')
       error('太多請求，兩分鐘後再試一次。')
       return
     }

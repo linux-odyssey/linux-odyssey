@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { Ref, ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import DynamicBackground from '../components/DynamicBackground.vue'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 import api from '../utils/api'
 
-const leaderboard = ref([])
+const leaderboard: Ref<any> = ref([])
 
 const toast = useToast()
 async function getLeaderboard() {

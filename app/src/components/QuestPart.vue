@@ -29,10 +29,7 @@ const tasks = computed(() => {
           :content="sessionStore.quest.instruction"
         />
         <br />
-        <p id="tasks" class="text-text">
-          <!-- Tasks: -->
-          任務：
-        </p>
+        <p id="tasks" class="text-text">任務：</p>
         <ul v-if="sessionStore.session">
           <li v-for="task in tasks" :key="task.id">
             <MarkdownText :class="task.class" :content="task.content" />

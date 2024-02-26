@@ -156,7 +156,6 @@ function initChart(option: any) {
     if (unlocked) {
       router.push({ name: 'game', params: { questId: id } })
     } else {
-      // toast.warning('You have not completed the previous quest yet!')
       toast.warning('你還沒完成前一個關卡!')
     }
   })
@@ -181,7 +180,6 @@ onMounted(async () => {
       class="p-4 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
       style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
     >
-      <!-- Get through your linux journey! -->
       踏上你的Linux冒險之旅吧！
     </h1>
     <div class="flex flex-wrap absolute w-full h-full z-1">

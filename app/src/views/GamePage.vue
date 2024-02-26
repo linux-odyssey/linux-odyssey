@@ -30,14 +30,10 @@ onMounted(async () => {
     await init(props.questId)
   } catch (err: any) {
     if (err instanceof LoadQuestError) {
-      // toast.error(`Failed to load quest: ${err.questId}. Please check the URL.`)
       toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)
       return
     }
     if (err instanceof LoadSessionError) {
-      // toast.error(
-      //   `Failed to create session for quest: ${err.questId}. Please re-login and try again.`
-      // )
       toast.error(`無法建立工作階段: ${err.questId}，請重新登入再試一次。`)
       return
     }
