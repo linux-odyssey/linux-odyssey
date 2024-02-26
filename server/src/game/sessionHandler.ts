@@ -79,6 +79,12 @@ export default class SessionHandler {
 
     this.addNewTasks()
 
+    this.session.responses.push(stage.responses)
+
+    if (stage.id === 'END') {
+      this.session.status = 'finished'
+    }
+
     return {
       responses: stage.responses,
       hints: stage.hints,
