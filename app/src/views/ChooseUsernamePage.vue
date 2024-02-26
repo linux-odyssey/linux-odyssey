@@ -4,6 +4,7 @@ import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
+import { debounce } from '../utils/debouncing'
 
 async function check({ username, error }) {
   if (username) {
@@ -13,7 +14,7 @@ async function check({ username, error }) {
       return
     }
     try {
-      await checkUsername(username)
+      await debounce(checkUsername(username), 500)
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
         // error('Too many requests. Try again in 2 minutes.')
