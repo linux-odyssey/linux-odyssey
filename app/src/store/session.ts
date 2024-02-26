@@ -24,7 +24,7 @@ function newSession() {
   }
 }
 
-const store = reactive({
+const store: any = reactive({
   session: newSession(),
   questId: '',
   quest: null,

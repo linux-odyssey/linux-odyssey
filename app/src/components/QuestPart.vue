@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import MarkdownText from './MarkdownText.vue'
 import sessionStore from '../store/session'
 
 const tasks = computed(() => {
-  return sessionStore.session.tasks.map((task) => {
+  return sessionStore.session.tasks.map((task: any) => {
     const prefix = task.completed ? '✓' : '➤'
     const color = task.completed ? 'text-text-primary' : 'text-text'
     return {

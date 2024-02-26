@@ -1,11 +1,11 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+<script setup lang="ts">
+import { Ref, ref, onMounted, onUnmounted } from 'vue'
 import TreeChart from './TreeChart.vue'
 
-const treeRef = ref(null)
+const treeRef: Ref<any> = ref(null)
 let pos = { top: 0, left: 0, x: 0, y: 0 }
 
-function mouseMoveHandler(e) {
+function mouseMoveHandler(e: any) {
   const dx = e.clientX - pos.x
   const dy = e.clientY - pos.y
 
@@ -21,7 +21,7 @@ function mouseUpHandler() {
   document.removeEventListener('mouseup', mouseUpHandler)
 }
 
-function mouseDownHandler(e) {
+function mouseDownHandler(e: any) {
   treeRef.value.style.cursor = 'grabbing'
   treeRef.value.style.userSelect = 'none'
 

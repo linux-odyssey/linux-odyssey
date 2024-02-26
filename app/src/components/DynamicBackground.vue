@@ -1,23 +1,23 @@
-<script setup>
-import { ref, onMounted } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, Ref } from 'vue'
 
 const cw = ref(0)
 const ch = ref(0)
-const fallingCharArr = ref([])
+const fallingCharArr: any = ref([])
 const fontSize = ref(16)
 const maxColums = ref(0)
 const charArr = ['0', '1', '', '', '']
-const ctx = ref(null)
+const ctx: Ref<any> = ref(null)
 
-const randomInt = (min, max) => {
+const randomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min)
 }
 
-const randomFloat = (min, max) => {
+const randomFloat = (min: number, max: number) => {
   return Math.random() * (max - min) + min
 }
 
-const draw = (point) => {
+const draw = (point: any) => {
   point.value = charArr[randomInt(0, charArr.length)].toUpperCase()
   if (point.y < 0) point.speed = randomFloat(10, 20)
 
@@ -48,7 +48,7 @@ onMounted(() => {
   ch.value = document.documentElement.clientHeight
   maxColums.value = cw.value / fontSize.value
 
-  const canvas = document.querySelector('canvas')
+  const canvas: any = document.querySelector('canvas')
   ctx.value = canvas.getContext('2d')
 
   canvas.width = cw.value

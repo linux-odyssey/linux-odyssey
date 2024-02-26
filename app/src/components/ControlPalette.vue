@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+import { createSession } from '../store/session'
+import { surveyUrl } from '../config'
+
+const router = useRouter()
+const reset = async () => {
+  console.log('resetting...')
+  await createSession()
+}
+const continuePlay = async () => {
+  try {
+    router.push({ name: 'map' })
+  } catch (err) {
+    // useToast().error('Failed to load map')
+    useToast().error('無法讀取地圖')
+    console.error(err)
+  }
+}
+</script>
+
 <template>
   <section class="h-[10%] p-3 grid grid-cols-4 gap-4 place-content-between">
     <button id="survey" class="bg-bg-secondary rounded-lg p-2">
@@ -48,25 +70,3 @@
     </button>
   </section>
 </template>
-
-<script setup>
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
-import { createSession } from '../store/session'
-import { surveyUrl } from '../config'
-
-const router = useRouter()
-const reset = async () => {
-  console.log('resetting...')
-  await createSession()
-}
-const continuePlay = async () => {
-  try {
-    router.push({ name: 'map' })
-  } catch (err) {
-    // useToast().error('Failed to load map')
-    useToast().error('無法讀取地圖')
-    console.error(err)
-  }
-}
-</script>
