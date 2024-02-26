@@ -7,7 +7,8 @@
   "include": ["node_modules/cypress", "cypress/**/*.ts"],
   "exclude": [
     "node_modules/cypress",
-    "./cypress.config.mjs",
+    "cypress.config.mjs",
+    "cypress/support/e2e.js",
     "../packages/utils/**/*.ts",
     "../packages/file-graph/**/*.ts"
   ]
