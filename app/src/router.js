@@ -5,6 +5,7 @@ import RegisterPage from './views/RegisterPage.vue'
 import ChooseUsernamePage from './views/ChooseUsernamePage.vue'
 import QuestMapPage from './views/QuestMapPage.vue'
 import LeaderboardPage from './views/LeaderboardPage.vue'
+import LandingPage from './views/LandingPage.vue'
 import { isLoggedIn } from './utils/auth'
 
 const routes = [
@@ -51,6 +52,7 @@ const routes = [
     name: 'leaderboard',
     component: LeaderboardPage,
   },
+  { path: '/landing', name: 'landing-page', component: LandingPage },
 ]
 
 const router = createRouter({
