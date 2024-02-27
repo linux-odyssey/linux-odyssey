@@ -13,9 +13,7 @@
   ],
   "scripts": {
     "app": "yarn workspace app dev",
-    "build:deps": "concurrently \"yarn workspace @linux-odyssey/constants build\" \"yarn workspace @linux-odyssey/file-graph build\" \"yarn workspace @linux-odyssey/models build\" \"yarn workspace @linux-odyssey/utils build\"",
-    "build:apps": "concurrently \"yarn workspace app build\" \"yarn workspace server build\" \"yarn workspace analytics build\"",
-    "build": "yarn build:deps && yarn build:apps",
+    "build": "yarn workspace server build && yarn workspace app build && yarn workspace analytics build",
     "dev": "concurrently -n \"App,Server\" -c \"bgBlue.bold,bgGreen.bold\" \"yarn workspace app dev\" \"yarn workspace server dev\"",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
