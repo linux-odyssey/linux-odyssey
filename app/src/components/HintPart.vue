@@ -2,6 +2,8 @@
 import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
 import MarkdownText from './MarkdownText.vue'
+import TypewriterText from './TypewriterText.vue'
+import ResponsePart from './ResponsePart.vue'
 
 const current = ref(-1)
 watch(
@@ -67,15 +69,17 @@ const right = () => {
     </div>
     <div id="hint" class="bg-bg p-8 overflow-y-auto">
       <ul>
-        <li
+        <ResponsePart :responses="sessionStore.session.responses[current]" />
+        <!-- <li
           v-for="response in sessionStore.session.responses[current]"
           :key="response"
           class="text-text font-xl whitespace-pre-wrap"
         >
+          <p>{{ response.speaker }}</p>
           <div v-for="content in response.content" :key="content">
-            <MarkdownText :content="content" />
+            <TypewriterText :content="content" />
           </div>
-        </li>
+        </li> -->
         <li
           v-for="hint in sessionStore.session.hints[current]"
           :key="hint"
