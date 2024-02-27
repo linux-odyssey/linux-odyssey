@@ -2,7 +2,9 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     // "lib": ["es5", "dom"],
-    "types": ["cypress", "@testing-library/cypress"]
+    "types": ["cypress", "@testing-library/cypress"],
+    "sourceMap": false,
+    "inlineSourceMap": true
   },
   "include": ["node_modules/cypress", "cypress/**/*.ts"],
   "exclude": ["node_modules/cypress", "cypress.config.ts", "../packages"]
