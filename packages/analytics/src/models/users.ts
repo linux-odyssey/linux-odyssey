@@ -1,6 +1,7 @@
 import { Session, User } from '@linux-odyssey/models'
+import Pagination from './pagination.ts'
 
-function loginMethods(user) {
+function loginMethods(user: any) {
   const methods = []
   if (user.hashedPassword) methods.push('password')
   if (user.socialLogins) methods.push(...Object.keys(user.socialLogins))
@@ -8,10 +9,10 @@ function loginMethods(user) {
 }
 
 export function userCount() {
-  return User.find().count()
+  return User.countDocuments({})
 }
 
-export async function userList(pagination) {
+export async function userList(pagination: Pagination) {
   const users = await Session.aggregate([
     pagination.match('user'),
     {

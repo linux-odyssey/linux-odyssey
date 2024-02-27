@@ -3,7 +3,10 @@
   "compilerOptions": {
     "allowJs": true,
     "rootDir": "src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

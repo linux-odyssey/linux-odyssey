@@ -2,12 +2,12 @@ import { Router } from 'express'
 
 import { homeController } from './controllers/index.js'
 import { userListController } from './controllers/users.js'
-import { questListController } from './controllers/quests.js'
-import { commandListController } from './controllers/commands.js'
+import { questListController } from './controllers/quests.ts'
+import { commandListController } from './controllers/commands.ts'
 import {
   sessionDetailController,
   sessionListController,
-} from './controllers/sessions.js'
+} from './controllers/sessions.ts'
 
 const router = Router()
 

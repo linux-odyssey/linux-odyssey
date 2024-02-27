@@ -1,8 +1,8 @@
 import { userCount } from '../models/users.js'
-import { questList } from '../models/quests.js'
+import { questList } from '../models/quests.ts'
 
 // eslint-disable-next-line import/prefer-default-export
-export async function homeController(req, res) {
+export async function homeController(req: any, res: any) {
   const quests = await questList()
   const [totalQuests, totalCompleted] = quests.reduce(
     ([total, completed], quest) => [
@@ -17,8 +17,7 @@ export async function homeController(req, res) {
     userCount: await userCount(),
     totalQuests,
     totalCompleted,
+    completedRate: Math.round((totalCompleted / totalQuests) * 10000) / 100,
   }
-  payload.completedRate =
-    Math.round((payload.totalCompleted / payload.totalQuests) * 10000) / 100
   res.render('home', payload)
 }

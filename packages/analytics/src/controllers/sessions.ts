@@ -1,7 +1,7 @@
-import Pagination from '../models/pagination.js'
-import { sessionList, sessionDetail } from '../models/sessions.js'
-
-export async function sessionListController(req, res) {
+import Pagination from '../models/pagination.ts'
+import { sessionList, sessionDetail } from '../models/sessions.ts'
+import { Request, Response } from 'express'
+export async function sessionListController(req: any, res: any) {
   const { nextKey, order } = req.query
   const itemsPerPage = 50
 
@@ -21,7 +21,7 @@ export async function sessionListController(req, res) {
   }
 }
 
-export async function sessionDetailController(req, res) {
+export async function sessionDetailController(req: any, res: any) {
   const { id } = req.params
   const session = await sessionDetail(id)
   res.render('sessionDetail', { session })

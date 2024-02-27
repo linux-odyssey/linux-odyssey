@@ -6,9 +6,10 @@
   "type": "module",
   "license": "GPL",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node --loader ts-node/esm src/index.ts",
     "build": "tsc",
-    "dev": "nodemon src/index.js"
+    "watch": "tsc -w",
+    "dev": "nodemon --loader ts-node/esm src/index.ts"
   },
   "dependencies": {
     "@linux-odyssey/models": "*",
@@ -18,6 +19,9 @@
     "mongoose": "^8.0.3"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@types/node": "^20.11.20",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

@@ -1,7 +1,8 @@
 import { Command } from '@linux-odyssey/models'
+import Pagination from './pagination.ts'
 
 // eslint-disable-next-line import/prefer-default-export
-export async function errorCommands(pagination) {
+export async function errorCommands(pagination: Pagination) {
   const commands = await Command.aggregate([
     pagination.match('_id'),
     {

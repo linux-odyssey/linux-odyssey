@@ -1,3 +1,6 @@
 {
-  "ext": "js,handlebars"
+  "watch": ["src"],
+  "ext": "ts,handlebars,js",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "node --loader ts-node/esm src/index.ts"
 }
