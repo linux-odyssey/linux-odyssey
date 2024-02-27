@@ -20,9 +20,7 @@ COPY packages/file-graph ./packages/file-graph
 COPY packages/utils ./packages/utils
 COPY packages/constants ./packages/constants
 COPY app ./app
-RUN yarn workspace @linux-odyssey/file-graph build
-RUN yarn workspace @linux-odyssey/utils build
-RUN yarn workspace @linux-odyssey/constants build
+RUN yarn workspace app build:refs
 RUN yarn workspace app build
 
 # Production stage
