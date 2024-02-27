@@ -1,10 +1,9 @@
 FROM cypress/browsers
 
 WORKDIR /e2e
-RUN yarn set version stable
 COPY package.json yarn.lock ./
 COPY tests/package.json ./tests/package.json
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 COPY quests ./quests
 COPY tests ./tests
