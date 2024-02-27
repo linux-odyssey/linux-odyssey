@@ -11,7 +11,7 @@ declare global {
       PrepareForGame(): Chainable<void>
       InitTerminal(): Chainable<void>
       typeInCommand(command: string): Chainable<string>
-      getQuestInfo(id: string): Chainable<JQuery<HTMLElement>>
+      getQuestInfo(id: string): Chainable<JQuery<HTMLParagraphElement>>
       checkHint(index: number, total: number): Chainable<number> // 修改類型
       checkTaskInit(): Chainable<void>
       waitUntilActive(last?: boolean): Chainable<void> // 注意小寫boolean，並且變量名應該是小寫
@@ -41,7 +41,7 @@ Cypress.Commands.add('LoginWithPassword', (username, password) => {
 Cypress.Commands.add('PrepareForGame', () => {
   cy.visit('/')
   // make sure the login page is loaded
-  cy.url().should('satisfy', (elements) => {
+  cy.url().should('satisfy', (elements: string) => {
     const text = elements
     return text.includes('login') || text.includes('register')
   })
