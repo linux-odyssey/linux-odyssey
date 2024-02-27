@@ -22,5 +22,10 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.js"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "../packages/utils" },
+    { "path": "../packages/constants" },
+    { "path": "../packages/file-graph" }
+  ]
 }
