@@ -1,4 +1,4 @@
-import { buildFileCheckCmd, File } from '../src/commands'
+import { buildFileCheckCmd, File } from '../src/commands.js'
 
 describe('buildFileCheckCmd function', () => {
   it('builds the file check command correctly', () => {

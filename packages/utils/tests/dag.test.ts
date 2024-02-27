@@ -1,4 +1,4 @@
-import DAG from '../src/dag'
+import DAG from '../src/dag.js'
 
 describe('dag layers', () => {
   it('two layer', () => {

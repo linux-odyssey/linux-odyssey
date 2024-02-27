@@ -1,17 +1,14 @@
-const fileTypes = {
-  file: '-f',
-  folder: '-d',
-  link: '-L',
-  socket: '-S',
-  unknown: '-e',
-}
-
-export type FileType = keyof typeof fileTypes
-
-export type File = {
+export interface File {
   path: string
-  type: FileType
+  type: string
 }
+
+const fileTypes = new Map([
+  ['file', '-f'],
+  ['folder', '-d'],
+  ['link', '-L'],
+  ['socket', '-S'],
+])
 
 function sanitizePath(path: string): string {
   return path.replace(/[^a-zA-Z0-9._/-]/g, '')
@@ -19,5 +16,5 @@ function sanitizePath(path: string): string {
 
 export function buildFileCheckCmd(file: File): string[] {
   const { path, type } = file
-  return ['test', fileTypes[type] || '-e', sanitizePath(path)]
+  return ['test', fileTypes.get(type) || '-e', sanitizePath(path)]
 }
