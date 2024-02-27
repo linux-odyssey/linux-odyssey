@@ -2,7 +2,7 @@ import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
 
-const engine = new Docker()
+const engine = new Docker({ socketPath: '//./pipe/docker_engine' })
 
 const containerOptions = {
   AttachStdin: true,
@@ -16,6 +16,8 @@ const containerOptions = {
   },
 }
 
+// const network = engine.getNetwork(config.dockerNetwork)
+
 export function createContainer(name, questId) {
   const option = {
     ...containerOptions,
@@ -26,8 +28,8 @@ export function createContainer(name, questId) {
   if (!config.isProduction && hostPwd && mountQuest === questId) {
     logger.info('Mounting quest folder', mountQuest)
     option.HostConfig.Binds = [
-      `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
-      `${hostPwd}/packages/container:/usr/local/lib/container`,
+      `${hostPwd.replace(/\\/g, '/')}/quests/${mountQuest}/home:/home/commander`,
+      `${hostPwd.replace(/\\/g, '/')}/packages/container:/usr/local/lib/container`,
     ]
   }
   return engine.createContainer(option)
@@ -54,7 +56,7 @@ export async function attachContainer(container, { token }) {
     Tty: true,
     Env: [
       `TOKEN=${token}`,
-      `API_ENDPOINT=${config.backendUrl}`,
+      `API_ENDPOINT=http://backend:3000`,
       'ZDOTDIR=/etc/zsh',
     ],
   })

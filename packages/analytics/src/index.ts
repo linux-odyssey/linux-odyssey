@@ -2,8 +2,8 @@ import connectDB from '@linux-odyssey/models'
 import express from 'express'
 import { engine } from 'express-handlebars'
 import basicAuth from 'express-basic-auth'
-import config from './config.js'
-import router from './router.js'
+import config from './config.ts'
+import router from './router.ts'
 
 async function main() {
   await connectDB(config.db)

@@ -50,5 +50,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "packageManager": "yarn@4.1.0"
+  "packageManager": "yarn@4.1.0",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
 }
