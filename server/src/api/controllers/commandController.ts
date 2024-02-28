@@ -6,8 +6,6 @@ import { pushToSession } from '../socket.js'
 import { finishSession } from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 
-const commandCompleteCallbacks = new Map()
-
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const { command, pwd, output, error, params } = matchedData(req)
 
@@ -51,42 +49,14 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     c.stage = response.stage
     await c.save()
 
-    if (response.stage === 'END') {
+    session.responses.push(response.responses)
+
+    if ((session.status as string) === 'finished') {
       await finishSession(session)
     }
-    commandCompleteCallbacks.set(session.id, response.callback)
-    pushToSession(session.id, 'status', 'pending')
-    res.status(201).json(response)
-  } else {
-    res.status(200).end()
+    pushToSession(session.id, 'response', response)
   }
 
+  res.status(200).end()
   await session.save()
 })
-
-export const completedCommand = asyncHandler(
-  async (req: Request, res: Response) => {
-    const { sessionId } = req.user as any
-
-    const session = await Session.findById(sessionId)
-
-    if (!session) {
-      res.status(404).json({ message: 'session not found' })
-      return
-    }
-
-    if (session.status === 'inactive') {
-      res.status(400).json({ message: 'session is not active' })
-      return
-    }
-
-    const callback = commandCompleteCallbacks.get(session.id)
-    if (!callback) {
-      res.status(200).json({ message: 'no callback found' })
-      return
-    }
-    callback()
-    commandCompleteCallbacks.delete(session.id)
-    res.json({ message: 'ok' })
-  }
-)

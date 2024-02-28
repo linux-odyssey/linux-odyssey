@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
 import MarkdownText from './MarkdownText.vue'
+import ResponsePart from './ResponsePart.vue'
 
 const current = ref(-1)
 watch(
@@ -26,53 +27,57 @@ const right = () => {
 </script>
 
 <template>
-  <div class="w-full flex items-center p-2">
-    <font-awesome-icon
-      :icon="['far', 'lightbulb']"
-      class="text-yellow-200 p-2 content-center"
-    />
-    <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
-      <!-- Hint -->
-      提示
-    </h1>
-    <div v-if="current !== -1" class="flex w-full justify-end items-end">
-      <button
-        class="p-2 m-1 w-1/8"
-        id="Lbutton"
-        @click="left"
-        :disabled="current <= 0"
-      >
-        <font-awesome-icon
-          :icon="['fas', 'arrow-right']"
-          class="text-text"
-          rotation="180"
-        />
-      </button>
-      <p class="inline text-text font-xl w-1/14 p-2 m-1">{{ current + 1 }}</p>
-      <p class="inline text-text font-xl w-1/14 p-2 m-1">/</p>
-      <p class="inline text-text font-xl w-1/14 p-2 m-1">
-        {{ sessionStore.session.hints.length }}
-      </p>
-      <button
-        class="p-2 m-1 w-1/8"
-        id="Rbutton"
-        @click="right"
-        :disabled="current === sessionStore.session.hints.length - 1"
-      >
-        <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
-      </button>
+  <div class="h-full flex flex-col">
+    <!-- Hint Header -->
+    <div class="flex items-center p-2 h-10">
+      <font-awesome-icon
+        :icon="['far', 'lightbulb']"
+        class="text-yellow-200 p-2 content-center"
+      />
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
+        <!-- Hint -->
+        提示
+      </h1>
+      <div v-if="current !== -1" class="flex w-full justify-end items-end">
+        <button
+          class="p-2 m-1 w-1/8"
+          id="Lbutton"
+          @click="left"
+          :disabled="current <= 0"
+        >
+          <font-awesome-icon
+            :icon="['fas', 'arrow-right']"
+            class="text-text"
+            rotation="180"
+          />
+        </button>
+        <p class="inline text-text font-xl w-1/14 p-2 m-1">{{ current + 1 }}</p>
+        <p class="inline text-text font-xl w-1/14 p-2 m-1">/</p>
+        <p class="inline text-text font-xl w-1/14 p-2 m-1">
+          {{ sessionStore.session.hints.length }}
+        </p>
+        <button
+          class="p-2 m-1 w-1/8"
+          id="Rbutton"
+          @click="right"
+          :disabled="current === sessionStore.session.hints.length - 1"
+        >
+          <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
+        </button>
+      </div>
     </div>
-  </div>
-  <div id="hint" class="bg-bg flex flex-wrap p-8">
-    <ul>
-      <li
-        v-for="hint in sessionStore.session.hints[current]"
-        :key="hint"
-        class="text-text font-xl whitespace-pre-wrap"
-      >
-        <MarkdownText :content="hint" />
-      </li>
-    </ul>
-    <br />
+    <div id="hint" class="bg-bg p-8 overflow-y-auto">
+      <ul>
+        <ResponsePart :current="current" />
+        <li
+          v-for="hint in sessionStore.session.hints[current]"
+          :key="hint"
+          class="text-text-primary font-xl whitespace-pre-wrap"
+        >
+          <MarkdownText :content="hint" />
+        </li>
+      </ul>
+      <br />
+    </div>
   </div>
 </template>
