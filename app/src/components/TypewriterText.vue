@@ -5,9 +5,13 @@ import MarkdownText from './MarkdownText.vue'
 const i = ref(0)
 let intervalId = null
 
-const { content } = defineProps({
+const { content, playing } = defineProps({
   content: {
     type: String,
+    required: true,
+  },
+  playing: {
+    type: Boolean,
     required: true,
   },
 })
@@ -26,7 +30,12 @@ const startTyping = () => {
 }
 
 onMounted(() => {
-  startTyping()
+  console.log('TypeWriterText mounted')
+  if (playing) {
+    startTyping()
+  } else {
+    displayText.value = content
+  }
 })
 
 const displayText = computed(() => {
@@ -35,5 +44,6 @@ const displayText = computed(() => {
 </script>
 
 <template>
-  <MarkdownText :content="displayText" />
+  <MarkdownText v-if="playing" :content="displayText" />
+  <MarkdownText v-else :content="content" />
 </template>

@@ -1,43 +1,61 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, toRef, watch } from 'vue'
+import sessionStore from '../store/session'
 import TypewriterText from './TypewriterText.vue'
 
-const { responses } = defineProps({
-  responses: {
-    type: Array,
+const props = defineProps({
+  current: {
+    type: Number,
     required: true,
   },
 })
 
-const current = ref(0)
+const current = toRef(() => props.current)
+
+const index = ref(0)
+const playing = ref(false)
+
+let progress = -1
 
 const next = (length) => {
-  if (current.value < length - 1) {
-    current.value += 1
+  if (index.value < length - 1) {
+    index.value += 1
+  } else {
+    playing.value = false
   }
-  console.log(current.value)
+  console.log('next being called', current.value)
 }
-console.log(current.value)
-console.log(responses)
 
-watch(responses, () => {
-  console.log('responses', responses)
-  current.value = 0
+const getResponse = (i) => {
+  return sessionStore.session.responses[i]
+}
+
+watch(current, (newCurrent) => {
+  console.log('watch being called', current.value, progress)
+  if (newCurrent > progress) {
+    index.value = 0
+    playing.value = true
+    progress = newCurrent
+  }
 })
 </script>
 
 <template>
   <div class="text-text font-xl whitespace-pre-wrap">
     <p>Current: {{ current }}</p>
-    <div v-if="responses" class="flex flex-col items-center">
+    <p>Playing: {{ playing }}</p>
+    <p>Index: {{ index }}</p>
+    <p>Responses: {{ getResponse(current) }}</p>
+    <div v-if="getResponse(current)">
       <div
-        v-for="(response, index) in responses.slice(0, current + 1)"
+        v-for="(response, index) in getResponse(current).slice(0, index + 1)"
         :key="response._id"
       >
         <p>Index: {{ index }}</p>
         <TypewriterText
-          :content="response.content.join('\n')"
-          @done="() => next(responses.length)"
+          :playing="playing"
+          :content="response.content.join('\n\n')"
+          @done="() => next(getResponse(current).length)"
         />
       </div>
     </div>
