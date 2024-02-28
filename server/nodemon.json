@@ -1,6 +1,5 @@
 {
-  "watch": ["dist", "swagger.yaml", "../quests", "../packages"],
+  "watch": ["src", "swagger.yaml", "../quests", "../packages"],
   "ext": "js,ts,yaml,yml",
-  "exec": "node -r source-map-support/register dist/index.js",
-  "delay": 200
+  "exec": "node --loader ts-node/esm src/index.js"
 }
