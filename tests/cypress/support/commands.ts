@@ -1,7 +1,38 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/// <reference types="cypress" />
 import '@testing-library/cypress/add-commands'
 
+declare const expect: Chai.ExpectStatic
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      LoginWithPassword(username: string, password: string): Chainable<string>
+      PrepareForGame(): Chainable<void>
+      InitTerminal(): Chainable<void>
+      typeInCommand(command: string): Chainable<string>
+      getQuestInfo(id: string): Chainable<JQuery<HTMLParagraphElement>>
+      checkHint(index: number, total: number): Chainable<number> // 修改類型
+      checkTaskInit(): Chainable<void>
+      waitUntilActive(last?: boolean): Chainable<void> // 注意小寫boolean，並且變量名應該是小寫
+      checkPending(): Chainable<void>
+      CompleteStageWithCommands(stagename: string): Chainable<string>
+      CheckTextElement(
+        id: string,
+        chText: string,
+        enText: string
+      ): Chainable<string>
+      CheckPlaceholder(
+        id: string,
+        chText: string,
+        enText: string
+      ): Chainable<string>
+      CheckTreeElement(element: string): Chainable<string>
+    }
+  }
+}
 Cypress.Commands.add('LoginWithPassword', (username, password) => {
-  cy.clearAllCookies({ domain: null })
+  cy.clearAllCookies()
   cy.visit('/login')
   cy.get('#username').type(username)
   cy.get('#password').type(password)
@@ -10,7 +41,7 @@ Cypress.Commands.add('LoginWithPassword', (username, password) => {
 Cypress.Commands.add('PrepareForGame', () => {
   cy.visit('/')
   // make sure the login page is loaded
-  cy.url().should('satisfy', (elements) => {
+  cy.url().should('satisfy', (elements: string) => {
     const text = elements
     return text.includes('login') || text.includes('register')
   })
@@ -70,9 +101,9 @@ Cypress.Commands.add('waitUntilActive', (last = false) => {
         return
       }
       if (value === 'pending' && !last) {
-        cy.log(last)
+        cy.log(`${last}`)
         cy.typeInCommand('{enter}')
-        cy.waitUntilActive()
+        cy.waitUntilActive(last) // Pass `last` parameter
       }
     })
 })
@@ -90,8 +121,7 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
   cy.checkTaskInit()
   cy.InitTerminal()
-  cy.readFile(`../quests/${stagename}/answer.sh`, 'utf-8').as('answers')
-  cy.get('@answers').then((answers) => {
+  cy.readFile(`../quests/${stagename}/answer.sh`, 'utf-8').then((answers) => {
     const answerarr = answers.split('\n')
     for (const element of answerarr) {
       cy.typeInCommand(`${element}{enter}`)
@@ -109,13 +139,11 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
-  cy.get(id, { timeout: 50000 }).within(($element) => {
-    if (Cypress.env('isCHVersion')) {
-      cy.get($element).should('contain', chText).and('be.visible')
-    } else {
-      cy.get($element).should('contain', enText).and('be.visible')
-    }
-  })
+  if (Cypress.env('isCHVersion')) {
+    cy.get(id, { timeout: 50000 }).should('contain', chText).and('be.visible')
+  } else {
+    cy.get(id, { timeout: 50000 }).should('contain', enText).and('be.visible')
+  }
 })
 Cypress.Commands.add('CheckPlaceholder', (id, chText, enText) => {
   cy.get(id)

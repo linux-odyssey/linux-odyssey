@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 describe('Complete quests with only commands', () => {
   beforeEach(() => {
     cy.PrepareForGame()

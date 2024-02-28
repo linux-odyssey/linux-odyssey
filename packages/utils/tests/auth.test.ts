@@ -1,3 +1,4 @@
+import { test, expect } from '@jest/globals'
 import { isValidEmail, isValidUsername } from '../src/auth.js'
 
 test('check valid username', () => {
