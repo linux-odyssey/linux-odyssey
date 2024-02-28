@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "license": "MIT",
   "scripts": {
     "test": "yarn cypress run",
@@ -12,9 +12,11 @@
   "dependencies": {
     "@testing-library/cypress": "^10.0.1",
     "cypress": "^13.5.1",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "typescript": "^5.3.3"
   }
 }

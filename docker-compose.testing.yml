@@ -12,6 +12,7 @@ services:
       - BASE_URL=http://app-test
       - TESTING_USERNAME=alex
       - TESTING_PASSWORD=Alex1234
+      # - DEBUG=cypress:*
     depends_on:
       - app-test
 
@@ -23,8 +24,9 @@ services:
       target: prod
     networks:
       internal:
-    ports:
-      - 5173:80
+    # Only open the port for debugging
+    # ports:
+    #   - 5173:80
     depends_on:
       - backend
 
@@ -71,8 +73,8 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
-#    ports:
-#      - 27017:27017
+  #    ports:
+  #      - 27017:27017
 
   base:
     image: linuxodyssey/quest-base
