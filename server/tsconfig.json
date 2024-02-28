@@ -10,5 +10,8 @@
     { "path": "../packages/file-graph" },
     { "path": "../packages/models" },
     { "path": "../packages/utils" }
-  ]
+  ],
+  "ts-node": {
+    "swc": true
+  }
 }
