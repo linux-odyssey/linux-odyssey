@@ -1,6 +1,7 @@
 {
-  "watch": ["src"],
+  "watch": ["dist", "views"],
   "ext": "ts,handlebars,js",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "node --loader ts-node/esm src/index.ts"
+  "exec": "node -r source-map-support/register dist/index.js",
+  "delay": 200
 }

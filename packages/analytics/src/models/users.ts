@@ -1,5 +1,5 @@
 import { Session, User } from '@linux-odyssey/models'
-import Pagination from './pagination.ts'
+import Pagination from './pagination.js'
 
 function loginMethods(user: any) {
   const methods = []

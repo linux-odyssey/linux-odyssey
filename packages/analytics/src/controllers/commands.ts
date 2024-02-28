@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import Pagination from '../models/pagination.ts'
+import Pagination from '../models/pagination.js'
 import { errorCommands } from '../models/commands.js'
 
 // eslint-disable-next-line import/prefer-default-export

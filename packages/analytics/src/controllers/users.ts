@@ -1,4 +1,4 @@
-import Pagination from '../models/pagination.ts'
+import Pagination from '../models/pagination.js'
 import { userList } from '../models/users.js'
 
 export async function userListController(req: any, res: any) {

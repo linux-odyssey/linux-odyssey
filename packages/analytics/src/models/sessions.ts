@@ -1,6 +1,6 @@
 import { Command, Session } from '@linux-odyssey/models'
-import Pagination from './pagination.ts'
 import { Types } from 'mongoose'
+import Pagination from './pagination.js'
 
 function formatTime(time: number) {
   const seconds = Math.floor(time / 1000)
@@ -44,7 +44,6 @@ export async function sessionList(pagination: Pagination): Promise<any[]> {
       commands,
       lastActivityAt,
     } = session
-    console.log(finishedAt)
     return {
       _id,
       user: user.username, // Assuming `user` is always populated.

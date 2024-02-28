@@ -1,4 +1,4 @@
-import { questList } from '../models/quests.ts'
+import { questList } from '../models/quests.js'
 // eslint-disable-next-line import/prefer-default-export
 export async function questListController(req: any, res: any) {
   const quests = await questList()
