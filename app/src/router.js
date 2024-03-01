@@ -12,9 +12,8 @@ const routes = [
   {
     path: '/',
     redirect: {
-      name: 'register',
+      name: 'landing-page',
     },
-    meta: { requiresGuest: true },
   },
   {
     path: '/login',
@@ -52,7 +51,11 @@ const routes = [
     name: 'leaderboard',
     component: LeaderboardPage,
   },
-  { path: '/landing', name: 'landing-page', component: LandingPage },
+  {
+    path: '/landing',
+    name: 'landing-page',
+    component: LandingPage,
+  },
 ]
 
 const router = createRouter({
@@ -67,7 +70,8 @@ router.beforeEach(async (to, from, next) => {
     // Check if the user isn't authenticated
     // Redirect to the login page
     next({
-      name: 'register',
+      // name: 'register',
+      name: 'landing',
       query: { redirect: to.fullPath }, // Optionally pass a redirect parameter
     })
   } else if (to.meta.requiresGuest && loggedIn) {
