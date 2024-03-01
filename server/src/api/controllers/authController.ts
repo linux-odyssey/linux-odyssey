@@ -67,7 +67,7 @@ export function socialLoginHandler(req: Request, res: Response) {
     res.redirect('/choose-username')
     return
   }
-  res.redirect('/')
+  res.redirect('/map')
 }
 
 export const registerFromSession = asyncHandler(
