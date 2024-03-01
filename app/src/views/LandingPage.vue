@@ -112,7 +112,7 @@ const scrollToSection = (sectionId) => {
           class="text-text p-20 grid grid-cols-1 gap-3 justify-items-center"
         >
           <h1
-            class="text-text inline-block bg-purple-900 p-5 rounded-xl opacity-90"
+            class="text-text inline-block bg-bg-primary p-5 rounded-xl opacity-90"
             style="font-size: 2.5vh"
           >
             程式設計不僅僅是寫程式碼，還涉及到如何有效地與你的電腦互動。
@@ -126,52 +126,52 @@ const scrollToSection = (sectionId) => {
         </section>
         <section
           id="feature"
-          class="text-text p-15 grid grid-cols-3 grid-rows-6 gap-2 justify-items-center items-center pt-10"
+          class="text-text p-15 grid grid-rows-3 gap-10 items-center pt-10"
         >
-          <img src="../img/icon_shuttle.svg" class="h-[18vh] row-span-2" />
-          <h1
-            class="text-text-primary px-5 font-extrabold font-mono col-span-2"
-            style="font-size: 3.5vh"
+          <div
+            class="bg-bg-primary p-5 rounded-xl opacity-90 grid grid-cols-3 grid-rows-2 justify-items-center items-center"
           >
-            初學者也能立即上手
-          </h1>
-          <div class="col-span-2 bg-purple-900 p-5 rounded-xl opacity-90">
-            <h1 class="text-text p-2" style="font-size: 2.5vh">
-              我們明白對於初學者來說，設定和使用開發工具可能是一大障礙。
+            <img src="../img/icon_shuttle.svg" class="h-[18vh] row-span-2" />
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono col-span-2"
+              style="font-size: 3.5vh"
+            >
+              初學者也能立即上手
             </h1>
-            <h1 class="text-text p-2" style="font-size: 2.5vh">
+            <h1 class="text-text p-2 col-span-2" style="font-size: 2.5vh">
+              我們明白對於初學者來說，設定和使用開發工具可能是一大障礙。
               學習者無需安裝任何軟體，僅需通過瀏覽器即可連上一個真實的 Linux
               環境。
             </h1>
           </div>
-          <h1
-            class="text-text-primary px-5 font-extrabold font-mono col-span-2"
-            style="font-size: 3.5vh"
+          <div
+            class="bg-bg-primary p-5 rounded-xl opacity-90 grid grid-cols-3 grid-rows-2 justify-items-center items-center"
           >
-            遊戲般的學習體驗
-          </h1>
-          <img src="../img/icon_sword.svg" class="h-[18vh] row-span-2" />
-          <div class="col-span-2 bg-purple-900 p-5 rounded-xl opacity-90">
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono col-span-2"
+              style="font-size: 3.5vh"
+            >
+              遊戲般的學習體驗
+            </h1>
+            <img src="../img/icon_sword.svg" class="h-[18vh] row-span-2" />
             <h1 class="text-text p-2 col-span-2" style="font-size: 2.5vh">
               Linux Odyssey 融合了遊戲的樂趣與學習的實用性。
-            </h1>
-            <h1 class="text-text p-2 col-span-2" style="font-size: 2.5vh">
               透過精心設計的遊戲關卡，學習者可以一邊接受挑戰、破解謎題，
               一邊掌握 Linux 指令的運用。
             </h1>
           </div>
-          <img src="../img/icon_settings.svg" class="h-[18vh] row-span-3" />
-          <h1
-            class="text-text-primary px-5 font-extrabold font-mono col-span-2 pt-8"
-            style="font-size: 3.5vh"
+          <div
+            class="bg-bg-primary p-5 rounded-xl opacity-90 grid grid-cols-3 grid-rows-2 justify-items-center items-center"
           >
-            真實的 Linux 操作之旅
-          </h1>
-          <div class="col-span-2 bg-purple-900 p-5 rounded-xl opacity-90">
-            <h1 class="text-text p-2 col-span-2" style="font-size: 2.5vh">
-              Linux Odyssey 提供的不僅是理論知識，更是真實的操作體驗。
+            <img src="../img/icon_settings.svg" class="h-[18vh] row-span-2" />
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono col-span-2 pt-8"
+              style="font-size: 3.5vh"
+            >
+              真實的 Linux 操作之旅
             </h1>
             <h1 class="text-text p-2 col-span-2" style="font-size: 2.5vh">
+              Linux Odyssey 提供的不僅是理論知識，更是真實的操作體驗。
               每一個指令都是在真實的 Linux 環境中執行，
               讓學習者能夠真正深入軟體開發的世界。
             </h1>
