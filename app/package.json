@@ -17,6 +17,7 @@
     "@linux-odyssey/constants": "*",
     "@linux-odyssey/file-graph": "*",
     "@linux-odyssey/utils": "*",
+    "@types/dompurify": "^3.0.5",
     "axios": "^1.6.0",
     "dompurify": "^3.0.6",
     "echarts": "^5.4.3",
