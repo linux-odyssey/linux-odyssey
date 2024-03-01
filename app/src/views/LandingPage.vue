@@ -1,6 +1,7 @@
 <script setup>
+import ContactButton from '../components/ContactButton.vue'
 import DynamicBackground from '../components/DynamicBackground.vue'
-import { bugReportUrl, facebookUrl, GitHubUrl } from '../config'
+import { bugReportUrl, facebookUrl, githubUrl } from '../config'
 
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId)
@@ -52,10 +53,10 @@ const scrollToSection = (sectionId) => {
           ><button
             id="Info"
             class="text-text inline-block font-bold whitespace-nowrap pt-1"
-            @click="scrollToSection('info')"
+            @click="scrollToSection('about')"
             style="font-size: 2vh"
           >
-            Info
+            About
           </button>
 
           <button
@@ -203,7 +204,7 @@ const scrollToSection = (sectionId) => {
               </RouterLink>
             </section>
             <section
-              id="info"
+              id="about"
               class="text-text flex flex-col items-center mt-10 gap-10"
             >
               <div class="w-full flex flex-col items-center gap-2">
@@ -228,7 +229,7 @@ const scrollToSection = (sectionId) => {
                 </h1>
               </div>
 
-              <h1
+              <!-- <h1
                 class="text-text-primary p-5 font-extrabold font-mono col-span-3 gap-3"
                 style="font-size: 3.5vh"
               >
@@ -260,53 +261,36 @@ const scrollToSection = (sectionId) => {
               </h1>
               <h1 class="text-text p-3" style="font-size: 2.5vh">
                 "以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近"
-              </h1>
+              </h1> -->
             </section>
           </div>
           <section
             id="contact"
-            class="text-text p-10 grid grid-cols-3 gap-5 justify-items-center"
+            class="text-text mt-10 flex flex-col items-center"
           >
-            <h1
-              class="text-text-primary p-5 font-extrabold font-mono col-span-3"
-              style="font-size: 3.5vh"
-            >
+            <h1 class="text-text-primary font-extrabold font-mono text-3xl">
               聯絡我們
             </h1>
-            <a
-              title="facebookUrl"
-              :href="facebookUrl"
-              target="_blank"
-              class="h-10 w-10"
-            >
-              <font-awesome-icon
-                :icon="['fab', 'facebook']"
-                class="text-text-primary h-full w-full delay-130 hover:-translate-y-1 hover:scale-150"
+            <div class="flex flex-row items-center justify-around mt-5 gap-5">
+              <ContactButton
+                :url="facebookUrl"
+                :icons="['fab', 'facebook']"
+                title="Facebook"
+                desciption="Linux Odyssey"
               />
-            </a>
-            <a
-              title="GitHubUrl"
-              :href="GitHubUrl"
-              target="_blank"
-              class="h-10 w-10"
-            >
-              <font-awesome-icon
-                :icon="['fab', 'github']"
-                class="text-text-primary h-full w-full delay-130 hover:-translate-y-1 hover:scale-150"
+              <ContactButton
+                :url="githubUrl"
+                :icons="['fab', 'github']"
+                title="GitHub"
+                desciption="linux-odyssey/linux-odyssey"
               />
-            </a>
-            <div title="EmailAddress" class="h-10 w-10">
-              <font-awesome-icon
-                :icon="['fas', 'envelope']"
-                class="text-text-primary h-full w-full delay-130 hover:-translate-y-1 hover:scale-150"
+              <ContactButton
+                url="mailto:team@linuxodyssey.xyz"
+                :icons="['fas', 'envelope']"
+                title="Email"
+                desciption="team@linuxodyssey.xyz"
               />
             </div>
-            <h1 class="font-semibold" style="font-size: 2.5vh">Facebook</h1>
-            <h1 class="font-semibold" style="font-size: 2.5vh">GitHub</h1>
-            <h1 class="font-semibold" style="font-size: 2.5vh">Email</h1>
-            <h1 style="font-size: 2.5vh">Linux Odyssey</h1>
-            <h1 style="font-size: 2.5vh">linux-odyssey/linux-odyssey</h1>
-            <h1 style="font-size: 2.5vh">team@linuxodyssey.xyz</h1>
           </section>
         </div>
       </main>
