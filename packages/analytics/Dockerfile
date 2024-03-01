@@ -1,7 +1,7 @@
 FROM node:20-alpine as build
 
 WORKDIR /app
-COPY ./package.json yarn.lock ./
+COPY ./package.json yarn.lock tsconfig.json ./
 COPY packages/analytics/package.json ./packages/analytics/package.json
 COPY packages/models/package.json ./packages/models/package.json
 RUN yarn set version berry
