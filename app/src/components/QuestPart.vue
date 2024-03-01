@@ -3,8 +3,14 @@ import { computed } from 'vue'
 import MarkdownText from './MarkdownText.vue'
 import sessionStore from '../store/session'
 
+interface Task {
+  id: number
+  name: string
+  completed: boolean
+}
+
 const tasks = computed(() => {
-  return sessionStore.session.tasks.map((task: any) => {
+  return sessionStore.session.tasks.map((task: Task) => {
     const prefix = task.completed ? '✓' : '➤'
     const color = task.completed ? 'text-text-primary' : 'text-text'
     return {

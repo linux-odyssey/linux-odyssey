@@ -5,7 +5,14 @@ import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
 
-async function check({ username, error }: { username: string; error: any }) {
+async function check({
+  username,
+  error,
+}: {
+  username: string
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   if (username) {
     if (!isValidUsername(username)) {
       error('無效的帳號名稱')

@@ -5,7 +5,7 @@ import TreeChart from './TreeChart.vue'
 const treeRef = ref<HTMLElement | null>(null)
 let pos = { top: 0, left: 0, x: 0, y: 0 }
 
-function mouseMoveHandler(e: any) {
+function mouseMoveHandler(e: MouseEvent) {
   const dx = e.clientX - pos.x
   const dy = e.clientY - pos.y
 
@@ -23,7 +23,7 @@ function mouseUpHandler() {
   document.removeEventListener('mouseup', mouseUpHandler)
 }
 
-function mouseDownHandler(e: any) {
+function mouseDownHandler(e: MouseEvent) {
   if (treeRef.value === null) return
   treeRef.value.style.cursor = 'grabbing'
   treeRef.value.style.userSelect = 'none'

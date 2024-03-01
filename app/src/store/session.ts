@@ -24,7 +24,21 @@ function newSession() {
   }
 }
 
-const store: any = reactive({
+interface Session {
+  status: string
+  graph: FileGraph
+  pwd: string
+  hints: string[]
+  tasks: string[]
+}
+
+interface Store {
+  session: Session
+  questId: string
+  quest: any // 这里需要根据实际情况定义 quest 属性的类型
+}
+
+const store: Store = reactive({
   session: newSession(),
   questId: '',
   quest: null,
@@ -40,7 +54,7 @@ function setQuest(questId: string) {
   })
 }
 
-async function setSession(session: any) {
+async function setSession(session: Session) {
   try {
     console.log('Setting session...', session)
     store.session = session
@@ -50,7 +64,11 @@ async function setSession(session: any) {
     term.focus()
   } catch (err: any) {
     console.error(err)
-    toast.error(err.message)
+    if (err instanceof Error) {
+      toast.error(err.message)
+    } else {
+      toast.error('Failed to connect to the session. Please try again later.')
+    }
     throw err
   }
 }
@@ -67,7 +85,7 @@ export async function createSession() {
   }
 }
 
-async function getActiveSession(questId: any) {
+async function getActiveSession(questId: string) {
   try {
     const res = await api.post('/sessions/active', { questId })
     await setSession(res.data)
@@ -128,10 +146,10 @@ export async function init(questId: string) {
 }
 
 function setup() {
-  socket.on('terminal', (data: any) => {
+  socket.on('terminal', (data: string) => {
     term.write(data)
   })
-  term.onData((data: any) => {
+  term.onData((data: string) => {
     socket.emit('terminal', data)
   })
   socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
