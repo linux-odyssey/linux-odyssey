@@ -20,10 +20,13 @@ const handleSignIn = async () => {
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId)
   if (section) {
-    console.log(sectionId)
-    window.scrollTo({
-      top: section.offsetTop,
-    })
+    const container = document.querySelector('.overflow-y-auto') // Replace '.overflow-y-auto' with the appropriate class or selector for your container
+    if (container) {
+      container.scrollTo({
+        top: section.offsetTop - container.offsetTop,
+        behavior: 'smooth', // Add smooth scrolling behavior if desired
+      })
+    }
   }
 }
 </script>
@@ -292,24 +295,27 @@ const scrollToSection = (sectionId) => {
           <button title="facebookUrl" :href="facebookUrl" class="h-10 w-10">
             <font-awesome-icon
               :icon="['fab', 'facebook']"
-              class="text-text-primary h-full w-full"
+              class="text-text-primary h-full w-full delay-130 hover:-translate-y-1 hover:scale-150"
             />
           </button>
           <button title="GitHubUrl" :href="GitHubUrl" class="h-10 w-10">
             <font-awesome-icon
               :icon="['fab', 'github']"
-              class="text-text-primary h-full w-full"
+              class="text-text-primary h-full w-full delay-130 hover:-translate-y-1 hover:scale-150"
             />
           </button>
           <div title="EmailAddress" class="h-10 w-10">
             <font-awesome-icon
               :icon="['fas', 'envelope']"
-              class="text-text-primary h-full w-full"
+              class="text-text-primary h-full w-full delay-130 hover:-translate-y-1 hover:scale-150"
             />
           </div>
-          <h1>facebook 粉絲專頁: Linux Odyssey</h1>
-          <h1>Github: linux-odyssey/linux-odyssey</h1>
-          <h1>email: team@linuxodyssey.xyz</h1>
+          <h1 class="font-semibold">Facebook</h1>
+          <h1 class="font-semibold">GitHub</h1>
+          <h1 class="font-semibold">Email</h1>
+          <h1>Linux Odyssey</h1>
+          <h1>linux-odyssey/linux-odyssey</h1>
+          <h1>team@linuxodyssey.xyz</h1>
         </section>
       </div>
     </div>
