@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useTerminal } from '../store/session'
 
-const terminal: Ref<any> = ref(null)
+const terminal = ref<HTMLElement | null>(null)
 
 onMounted(() => {
   const term = useTerminal()
+  if (!terminal.value) return
   term.mount(terminal.value)
   window.addEventListener('resize', () => term.resizeScreen())
 })

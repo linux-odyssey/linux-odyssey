@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import api from '../utils/api'
@@ -27,7 +27,7 @@ const password = ref('')
 const errorMessage = ref('')
 const toast = useToast()
 
-const availableMethods: Ref<any> = ref({})
+const availableMethods = ref<{ [key: string]: boolean }>({})
 onMounted(async () => {
   const res = await api.get('/auth/available-methods')
   availableMethods.value = res.data

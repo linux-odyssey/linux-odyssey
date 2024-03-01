@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { Ref, ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import TreeChart from './TreeChart.vue'
 
-const treeRef: Ref<any> = ref(null)
+const treeRef = ref<HTMLElement | null>(null)
 let pos = { top: 0, left: 0, x: 0, y: 0 }
 
 function mouseMoveHandler(e: any) {
   const dx = e.clientX - pos.x
   const dy = e.clientY - pos.y
 
+  if (treeRef.value === null) return
   treeRef.value.scrollTop = pos.top - dy
   treeRef.value.scrollLeft = pos.left - dx
 }
 
 function mouseUpHandler() {
+  if (treeRef.value === null) return
   treeRef.value.style.cursor = 'grab'
   treeRef.value.style.removeProperty('user-select')
 
@@ -22,6 +24,7 @@ function mouseUpHandler() {
 }
 
 function mouseDownHandler(e: any) {
+  if (treeRef.value === null) return
   treeRef.value.style.cursor = 'grabbing'
   treeRef.value.style.userSelect = 'none'
 
@@ -37,6 +40,7 @@ function mouseDownHandler(e: any) {
 }
 
 onMounted(() => {
+  if (treeRef.value === null) return
   treeRef.value.style.cursor = 'grab'
   treeRef.value.addEventListener('mousedown', mouseDownHandler)
 })

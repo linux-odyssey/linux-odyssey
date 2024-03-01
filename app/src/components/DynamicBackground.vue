@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, Ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const cw = ref(0)
 const ch = ref(0)
-const fallingCharArr: any = ref([])
+const fallingCharArr = ref<
+  { value: string; x: number; y: number; speed: number }[]
+>([])
 const fontSize = ref(16)
 const maxColums = ref(0)
 const charArr = ['0', '1', '', '', '']
-const ctx: Ref<any> = ref(null)
+const ctx = ref<CanvasRenderingContext2D | null>(null)
 
 const randomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min)
@@ -17,10 +19,16 @@ const randomFloat = (min: number, max: number) => {
   return Math.random() * (max - min) + min
 }
 
-const draw = (point: any) => {
+const draw = (point: {
+  value: string
+  x: number
+  y: number
+  speed: number
+}) => {
   point.value = charArr[randomInt(0, charArr.length)].toUpperCase()
   if (point.y < 0) point.speed = randomFloat(10, 20)
 
+  if (ctx.value === null) return
   ctx.value.fillStyle = '#0F0'
   ctx.value.font = `${fontSize.value}px san-serif`
   ctx.value.fillText(point.value, point.x, point.y)
@@ -33,6 +41,7 @@ const draw = (point: any) => {
 }
 
 const update = () => {
+  if (ctx.value === null) return
   ctx.value.fillStyle = 'rgba(0,0,0,0.05)'
   ctx.value.fillRect(0, 0, cw.value, ch.value)
 
@@ -48,7 +57,7 @@ onMounted(() => {
   ch.value = document.documentElement.clientHeight
   maxColums.value = cw.value / fontSize.value
 
-  const canvas: any = document.querySelector('canvas')
+  const canvas = document.querySelector('canvas') as HTMLCanvasElement
   ctx.value = canvas.getContext('2d')
 
   canvas.width = cw.value
@@ -58,6 +67,8 @@ onMounted(() => {
     fallingCharArr.value.push({
       x: i * fontSize.value,
       y: randomFloat(-500, 0),
+      value: '',
+      speed: 0,
     })
   }
 
