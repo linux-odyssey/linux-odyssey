@@ -38,7 +38,7 @@ Cypress.Commands.add('LoginWithPassword', (username, password) => {
   cy.get('#password').type(password)
   cy.get('#LogInOrSignUp').click()
 })
-Cypress.Commands.add('PrepareForGame', () => {
+Cypress.Commands.add('PrepareForGame', (questId) => {
   cy.visit('/')
   // make sure the login page is loaded
   cy.url().should('satisfy', (elements: string) => {
@@ -51,8 +51,9 @@ Cypress.Commands.add('PrepareForGame', () => {
   )
   // make sure the map page is loaded
   cy.url().should('include', '/map')
-  cy.visit('/game/get-started')
-  cy.url().should('include', '/game/get-started')
+  const url = `/game/${questId}`
+  cy.visit(url)
+  cy.url().should('include', url)
   // check task first so the terminal has better possibility loaded
   cy.checkTaskInit()
   cy.get('.xterm-screen', { timeout: 10000 })
@@ -114,8 +115,7 @@ Cypress.Commands.add('checkPending', () => {
   )
 })
 Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
-  cy.visit(`/game/${stagename}`)
-  cy.url().should('include', `/game/${stagename}`, { timeout: 50000 })
+  cy.PrepareForGame(stagename)
   cy.log(`Completing stage :${stagename}`)
   cy.checkTaskInit()
   cy.CheckTextElement('#reset', '重來', 'Reset').click()
@@ -123,19 +123,22 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
   cy.InitTerminal()
   cy.readFile(`../quests/${stagename}/answer.sh`, 'utf-8').then((answers) => {
     const answerarr = answers.split('\n')
-    for (const element of answerarr) {
+    answerarr.forEach((element, index) => {
       cy.typeInCommand(`${element}{enter}`)
-      if (answerarr.indexOf(element) + 1 !== answerarr.length) {
-        cy.checkPending()
+      if (index < answerarr.length - 1) {
         cy.waitUntilActive()
+      } else {
+        cy.waitUntilActive(true).then(() => {
+          cy.CheckTextElement(
+            '#QuestCompleted',
+            '關卡完成！',
+            'Quest Completed!'
+          )
+          cy.get('div[class="modal"]').find('p').should('be.visible')
+          cy.get('#BacktoMap').should('be.visible').and('contain', '回到地圖')
+        })
       }
-      if (answerarr.indexOf(element) + 1 === answerarr.length) {
-        cy.waitUntilActive(true)
-        cy.CheckTextElement('#QuestCompleted', '關卡完成！', 'Quest Completed!')
-        cy.get('div[class="modal"]').find('p').should('be.visible')
-        cy.get('#BacktoMap').should('be.visible').and('contain', '回到地圖')
-      }
-    }
+    })
   })
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
