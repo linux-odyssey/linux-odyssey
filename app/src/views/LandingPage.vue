@@ -228,42 +228,146 @@ const scrollToSection = (sectionId: string) => {
                   鈦坦敏捷開發特別獎 第二名
                 </h1>
               </div>
-
-              <!-- <h1
-                class="text-text-primary p-5 font-extrabold font-mono col-span-3 gap-3"
-                style="font-size: 3.5vh"
-              >
-                玩家感想
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "很好玩很像益智遊戲"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "我從來不知道自由軟體的存在，謝謝你們。"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "還蠻好玩的，讓程式變好玩"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "以前不喜歡電腦課現在覺得喜歡一點點"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "程式真的對新手很友善，讓我學到了很多東西"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "感覺做得很好很簡明易懂關卡設計很用心"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "這個體驗我覺得非常有趣，可以體驗到沒辦法體驗的程式，學長也都熱心指導，非常感謝學長的用心的講解，希望以後還可以再體驗這種活動"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "以前我覺得寫程式很難不過現在覺得很有趣"
-              </h1>
-              <h1 class="text-text p-3" style="font-size: 2.5vh">
-                "以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近"
-              </h1> -->
             </section>
           </div>
+          <section
+            v-if="!isMobile"
+            id="info"
+            class="text-text p-10 grid grid-cols-3 gap-5 justify-items-center"
+          >
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono col-span-3"
+              style="font-size: 3.5vh"
+            >
+              團隊介紹
+            </h1>
+            <h1 class="text-text p-3 col-span-3" style="font-size: 2.5vh">
+              國立臺北科技大學 智慧自動化工程科 第二屆 Linux Odyssey
+              互動式終端機教學網站
+            </h1>
+            <h1 class="text-text p-3 col-span-3" style="font-size: 2.5vh">
+              Indieveloper
+            </h1>
+            <div class="p-3 col-span-3">
+              <div class="grid grid-cols-4 gap-3 justify-items-center">
+                <h1 class="font-bold" style="font-size: 2.5vh">wancat 林貓</h1>
+                <h1 class="font-bold" style="font-size: 2.5vh">Neil</h1>
+                <h1 class="font-bold" style="font-size: 2.5vh">A.H.</h1>
+                <h1 class="font-bold" style="font-size: 2.5vh">Ray Gur</h1>
+              </div>
+            </div>
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono col-span-3"
+              style="font-size: 3.5vh"
+            >
+              得獎肯定
+            </h1>
+            <h1 class="text-text p-3 col-span-3" style="font-size: 2.5vh">
+              大專校院資訊應用服務創新競賽 鈦坦敏捷開發特別獎 第二名
+            </h1>
+
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono col-span-3 gap-3"
+              style="font-size: 3.5vh"
+            >
+              玩家感想
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "很好玩很像益智遊戲"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "我從來不知道自由軟體的存在，謝謝你們。"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "還蠻好玩的，讓程式變好玩"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "以前不喜歡電腦課現在覺得喜歡一點點"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "程式真的對新手很友善，讓我學到了很多東西"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "感覺做得很好很簡明易懂關卡設計很用心"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "這個體驗我覺得非常有趣，可以體驗到沒辦法體驗的程式，學長也都熱心指導，非常感謝學長的用心的講解，希望以後還可以再體驗這種活動"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "以前我覺得寫程式很難不過現在覺得很有趣"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近"
+            </h1>
+          </section>
+          <section
+            v-if="isMobile"
+            id="info"
+            class="text-text p-10 grid grid-cols-1 gap-5 justify-items-center"
+          >
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono"
+              style="font-size: 3.5vh"
+            >
+              團隊介紹
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              國立臺北科技大學 智慧自動化工程科 第二屆 Linux Odyssey
+              互動式終端機教學網站
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">Indieveloper</h1>
+            <div class="p-3">
+              <div class="grid grid-cols-4 gap-3 justify-items-center">
+                <h1 class="font-bold" style="font-size: 2.5vh">wancat 林貓</h1>
+                <h1 class="font-bold" style="font-size: 2.5vh">Neil</h1>
+                <h1 class="font-bold" style="font-size: 2.5vh">A.H.</h1>
+                <h1 class="font-bold" style="font-size: 2.5vh">Ray Gur</h1>
+              </div>
+            </div>
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono"
+              style="font-size: 3.5vh"
+            >
+              得獎肯定
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              大專校院資訊應用服務創新競賽 鈦坦敏捷開發特別獎 第二名
+            </h1>
+
+            <h1
+              class="text-text-primary p-5 font-extrabold font-mono gap-3"
+              style="font-size: 3.5vh"
+            >
+              玩家感想
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "很好玩很像益智遊戲"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "我從來不知道自由軟體的存在，謝謝你們。"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "還蠻好玩的，讓程式變好玩"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "以前不喜歡電腦課現在覺得喜歡一點點"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "程式真的對新手很友善，讓我學到了很多東西"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "感覺做得很好很簡明易懂關卡設計很用心"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "這個體驗我覺得非常有趣，可以體驗到沒辦法體驗的程式，學長也都熱心指導，非常感謝學長的用心的講解，希望以後還可以再體驗這種活動"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "以前我覺得寫程式很難不過現在覺得很有趣"
+            </h1>
+            <h1 class="text-text p-3" style="font-size: 2.5vh">
+              "以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近"
+            </h1>
+          </section>
           <section
             id="contact"
             class="text-text mt-10 flex flex-col items-center"
