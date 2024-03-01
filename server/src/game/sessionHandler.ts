@@ -8,12 +8,12 @@ import type {
   IStage,
   ITask,
 } from '@linux-odyssey/models'
-import { pushToSession } from '../api/socket.js'
 
 export interface ExecuteResult {
   responses: IResponse[]
   hints: string[]
-  callback: () => void
+  tasks?: ITask[]
+  status: string
   stage?: string
   end?: boolean
 }
@@ -79,15 +79,17 @@ export default class SessionHandler {
 
     this.addNewTasks()
 
+    this.session.responses.push(stage.responses)
+
+    if (stage.id === 'END') {
+      this.session.status = 'finished'
+    }
+
     return {
       responses: stage.responses,
       hints: stage.hints,
-      callback: () => {
-        pushToSession(this.session.id, 'tasks', this.session.tasks)
-        if (stage.hints && stage.hints.length > 0)
-          pushToSession(this.session.id, 'hints', stage.hints)
-        pushToSession(this.session.id, 'status', this.session.status)
-      },
+      tasks: this.session.tasks,
+      status: this.session.status,
     }
   }
 
@@ -98,11 +100,7 @@ export default class SessionHandler {
     return {
       responses,
       hints,
-      callback: () => {
-        if (hints && hints.length > 0)
-          pushToSession(this.session.id, 'hints', hints)
-        pushToSession(this.session.id, 'status', this.session.status)
-      },
+      status: this.session.status,
     }
   }
 }

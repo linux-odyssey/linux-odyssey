@@ -1,7 +1,4 @@
 describe('Complete quests with only commands', () => {
-  beforeEach(() => {
-    cy.PrepareForGame()
-  })
   it('Complete quest : get-started', () => {
     cy.CompleteStageWithCommands('get-started')
   })

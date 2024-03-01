@@ -1,5 +1,7 @@
 import { model, Schema, Types } from 'mongoose'
 
+import { IResponse, responseSchema } from './response.js'
+
 export interface INode {
   path: string
   type: string
@@ -46,13 +48,14 @@ export interface ISession {
   user: Types.ObjectId
   quest: string
   containerId: string | null
-  status: string
+  status: 'active' | 'finished' | 'inactive'
   createdAt: Date
   updatedAt: Date
   finishedAt?: Date
   lastActivityAt: Date
   tasks: ITask[]
   hints: string[][]
+  responses: IResponse[][]
   graph: INode
 }
 
@@ -85,6 +88,11 @@ export const Session = model<ISession>(
       },
       tasks: [taskSchema],
       hints: [[String]],
+      responses: {
+        type: [[responseSchema]],
+        required: true,
+        default: [],
+      },
       graph: {
         type: nodeSchema,
         default: {
