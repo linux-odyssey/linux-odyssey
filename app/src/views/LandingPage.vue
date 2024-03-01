@@ -18,81 +18,74 @@ const scrollToSection = (sectionId) => {
 <template>
   <div class="w-screen h-screen bg-scroll bg-bg">
     <DynamicBackground class="w-full h-full" />
-    <div
-      class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
-    >
+    <div class="h-screen w-screen absolute top-0 left-0">
       <!-- game header -->
-      <div class="h-[6vh] w-full">
-        <div
-          id="header"
-          class="bg-bg-secondary content-center h-full w-full p-1 items-center"
-        >
-          <div class="h-full flex items-center justify-center mx-3">
-            <div class="flex items-center gap-3">
-              <img src="../img/icon_totem.svg" class="h-5" />
-              <button
-                id="GameTitle"
-                class="text-text-primary inline-block font-bold whitespace-nowrap pt-1"
-                style="font-size: 2vh"
-              >
-                Welcome to Linux Odyssey !
-              </button>
-            </div>
-            <div class="h-full w-full flex gap-3 items-center justify-end">
-              <button
-                id="Intro"
-                class="text-text inline-block font-bold whitespace-nowrap pt-1"
-                @click="scrollToSection('intro')"
-                style="font-size: 2vh"
-              >
-                Intro
-              </button>
-              <button
-                id="Feature"
-                class="text-text inline-block font-bold whitespace-nowrap pt-1"
-                @click="scrollToSection('feature')"
-                style="font-size: 2vh"
-              >
-                Feature</button
-              ><button
-                id="Info"
-                class="text-text inline-block font-bold whitespace-nowrap pt-1"
-                @click="scrollToSection('info')"
-                style="font-size: 2vh"
-              >
-                Info
-              </button>
+      <div
+        class="w-full h-20 px-5 flex flex-row items-center justify-between bg-bg-secondary"
+      >
+        <div class="flex flex-row items-center gap-3">
+          <img src="../img/icon_totem.svg" class="h-8 justify-self-start" />
+          <button
+            id="GameTitle"
+            class="text-text-primary inline-block font-bold whitespace-nowrap pt-1"
+            style="font-size: 2vh"
+          >
+            Linux Odyssey
+          </button>
+        </div>
+        <div class="flex flex-row items-center gap-3">
+          <button
+            id="Intro"
+            class="text-text inline-block font-bold whitespace-nowrap pt-1"
+            @click="scrollToSection('intro')"
+            style="font-size: 2vh"
+          >
+            Intro
+          </button>
+          <button
+            id="Feature"
+            class="text-text inline-block font-bold whitespace-nowrap pt-1"
+            @click="scrollToSection('feature')"
+            style="font-size: 2vh"
+          >
+            Feature</button
+          ><button
+            id="Info"
+            class="text-text inline-block font-bold whitespace-nowrap pt-1"
+            @click="scrollToSection('info')"
+            style="font-size: 2vh"
+          >
+            Info
+          </button>
 
-              <button
-                id="Contact"
-                class="text-text inline-block font-bold whitespace-nowrap pt-1"
-                @click="scrollToSection('contact')"
-                style="font-size: 2vh"
-              >
-                Contact Us
-              </button>
-              <RouterLink
-                title="Sign In"
-                id="SignIn"
-                to="/register"
-                class="text-text inline-block font-bold whitespace-nowrap pt-1"
-                style="font-size: 2vh"
-              >
-                Sign In
-              </RouterLink>
-              <a
-                title="Bug Report"
-                :href="bugReportUrl"
-                target="_blank"
-                class="h-5 w-5"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'bug']"
-                  class="text-text-primary h-full w-full"
-                />
-              </a>
-            </div>
-          </div>
+          <button
+            id="Contact"
+            class="text-text inline-block font-bold whitespace-nowrap pt-1"
+            @click="scrollToSection('contact')"
+            style="font-size: 2vh"
+          >
+            Contact Us
+          </button>
+          <RouterLink
+            title="Sign In"
+            id="SignIn"
+            to="/register"
+            class="text-text inline-block font-bold whitespace-nowrap pt-1"
+            style="font-size: 2vh"
+          >
+            Sign In
+          </RouterLink>
+          <a
+            title="Bug Report"
+            :href="bugReportUrl"
+            target="_blank"
+            class="h-5 w-5"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'bug']"
+              class="text-text-primary h-full w-full"
+            />
+          </a>
         </div>
       </div>
 

@@ -11,9 +11,8 @@ import { isLoggedIn } from './utils/auth'
 const routes = [
   {
     path: '/',
-    redirect: {
-      name: 'landing-page',
-    },
+    name: 'landing-page',
+    component: LandingPage,
   },
   {
     path: '/login',
@@ -51,11 +50,6 @@ const routes = [
     name: 'leaderboard',
     component: LeaderboardPage,
   },
-  {
-    path: '/landing',
-    name: 'landing-page',
-    component: LandingPage,
-  },
 ]
 
 const router = createRouter({
@@ -70,8 +64,7 @@ router.beforeEach(async (to, from, next) => {
     // Check if the user isn't authenticated
     // Redirect to the login page
     next({
-      // name: 'register',
-      name: 'landing',
+      name: 'register',
       query: { redirect: to.fullPath }, // Optionally pass a redirect parameter
     })
   } else if (to.meta.requiresGuest && loggedIn) {
