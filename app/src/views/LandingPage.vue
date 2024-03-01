@@ -93,7 +93,7 @@ const scrollToSection = (sectionId) => {
       <main class="w-full h-[94vh] overflow-y-auto">
         <div class="w-full flex flex-col items-center">
           <div
-            class="flex flex-col md:flex-row mt-10 justify-around gap-5 items-center"
+            class="flex flex-col md:flex-row mt-10 justify-around gap-5 items-center my-10"
           >
             <h1 class="text-text-primary text-7xl font-extrabold font-mono">
               Linux
@@ -103,6 +103,8 @@ const scrollToSection = (sectionId) => {
               Odyssey
             </h1>
           </div>
+
+          <!-- intro -->
           <div class="w-full md:w-2/3 px-5">
             <section
               id="intro"
@@ -180,72 +182,51 @@ const scrollToSection = (sectionId) => {
                 </h1>
               </div>
             </section>
-            <section
-              id="start"
-              class="text-text p-20 grid grid-cols-3 gap-10 justify-items-center"
-            >
+            <section class="w-full py-10">
               <iframe
-                width="1000"
-                height="562"
                 src="https://www.youtube.com/embed/XzvfmUf1QP8?si=QxnKJMNjsm27fGGF"
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
-                class="col-span-3 pb-10 mb-3"
+                class="w-full aspect-video"
               ></iframe>
-              <RouterLink
-                title="StartGame"
-                id="StartGame"
-                to="/register"
-                class="w-1/2 h-[10vh] bg-text-primary p-2 transition ease-in-out delay-130 hover:-translate-y-1 hover:scale-150 hover:bg-indigo-500 duration-300 col-span-3"
-              >
-                <div class="bg-black p-2 w-full">
-                  <div
-                    class="text-text p-2 w-full text-center"
-                    style="font-size: 2.5vh"
-                  >
-                    準備好鍵盤，跟我們一起開啟你的 Linux 冒險吧！
-                  </div>
+            </section>
+            <section
+              id="start"
+              class="text-text bg-bg-secondary border-8 border-text-tertiary rounded-xl transition ease-in-out hover:scale-110 duration-300"
+            >
+              <RouterLink title="StartGame" id="StartGame" to="/register">
+                <div class="text-text text-xl p-2 w-full text-center">
+                  準備好鍵盤，跟我們一起開啟你的 Linux 冒險吧！
                 </div>
               </RouterLink>
             </section>
             <section
               id="info"
-              class="text-text p-10 grid grid-cols-3 gap-5 justify-items-center"
+              class="text-text flex flex-col items-center mt-10 gap-10"
             >
-              <h1
-                class="text-text-primary p-5 font-extrabold font-mono col-span-3"
-                style="font-size: 3.5vh"
-              >
-                團隊介紹
-              </h1>
-              <h1 class="text-text p-3 col-span-3" style="font-size: 2.5vh">
-                國立臺北科技大學 智慧自動化工程科 第二屆 Linux Odyssey
-                互動式終端機教學網站
-              </h1>
-              <h1 class="text-text p-3 col-span-3" style="font-size: 2.5vh">
-                Indieveloper
-              </h1>
-              <div class="p-3 col-span-3">
-                <div class="grid grid-cols-4 gap-3 justify-items-center">
-                  <h1 class="font-bold" style="font-size: 2.5vh">
-                    wancat 林貓
-                  </h1>
-                  <h1 class="font-bold" style="font-size: 2.5vh">Neil</h1>
-                  <h1 class="font-bold" style="font-size: 2.5vh">A.H.</h1>
-                  <h1 class="font-bold" style="font-size: 2.5vh">Ray Gur</h1>
+              <div class="w-full flex flex-col items-center gap-2">
+                <h1 class="text-text-primary text-3xl font-extrabold font-mono">
+                  團隊介紹
+                </h1>
+                <p class="text-lg">國立臺北科技大學 智慧自動化工程科 第二屆</p>
+                <div class="flex flex-row gap-5 justify-center">
+                  <h1 class="font-bold">Wancat</h1>
+                  <h1 class="font-bold">Neil</h1>
+                  <h1 class="font-bold">A.H.</h1>
+                  <h1 class="font-bold">Ray Gur</h1>
                 </div>
               </div>
-              <h1
-                class="text-text-primary p-5 font-extrabold font-mono col-span-3"
-                style="font-size: 3.5vh"
-              >
-                得獎肯定
-              </h1>
-              <h1 class="text-text p-3 col-span-3" style="font-size: 2.5vh">
-                大專校院資訊應用服務創新競賽 鈦坦敏捷開發特別獎 第二名
-              </h1>
+              <div class="w-full flex flex-col items-center gap-2">
+                <h1 class="text-text-primary text-3xl font-extrabold font-mono">
+                  得獎肯定
+                </h1>
+                <h1 class="text-xl text-center">
+                  大專校院資訊應用服務創新競賽<br />
+                  鈦坦敏捷開發特別獎 第二名
+                </h1>
+              </div>
 
               <h1
                 class="text-text-primary p-5 font-extrabold font-mono col-span-3 gap-3"
