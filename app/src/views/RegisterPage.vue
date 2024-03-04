@@ -22,8 +22,9 @@ function handleRegister({
   username: string
   email: string
   password: string
-  success: any
-  error: any
+  success: () => void
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
 }) {
   register(username, email, password)
     .then(success)
@@ -54,7 +55,8 @@ async function check({
   username: string
   email: string
   password: string
-  error: any
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
 }) {
   if (username && !isValidUsername(username)) {
     error('無效的帳號名稱')

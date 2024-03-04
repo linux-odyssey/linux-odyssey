@@ -40,8 +40,9 @@ async function handleSubmit({
   error,
 }: {
   username: string
-  success: any
-  error: any
+  success: () => void
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
 }) {
   try {
     await chooseUsername(username)

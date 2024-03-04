@@ -12,7 +12,12 @@ export async function isLoggedIn() {
   return loggedIn
 }
 
-function handleRequestError(err: { response: { data?: any; status?: any } }) {
+function handleRequestError(err: {
+  response: {
+    data?: any
+    status?: number
+  }
+}) {
   if (!err.response) throw err // Not an axios error
   const { status } = err.response
   if (status === 429) {
@@ -41,14 +46,14 @@ function handleRequestError(err: { response: { data?: any; status?: any } }) {
   throw err
 }
 
-export const login = (username: any, password: any) => {
+export const login = (username: string, password: string) => {
   return api
     .post('/auth/login', { username, password })
     .then(() => true)
     .catch(handleRequestError)
 }
 
-export const register = (username: any, email: any, password: any) => {
+export const register = (username: string, email: string, password: string) => {
   return api
     .post('/auth/register', {
       username,
@@ -59,7 +64,7 @@ export const register = (username: any, email: any, password: any) => {
     .catch(handleRequestError)
 }
 
-export const checkUsername = async (username: any) => {
+export const checkUsername = async (username: string) => {
   return api
     .get('/auth/check-username', {
       params: { username },
@@ -68,7 +73,7 @@ export const checkUsername = async (username: any) => {
     .catch(handleRequestError)
 }
 
-export const chooseUsername = async (username: any) => {
+export const chooseUsername = async (username: string) => {
   return api
     .post('/auth/register-from-session', { username })
     .then(() => true)

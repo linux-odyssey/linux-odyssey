@@ -3,7 +3,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oidc'
 import config from '../config.js'
 import oauthVerify from './oauthVerify.js'
 
-function verify(issuer: string, profile: any, cb: any) {
+function verify(profile: any, cb: any) {
   oauthVerify('google', profile, { 'socialLogins.google.id': profile.id }, cb)
 }
 

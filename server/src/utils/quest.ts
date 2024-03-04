@@ -9,9 +9,9 @@ const questDirectory = path.join(process.cwd(), '..', 'quests')
 
 class QuestValidationError extends Error {
   questId: string
-  error: any
+  error: Error | null
 
-  constructor(message: string, questId: string, error: any) {
+  constructor(message: string, questId: string, error: Error | null) {
     super(message)
     this.name = 'QuestValidationError'
     this.questId = questId
@@ -68,7 +68,7 @@ export async function loadAndUpdateQuests() {
       })
       quest.exceptions.push(...exceptions)
       await quest.save()
-    } catch (error) {
+    } catch (error: any) {
       logger.error(`Error parsing quest`, { id, error })
       throw new QuestValidationError(`Error parsing quest`, id, error)
     }

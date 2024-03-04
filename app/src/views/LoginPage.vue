@@ -17,8 +17,9 @@ const handleLogin = async ({
 }: {
   username: string
   password: string
-  success: any
-  error: any
+  success: () => void
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
 }) => {
   try {
     const isSuccess = await login(username, password)

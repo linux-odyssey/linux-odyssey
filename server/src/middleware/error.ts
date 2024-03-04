@@ -9,7 +9,7 @@ export function asyncHandler(fn: any) {
 
 // eslint-disable-next-line no-unused-vars
 export default function errorHandler(
-  err: any,
+  err: Error,
   req: Request,
   res: Response,
   // eslint-disable-next-line no-unused-vars

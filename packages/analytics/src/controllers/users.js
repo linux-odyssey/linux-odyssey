@@ -15,7 +15,7 @@ export async function userListController(req, res) {
       nextKey: newNextKey,
       order: pagination.getOrder(),
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     res.status(500).send('Error fetching user data')
   }
