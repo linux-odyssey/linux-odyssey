@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import ContactButton from '../components/ContactButton.vue'
 import DynamicBackground from '../components/DynamicBackground.vue'
-import LandingHeaderComponents from '../components/LandingHeaderComponents.vue'
-import HeaderPart from '../components/HeaderPart.vue'
+import LandingHeaderComponents from '../components/header/LandingHeaderComponents.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
 
 import { facebookUrl, githubUrl } from '../config'
 </script>

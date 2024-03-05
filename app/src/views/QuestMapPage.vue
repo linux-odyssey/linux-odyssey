@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import QuestMap from '../components/QuestMap.vue'
-import HeaderPart from '../components/HeaderPart.vue'
-import GameHeaderComponents from '../components/GameHeaderComponents.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
+import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 </script>
 
 <template>
