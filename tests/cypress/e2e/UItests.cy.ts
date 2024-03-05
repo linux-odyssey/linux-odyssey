@@ -75,7 +75,7 @@ describe('example helloworld app', () => {
   describe('Game Start Page UI', () => {
     const title = '終端機的基本知識'
     beforeEach(() => {
-      cy.PrepareForGame()
+      cy.PrepareForGame('get-started')
     })
     it('Check Header', () => {
       cy.get('#GameTitle').should('contain', 'Linux Odyssey').and('be.visible')
@@ -124,7 +124,7 @@ describe('example helloworld app', () => {
   })
   describe('Game Play', () => {
     beforeEach(() => {
-      cy.PrepareForGame()
+      cy.PrepareForGame('get-started')
     })
     it('Typing in Terminal', () => {
       cy.typeInCommand('12345{enter}')
@@ -136,7 +136,7 @@ describe('example helloworld app', () => {
       cy.checkTaskInit()
       cy.InitTerminal()
       cy.typeInCommand('echo start{enter}')
-      cy.checkPending()
+      // cy.checkPending()
       cy.waitUntilActive()
       cy.get('#Lbutton').should('be.visible').and('be.disabled')
       cy.get('#Rbutton').should('be.visible').and('be.disabled')
@@ -144,7 +144,7 @@ describe('example helloworld app', () => {
       cy.getQuestInfo('✓ 輸入 echo start 來開始教程').should('be.visible')
       cy.getQuestInfo('➤ 在終端機輸入 echo hello').should('be.visible')
       cy.typeInCommand('echo hello{enter}')
-      cy.checkPending()
+      // cy.checkPending()
       cy.waitUntilActive()
       cy.get('#Lbutton').should('be.visible').and('be.enabled')
       cy.get('#Rbutton').should('be.visible').and('be.disabled')

@@ -26,24 +26,6 @@ const handleLogout = async () => {
     console.error(err)
   }
 }
-const handleMap = async () => {
-  try {
-    router.push({ name: 'map' })
-  } catch (err) {
-    // toast.error('Failed to load map')
-    toast.error('無法讀取地圖')
-    console.error(err)
-  }
-}
-const handleLeaderBoard = async () => {
-  try {
-    router.push({ name: 'leaderboard' })
-  } catch (err) {
-    // toast.error('Failed to load map')
-    toast.error('無法讀取排行榜')
-    console.error(err)
-  }
-}
 
 defineProps({
   title: {
@@ -126,18 +108,18 @@ onMounted(async () => {
             class="text-text-primary h-full w-full"
           />
         </a>
-        <button title="LeaderBoard" @click="handleLeaderBoard" class="h-5 w-5">
+        <RouterLink title="LeaderBoard" to="/leaderboard" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'trophy']"
             class="text-text-primary h-full w-full"
           />
-        </button>
-        <button title="Map" @click="handleMap" class="h-5 w-5">
+        </RouterLink>
+        <RouterLink title="Map" to="/map" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'map']"
             class="text-text-primary h-full w-full"
           />
-        </button>
+        </RouterLink>
         <a
           title="Bug Report"
           :href="bugReportUrl"
