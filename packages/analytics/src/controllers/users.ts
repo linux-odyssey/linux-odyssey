@@ -1,13 +1,9 @@
-<<<<<<< HEAD
+import mongoose from 'mongoose'
 import Pagination from '../models/pagination.ts'
 import { userList, userDetail, idToUser } from '../models/users.js'
-=======
-import Pagination from '../models/pagination.js'
-import { userList } from '../models/users.js'
->>>>>>> bb4a11b20c8fdad8459ac3b7a0fdb8d9d9221e31
-
-export async function userListController(req: any, res: any) {
-  const { nextKey, order } = req.query
+import { Request, Response } from 'express'
+export async function userListController(req: Request, res: Response) {
+  const { nextKey, order } = req.query as { nextKey: string; order: string }
   const itemsPerPage = 50
 
   try {
@@ -25,9 +21,8 @@ export async function userListController(req: any, res: any) {
     res.status(500).send('Error fetching user data')
   }
 }
-<<<<<<< HEAD
-export async function userDetailController(req: any, res: any) {
-  const { id } = req.params
+export async function userDetailController(req: Request, res: Response) {
+  const id = new mongoose.Types.ObjectId(req.params.id)
   const sessions = await userDetail(id)
   try {
     const user = await idToUser(id)
@@ -37,5 +32,3 @@ export async function userDetailController(req: any, res: any) {
     res.status(500).send('Error fetching user data')
   }
 }
-=======
->>>>>>> bb4a11b20c8fdad8459ac3b7a0fdb8d9d9221e31

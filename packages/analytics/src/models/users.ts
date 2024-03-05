@@ -1,11 +1,7 @@
 import { Session, User } from '@linux-odyssey/models'
 import Pagination from './pagination.ts'
-import { ObjectId, Model } from 'mongoose'
-
-interface IUser extends Document {
-  hashedPassword?: string
-  socialLogins?: Record<string, any>
-}
+import { Types } from 'mongoose'
+import { IUser, UserSessionDetail } from '../interface.ts'
 
 function loginMethods(user: IUser): string[] {
   const methods: string[] = []
@@ -62,12 +58,15 @@ export async function userList(pagination: Pagination) {
     }
   })
 }
-export async function userDetail(id: ObjectId): Promise<Object> {
+
+export async function userDetail(
+  id: Types.ObjectId
+): Promise<UserSessionDetail[]> {
   const sessions = await Session.find({
     user: id,
   })
   return sessions.map((session) => {
-    const { _id, user, quest, status, createdAt, lastActivityAt } = session
+    const { _id, quest, status, createdAt, lastActivityAt } = session
     return {
       _id,
       quest,
@@ -81,7 +80,8 @@ export async function userDetail(id: ObjectId): Promise<Object> {
     }
   })
 }
-export async function idToUser(id: ObjectId): Promise<String> {
+
+export async function idToUser(id: Types.ObjectId): Promise<String> {
   const user = await User.findOne({
     _id: id,
   })

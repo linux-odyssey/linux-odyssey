@@ -1,6 +1,11 @@
 import { Command, Session } from '@linux-odyssey/models'
 import Pagination from './pagination.ts'
-import { Types } from 'mongoose'
+import {
+  CommandObject,
+  SessionDetail,
+  SessionDocument,
+  SessionObject,
+} from '../interface.ts'
 
 function formatTime(time: number) {
   const seconds = Math.floor(time / 1000)
@@ -9,7 +14,9 @@ function formatTime(time: number) {
   return `${hours}h ${minutes % 60}m ${seconds % 60}s`
 }
 
-export async function sessionList(pagination: Pagination): Promise<any[]> {
+export async function sessionList(
+  pagination: Pagination
+): Promise<SessionObject[]> {
   const sessions = await Session.aggregate([
     pagination.match('_id'),
     {
@@ -57,26 +64,16 @@ export async function sessionList(pagination: Pagination): Promise<any[]> {
           ? formatTime(lastActivityAt.getTime() - createdAt.getTime())
           : 'N/A', // Ensure both dates are present
       commandCount: commands?.length || 0,
+      commands,
     }
   })
 }
-interface User {
-  username: string
-}
-interface SessionDocument {
-  _id: Types.ObjectId
-  user: User
-  quest: string
-  status: string
-  createdAt: Date
-  finishedAt: Date
-}
 
-export async function sessionDetail(id: string): Promise<any> {
+export async function sessionDetail(id: string): Promise<SessionDetail> {
   const session = (await Session.findById(id)
     .populate('user')
     .exec()) as unknown as SessionDocument
-  const commands = (await Command.find({ session: id })).map(
+  const commands: CommandObject[] = (await Command.find({ session: id })).map(
     ({ command, pwd, output, error, createdAt, stage }) => ({
       command: command?.slice(0, 20),
       pwd,
