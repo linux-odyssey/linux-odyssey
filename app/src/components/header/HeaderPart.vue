@@ -8,24 +8,24 @@ defineProps({
   },
   headerComponent: {
     type: Object,
-    required: true,
+    required: false,
   },
 })
 </script>
 <template>
   <div
     id="header"
-    class="w-full h-[6vh] px-5 flex flex-row items-center justify-between bg-bg-secondary"
+    class="w-full top-0 px-5 fixed flex flex-row bg-bg-secondary justify-between items-center"
   >
     <div class="flex flex-row items-center gap-3">
-      <img src="../img/icon_totem.svg" class="h-8 justify-self-start" />
-      <button
-        id="GameTitle"
+      <img src="../../img/icon_totem.svg" class="h-8 justify-self-start" />
+      <RouterLink
+        to="/"
         class="text-text-primary inline-block font-bold whitespace-nowrap pt-1"
         style="font-size: 2vh"
       >
         Linux Odyssey
-      </button>
+      </RouterLink>
       <p
         id="QuestTitle"
         class="text-text inline-block font-bold whitespace-nowrap"
@@ -34,7 +34,7 @@ defineProps({
         {{ title }}
       </p>
     </div>
-    <div class="h-full w-full flex gap-3 items-center justify-end">
+    <div class="w-full flex gap-3 items-center justify-end">
       <component :is="headerComponent" />
     </div>
   </div>

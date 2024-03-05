@@ -1,4 +1,6 @@
 <script setup>
+import { bugReportUrl } from '../../config'
+
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId)
   if (section) {

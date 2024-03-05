@@ -1,6 +1,7 @@
 <script setup>
 import AuthForm from '../components/AuthForm.vue'
-import Background from '../components/DynamicBackground.vue'
+import DynamicBackground from '../components/DynamicBackground.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
 
 import {
   TooManyRequestsError,
@@ -38,10 +39,11 @@ const handleLogin = async ({ username, password, success, error }) => {
 
 <template>
   <div class="w-screen h-screen">
-    <Background class="w-full h-full" />
+    <DynamicBackground class="w-full h-full" />
     <div
       class="w-screen h-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
+      <HeaderPart />
       <div class="w-fit">
         <AuthForm @onSubmit="handleLogin" type="login" />
       </div>
