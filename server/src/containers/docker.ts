@@ -17,7 +17,7 @@ const containerOptions = {
 
 // const network = engine.getNetwork(config.dockerNetwork)
 
-export function createContainer(name, questId) {
+export function createContainer(name: any, questId: any) {
   const option = {
     ...containerOptions,
     name,
