@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { createSession } from '../store/session'
-import { surveyUrl } from '../config'
+import { createSession } from '../../store/session'
+import { surveyUrl } from '../../config'
 
 const router = useRouter()
 const reset = async () => {

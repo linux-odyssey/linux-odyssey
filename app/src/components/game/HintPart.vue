@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import sessionStore from '../store/session'
-import MarkdownText from './MarkdownText.vue'
+import sessionStore from '../../store/session'
+import MarkdownText from '../MarkdownText.vue'
 
 const current = ref(-1)
 watch(

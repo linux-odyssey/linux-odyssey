@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useTerminal } from '../store/session'
+import { useTerminal } from '../../store/session'
 
 const terminal = ref<HTMLElement | null>(null)
 

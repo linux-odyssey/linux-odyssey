@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import DynamicBackground from '../components/DynamicBackground.vue'
-import HeaderPart from '../components/HeaderPart.vue'
-import GameHeaderComponents from '../components/GameHeaderComponents.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
+import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 import api from '../utils/api'
 
 const leaderboard = ref<

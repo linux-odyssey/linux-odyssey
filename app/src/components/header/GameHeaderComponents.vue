@@ -2,13 +2,13 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { logout } from '../utils/auth'
-import { bugReportUrl, surveyUrl } from '../config'
-import { reset } from '../store/session'
+import { logout } from '../../utils/auth'
+import { bugReportUrl, surveyUrl } from '../../config'
+import { reset } from '../../store/session'
 import userProfileStore, {
   loadUserProfile,
   resetUserProfile,
-} from '../store/userProfile'
+} from '../../store/userProfile'
 
 const router = useRouter()
 
