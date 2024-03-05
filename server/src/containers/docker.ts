@@ -16,10 +16,9 @@ const containerOptions = {
   },
 } as Docker.ContainerCreateOptions
 
-export function createContainer(
-  name: string,
-  questId: string
-): Promise<Docker.Container> {
+// const network = engine.getNetwork(config.dockerNetwork)
+
+export function createContainer(name, questId) {
   const option = {
     ...containerOptions,
     name,
@@ -28,9 +27,9 @@ export function createContainer(
   const { hostPwd, mountQuest } = config.docker
   if (!config.isProduction && hostPwd && mountQuest === questId) {
     logger.info('Mounting quest folder', mountQuest)
-    option.HostConfig!.Binds = [
-      `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
-      `${hostPwd}/packages/container:/usr/local/lib/container`,
+    option.HostConfig.Binds = [
+      `${hostPwd.replace(/\\/g, '/')}/quests/${mountQuest}/home:/home/commander`,
+      `${hostPwd.replace(/\\/g, '/')}/packages/container:/usr/local/lib/container`,
     ]
   }
   return engine.createContainer(option)

@@ -44,7 +44,6 @@ export async function sessionList(pagination: Pagination): Promise<any[]> {
       commands,
       lastActivityAt,
     } = session
-    console.log(finishedAt)
     return {
       _id,
       user: user.username, // Assuming `user` is always populated.
@@ -93,8 +92,8 @@ export async function sessionDetail(id: string): Promise<any> {
     user: user.username,
     quest,
     status,
-    createdAt: createdAt.toLocaleString(),
-    finishedAt: finishedAt.toLocaleString(),
+    createdAt: createdAt?.toLocaleString(),
+    finishedAt: finishedAt?.toLocaleString(),
     usedTime: finishedAt
       ? formatTime(finishedAt.getTime() - createdAt.getTime())
       : '',
