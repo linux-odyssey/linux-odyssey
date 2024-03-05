@@ -25,6 +25,7 @@ function sessionDetail(session: ISession) {
     ...sessionSummary(session),
     hints: session.hints,
     tasks: session.tasks,
+    responses: session.responses,
     graph: session.graph,
   }
 }
@@ -55,6 +56,7 @@ export const createSession = asyncHandler(
 export const getSessionById = asyncHandler(
   async (req: Request, res: Response) => {
     const { sessionId } = matchedData(req)
+    console.log(sessionId)
     const session = await Session.findOne({
       _id: sessionId,
       user: (req.user as Express.ExistingUser).id,

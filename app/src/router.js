@@ -5,15 +5,14 @@ import RegisterPage from './views/RegisterPage.vue'
 import ChooseUsernamePage from './views/ChooseUsernamePage.vue'
 import QuestMapPage from './views/QuestMapPage.vue'
 import LeaderboardPage from './views/LeaderboardPage.vue'
+import LandingPage from './views/LandingPage.vue'
 import { isLoggedIn } from './utils/auth'
 
 const routes = [
   {
     path: '/',
-    redirect: {
-      name: 'register',
-    },
-    meta: { requiresGuest: true },
+    name: 'landing-page',
+    component: LandingPage,
   },
   {
     path: '/login',

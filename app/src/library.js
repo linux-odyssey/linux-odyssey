@@ -18,13 +18,18 @@ import {
   faMap,
   faTrophy,
   faFileInvoice,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faLightbulb,
   faCircleQuestion,
   faCircleRight,
 } from '@fortawesome/free-regular-svg-icons'
-import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons'
+import {
+  faFacebook,
+  faGithub,
+  faGoogle,
+} from '@fortawesome/free-brands-svg-icons'
 
 /* add icons to the library */
 library.add(
@@ -47,5 +52,7 @@ library.add(
   faCircleRight,
   faGithub,
   faGoogle,
-  faFileInvoice
+  faFileInvoice,
+  faFacebook,
+  faEnvelope
 )
