@@ -2,8 +2,7 @@ import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
 
-const engine = new Docker({ socketPath: '//./pipe/docker_engine' })
-
+const engine = new Docker()
 const containerOptions = {
   AttachStdin: true,
   AttachStdout: true,
