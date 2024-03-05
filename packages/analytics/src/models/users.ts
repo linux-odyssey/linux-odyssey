@@ -65,14 +65,13 @@ export async function userDetail(
   const sessions = await Session.find({
     user: id,
   })
-  return sessions.map((session) => {
+  return sessions.map((session): UserSessionDetail => {
     const { _id, quest, status, createdAt, lastActivityAt } = session
     return {
       _id,
       quest,
       status,
       createdAt: createdAt?.toLocaleString(),
-      lastActivityAt: lastActivityAt?.toLocaleString(),
       usedTime:
         lastActivityAt && createdAt
           ? formatTime(lastActivityAt.getTime() - createdAt.getTime())

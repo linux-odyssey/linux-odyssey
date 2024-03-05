@@ -74,7 +74,7 @@ export async function sessionDetail(id: string): Promise<SessionDetail> {
     .populate('user')
     .exec()) as unknown as SessionDocument
   const commands: CommandObject[] = (await Command.find({ session: id })).map(
-    ({ command, pwd, output, error, createdAt, stage }) => ({
+    ({ command, pwd, output, error, createdAt, stage }): CommandObject => ({
       command: command?.slice(0, 20),
       pwd,
       stage,
