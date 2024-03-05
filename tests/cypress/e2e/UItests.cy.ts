@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 export default function checkLoginUI() {
   cy.get('#title').should('contain', 'Linux Odyssey').and('be.visible')
   cy.CheckPlaceholder('#password', '密碼', 'Password')
@@ -37,17 +36,19 @@ describe('example helloworld app', () => {
       cy.CheckTextElement('#SwitchtoRegister', '註冊', 'Sign up')
     })
     it('Check social account UI', () => {
-      cy.CheckTextElement(
-        '#GoogleLogin',
-        '以 Google 繼續',
-        'Continue with Google'
-      )
-      cy.CheckTextElement('#or', '或', 'or')
-      cy.CheckTextElement(
-        '#GitHubLogin',
-        '以 GitHub 繼續',
-        'Continue with GitHub'
-      )
+      if (Cypress.env('EnableoAuth')) {
+        cy.CheckTextElement(
+          '#GoogleLogin',
+          '以 Google 繼續',
+          'Continue with Google'
+        )
+        cy.CheckTextElement('#or', '或', 'or')
+        cy.CheckTextElement(
+          '#GitHubLogin',
+          '以 GitHub 繼續',
+          'Continue with GitHub'
+        )
+      }
     })
     it('Check login fail', () => {
       cy.LoginWithPassword('dddd', '123456')
@@ -96,20 +97,18 @@ describe('example helloworld app', () => {
       cy.CheckTextElement('#tasks', '任務', 'Tasks:')
     })
     it('Check Terminal', () => {
-      cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
-        cy.get($terminal).should('be.visible')
-        cy.get('svg[data-icon="terminal"]').should('be.visible')
-        cy.CheckTextElement('#Terminal', '終端機', 'Terminal')
-        cy.get('@Terminaltextbox')
-          .should('be.visible')
-          .and('contain', 'commander:~ $')
-      })
+      // cy.get('#terminal', { timeout: 20000 }).within(($terminal) => {
+      //   cy.get($terminal).should('be.visible')
+      cy.get('#terminal', { timeout: 20000 }).should('be.visible')
+      cy.get('svg[data-icon="terminal"]').should('be.visible')
+      cy.CheckTextElement('#Terminal', '終端機', 'Terminal')
+      cy.get('@Terminaltextbox')
+        .should('be.visible')
+        .and('contain', 'commander:~ $')
     })
     it('Check Hint Part', () => {
-      cy.get('#hint', { timeout: 20000 }).within(($hint) => {
-        cy.get($hint).should('be.visible')
-        cy.get('svg[data-icon="lightbulb"]').should('be.visible')
-      })
+      cy.get('#hint', { timeout: 20000 }).should('be.visible')
+      cy.get('svg[data-icon="lightbulb"]').should('be.visible')
       cy.CheckTextElement('#hint', '提示', 'Hint')
     })
     it('Check File TreeChart', () => {

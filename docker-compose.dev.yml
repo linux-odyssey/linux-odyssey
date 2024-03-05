@@ -74,6 +74,7 @@ services:
 
   db:
     image: mongo
+    restart: always
     networks:
       - internal
     ports:

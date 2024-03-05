@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "node", "@testing-library/cypress"],
+    "esModuleInterop": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["dist"]
+}

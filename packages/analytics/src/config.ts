@@ -1,3 +1,9 @@
+import dotenv from 'dotenv'
+
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '.env.dev' })
+}
+
 function getOrFailed(key: string): string {
   if (!process.env[key]) {
     throw new Error(`Missing required environment variable: ${key}`)
@@ -16,13 +22,13 @@ interface Config {
 
 const config: Config = {
   host: process.env.HOST || 'localhost',
-  port: process.env.PORT ? parseInt(process.env.PORT) : 3001,
+  port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3001,
   db: process.env.MONGO_URL || 'mongodb://localhost:27017/odyssey-test',
-  username: 'a' || getOrFailed('ADMIN_USERNAME'),
-  password: 'a' || getOrFailed('ADMIN_PASSWORD'),
+  username: getOrFailed('ADMIN_USERNAME'),
+  password: getOrFailed('ADMIN_PASSWORD'),
   baseUrl:
     process.env.BASE_URL ||
-    `http://${process.env.HOST || 'localhost'}:${process.env.PORT ? parseInt(process.env.PORT) : 3001}`,
+    `http://${process.env.HOST || 'localhost'}:${process.env.PORT ? parseInt(process.env.PORT, 10) : 3001}`,
 }
 
 export default config

@@ -4,6 +4,9 @@ import { get } from './utils/env.js'
 
 // Import dotenv and load ../.env
 dotenv.config({ path: '../.env' })
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '../.env.dev' })
+}
 
 function getTrustProxies(key: string): string[] {
   const value = process.env[key]

@@ -27,7 +27,7 @@ export function createContainer(name, questId) {
   const { hostPwd, mountQuest } = config.docker
   if (!config.isProduction && hostPwd && mountQuest === questId) {
     logger.info('Mounting quest folder', mountQuest)
-    option.HostConfig.Binds = [
+    option.HostConfig!.Binds = [
       `${hostPwd.replace(/\\/g, '/')}/quests/${mountQuest}/home:/home/commander`,
       `${hostPwd.replace(/\\/g, '/')}/packages/container:/usr/local/lib/container`,
     ]
