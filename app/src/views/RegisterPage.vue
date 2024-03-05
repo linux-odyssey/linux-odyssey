@@ -3,8 +3,8 @@ import validator from 'validator'
 import { isValidUsername } from '@linux-odyssey/utils'
 import { passwordPolicy } from '@linux-odyssey/constants'
 import AuthForm from '../components/AuthForm.vue'
-import Background from '../components/DynamicBackground.vue'
-
+import DynamicBackground from '../components/DynamicBackground.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
 import { checkUsername, register } from '../utils/auth'
 import {
   UnauthorizedError,
@@ -89,11 +89,12 @@ async function check({
 
 <template>
   <div class="w-screen h-screen">
-    <Background class="w-full h-full" />
+    <DynamicBackground class="w-full h-full" />
     <div
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
-      <div class="w-fit">
+      <HeaderPart />
+      <div class="w-fit h-[91vh]">
         <AuthForm
           @onSubmit="handleRegister"
           @onChange="check"

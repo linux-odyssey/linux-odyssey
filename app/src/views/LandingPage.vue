@@ -11,9 +11,9 @@ import { facebookUrl, githubUrl } from '../config'
     <DynamicBackground class="w-full h-full" />
     <div class="h-screen w-screen absolute top-0 left-0">
       <!-- game header -->
-      <HeaderPart :headerComponent="LandingHeaderComponents" />
+      <HeaderPart :headerComponent="LandingHeaderComponents" class="z-50" />
       <!-- main content -->
-      <main class="w-full h-[94vh] overflow-y-auto">
+      <main class="w-full h-full overflow-y-auto">
         <div class="w-full flex flex-col items-center">
           <div
             class="flex flex-col md:flex-row mt-10 justify-around gap-5 items-center my-10"
@@ -26,7 +26,6 @@ import { facebookUrl, githubUrl } from '../config'
               Odyssey
             </h1>
           </div>
-
           <!-- intro -->
           <div class="w-full md:w-2/3 px-5">
             <section
@@ -158,6 +157,7 @@ import { facebookUrl, githubUrl } from '../config'
                     class="text-text-primary text-3xl font-extrabold font-mono sm:col-span-3 gap-6"
                   >
                     玩家感想
+                    <!--可以做成翻頁卡牌一次一個-->
                   </h1>
                   <h1 class="text-xl text-center">"很好玩很像益智遊戲"</h1>
                   <h1 class="text-xl text-center">
@@ -195,7 +195,9 @@ import { facebookUrl, githubUrl } from '../config'
             <h1 class="text-text-primary font-extrabold font-mono text-3xl">
               聯絡我們
             </h1>
-            <div class="flex flex-row items-center justify-around mt-5 gap-5">
+            <div
+              class="flex flex-row items-center justify-around mt-5 gap-5 mb-5"
+            >
               <ContactButton
                 :url="facebookUrl"
                 :icons="['fab', 'facebook']"
