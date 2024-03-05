@@ -1,11 +1,12 @@
 <script setup>
 import QuestMap from '../components/QuestMap.vue'
-import GameHeaderPart from '../components/GameHeaderPart.vue'
+import HeaderPart from '../components/HeaderPart.vue'
+import GameHeaderComponents from '../components/GameHeaderComponents.vue'
 </script>
 
 <template>
   <div class="h-[6vh] w-full">
-    <GameHeaderPart title="關卡地圖" />
+    <HeaderPart :title="關卡地圖" :headerComponent="GameHeaderComponents" />
     <!-- <p
       class="text-text-primary absolute z-1 font-bold inline-block tracking-widest"
       style="left: 1.2%; top: 1.5%; height: 100%; font-size: 2vh"
