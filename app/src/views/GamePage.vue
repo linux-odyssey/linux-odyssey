@@ -2,7 +2,8 @@
 import { computed, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import sessionStore, { init } from '../store/session'
-import GameHeaderPart from '../components/GameHeaderPart.vue'
+import HeaderPart from '../components/HeaderPart.vue'
+import GameHeaderComponents from '../components/GameHeaderComponents.vue'
 // import CommandlistPart from '../components/CommandlistPart.vue'
 import HintPart from '../components/HintPart.vue'
 import QuestPart from '../components/QuestPart.vue'
@@ -46,7 +47,10 @@ onMounted(async () => {
 <template>
   <!-- game header -->
   <div class="h-[6vh] w-full">
-    <GameHeaderPart :title="sessionStore.quest?.title" />
+    <HeaderPart
+      :title="sessionStore.quest?.title"
+      :headerComponent="GameHeaderComponents"
+    />
   </div>
   <!-- current status indicator -->
   <input
