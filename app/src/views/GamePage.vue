@@ -71,7 +71,7 @@ onMounted(async () => {
       </section> -->
     </div>
     <!-- Terminal and Hint -->
-    <div class="bg-bg h-full w-1/2 rounded-lg">
+    <div class="bg-bg h-full rounded-lg w-1/2">
       <section id="hint" class="h-3/5">
         <HintPart />
       </section>
