@@ -4,6 +4,7 @@ import {
   CommandMatcher,
   ErrorMatcher,
   PwdMatcher,
+  OutputMatcher,
   Condition,
 } from '../src/condition'
 import { Command } from '../src/command'
@@ -61,6 +62,13 @@ test('pwd matcher', () => {
   expect(matcher.match({ pwd: '/home/user1' })).toBe(false)
   expect(matcher.match({ pwd: '/home/user/anotherpath' })).toBe(false)
   expect(matcher.match({ pwd: '/var/home/user' })).toBe(false)
+})
+
+test('output matcher', () => {
+  const matcher = new OutputMatcher('^start$')
+  expect(matcher.match({ output: 'start' })).toBe(true)
+  expect(matcher.match({ output: 'start1' })).toBe(false)
+  expect(matcher.match({ output: 'start\n' })).toBe(true)
 })
 
 // test('condition match', () => {

@@ -40,6 +40,12 @@ export class PwdMatcher implements Matcher {
   }
 }
 
+export class OutputMatcher extends PatternMatcher implements Matcher {
+  match(command: Partial<Command>): boolean {
+    return command.output ? this.test(command.output.trim()) : false
+  }
+}
+
 export interface ICondition {
   command?: string
   output?: string
