@@ -62,3 +62,21 @@ test('condition match command', () => {
     condition.match({ command: 'echo start', error: 'permission denied' })
   ).toBe(false)
 })
+
+test('condition with OR', () => {
+  const condition = new Condition({
+    or: [{ command: '^echo start$' }, { command: '^echo hello$' }],
+  })
+  expect(condition.match({ command: 'echo start' })).toBe(true)
+  expect(condition.match({ command: 'echo hello' })).toBe(true)
+  expect(condition.match({ command: 'echo start1' })).toBe(false)
+})
+
+test('condition with NOT', () => {
+  const condition = new Condition({
+    not: { command: '^echo start$' },
+  })
+
+  expect(condition.match({ command: 'echo start' })).toBe(false)
+  expect(condition.match({ command: 'echo hello' })).toBe(true)
+})
