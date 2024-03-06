@@ -1,23 +1,16 @@
 import { test, expect } from '@jest/globals'
-import {
-  CommandMatcher,
-  ErrorMatcher,
-  PwdMatcher,
-  OutputMatcher,
-  Condition,
-} from '../src/condition'
-import { Command } from '../src/command'
+import { Condition } from '../src/condition/condition'
+import { OutputMatcher } from '../src/condition/outputMatcher'
+import { PwdMatcher } from '../src/condition/pwdMatcher'
+import { CommandMatcher } from '../src/condition/commandMatcher'
+import { ErrorMatcher } from '../src/condition/errorMatcher.js'
 
 test('command match', () => {
-  const command: Command = {
-    command: 'echo start',
-    output: 'start',
-    error: '',
-    pwd: '/home/user',
-  }
-
-  const matcher = new CommandMatcher('^echo start$', 'i')
-  expect(matcher.match(command)).toBe(true)
+  const matcher = new CommandMatcher('^echo start$')
+  expect(matcher.match({ command: 'echo start' })).toBe(true)
+  expect(matcher.match({ command: 'echo start1' })).toBe(false)
+  // Currently not supported
+  expect(matcher.match({ command: 'echo "start"' })).toBe(false)
 })
 
 test('error matcher', () => {
@@ -50,7 +43,7 @@ test('output matcher', () => {
   expect(matcher.match({ output: 'start\n' })).toBe(true)
 })
 
-test('condition match', () => {
+test('condition match command', () => {
   const condition = new Condition({
     command: '^echo start$',
   })
