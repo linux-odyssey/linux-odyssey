@@ -1,6 +1,5 @@
 import { test, expect } from '@jest/globals'
 import {
-  PatternMatcher,
   CommandMatcher,
   ErrorMatcher,
   PwdMatcher,
@@ -8,26 +7,6 @@ import {
   Condition,
 } from '../src/condition'
 import { Command } from '../src/command'
-
-test('pattern match', () => {
-  const matcher = new PatternMatcher('^echo start$')
-
-  expect(matcher.test('echo start')).toBe(true)
-  expect(matcher.test('echo start ')).toBe(false)
-})
-
-test('pattern match with flag', () => {
-  const matcher = new PatternMatcher('^echo start$', 'i')
-
-  expect(matcher.test('echo start')).toBe(true)
-  expect(matcher.test('echo Start')).toBe(true)
-  expect(matcher.test('echo Start ')).toBe(false)
-})
-
-test('empty pattern return true', () => {
-  const matcher = new PatternMatcher('')
-  expect(matcher.test('echo start')).toBe(true)
-})
 
 test('command match', () => {
   const command: Command = {

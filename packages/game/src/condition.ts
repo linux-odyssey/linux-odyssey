@@ -2,28 +2,22 @@
 import { Command } from './command'
 import { Matcher } from './matcher'
 
-export class PatternMatcher {
+export class CommandMatcher implements Matcher {
   private matcher: RegExp
   constructor(pattern: string, args?: string) {
     this.matcher = new RegExp(pattern, args)
   }
 
-  test(input: string): boolean {
-    return this.matcher.test(input)
-  }
-}
-
-export class CommandMatcher extends PatternMatcher implements Matcher {
   match(command: Partial<Command>): boolean {
-    return !!command.command && this.test(command.command)
+    return !!command.command && this.matcher.test(command.command)
   }
 }
 
 export class ErrorMatcher implements Matcher {
-  private matcher?: PatternMatcher
+  private matcher?: RegExp
   constructor(errorPattern?: string) {
     if (errorPattern) {
-      this.matcher = new PatternMatcher(errorPattern)
+      this.matcher = new RegExp(errorPattern)
     }
   }
 
@@ -43,9 +37,14 @@ export class PwdMatcher implements Matcher {
   }
 }
 
-export class OutputMatcher extends PatternMatcher implements Matcher {
+export class OutputMatcher implements Matcher {
+  private matcher: RegExp
+  constructor(pattern: string, args?: string) {
+    this.matcher = new RegExp(pattern, args)
+  }
+
   match(command: Partial<Command>): boolean {
-    return command.output ? this.test(command.output.trim()) : false
+    return !!command.output && this.matcher.test(command.output.trim())
   }
 }
 
