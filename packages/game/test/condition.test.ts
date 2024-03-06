@@ -71,22 +71,22 @@ test('output matcher', () => {
   expect(matcher.match({ output: 'start\n' })).toBe(true)
 })
 
-// test('condition match', () => {
-//   const condition = new Condition({
-//     command: '^echo start$',
-//     pwd: '/home/user',
-//   })
+test('condition match', () => {
+  const condition = new Condition({
+    command: '^echo start$',
+  })
 
-//   expect(
-//     condition.match({
-//       command: 'echo start',
-//       pwd: '/home/user',
-//     })
-//   ).toBe(true)
-//   expect(
-//     condition.match({
-//       command: 'echo start',
-//       pwd: '/home/user1',
-//     })
-//   ).toBe(false)
-// })
+  expect(
+    condition.match({
+      command: 'echo start',
+    })
+  ).toBe(true)
+  expect(
+    condition.match({
+      command: 'echo hello',
+    })
+  ).toBe(false)
+  expect(
+    condition.match({ command: 'echo start', error: 'permission denied' })
+  ).toBe(false)
+})
