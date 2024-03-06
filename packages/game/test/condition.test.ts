@@ -1,9 +1,9 @@
 import { test, expect } from '@jest/globals'
-import { Condition } from '../src/condition/condition'
-import { OutputMatcher } from '../src/condition/outputMatcher'
-import { PwdMatcher } from '../src/condition/pwdMatcher'
-import { CommandMatcher } from '../src/condition/commandMatcher'
-import { ErrorMatcher } from '../src/condition/errorMatcher.js'
+import { Condition } from '../src/condition/Condition'
+import { OutputMatcher } from '../src/condition/OutputMatcher'
+import { PwdMatcher } from '../src/condition/PwdMatcher'
+import { CommandMatcher } from '../src/condition/CommandMatcher'
+import { ErrorMatcher } from '../src/condition/ErrorMatcher.js'
 
 test('command match', () => {
   const matcher = new CommandMatcher('^echo start$')

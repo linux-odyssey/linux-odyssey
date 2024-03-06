@@ -1,5 +1,5 @@
-import { Matcher } from './matcher.js'
-import { Command } from '../command.js'
+import { Matcher } from './Matcher.js'
+import { Command } from '../types.js'
 
 export class ErrorMatcher implements Matcher {
   private matcher?: RegExp
@@ -9,7 +9,7 @@ export class ErrorMatcher implements Matcher {
     }
   }
 
-  match(command: Partial<Command>): boolean {
+  match(command: Command): boolean {
     if (!this.matcher) {
       return !command.error
     }
