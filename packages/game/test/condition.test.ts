@@ -1,5 +1,11 @@
 import { test, expect } from '@jest/globals'
-import { PatternMatcher, CommandMatcher, ErrorMatcher } from '../src/condition'
+import {
+  PatternMatcher,
+  CommandMatcher,
+  ErrorMatcher,
+  PwdMatcher,
+  Condition,
+} from '../src/condition'
 import { Command } from '../src/command'
 
 test('pattern match', () => {
@@ -22,12 +28,6 @@ test('empty pattern return true', () => {
   expect(matcher.test('echo start')).toBe(true)
 })
 
-test('empty error return false', () => {
-  const matcher = new ErrorMatcher()
-  expect(matcher.match({ error: '' })).toBe(true)
-  expect(matcher.match({ error: 'permission denied' })).toBe(false)
-})
-
 test('command match', () => {
   const command: Command = {
     command: 'echo start',
@@ -40,4 +40,45 @@ test('command match', () => {
   expect(matcher.match(command)).toBe(true)
 })
 
-test('condition match', () => {})
+test('error matcher', () => {
+  const matcher = new ErrorMatcher()
+  expect(matcher.match({ error: '' })).toBe(true)
+  expect(matcher.match({ error: 'permission denied' })).toBe(false)
+})
+
+test('error matcher with specific error', () => {
+  const matcher = new ErrorMatcher('permission denied')
+  expect(matcher.match({ error: '' })).toBe(false)
+  expect(matcher.match({ error: 'file not found' })).toBe(false)
+  expect(matcher.match({ error: 'cannot open files: permission denied' })).toBe(
+    true
+  )
+})
+
+test('pwd matcher', () => {
+  const matcher = new PwdMatcher('/home/user')
+  expect(matcher.match({ pwd: '/home/user' })).toBe(true)
+  expect(matcher.match({ pwd: '/home/user1' })).toBe(false)
+  expect(matcher.match({ pwd: '/home/user/anotherpath' })).toBe(false)
+  expect(matcher.match({ pwd: '/var/home/user' })).toBe(false)
+})
+
+// test('condition match', () => {
+//   const condition = new Condition({
+//     command: '^echo start$',
+//     pwd: '/home/user',
+//   })
+
+//   expect(
+//     condition.match({
+//       command: 'echo start',
+//       pwd: '/home/user',
+//     })
+//   ).toBe(true)
+//   expect(
+//     condition.match({
+//       command: 'echo start',
+//       pwd: '/home/user1',
+//     })
+//   ).toBe(false)
+// })
