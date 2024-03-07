@@ -3,7 +3,7 @@ import { IFileExistenceChecker, FileType, FileInput } from '../src/types.js'
 import { checkFiles } from '../src/condition/FileMatcher.js'
 import { Condition } from '../src/condition/Condition.js'
 
-class MockFileChecker implements IFileExistenceChecker {
+export class MockFileChecker implements IFileExistenceChecker {
   private files: FileInput[] = [
     {
       path: '/home/user/hello.txt',

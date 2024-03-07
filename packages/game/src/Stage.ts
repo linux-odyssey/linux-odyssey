@@ -1,4 +1,4 @@
-import { IStage, ICommand } from './types'
+import { IStage, ICommand, IFileExistenceChecker } from './types'
 import { Condition } from './condition/Condition'
 
 export class Stage {
@@ -12,7 +12,10 @@ export class Stage {
     this.condition = new Condition(condition)
   }
 
-  satisfies(command: ICommand): boolean {
-    return this.condition.match(command)
+  async satisfies(
+    command: ICommand,
+    checker: IFileExistenceChecker
+  ): Promise<boolean> {
+    return this.condition.match(command) && this.condition.check(checker)
   }
 }
