@@ -1,0 +1,10 @@
+{
+  "name": "@linux-odyssey/game",
+  "version": "1.0.0",
+  "main": "dist/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {}
+}

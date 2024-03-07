@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:docker": "API_TARGET=http://backend:3000 vite",
     "build": "vite build",
+    "build:refs": "tsc --build",
     "preview": "vite preview"
   },
   "dependencies": {
