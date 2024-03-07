@@ -35,6 +35,11 @@ export interface IFileExistenceChecker {
 
 export interface IStage {
   id: string
-  name: string
+  name?: string
+  requirements?: string[]
   condition: ICondition
+}
+
+export interface ISession {
+  completedStages: string[]
 }
