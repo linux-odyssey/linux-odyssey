@@ -1,4 +1,4 @@
-import { Command } from '../types.js'
+import { ICommand } from '../types.js'
 import { Matcher } from './Matcher.js'
 
 export class CommandMatcher implements Matcher {
@@ -7,7 +7,7 @@ export class CommandMatcher implements Matcher {
     this.matcher = new RegExp(command, flags)
   }
 
-  match(command: Command): boolean {
+  match(command: ICommand): boolean {
     return !!command.command && this.matcher.test(command.command)
   }
 }

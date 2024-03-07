@@ -1,5 +1,5 @@
-import { Command } from '../types.js'
+import { ICommand } from '../types.js'
 
 export interface Matcher {
-  match(command: Command): boolean
+  match(command: ICommand): boolean
 }

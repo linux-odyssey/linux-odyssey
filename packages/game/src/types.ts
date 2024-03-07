@@ -1,4 +1,4 @@
-export interface Command {
+export interface ICommand {
   command?: string
   output?: string
   error?: string
@@ -12,7 +12,7 @@ export interface ICondition {
   pwd?: string
   or?: ICondition[]
   not?: ICondition
-  files: FileExistenceInput[]
+  files?: FileExistenceInput[]
 }
 
 export enum FileType {
@@ -31,4 +31,10 @@ export interface FileExistenceInput extends FileInput {
 
 export interface IFileExistenceChecker {
   exists(file: FileInput): Promise<boolean>
+}
+
+export interface IStage {
+  id: string
+  name: string
+  condition: ICondition
 }

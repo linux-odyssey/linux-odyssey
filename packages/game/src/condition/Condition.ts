@@ -1,5 +1,5 @@
 import {
-  Command,
+  ICommand,
   ICondition,
   IFileExistenceChecker,
   FileExistenceInput,
@@ -30,7 +30,7 @@ export class Condition {
     this.matchers.push(new ErrorMatcher(error)) // always check unexpected error
   }
 
-  match(command: Command): boolean {
+  match(command: ICommand): boolean {
     return this.matchers.every((matcher) => {
       return matcher.match(command)
     })
