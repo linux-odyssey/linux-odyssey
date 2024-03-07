@@ -1,6 +1,7 @@
 import { test, expect } from '@jest/globals'
 import { IFileExistenceChecker, FileType, FileInput } from '../src/types.js'
 import { checkFiles } from '../src/condition/FileMatcher.js'
+import { Condition } from '../src/condition/Condition.js'
 
 class MockFileChecker implements IFileExistenceChecker {
   private files: FileInput[] = [
@@ -89,4 +90,18 @@ test('file matcher', async () => {
       },
     ])
   ).toBe(false)
+})
+
+test('condition with file matcher', async () => {
+  const checker = new MockFileChecker()
+  const condition = new Condition({
+    files: [
+      {
+        path: '/home/user/hello.txt',
+        type: FileType.FILE,
+        exists: true,
+      },
+    ],
+  })
+  expect(await condition.check(checker)).toBe(true)
 })

@@ -1,8 +1,4 @@
-import { FileInput, IFileExistenceChecker } from '../types'
-
-interface FileExistenceInput extends FileInput {
-  exists: boolean
-}
+import { FileExistenceInput, IFileExistenceChecker } from '../types'
 
 export async function checkFiles(
   checker: IFileExistenceChecker,

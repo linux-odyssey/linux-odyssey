@@ -12,6 +12,7 @@ export interface ICondition {
   pwd?: string
   or?: ICondition[]
   not?: ICondition
+  files: FileExistenceInput[]
 }
 
 export enum FileType {
@@ -22,6 +23,10 @@ export enum FileType {
 export interface FileInput {
   path: string
   type: FileType
+}
+
+export interface FileExistenceInput extends FileInput {
+  exists: boolean
 }
 
 export interface IFileExistenceChecker {
