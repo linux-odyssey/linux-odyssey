@@ -6,7 +6,7 @@
   "type": "module",
   "license": "GPL",
   "scripts": {
-    "start": "node --loader ts-node/esm src/index.ts",
+    "start": "node dist/index.js",
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "nodemon"
