@@ -9,7 +9,7 @@
     "start": "node --loader ts-node/esm src/index.ts",
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon --loader ts-node/esm src/index.ts --trace-warnings"
+    "dev": "nodemon"
   },
   "dependencies": {
     "@linux-odyssey/models": "*",
