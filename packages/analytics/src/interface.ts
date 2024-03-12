@@ -14,7 +14,7 @@ export interface SessionDocument {
 export interface CommandObject {
   command: string
   pwd: string
-  stage: string | null | undefined
+  stage?: string | null
   output: string | undefined
   error: string | undefined
   createdAt: string
