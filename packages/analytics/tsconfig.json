@@ -8,6 +8,7 @@
     "strict": false,
     "allowImportingTsExtensions": true,
     "baseUrl": ".",
+    "moduleResolution": "NodeNext",
     "paths": {
       "@linux-odyssey/models": ["../models"]
     }
