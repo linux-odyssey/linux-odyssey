@@ -6,7 +6,10 @@
     "esModuleInterop": true,
     "noEmit": true,
     "strict": false,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@linux-odyssey/models": ["../models/dist/index.js"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"],
