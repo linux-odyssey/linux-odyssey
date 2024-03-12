@@ -7,8 +7,9 @@
     "noEmit": true,
     "strict": false,
     "allowImportingTsExtensions": true,
+    "baseUrl": "./",
     "paths": {
-      "@linux-odyssey/models": ["../models/dist/index.js"]
+      "@linux-odyssey/models": ["./packages/models"]
     }
   },
   "include": ["src"],
