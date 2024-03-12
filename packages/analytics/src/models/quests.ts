@@ -1,6 +1,6 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable func-names */
-import { UserProfile } from '../../../models/dist/index.js'
+import { UserProfile } from '@linux-odyssey/models'
 
 export function questList() {
   return UserProfile.aggregate([
