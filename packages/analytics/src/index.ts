@@ -1,4 +1,4 @@
-import connectDB from '@linux-odyssey/models'
+import connectDB from '../../models/dist/index.js'
 import express from 'express'
 import { engine } from 'express-handlebars'
 import basicAuth from 'express-basic-auth'

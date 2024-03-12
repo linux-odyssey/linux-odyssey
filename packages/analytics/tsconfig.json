@@ -6,11 +6,7 @@
     "esModuleInterop": true,
     "noEmit": true,
     "strict": false,
-    "allowImportingTsExtensions": true,
-    "baseUrl": "./",
-    "paths": {
-      "@linux-odyssey/models": ["./packages/models"]
-    }
+    "allowImportingTsExtensions": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"],

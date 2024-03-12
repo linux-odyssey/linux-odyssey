@@ -1,4 +1,4 @@
-import { Session, User } from '@linux-odyssey/models'
+import { Session, User } from '../../../models/dist/index.js'
 import Pagination from './pagination.js'
 import { Types } from 'mongoose'
 import { IUser, UserSessionDetail } from '../interface.js'
