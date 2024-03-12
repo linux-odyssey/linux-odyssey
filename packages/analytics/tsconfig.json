@@ -8,9 +8,8 @@
     "strict": false,
     "allowImportingTsExtensions": true,
     "baseUrl": ".",
-    "moduleResolution": "NodeNext",
     "paths": {
-      "@linux-odyssey/models": ["../models"]
+      "@linux-odyssey/models": ["../models/dist/index.js"]
     }
   },
   "include": ["src"],
