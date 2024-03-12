@@ -94,7 +94,7 @@ async function check({
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
       <HeaderPart />
-      <div class="w-fit h-[91vh]">
+      <div class="w-fit mt-8">
         <AuthForm
           @onSubmit="handleRegister"
           @onChange="check"

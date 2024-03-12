@@ -46,7 +46,7 @@ onMounted(async () => {
 
 <template>
   <!-- game header -->
-  <div class="w-full h-[5vh]">
+  <div class="w-full">
     <HeaderPart
       :title="sessionStore.quest?.title"
       :headerComponent="GameHeaderComponents"
@@ -59,7 +59,7 @@ onMounted(async () => {
     :value="sessionStore.session.status"
   />
   <!-- main -->
-  <div id="main" class="h-[95vh] w-full flex p-3 space-x-3">
+  <div id="main" class="h-full pt-10 w-full flex p-3 space-x-3">
     <!-- Topic and Command List -->
     <div class="bg-bg-secondary h-full w-1/4 rounded-lg">
       <section id="quest" class="h-full p-3 overflow-auto">

@@ -17,7 +17,7 @@ const scrollToSection = (sectionId) => {
 <template>
   <button
     id="Intro"
-    class="text-text inline-block font-bold whitespace-nowrap pt-1"
+    class="text-text inline-block font-bold whitespace-nowrap pt-1 hover:text-text-primary"
     @click="scrollToSection('intro')"
     style="font-size: 2vh"
   >
@@ -25,14 +25,14 @@ const scrollToSection = (sectionId) => {
   </button>
   <button
     id="Feature"
-    class="text-text inline-block font-bold whitespace-nowrap pt-1"
+    class="text-text inline-block font-bold whitespace-nowrap pt-1 hover:text-text-primary"
     @click="scrollToSection('feature')"
     style="font-size: 2vh"
   >
     特色</button
   ><button
     id="Info"
-    class="text-text inline-block font-bold whitespace-nowrap pt-1"
+    class="text-text inline-block font-bold whitespace-nowrap pt-1 hover:text-text-primary"
     @click="scrollToSection('about')"
     style="font-size: 2vh"
   >
@@ -41,7 +41,7 @@ const scrollToSection = (sectionId) => {
 
   <button
     id="Contact"
-    class="text-text inline-block font-bold whitespace-nowrap pt-1"
+    class="text-text inline-block font-bold whitespace-nowrap pt-1 hover:text-text-primary"
     @click="scrollToSection('contact')"
     style="font-size: 2vh"
   >
@@ -51,15 +51,12 @@ const scrollToSection = (sectionId) => {
     title="Sign In"
     id="SignIn"
     to="/register"
-    class="text-text inline-block font-bold whitespace-nowrap pt-1"
+    class="text-text inline-block font-bold whitespace-nowrap pt-1 hover:text-text-primary"
     style="font-size: 2vh"
   >
     登入
   </RouterLink>
   <a title="Bug Report" :href="bugReportUrl" target="_blank" class="h-5 w-5">
-    <font-awesome-icon
-      :icon="['fas', 'bug']"
-      class="text-text-primary h-full w-full"
-    />
+    <font-awesome-icon :icon="['fas', 'bug']" class="text-text-primary" />
   </a>
 </template>
