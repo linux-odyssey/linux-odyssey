@@ -5,7 +5,7 @@ import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 </script>
 
 <template>
-  <div class="w-fit h-[5vh]">
+  <div class="w-fit">
     <HeaderPart
       :title="關卡地圖"
       :headerComponent="GameHeaderComponents"
@@ -19,7 +19,7 @@ import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
       Quest Map
       Unix編年史
     </p> -->
-  <div class="flex flex-col justify-center items-center w-full h-[95vh]">
+  <div class="flex flex-col justify-center items-center w-full h-full mt-8">
     <QuestMap />
   </div>
 </template>

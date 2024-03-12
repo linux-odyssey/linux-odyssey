@@ -65,31 +65,22 @@ onMounted(async () => {
   <a title="Survey" :href="surveyUrl" target="_blank" class="h-5 w-5">
     <font-awesome-icon
       :icon="['fas', 'file-invoice']"
-      class="text-text-primary h-full w-full"
+      class="text-text-primary"
     />
   </a>
   <RouterLink title="LeaderBoard" to="/leaderboard" class="h-5 w-5">
-    <font-awesome-icon
-      :icon="['fas', 'trophy']"
-      class="text-text-primary h-full w-full"
-    />
+    <font-awesome-icon :icon="['fas', 'trophy']" class="text-text-primary" />
   </RouterLink>
   <RouterLink title="Map" to="/map" class="h-5 w-5">
-    <font-awesome-icon
-      :icon="['fas', 'map']"
-      class="text-text-primary h-full w-full"
-    />
+    <font-awesome-icon :icon="['fas', 'map']" class="text-text-primary" />
   </RouterLink>
   <a title="Bug Report" :href="bugReportUrl" target="_blank" class="h-5 w-5">
-    <font-awesome-icon
-      :icon="['fas', 'bug']"
-      class="text-text-primary h-full w-full"
-    />
+    <font-awesome-icon :icon="['fas', 'bug']" class="text-text-primary" />
   </a>
   <button title="Sign Out" @click="handleLogout" class="h-5 w-5">
     <font-awesome-icon
       :icon="['fas', 'arrow-right-from-bracket']"
-      class="text-text-primary h-full w-full"
+      class="text-text-primary"
     />
   </button>
 </template>
