@@ -5,12 +5,12 @@ import {
   userListController,
   userDetailController,
 } from './controllers/users.js'
-import { questListController } from './controllers/quests.ts'
-import { commandListController } from './controllers/commands.ts'
+import { questListController } from './controllers/quests.js'
+import { commandListController } from './controllers/commands.js'
 import {
   sessionDetailController,
   sessionListController,
-} from './controllers/sessions.ts'
+} from './controllers/sessions.js'
 
 const router = Router()
 

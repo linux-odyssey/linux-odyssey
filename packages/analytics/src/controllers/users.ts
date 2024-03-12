@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import Pagination from '../models/pagination.ts'
+import Pagination from '../models/pagination.js'
 import { userList, userDetail, idToUser } from '../models/users.js'
 import { Request, Response } from 'express'
 export async function userListController(req: Request, res: Response) {

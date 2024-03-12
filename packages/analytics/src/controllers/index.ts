@@ -1,5 +1,5 @@
 import { userCount } from '../models/users.js'
-import { questList } from '../models/quests.ts'
+import { questList } from '../models/quests.js'
 import { Request, Response } from 'express'
 // eslint-disable-next-line import/prefer-default-export
 export async function homeController(req: Request, res: Response) {

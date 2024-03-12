@@ -1,7 +1,7 @@
 import { Session, User } from '@linux-odyssey/models'
-import Pagination from './pagination.ts'
+import Pagination from './pagination.js'
 import { Types } from 'mongoose'
-import { IUser, UserSessionDetail } from '../interface.ts'
+import { IUser, UserSessionDetail } from '../interface.js'
 
 function loginMethods(user: IUser): string[] {
   const methods: string[] = []

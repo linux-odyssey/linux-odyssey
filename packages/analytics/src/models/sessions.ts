@@ -1,5 +1,5 @@
 import { Command, Session } from '@linux-odyssey/models'
-import Pagination from './pagination.ts'
+import Pagination from './pagination.js'
 import {
   CommandObject,
   SessionDetail,
