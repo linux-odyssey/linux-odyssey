@@ -9,7 +9,7 @@
     "allowImportingTsExtensions": true,
     "baseUrl": ".",
     "paths": {
-      "@linux-odyssey/models": ["../models/dist/index.js"]
+      "@linux-odyssey/models": ["app/packages/models"]
     }
   },
   "include": ["src"],
