@@ -18,7 +18,7 @@ const toggleMenu = () => {
 </script>
 <template>
   <div
-    class="w-full top-0 px-5 fixed flex flex-row bg-bg-secondary justify-between items-center sm:justify-start"
+    class="w-full top-0 px-5 fixed flex flex-row flex-wrap bg-bg-secondary justify-between items-center sm:justify-between"
   >
     <div class="flex flex-row items-center gap-3" :class="{ hidden: menuOpen }">
       <img src="../../img/icon_totem.svg" class="h-8 justify-self-start" />
@@ -38,14 +38,14 @@ const toggleMenu = () => {
       </p>
     </div>
     <div
-      class="w-full flex flex-col gap-3 items-center justify-end sm:w-auto sm:flex-row sm:block sm:ml-6"
+      class="w-full flex flex-col gap-3 items-center justify-end sm:w-auto sm:block sm:ml-6"
       :class="{ hidden: !menuOpen }"
     >
       <component :is="headerComponent" />
     </div>
     <button
       type="button"
-      class="flex items-center justify-end h-5 w-5 rounded-md sm:hidden"
+      class="flex items-center h-5 w-5 rounded-md sm:hidden"
       aria-controls="mobile-menu"
       aria-expanded="false"
       @click="toggleMenu"
