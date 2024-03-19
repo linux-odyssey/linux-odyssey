@@ -57,30 +57,53 @@ onMounted(async () => {
         </button> -->
   <p
     id="UsernameText"
-    class="text-text inline-block whitespace-nowrap"
+    class="text-text inline-block whitespace-nowrap px-1.5"
     style="font-size: 2vh"
   >
     {{ userProfileStore.username }}
   </p>
-  <a title="Survey" :href="surveyUrl" target="_blank" class="h-5 w-5">
+  <a
+    title="Survey"
+    :href="surveyUrl"
+    target="_blank"
+    class="md:h-5 md:w-5 px-1.5 w-auto"
+  >
     <font-awesome-icon
       :icon="['fas', 'file-invoice']"
-      class="text-text-primary"
+      class="text-text-primary inline"
     />
+    <span class="text-text sm:hidden px-2">Survey</span>
   </a>
-  <RouterLink title="LeaderBoard" to="/leaderboard" class="h-5 w-5">
+  <RouterLink
+    title="LeaderBoard"
+    to="/leaderboard"
+    class="md:h-5 md:w-5 px-1.5 w-auto"
+  >
     <font-awesome-icon :icon="['fas', 'trophy']" class="text-text-primary" />
+    <span class="text-text sm:hidden px-2">Leader Board</span>
   </RouterLink>
-  <RouterLink title="Map" to="/map" class="h-5 w-5">
+  <RouterLink title="Map" to="/map" class="md:h-5 md:w-5 px-1.5 w-auto">
     <font-awesome-icon :icon="['fas', 'map']" class="text-text-primary" />
+    <span class="text-text sm:hidden px-2">Map</span>
   </RouterLink>
-  <a title="Bug Report" :href="bugReportUrl" target="_blank" class="h-5 w-5">
+  <a
+    title="Bug Report"
+    :href="bugReportUrl"
+    target="_blank"
+    class="md:h-5 md:w-5 px-1.5 w-auto"
+  >
     <font-awesome-icon :icon="['fas', 'bug']" class="text-text-primary" />
+    <span class="text-text sm:hidden px-2">Bug Report</span>
   </a>
-  <button title="Sign Out" @click="handleLogout" class="h-5 w-5">
+  <button
+    title="Sign Out"
+    @click="handleLogout"
+    class="md:h-5 md:w-5 px-1.5 w-auto"
+  >
     <font-awesome-icon
       :icon="['fas', 'arrow-right-from-bracket']"
       class="text-text-primary"
     />
+    <span class="text-text sm:hidden px-2">Sign Out</span>
   </button>
 </template>
