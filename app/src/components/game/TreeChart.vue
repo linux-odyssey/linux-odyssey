@@ -1,6 +1,6 @@
 <script setup>
-import FileNode from './FileNode.vue'
-import sessionStore from '../store/session.js'
+import FileNode from '../FileNode.vue'
+import sessionStore from '../../store/session.js'
 </script>
 
 <template>
