@@ -6,6 +6,8 @@ import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
 import { debounce } from '../utils/debouncing'
 
+const debouncedFun = debounce(fun, 500)
+
 async function check({
   username,
   error,
@@ -20,7 +22,7 @@ async function check({
       return
     }
     try {
-      await debounce(checkUsername(username))
+      await debounceedFun(checkUsername(username))
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
         error('太多請求，兩分鐘後再試一次。')
