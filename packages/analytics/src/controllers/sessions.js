@@ -15,7 +15,7 @@ export async function sessionListController(req, res) {
       nextKey: newNextKey,
       order: pagination.getOrder(),
     })
-  } catch (error: any) {
+  } catch (error) {
     console.log(error)
     res.status(500).send('Error fetching session data')
   }

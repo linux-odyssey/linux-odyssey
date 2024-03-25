@@ -6,7 +6,7 @@ export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10)
 }
 
-export function genJWT(payload: { [key: string]: string }): Promise<string> {
+export function genJWT(payload: any): Promise<string> {
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,

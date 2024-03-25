@@ -1,10 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import logger from '../utils/logger.js'
 
-export function asyncHandler(
-  // eslint-disable-next-line no-unused-vars
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
-) {
+export function asyncHandler(fn: any) {
   return (req: Request, res: Response, next: NextFunction) => {
     fn(req, res, next).catch(next)
   }
@@ -12,7 +9,7 @@ export function asyncHandler(
 
 // eslint-disable-next-line no-unused-vars
 export default function errorHandler(
-  err: Error,
+  err: any,
   req: Request,
   res: Response,
   // eslint-disable-next-line no-unused-vars

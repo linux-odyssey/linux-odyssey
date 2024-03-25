@@ -82,7 +82,7 @@ export async function deleteContainer(id: string) {
   }
   try {
     await container.stop()
-  } catch (error: any) {
+  } catch (error) {
     logger.warn('Failed to stop container', id)
   }
   await container.remove()
@@ -127,7 +127,7 @@ export function buildQuestImage(questPath: string, questId: string) {
                 .forEach((line: string) => {
                   parseJSONOutput(line)
                 })
-            } catch (error: any) {
+            } catch (error) {
               reject(error)
             }
           })

@@ -17,7 +17,7 @@ export async function commandListController(req, res) {
       nextKey: newNextKey,
       order: pagination.getOrder(),
     })
-  } catch (error: any) {
+  } catch (error) {
     console.error(error)
     res.status(500).send('Error fetching data')
   }

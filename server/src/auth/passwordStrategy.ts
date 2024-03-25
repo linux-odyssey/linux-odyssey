@@ -9,7 +9,7 @@ async function verifyPassword(
   username: string,
   password: string,
   done: (
-    error: Error | null,
+    error: any,
     user?: Express.User | false,
     options?: IVerifyOptions
   ) => void
@@ -34,7 +34,7 @@ async function verifyPassword(
       username: user.username,
       email: user.email,
     })
-  } catch (err: any) {
+  } catch (err) {
     return done(err)
   }
 }
