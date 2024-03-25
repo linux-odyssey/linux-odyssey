@@ -1,8 +1,8 @@
-import io from 'socket.io-client'
+import { io, Socket } from 'socket.io-client'
 
 class SocketWrapper {
-  socket: any
-  listeners: any
+  socket: Socket | null
+  listeners: { event: any; callback: any }[]
   constructor() {
     this.socket = null
     this.listeners = []
@@ -40,7 +40,7 @@ class SocketWrapper {
   bindListeners() {
     this.listeners.forEach(
       ({ event, callback }: { event: any; callback: any }) => {
-        this.socket.on(event, callback)
+        if (this.socket !== null) this.socket.on(event, callback)
       }
     )
   }
