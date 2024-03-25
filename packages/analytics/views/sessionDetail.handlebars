@@ -1,7 +1,7 @@
-<h1>{{title}}</h1>
-<div>
-  {{#with session}}
-    <table>
+{{#with session}}<h1 class='heading'>Session {{_id}}</h1>
+  <div>
+
+    <table class='data-table'>
       <tr>
         <th>Quest</th>
         <td>{{quest}}</td>
@@ -32,9 +32,9 @@
       </tr>
     </table>
 
-    <h2>Commands</h2>
+    <h2 class='heading'>Commands</h2>
 
-    <table>
+    <table class='data-table'>
       <tr>
         <th>Stage</th>
         <th>PWD</th>
@@ -54,5 +54,5 @@
         </tr>
       {{/each}}
     </table>
-  {{/with}}
-</div>
+
+  </div>{{/with}}
