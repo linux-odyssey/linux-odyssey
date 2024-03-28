@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
 import MarkdownText from './MarkdownText.vue'

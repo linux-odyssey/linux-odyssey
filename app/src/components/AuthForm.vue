@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -27,7 +27,7 @@ const password = ref('')
 const errorMessage = ref('')
 const toast = useToast()
 
-const availableMethods = ref({})
+const availableMethods = ref<{ [key: string]: boolean }>({})
 onMounted(async () => {
   const res = await api.get('/auth/available-methods')
   availableMethods.value = res.data
@@ -44,7 +44,7 @@ const success = () => {
   router.push({ name: 'map' })
 }
 
-const error = (err) => {
+const error = (err: string) => {
   errorMessage.value = err
 }
 
@@ -114,10 +114,7 @@ const handleChange = () => {
             :icon="['fab', 'google']"
             class="text-text-secondary px-3 text-lg"
           />
-          <span class="font-medium">
-            <!-- Continue with Google -->
-            以 Google 繼續
-          </span>
+          <span class="font-medium"> 以 Google 繼續 </span>
         </a>
         <a
           id="GitHubLogin"
@@ -129,32 +126,17 @@ const handleChange = () => {
             :icon="['fab', 'github']"
             class="text-text-secondary px-3 text-lg"
           />
-          <span class="font-medium">
-            <!-- Continue with GitHub -->
-            以 GitHub 繼續
-          </span>
+          <span class="font-medium"> 以 GitHub 繼續 </span>
         </a>
         <p
           id="or"
           class="text-text-secondary flex justify-center mt-3"
           v-if="type === 'login' || type === 'register'"
         >
-          <!-- or -->
           或
         </p>
       </div>
       <div class="mb-6">
-        <!-- <input
-          type="text"
-          id="username"
-          ref="usernameInput"
-          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
-          :placeholder="type === 'login' ? 'Email / Username' : 'Username'"
-          v-model="username"
-          required
-          @input="handleChange()"
-          autocomplete="username"
-        /> -->
         <input
           type="text"
           id="username"
@@ -176,17 +158,6 @@ const handleChange = () => {
         </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
-        <!-- <input
-          type="email"
-          id="email"
-          ref="emailInput"
-          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
-          placeholder="Email"
-          v-model="email"
-          required
-          @input="handleChange()"
-          autocomplete="email"
-        /> -->
         <input
           type="email"
           id="email"
@@ -200,15 +171,6 @@ const handleChange = () => {
         />
       </div>
       <div class="mb-6" v-if="type === 'login' || type === 'register'">
-        <!-- <input
-          type="password"
-          id="password"
-          class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
-          placeholder="Password"
-          v-model="password"
-          required
-          @input="handleChange()"
-        /> -->
         <input
           type="password"
           id="password"
@@ -231,43 +193,29 @@ const handleChange = () => {
         class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-bg w-full"
         type="submit"
       >
-        <span v-if="type === 'login'">
-          <!-- Log In -->
-          登入
-        </span>
-        <span v-else>
-          <!-- Sign Up -->
-          註冊
-        </span>
+        <span v-if="type === 'login'"> 登入 </span>
+        <span v-else> 註冊 </span>
       </button>
 
       <p id="SwitchLoginRegister" class="text-text flex justify-center mt-3">
         <span id="CheckRegistered" v-if="type === 'register'">
-          <!-- Already have an account? -->
           已經有帳號了嗎？
           <RouterLink
             id="SwitchtoLogin"
             class="text-text-primary font-bold"
             to="/login"
           >
-            <u>
-              <!-- Log in -->
-              登入
-            </u>
+            <u> 登入 </u>
           </RouterLink></span
         >
         <span id="CheckRegistered" v-else-if="type === 'login'">
-          <!-- Don't have an account? -->
           還沒有帳號嗎？
           <RouterLink
             id="SwitchtoRegister"
             class="text-text-primary font-bold"
             to="/register"
           >
-            <u>
-              <!-- Sign up -->
-              註冊
-            </u>
+            <u> 註冊 </u>
           </RouterLink></span
         >
       </p>

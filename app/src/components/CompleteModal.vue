@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
@@ -47,7 +47,6 @@ setTimeout(() => {
         id="QuestCompleted"
         class="text-2xl text-text mb-5 w-full inline-flex justify-center"
       >
-        <!-- Quest Completed! -->
         關卡完成！
       </h2>
       <div class="z-10 right-1/2 top-1/2" @animationend="defineComponent">

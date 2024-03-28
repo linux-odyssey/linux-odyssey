@@ -15,7 +15,7 @@ export async function loadUserProfile() {
     store.email = email
     store.progress = progress
     return store
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
     throw new Error(`Failed to load user profile: ${err.message}`)
   }

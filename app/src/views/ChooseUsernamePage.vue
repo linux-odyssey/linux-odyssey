@@ -1,14 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
 
-async function check({ username, error }) {
+async function check({
+  username,
+  error,
+}: {
+  username: string
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   if (username) {
     if (!isValidUsername(username)) {
-      // error('Invalid username.')
       error('無效的帳號名稱')
       return
     }
@@ -16,7 +22,6 @@ async function check({ username, error }) {
       await checkUsername(username)
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
-        // error('Too many requests. Try again in 2 minutes.')
         error('太多請求，兩分鐘後再試一次。')
         return
       }
@@ -24,19 +29,26 @@ async function check({ username, error }) {
         error(err.message)
         return
       }
-      // error('Something went wrong. Please try again later.')
       error('出了點問題，請再試一次。')
     }
   }
 }
 
-async function handleSubmit({ username, success, error }) {
+async function handleSubmit({
+  username,
+  success,
+  error,
+}: {
+  username: string
+  success: () => void
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   try {
     await chooseUsername(username)
     success()
-  } catch (err) {
+  } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
-      // error('Too many requests. Try again in 2 minutes.')
       error('太多請求，兩分鐘後再試一次。')
       return
     }
