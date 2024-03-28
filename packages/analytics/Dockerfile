@@ -4,8 +4,7 @@ WORKDIR /app
 COPY ./package.json yarn.lock tsconfig.json ./
 COPY packages/analytics/package.json ./packages/analytics/package.json
 COPY packages/models/package.json ./packages/models/package.json
-RUN yarn set version berry
-RUN yarn install
+RUN yarn install --frozen-lockfile
 ENV HOST=0.0.0.0
 ENV PORT=3001
 EXPOSE 3001

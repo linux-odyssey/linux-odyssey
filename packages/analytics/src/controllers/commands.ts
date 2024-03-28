@@ -1,10 +1,12 @@
-/* eslint-disable object-shorthand */
+import type { Request, Response } from 'express'
 import Pagination from '../models/pagination.js'
 import { errorCommands } from '../models/commands.js'
 
-// eslint-disable-next-line import/prefer-default-export
-export async function commandListController(req, res) {
-  const { nextKey, order } = req.query
+export async function commandListController(
+  req: Request,
+  res: Response
+): Promise<void> {
+  const { nextKey, order } = req.query as { nextKey?: string; order: string }
   const itemsPerPage = 100
 
   try {

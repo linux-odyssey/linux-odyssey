@@ -1,7 +1,7 @@
+import { Request, Response } from 'express'
 import { questList } from '../models/quests.js'
 
-// eslint-disable-next-line import/prefer-default-export
-export async function questListController(req, res) {
+export async function questListController(req: Request, res: Response) {
   const quests = await questList()
   quests.forEach((quest) => {
     quest.failed = quest.started - quest.completed
