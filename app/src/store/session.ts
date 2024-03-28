@@ -18,6 +18,7 @@ function newSession() {
     discovered: false,
   })
   return {
+    _id: '',
     status: 'inactive',
     graph,
     pwd: '',
@@ -100,16 +101,8 @@ function updateGraph(event: { discover: FileObject[]; pwd: string }) {
   }
 }
 
-function updateHints(hints: never) {
-  store.session.hints.push(hints)
-}
-
 function updateStatus(status: string) {
   store.session.status = status
-}
-
-function setTasks(tasks: never[]) {
-  store.session.tasks = tasks
 }
 
 export function useTerminal() {
@@ -149,12 +142,6 @@ function setup() {
   })
   socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
     updateGraph(event)
-  })
-  socket.on('hints', (event: never) => {
-    updateHints(event)
-  })
-  socket.on('tasks', (tasks: never[]) => {
-    setTasks(tasks)
   })
   socket.on('status', (event: string) => {
     updateStatus(event)

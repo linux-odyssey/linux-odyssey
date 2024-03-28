@@ -7,6 +7,7 @@ export interface Task {
 }
 
 export interface Session {
+  _id: string
   status: string
   graph: FileGraph
   pwd: string

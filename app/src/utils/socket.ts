@@ -1,14 +1,17 @@
 import { io, Socket } from 'socket.io-client'
+import { Session } from '../types'
+
+type SocketCallback = (data: any) => void
 
 class SocketWrapper {
   socket: Socket | null
-  listeners: { event: any; callback: any }[]
+  listeners: { event: string; callback: SocketCallback }[]
   constructor() {
     this.socket = null
     this.listeners = []
   }
 
-  connect(session: any) {
+  connect(session: Session) {
     return new Promise<void>((resolve, reject) => {
       this.disconnect()
 
@@ -30,7 +33,7 @@ class SocketWrapper {
     })
   }
 
-  on(event: any, callback: any) {
+  on(event: string, callback: SocketCallback) {
     this.listeners.push({ event, callback })
     if (this.socket) {
       this.socket.on(event, callback)
@@ -39,13 +42,13 @@ class SocketWrapper {
 
   bindListeners() {
     this.listeners.forEach(
-      ({ event, callback }: { event: any; callback: any }) => {
+      ({ event, callback }: { event: string; callback: SocketCallback }) => {
         if (this.socket !== null) this.socket.on(event, callback)
       }
     )
   }
 
-  emit(event: any, data: any) {
+  emit(event: string, data: any) {
     if (!this.socket) {
       console.warn('Socket is not connected!')
       return
