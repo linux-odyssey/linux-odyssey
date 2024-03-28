@@ -1,7 +1,7 @@
+import { Request, Response } from 'express'
 import { userCount } from '../models/users.js'
 import { questList } from '../models/quests.js'
-import { Request, Response } from 'express'
-// eslint-disable-next-line import/prefer-default-export
+
 export async function homeController(req: Request, res: Response) {
   const quests = await questList()
   const [totalQuests, totalCompleted] = quests.reduce(

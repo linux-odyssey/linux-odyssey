@@ -1,7 +1,8 @@
+import { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import Pagination from '../models/pagination.js'
 import { userList, userDetail, idToUser } from '../models/users.js'
-import { Request, Response } from 'express'
+
 export async function userListController(req: Request, res: Response) {
   const { nextKey, order } = req.query as { nextKey: string; order: string }
   const itemsPerPage = 50
