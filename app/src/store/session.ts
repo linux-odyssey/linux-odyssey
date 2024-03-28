@@ -7,7 +7,7 @@ import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import { LoadQuestError, LoadSessionError } from '../utils/errors'
-import { Session } from '../types'
+import { Session, StageResponse } from '../types'
 
 const toast = useToast()
 
@@ -101,8 +101,12 @@ function updateGraph(event: { discover: FileObject[]; pwd: string }) {
   }
 }
 
-function updateStatus(status: string) {
-  store.session.status = status
+function newResponse(response: StageResponse) {
+  console.log('newResponse', response, 'session', store.session)
+  store.session.responses.push(...response.responses)
+  store.session.hints.push(...response.hints)
+  store.session.tasks = response.tasks
+  store.session.status = response.status
 }
 
 export function useTerminal() {
@@ -143,8 +147,8 @@ function setup() {
   socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
     updateGraph(event)
   })
-  socket.on('status', (event: string) => {
-    updateStatus(event)
+  socket.on('response', (response: StageResponse) => {
+    newResponse(response)
   })
 }
 
