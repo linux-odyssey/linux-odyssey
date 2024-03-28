@@ -1,5 +1,5 @@
 import { Command } from '@linux-odyssey/models'
-import Pagination from './pagination.ts'
+import Pagination from './pagination.js'
 
 // eslint-disable-next-line import/prefer-default-export
 export async function errorCommands(pagination: Pagination) {

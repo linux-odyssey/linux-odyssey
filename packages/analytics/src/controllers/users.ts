@@ -22,6 +22,7 @@ export async function userListController(req: Request, res: Response) {
     res.status(500).send('Error fetching user data')
   }
 }
+
 export async function userDetailController(req: Request, res: Response) {
   const id = new mongoose.Types.ObjectId(req.params.id)
   const sessions = await userDetail(id)

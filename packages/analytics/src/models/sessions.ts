@@ -5,7 +5,7 @@ import {
   SessionDetail,
   SessionDocument,
   SessionObject,
-} from '../interface.ts'
+} from '../interface.js'
 
 function formatTime(time: number) {
   const seconds = Math.floor(time / 1000)
