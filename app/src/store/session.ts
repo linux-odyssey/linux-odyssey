@@ -7,6 +7,7 @@ import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import { LoadQuestError, LoadSessionError } from '../utils/errors'
+import { Session } from '../types'
 
 const toast = useToast()
 
@@ -26,21 +27,13 @@ function newSession() {
   }
 }
 
-interface Session {
-  status: string
-  graph: FileGraph
-  pwd: string
-  hints: string[]
-  tasks: string[]
-}
-
 interface Store {
   session: Session
   questId: string
   quest: IQuest | null
 }
 
-const store: Store = reactive({
+const store = reactive<Store>({
   session: newSession(),
   questId: '',
   quest: null,
