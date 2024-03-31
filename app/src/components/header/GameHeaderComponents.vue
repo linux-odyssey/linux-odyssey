@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -30,7 +30,6 @@ onMounted(async () => {
   try {
     await loadUserProfile()
   } catch (err) {
-    // toast.error('Failed to load user profile')
     toast.error('無法讀取使用者資料')
   }
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FileNode from '..FileNode.vue'
+import FileNode from '../FileNode.vue'
 import sessionStore from '../../store/session'
 </script>
 
