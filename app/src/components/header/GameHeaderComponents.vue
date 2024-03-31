@@ -21,7 +21,6 @@ const handleLogout = async () => {
     reset()
     router.push({ name: 'login' })
   } catch (err) {
-    // toast.error('Failed to logout')
     toast.error('登出失敗')
     console.error(err)
   }

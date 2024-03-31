@@ -27,16 +27,12 @@ const right = () => {
 
 <template>
   <div class="h-full flex flex-col">
-    <!-- Hint Header -->
     <div class="flex items-center p-2 h-10">
       <font-awesome-icon
         :icon="['far', 'lightbulb']"
         class="text-yellow-200 p-2 content-center"
       />
-      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
-        <!-- Hint -->
-        提示
-      </h1>
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">提示</h1>
       <div v-if="current !== -1" class="flex w-full justify-end items-end">
         <button
           class="p-2 m-1 w-1/8"

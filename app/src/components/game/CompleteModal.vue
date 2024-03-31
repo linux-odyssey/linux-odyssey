@@ -26,7 +26,6 @@ const backtoMap = async () => {
   try {
     router.push({ name: 'map' })
   } catch (err) {
-    // useToast().error('Failed to load map')
     toast.error('無法讀取地圖')
     console.error(err)
   }
@@ -60,17 +59,6 @@ setTimeout(() => {
       <p class="text-base text-text text-center">
         接下來回到地圖，迎接新的挑戰吧！
       </p>
-      <!-- <p class="text-base text-text">
-        您已成功完成挑戰，真的非常感謝您的參與！<br />
-        如果您能撥冗填寫這份問卷，我們將不勝感激，這對我們非常重要！
-      </p> -->
-      <!-- <a
-        id="SurveyButton"
-        :href="surveyUrl"
-        target="_blank"
-        class="inline-flex justify-center rounded-lg text-base font-black py-2 mt-3 bg-text-primary w-full"
-        >填寫問卷</a
-      > -->
       <a
         id="BacktoMap"
         target="_blank"
