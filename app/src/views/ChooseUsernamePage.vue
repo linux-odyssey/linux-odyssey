@@ -20,7 +20,7 @@ async function check({
       return
     }
     try {
-      await debounce(checkUsername(username), 500)
+      await debounce(checkUsername(username))
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
         error('太多請求，兩分鐘後再試一次。')
