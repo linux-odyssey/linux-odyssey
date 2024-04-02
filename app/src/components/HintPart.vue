@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup>
 import { ref, watch } from 'vue'
 import sessionStore from '../store/session'
@@ -32,8 +33,7 @@ const right = () => {
       class="text-yellow-200 p-2 content-center"
     />
     <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
-      <!-- Hint -->
-      提示
+      {{ $t('hint') }}
     </h1>
     <div v-if="current !== -1" class="flex w-full justify-end items-end">
       <button

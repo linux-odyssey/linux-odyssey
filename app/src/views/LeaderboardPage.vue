@@ -1,9 +1,11 @@
+<!--Translated-->
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import DynamicBackground from '../components/DynamicBackground.vue'
 import GameHeaderPart from '../components/GameHeaderPart.vue'
 import api from '../utils/api'
+import i18n from '../i18n'
 
 const leaderboard = ref([])
 
@@ -14,7 +16,7 @@ async function getLeaderboard() {
     leaderboard.value = res.data
   } catch (err) {
     console.error(err)
-    toast.error('讀取排行榜失敗')
+    toast.error(i18n.t('leaderborad.errorLoadFail'))
   }
 }
 
@@ -30,22 +32,30 @@ onMounted(async () => {
       class="w-screen h-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
       <div class="h-[6vh] w-full">
-        <GameHeaderPart title="排行榜" />
+        <GameHeaderPart :title="$t('leaderboard.i')" />
       </div>
       <div class="w-fit h-[94vh] m-3">
         <div
           class="h-full bg-bg border-8 border-bg-primary flex flex-col items-center rounded-3xl p-10"
         >
-          <h1 class="text-text-primary text-3xl mb-5">排行榜</h1>
+          <h1 class="text-text-primary text-3xl mb-5">
+            {{ $t('leaderboard.i') }}
+          </h1>
           <div class="max-h-300 overflow-auto">
             <table class="w-full text-sm text-left text-text">
               <thead
                 class="text-xs text-text-secondary uppercase bg-bg-secondary"
               >
                 <tr>
-                  <th scope="col" class="px-6 py-3">使用者名稱</th>
-                  <th scope="col" class="px-6 py-3">分數</th>
-                  <th scope="col" class="px-6 py-3">完成關卡</th>
+                  <th scope="col" class="px-6 py-3">
+                    {{ $t('leaderboard.i') }}
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    {{ $t('leaderboard.score') }}
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    {{ $t('leaderboard.finish') }}
+                  </th>
                 </tr>
               </thead>
               <tbody>

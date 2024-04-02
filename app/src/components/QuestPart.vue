@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup>
 import { computed } from 'vue'
 import MarkdownText from './MarkdownText.vue'
@@ -31,7 +32,7 @@ const tasks = computed(() => {
         <br />
         <p id="tasks" class="text-text">
           <!-- Tasks: -->
-          任務：
+          {{ $t('mission') }}
         </p>
         <ul v-if="sessionStore.session">
           <li v-for="task in tasks" :key="task.id">

@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup>
 import { defineProps, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -9,6 +10,14 @@ import userProfileStore, {
   loadUserProfile,
   resetUserProfile,
 } from '../store/userProfile'
+import { i18next } from '../i18n' // Import your i18n instance
+import { ref } from 'vue'
+
+const currentLanguage = ref('en')
+function changeLanguage(lang) {
+  i18next.changeLanguage(lang)
+  currentLanguage.value = lang
+}
 
 const router = useRouter()
 
@@ -21,8 +30,7 @@ const handleLogout = async () => {
     reset()
     router.push({ name: 'login' })
   } catch (err) {
-    // toast.error('Failed to logout')
-    toast.error('登出失敗')
+    toast.error(i18next.t('header.errorLogout'))
     console.error(err)
   }
 }
@@ -30,8 +38,7 @@ const handleMap = async () => {
   try {
     router.push({ name: 'map' })
   } catch (err) {
-    // toast.error('Failed to load map')
-    toast.error('無法讀取地圖')
+    toast.error(i18next.t('header.errorLoadMap'))
     console.error(err)
   }
 }
@@ -39,8 +46,7 @@ const handleLeaderBoard = async () => {
   try {
     router.push({ name: 'leaderboard' })
   } catch (err) {
-    // toast.error('Failed to load map')
-    toast.error('無法讀取排行榜')
+    toast.error(i18next.t('header.errorLoadLeaderboard'))
     console.error(err)
   }
 }
@@ -56,8 +62,7 @@ onMounted(async () => {
   try {
     await loadUserProfile()
   } catch (err) {
-    // toast.error('Failed to load user profile')
-    toast.error('無法讀取使用者資料')
+    toast.error(i18next.t('header.errorLoadUser'))
   }
 })
 </script>
@@ -113,6 +118,34 @@ onMounted(async () => {
             class="text-text-primary h-full w-full"
           />
         </button> -->
+        <button
+          @click="changeLanguage('en')"
+          :class="{
+            'text-red-500': currentLanguage === 'en',
+            'text-text': currentLanguage !== 'en',
+          }"
+          class="inline-block whitespace-nowrap"
+          style="font-size: 1.5vh"
+        >
+          English
+        </button>
+        <p
+          class="text-text inline-block whitespace-nowrap"
+          style="font-size: 1.5vh"
+        >
+          |
+        </p>
+        <button
+          @click="changeLanguage('zh')"
+          :class="{
+            'text-red-500': currentLanguage === 'zh',
+            'text-text': currentLanguage !== 'zh',
+          }"
+          class="inline-block whitespace-nowrap"
+          style="font-size: 1.5vh"
+        >
+          Chinese
+        </button>
         <p
           id="UsernameText"
           class="text-text inline-block whitespace-nowrap"

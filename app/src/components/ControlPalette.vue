@@ -1,3 +1,4 @@
+<!--Translated-->
 <template>
   <section class="h-[10%] p-3 grid grid-cols-4 gap-4 place-content-between">
     <button id="survey" class="bg-bg-secondary rounded-lg p-2">
@@ -8,7 +9,7 @@
         />
         <p class="text-text-primary inline ml-1">
           <!-- Survey -->
-          問卷
+          {{ $t('controlPalette.survey') }}
         </p>
       </a>
     </button>
@@ -19,7 +20,7 @@
       />
       <p class="text-text-disabled inline ml-1">
         <!-- Solution -->
-        解答
+        {{ $t('controlPalette.solution') }}
       </p>
     </button>
     <button id="reset" class="bg-bg-secondary rounded-lg p-2" @click="reset">
@@ -29,7 +30,7 @@
       />
       <p class="text-text-primary inline ml-1">
         <!-- Reset -->
-        重來
+        {{ $t('controlPalette.reset') }}
       </p>
     </button>
     <button
@@ -43,7 +44,7 @@
       />
       <p class="text-text-primary inline ml-1">
         <!-- Continue -->
-        繼續
+        {{ $t('controlPalette.continue') }}
       </p>
     </button>
   </section>
@@ -54,6 +55,7 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { createSession } from '../store/session'
 import { surveyUrl } from '../config'
+import i18next from 'i18next'
 
 const router = useRouter()
 const reset = async () => {
@@ -65,7 +67,7 @@ const continuePlay = async () => {
     router.push({ name: 'map' })
   } catch (err) {
     // useToast().error('Failed to load map')
-    useToast().error('無法讀取地圖')
+    useToast().error(i18next.t('header.errorLoadMap'))
     console.error(err)
   }
 }

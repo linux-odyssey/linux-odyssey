@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup>
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -5,6 +6,7 @@ import { ref } from 'vue'
 import { Vue3Lottie } from 'vue3-lottie'
 // import { surveyUrl } from '../config'
 import CompleteAnimation from '../img/complete-animation.json'
+import i18next from 'i18next'
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
@@ -27,7 +29,7 @@ const backtoMap = async () => {
     router.push({ name: 'map' })
   } catch (err) {
     // useToast().error('Failed to load map')
-    toast.error('無法讀取地圖')
+    toast.error(i18next.t('header.errorLoadMap'))
     console.error(err)
   }
 }
@@ -48,7 +50,7 @@ setTimeout(() => {
         class="text-2xl text-text mb-5 w-full inline-flex justify-center"
       >
         <!-- Quest Completed! -->
-        關卡完成！
+        {{ $t('completeModal.questCompleted') }}
       </h2>
       <div class="z-10 right-1/2 top-1/2" @animationend="defineComponent">
         <Vue3Lottie
@@ -57,9 +59,11 @@ setTimeout(() => {
           :width="200"
         />
       </div>
-      <p class="text-base text-text text-center">恭喜你完成這一關！</p>
       <p class="text-base text-text text-center">
-        接下來回到地圖，迎接新的挑戰吧！
+        {{ $t('completeModal.congrats') }}！
+      </p>
+      <p class="text-base text-text text-center">
+        {{ $t('completeModal.returnMap"') }}
       </p>
       <!-- <p class="text-base text-text">
         您已成功完成挑戰，真的非常感謝您的參與！<br />
@@ -77,7 +81,7 @@ setTimeout(() => {
         target="_blank"
         @click="backtoMap"
         class="inline-flex justify-center rounded-lg text-base font-black py-2 mt-3 bg-text-primary w-full"
-        >回到地圖</a
+        >{{ $t('completeModal.return"') }}</a
       >
     </div>
   </div>

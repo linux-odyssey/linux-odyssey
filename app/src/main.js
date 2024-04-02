@@ -8,11 +8,11 @@ import Toast, { POSITION } from 'vue-toastification'
 /* import Vue Lottie */
 import Vue3Lottie from 'vue3-lottie'
 import 'vue-toastification/dist/index.css'
-
+import i18n, { i18next } from './i18n'
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+const app = i18n(createApp(App))
 
 app.component('font-awesome-icon', FontAwesomeIcon)
 
@@ -25,5 +25,4 @@ const options = {
 app.use(Toast, options)
 
 app.use(Vue3Lottie, { name: 'Vue3Lottie' })
-
 app.mount('#app')
