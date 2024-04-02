@@ -1,0 +1,54 @@
+{
+  "header": {
+    "questMap": "關卡地圖",
+    "errorLogout": "登出失敗",
+    "errorLoadMap": "無法讀取地圖",
+    "errorLoadLeaderboard": "無法讀取排行榜",
+    "errorLoadUser": "無法讀取使用者資料"
+  },
+  "questMap": {
+    "startJourney": "踏上你的Linux冒險之旅吧！",
+    "unfinishedStage": "你還沒完成前一個關卡!"
+  },
+  "mission": "任務：",
+  "terminal": "終端機",
+  "hint": "提示",
+  "controlPalette": {
+    "survey": "問卷",
+    "solution": "解答",
+    "reset": "重來",
+    "continue": "繼續"
+  },
+  "completeModal": {
+    "questCompleted": "關卡完成！",
+    "congrats": "恭喜你完成這一關！",
+    "returnMap": "接下來回到地圖，迎接新的挑戰吧！",
+    "return": "回到地圖"
+  },
+  "commandList": {
+    "cheatsheet": "指令之書",
+    "list": "-- --指令列表-- --"
+  },
+  "authForm": {
+    "recommendation": "建議使用電腦全螢幕執行",
+    "google": "以 Google 繼續",
+    "github": "以 GitHub 繼續",
+    "chars1": "可用小寫字母、數字、\"_\"和\"-\"",
+    "chars2": "小寫字母開頭，至多32字元",
+    "hasAccount": "已經有帳號了嗎？",
+    "noAccount": "還沒有帳號嗎？"
+  },
+  "email": "電子郵件",
+  "username": "帳號名稱",
+  "or": "或",
+  "password": "密碼",
+  "login": "登入",
+  "signup": "註冊",
+  "leaderboard": {
+    "errorLoadFail": "讀取排行榜失敗",
+    "i": "排行榜",
+    "user": "使用者名稱",
+    "score": "分數",
+    "finish": "完成關卡"
+  }
+}

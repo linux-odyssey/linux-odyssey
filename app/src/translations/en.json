@@ -1,0 +1,55 @@
+{
+  "header": {
+    "questMap": "Quest Map",
+    "errorLogout": "Failed to logout",
+    "errorLoadMap": "Failed to load map",
+    "errorLoadLeaderboard": "Failed to load leaderboard",
+    "errorLoadUser": "Failed to load user profile"
+  },
+  "questMap": {
+    "startJourney": "Embark on your Linux adventure!",
+    "unfinishedStage": "You haven't finished the previous stage"
+  },
+  "mission": "Mission: ",
+  "terminal": "Terminal",
+  "hint": "Hint",
+
+  "controlPalette": {
+    "survey": "Survey",
+    "solution": "Solution",
+    "reset": "Reset",
+    "continue": "Continue"
+  },
+  "completeModal": {
+    "questCompleted": "Quest Completed!",
+    "congrats": "Congratulations on finishing this level!",
+    "returnMap": "Now return to the map for the next challenge!",
+    "return": "Return to map"
+  },
+  "commandList": {
+    "cheatsheet": "Command Cheatsheets",
+    "list": "--Command List--"
+  },
+  "authForm": {
+    "recommendation": "We recommend running our application in full screen",
+    "google": "Continue with Google",
+    "github": "Continue with Github",
+    "chars1": "Accepts lower case letters, numbers, _ and -",
+    "chars2": "Starts with lower case letter, 32 characters max",
+    "hasAccount": "Already have an account?",
+    "noAccount": "Don't have an account?"
+  },
+  "email": "Email",
+  "username": "Username",
+  "or": "or",
+  "password": "Password",
+  "login": "Login",
+  "signup": "Sign Up",
+  "leaderboard": {
+    "errorLoadFail": "Failed to load the leaderboard",
+    "i": "Leaderboard",
+    "user": "Username",
+    "score": "Score",
+    "finish": "Finished Stage"
+  }
+}
