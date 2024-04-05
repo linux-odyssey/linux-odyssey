@@ -7,8 +7,8 @@
   "license": "GPL",
   "scripts": {
     "start": "node dist/index.js",
-    "build": "tsc",
-    "watch": "tsc -w",
+    "build": "tsc -b -f",
+    "watch": "tsc -b --watch",
     "dev": "nodemon"
   },
   "dependencies": {

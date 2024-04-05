@@ -5,6 +5,7 @@
     "outDir": "./dist"
   },
   "include": ["src"],
+  "references": [{ "path": "../models" }],
   "ts-node": {
     "swc": true
   }
