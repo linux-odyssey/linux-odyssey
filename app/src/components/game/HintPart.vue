@@ -65,7 +65,8 @@ const right = () => {
       <ul>
         <li
           v-for="response in sessionStore.session.responses[current]"
-          :key="response.type"
+          :key="response"
+          id="content"
           class="text-text font-xl whitespace-pre-wrap"
         >
           <div v-for="content in response.content" :key="content">
@@ -75,6 +76,7 @@ const right = () => {
         <li
           v-for="hint in sessionStore.session.hints[current]"
           :key="hint"
+          id="hint-text"
           class="text-text-primary font-xl whitespace-pre-wrap"
         >
           <MarkdownText :content="hint" />
