@@ -103,8 +103,8 @@ function updateGraph(event: { discover: FileObject[]; pwd: string }) {
 
 function newResponse(response: StageResponse) {
   console.log('newResponse', response, 'session', store.session)
-  store.session.responses.push(...response.responses)
-  store.session.hints.push(...response.hints)
+  store.session.responses.push(response.responses)
+  store.session.hints.push(response.hints)
   store.session.tasks = response.tasks
   store.session.status = response.status
 }
