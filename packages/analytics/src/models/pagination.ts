@@ -1,4 +1,3 @@
-/* eslint-disable lines-between-class-members */
 /* eslint-disable class-methods-use-this */
 // eslint-disable-next-line max-classes-per-file
 import mongoose, { Types } from 'mongoose'
