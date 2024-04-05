@@ -69,7 +69,7 @@ const right = () => {
       <ul>
         <li
           v-for="response in sessionStore.session.responses[current]"
-          :key="response"
+          :key="response.type"
           id="content"
           class="text-text font-xl whitespace-pre-wrap"
         >
