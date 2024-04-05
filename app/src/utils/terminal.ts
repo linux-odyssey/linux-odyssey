@@ -8,7 +8,6 @@ class SocketTerminal {
 
   constructor(rows: number, cols: number) {
     this.term = new Terminal({
-      rendererType: 'canvas', // 渲染类型
       rows, // 行数
       cols, // 不指定行数，自动回车后光标从下一行开始
       convertEol: true, // 启用时，光标将设置为下一行的开头
@@ -16,9 +15,11 @@ class SocketTerminal {
       disableStdin: false, // 是否应禁用输入
       // cursorStyle: "underline", //光标样式
       cursorBlink: true, // 光标闪烁
-      foreground: '#ECECEC', // 字体
-      background: '#000000', // 背景色
-      cursor: 'help', // 设置光标
+      theme: {
+        foreground: '#ECECEC', // 字体
+        background: '#000000', // 背景色
+        cursor: 'help', // 设置光标
+      },
       fontSize: 18,
       fontWeight: 'normal',
     })
