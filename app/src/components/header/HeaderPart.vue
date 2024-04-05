@@ -43,17 +43,19 @@ const toggleMenu = () => {
     >
       <component :is="headerComponent" />
     </div>
-    <button
-      type="button"
-      class="flex items-center h-5 w-5 rounded-md sm:hidden"
-      aria-controls="mobile-menu"
-      aria-expanded="false"
-      @click="toggleMenu"
-    >
-      <font-awesome-icon
-        :icon="['fas', 'bars']"
-        class="text-text-primary h-full w-full"
-      />
-    </button>
+    <div :class="{ 'w-full flex justify-end pb-3': menuOpen }">
+      <button
+        type="button"
+        class="flex items-center h-5 w-5 rounded-md sm:hidden"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        @click="toggleMenu"
+      >
+        <font-awesome-icon
+          :icon="['fas', 'bars']"
+          class="text-text-primary h-full w-full"
+        />
+      </button>
+    </div>
   </div>
 </template>
