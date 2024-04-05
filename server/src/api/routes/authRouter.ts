@@ -46,7 +46,10 @@ router.get('/available-methods', (req, res) => {
 })
 
 if (enabledMethods.google) {
-  router.get('/google', passport.authenticate('google'))
+  router.get(
+    '/google',
+    passport.authenticate('google', { scope: ['email', 'profile'] })
+  )
   router.get(
     '/google/callback',
     authenticateRateLimit,

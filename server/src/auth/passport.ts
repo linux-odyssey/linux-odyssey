@@ -1,6 +1,6 @@
 import passport from 'passport'
-import { UserProfile } from '@linux-odyssey/models'
 import type { Express } from 'express'
+import { UserProfile } from '@linux-odyssey/models'
 import passwordStrategy from './passwordStrategy.js'
 import jwtStrategy from './jwtStrategy.js'
 import googleStrategy from './googleStrategy.js'
@@ -30,7 +30,8 @@ passport.serializeUser((user: Express.User, done) => {
   process.nextTick(async () => {
     try {
       if (!('id' in user)) {
-        done(new Error('User has no _id'))
+        // OAuth new user
+        done(null, user)
         return
       }
       const { id } = user
@@ -39,6 +40,7 @@ passport.serializeUser((user: Express.User, done) => {
       }
       done(null, user)
     } catch (err) {
+      logger.error(err)
       done(err)
     }
   })
