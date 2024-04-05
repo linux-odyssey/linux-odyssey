@@ -13,7 +13,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "allowJs": true,
 
     /* Linting */
     "strict": true,
@@ -21,6 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.js"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*.ts", "src/**/*.vue"],
+  "references": [
+    { "path": "../packages/utils" },
+    { "path": "../packages/constants" },
+    { "path": "../packages/file-graph" },
+    { "path": "../packages/models" }
+  ]
 }

@@ -17,10 +17,3 @@ ENV NODE_ENV=production
 WORKDIR /app/packages/analytics
 RUN yarn build
 CMD [ "yarn", "start" ]
-
-# Development stage
-FROM build as dev
-RUN yarn install --frozen-lockfile
-WORKDIR /app/packages/analytics
-ENV NODE_ENV=development
-CMD [ "yarn", "dev" ]

@@ -15,3 +15,5 @@ export default async function connectDB(uri: string) {
   const db = await mongoose.connect(uri)
   return db.connection.getClient()
 }
+
+console.log('Loaded models package')

@@ -1,15 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import ContactButton from '../components/ContactButton.vue'
 import DynamicBackground from '../components/DynamicBackground.vue'
 import { bugReportUrl, facebookUrl, githubUrl } from '../config'
 
-const scrollToSection = (sectionId) => {
+const scrollToSection = (sectionId: string) => {
   const section = document.getElementById(sectionId)
   if (section) {
     const container = document.querySelector('.overflow-y-auto') // Replace '.overflow-y-auto' with the appropriate class or selector for your container
     if (container) {
       container.scrollTo({
-        top: section.offsetTop - container.offsetTop,
+        top: section.offsetTop,
         behavior: 'smooth', // Add smooth scrolling behavior if desired
       })
     }
