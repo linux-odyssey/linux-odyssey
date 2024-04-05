@@ -29,7 +29,7 @@ const handleLogout = async () => {
 defineProps({
   title: {
     type: String,
-    required: true,
+    required: false,
   },
 })
 
@@ -37,6 +37,7 @@ onMounted(async () => {
   try {
     await loadUserProfile()
   } catch (err) {
+    console.error(err)
     toast.error('無法讀取使用者資料')
   }
 })

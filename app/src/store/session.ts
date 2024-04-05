@@ -1,8 +1,7 @@
 import { reactive } from 'vue'
 import { useToast } from 'vue-toastification'
 import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
-// eslint-disable-next-line import/no-relative-packages
-import { IQuest } from '../../../packages/models/src/quest'
+import { IQuest } from '@linux-odyssey/models'
 import api from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'

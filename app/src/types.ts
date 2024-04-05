@@ -1,6 +1,6 @@
 import { FileGraph } from '@linux-odyssey/file-graph'
 // eslint-disable-next-line import/no-relative-packages
-import { IResponse } from '../../packages/models/src/response'
+import { IResponse } from '@linux-odyssey/models'
 
 export interface Task {
   id: number
