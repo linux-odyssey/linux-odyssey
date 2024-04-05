@@ -25,7 +25,7 @@ async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
         )
       )
       files.push(...result.flat())
-    } catch (err) {
+    } catch (_) {
       // ignore
     }
   }
@@ -41,7 +41,7 @@ async function discoverFiles(argv) {
         .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
     )
     return { discover: result.flat() }
-  } catch (err) {
+  } catch (_) {
     return {}
   }
 }

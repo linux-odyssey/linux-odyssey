@@ -12,7 +12,7 @@ export default session({
     domain: config.domain,
     httpOnly: true,
     secure: config.protocol === 'https:',
-    sameSite: 'strict',
+    sameSite: 'lax',
     maxAge: config.sessionMaxAge,
   },
   store: MongoStore.create({

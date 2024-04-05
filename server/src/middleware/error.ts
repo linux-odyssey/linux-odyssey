@@ -13,7 +13,7 @@ export default function errorHandler(
   req: Request,
   res: Response,
   // eslint-disable-next-line no-unused-vars
-  next: NextFunction
+  _next: NextFunction
 ) {
   logger.error(err) // Log error stack trace to the console
   res.status(500).send({ message: 'Something broke!' }) // Send error response
