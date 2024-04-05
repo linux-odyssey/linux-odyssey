@@ -10,9 +10,9 @@ export interface Task {
 
 export interface StageResponse {
   status: string
-  hints: string
+  hints: string[]
   tasks: Task[]
-  responses: IResponse
+  responses: IResponse[]
 }
 
 export interface Session {
