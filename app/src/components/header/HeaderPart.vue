@@ -12,6 +12,7 @@ defineProps({
   },
 })
 const menuOpen = ref(false)
+const windowWidth = window.innerWidth < 768
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
 }
@@ -38,12 +39,15 @@ const toggleMenu = () => {
       </p>
     </div>
     <div
-      class="w-full flex flex-col gap-3 items-center justify-end sm:w-auto sm:block sm:ml-6"
+      class="w-full flex flex-col items-center justify-end sm:w-auto sm:block sm:ml-6"
       :class="{ hidden: !menuOpen }"
     >
       <component :is="headerComponent" />
     </div>
-    <div :class="{ 'w-full flex justify-end pb-3': menuOpen }">
+    <div
+      v-if="windowWidth"
+      :class="{ 'w-full flex justify-end pb-3': menuOpen }"
+    >
       <button
         type="button"
         class="flex items-center h-5 w-5 rounded-md sm:hidden"
