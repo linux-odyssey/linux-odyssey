@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import MarkdownText from './MarkdownText.vue'
-import sessionStore from '../store/session'
-import { Task } from '../types'
+import MarkdownText from '../MarkdownText.vue'
+import sessionStore from '../../store/session'
+import { Task } from '../../types'
 
 const tasks = computed(() => {
   return sessionStore.session.tasks.map((task: Task) => {

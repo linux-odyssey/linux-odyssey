@@ -2,14 +2,15 @@
 import { computed, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import sessionStore, { init } from '../store/session'
-import GameHeaderPart from '../components/GameHeaderPart.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
+import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 // import CommandlistPart from '../components/CommandlistPart.vue'
-import HintPart from '../components/HintPart.vue'
-import QuestPart from '../components/QuestPart.vue'
-import TerminalPart from '../components/TerminalPart.vue'
-import VisualizationPart from '../components/VisualizationPart.vue'
-import ControlPalette from '../components/ControlPalette.vue'
-import CompleteModal from '../components/CompleteModal.vue'
+import HintPart from '../components/game/HintPart.vue'
+import QuestPart from '../components/game/QuestPart.vue'
+import TerminalPart from '../components/game/TerminalPart.vue'
+import VisualizationPart from '../components/game/VisualizationPart.vue'
+import ControlPalette from '../components/game/ControlPalette.vue'
+import CompleteModal from '../components/game/CompleteModal.vue'
 import { LoadQuestError, LoadSessionError } from '../utils/errors'
 
 const completed = computed(() => {
@@ -45,8 +46,11 @@ onMounted(async () => {
 
 <template>
   <!-- game header -->
-  <div class="h-[6vh] w-full">
-    <GameHeaderPart :title="sessionStore.quest?.title" />
+  <div class="w-full">
+    <HeaderPart
+      :title="sessionStore.quest?.title"
+      :headerComponent="GameHeaderComponents"
+    />
   </div>
   <!-- current status indicator -->
   <input
@@ -55,7 +59,7 @@ onMounted(async () => {
     :value="sessionStore.session.status"
   />
   <!-- main -->
-  <div id="main" class="h-[94vh] w-full flex p-3 space-x-3">
+  <div id="main" class="h-full pt-10 w-full flex p-3 space-x-3">
     <!-- Topic and Command List -->
     <div class="bg-bg-secondary h-full w-1/4 rounded-lg">
       <section id="quest" class="h-full p-3 overflow-auto">
@@ -67,7 +71,7 @@ onMounted(async () => {
       </section> -->
     </div>
     <!-- Terminal and Hint -->
-    <div class="bg-bg h-full w-1/2 rounded-lg">
+    <div class="bg-bg h-full rounded-lg w-1/2">
       <section id="hint" class="h-3/5">
         <HintPart />
       </section>
