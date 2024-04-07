@@ -7,7 +7,7 @@ import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 <template>
   <div class="w-fit">
     <HeaderPart
-      :title="關卡地圖"
+      title="關卡地圖"
       :headerComponent="GameHeaderComponents"
       class="z-50"
     />
