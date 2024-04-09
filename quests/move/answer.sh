@@ -8,5 +8,4 @@ mv world.txt wow.txt
 ls
 mv notes docs
 ls
-echo hint
 mv docs/hello.txt hi.txt

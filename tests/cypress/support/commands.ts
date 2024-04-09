@@ -8,7 +8,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       LoginWithPassword(username: string, password: string): Chainable<string>
-      PrepareForGame(): Chainable<void>
+      PrepareForGame(questId: string): Chainable<string>
       InitTerminal(): Chainable<void>
       typeInCommand(command: string): Chainable<string>
       getQuestInfo(id: string): Chainable<JQuery<HTMLParagraphElement>>
@@ -38,8 +38,8 @@ Cypress.Commands.add('LoginWithPassword', (username, password) => {
   cy.get('#password').type(password)
   cy.get('#LogInOrSignUp').click()
 })
-Cypress.Commands.add('PrepareForGame', (questId) => {
-  cy.visit('/')
+Cypress.Commands.add('PrepareForGame', (questId: string) => {
+  cy.visit('/login')
   // make sure the login page is loaded
   cy.url().should('satisfy', (elements: string) => {
     const text = elements
@@ -143,9 +143,9 @@ Cypress.Commands.add('CompleteStageWithCommands', (stagename) => {
 })
 Cypress.Commands.add('CheckTextElement', (id, chText, enText) => {
   if (Cypress.env('isCHVersion')) {
-    cy.get(id, { timeout: 50000 }).should('contain', chText).and('be.visible')
+    cy.get(id, { timeout: 7000 }).should('contain', chText).and('be.visible')
   } else {
-    cy.get(id, { timeout: 50000 }).should('contain', enText).and('be.visible')
+    cy.get(id, { timeout: 7000 }).should('contain', enText).and('be.visible')
   }
 })
 Cypress.Commands.add('CheckPlaceholder', (id, chText, enText) => {
