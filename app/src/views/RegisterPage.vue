@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup>
 import validator from 'validator'
 import { isValidUsername } from '@linux-odyssey/utils'
@@ -17,41 +18,33 @@ function handleRegister({ username, email, password, success, error }) {
     .then(success)
     .catch((err) => {
       if (err instanceof TooManyRequestsError) {
-        // error('Too many requests. Try again in 2 minutes.')
-        error('太多請求，兩分鐘後再試一次。')
+        error(i18n.t('errors.tooManyRequests')) // Assuming 'errors.tooManyRequests' is the key in your i18n file
         return
       }
       if (err instanceof UnauthorizedError) {
-        // error('Invalid username or password.')
-        error('無效的帳號名稱或密碼。')
+        error(i18n.t('errors.invalidCredentials'))
         return
       }
       if (err instanceof ValidationError) {
-        error(err.message)
+        error(i18n.t('errors.validationError'))
         return
       }
       console.error(err)
-      // error('Something went wrong.')
-      error('出了點問題。')
+      error(i18n.t('errors.generalError'))
     })
 }
 
 async function check({ username, email, password, error }) {
   if (username && !isValidUsername(username)) {
-    // error('Invalid username.')
-    error('無效的帳號名稱')
+    error(i18n.t('errors.invalidUsername'))
     return
   }
   if (email && !validator.isEmail(email)) {
-    // error('Invalid email.')
-    error('無效的電子郵件')
+    error(i18n.t('errors.invalidEmail'))
     return
   }
   if (password && !validator.isStrongPassword(password, passwordPolicy)) {
-    // error(
-    //   'Your password must be 8+ characters with at least one number, one upper and one lower case letter.'
-    // )
-    error('密碼必須超過8個字元，至少包含一個數字、一個大寫及一個小寫。')
+    error(i18n.t('errors.weakPassword'))
     return
   }
   try {
@@ -62,13 +55,11 @@ async function check({ username, email, password, error }) {
       return
     }
     if (err instanceof TooManyRequestsError) {
-      // error('Too many requests. Try again in 2 minutes.')
-      error('太多請求，兩分鐘後再試一次。')
+      error(i18n.t('errors.tooManyRequests'))
       return
     }
     console.error(err)
-    // error('Something went wrong.')
-    error('出了點問題。')
+    error(i18n.t('errors.generalError'))
   }
 }
 </script>

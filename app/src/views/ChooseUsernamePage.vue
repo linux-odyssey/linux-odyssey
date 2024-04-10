@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup>
 import { isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
@@ -9,7 +10,7 @@ async function check({ username, error }) {
   if (username) {
     if (!isValidUsername(username)) {
       // error('Invalid username.')
-      error('無效的帳號名稱')
+      error(i18n.t('errors.invalidCredentials'))
       return
     }
     try {
@@ -17,7 +18,7 @@ async function check({ username, error }) {
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
         // error('Too many requests. Try again in 2 minutes.')
-        error('太多請求，兩分鐘後再試一次。')
+        error(i18n.t('errors.tooManyRequests'))
         return
       }
       if (err instanceof ValidationError) {
@@ -25,7 +26,7 @@ async function check({ username, error }) {
         return
       }
       // error('Something went wrong. Please try again later.')
-      error('出了點問題，請再試一次。')
+      error(i18n.t('errors.generalError'))
     }
   }
 }
@@ -37,7 +38,7 @@ async function handleSubmit({ username, success, error }) {
   } catch (err) {
     if (err instanceof TooManyRequestsError) {
       // error('Too many requests. Try again in 2 minutes.')
-      error('太多請求，兩分鐘後再試一次。')
+      error(i18n.t('errors.tooManyRequests'))
       return
     }
     if (err instanceof ValidationError) {

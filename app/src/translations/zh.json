@@ -50,5 +50,15 @@
     "user": "使用者名稱",
     "score": "分數",
     "finish": "完成關卡"
+  },
+  "errors": {
+    "tooManyRequests": "太多請求，兩分鐘後再試一次。",
+    "invalidCredentials": "無效的帳號名稱或密碼。",
+    "generalError": "出了點問題。",
+    "invalidUsername": "無效的帳號名稱",
+    "invalidEmail": "無效的電子郵件",
+    "weakPassword": "密碼必須超過8個字元，至少包含一個數字、一個大寫及一個小寫。",
+    "loadQuestError": "無法讀取關卡: {questId}，請確認網頁連結。",
+    "loadSessionError": "無法建立工作階段: {questId}，請重新登入再試一次。"
   }
 }

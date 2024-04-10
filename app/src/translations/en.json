@@ -51,5 +51,15 @@
     "user": "Username",
     "score": "Score",
     "finish": "Finished Stage"
+  },
+  "errors": {
+    "tooManyRequests": "Too many requests. Try again in 2 minutes.",
+    "invalidCredentials": "Invalid username or password.",
+    "generalError": "Something went wrong.",
+    "invalidUsername": "Invalid username.",
+    "invalidEmail": "Invalid email address.",
+    "weakPassword": "Your password must be 8+ characters long and include at least one number, one uppercase, and one lowercase letter.",
+    "loadQuestError": "Failed to load quest: {questId}. Please check the URL.",
+    "loadSessionError": "Failed to create session for quest: {questId}. Please re-login and try again."
   }
 }
