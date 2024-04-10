@@ -1,6 +1,5 @@
 FROM node:20-alpine AS build
 
-RUN yarn set version berry
 WORKDIR /app
 COPY ./package.json yarn.lock tsconfig.json ./
 COPY packages/file-graph/package.json ./packages/file-graph/package.json
@@ -27,7 +26,7 @@ COPY server ./server
 COPY quests ./quests
 
 ENV NODE_ENV=production
-RUN yarn build
+RUN yarn workspace server build
 WORKDIR /app/server
 CMD [ "yarn", "start" ]
 

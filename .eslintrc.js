@@ -48,6 +48,18 @@ module.exports = {
     'no-use-before-define': 'off',
 
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
+    ],
 
     // Allow missing file extensions
     'import/extensions': [
@@ -63,9 +75,10 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/tests/**/*.js', '**/tests/**/*.ts'], // Adjust the pattern to match your test files
+      files: ['**/tests/**/*.js', '**/tests/**/*.ts', '**/*.test.ts'], // Adjust the pattern to match your test files
       rules: {
         'import/extensions': 'off', // Turn off the rule for test files
+        'import/no-extraneous-dependencies': 'off',
       },
     },
   ],

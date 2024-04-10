@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, defineProps } from 'vue'
 import markdown2HTML from '../utils/markdown'
 

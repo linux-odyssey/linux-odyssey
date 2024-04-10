@@ -13,9 +13,8 @@
   ],
   "scripts": {
     "app": "yarn workspace app dev",
-    "app:local": "yarn workspace app dev:local",
-    "build": "yarn workspaces foreach -Apt run build",
-    "dev": "yarn workspaces foreach -Rpi --from '{server,app}' run watch",
+    "build": "yarn workspace server build && yarn workspace app build && yarn workspace analytics build",
+    "dev": "concurrently -n \"App,Server\" -c \"bgBlue.bold,bgGreen.bold\" \"yarn workspace app dev\" \"yarn workspace server dev\"",
     "server": "yarn workspace server dev",
     "cli": "yarn workspace client start",
     "lint": "eslint .",
@@ -29,11 +28,16 @@
     "build:quests": "yarn workspace server build:quests"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-typescript": "^7.23.3",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vue/eslint-config-prettier": "^7.1.0",
+    "babel-jest": "^29.7.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.44.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -46,9 +50,10 @@
     "eslint-plugin-vue": "^9.15.1",
     "jest": "^29.7.0",
     "prettier": "^3.0.0",
-    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "packageManager": "yarn@4.1.0"
+  "dependencies": {
+    "typescript-eslint": "^7.4.0"
+  }
 }

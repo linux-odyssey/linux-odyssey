@@ -1,12 +1,19 @@
 <!--Translated-->
-<script setup>
+<script setup lang="ts">
 import { isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
 
-async function check({ username, error }) {
+async function check({
+  username,
+  error,
+}: {
+  username: string
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   if (username) {
     if (!isValidUsername(username)) {
       // error('Invalid username.')
@@ -31,11 +38,20 @@ async function check({ username, error }) {
   }
 }
 
-async function handleSubmit({ username, success, error }) {
+async function handleSubmit({
+  username,
+  success,
+  error,
+}: {
+  username: string
+  success: () => void
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   try {
     await chooseUsername(username)
     success()
-  } catch (err) {
+  } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
       // error('Too many requests. Try again in 2 minutes.')
       error(i18n.t('errors.tooManyRequests'))

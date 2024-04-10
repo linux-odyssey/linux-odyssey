@@ -9,6 +9,6 @@
   "license": "GPL",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w"
+    "dev": "tsc -w"
   }
 }

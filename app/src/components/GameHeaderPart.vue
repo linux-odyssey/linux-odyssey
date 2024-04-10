@@ -1,5 +1,5 @@
 <!--Translated-->
-<script setup>
+<script setup lang="ts">
 import { defineProps, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -54,7 +54,7 @@ const handleLeaderBoard = async () => {
 defineProps({
   title: {
     type: String,
-    required: true,
+    required: false,
   },
 })
 
@@ -159,18 +159,18 @@ onMounted(async () => {
             class="text-text-primary h-full w-full"
           />
         </a>
-        <button title="LeaderBoard" @click="handleLeaderBoard" class="h-5 w-5">
+        <RouterLink title="LeaderBoard" to="/leaderboard" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'trophy']"
             class="text-text-primary h-full w-full"
           />
-        </button>
-        <button title="Map" @click="handleMap" class="h-5 w-5">
+        </RouterLink>
+        <RouterLink title="Map" to="/map" class="h-5 w-5">
           <font-awesome-icon
             :icon="['fas', 'map']"
             class="text-text-primary h-full w-full"
           />
-        </button>
+        </RouterLink>
         <a
           title="Bug Report"
           :href="bugReportUrl"

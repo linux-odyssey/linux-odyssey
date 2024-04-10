@@ -1,11 +1,11 @@
 <!--Translated-->
-<script setup>
+<script setup lang="ts">
 import validator from 'validator'
 import { isValidUsername } from '@linux-odyssey/utils'
 import { passwordPolicy } from '@linux-odyssey/constants'
 import AuthForm from '../components/AuthForm.vue'
-import Background from '../components/DynamicBackground.vue'
-
+import DynamicBackground from '../components/DynamicBackground.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
 import { checkUsername, register } from '../utils/auth'
 import {
   UnauthorizedError,
@@ -13,7 +13,20 @@ import {
   ValidationError,
 } from '../utils/errors'
 
-function handleRegister({ username, email, password, success, error }) {
+function handleRegister({
+  username,
+  email,
+  password,
+  success,
+  error,
+}: {
+  username: string
+  email: string
+  password: string
+  success: () => void
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   register(username, email, password)
     .then(success)
     .catch((err) => {
@@ -34,7 +47,18 @@ function handleRegister({ username, email, password, success, error }) {
     })
 }
 
-async function check({ username, email, password, error }) {
+async function check({
+  username,
+  email,
+  password,
+  error,
+}: {
+  username: string
+  email: string
+  password: string
+  // eslint-disable-next-line no-unused-vars
+  error: (msg: string) => void
+}) {
   if (username && !isValidUsername(username)) {
     error(i18n.t('errors.invalidUsername'))
     return
@@ -66,11 +90,12 @@ async function check({ username, email, password, error }) {
 
 <template>
   <div class="w-screen h-screen">
-    <Background class="w-full h-full" />
+    <DynamicBackground class="w-full h-full" />
     <div
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
-      <div class="w-fit">
+      <HeaderPart />
+      <div class="w-fit mt-8">
         <AuthForm
           @onSubmit="handleRegister"
           @onChange="check"

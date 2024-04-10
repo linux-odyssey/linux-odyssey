@@ -1,10 +1,10 @@
 import { Schema } from 'mongoose'
-import exceptionSchema from './exception.js'
-import requirementSchema from './requirement.js'
+import { exceptionSchema, IException } from './exception.js'
+import { requirementSchema, IRequirement } from './requirement.js'
 
-const globalExceptionSchema = new Schema({})
+export interface IGlobalException extends IException, IRequirement {}
+
+export const globalExceptionSchema = new Schema<IGlobalException>({})
 
 globalExceptionSchema.add(exceptionSchema)
 globalExceptionSchema.add(requirementSchema)
-
-export default globalExceptionSchema

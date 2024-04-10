@@ -1,0 +1,21 @@
+<h1 class='heading'>{{user}}'s Sessions History</h1>
+<div>
+  <table class='data-table'>
+    <tr>
+      <th>Quest</th>
+      <th>Status</th>
+      <th>Created At</th>
+      <th>Used Time</th>
+      <th>Session</th>
+    </tr>
+    {{#each sessions}}
+      <tr>
+        <td>{{quest}}</td>
+        <td>{{status}}</td>
+        <td>{{createdAt}}</td>
+        <td>{{usedTime}}</td>
+        <td><a href='/sessions/{{_id}}'>Detail</a></td>
+      </tr>
+    {{/each}}
+  </table>
+</div>

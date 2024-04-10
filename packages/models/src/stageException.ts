@@ -1,7 +1,11 @@
 import { Schema } from 'mongoose'
-import exceptionSchema from './exception.js'
+import { exceptionSchema, IException } from './exception.js'
 
-const stageExceptionSchema = new Schema({
+export interface IStageException extends IException {
+  catchAll: boolean
+}
+
+export const stageExceptionSchema = new Schema<IStageException>({
   catchAll: {
     type: Boolean,
     required: true,
@@ -10,5 +14,3 @@ const stageExceptionSchema = new Schema({
 })
 
 stageExceptionSchema.add(exceptionSchema)
-
-export default stageExceptionSchema

@@ -1,0 +1,95 @@
+version: '3'
+services:
+  app:
+    depends_on:
+      - backend
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+      target: dev
+    ports:
+      - 5173:5173
+    networks:
+      - internal
+    volumes:
+      - ./app:/app/app
+      - ./packages:/app/packages
+
+  backend:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+      target: dev
+    networks:
+      - internal
+      - players
+    ports:
+      - '3000:3000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./server/src:/app/server/src
+      - ./server/dist:/app/server/dist
+      - ./server/swagger.yaml:/app/server/swagger.yaml
+      - ./packages:/app/packages
+      - ./quests:/app/quests
+      - ./logs:/app/logs
+    environment:
+      - BASE_URL=http://localhost:5173
+      - MONGO_URL=mongodb://db:27017/odyssey-test
+      - DOCKER_NETWORK=linux-odyssey-players
+      - SECRET_KEY=b1d2e917-17b9-4fce-9055-082dee6ec5d6 # Only for testing
+      - TRUSTED_PROXIES=${TRUSTED_PROXIES}
+      - SURVEY_URL=${SURVEY_URL}
+      - BUG_REPORT_URL=${BUG_REPORT_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - TESTING=true
+      - TESTING_USERNAME=alex
+      - TESTING_PASSWORD=Alex1234
+      - HOST_PWD=${PWD}
+      - MOUNT_QUEST=${MOUNT_QUEST}
+
+  analytics:
+    build:
+      context: .
+      dockerfile: packages/analytics/Dockerfile
+      target: dev
+    depends_on:
+      - db
+    networks:
+      - internal
+    ports:
+      - '3001:3001'
+    environment:
+      - MONGO_URL=mongodb://db:27017/odyssey-test
+      - ADMIN_USERNAME=alex
+      - ADMIN_PASSWORD=Alex1234
+    volumes:
+      - ./packages/analytics:/app/packages/analytics
+      - ./packages/models:/app/packages/models
+
+  db:
+    image: mongo
+    restart: always
+    networks:
+      - internal
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data:/data/db
+
+  base:
+    image: linuxodyssey/quest-base
+    build:
+      context: .
+      dockerfile: ./quests/Dockerfile
+
+networks:
+  internal:
+  players:
+    name: linux-odyssey-players
+    internal: true

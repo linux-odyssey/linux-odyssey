@@ -1,4 +1,5 @@
-import DAG from '../src/dag'
+import { describe, it, expect } from '@jest/globals'
+import DAG from '../src/dag.js'
 
 describe('dag layers', () => {
   it('two layer', () => {

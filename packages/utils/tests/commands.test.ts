@@ -1,4 +1,5 @@
-import { buildFileCheckCmd, File } from '../src/commands'
+import { describe, it, expect } from '@jest/globals'
+import { buildFileCheckCmd, File } from '../src/commands.js'
 
 describe('buildFileCheckCmd function', () => {
   it('builds the file check command correctly', () => {

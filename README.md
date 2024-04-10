@@ -17,14 +17,21 @@
 
 ## Development
 
-Run everything (frontend, backend, db, swagger, quests):
+Run mongoDB first:
 
-    docker compose build
-    docker compose up -d
+    docker compose -f docker-compose.dev.yml up -d db
+
+The db will automatically restarts by Docker.
+
+Build up dependencies:
+
+    yarn build:deps
+
+Run dev server (frontend, backend):
+
+    yarn dev
 
 If you want to enable social login, you should have OAuth client token in a `.env` file:
-
-    docker compose --env-file .env up -d
 
 ### Build Quest Images
 
@@ -144,4 +151,3 @@ connect to other host:
 list sessions:
 
     yarn cli list
- 

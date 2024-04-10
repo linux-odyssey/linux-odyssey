@@ -1,5 +1,6 @@
 <!--Translated-->
-<script setup>
+<!-- eslint-disable no-console -->
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -50,7 +51,7 @@ async function getProgress() {
   }
 }
 
-const genOption = (nodes, edges) => ({
+const genOption = (nodes: any, edges: any) => ({
   renderer: 'svg',
   tooltip: {},
   animationDurationUpdate: 1500,
@@ -94,7 +95,7 @@ const genOption = (nodes, edges) => ({
         curveness: 0.08,
       },
       itemStyle: {
-        color: (params) => {
+        color: (params: any) => {
           const {
             data: { completed, unlocked },
           } = params
@@ -111,7 +112,7 @@ const genOption = (nodes, edges) => ({
   ],
 })
 
-function getOption(quests, progress) {
+function getOption(quests: any, progress: any) {
   const dag = new DAG(quests)
 
   const nodes = dag.getNodes().map((node) => ({
@@ -120,9 +121,9 @@ function getOption(quests, progress) {
     y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
     x: marginY * node.layer * 2,
     completed: progress[node._id]?.completed || false,
-    unlocked: node.requirements.every((req) => progress[req]?.completed),
+    unlocked: node.requirements.every((req: any) => progress[req]?.completed),
   }))
-  const lineAppearence = (node) => {
+  const lineAppearence = (node: any) => {
     try {
       const { unlocked } = node
       return {
@@ -134,7 +135,7 @@ function getOption(quests, progress) {
       throw err
     }
   }
-  const edges = dag.getEdgesArray().map((edge) => ({
+  const edges = dag.getEdgesArray().map((edge: any) => ({
     source: edge[0],
     target: edge[1],
     lineStyle: lineAppearence(nodes.find((node) => node.id === edge[1])),
@@ -145,10 +146,10 @@ function getOption(quests, progress) {
 const router = useRouter()
 const toast = useToast()
 
-function initChart(option) {
+function initChart(option: any) {
   chartInstance = init(chartContainer.value)
   chartInstance.setOption(option)
-  chartInstance.on('click', (params) => {
+  chartInstance.on('click', (params: any) => {
     const {
       data: { id, unlocked },
     } = params
@@ -156,8 +157,12 @@ function initChart(option) {
     if (unlocked) {
       router.push({ name: 'game', params: { questId: id } })
     } else {
+<<<<<<< HEAD
       // toast.warning('You have not completed the previous quest yet!')
       toast.warning(i18next.t('questMap.unfinishedStage'))
+=======
+      toast.warning('你還沒完成前一個關卡!')
+>>>>>>> 580d5fc3f8fdd4d6cfcbd714e359399d2108799e
     }
   })
 }

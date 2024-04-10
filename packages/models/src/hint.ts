@@ -1,10 +1,12 @@
 import { Schema } from 'mongoose'
 
-const hintSchema = new Schema({
+export interface IHint {
+  hints: string[]
+}
+
+export const hintSchema = new Schema({
   hints: {
     type: [String],
     required: true,
   },
 })
-
-export default hintSchema

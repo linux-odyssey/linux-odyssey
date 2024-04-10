@@ -12,6 +12,7 @@ services:
       - BASE_URL=http://app-test
       - TESTING_USERNAME=alex
       - TESTING_PASSWORD=Alex1234
+      # - DEBUG=cypress:*
     depends_on:
       - app-test
 
@@ -23,8 +24,9 @@ services:
       target: prod
     networks:
       internal:
-    ports:
-      - 5173:80
+    # Only open the port for debugging
+    # ports:
+    #   - 5173:80
     depends_on:
       - backend
 
@@ -43,7 +45,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./logs:/app/logs
     environment:
-      - BASE_URL=http://localhost:5173
+      - BASE_URL=http://app-test
       - MONGO_URL=mongodb://user:user-password@db-test:27017/odyssey-test
       - DOCKER_NETWORK=linux-odyssey-players
       - SECRET_KEY=b1d2e917-17b9-4fce-9055-082dee6ec5d6 # Only for testing
@@ -57,6 +59,7 @@ services:
       - TESTING=true
       - TESTING_USERNAME=alex
       - TESTING_PASSWORD=Alex1234
+      - BACKEND_URL=http://backend:3000
 
   db-test:
     image: mongo
@@ -70,8 +73,8 @@ services:
       - MONGO_USER=user
       - MONGO_PASS=user-password
       - MONGO_DB=odyssey-test
-    ports:
-      - 27017:27017
+  #    ports:
+  #      - 27017:27017
 
   base:
     image: linuxodyssey/quest-base

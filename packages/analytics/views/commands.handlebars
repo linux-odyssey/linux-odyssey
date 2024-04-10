@@ -1,11 +1,15 @@
-<h1>Commands</h1>
+<h1 class='heading'>Commands</h1>
 <div>
-  <h2>Error commands</h2>
-  <div class='pagination'>
-    <a href='/commands?order=asc'>Ascending</a>
-    <a href='/commands?order=desc'>Descending</a>
+  <h2 class='heading'>Error commands</h2>
+  <div class='sort'>
+    <a href='/commands?order=asc'><div class='btn'>
+        <h3>Ascending</h3>
+      </div></a>
+    <a href='/commands?order=desc'><div class='btn'>
+        <h3>Descending</h3>
+      </div></a>
   </div>
-  <table>
+  <table class='data-table'>
     <tr>
       <th>Command</th>
       <th>User</th>
@@ -25,7 +29,9 @@
       </tr>
     {{/each}}
   </table>
-  <div class='pagination'>
-    <a href='/commands?nextKey={{nextKey}}&order={{order}}'>Next</a>
+  <div class='pagination sort'>
+    <a href='/commands?nextKey={{nextKey}}&order={{order}}'><div class='btn'>
+        <h3>Next</h3>
+      </div></a>
   </div>
 </div>
