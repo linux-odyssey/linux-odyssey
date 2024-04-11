@@ -177,7 +177,7 @@ onMounted(async () => {
       class="p-2 stroke-2 scale-y-120 justify-center items-center"
     />
     <h1
-      class="p-4 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
+      class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
       style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
     >
       踏上你的Linux冒險之旅吧！
