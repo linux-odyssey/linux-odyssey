@@ -12,7 +12,7 @@ import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
       class="z-50"
     />
   </div>
-  <div class="flex flex-col justify-center items-center w-full h-[94vh]">
+  <div class="flex flex-col justify-center items-center w-full h-full pt-5">
     <QuestMap />
   </div>
 </template>
