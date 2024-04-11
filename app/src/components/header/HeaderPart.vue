@@ -25,6 +25,7 @@ const toggleMenu = () => {
       <img src="../../img/icon_totem.svg" class="h-8 justify-self-start" />
       <RouterLink
         to="/"
+        id="GameTitle"
         class="text-text-primary inline-block font-bold whitespace-nowrap pt-1 transition ease-in-out hover:scale-110 duration-300"
         style="font-size: 2vh"
       >
