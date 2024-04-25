@@ -157,12 +157,8 @@ function initChart(option: any) {
     if (unlocked) {
       router.push({ name: 'game', params: { questId: id } })
     } else {
-<<<<<<< HEAD
       // toast.warning('You have not completed the previous quest yet!')
       toast.warning(i18next.t('questMap.unfinishedStage'))
-=======
-      toast.warning('你還沒完成前一個關卡!')
->>>>>>> 580d5fc3f8fdd4d6cfcbd714e359399d2108799e
     }
   })
 }
@@ -183,8 +179,8 @@ onMounted(async () => {
       class="p-2 stroke-2 scale-y-120 justify-center items-center"
     />
     <h1
-      class="p-4 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
-      style="width: 40%; height: 6%; font-size: 3vh; color: #00ff00"
+      class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
+      style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
     >
       <!-- Get through your linux journey! -->
       {{ $t('questMap.startJourney') }}
