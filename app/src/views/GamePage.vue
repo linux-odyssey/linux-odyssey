@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useToast } from 'vue-toastification'
-import sessionStore, { init } from '../store/session'
+import { computed } from 'vue'
+// import { onMounted } from 'vue'
+// import { useToast } from 'vue-toastification'
+import sessionStore from '../store/session'
+// import { init } from '../store/session'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 // import CommandlistPart from '../components/CommandlistPart.vue'
@@ -11,37 +13,43 @@ import TerminalPart from '../components/game/TerminalPart.vue'
 import VisualizationPart from '../components/game/VisualizationPart.vue'
 import ControlPalette from '../components/game/ControlPalette.vue'
 import CompleteModal from '../components/game/CompleteModal.vue'
-import { LoadQuestError, LoadSessionError } from '../utils/errors'
+// import { LoadQuestError, LoadSessionError } from '../utils/errors'
+import StartButton from '../components/game/StartButton.vue'
 
 const completed = computed(() => {
   return sessionStore.session.status === 'finished'
 })
 
-const props = defineProps({
+// const props = defineProps({
+//   questId: {
+//     type: String,
+//     required: true,
+//   },
+// })
+defineProps({
   questId: {
     type: String,
     required: true,
   },
 })
+// const toast = useToast()
 
-const toast = useToast()
-
-onMounted(async () => {
-  try {
-    await init(props.questId)
-  } catch (err: any) {
-    if (err instanceof LoadQuestError) {
-      toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)
-      return
-    }
-    if (err instanceof LoadSessionError) {
-      toast.error(`無法建立工作階段: ${err.questId}，請重新登入再試一次。`)
-      return
-    }
-    console.error(err)
-    toast.error(err.message)
-  }
-})
+// onMounted(async () => {
+//   try {
+//     await init(props.questId)
+//   } catch (err: any) {
+//     if (err instanceof LoadQuestError) {
+//       toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)
+//       return
+//     }
+//     if (err instanceof LoadSessionError) {
+//       toast.error(`無法建立工作階段: ${err.questId}，請重新登入再試一次。`)
+//       return
+//     }
+//     console.error(err)
+//     toast.error(err.message)
+//   }
+// })
 </script>
 
 <template>
@@ -72,6 +80,7 @@ onMounted(async () => {
     </div>
     <!-- Terminal and Hint -->
     <div class="bg-bg h-full rounded-lg w-1/2">
+      <StartButton :questId="$props.questId" />
       <section id="hint" class="h-3/5">
         <HintPart />
       </section>
