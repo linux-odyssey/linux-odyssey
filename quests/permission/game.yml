@@ -31,8 +31,7 @@ stages:
               - 請輸入 `echo start` 來開始
     responses:
       - type: narrative
-        content:
-          現在我們要學習如何查看檔案的存取權限。
+        content: 現在我們要學習如何查看檔案的存取權限。
           使用`ls -l`指令來查看不同檔案的存取權限吧！
 
     hints:
@@ -50,30 +49,56 @@ stages:
     responses:
       - type: narrative
         content:
-          - 你成功查看到檔案的存取權限了！
           - 你可以看到檔案的存取權限的左邊類似 `-rw-r--r--` 的字串。
           - 這個字串由十個字元組成，第一個字元代表檔案的類型，後面九個字元分別代表檔案的存取權限。
           - 第一個字元如果是 `-` 代表這是一個檔案，如果是 `d` 代表這是一個資料夾。
           - 後面九個字元中以三個字元一組，分別代表檔案的擁有者、群組、以及其他人的存取權限。
           - 每一組中的三個字元分別代表讀取（`r`）、寫入（`w`）、執行（`x`）的權限。
           - 如果該欄位是 `-` 則表示沒有該權限。
-          - 例如 `rw-` 代表擁有讀取和寫入的權限，但沒有執行的權限；
-          - 而 `r-x` 代表擁有讀取和執行的權限，但沒有寫入的權限。
+          - 例如 `-w-` 代表擁有寫入的權限，但沒有讀取和執行的權限；
+
+          - 現在試著查看 `file1` 、 `file2` 、 `file3` 的內容吧！
+          - 如果沒有權限將會顯示 `Permission denied` 的訊息。
 
   - id: read-file1
-    task: 查看 `file1` 的內容
+    task: 嘗試查看 `file1` 的內容
     requirements:
       - ls-l
     condition:
       pwd: /home/commander
       command:
         - cat file1
+
+  - id: read-file2
+    task: 嘗試查看 `file2` 的內容
+    requirements:
+      - ls-l
+    condition:
+      pwd: /home/commander
+      command:
+        - cat file2
+
+  - id: read-file3
+    task: 嘗試查看 `file3` 的內容
+    requirements:
+      - ls-l
+    condition:
+      pwd: /home/commander
+      command:
+        - cat file3
+
+  - id: read-files
+    requirements:
+      - read-file1
+      - read-file2
+      - read-file3
     responses:
       - type: narrative
         content:
-          - 你看到 `file1` 的內容了！
-          - 現在試著執行看看 `file1` 吧！
-          
+          - 你已經試著查看 `file1` 、 `file2` 、 `file3` 的內容了！
+          - 現在請用 `echo [檔案名稱]` 回答現在有哪的檔案的讀取權限。
+
+  # {unfinished}
 
   - id: cat-continue
     task: 使用 `echo continue` 來繼續
