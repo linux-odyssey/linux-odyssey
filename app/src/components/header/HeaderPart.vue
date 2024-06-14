@@ -19,9 +19,10 @@ const toggleMenu = () => {
 
 const currentLanguage = ref('zh')
 
-function changeLanguage(lang: string) {
-  i18next.changeLanguage(lang)
-  currentLanguage.value = lang
+function changeLanguage() {
+  const newLang = currentLanguage.value === 'zh' ? 'en' : 'zh'
+  i18next.changeLanguage(newLang)
+  currentLanguage.value = newLang
 }
 </script>
 <template>
@@ -51,32 +52,10 @@ function changeLanguage(lang: string) {
       :class="{ hidden: !menuOpen }"
     >
       <button
-        @click="changeLanguage('en')"
-        :class="{
-          'text-text-primary': currentLanguage === 'en',
-          'text-text': currentLanguage !== 'en',
-        }"
-        class="inline-block whitespace-nowrap"
-        style="font-size: 1.5vh"
+        @click="changeLanguage"
+        class="inline-block whitespace-nowrap text-text-primary text-m"
       >
-        English
-      </button>
-      <p
-        class="text-text inline-block whitespace-nowrap"
-        style="font-size: 1.5vh"
-      >
-        |
-      </p>
-      <button
-        @click="changeLanguage('zh')"
-        :class="{
-          'text-text-primary': currentLanguage === 'zh',
-          'text-text': currentLanguage !== 'zh',
-        }"
-        class="inline-block whitespace-nowrap"
-        style="font-size: 1.5vh"
-      >
-        中文
+        {{ currentLanguage === 'zh' ? 'EN' : '中文' }}
       </button>
       <component :is="headerComponent" />
     </div>
