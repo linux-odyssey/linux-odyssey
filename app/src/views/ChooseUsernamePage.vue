@@ -1,9 +1,11 @@
+<!--Translated-->
 <script setup lang="ts">
 import { isValidUsername } from '@linux-odyssey/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
+import { i18next } from '../i18n'
 
 async function check({
   username,
@@ -15,21 +17,24 @@ async function check({
 }) {
   if (username) {
     if (!isValidUsername(username)) {
-      error('無效的帳號名稱')
+      // error('Invalid username.')
+      error(i18next.t('errors.invalidCredentials'))
       return
     }
     try {
       await checkUsername(username)
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
-        error('太多請求，兩分鐘後再試一次。')
+        // error('Too many requests. Try again in 2 minutes.')
+        error(i18next.t('errors.tooManyRequests'))
         return
       }
       if (err instanceof ValidationError) {
         error(err.message)
         return
       }
-      error('出了點問題，請再試一次。')
+      // error('Something went wrong. Please try again later.')
+      error(i18next.t('errors.generalError'))
     }
   }
 }
@@ -49,7 +54,8 @@ async function handleSubmit({
     success()
   } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
-      error('太多請求，兩分鐘後再試一次。')
+      // error('Too many requests. Try again in 2 minutes.')
+      error(i18next.t('errors.tooManyRequests'))
       return
     }
     if (err instanceof ValidationError) {

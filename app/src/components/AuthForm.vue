@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
@@ -100,7 +101,7 @@ const handleChange = () => {
         :icon="['fas', 'circle-exclamation']"
         class="px-1 text-sm"
       />
-      <span>建議使用電腦全螢幕執行</span>
+      <span>{{ $t('authForm.recommendation') }}</span>
     </div>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">
@@ -114,7 +115,10 @@ const handleChange = () => {
             :icon="['fab', 'google']"
             class="text-text-secondary px-3 text-lg"
           />
-          <span class="font-medium"> 以 Google 繼續 </span>
+          <span class="font-medium">
+            <!-- Continue with Google -->
+            {{ $t('authForm.google') }}
+          </span>
         </a>
         <a
           id="GitHubLogin"
@@ -126,14 +130,18 @@ const handleChange = () => {
             :icon="['fab', 'github']"
             class="text-text-secondary px-3 text-lg"
           />
-          <span class="font-medium"> 以 GitHub 繼續 </span>
+          <span class="font-medium">
+            <!-- Continue with GitHub -->
+            {{ $t('authForm.github') }}
+          </span>
         </a>
         <p
           id="or"
           class="text-text-secondary flex justify-center mt-3"
           v-if="type === 'login' || type === 'register'"
         >
-          或
+          <!-- or -->
+          {{ $t('or') }}
         </p>
       </div>
       <div class="mb-6">
@@ -142,19 +150,23 @@ const handleChange = () => {
           id="username"
           ref="usernameInput"
           class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
-          :placeholder="type === 'login' ? '電子郵件 / 帳號名稱' : '帳號名稱'"
+          :placeholder="
+            type === 'login'
+              ? $t('email') + ' / ' + $t('username')
+              : $t('username')
+          "
           v-model="username"
           required
           @input="handleChange()"
-          autocomplete="username"
+          :autocomplete="$t('username')"
         />
         <label
           class="text-sm font-normal text-text-secondary"
           id="NameRules"
           v-if="type === 'username' || type === 'register'"
         >
-          <p>可用小寫字母、數字、"_"和"-"</p>
-          <p>小寫字母開頭，至多32字元</p>
+          <p>{{ $t('authForm.chars1') }}</p>
+          <p>{{ $t('authForm.chars2') }}</p>
         </label>
       </div>
       <div class="mb-6" v-if="type === 'register'">
@@ -163,7 +175,7 @@ const handleChange = () => {
           id="email"
           ref="emailInput"
           class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
-          placeholder="電子郵件"
+          :placeholder="$t('email')"
           v-model="email"
           required
           @input="handleChange()"
@@ -175,7 +187,7 @@ const handleChange = () => {
           type="password"
           id="password"
           class="my-4 bg-bg-primary text-text-primary bg- rounded-md block w-full px-3 h-10 shadow-sm focus:outline-none placeholder:text-text-line focus:ring-2 focus:ring-text-primary ring-1 ring-bg-secondary"
-          placeholder="密碼"
+          :placeholder="$t('password')"
           v-model="password"
           required
           @input="handleChange()"
@@ -193,29 +205,43 @@ const handleChange = () => {
         class="inline-flex justify-center rounded-lg font-black py-2 bg-text-primary text-bg w-full"
         type="submit"
       >
-        <span v-if="type === 'login'"> 登入 </span>
-        <span v-else> 註冊 </span>
+        <span v-if="type === 'login'">
+          <!-- Log In -->
+          {{ $t('login') }}
+        </span>
+        <span v-else>
+          <!-- Sign Up -->
+          {{ $t('signup') }}
+        </span>
       </button>
 
       <p id="SwitchLoginRegister" class="text-text flex justify-center mt-3">
         <span id="CheckRegistered" v-if="type === 'register'">
-          已經有帳號了嗎？
+          <!-- Already have an account? -->
+          {{ $t('authForm.hasAccount') }}
           <RouterLink
             id="SwitchtoLogin"
             class="text-text-primary font-bold"
             to="/login"
           >
-            <u> 登入 </u>
+            <u>
+              <!-- Log in -->
+              {{ $t('login') }}
+            </u>
           </RouterLink></span
         >
         <span id="CheckRegistered" v-else-if="type === 'login'">
-          還沒有帳號嗎？
+          <!-- Don't have an account? -->
+          {{ $t('authForm.noAccount') }}
           <RouterLink
             id="SwitchtoRegister"
             class="text-text-primary font-bold"
             to="/register"
           >
-            <u> 註冊 </u>
+            <u>
+              <!-- Sign up -->
+              {{ $t('signup') }}
+            </u>
           </RouterLink></span
         >
       </p>

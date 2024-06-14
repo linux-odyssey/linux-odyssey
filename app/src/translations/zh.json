@@ -1,0 +1,111 @@
+{
+  "header": {
+    "questMap": "關卡地圖",
+    "errorLogout": "登出失敗",
+    "errorLoadMap": "無法讀取地圖",
+    "errorLoadLeaderboard": "無法讀取排行榜",
+    "errorLoadUser": "無法讀取使用者資料"
+  },
+  "questMap": {
+    "startJourney": "踏上你的Linux冒險之旅吧！",
+    "unfinishedStage": "你還沒完成前一個關卡!"
+  },
+  "mission": "任務：",
+  "terminal": "終端機",
+  "hint": "提示",
+  "controlPalette": {
+    "survey": "問卷",
+    "solution": "解答",
+    "reset": "重來",
+    "continue": "繼續"
+  },
+  "completeModal": {
+    "questCompleted": "關卡完成！",
+    "congrats": "恭喜你完成這一關！",
+    "returnMap": "接下來回到地圖，迎接新的挑戰吧！",
+    "return": "回到地圖"
+  },
+  "commandList": {
+    "cheatsheet": "指令之書",
+    "list": "-- --指令列表-- --"
+  },
+  "authForm": {
+    "recommendation": "建議使用電腦全螢幕執行",
+    "google": "以 Google 繼續",
+    "github": "以 GitHub 繼續",
+    "chars1": "可用小寫字母、數字、\"_\"和\"-\"",
+    "chars2": "小寫字母開頭，至多32字元",
+    "hasAccount": "已經有帳號了嗎？",
+    "noAccount": "還沒有帳號嗎？"
+  },
+  "email": "電子郵件",
+  "username": "帳號名稱",
+  "or": "或",
+  "password": "密碼",
+  "login": "登入",
+  "signup": "註冊",
+  "leaderboard": {
+    "errorLoadFail": "讀取排行榜失敗",
+    "i": "排行榜",
+    "user": "使用者名稱",
+    "score": "分數",
+    "finish": "完成關卡"
+  },
+  "errors": {
+    "tooManyRequests": "太多請求，兩分鐘後再試一次。",
+    "invalidCredentials": "無效的帳號名稱或密碼。",
+    "generalError": "出了點問題。",
+    "invalidUsername": "無效的帳號名稱",
+    "invalidEmail": "無效的電子郵件",
+    "weakPassword": "密碼必須超過8個字元，至少包含一個數字、一個大寫及一個小寫。",
+    "loadQuestError": "無法讀取關卡: {questId}，請確認網頁連結。",
+    "loadSessionError": "無法建立工作階段: {questId}，請重新登入再試一次。"
+  },
+  "landingPage": {
+    "intro": "程式設計不僅僅是寫程式碼，還涉及到如何有效地與你的電腦互動。程式教育卻往往忽略背後「開發環境」的重要性，使得許多學生在過程中充滿挫折。「開發環境」是寫程式、執行程式過程所需要的一切工具。而這些工具需要在終端機輸入指令來使用。大部分的程式要用來運行的環境，並非 Windows 或 Mac OS，而是 Linux 作業系統。 Linux Odyssey 即是為此設計的線上 Linux 互動教學網站。",
+    "feature": {
+      "beginner": {
+        "title": "初學者也能立即上手",
+        "description": "我們明白對於初學者來說，設定和使用開發工具可能是一大障礙。學習者無需安裝任何軟體，僅需通過瀏覽器即可連上一個真實的 Linux 環境。"
+      },
+      "gamified": {
+        "title": "遊戲般的學習體驗",
+        "description": "Linux Odyssey 融合了遊戲的樂趣與學習的實用性。透過精心設計的遊戲關卡，學習者可以一邊接受挑戰、破解謎題，一邊掌握 Linux 指令的運用。"
+      },
+      "real_experience": {
+        "title": "真實的 Linux 操作之旅",
+        "description": "Linux Odyssey 提供的不僅是理論知識，更是真實的操作體驗。每一個指令都是在真實的 Linux 環境中執行，讓學習者能夠真正深入軟體開發的世界。"
+      }
+    },
+    "startGame": "準備好鍵盤，跟我們一起開啟你的 Linux 冒險吧！",
+    "team": {
+      "title": "團隊介紹",
+      "description": "國立臺北科技大學 智慧自動化工程科 第二屆",
+      "members": ["Wancat", "Neil", "A.H.", "Ray Gur"]
+    },
+    "awards": {
+      "title": "得獎肯定",
+      "description": "大專校院資訊應用服務創新競賽 鈦坦敏捷開發特別獎 第二名"
+    },
+    "playerFeedback": {
+      "title": "玩家感想",
+      "feedbacks": [
+        "很好玩很像益智遊戲",
+        "我從來不知道自由軟體的存在，謝謝你們。",
+        "還蠻好玩的，讓程式變好玩",
+        "以前不喜歡電腦課現在覺得喜歡一點點",
+        "程式真的對新手很友善，讓我學到了很多東西",
+        "感覺做得很好很簡明易懂關卡設計很用心",
+        "這個體驗我覺得非常有趣，可以體驗到沒辦法體驗的程式，學長也都熱心指導，非常感謝學長的用心的講解，希望以後還可以再體驗這種活動",
+        "以前我覺得寫程式很難不過現在覺得很有趣",
+        "以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近"
+      ]
+    },
+    "contact": {
+      "title": "聯絡我們",
+      "facebook": "Facebook",
+      "github": "GitHub",
+      "email": "Email"
+    }
+  }
+}

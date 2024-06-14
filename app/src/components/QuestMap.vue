@@ -1,3 +1,4 @@
+<!--Translated-->
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
@@ -14,6 +15,7 @@ import {
 import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
 import { NodeImage } from '../img/svg.js'
+import { i18next } from '../i18n'
 
 const marginX = 500
 const marginY = 300
@@ -156,7 +158,8 @@ function initChart(option: any) {
     if (unlocked) {
       router.push({ name: 'game', params: { questId: id } })
     } else {
-      toast.warning('你還沒完成前一個關卡!')
+      // toast.warning('You have not completed the previous quest yet!')
+      toast.warning(i18next.t('questMap.unfinishedStage'))
     }
   })
 }
@@ -180,7 +183,8 @@ onMounted(async () => {
       class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
       style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
     >
-      踏上你的Linux冒險之旅吧！
+      <!-- Get through your linux journey! -->
+      {{ $t('questMap.startJourney') }}
     </h1>
     <div class="flex flex-wrap absolute w-full h-full z-1">
       <div ref="chartContainer" class="w-full h-full flex flex-wrap"></div>

@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup lang="ts">
 import validator from 'validator'
 import { isValidUsername } from '@linux-odyssey/utils'
@@ -30,19 +31,19 @@ function handleRegister({
     .then(success)
     .catch((err) => {
       if (err instanceof TooManyRequestsError) {
-        error('太多請求，兩分鐘後再試一次。')
+        error(i18n.t('errors.tooManyRequests')) // Assuming 'errors.tooManyRequests' is the key in your i18n file
         return
       }
       if (err instanceof UnauthorizedError) {
-        error('無效的帳號名稱或密碼。')
+        error(i18n.t('errors.invalidCredentials'))
         return
       }
       if (err instanceof ValidationError) {
-        error(err.message)
+        error(i18n.t('errors.validationError'))
         return
       }
       console.error(err)
-      error('出了點問題。')
+      error(i18n.t('errors.generalError'))
     })
 }
 
@@ -59,15 +60,15 @@ async function check({
   error: (msg: string) => void
 }) {
   if (username && !isValidUsername(username)) {
-    error('無效的帳號名稱')
+    error(i18n.t('errors.invalidUsername'))
     return
   }
   if (email && !validator.isEmail(email)) {
-    error('無效的電子郵件')
+    error(i18n.t('errors.invalidEmail'))
     return
   }
   if (password && !validator.isStrongPassword(password, passwordPolicy)) {
-    error('密碼必須超過8個字元，至少包含一個數字、一個大寫及一個小寫。')
+    error(i18n.t('errors.weakPassword'))
     return
   }
   try {
@@ -78,11 +79,11 @@ async function check({
       return
     }
     if (err instanceof TooManyRequestsError) {
-      error('太多請求，兩分鐘後再試一次。')
+      error(i18n.t('errors.tooManyRequests'))
       return
     }
     console.error(err)
-    error('出了點問題。')
+    error(i18n.t('errors.generalError'))
   }
 }
 </script>

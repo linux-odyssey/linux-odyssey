@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
+import { i18next } from '../../i18n'
 
 defineProps({
   title: {
@@ -12,9 +13,17 @@ defineProps({
   },
 })
 const menuOpen = ref(false)
-const windowWidth = window.innerWidth < 768
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
+}
+
+const currentLanguage = ref('zh')
+
+function changeLanguage() {
+  const newLang = currentLanguage.value === 'zh' ? 'en' : 'zh'
+  console.log(newLang)
+  i18next.changeLanguage(newLang)
+  currentLanguage.value = newLang
 }
 </script>
 <template>
@@ -43,24 +52,25 @@ const toggleMenu = () => {
       class="w-full flex flex-col items-center justify-end sm:w-auto sm:block sm:ml-6"
       :class="{ hidden: !menuOpen }"
     >
+      <button
+        @click="changeLanguage"
+        class="inline-block whitespace-nowrap text-text-primary text-m"
+      >
+        {{ currentLanguage === 'zh' ? 'EN' : '中文' }}
+      </button>
       <component :is="headerComponent" />
     </div>
-    <div
-      v-if="windowWidth"
-      :class="{ 'w-full flex justify-end pb-3': menuOpen }"
+    <button
+      type="button"
+      class="flex items-center h-5 w-5 rounded-md sm:hidden"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      @click="toggleMenu"
     >
-      <button
-        type="button"
-        class="flex items-center h-5 w-5 rounded-md sm:hidden"
-        aria-controls="mobile-menu"
-        aria-expanded="false"
-        @click="toggleMenu"
-      >
-        <font-awesome-icon
-          :icon="['fas', 'bars']"
-          class="text-text-primary h-full w-full"
-        />
-      </button>
-    </div>
+      <font-awesome-icon
+        :icon="['fas', 'bars']"
+        class="text-text-primary h-full w-full"
+      />
+    </button>
   </div>
 </template>

@@ -13,7 +13,8 @@ const continuePlay = async () => {
   try {
     router.push({ name: 'map' })
   } catch (err) {
-    useToast().error('無法讀取地圖')
+    // useToast().error('Failed to load map')
+    useToast().error(i18next.t('header.errorLoadMap'))
     console.error(err)
   }
 }
@@ -29,7 +30,9 @@ const continuePlay = async () => {
           :icon="['fas', 'file-invoice']"
           class="text-text-primary px-1"
         />
-        <p class="text-text-primary inline ml-1 hidden md:flex">問卷</p>
+        <p class="text-text-primary inline ml-1 hidden md:flex">
+          {{ $t('controlPalette.survey') }}
+        </p>
       </a>
     </button>
     <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
@@ -37,14 +40,18 @@ const continuePlay = async () => {
         :icon="['far', 'circle-question']"
         class="text-text-disabled px-1"
       />
-      <p class="text-text-disabled inline ml-1 hidden md:flex">解答</p>
+      <p class="text-text-disabled inline ml-1 hidden md:flex">
+        {{ $t('controlPalette.solution') }}
+      </p>
     </button>
     <button id="reset" class="bg-bg-secondary rounded-lg p-2" @click="reset">
       <font-awesome-icon
         :icon="['fas', 'arrow-rotate-left']"
         class="text-text-primary px-1"
       />
-      <p class="text-text-primary inline ml-1 hidden md:flex">重來</p>
+      <p class="text-text-primary inline ml-1 hidden md:flex">
+        {{ $t('controlPalette.reset') }}
+      </p>
     </button>
     <button
       id="continue"
@@ -55,7 +62,9 @@ const continuePlay = async () => {
         :icon="['far', 'circle-right']"
         class="text-text-primary px-1"
       />
-      <p class="text-text-primary inline ml-1 hidden md:flex">繼續</p>
+      <p class="text-text-primary inline ml-1 hidden md:flex">
+        {{ $t('controlPalette.continue') }}
+      </p>
     </button>
   </section>
 </template>

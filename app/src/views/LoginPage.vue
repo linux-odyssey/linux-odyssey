@@ -1,3 +1,4 @@
+<!--Translated-->
 <script setup lang="ts">
 import AuthForm from '../components/AuthForm.vue'
 import DynamicBackground from '../components/DynamicBackground.vue'
@@ -27,19 +28,19 @@ const handleLogin = async ({
     if (isSuccess) success()
   } catch (err) {
     if (err instanceof TooManyRequestsError) {
-      error('太多請求，兩分鐘後再試一次。')
+      error(i18n.t('errors.tooManyRequests'))
       return
     }
     if (err instanceof UnauthorizedError) {
-      error('錯誤的帳號名稱或密碼。')
+      error(i18n.t('errors.invalidCredentials'))
       return
     }
     if (err instanceof ValidationError) {
-      error('無效的帳號名稱或密碼。')
+      error(err.message)
       return
     }
     console.error(err)
-    error('出了點問題。')
+    error(i18n.t('errors.generalError'))
   }
 }
 </script>
