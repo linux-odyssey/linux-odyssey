@@ -5,9 +5,8 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
 import { Vue3Lottie } from 'vue3-lottie'
-// import { surveyUrl } from '../config'
-import CompleteAnimation from '../img/complete-animation.json'
 import i18next from 'i18next'
+import CompleteAnimation from '../../img/complete-animation.json'
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()

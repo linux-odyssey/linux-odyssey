@@ -6,7 +6,7 @@ import DynamicBackground from '../components/DynamicBackground.vue'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 import api from '../utils/api'
-import i18n from '../i18n'
+import { i18next } from '../i18n'
 
 const leaderboard = ref<
   {
@@ -23,7 +23,7 @@ async function getLeaderboard() {
     leaderboard.value = res.data
   } catch (err: any) {
     console.error(err)
-    toast.error(i18n.t('leaderborad.errorLoadFail'))
+    toast.error(i18next.t('leaderborad.errorLoadFail'))
   }
 }
 
@@ -39,9 +39,12 @@ onMounted(async () => {
       class="w-screen h-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
       <div class="w-full">
-        <GameHeaderPart :title="$t('leaderboard.i')" />
+        <HeaderPart
+          :title="$t('leaderboard.i')"
+          :headerComponent="GameHeaderComponents"
+        />
       </div>
-      <div class="w-fit h-[94vh] m-3">
+      <div class="w-fit mt-[6vh] h-[94vh] m-3">
         <div
           class="h-full bg-bg border-8 border-bg-primary flex flex-col items-center rounded-3xl p-10"
         >

@@ -36,24 +36,6 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <!-- <button id="warning" class="flex items-center h-5 w-5">
-          <font-awesome-icon
-            :icon="['fas', 'triangle-exclamation']"
-            class="text-text-primary h-full w-full"
-          />
-        </button>
-        <button id="setting" class="flex items-center h-5 w-5">
-          <font-awesome-icon
-            :icon="['fas', 'gear']"
-            class="text-text-primary h-full w-full"
-          />
-        </button>
-        <button id="fullscreen" class="flex items-center h-5 w-5">
-          <font-awesome-icon
-            :icon="['fas', 'expand']"
-            class="text-text-primary h-full w-full"
-          />
-        </button> -->
   <p
     id="UsernameText"
     class="text-text inline-block whitespace-nowrap px-1.5"
@@ -76,7 +58,7 @@ onMounted(async () => {
   <RouterLink
     title="LeaderBoard"
     to="/leaderboard"
-    class="md:h-5 md:w-5 px-1.5 w-auto"
+    class="md:h-5 md:w-5 w-auto"
   >
     <font-awesome-icon :icon="['fas', 'trophy']" class="text-text-primary" />
     <span class="text-text sm:hidden px-2">Leader Board</span>

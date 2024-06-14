@@ -16,6 +16,7 @@ import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
 import { NodeImage } from '../img/svg.js'
 import { i18next } from '../i18n'
+
 const marginX = 500
 const marginY = 300
 const chartContainer = ref(null)

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
+import { i18next } from '../../i18n'
 
 defineProps({
   title: {
@@ -12,9 +13,15 @@ defineProps({
   },
 })
 const menuOpen = ref(false)
-const windowWidth = window.innerWidth < 768
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
+}
+
+const currentLanguage = ref('zh')
+
+function changeLanguage(lang: string) {
+  i18next.changeLanguage(lang)
+  currentLanguage.value = lang
 }
 </script>
 <template>
@@ -43,24 +50,47 @@ const toggleMenu = () => {
       class="w-full flex flex-col items-center justify-end sm:w-auto sm:block sm:ml-6"
       :class="{ hidden: !menuOpen }"
     >
+      <button
+        @click="changeLanguage('en')"
+        :class="{
+          'text-text-primary': currentLanguage === 'en',
+          'text-text': currentLanguage !== 'en',
+        }"
+        class="inline-block whitespace-nowrap"
+        style="font-size: 1.5vh"
+      >
+        English
+      </button>
+      <p
+        class="text-text inline-block whitespace-nowrap"
+        style="font-size: 1.5vh"
+      >
+        |
+      </p>
+      <button
+        @click="changeLanguage('zh')"
+        :class="{
+          'text-text-primary': currentLanguage === 'zh',
+          'text-text': currentLanguage !== 'zh',
+        }"
+        class="inline-block whitespace-nowrap"
+        style="font-size: 1.5vh"
+      >
+        中文
+      </button>
       <component :is="headerComponent" />
     </div>
-    <div
-      v-if="windowWidth"
-      :class="{ 'w-full flex justify-end pb-3': menuOpen }"
+    <button
+      type="button"
+      class="flex items-center h-5 w-5 rounded-md sm:hidden"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      @click="toggleMenu"
     >
-      <button
-        type="button"
-        class="flex items-center h-5 w-5 rounded-md sm:hidden"
-        aria-controls="mobile-menu"
-        aria-expanded="false"
-        @click="toggleMenu"
-      >
-        <font-awesome-icon
-          :icon="['fas', 'bars']"
-          class="text-text-primary h-full w-full"
-        />
-      </button>
-    </div>
+      <font-awesome-icon
+        :icon="['fas', 'bars']"
+        class="text-text-primary h-full w-full"
+      />
+    </button>
   </div>
 </template>
