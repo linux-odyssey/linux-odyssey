@@ -61,5 +61,52 @@
     "weakPassword": "Your password must be 8+ characters long and include at least one number, one uppercase, and one lowercase letter.",
     "loadQuestError": "Failed to load quest: {questId}. Please check the URL.",
     "loadSessionError": "Failed to create session for quest: {questId}. Please re-login and try again."
+  },
+  "landingPage": {
+    "intro": "Programming is not just about writing code; it's also about how effectively you interact with your computer. Programming education often overlooks the importance of the 'development environment,' leading to frustration for many students. The 'development environment' encompasses all the tools needed for writing and running programs, which often require command-line instructions. Most programming environments are not Windows or Mac OS, but Linux. Linux Odyssey is an online interactive teaching website designed for this purpose.",
+    "feature": {
+      "beginner": {
+        "title": "Beginner-Friendly",
+        "description": "We understand that setting up and using development tools can be a major hurdle for beginners. Learners can connect to a real Linux environment through their browser without installing any software."
+      },
+      "gamified": {
+        "title": "Gamified Learning Experience",
+        "description": "Linux Odyssey combines the fun of gaming with the practicality of learning. Through carefully designed game levels, learners can tackle challenges and solve puzzles while mastering Linux commands."
+      },
+      "real_experience": {
+        "title": "Real Linux Experience",
+        "description": "Linux Odyssey offers not just theoretical knowledge but real operational experience. Every command is executed in a real Linux environment, allowing learners to truly delve into the world of software development."
+      }
+    },
+    "startGame": "Get your keyboard ready and start your Linux adventure with us!",
+    "team": {
+      "title": "Team Introduction",
+      "description": "National Taipei University of Technology, Department of Intelligent Automation Engineering, 2nd Cohort",
+      "members": ["Wancat", "Neil", "A.H.", "Ray Gur"]
+    },
+    "awards": {
+      "title": "Awards and Recognition",
+      "description": "University Information Application Service Innovation Competition, Titan Agile Development Special Award, 2nd Place"
+    },
+    "playerFeedback": {
+      "title": "Player Feedback",
+      "feedbacks": [
+        "It's very fun, like a puzzle game.",
+        "I never knew about free software, thank you.",
+        "It's quite fun and makes programming enjoyable.",
+        "I used to dislike computer classes, but now I like them a bit more.",
+        "The program is very beginner-friendly and I learned a lot.",
+        "It feels well-made, very clear and easy to understand, and the level design is very thoughtful.",
+        "This experience was very interesting. I got to experience programming that I couldn't before. The seniors were very helpful and explained everything thoroughly. I hope to participate in such activities again in the future.",
+        "I used to think programming was difficult, but now I find it interesting.",
+        "I used to think programming was something I wouldn't encounter in my life and that it was very difficult. But after this course, I find programming more approachable."
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "facebook": "Facebook",
+      "github": "GitHub",
+      "email": "Email"
+    }
   }
 }

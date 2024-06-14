@@ -21,6 +21,7 @@ const currentLanguage = ref('zh')
 
 function changeLanguage() {
   const newLang = currentLanguage.value === 'zh' ? 'en' : 'zh'
+  console.log(newLang)
   i18next.changeLanguage(newLang)
   currentLanguage.value = newLang
 }

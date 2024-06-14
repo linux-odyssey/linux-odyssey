@@ -5,6 +5,7 @@ import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
+import { i18next } from '../i18n'
 
 async function check({
   username,
@@ -17,7 +18,7 @@ async function check({
   if (username) {
     if (!isValidUsername(username)) {
       // error('Invalid username.')
-      error(i18n.t('errors.invalidCredentials'))
+      error(i18next.t('errors.invalidCredentials'))
       return
     }
     try {
@@ -25,7 +26,7 @@ async function check({
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
         // error('Too many requests. Try again in 2 minutes.')
-        error(i18n.t('errors.tooManyRequests'))
+        error(i18next.t('errors.tooManyRequests'))
         return
       }
       if (err instanceof ValidationError) {
@@ -33,7 +34,7 @@ async function check({
         return
       }
       // error('Something went wrong. Please try again later.')
-      error(i18n.t('errors.generalError'))
+      error(i18next.t('errors.generalError'))
     }
   }
 }
@@ -54,7 +55,7 @@ async function handleSubmit({
   } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
       // error('Too many requests. Try again in 2 minutes.')
-      error(i18n.t('errors.tooManyRequests'))
+      error(i18next.t('errors.tooManyRequests'))
       return
     }
     if (err instanceof ValidationError) {
