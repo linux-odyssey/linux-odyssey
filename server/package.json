@@ -9,7 +9,8 @@
     "clean": "node dist/cli/clean.js",
     "build": "tsc -b",
     "dev": "nodemon",
-    "build:quests": "node dist/cli/build.js"
+    "build:quests": "node dist/cli/build.js",
+    "ts-node": "node --loader ts-node/esm"
   },
   "dependencies": {
     "@linux-odyssey/constants": "*",
