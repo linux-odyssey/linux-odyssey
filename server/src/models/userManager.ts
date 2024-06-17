@@ -37,6 +37,7 @@ export async function createGuestUser() {
   const user = new User({
     username,
     email: `${username}@example.com`,
+    isGuest: true,
   })
   await user.save()
 
