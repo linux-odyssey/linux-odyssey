@@ -9,6 +9,7 @@ import {
   logout,
   registerFromSession,
   socialLoginHandler,
+  registerGuest,
 } from '../controllers/authController.js'
 import {
   checkUsernameValidators,
@@ -31,6 +32,8 @@ router.post(
 )
 
 router.post('/register', authenticateRateLimit, registerValidators, register)
+
+router.post('/register-guest', authenticateRateLimit, registerGuest)
 
 router.post('/logout', logout)
 

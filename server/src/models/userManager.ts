@@ -1,4 +1,5 @@
 import { Express } from 'express'
+import { format } from 'date-fns'
 import { User, UserProfile } from '@linux-odyssey/models'
 import { hashPassword } from '../utils/auth.js'
 
@@ -27,6 +28,22 @@ export async function createUser(
     user,
   })
   await userProfile.save()
+
+  return user
+}
+
+export async function createGuestUser() {
+  const username = `guest_${format(new Date(), 'yyyyMMddHHmmss')}`
+  const user = new User({
+    username,
+    email: `${username}@example.com`,
+  })
+  await user.save()
+
+  const profile = new UserProfile({
+    user,
+  })
+  await profile.save()
 
   return user
 }
