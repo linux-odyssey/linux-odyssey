@@ -20,6 +20,7 @@
     "commander": "^11.0.0",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",
+    "date-fns": "^3.6.0",
     "dockerode": "^3.3.5",
     "dotenv": "^16.4.1",
     "express": "^4.19.2",
