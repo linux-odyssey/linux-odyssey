@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction, Express } from 'express'
 import { matchedData } from 'express-validator'
 import { genJWT } from '../../utils/auth.js'
-import { createUser } from '../../models/userManager.js'
+import { createUser, createGuestUser } from '../../models/userManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 import logger from '../../utils/logger.js'
 
@@ -29,6 +29,30 @@ export const register = asyncHandler(
       (err) => {
         if (err) {
           next(err)
+          return
+        }
+        res.status(201).json({
+          message: 'user created',
+        })
+      }
+    )
+  }
+)
+
+export const registerGuest = asyncHandler(
+  async (req: Request, res: Response) => {
+    const user = await createGuestUser()
+    req.login(
+      {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      },
+      (err) => {
+        if (err) {
+          res.status(500).json({
+            message: 'error logging in',
+          })
           return
         }
         res.status(201).json({

@@ -1,14 +1,14 @@
 openapi: 3.0.0
 servers:
   - url: /api/v1
-  - url: https://odyssey.wancat.cc/api/v1
+  - url: https://linuxodyssey.xyz/api/v1
   - url: http://localhost:3000/api/v1
 info:
   description: Linux Odyssey API
   version: '1.0.0'
   title: Session API
   contact:
-    email: wancat@wancat.cc
+    email: contact@linuxodyssey.xyz
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -232,6 +232,22 @@ paths:
               schema:
                 type: string
                 example: connect.sid=s%3Aq1Z; Path=/; HttpOnly; SameSite=Strict; Secure
+
+  /auth/register-guest:
+    post:
+      summary: Register a new guest user
+      responses:
+        201:
+          description: User created
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: connect.sid=s%3Aq1Z; Path=/; HttpOnly; SameSite=Strict; Secure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
   /auth/login:
     post:
