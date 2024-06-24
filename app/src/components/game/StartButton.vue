@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
-import { init } from '../../store/session'
+import { init, setQuest } from '../../store/session'
 import { LoadQuestError, LoadSessionError } from '../../utils/errors'
 
 const props = defineProps({
@@ -13,6 +13,7 @@ const props = defineProps({
 
 const toast = useToast()
 const showCover = ref(true)
+setQuest(props.questId)
 const startSession = async () => {
   showCover.value = false
   try {

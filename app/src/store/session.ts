@@ -42,7 +42,7 @@ const store = reactive<Store>({
 const socket = new Socket()
 const term = new SocketTerminal(40, 80)
 
-function setQuest(questId: string) {
+export function setQuest(questId: string) {
   return api.get(`/quests/${questId}`).then((res) => {
     store.questId = res.data._id
     store.quest = res.data
@@ -121,13 +121,13 @@ export function reset() {
 
 export async function init(questId: string) {
   if (!questId) throw new Error('No quest ID provided')
-  reset()
-  try {
-    await setQuest(questId)
-  } catch (err) {
-    console.error(err)
-    throw new LoadQuestError('Failed to load quest', questId)
-  }
+  // reset()
+  // try {
+  //   await setQuest(questId)
+  // } catch (err) {
+  //   console.error(err)
+  //   throw new LoadQuestError('Failed to load quest', questId)
+  // }
   try {
     await getActiveSession(questId)
   } catch (err) {
