@@ -74,6 +74,7 @@ export async function createSession() {
     const res = await api.post('/sessions', { questId: store.questId })
     const { data } = res
     await setSession(data)
+    socket.emit('terminal', 'echo start')
   } catch (err) {
     console.error(err)
     toast.error('Failed to create a new session. Please try again later.')
