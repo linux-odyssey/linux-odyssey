@@ -83,7 +83,10 @@ export async function createSession() {
 
 export async function getActiveSession(questId: string) {
   try {
-    const res = await api.post('/sessions/active', { questId })
+    // const res = await api.post('/sessions/active', { questId })
+    const res = await api.get(`/sessions/${questId}`, {
+      params: { status: 'active' },
+    })
     await setSession(res.data)
   } catch (err) {
     console.error(err)
