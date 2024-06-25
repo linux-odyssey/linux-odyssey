@@ -80,14 +80,15 @@ export async function createSession() {
   }
 }
 
-async function getActiveSession(questId: string) {
+export async function getActiveSession(questId: string) {
   try {
     const res = await api.post('/sessions/active', { questId })
     await setSession(res.data)
   } catch (err) {
     console.error(err)
-    toast.warning('Failed to connect previous session. Creating a new one...')
-    await createSession()
+    throw new LoadSessionError('Failed to load session', questId)
+    // toast.warning('Failed to connect previous session. Creating a new one...')
+    // await createSession()
   }
 }
 
@@ -119,22 +120,22 @@ export function reset() {
   store.quest = null
 }
 
-export async function init(questId: string) {
-  if (!questId) throw new Error('No quest ID provided')
-  // reset()
-  // try {
-  //   await setQuest(questId)
-  // } catch (err) {
-  //   console.error(err)
-  //   throw new LoadQuestError('Failed to load quest', questId)
-  // }
-  try {
-    await getActiveSession(questId)
-  } catch (err) {
-    console.error(err)
-    throw new LoadSessionError('Failed to load session', questId)
-  }
-}
+// export async function init(questId: string) {
+//   if (!questId) throw new Error('No quest ID provided')
+// reset()
+// try {
+//   await setQuest(questId)
+// } catch (err) {
+//   console.error(err)
+//   throw new LoadQuestError('Failed to load quest', questId)
+// }
+//   try {
+//     await getActiveSession(questId)
+//   } catch (err) {
+//     console.error(err)
+//     throw new LoadSessionError('Failed to load session', questId)
+//   }
+// }
 
 function setup() {
   socket.on('terminal', (data: string) => {

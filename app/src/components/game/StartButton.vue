@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
-import { init, setQuest } from '../../store/session'
+import { getActiveSession, setQuest, createSession } from '../../store/session'
 import { LoadQuestError, LoadSessionError } from '../../utils/errors'
 
 const props = defineProps({
@@ -12,12 +12,12 @@ const props = defineProps({
 })
 
 const toast = useToast()
-const showCover = ref(true)
-setQuest(props.questId)
-const startSession = async () => {
-  showCover.value = false
+const showCover = ref(false)
+
+function init(questId: string) {
+  if (!questId) throw new Error('No quest ID provided')
   try {
-    await init(props.questId)
+    getActiveSession(props.questId)
   } catch (err: any) {
     if (err instanceof LoadQuestError) {
       toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)
@@ -27,6 +27,20 @@ const startSession = async () => {
       toast.error(`無法建立工作階段: ${err.questId}，請重新登入再試一次。`)
       return
     }
+    console.error(err)
+    toast.warning('Failed to connect previous session. Creating a new one...')
+    showCover.value = true
+  }
+}
+
+init(props.questId)
+setQuest(props.questId)
+
+const startSession = async () => {
+  showCover.value = false
+  try {
+    createSession()
+  } catch (err: any) {
     console.error(err)
     toast.error(err.message)
   }
