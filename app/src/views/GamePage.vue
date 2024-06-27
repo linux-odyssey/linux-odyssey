@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 // import { onMounted } from 'vue'
 // import { useToast } from 'vue-toastification'
-import sessionStore from '../store/session'
+import useSession from '../store/session'
 // import { init } from '../store/session'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
@@ -13,19 +13,14 @@ import TerminalPart from '../components/game/TerminalPart.vue'
 import VisualizationPart from '../components/game/VisualizationPart.vue'
 import ControlPalette from '../components/game/ControlPalette.vue'
 import CompleteModal from '../components/game/CompleteModal.vue'
-// import { LoadQuestError, LoadSessionError } from '../utils/errors'
 import StartButton from '../components/game/StartButton.vue'
+
+const sessionStore = useSession()
 
 const completed = computed(() => {
   return sessionStore.session.status === 'finished'
 })
 
-// const props = defineProps({
-//   questId: {
-//     type: String,
-//     required: true,
-//   },
-// })
 defineProps({
   questId: {
     type: String,
@@ -33,23 +28,6 @@ defineProps({
   },
 })
 // const toast = useToast()
-
-// onMounted(async () => {
-//   try {
-//     await init(props.questId)
-//   } catch (err: any) {
-//     if (err instanceof LoadQuestError) {
-//       toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)
-//       return
-//     }
-//     if (err instanceof LoadSessionError) {
-//       toast.error(`無法建立工作階段: ${err.questId}，請重新登入再試一次。`)
-//       return
-//     }
-//     console.error(err)
-//     toast.error(err.message)
-//   }
-// })
 </script>
 
 <template>

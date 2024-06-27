@@ -37,6 +37,19 @@ paths:
           schema:
             type: string
             enum: [active, finished, inactive]
+        - in: query
+          name: limit
+          description: limit the number of sessions to return
+          schema:
+            type: number
+            example: 10
+        - in: query
+          name: order
+          description: order the sessions by createdAt
+          schema:
+            type: string
+            enum: [asc, desc]
+            example: desc
       responses:
         '200':
           description: list of existing session

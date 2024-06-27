@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import FileNode from '../FileNode.vue'
-import sessionStore from '../../store/session'
+import useSession from '../../store/session'
+
+const sessionStore = useSession()
 </script>
 
 <template>
