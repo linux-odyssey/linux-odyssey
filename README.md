@@ -19,7 +19,7 @@
 
 Run mongoDB first:
 
-    docker compose -f docker-compose.dev.yml up -d db
+    docker compose up -d
 
 The db will automatically restarts by Docker.
 

@@ -5,11 +5,9 @@ import { useToast } from 'vue-toastification'
 import { logout } from '../../utils/auth'
 import { bugReportUrl, surveyUrl } from '../../config'
 import { reset } from '../../store/session'
-import userProfileStore, {
-  loadUserProfile,
-  resetUserProfile,
-} from '../../store/userProfile'
+import useUserProfile from '../../store/userProfile'
 
+const store = useUserProfile()
 const router = useRouter()
 
 const toast = useToast()
@@ -17,7 +15,7 @@ const toast = useToast()
 const handleLogout = async () => {
   try {
     await logout()
-    resetUserProfile()
+    store.resetUserProfile()
     reset()
     router.push({ name: 'login' })
   } catch (err) {
@@ -28,7 +26,7 @@ const handleLogout = async () => {
 
 onMounted(async () => {
   try {
-    await loadUserProfile()
+    await store.loadUserProfile()
   } catch (err) {
     toast.error('無法讀取使用者資料')
     console.error(err)
@@ -59,7 +57,7 @@ onMounted(async () => {
     class="text-text inline-block whitespace-nowrap px-1.5"
     style="font-size: 2vh"
   >
-    {{ userProfileStore.username }}
+    {{ store.username }}
   </p>
   <a
     title="Survey"
