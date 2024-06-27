@@ -10,6 +10,7 @@ const sessionStore = useSession()
     <ul>
       <li>
         <FileNode
+          v-if="sessionStore.session"
           :node="sessionStore.session.graph"
           :pwd="sessionStore.session.pwd"
         />

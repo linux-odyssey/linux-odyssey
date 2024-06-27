@@ -34,3 +34,12 @@ export async function getSessions(
   const res = await api.get<Session[]>('/sessions', { params: request })
   return res.data
 }
+
+export async function getActiveSession(
+  questId: string
+): Promise<Session | null> {
+  const res = await api.get<Session | null>('/sessions/active', {
+    params: { questId },
+  })
+  return res.data
+}

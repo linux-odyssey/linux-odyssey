@@ -1,31 +1,16 @@
 <script setup lang="ts">
 import { useToast } from 'vue-toastification'
-import { onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import useSession from '../../store/session'
 
-const props = defineProps({
-  questId: {
-    type: String,
-    required: true,
-  },
-})
-
 const toast = useToast()
-const showCover = ref(true)
 const sessionStore = useSession()
 
-onMounted(async () => {
-  sessionStore.setQuest(props.questId)
-  if (await sessionStore.getActiveSession()) {
-    showCover.value = false
-  }
-  sessionStore.setup()
-})
+const showCover = computed(() => sessionStore.session === null)
 
 const startSession = async () => {
   try {
     await sessionStore.createSession()
-    showCover.value = false
   } catch (err: any) {
     console.error(err)
     toast.error(err.message)

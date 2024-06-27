@@ -6,7 +6,7 @@ import { Task } from '../../types'
 
 const sessionStore = useSession()
 const tasks = computed(() => {
-  return sessionStore.session.tasks.map((task: Task) => {
+  return sessionStore.session?.tasks.map((task: Task) => {
     const prefix = task.completed ? '✓' : '➤'
     const color = task.completed ? 'text-text-primary' : 'text-text'
     return {

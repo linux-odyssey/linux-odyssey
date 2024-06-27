@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
 import { IQuest } from '@linux-odyssey/models'
-import { createSession, getQuest, getSessions } from '../utils/api'
+import { createSession, getActiveSession, getQuest } from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import { Session, StageResponse } from '../types'
@@ -10,26 +10,14 @@ const socket = new Socket()
 const term = new SocketTerminal(40, 80)
 
 interface Store {
-  session: Session
+  session: Session | null
   questId: string
   quest: IQuest | null
 }
 
 const useSession = defineStore('session', {
   state: (): Store => ({
-    session: {
-      _id: '',
-      status: 'inactive',
-      graph: new FileGraph({
-        path: '/',
-        type: 'folder',
-        discovered: false,
-      }),
-      pwd: '',
-      hints: [],
-      tasks: [],
-      responses: [],
-    },
+    session: null,
     questId: '',
     quest: null,
   }),
@@ -50,19 +38,13 @@ const useSession = defineStore('session', {
       this.setSession(session)
     },
     async getActiveSession() {
-      const sessions = await getSessions({
-        questId: this.questId,
-        limit: 1,
-        order: 'desc',
-        status: 'active',
-      })
-      if (sessions.length > 0) {
-        this.setSession(sessions[0])
-        return true
+      const session = await getActiveSession(this.questId)
+      if (session) {
+        this.setSession(session)
       }
-      return false
     },
     updateGraph(event: { discover?: FileObject[]; pwd?: string }) {
+      if (!this.session) return
       if (event.discover) {
         this.session.graph.discover(event.discover)
       }
@@ -71,6 +53,7 @@ const useSession = defineStore('session', {
       }
     },
     newResponse(response: StageResponse) {
+      if (!this.session) return
       this.session.responses.push(response.responses)
       this.session.hints.push(response.hints)
       this.session.tasks = response.tasks
@@ -94,6 +77,10 @@ const useSession = defineStore('session', {
       socket.on('response', (response: StageResponse) => {
         this.newResponse(response)
       })
+    },
+    setStatus(status: string) {
+      if (!this.session) return
+      this.session.status = status
     },
   },
 })

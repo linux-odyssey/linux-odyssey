@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 // import { onMounted } from 'vue'
 // import { useToast } from 'vue-toastification'
 import useSession from '../store/session'
@@ -18,16 +18,21 @@ import StartButton from '../components/game/StartButton.vue'
 const sessionStore = useSession()
 
 const completed = computed(() => {
-  return sessionStore.session.status === 'finished'
+  return sessionStore.session?.status === 'finished'
 })
 
-defineProps({
+const props = defineProps({
   questId: {
     type: String,
     required: true,
   },
 })
-// const toast = useToast()
+
+onMounted(async () => {
+  sessionStore.setup()
+  await sessionStore.setQuest(props.questId)
+  await sessionStore.getActiveSession()
+})
 </script>
 
 <template>
@@ -42,7 +47,7 @@ defineProps({
   <input
     type="hidden"
     id="currentStatus"
-    :value="sessionStore.session.status"
+    :value="sessionStore.session?.status"
   />
   <!-- main -->
   <div id="main" class="h-full pt-10 w-full flex p-3 space-x-3">
