@@ -30,7 +30,7 @@ stages:
       - start
     condition:
       command:
-        - ^echo hello$
+        - echo hello
     responses:
       - content: |
           你應該可以看到終端機上顯示了以下內容：
@@ -69,4 +69,4 @@ stages:
       - echo-hello
     condition:
       command:
-        - ^echo finish$
+        - echo finish
