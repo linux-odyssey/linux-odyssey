@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mongo
+    restart: always
+    networks:
+      - internal
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data:/data/db
+
+  base:
+    image: linuxodyssey/quest-base
+    build:
+      context: .
+      dockerfile: ./quests/Dockerfile
+
+networks:
+  internal:
+  players:
+    name: linux-odyssey-players
+    internal: true
