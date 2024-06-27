@@ -14,7 +14,9 @@ import {
 import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
 import { NodeImage } from '../img/svg.js'
+import useUserProfile from '../store/userProfile'
 
+const store = useUserProfile()
 const marginX = 500
 const marginY = 300
 const chartContainer = ref(null)
@@ -36,16 +38,6 @@ async function getQuests() {
   } catch (err) {
     console.error(err)
 
-    throw err
-  }
-}
-
-async function getProgress() {
-  try {
-    const res = await api.get('/users/me')
-    return res.data.progress
-  } catch (err) {
-    console.error(err)
     throw err
   }
 }
@@ -163,8 +155,7 @@ function initChart(option: any) {
 
 onMounted(async () => {
   const quests = await getQuests()
-  const progress = await getProgress()
-  const option = getOption(quests, progress)
+  const option = getOption(quests, store.progress)
   initChart(option)
 })
 </script>
