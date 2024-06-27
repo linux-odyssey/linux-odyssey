@@ -29,6 +29,7 @@ const props = defineProps({
 })
 
 onMounted(async () => {
+  sessionStore.reset()
   sessionStore.setup()
   await sessionStore.setQuest(props.questId)
   await sessionStore.getActiveSession()

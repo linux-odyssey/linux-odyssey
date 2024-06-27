@@ -8,6 +8,7 @@ import { Session, StageResponse } from '../types'
 
 const socket = new Socket()
 const term = new SocketTerminal(40, 80)
+let hasSetup = false
 
 interface Store {
   session: Session | null
@@ -65,6 +66,7 @@ const useSession = defineStore('session', {
       this.$reset()
     },
     setup() {
+      if (hasSetup) return
       socket.on('terminal', (data: string) => {
         term.write(data)
       })
@@ -77,6 +79,7 @@ const useSession = defineStore('session', {
       socket.on('response', (response: StageResponse) => {
         this.newResponse(response)
       })
+      hasSetup = true
     },
     setStatus(status: string) {
       if (!this.session) return
