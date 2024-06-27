@@ -36,7 +36,8 @@ const useSession = defineStore('session', {
     },
     async createSession() {
       const session = await createSession(this.questId)
-      this.setSession(session)
+      await this.setSession(session)
+      socket.emit('terminal', 'echo start\n')
     },
     async getActiveSession() {
       const session = await getActiveSession(this.questId)

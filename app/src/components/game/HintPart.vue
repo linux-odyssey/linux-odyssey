@@ -5,13 +5,18 @@ import MarkdownText from '../MarkdownText.vue'
 
 const sessionStore = useSession()
 const current = ref(-1)
-watch(
-  () => sessionStore.session?.hints,
-  (hints) => {
-    current.value = hints ? hints.length - 1 : -1
-  },
-  { deep: true }
-)
+const length = computed(() => {
+  console.log(sessionStore.session?.responses)
+  return sessionStore.session?.responses.length ?? 0
+})
+
+const disabled = computed(() => {
+  return current.value === length.value - 1
+})
+
+watch(length, () => {
+  current.value = length.value - 1
+})
 
 const left = () => {
   if (current.value > 0) {
@@ -20,18 +25,10 @@ const left = () => {
 }
 
 const right = () => {
-  if (current.value < (sessionStore.session?.hints.length ?? 0) - 1) {
+  if (current.value < length.value - 1) {
     current.value += 1
   }
 }
-
-const length = computed(() => {
-  return sessionStore.session?.hints.length ?? 0
-})
-
-const disabled = computed(() => {
-  return current.value === length.value - 1
-})
 </script>
 
 <template>
@@ -41,7 +38,7 @@ const disabled = computed(() => {
         :icon="['far', 'lightbulb']"
         class="text-yellow-200 p-2 content-center"
       />
-      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">提示</h1>
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">提示 {{ length }}</h1>
       <div v-if="current !== -1" class="flex w-full justify-end items-end">
         <button
           class="p-2 m-1 w-1/8"
