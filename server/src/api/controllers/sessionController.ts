@@ -3,7 +3,6 @@ import type { Express, Request, Response } from 'express'
 import { User, Session, ISession } from '@linux-odyssey/models'
 import {
   createNewSession,
-  getOrCreateActiveSession,
   isQuestUnlocked,
 } from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
@@ -36,6 +35,7 @@ export const getSessionList = asyncHandler(
     const { questId, status } = matchedData(req)
     const query = { user: user.id, quest: questId, status }
     const sessions = await Session.find(query)
+    console.log(query, sessions)
     res.json(sessions.map(sessionSummary))
   }
 )
@@ -56,7 +56,6 @@ export const createSession = asyncHandler(
 export const getSessionById = asyncHandler(
   async (req: Request, res: Response) => {
     const { sessionId } = matchedData(req)
-    console.log(sessionId)
     const session = await Session.findOne({
       _id: sessionId,
       user: (req.user as Express.ExistingUser).id,
@@ -71,7 +70,7 @@ export const getSessionById = asyncHandler(
   }
 )
 
-export const getOrCreateSession = asyncHandler(
+export const getActiveSessionControler = asyncHandler(
   async (req: Request, res: Response) => {
     const { questId } = matchedData(req)
     const user = await User.findById((req.user as Express.ExistingUser).id)
@@ -79,8 +78,12 @@ export const getOrCreateSession = asyncHandler(
       user &&
       ((await isQuestUnlocked(user, questId)) || config.testing.enabled)
     ) {
-      const session = await getOrCreateActiveSession(user, questId)
-      res.json(sessionDetail(session))
+      const session = await Session.findOne({
+        user: user.id,
+        quest: questId,
+        status: 'active',
+      })
+      res.json(session ? sessionDetail(session) : null)
     } else {
       res.status(403).json({ message: 'Quest is locked.' })
     }
