@@ -28,6 +28,7 @@ export interface IUser {
   socialLogins: Map<string, ISocialLogin>
   createdAt: Date
   updatedAt: Date
+  isGuest: boolean
 }
 
 export const User = model<IUser>(
@@ -49,6 +50,11 @@ export const User = model<IUser>(
         type: Map,
         of: socialLoginSchema,
         default: {},
+        required: true,
+      },
+      isGuest: {
+        type: Boolean,
+        default: false,
         required: true,
       },
     },

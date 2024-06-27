@@ -83,6 +83,16 @@ const handleChange = () => {
     errorMessage.value = 'Something went wrong'
   }
 }
+
+const registerGuest = async () => {
+  try {
+    await api.post('/auth/register-guest')
+    router.push({ name: 'map' })
+  } catch (err) {
+    console.error(err)
+    toast.error('Something went wrong.')
+  }
+}
 </script>
 <template>
   <!-- login page -->
@@ -219,6 +229,13 @@ const handleChange = () => {
           </RouterLink></span
         >
       </p>
+      <button
+        id="register-guest"
+        class="rounded-lg py-2 mt-3 bg-bg-primary text-text-secondary w-full border-text-secondary border-2"
+        @click="registerGuest()"
+      >
+        以訪客身分繼續
+      </button>
     </form>
   </div>
 </template>
