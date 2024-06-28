@@ -6,7 +6,6 @@ import MarkdownText from '../MarkdownText.vue'
 const sessionStore = useSession()
 const current = ref(-1)
 const length = computed(() => {
-  console.log(sessionStore.session?.responses)
   return sessionStore.session?.responses.length ?? 0
 })
 

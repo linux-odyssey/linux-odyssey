@@ -35,7 +35,6 @@ export const getSessionList = asyncHandler(
     const { questId, status } = matchedData(req)
     const query = { user: user.id, quest: questId, status }
     const sessions = await Session.find(query)
-    console.log(query, sessions)
     res.json(sessions.map(sessionSummary))
   }
 )
