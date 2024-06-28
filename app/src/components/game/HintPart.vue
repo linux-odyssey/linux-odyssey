@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import sessionStore from '../../store/session'
+import { computed, ref, watch } from 'vue'
+import useSession from '../../store/session'
 import MarkdownText from '../MarkdownText.vue'
 
+const sessionStore = useSession()
 const current = ref(-1)
-watch(
-  () => sessionStore.session.hints,
-  (hints) => {
-    current.value = hints.length - 1
-  },
-  { deep: true }
-)
+const length = computed(() => {
+  return sessionStore.session?.responses.length ?? 0
+})
+
+const disabled = computed(() => {
+  return current.value === length.value - 1
+})
+
+watch(length, () => {
+  current.value = length.value - 1
+})
 
 const left = () => {
   if (current.value > 0) {
@@ -19,7 +24,7 @@ const left = () => {
 }
 
 const right = () => {
-  if (current.value < sessionStore.session.hints.length - 1) {
+  if (current.value < length.value - 1) {
     current.value += 1
   }
 }
@@ -32,7 +37,7 @@ const right = () => {
         :icon="['far', 'lightbulb']"
         class="text-yellow-200 p-2 content-center"
       />
-      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">提示</h1>
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">提示 {{ length }}</h1>
       <div v-if="current !== -1" class="flex w-full justify-end items-end">
         <button
           class="p-2 m-1 w-1/8"
@@ -49,13 +54,13 @@ const right = () => {
         <p class="inline text-text font-xl w-1/14 p-2 m-1">{{ current + 1 }}</p>
         <p class="inline text-text font-xl w-1/14 p-2 m-1">/</p>
         <p class="inline text-text font-xl w-1/14 p-2 m-1">
-          {{ sessionStore.session.hints.length }}
+          {{ length }}
         </p>
         <button
           class="p-2 m-1 w-1/8"
           id="Rbutton"
           @click="right"
-          :disabled="current === sessionStore.session.hints.length - 1"
+          :disabled="disabled"
         >
           <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
         </button>
@@ -64,7 +69,7 @@ const right = () => {
     <div id="hint" class="bg-bg p-8 overflow-y-auto">
       <ul>
         <li
-          v-for="response in sessionStore.session.responses[current]"
+          v-for="response in sessionStore.session?.responses[current]"
           :key="response.type"
           class="text-text font-xl whitespace-pre-wrap"
         >
@@ -73,7 +78,7 @@ const right = () => {
           </div>
         </li>
         <li
-          v-for="hint in sessionStore.session.hints[current]"
+          v-for="hint in sessionStore.session?.hints[current]"
           :key="hint"
           class="text-text-primary font-xl whitespace-pre-wrap"
         >

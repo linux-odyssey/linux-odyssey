@@ -19,6 +19,7 @@ import {
   faTrophy,
   faFileInvoice,
   faEnvelope,
+  faPlay,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faLightbulb,
@@ -54,5 +55,6 @@ library.add(
   faGoogle,
   faFileInvoice,
   faFacebook,
-  faEnvelope
+  faEnvelope,
+  faPlay
 )

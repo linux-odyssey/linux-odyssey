@@ -79,21 +79,6 @@ export async function createNewSession(
   return session
 }
 
-export async function getOrCreateActiveSession(
-  user: HydratedDocument<IUser>,
-  questId: string
-): Promise<ISession> {
-  const session = await Session.findOne({
-    user,
-    quest: questId,
-    status: 'active',
-  })
-  if (session) {
-    return session
-  }
-  return createNewSession(user, questId)
-}
-
 export async function finishSession(
   session: HydratedDocument<ISession>
 ): Promise<void> {

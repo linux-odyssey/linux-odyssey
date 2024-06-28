@@ -46,7 +46,6 @@ class SocketTerminal {
 
   mount(reference: HTMLElement): void {
     this.term.open(reference)
-    this.term.focus()
     this.resizeScreen()
   }
 

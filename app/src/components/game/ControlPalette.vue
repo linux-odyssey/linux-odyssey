@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { createSession } from '../../store/session'
+import useSession from '../../store/session'
 import { surveyUrl } from '../../config'
 
 const router = useRouter()
+const sessionStore = useSession()
 const reset = async () => {
   console.log('resetting...')
-  await createSession()
+  await sessionStore.createSession()
 }
 const continuePlay = async () => {
   try {
@@ -29,7 +30,7 @@ const continuePlay = async () => {
           :icon="['fas', 'file-invoice']"
           class="text-text-primary px-1"
         />
-        <p class="text-text-primary inline ml-1 hidden md:flex">問卷</p>
+        <p class="text-text-primary inline ml-1 md:flex">問卷</p>
       </a>
     </button>
     <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
@@ -37,7 +38,7 @@ const continuePlay = async () => {
         :icon="['far', 'circle-question']"
         class="text-text-disabled px-1"
       />
-      <p class="text-text-disabled inline ml-1 hidden md:flex">解答</p>
+      <p class="text-text-disabled inline ml-1 md:flex">解答</p>
     </button>
     <button id="reset" class="bg-bg-secondary rounded-lg p-2" @click="reset">
       <font-awesome-icon

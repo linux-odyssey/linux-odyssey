@@ -17,10 +17,10 @@ router.post(
   sessionRateLimit,
   sessionController.createSession
 )
-router.post(
+router.get(
   '/active',
   activeSessionValidator,
-  sessionController.getOrCreateSession
+  sessionController.getActiveSessionHandler
 )
 router.get(
   '/:sessionId',

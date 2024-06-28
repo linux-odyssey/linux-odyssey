@@ -112,7 +112,7 @@ export default class CommandHandler extends SessionHandler {
         )
       )
       return checks.every((c) => c === true)
-    } catch (e) {
+    } catch {
       return false
     }
   }

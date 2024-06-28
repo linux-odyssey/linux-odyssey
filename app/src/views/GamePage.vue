@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { useToast } from 'vue-toastification'
-import sessionStore, { init } from '../store/session'
+import useSession from '../store/session'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
-// import CommandlistPart from '../components/CommandlistPart.vue'
 import HintPart from '../components/game/HintPart.vue'
 import QuestPart from '../components/game/QuestPart.vue'
 import TerminalPart from '../components/game/TerminalPart.vue'
 import VisualizationPart from '../components/game/VisualizationPart.vue'
 import ControlPalette from '../components/game/ControlPalette.vue'
 import CompleteModal from '../components/game/CompleteModal.vue'
-import { LoadQuestError, LoadSessionError } from '../utils/errors'
+import StartButton from '../components/game/StartButton.vue'
+
+const sessionStore = useSession()
 
 const completed = computed(() => {
-  return sessionStore.session.status === 'finished'
+  return sessionStore.session?.status === 'finished'
 })
 
 const props = defineProps({
@@ -24,23 +24,11 @@ const props = defineProps({
   },
 })
 
-const toast = useToast()
-
 onMounted(async () => {
-  try {
-    await init(props.questId)
-  } catch (err: any) {
-    if (err instanceof LoadQuestError) {
-      toast.error(`無法讀取關卡: ${err.questId}，請確認網頁連結。`)
-      return
-    }
-    if (err instanceof LoadSessionError) {
-      toast.error(`無法建立工作階段: ${err.questId}，請重新登入再試一次。`)
-      return
-    }
-    console.error(err)
-    toast.error(err.message)
-  }
+  sessionStore.reset()
+  sessionStore.setup()
+  await sessionStore.setQuest(props.questId)
+  await sessionStore.getActiveSession()
 })
 </script>
 
@@ -56,7 +44,7 @@ onMounted(async () => {
   <input
     type="hidden"
     id="currentStatus"
-    :value="sessionStore.session.status"
+    :value="sessionStore.session?.status"
   />
   <!-- main -->
   <div id="main" class="h-full pt-10 w-full flex p-3 space-x-3">
@@ -72,6 +60,7 @@ onMounted(async () => {
     </div>
     <!-- Terminal and Hint -->
     <div class="bg-bg h-full rounded-lg w-1/2">
+      <StartButton :questId="$props.questId" />
       <section id="hint" class="h-3/5">
         <HintPart />
       </section>
