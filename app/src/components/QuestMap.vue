@@ -154,6 +154,7 @@ function initChart(option: any) {
 }
 
 onMounted(async () => {
+  await store.loadUserProfile()
   const quests = await getQuests()
   const option = getOption(quests, store.progress)
   initChart(option)
