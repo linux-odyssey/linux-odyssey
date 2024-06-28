@@ -93,21 +93,4 @@ export function useTerminal() {
   return term
 }
 
-// export async function init(questId: string) {
-//   if (!questId) throw new Error('No quest ID provided')
-// reset()
-// try {
-//   await setQuest(questId)
-// } catch (err) {
-//   console.error(err)
-//   throw new LoadQuestError('Failed to load quest', questId)
-// }
-//   try {
-//     await getActiveSession(questId)
-//   } catch (err) {
-//     console.error(err)
-//     throw new LoadSessionError('Failed to load session', questId)
-//   }
-// }
-
 export default useSession

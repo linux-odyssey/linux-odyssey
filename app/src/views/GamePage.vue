@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-// import { onMounted } from 'vue'
-// import { useToast } from 'vue-toastification'
 import useSession from '../store/session'
-// import { init } from '../store/session'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
-// import CommandlistPart from '../components/CommandlistPart.vue'
 import HintPart from '../components/game/HintPart.vue'
 import QuestPart from '../components/game/QuestPart.vue'
 import TerminalPart from '../components/game/TerminalPart.vue'

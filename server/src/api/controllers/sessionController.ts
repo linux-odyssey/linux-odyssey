@@ -69,7 +69,7 @@ export const getSessionById = asyncHandler(
   }
 )
 
-export const getActiveSessionControler = asyncHandler(
+export const getActiveSessionHandler = asyncHandler(
   async (req: Request, res: Response) => {
     const { questId } = matchedData(req)
     const user = await User.findById((req.user as Express.ExistingUser).id)

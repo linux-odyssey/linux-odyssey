@@ -20,7 +20,7 @@ router.post(
 router.get(
   '/active',
   activeSessionValidator,
-  sessionController.getActiveSessionControler
+  sessionController.getActiveSessionHandler
 )
 router.get(
   '/:sessionId',
