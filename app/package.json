@@ -6,6 +6,7 @@
     "dev": "vite",
     "dev:docker": "API_TARGET=http://backend:3000 vite",
     "build": "vue-tsc -b && vite build",
+    "type-check": "vue-tsc -b",
     "preview": "vite preview"
   },
   "dependencies": {

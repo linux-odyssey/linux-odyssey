@@ -95,10 +95,13 @@ stages:
           not:
             pwd:
               - ^/home/commander$
-        content:
-          - 請留在 `/home/commander` 資料夾中。
-          - 請輸入 `cd ~` 回到 `/home/commander` 資料夾。
+        responses:
+          - type: narrative
+            content:
+              - 請留在 `/home/commander` 資料夾中。
+              - 請輸入 `cd ~` 回到 `/home/commander` 資料夾。
     responses:
-      - content:
+      - type: narrative
+        content:
           - 你成功地查看到 `file.txt` 的內容了。
           - 你已經會使用 `cat` 指令查看檔案的內容了。
