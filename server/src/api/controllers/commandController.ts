@@ -49,8 +49,6 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     c.stage = response.stage
     await c.save()
 
-    session.responses.push(response.responses)
-
     if ((session.status as string) === 'finished') {
       await finishSession(session)
     }
