@@ -30,7 +30,7 @@ stages:
       - start
     condition:
       command:
-        - ^echo .*
+        - echo .*
     responses:
       - content:
           - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
