@@ -58,7 +58,9 @@ const useSession = defineStore('session', {
       if (!this.session) return
       this.session.responses.push(response.responses)
       this.session.hints.push(response.hints)
-      this.session.tasks = response.tasks
+      if (response.tasks) {
+        this.session.tasks = response.tasks
+      }
       this.session.status = response.status
     },
     reset() {
