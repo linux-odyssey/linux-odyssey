@@ -100,9 +100,9 @@ exceptions:
 
   - condition:
       or:
-        command:
+        - command:
           - 嗨
-        command:
+        - command:
           - '[Hh][Ii]'
     responses:
       - type: narrative
