@@ -17,7 +17,7 @@ exceptions:
 
   - condition:
       command:
-        - echo\S
+        - ^echo\S
     responses:
       - type: narrative
         content: |
@@ -25,7 +25,7 @@ exceptions:
 
   - condition:
       command:
-        - cd\S
+        - ^cd\S
     responses:
       - type: narrative
         content: |
@@ -33,7 +33,7 @@ exceptions:
 
   - condition:
       command:
-        - ls\S
+        - ^ls\S
     responses:
       - type: narrative
         content: |
@@ -41,7 +41,7 @@ exceptions:
 
   - condition:
       command:
-        - cat\S
+        - ^cat\S
     responses:
       - type: narrative
         content: |
@@ -49,7 +49,7 @@ exceptions:
 
   - condition:
       command:
-        - touch\S
+        - ^touch\S
     responses:
       - type: narrative
         content: |
@@ -58,9 +58,9 @@ exceptions:
   - condition:
       not:
         command:
-          - rmdir
+          - ^rmdir
       command:
-        - rm\S
+        - ^rm\S
     responses:
       - type: narrative
         content: |
@@ -68,7 +68,7 @@ exceptions:
 
   - condition:
       command:
-        - mv\S
+        - ^mv\S
     responses:
       - type: narrative
         content: |
@@ -76,7 +76,7 @@ exceptions:
 
   - condition:
       command:
-        - mkdir\S
+        - ^mkdir\S
     responses:
       - type: narrative
         content: |
@@ -84,7 +84,7 @@ exceptions:
 
   - condition:
       command:
-        - rmdir\S
+        - ^rmdir\S
     responses:
       - type: narrative
         content: |
@@ -92,19 +92,8 @@ exceptions:
 
   - condition:
       command:
-        - cp\S
+        - ^cp\S
     responses:
       - type: narrative
         content: |
           !! `cp` 後面要加空格 !!
-
-  - condition:
-      or:
-        - command:
-          - 嗨
-        - command:
-          - '[Hh][Ii]'
-    responses:
-      - type: narrative
-        content: |
-          - 'Hi~'
