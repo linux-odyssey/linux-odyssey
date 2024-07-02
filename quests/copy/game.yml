@@ -46,10 +46,9 @@ stages:
               請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          可以看到現在資料夾裡有 `hello.txt` 跟 `world.txt`。
+        content: 可以看到現在資料夾裡有 `hello.txt` 跟 `world.txt`。
           請使用 `cat` 來查看它們的內容。
-          看完之後，使用 `echo continue` 來繼續吧！
+          看完之後，使用 `echo next` 來繼續吧！
     hints:
       - ➤  使用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
       - ➤  如果終端機卡在某個指令無法輸入，請按下 `Ctrl + C` 來取消該指令
@@ -138,14 +137,14 @@ stages:
         content: |
           你成功查看到 `world.txt` 的內容了！
 
-  - id: cat-continue
-    task: 使用 `echo continue` 來繼續
+  - id: cat-next
+    task: 輸入 `echo next` 來繼續
     requirements:
       - cat-hello
       - cat-world
     condition:
       command:
-        - ^echo continue$
+        - ^echo next$
     responses:
       - type: narrative
         content: |
@@ -159,7 +158,7 @@ stages:
   - id: cp-hello
     task: 複製 `hello.txt` 到 `hello2.txt`
     requirements:
-      - cat-continue
+      - cat-next
     condition:
       pwd:
         - ^/home/commander$
