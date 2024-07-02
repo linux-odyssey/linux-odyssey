@@ -20,19 +20,19 @@ stages:
           今天我們要學習如何移動檔案與資料夾。
           現在資料夾裡有一個 `hello.txt` 跟一個 `world.txt`，以及一個 `notes` 資料夾。
           請先用 `ls` 與 `cat` 來查看它們的內容。
-          看完之後，使用 `echo continue` 來繼續吧！
+          看完之後，使用 `echo next` 來繼續吧！
     hints:
       - ➤  用 `ls`、`ls notes` 來查看資料夾內的檔案
       - ➤  用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
-      - ➤  完成後輸入 `echo continue` 來繼續
+      - ➤  完成後輸入 `echo next` 來繼續
 
-  - id: continue
+  - id: next
     requirements:
       - start
-    task: 查看檔案內容，完成後輸入 `echo continue` 來繼續
+    task: 查看檔案內容，完成後輸入 `echo next` 來繼續
     condition:
       command:
-        - ^echo continue$
+        - ^echo next$
     responses:
       - type: narrative
         content: |
@@ -45,7 +45,7 @@ stages:
 
   - id: mv-hello
     requirements:
-      - continue
+      - next
     task: 將 `hello.txt` 移動到 `notes` 資料夾中
     condition:
       command:
@@ -92,16 +92,6 @@ stages:
       - type: narrative
         content: |
           `hello.txt` 出現在 `notes` 資料夾中了！
-
-  - id: continue-mv
-    requirements:
-      - ls-no-hello
-      - ls-notes-hello
-    task: 輸入 `echo continue` 來繼續
-    condition:
-      command:
-        - ^echo continue$
-    responses:
       - type: narrative
         content: |
           `mv` 指令也可以用來更改檔案名稱。
@@ -112,7 +102,7 @@ stages:
 
   - id: mv-world
     requirements:
-      - continue-mv
+      - ls-notes-hello
     task: 將 `world.txt` 更名為 `wow.txt`
     condition:
       command:
