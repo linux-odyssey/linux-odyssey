@@ -1,4 +1,5 @@
 echo start
+ls
 cat hello.txt
 cat world.txt
 echo continue
