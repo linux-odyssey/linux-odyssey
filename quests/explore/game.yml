@@ -13,8 +13,8 @@ stages:
   - id: start
     task: 按下 `start` 按鈕開始教程
     condition:
-      output:
-        - start
+      command:
+        - ^echo start$
     responses:
       - content: |
           在終端機中，並沒有圖形介面可以讓你查看資料夾的內容。
@@ -31,7 +31,7 @@ stages:
       - start
     condition:
       command:
-        - ls
+        - ^ls$
     exceptions:
       - condition:
           not:
@@ -62,11 +62,18 @@ stages:
       - ls
     condition:
       pwd:
-        - /home/commander/folder1
+        - ^/home/commander/folder1$
     exceptions:
       - condition:
+          command:
+            - folderl
+        responses:
+          - type: narrative
+            content: |
+              `folder1` 的最後是數字 `1` 不是字母 `l`。
+      - condition:
           pwd:
-            - /home/commander
+            - ^/home/commander$
         responses:
           - type: narrative
             content:
@@ -74,12 +81,13 @@ stages:
       - condition:
           not:
             pwd:
-              - /home/commander
+              - ^/home/commander$
         responses:
           - type: narrative
             content: |
               請先回到 `/home/commander/` 資料夾
               輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+              再輸入 `cd folder1` 來進入 `folder1` 資料夾
     responses:
       - content: |
           你成功的進入 `folder1` 資料夾了。
@@ -97,9 +105,9 @@ stages:
       - cd-folder1
     condition:
       pwd:
-        - /home/commander/folder1
+        - ^/home/commander/folder1$
       command:
-        - ls
+        - ^ls$
     responses:
       - content: |
           你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
@@ -115,7 +123,7 @@ stages:
       - ls-folder1
     condition:
       pwd:
-        - /home/commander
+        - ^/home/commander$
     responses:
       - content: |
           你成功的回到上一層資料夾了。
@@ -130,7 +138,7 @@ stages:
       - cd-..
     condition:
       pwd:
-        - /home/commander/folder2
+        - ^/home/commander/folder2$
     responses:
       - content: |
           你成功的進入 `folder2` 資料夾了。
@@ -144,9 +152,9 @@ stages:
       - cd-folder2
     condition:
       pwd:
-        - /home/commander/folder2
+        - ^/home/commander/folder2$
       command:
-        - ls
+        - ^ls$
     responses:
       - content: |
           你看到了 `folder2` 資料夾中的檔案，分別是 `file3.txt` 跟 `file4.txt`。
@@ -160,7 +168,7 @@ stages:
       - ls-folder2
     condition:
       pwd:
-        - /home/commander
+        - ^/home/commander$
     responses:
       - content: |
           你成功的回到原本的資料夾了。
