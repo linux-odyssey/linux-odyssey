@@ -1,4 +1,5 @@
 echo start
+ls
 touch hello.txt
 ls
 cat hello.txt
