@@ -11,8 +11,8 @@ stages:
   - id: start
     task: 按下 `start` 按鈕開始
     condition:
-      output:
-        - start
+      command:
+        - ^echo start$
     responses:
       - content: |
           在畫面的中下方的區塊是終端機，你可以在終端機裡輸入指令來操作電腦。
@@ -30,7 +30,7 @@ stages:
       - start
     condition:
       command:
-        - echo hello
+        - ^echo hello$
     responses:
       - content: |
           你應該可以看到終端機上顯示了以下內容：
@@ -51,7 +51,7 @@ stages:
       - echo-hello
     condition:
       command:
-        - echo next
+        - ^echo next$
     responses:
       - content: |
           `Ctrl + C` 在終端機中是一個很重要的快捷鍵，它可以用來中斷正在執行的指令，並產生一個新的命令提示字串，讓你可以繼續輸入指令。
@@ -69,4 +69,4 @@ stages:
       - echo-hello
     condition:
       command:
-        - echo finish
+        - ^echo finish$
