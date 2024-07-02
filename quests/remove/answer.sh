@@ -1,4 +1,5 @@
 echo start
+ls
 rm hello.txt
 ls
 rm world.txt wow.txt
