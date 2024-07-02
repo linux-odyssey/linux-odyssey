@@ -32,10 +32,10 @@ stages:
     condition:
       command:
         - ^ls$
-      responses:
-        - content: |
-          首先要來學習 `rm` 指令。`rm` 指令可以用來刪除檔案。使用方式是 `rm [檔案名稱]`。
-          現在請你使用 `rm` 指令刪除 `hello.txt`。
+    responses:
+      - content: |
+        首先要來學習 `rm` 指令。`rm` 指令可以用來刪除檔案。使用方式是 `rm [檔案名稱]`。
+        現在請你使用 `rm` 指令刪除 `hello.txt`。
     hints:
       - ➤  使用 `rm hello.txt` 來刪除 `hello.txt`。
 
