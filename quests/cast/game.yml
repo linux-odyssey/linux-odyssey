@@ -12,8 +12,8 @@ stages:
   - id: start
     task: 按下 `start` 按鈕開始
     condition:
-      output:
-        - start
+      command:
+        - ^echo start$
     responses:
       - content: |
           還記得第一關使用的指令 `echo` 嗎？
@@ -30,7 +30,7 @@ stages:
       - start
     condition:
       command:
-        - echo .*
+        - ^echo .*
     responses:
       - content:
           - 你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
@@ -43,8 +43,8 @@ stages:
     requirements:
       - echo
     condition:
-      output:
-        - ^[Hh]ow are you\??$
+      command:
+        - ^echo [Hh]ow are you\??$
     exceptions:
       - condition:
           command:
