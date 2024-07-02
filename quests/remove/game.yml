@@ -41,11 +41,11 @@ stages:
 
   - id: rm-hello
     requirements:
-      - start
+      - ls
     task: 使用 `rm` 刪除 `hello.txt`
     condition:
       command:
-        - ^rm hello.txt$
+        - ^rm\s
       files:
         - path: hello.txt
           exists: false
@@ -182,9 +182,7 @@ stages:
               請先用 `ls notes` 確認 `notes` 資料夾內有哪些檔案，再來試試看吧！
       - condition:
           command:
-            - ^rm
-          error:
-            - 'No such file or directory'
+            - ^rmdir notes$
         responses:
           - content: |
               這個錯誤的意思是找不到檔案
@@ -207,8 +205,6 @@ stages:
       - rm-notes-content
     task: 使用 `rmdir` 刪除 `notes` 資料夾
     condition:
-      command:
-        - ^rmdir notes$
       files:
         - path: notes
           exists: false
@@ -226,9 +222,7 @@ stages:
     task: 使用 `ls` 查看 `trash` 資料夾內容
     condition:
       command:
-        - ^ls$
-      output:
-        - garbage.txt
+        - ^ls trash$
     responses:
       - content: |
           天啊！`trash` 資料夾裡有好多檔案，甚至還有其他的資料夾！
@@ -245,7 +239,7 @@ stages:
     task: 使用 `rm -r` 刪除 `trash` 資料夾
     condition:
       command:
-        - ^rm -r$
+        - ^rm -r trash$
       files:
         - path: trash
           exists: false
