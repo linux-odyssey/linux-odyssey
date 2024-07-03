@@ -3,7 +3,7 @@ import { computed, onMounted } from 'vue'
 import useSession from '../store/session'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
-import HintPart from '../components/game/HintPart.vue'
+import DescriptionPart from '../components/game/DescriptionPart.vue'
 import QuestPart from '../components/game/QuestPart.vue'
 import TerminalPart from '../components/game/TerminalPart.vue'
 import VisualizationPart from '../components/game/VisualizationPart.vue'
@@ -62,7 +62,7 @@ onMounted(async () => {
     <div class="bg-bg h-full rounded-lg w-1/2">
       <StartButton :questId="$props.questId" />
       <section id="hint" class="h-3/5">
-        <HintPart />
+        <DescriptionPart />
       </section>
       <hr class="border-border border" />
       <section id="terminal" class="h-2/5 overflow-hidden">

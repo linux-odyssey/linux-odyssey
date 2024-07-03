@@ -3,24 +3,24 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何使用 `cat` 查看檔案的內容
 
-  準備好就輸入 `echo start` 開始吧！
+  按下中間的 `start` 按鈕來開始這個關卡。
 
 requirements:
   - path
 
 stages:
   - id: start
-    task: 輸入 `echo start` 來開始教程
+    task: 按下 `start` 按鈕開始教程
     condition:
-      output:
-        - ^start$
+      command:
+        - ^echo start$
     responses:
-      - content:
-          - 在終端機中，並沒有圖形介面可以讓你查看檔案的內容。
-          - 但是你可以透過 `cat` 指令來查看檔案的內容。
-          - '`cat` 指令是 concatenate 的縮寫，也就是串接的意思。'
-          - 在輸入 `cat [檔案名稱]` 指令後，終端機會輸出檔案的內容。
-          - 請你先查看這個資料夾中哪些檔案。
+      - content: |
+          在終端機中，並沒有圖形介面可以讓你查看檔案的內容。
+          但是你可以透過 `cat` 指令來查看檔案的內容。
+          `cat` 指令是 concatenate 的縮寫，也就是串接的意思。
+          在輸入 `cat [檔案名稱]` 指令後，終端機會輸出檔案的內容。
+          請你先查看這個資料夾中哪些檔案。
     hints:
       - ➤  請輸入 `ls` 來查看這個資料夾中的檔案。
 
@@ -34,9 +34,9 @@ stages:
       command:
         - ^ls$
     responses:
-      - content:
-          - 這個資料夾中有一個檔案和一個資料夾。
-          - 現在你可以使用 `cat` 指令來查看 `file1.txt` 的內容。
+      - content: |
+          這個資料夾中有一個檔案和一個資料夾。
+          現在你可以使用 `cat` 指令來查看 `file1.txt` 的內容。
     hints:
       - ➤  請輸入 `cat file1.txt` 來查看檔案的內容。
 
@@ -50,10 +50,10 @@ stages:
       command:
         - ^cat file1.txt$
     responses:
-      - content:
-          - 你應該能看到檔案的內容了。
-          - '`cat` 指令也可以使用路徑來查看檔案內容'
-          - 請你先用 `ls folder` 查看資料夾內的檔案。
+      - content: |
+          你應該能看到檔案的內容了。
+          `cat` 指令也可以使用路徑來查看檔案內容
+          請你先用 `ls folder` 查看資料夾內的檔案。
     hints:
       - ➤  輸入 `ls folder` 查看資料夾內的檔案
 
@@ -71,13 +71,13 @@ stages:
           not:
             pwd:
               - ^/home/commander$
-        content:
-          - 請留在 `/home/commander` 資料夾中。
-          - 請輸入 `cd ~` 回到 `/home/commander` 資料夾。
+        content: |
+          請留在 `/home/commander` 資料夾中。
+          請輸入 `cd ~` 回到 `/home/commander` 資料夾。
     responses:
-      - content:
-          - 你現在知道 `folder` 資料夾的內容了。
-          - 請用 `cat` 指令來查看 `folder` 資料夾中的 `file.txt` 檔案。
+      - content: |
+          你現在知道 `folder` 資料夾的內容了。
+          請用 `cat` 指令來查看 `folder` 資料夾中的 `file.txt` 檔案。
     hints:
       - ➤  輸入 `cat folder/file.txt` 查看 `file.txt` 檔案的內容。
 
@@ -97,11 +97,10 @@ stages:
               - ^/home/commander$
         responses:
           - type: narrative
-            content:
-              - 請留在 `/home/commander` 資料夾中。
-              - 請輸入 `cd ~` 回到 `/home/commander` 資料夾。
+            content: |
+              請留在 `/home/commander` 資料夾中。
+              請輸入 `cd ~` 回到 `/home/commander` 資料夾。
     responses:
-      - type: narrative
-        content:
-          - 你成功地查看到 `file.txt` 的內容了。
-          - 你已經會使用 `cat` 指令查看檔案的內容了。
+      - content: |
+          你成功地查看到 `file.txt` 的內容了。
+          你已經會使用 `cat` 指令查看檔案的內容了。

@@ -6,7 +6,7 @@ instruction: |
   3. 用 `rm -r` 刪除資料夾與它的所有檔案
   現在資料夾裡有一些檔案與資料夾，請你使用 `ls` 跟 `cat` 來查看它們的內容。
 
-  準備好就輸入 `echo start` 開始吧！
+  按下中間的 `start` 按鈕來開始這個關卡。
 
 requirements:
   - copy
@@ -14,33 +14,44 @@ requirements:
 
 stages:
   - id: start
-    task: 輸入 `echo start` 來開始
+    task: 按下 `start` 按鈕開始
     condition:
       command:
-        - ^echo
-      output:
-        - start
+        - ^echo start$
     responses:
-      - content:
-          - 今天我們要學習如何刪除檔案與資料夾。
-          - '首先要來學習 `rm` 指令。`rm` 指令可以用來刪除檔案。使用方式是 `rm [檔案名稱]`。'
-          - '現在請你使用 `rm` 指令刪除 `hello.txt`。'
+      - content: |
+          今天我們要學習如何刪除檔案與資料夾。
+          請先使用 `ls` 指令查看資料夾內容。
+    hints:
+      - ➤  使用 `ls` 來查看資料夾內容。
+
+  - id: ls
+    requirements:
+      - start
+    task: 使用 `ls` 查看資料夾內容
+    condition:
+      command:
+        - ^ls$
+    responses:
+      - content: |
+          首先要來學習 `rm` 指令。`rm` 指令可以用來刪除檔案。使用方式是 `rm [檔案名稱]`。
+          現在請你使用 `rm` 指令刪除 `hello.txt`。
     hints:
       - ➤  使用 `rm hello.txt` 來刪除 `hello.txt`。
 
   - id: rm-hello
     requirements:
-      - start
+      - ls
     task: 使用 `rm` 刪除 `hello.txt`
     condition:
       command:
-        - ^rm
+        - ^rm\s
       files:
         - path: hello.txt
           exists: false
     responses:
-      - content:
-          - '很好！現在請你使用 `ls` 指令來查看資料夾內容。'
+      - content: |
+          很好！現在請你使用 `ls` 指令來查看資料夾內容。
 
   - id: ls-no-hello
     requirements:
@@ -48,15 +59,15 @@ stages:
     task: 使用 `ls` 查看資料夾內容
     condition:
       command:
-        - ^ls
+        - ^ls$
       files:
         - path: hello.txt
           exists: false
     responses:
-      - content:
-          - '你會發現 `hello.txt` 已經不見了。'
-          - '`rm` 也可以同時刪除多個檔案，只要把檔案名稱用空白隔開就可以了，也就是 `rm [檔案1] [檔案2] ...`。'
-          - 現在請你使用 `rm` 刪除 `world.txt` 與 `wow.txt`。
+      - content: |
+          你會發現 `hello.txt` 已經不見了。
+          `rm` 也可以同時刪除多個檔案，只要把檔案名稱用空白隔開就可以了，也就是 `rm [檔案1] [檔案2] ...`。
+          現在請你使用 `rm` 刪除 `world.txt` 與 `wow.txt`。
     hints:
       - ➤  使用 `rm world.txt wow.txt` 來刪除 `world.txt` 與 `wow.txt`。
       - ➤  檔案名稱之間要用空白隔開。
@@ -75,8 +86,8 @@ stages:
         - path: wow.txt
           exists: false
     responses:
-      - content:
-          - '很好！我們一樣用 `ls` 指令確認一下資料夾內容。'
+      - content: |
+          很好！我們一樣用 `ls` 指令確認一下資料夾內容。
     hints:
       - ➤  使用 `ls` 來查看資料夾內容。
 
@@ -88,10 +99,10 @@ stages:
       command:
         - ^ls$
     responses:
-      - content:
-          - '你會發現 `world.txt` 與 `wow.txt` 已經不見了。'
-          - '現在我們來學習 `rmdir` 指令。`rmdir` 指令可以用來刪除資料夾。使用方式是 `rmdir [資料夾名稱]`。'
-          - '現在請你使用 `rmdir` 指令刪除 `empty` 資料夾。'
+      - content: |
+          你會發現 `world.txt` 與 `wow.txt` 已經不見了。
+          現在我們來學習 `rmdir` 指令。`rmdir` 指令可以用來刪除資料夾。使用方式是 `rmdir [資料夾名稱]`。
+          現在請你使用 `rmdir` 指令刪除 `empty` 資料夾。
     hints:
       - ➤  使用 `rmdir empty` 來刪除 `empty` 資料夾。
 
@@ -101,13 +112,13 @@ stages:
     task: 使用 `rmdir` 刪除 `empty` 資料夾
     condition:
       command:
-        - ^rmdir
+        - ^rmdir empty$
       files:
         - path: empty
           exists: false
     responses:
-      - content:
-          - '很好！現在請你使用 `ls` 指令來查看資料夾內容。'
+      - content: |
+          很好！現在請你使用 `ls` 指令來查看資料夾內容。
 
   - id: ls-no-empty
     requirements:
@@ -117,9 +128,9 @@ stages:
       command:
         - ^ls$
     responses:
-      - content:
-          - '你會發現 `empty` 資料夾已經不見了。'
-          - '現在請你試試看 `rmdir` 指令刪除 `notes` 資料夾。'
+      - content: |
+          你會發現 `empty` 資料夾已經不見了。
+          現在請你試試看 `rmdir` 指令刪除 `notes` 資料夾。
     hints:
       - ➤  使用 `rmdir notes` 來刪除 `notes` 資料夾
 
@@ -135,12 +146,12 @@ stages:
           type: folder
           exists: true
     responses:
-      - content:
-          - 指令執行失敗了！
-          - '你會發現 `notes` 資料夾還在。'
-          - '這是因為 `rmdir` 指令只能刪除空的資料夾。'
-          - 我們先來將 `notes` 資料夾的檔案刪除再來試一次。
-          - '現在請你使用 `rm` 指令刪除 `notes` 資料夾內的檔案。'
+      - content: |
+          指令執行失敗了！
+          你會發現 `notes` 資料夾還在。
+          這是因為 `rmdir` 指令只能刪除空的資料夾。
+          我們先來將 `notes` 資料夾的檔案刪除再來試一次。
+          現在請你使用 `rm` 指令刪除 `notes` 資料夾內的檔案。
     hints:
       - ➤  使用 `rm notes/[檔案名稱]` 來刪除 `notes` 資料夾內的檔案。
       - ➤  你可能需要使用 `ls notes` 來查看 `notes` 資料夾內有哪些檔案。
@@ -163,31 +174,29 @@ stages:
           command:
             - ^rm notes/\[.*\]
         responses:
-          - content:
-              - '你好像理解錯了。'
-              - 這邊中括號包起來 `[檔案名稱]` 是參數的意思，需要你自己填入檔案的名稱。
-              - 實際打指令的時候，不要打中括號 `[]` 喔！
-              - '例如，如果要刪除 `notes` 資料夾內的 `note.txt` 檔案，指令應該要是 `rm notes/note.txt`。'
-              - 請先用 `ls notes` 確認 `notes` 資料夾內有哪些檔案，再來試試看吧！
+          - content: |
+              你好像理解錯了。
+              這邊中括號包起來 `[檔案名稱]` 是參數的意思，需要你自己填入檔案的名稱。
+              實際打指令的時候，不要打中括號 `[]` 喔！
+              例如，如果要刪除 `notes` 資料夾內的 `note.txt` 檔案，指令應該要是 `rm notes/note.txt`。
+              請先用 `ls notes` 確認 `notes` 資料夾內有哪些檔案，再來試試看吧！
       - condition:
           command:
-            - ^rm
-          error:
-            - 'No such file or directory'
+            - ^rmdir notes$
         responses:
-          - content:
-              - 這個錯誤的意思是找不到檔案
-              - '請先用 `ls notes` 確認 `notes` 資料夾內有哪些檔案，再來試試看吧！'
+          - content: |
+              這個錯誤的意思是找不到檔案
+              請先用 `ls notes` 確認 `notes` 資料夾內有哪些檔案，再來試試看吧！
       - condition:
           command:
             - ^ls notes$
         responses:
-          - content:
-              - '`notes` 資料夾中有著 `note.txt` 檔案。'
-              - 那我們就使用 `rm notes/note.txt` 來刪除 `note.txt` 檔案吧！
+          - content: |
+              `notes` 資料夾中有著 `note.txt` 檔案。
+              那我們就使用 `rm notes/note.txt` 來刪除 `note.txt` 檔案吧！
     responses:
-      - content:
-          - '很好！現在我們再使用 `rmdir` 指令刪除 `notes` 資料夾。'
+      - content: |
+          很好！現在我們再使用 `rmdir` 指令刪除 `notes` 資料夾。
     hints:
       - ➤  使用 `rmdir notes` 來刪除 `notes` 資料夾。
 
@@ -196,16 +205,14 @@ stages:
       - rm-notes-content
     task: 使用 `rmdir` 刪除 `notes` 資料夾
     condition:
-      command:
-        - ^rmdir
       files:
         - path: notes
           exists: false
     responses:
-      - content:
-          - '很好！`notes` 資料夾已經被刪除了。'
-          - 接下來我們來刪除 `trash` 資料夾。
-          - 先使用 `ls` 指令查看一下 `trash` 資料夾內容。
+      - content: |
+          很好！`notes` 資料夾已經被刪除了。
+          接下來我們來刪除 `trash` 資料夾。
+          先使用 `ls` 指令查看一下 `trash` 資料夾內容。
     hints:
       - ➤  使用 `ls trash` 來查看 `trash` 中的檔案。
 
@@ -215,16 +222,14 @@ stages:
     task: 使用 `ls` 查看 `trash` 資料夾內容
     condition:
       command:
-        - ^ls
-      output:
-        - garbage.txt
+        - ^ls trash$
     responses:
-      - content:
-          - 天啊！`trash` 資料夾裡有好多檔案，甚至還有其他的資料夾！
-          - 如果今天資料夾中有很多檔案與資料夾，我們不想一個一個刪除，該怎麼辦呢？
-          - 跟 `cp` 的時候一樣，這時候我們可以加上 `-r` 的選項來刪除資料夾與它的所有檔案。
-          - '`-r` 的意思是遞迴（recursive），也就是會把資料夾中的所有檔案都刪除。'
-          - 我們來試試看吧！
+      - content: |
+          天啊！`trash` 資料夾裡有好多檔案，甚至還有其他的資料夾！
+          如果今天資料夾中有很多檔案與資料夾，我們不想一個一個刪除，該怎麼辦呢？
+          跟 `cp` 的時候一樣，這時候我們可以加上 `-r` 的選項來刪除資料夾與它的所有檔案。
+          `-r` 的意思是遞迴（recursive），也就是會把資料夾中的所有檔案都刪除。
+          我們來試試看吧！
     hints:
       - ➤  使用 `rm -r trash` 來刪除 `trash` 資料夾。
 
@@ -234,13 +239,13 @@ stages:
     task: 使用 `rm -r` 刪除 `trash` 資料夾
     condition:
       command:
-        - ^rm -r
+        - ^rm -r trash$
       files:
         - path: trash
           exists: false
     responses:
-      - content:
-          - '很好！現在請你使用 `ls` 指令查看資料夾內容。'
+      - content: |
+          很好！現在請你使用 `ls` 指令查看資料夾內容。
     hints:
       - ➤  使用 `ls` 來查看資料夾內容。
 
@@ -252,6 +257,6 @@ stages:
       command:
         - ^ls$
     responses:
-      - content:
-          - '`trash` 資料夾已經不見了。'
-          - 恭喜你！你已經學會如何刪除檔案與資料夾了！
+      - content: |
+          `trash` 資料夾已經不見了。
+          恭喜你！你已經學會如何刪除檔案與資料夾了！

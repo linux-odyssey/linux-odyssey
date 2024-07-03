@@ -4,24 +4,24 @@ instruction: |
   1. 如何使用 `ls` 查看資料夾的內容
   2. 如何使用 `cd` 在資料夾之間移動
 
-  準備好就輸入 `echo start` 開始吧！
+  按下中間的 `start` 按鈕來開始這個關卡。
 
 requirements:
   - get-started
 
 stages:
   - id: start
-    task: 輸入 `echo start` 來開始教程
+    task: 按下 `start` 按鈕開始教程
     condition:
-      output:
-        - ^start$
+      command:
+        - ^echo start$
     responses:
-      - content:
-          - 在終端機中，並沒有圖形介面可以讓你查看資料夾的內容。
-          - 但是你可以透過 `ls` 指令來查看資料夾的內容。
-          - '`ls` 指令是 list 的縮寫，也就是列出檔案的意思。'
-          - 在輸入 `ls` 指令後，終端機會輸出資料夾中包含的檔案和資料夾，右邊的檔案樹也會隨之改變。
-          - 現在，請你輸入 `ls` 指令，查看資料夾中有什麼東西。
+      - content: |
+          在終端機中，並沒有圖形介面可以讓你查看資料夾的內容。
+          但是你可以透過 `ls` 指令來查看資料夾的內容。
+          `ls` 指令(第一個字是小寫L)是 list 的簡寫，也就是列出檔案的意思。
+          在輸入 `ls` 指令後，終端機會輸出資料夾中包含的檔案和資料夾。
+          現在，請你輸入 `ls` 指令，查看資料夾中有什麼東西。
     hints:
       - ➤  輸入 `ls` 並查看資料夾的內容
 
@@ -36,24 +36,23 @@ stages:
       - condition:
           not:
             pwd:
-              - ^/home/commander$
+              - /home/commander
         responses:
           - type: narrative
-            content:
-              - 請先回到 `/home/commander/` 資料夾
-              - 輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+            content: |
+              請先回到 `/home/commander/` 資料夾
+              輸入 `cd ~` 來返回 `/home/commander/` 資料夾
     responses:
-      - content:
-          - 你應該能看到資料夾中的內容了。
-          - 在畫面右邊的檔案樹也有了改變。
-          - 可以看出，在這個資料夾中包含了兩個資料夾，分別是 `folder1` 和 `folder2`。
-      - content:
-          - 接下來，我要教你如何進入資料夾。
-          - '`cd` 指令是 change directory 的縮寫，也就是改變路徑的意思。'
-          - 你可以通過輸入 `cd [資料夾名稱]` 來進入資料夾。
-          - 例如你要進入 `folder1` 資料夾，你可以輸入
-          - '`cd folder1`。'
-          - 現在，請你進入 `folder1` 資料夾。
+      - content: |
+          你應該能看到資料夾中的內容了。
+          在畫面右邊的檔案樹也有了改變。
+          可以看出，在這個資料夾中包含了兩個資料夾，分別是 `folder1` 和 `folder2` 。
+      - content: |
+          接下來，我要教你如何進入資料夾。
+          `cd` 指令是 change directory 的縮寫，也就是改變路徑的意思。
+          你可以通過輸入 `cd [資料夾名稱]` 來進入資料夾。
+          例如你要進入 `folder1` 資料夾，你可以輸入 `cd folder1` 。
+          現在，請你進入 `folder1` 資料夾。
     hints:
       - ➤  輸入 `cd folder1` 來進入 `folder1` 資料夾
 
@@ -66,29 +65,36 @@ stages:
         - ^/home/commander/folder1$
     exceptions:
       - condition:
+          command:
+            - folderl
+        responses:
+          - type: narrative
+            content: |
+              `folder1` 的最後是數字 `1` 不是字母 `l`。
+      - condition:
           pwd:
             - ^/home/commander$
         responses:
           - type: narrative
-            content:
-              - 輸入 `cd folder1` 來進入 `folder1` 資料夾
+            content: 輸入 `cd folder1` 來進入 `folder1` 資料夾
       - condition:
           not:
             pwd:
               - ^/home/commander$
         responses:
           - type: narrative
-            content:
-              - 請先回到 `/home/commander/` 資料夾
-              - 輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+            content: |
+              請先回到 `/home/commander/` 資料夾
+              輸入 `cd ~` 來返回 `/home/commander/` 資料夾
+              再輸入 `cd folder1` 來進入 `folder1` 資料夾
     responses:
-      - content:
-          - 你成功的進入 `folder1` 資料夾了。
-          - 你可以發現指令提示符從原本的
-          - '`commander:~ $` 變成了'
-          - '`commander:~/folder1 $` 。'
-          - 這表示你現在正位在 `folder1` 資料夾中。
-          - 現在，請查看 `folder1` 資料夾的內容。
+      - content: |
+          你成功的進入 `folder1` 資料夾了。
+          你可以發現指令提示符從原本的
+          `commander:~ $` 變成了
+          `commander:~/folder1 $` 。
+          這表示你現在正位在 `folder1` 資料夾中。
+          現在，請查看 `folder1` 資料夾的內容。
     hints:
       - ➤  輸入 `ls` 查看資料夾的內容
 
@@ -102,11 +108,11 @@ stages:
       command:
         - ^ls$
     responses:
-      - content:
-          - 你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
-          - 現在我們可以離開 `folder1` 回到原本的資料夾了。
-          - 你可以使用 `cd ..` 回到上一層資料夾。
-          - 這裡的 `..` 代表的是上一層的資料夾。
+      - content: |
+          你現在可以看到 `folder1` 資料夾中有兩個檔案，分別是 `file1.txt` 跟 `file2.txt`。
+          現在我們可以離開 `folder1` 回到原本的資料夾了。
+          你可以使用 `cd ..` 回到上一層資料夾。
+          這裡的 `..` 代表的是上一層的資料夾。
     hints:
       - ➤  輸入 `cd ..` 回到上一層資料夾
 
@@ -118,9 +124,9 @@ stages:
       pwd:
         - ^/home/commander$
     responses:
-      - content:
-          - 你成功的回到上一層資料夾了。
-          - 現在，請你剛才所學的指令，進入 `folder2` 資料夾，檢查 `folder2` 資料夾的內容，最後回到這個資料夾。
+      - content: |
+          你成功的回到上一層資料夾了。
+          現在，請你剛才所學的指令，進入 `folder2` 資料夾，檢查 `folder2` 資料夾的內容，最後回到這個資料夾。
     hints:
       - ➤  使用 `cd` 指令進出資料夾
       - ➤  使用 `ls` 指令查看資料夾的內容
@@ -133,9 +139,9 @@ stages:
       pwd:
         - ^/home/commander/folder2$
     responses:
-      - content:
-          - 你成功的進入 `folder2` 資料夾了。
-          - 現在，請你查看 `folder2` 資料夾的內容。
+      - content: |
+          你成功的進入 `folder2` 資料夾了。
+          現在，請你查看 `folder2` 資料夾的內容。
     hints:
       - ➤  使用 `ls` 查看資料夾的內容
 
@@ -147,11 +153,11 @@ stages:
       pwd:
         - ^/home/commander/folder2$
       command:
-        - ls
+        - ^ls$
     responses:
-      - content:
-          - 你看到了 `folder2` 資料夾中的檔案，分別是 `file3.txt` 跟 `file4.txt`。
-          - 現在你可以離開 `folder2` 回到原本的資料夾了。
+      - content: |
+          你看到了 `folder2` 資料夾中的檔案，分別是 `file3.txt` 跟 `file4.txt`。
+          現在你可以離開 `folder2` 回到原本的資料夾了。
     hints:
       - ➤  使用 `cd ..` 回到上一層資料夾
 
@@ -163,9 +169,9 @@ stages:
       pwd:
         - ^/home/commander$
     responses:
-      - content:
-          - 你成功的回到原本的資料夾了。
-          - 恭喜你學會了 `ls` 和 `cd` 指令的用法。
+      - content: |
+          你成功的回到原本的資料夾了。
+          恭喜你學會了 `ls` 和 `cd` 指令的用法。
     hints:
       - ➤  使用 `cd` 指令進出資料夾
       - ➤  使用 `ls` 指令查看資料夾的內容

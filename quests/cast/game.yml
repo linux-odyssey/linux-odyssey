@@ -3,23 +3,23 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何使用 `echo` 指令
 
-  準備好就輸入 `echo start` 開始吧！
+  按下中間的 `start` 按鈕來開始這個關卡。
 
 requirements:
   - get-started
 
 stages:
   - id: start
-    task: 輸入 `echo start` 來開始教程
+    task: 按下 `start` 按鈕開始
     condition:
-      output:
-        - ^start$
+      command:
+        - ^echo start$
     responses:
-      - content:
-          - 你剛才使用的指令叫做 `echo`。
-          - '`echo` 指令可以將後方接續的文字輸出到終端機上。'
-          - 例如你輸入 `echo Hello`，終端機就會顯示 `Hello`。
-          - 你可以試著輸入 `echo` 並在後面加上一些文字，然後按下 Enter 鍵，就可以看到終端機上顯示了你剛才輸入的文字。
+      - content: |
+          還記得第一關使用的指令 `echo` 嗎？
+          `echo` 指令可以將後方接續的文字輸出到終端機上。
+          例如你輸入 `echo Hello`，終端機就會顯示 `Hello`。
+          你可以試著輸入 `echo ` 並在後面加上一些文字，然後按下 Enter 鍵，就可以看到終端機上顯示了你剛才輸入的文字。
     hints:
       - ➤  輸入 `echo` 並在後面加上一些文字
       - ➤  例如：`echo example`
@@ -43,8 +43,8 @@ stages:
     requirements:
       - echo
     condition:
-      output:
-        - ^[Hh]ow are you\??$
+      command:
+        - ^echo [Hh]ow are you\??$
     exceptions:
       - condition:
           command:
@@ -59,17 +59,9 @@ stages:
         responses:
           - type: narrative
             content:
-              - 在 `echo` 後面還需要加上一些文字
+              - 在 `echo ` 後面還需要加上 `How are you?`
     responses:
       - content:
           - 你成功的在終端機上顯示了 `How are you?`。
           - 相信你已經了解如何使用 `echo` 指令來顯示文字了。
           - 之後如果要在終端機顯示文字，記得可以使用 `echo` 指令。
-
-exceptions:
-  - repeatable: true
-    condition:
-      command:
-        - '　'
-    hints:
-      - '!! 請勿使用全形空格 !!'

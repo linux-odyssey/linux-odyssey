@@ -25,6 +25,9 @@ const html = computed(() => {
   line-height: 1;
 }
 
+.markdown-content :deep(p) {
+  line-height: 1.5;
+}
 .markdown-content :deep(ol) {
   list-style: decimal;
   padding-left: 1em;

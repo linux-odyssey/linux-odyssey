@@ -3,120 +3,185 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何用 `cp` 指令複製檔案
 
-  準備好就輸入 `echo start` 開始吧！
+  按下中間的 `start` 按鈕來開始這個關卡。
 
 requirements:
   - create
 
 stages:
   - id: start
-    task: 輸入 `echo start` 來開始
+    task: 按下 `start` 按鈕開始
     condition:
-      output:
-        - start
-    exceptions:
-      - condition:
-          command:
-            - ^echo$
-        responses:
-          - type: narrative
-            content:
-              - 你忘記輸入 `start` 了嗎？
-              - 請輸入 `echo start` 來開始
-      - catchAll: true
-        responses:
-          - type: narrative
-            content:
-              - 請輸入 `echo start` 來開始
+      command:
+        - ^echo start$
     responses:
       - type: narrative
-        content:
-          - 今天我們要學習如何複製檔案。
-          - 現在資料夾裡有一個 `hello.txt` 跟一個 `world.txt`，請使用 `ls` 與 `cat` 來查看它們的內容。
-          - 看完之後，使用 `echo continue` 來繼續吧！
+        content: |
+          今天我們要學習如何複製檔案。
+          先用 `ls` 指令查看目前資料夾裡有哪些檔案。
     hints:
-      - ➤  使用 `ls` 來查看資料夾內的檔案
+      - ➤  使用 `ls` 來查看目前資料夾裡有哪些檔案
+
+  - id: ls
+    task: 查看目前資料夾裡的檔案
+    requirements:
+      - start
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls$
+      output:
+        - (^|\s)hello.txt($|\s)
+        - (^|\s)world.txt($|\s)
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
+    responses:
+      - type: narrative
+        content: 可以看到現在資料夾裡有 `hello.txt` 跟 `world.txt`。
+          請使用 `cat` 來查看它們的內容。
+          看完之後，使用 `echo next` 來繼續吧！
+    hints:
       - ➤  使用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
       - ➤  如果終端機卡在某個指令無法輸入，請按下 `Ctrl + C` 來取消該指令
 
   - id: cat-hello
     task: 查看 `hello.txt` 的內容
     requirements:
-      - start
+      - ls
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cat hello.txt$
       output:
         - Hello
     exceptions:
       - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾
+      - condition:
           command:
             - ^cat$
         responses:
           - type: narrative
-            content:
-              - 你忘記輸入 `cat` 了嗎？
-              - 請輸入 `cat hello.txt` 來查看 `hello.txt` 的內容
+            content: |
+              你忘記輸入 `cat` 了嗎？
+              請輸入 `cat hello.txt` 來查看 `hello.txt` 的內容
       - condition:
           command:
             - ^cat hello$
         responses:
           - type: narrative
-            content:
-              - 你忘記輸入 `.txt` 了嗎？
-              - 請輸入 `cat hello.txt` 來查看 `hello.txt` 的內容
+            content: |
+              你忘記輸入 `.txt` 了嗎？
+              請輸入 `cat hello.txt` 來查看 `hello.txt` 的內容
     responses:
       - type: narrative
-        content:
-          - 你成功查看到 `hello.txt` 的內容了！
+        content: |
+          你成功查看到 `hello.txt` 的內容了！
 
   - id: cat-world
     task: 查看 `world.txt` 的內容
     requirements:
-      - start
+      - ls
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cat world.txt$
       output:
         - World
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾
+      - condition:
+          command:
+            - ^cat$
+        responses:
+          - type: narrative
+            content: |
+              你忘記輸入 `cat` 了嗎？
+              請輸入 `cat world.txt` 來查看 `world.txt` 的內容
+      - condition:
+          command:
+            - ^cat world$
+        responses:
+          - type: narrative
+            content: |
+              你忘記輸入 `.txt` 了嗎？
+              請輸入 `cat world.txt` 來查看 `world.txt` 的內容
     responses:
       - type: narrative
-        content:
-          - 你成功查看到 `world.txt` 的內容了！
+        content: |
+          你成功查看到 `world.txt` 的內容了！
 
-  - id: cat-continue
-    task: 使用 `echo continue` 來繼續
+  - id: cat-next
+    task: 輸入 `echo next` 來繼續
     requirements:
       - cat-hello
       - cat-world
     condition:
       command:
-        - echo
+        - ^echo next$
     responses:
       - type: narrative
-        content:
-          - 接下來我們要來學習複製檔案。
-          - '`cp` 這個指令，是 copy 的縮寫，就是複製的意思。'
-          - 我們可以用 `cp [來源檔案] [目的檔案]` 的方式來複製檔案。
-          - 請你使用 `cp` 來複製 `hello.txt` 到 `hello2.txt`。
+        content: |
+          接下來我們要來學習如何複製檔案。
+          `cp` 這個指令，是 copy 的縮寫，就是複製的意思。
+          我們可以用 `cp [來源檔案] [目的檔案]` 的方式來複製檔案。
+          請你使用 `cp` 來複製 `hello.txt` 的內容到 `hello2.txt`。
     hints:
       - ➤  使用 `cp hello.txt hello2.txt` 來複製 `hello.txt` 到 `hello2.txt`
 
   - id: cp-hello
     task: 複製 `hello.txt` 到 `hello2.txt`
     requirements:
-      - cat-continue
+      - cat-next
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cp hello.txt hello2.txt$
       files:
         - path: hello2.txt
           type: file
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - 你成功複製 `hello.txt` 到 `hello2.txt` 了！
-          - 我們打開來確認一下 `hello2.txt` 的內容吧！
+        content: |
+          你成功複製 `hello.txt` 到 `hello2.txt` 了！
+          我們打開來確認一下 `hello2.txt` 的內容吧！
     hints:
       - ➤  使用 `cat hello2.txt` 來查看 `hello2.txt` 的內容
 
@@ -125,16 +190,28 @@ stages:
       - cp-hello
     task: 查看 `hello2.txt` 的內容
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cat hello2.txt$
       output:
         - Hello
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - 你成功查看到 `hello2.txt` 的內容了！
-          - 正如我們所見，`hello2.txt` 的內容跟 `hello.txt` 一模一樣。
-          - 那我們再來試試看複製 `world.txt` 到 `world2.txt` 吧！
+        content: |
+          你成功查看到 `hello2.txt` 的內容了！
+          正如我們所見，`hello2.txt` 的內容跟 `hello.txt` 一模一樣。
+          那我們再來試試看複製 `world.txt` 到 `world2.txt` 吧！
     hints:
       - ➤  使用 `cp world.txt world2.txt` 來複製 `world.txt` 到 `world2.txt`
 
@@ -143,16 +220,28 @@ stages:
       - cat-hello2
     task: 複製 `world.txt` 到 `world2.txt`
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cp world.txt world2.txt$
       files:
         - path: world2.txt
           type: file
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - 你成功複製 `world.txt` 到 `world2.txt` 了！
-          - 我們打開來確認一下 `world2.txt` 的內容吧！
+        content: |
+          你成功複製 `world.txt` 到 `world2.txt` 了！
+          我們打開來確認一下 `world2.txt` 的內容吧！
     hints:
       - ➤  使用 `cat world2.txt` 來查看 `world2.txt` 的內容
 
@@ -161,23 +250,35 @@ stages:
       - cp-world
     task: 查看 `world2.txt` 的內容
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cat world2.txt$
       output:
         - World
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - 你成功查看到 `world2.txt` 的內容了！
-          - '`world2.txt` 的內容跟 `world.txt` 一模一樣。'
-          - 接下來我們要來學習如何複製資料夾。
-          - 現在目錄下有一個 `notes` 資料夾，裡面有一個 `note.txt` 的檔案。
-          - 我們要能整個資料夾包含裡面的檔案一起複製到 `notes2`。
-          - 跟複製單一檔案不一樣的是，複製資料夾時，我們要加上 `-r` 的選項（recursive）代表將資料夾中的所有檔案都一起複製。
-          - 在使用指令時，如果想要調整指令的行為，可以在指令後面加上選項。
-          - 選項的格式通常是 `-` 加上一個字母，例如 `-r`。
-          - 選項擺放的位置沒有特別的限制，通常會跟在指令的後面，置於檔案名稱的前面。
-          - 請你使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`。
+        content: |
+          你成功查看到 `world2.txt` 的內容了！
+          `world2.txt` 的內容跟 `world.txt` 一模一樣。
+          接下來我們要來學習如何複製資料夾。
+          現在目錄下有一個 `notes` 資料夾，裡面有一個 `note.txt` 的檔案。
+          我們要能整個資料夾包含裡面的檔案一起複製到 `notes2`。
+          跟複製單一檔案不一樣的是，複製資料夾時，我們要加上 `-r` 的選項（recursive）代表將資料夾中的所有檔案都一起複製。
+          在使用指令時，如果想要調整指令的行為，可以在指令後面加上選項。
+          選項的格式通常是 `-` 加上一個字母，例如 `-r`。
+          選項擺放的位置沒有特別的限制，通常會跟在指令的後面，置於檔案名稱的前面。
+          請你使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`。
     hints:
       - ➤  使用 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
       - ➤  記得要加上 `-r` 的選項來複製所有檔案
@@ -187,6 +288,8 @@ stages:
       - cat-world2
     task: 複製 `notes` 資料夾到 `notes2`
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cp
       files:
@@ -194,38 +297,59 @@ stages:
           type: directory
         - path: notes2/note.txt
           type: file
-    responses:
-      - type: narrative
-        content:
-          - 你成功複製 `notes` 資料夾到 `notes2` 了！
-          - 我們打開來確認一下 `notes2` 資料夾的內容吧！
-    hints:
-      - ➤  使用 `ls notes2` 來查看 `notes2` 資料夾的內容
     exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
       - condition:
           error:
             - 'cp: omitting directory'
         responses:
           - type: narrative
-            content:
-              - 你忘記加上 `-r` 的參數了嗎？
-              - 請輸入 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
+            content: |
+              你忘記加上 `-r` 的參數了嗎？
+              請輸入 `cp -r notes notes2` 來複製 `notes` 資料夾到 `notes2`
+    responses:
+      - type: narrative
+        content: |
+          你成功複製 `notes` 資料夾到 `notes2` 了！
+          我們打開來確認一下 `notes2` 資料夾的內容吧！
+    hints:
+      - ➤  使用 `ls notes2` 來查看 `notes2` 資料夾的內容
 
   - id: ls-notes2
     requirements:
       - cp-notes
     task: 查看 `notes2` 資料夾的內容
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^ls notes2$
       output:
         - note.txt
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - 你成功查看到 `notes2` 資料夾的內容了！
-          - 我們可以看到，整個 `notes` 資料夾包含裡面的檔案，都被複製到 `notes2` 資料夾了。
-          - 那麼最後我們要來試試看，如果複製一個檔案到已經存在的檔案會發生什麼事。
+        content: |
+          你成功查看到 `notes2` 資料夾的內容了！
+          我們可以看到，整個 `notes` 資料夾包含裡面的檔案，都被複製到 `notes2` 資料夾了。
+          那麼最後我們要來試試看，如果複製一個檔案到已經存在的檔案會發生什麼事。
     hints:
       - ➤  使用 `cp hello.txt world.txt` 來複製 `hello.txt` 到 `world.txt`
 
@@ -234,13 +358,25 @@ stages:
       - ls-notes2
     task: 複製 `hello.txt` 到 `world.txt`
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cp hello.txt world.txt$
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - 你成功複製 `hello.txt` 到 `world.txt` 了！
-          - 我們打開來確認一下 `world.txt` 的內容吧！
+        content: |
+          你成功複製 `hello.txt` 到 `world.txt` 了！
+          我們打開來確認一下 `world.txt` 的內容吧！
     hints:
       - ➤  使用 `cat world.txt`
 
@@ -249,14 +385,26 @@ stages:
       - cp-overwrite
     task: 檢查 `world.txt` 的內容
     condition:
+      pwd:
+        - ^/home/commander$
       command:
         - ^cat world.txt$
       output:
         - Hello
+    exceptions:
+      - condition:
+          not:
+            pwd:
+              - ^/home/commander$
+        responses:
+          - type: narrative
+            content: |
+              你不在 `/home/commander` 資料夾裡。
+              請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content:
-          - '`world.txt` 的內容變成 `Hello` 了！'
-          - 這是因為，當我們複製檔案時，如果目的檔案已經存在，那麼目的檔案的內容就會被覆蓋掉。
-          - 所以在複製檔案的時候，要特別注意目的檔案是否已經存在，否則可能會不小心把資料弄丟。
-          - 以上就是複製檔案的基本操作！
+        content: |
+          `world.txt` 的內容變成 `Hello` 了！
+          這是因為，當我們複製檔案時，如果目的檔案已經存在，那麼目的檔案的內容就會被覆蓋掉。
+          所以在複製檔案的時候，要特別注意目的檔案是否已經存在，否則可能會不小心把資料弄丟。
+          以上就是複製檔案的基本操作！
