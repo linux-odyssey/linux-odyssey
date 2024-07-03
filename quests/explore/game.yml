@@ -76,8 +76,7 @@ stages:
             - ^/home/commander$
         responses:
           - type: narrative
-            content:
-              輸入 `cd folder1` 來進入 `folder1` 資料夾
+            content: 輸入 `cd folder1` 來進入 `folder1` 資料夾
       - condition:
           not:
             pwd:
@@ -110,7 +109,7 @@ stages:
         - ^ls$
     responses:
       - content: |
-          你現在可以看到 `folder1` 資料夾中有兩的檔案，分別是 `file1.txt` 跟 `file2.txt`。
+          你現在可以看到 `folder1` 資料夾中有兩個檔案，分別是 `file1.txt` 跟 `file2.txt`。
           現在我們可以離開 `folder1` 回到原本的資料夾了。
           你可以使用 `cd ..` 回到上一層資料夾。
           這裡的 `..` 代表的是上一層的資料夾。
