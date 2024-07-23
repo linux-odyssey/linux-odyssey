@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import QuestMap from '../components/QuestMap.vue'
+// import QuestMap from '../components/QuestMap.vue'
 import QuestList from '../components/QuestList.vue'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'

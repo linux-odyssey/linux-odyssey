@@ -20,6 +20,7 @@ import {
   faFileInvoice,
   faEnvelope,
   faPlay,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faLightbulb,
@@ -56,5 +57,6 @@ library.add(
   faFileInvoice,
   faFacebook,
   faEnvelope,
-  faPlay
+  faPlay,
+  faChevronDown
 )

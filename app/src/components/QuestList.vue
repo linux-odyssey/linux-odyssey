@@ -1,21 +1,33 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
 import api from '../utils/api'
 import useUserProfile from '../store/userProfile'
+import QuestIntro from './QuestIntro.vue'
 
 interface Quest {
   _id: string
   requirements: any
   title: string
 }
-
+interface Progress {
+  [key: string]: {
+    completed: boolean
+    unlocked: boolean
+  }
+}
+interface color {
+  [key: string]: string
+}
+interface boolList {
+  [key: string]: boolean
+}
 const store = useUserProfile()
 const quests = ref<Quest[]>([])
-const progressList = ref({})
-const questColor = ref({})
+const progressList = ref<Progress>({})
+const questColor = ref<color>({})
+const questTextColor = ref<color>({})
+const introList = ref<boolList>({})
 // const fullwidth = window.screen.width
 
 async function getQuests() {
@@ -74,24 +86,25 @@ function getOption(questList: any, progress: any) {
     }
   })
   console.log(progressList.value)
-  console.log(questColor.value)
 }
 function colorizeQuest() {
-  Object.keys(progressList.value).forEach((key) => {
+  Object.keys(progressList.value).forEach((key: any) => {
+    introList.value[key] = false
     if (progressList.value[key].completed && progressList.value[key].unlocked) {
       questColor.value[key] = '#00ff00'
+      questTextColor.value[key] = '#000000'
     } else if (
       !progressList.value[key].completed &&
       progressList.value[key].unlocked
     ) {
       questColor.value[key] = '#ADADB5'
+      questTextColor.value[key] = '#000000'
     } else {
       questColor.value[key] = '#505050'
+      questTextColor.value[key] = '#ffffff'
     }
   })
 }
-const router = useRouter()
-const toast = useToast()
 
 onMounted(async () => {
   await store.loadUserProfile()
@@ -100,12 +113,11 @@ onMounted(async () => {
   getOption(quests.value, store.progress)
   colorizeQuest()
 })
-const handleQuests = (id: string) => {
-  console.log(id)
-  if (progressList.value[id].unlocked) {
-    router.push({ name: 'game', params: { questId: id } })
+const handleIntro = (id: string) => {
+  if (introList.value[id]) {
+    introList.value[id] = false
   } else {
-    toast.warning('你還沒完成前一個關卡!')
+    introList.value[id] = true
   }
 }
 </script>
@@ -114,18 +126,42 @@ const handleQuests = (id: string) => {
     <div
       class="flex place-content-center w-full bg-catelogbg bg-cover bg-scroll"
     >
-      <div class="w-4/5 grid justify-items-center">
+      <div class="w-4/5 h-full pt-5 grid grid-cols-1 overflow-y-auto">
         <button
-          class="w-full flex h-4/5 place-content-left rounded-md"
+          class="w-full h-4/5 rounded-md flex items-center justify-between"
           :style="{ backgroundColor: questColor[item._id] }"
           v-for="item in quests"
           :key="item._id"
-          @click="handleQuests(item._id)"
+          @click="handleIntro(item._id)"
         >
-          <div class="text-text m-5">
+          <div
+            class="m-4 justify-self-start w-fit"
+            :style="{ color: questTextColor[item._id] }"
+          >
             {{ item.title }}
           </div>
-          <div></div>
+          <div
+            class="m-3 w-fit h-fit"
+            :style="{ color: questTextColor[item._id] }"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'chevron-down']"
+              v-if="!introList[item._id]"
+            />
+            <font-awesome-icon
+              :icon="['fas', 'chevron-down']"
+              flip="vertical"
+              v-if="introList[item._id]"
+            />
+          </div>
+          <QuestIntro
+            :questTitle="item.title"
+            :questId="item._id"
+            :progress="progressList[item._id]"
+            :questColor="questColor[item._id]"
+            :questTextColor="questTextColor[item._id]"
+            v-if="introList[item._id]"
+          />
         </button>
       </div>
     </div>
