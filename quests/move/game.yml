@@ -3,14 +3,14 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何用 `mv` 移動檔案與資料夾
 
-  按下中間的 `start` 按鈕來開始這個關卡。
+  按下中間的 `開始` 按鈕來開始這個關卡。
 
 requirements:
   - create
 
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始
+    task: 按下 `開始` 按鈕開始
     condition:
       command:
         - ^echo start$

@@ -4,7 +4,7 @@ instruction: |
   1. 絕對路徑和相對路徑
   2. 如何使用 `pwd` 顯示目前的路徑
 
-  按下中間的 `start` 按鈕來開始這個關卡。
+  按下中間的 `開始` 按鈕來開始這個關卡。
 
 requirements:
   - cast
@@ -12,7 +12,7 @@ requirements:
 
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始教程
+    task: 按下 `開始` 按鈕開始教程
     condition:
       command:
         - ^echo start$

@@ -3,14 +3,14 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何使用 `cat` 查看檔案的內容
 
-  按下中間的 `start` 按鈕來開始這個關卡。
+  按下中間的 `開始` 按鈕來開始這個關卡。
 
 requirements:
   - path
 
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始教程
+    task: 按下 `開始` 按鈕開始教程
     condition:
       command:
         - ^echo start$
