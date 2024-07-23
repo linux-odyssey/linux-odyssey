@@ -1,0 +1,18 @@
+title: 執行檔案
+instruction: |
+  在這個關卡中，你將會學到：
+  1. 什麼是可執行檔
+  2. 如何執行可執行檔
+  3. 使用 `which` 指令查看執行檔的位置
+
+requirements:
+  - remove
+
+stages:
+  - id: start
+    task: 按下開始按鈕
+    type: start
+    condition:
+      command: ^echo start$
+    responses:
+      - content: |

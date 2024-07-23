@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "汪汪汪"
+echo "我比貓還厲害"
+if test -n "$1";
+then
+  echo "貓會的事我也會"
+  cat $1
+else
+  echo 貓會卡住我不會
+fi
