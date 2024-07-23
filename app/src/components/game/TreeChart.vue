@@ -48,14 +48,14 @@ const sessionStore = useSession()
   position: absolute;
   top: 0;
   right: 50%;
-  border-top: 1px solid #00ff00;
+  border-top: 2px solid #00ff00;
   width: 50%;
   height: 20px;
 }
 .tree li::after {
   right: auto;
   left: 50%;
-  border-left: 1px solid #00ff00;
+  border-left: 2px solid #00ff00;
 }
 
 .tree li:only-child::after,
@@ -73,7 +73,7 @@ const sessionStore = useSession()
 }
 
 .tree li:last-child::before {
-  border-right: 1px solid #00ff00;
+  border-right: 2px solid #00ff00;
   border-radius: 0 5px 0 0;
   -webkit-border-radius: 0 5px 0 0;
   -moz-border-radius: 0 5px 0 0;
@@ -89,7 +89,7 @@ const sessionStore = useSession()
   position: absolute;
   top: 0;
   left: 50%;
-  border-left: 1px solid #00ff00;
+  border-left: 2px solid #00ff00;
   width: 0;
   height: 20px;
 }
@@ -100,7 +100,7 @@ const sessionStore = useSession()
   text-decoration: none;
   color: #ffffff;
   font-family: arial, verdana, tahoma;
-  font-size: 11px;
+  font-size: 12px;
   display: inline-block;
 
   border-radius: 5px;
@@ -112,18 +112,10 @@ const sessionStore = useSession()
   -moz-transition: all 0.5s;
 }
 
-a.discovered {
-  background: #526b4e;
-  color: #000;
-  border: 1px solid #94a0b4;
-}
-
-ul.discovered,
-li.discovered {
-  border-color: #94a0b4;
-}
-
-a.pwd {
-  box-shadow: 0 0 40px rgba(255, 255, 0, 20);
+.tree li a.pwd {
+  border: 3px solid #00ff00;
+  background: #008080;
+  font-weight: bold;
+  font-size: 13px;
 }
 </style>
