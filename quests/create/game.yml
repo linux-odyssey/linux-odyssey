@@ -4,8 +4,6 @@ instruction: |
   1. 如何使用 `touch` 建立檔案
   2. 如何使用 `mkdir` 建立資料夾
 
-  按下中間的 `開始` 按鈕來開始這個關卡。
-
 requirements:
   - read
 

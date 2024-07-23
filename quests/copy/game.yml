@@ -3,8 +3,6 @@ instruction: |
   在這個關卡中，你將會學到：
   1. 如何用 `cp` 指令複製檔案
 
-  按下中間的 `開始` 按鈕來開始這個關卡。
-
 requirements:
   - create
 

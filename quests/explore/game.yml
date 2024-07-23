@@ -4,8 +4,6 @@ instruction: |
   1. 如何使用 `ls` 查看資料夾的內容
   2. 如何使用 `cd` 在資料夾之間移動
 
-  按下中間的 `開始` 按鈕來開始這個關卡。
-
 requirements:
   - get-started
 
