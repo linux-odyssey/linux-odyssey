@@ -62,5 +62,8 @@ library.add(
   faFacebook,
   faGithub,
   faGoogle,
+  faEnvelope,
+  faPlay,
+  faChevronDown,
   faChevronDown
 )
