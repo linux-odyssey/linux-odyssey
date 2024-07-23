@@ -17,6 +17,7 @@ import {
   faList,
   faMap,
   faPlay,
+  faChevronDown,
   faTerminal,
   faTriangleExclamation,
   faTrophy,
@@ -79,6 +80,7 @@ library.add(
   faGoogle,
   faEnvelope,
   faPlay,
+  faChevronDown,
   faChevronDown,
   faChevronDown
 )
