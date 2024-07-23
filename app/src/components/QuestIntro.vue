@@ -97,7 +97,7 @@ setTimeout(() => {
 
 .modal-content {
   position: relative;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   width: 70%;
   height: 70%;
