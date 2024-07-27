@@ -126,7 +126,7 @@ const handleIntro = (id: string) => {
     <div
       class="flex place-content-center w-full bg-catelogbg bg-cover bg-scroll"
     >
-      <div class="w-4/5 h-full pt-5 grid grid-cols-1 overflow-y-auto">
+      <div class="w-3/5 h-full pt-5 grid grid-cols-1 overflow-y-auto">
         <button
           class="w-full h-4/5 rounded-md flex items-center justify-between"
           :style="{ backgroundColor: questColor[item._id] }"

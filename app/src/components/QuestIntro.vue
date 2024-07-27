@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { ref, defineProps } from 'vue'
-// import { surveyUrl } from '../config'
+import { ref, defineProps, onMounted } from 'vue'
+import { getQuest } from '../utils/api'
+import MarkdownText from './MarkdownText.vue'
 
 const props = defineProps({
   questTitle: {
@@ -26,7 +27,6 @@ const props = defineProps({
     required: true,
   },
 })
-
 const showIntro = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
 const toast = useToast()
@@ -34,15 +34,7 @@ const { questTitle, questId, progress, questColor, questTextColor } = props
 const closeModal = () => {
   showIntro.value = false
 }
-
-// const backtoMap = async () => {
-//   try {
-//     router.push({ name: 'map' })
-//   } catch (err) {
-//     toast.error('無法讀取地圖')
-//     console.error(err)
-//   }
-// }
+const questInstruction = ref('')
 const handleQuests = (id: string) => {
   console.log(id)
   console.log(progress)
@@ -52,10 +44,10 @@ const handleQuests = (id: string) => {
     toast.warning('你還沒完成前一個關卡!')
   }
 }
-// Simulate completing a quest to show the modal
-setTimeout(() => {
-  showIntro.value = true
-}, 5000) // Show modal after 5 seconds
+onMounted(async () => {
+  const quest = await getQuest(questId)
+  questInstruction.value = quest.instruction
+})
 </script>
 
 <template>
@@ -71,12 +63,20 @@ setTimeout(() => {
       >
         {{ questTitle }}
       </h2>
+      <div class="w-full h-3/5 p-8">
+        <div class="px-5 whitespace-pre-wrap">
+          <MarkdownText
+            class="text-text markdown-content"
+            :content="questInstruction"
+          />
+        </div>
+      </div>
       <a
         id="StartAdventure"
         target="_blank"
         @click="handleQuests(questId)"
         :style="{ backgroundColor: questColor, color: questTextColor }"
-        class="inline-flex justify-center rounded-lg text-base font-black py-2 mt-3 w-full"
+        class="inline-flex justify-center rounded-lg text-base font-black py-3 mt-5 w-full text-lg"
         >開始冒險</a
       >
     </div>
@@ -99,8 +99,8 @@ setTimeout(() => {
   position: relative;
   margin: 10% auto;
   padding: 20px;
-  width: 70%;
-  height: 70%;
+  width: 60%;
+  height: 50%;
 }
 
 .close {
@@ -109,5 +109,8 @@ setTimeout(() => {
   right: 10px;
   font-size: 30px;
   cursor: pointer;
+}
+.markdown-content {
+  text-align: left;
 }
 </style>
