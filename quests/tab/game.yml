@@ -1,0 +1,38 @@
+title: Tab 自動補全
+instruction: |
+  在這個關卡，你將會學到
+
+  1. 如何使用 Tab 自動補全路徑
+  2. 出現衝突時如何處理
+
+  按下中間的按鈕來開始這個關卡。
+
+requirements:
+  - read
+
+stages:
+  - id: start
+    task: 按下開始按鈕開始關卡
+    condition:
+      command:
+        - ^echo start$
+    responses:
+      - content: |
+          在終端機裡，所有的操作都是用文字進行。
+          然而，打字很花時間，而且只要一個字打錯，指令就會執行失敗。
+          因些終端機提供「自動補全」的功能，自動幫你完成檔案路徑、指令名稱、參數名稱，節省你的時間，也避免輸入錯誤。
+
+          在開始練習之前，我們先來看看家目錄下有哪些檔案。
+
+    hints:
+      - ➤ 使用 `ls` 查看檔案列表
+
+  - id: ls
+    task: 使用 `ls` 查看檔案列表
+    requirements:
+      - start
+    condition:
+      command:
+        - ^never$
+    responses:
+      - content: |
