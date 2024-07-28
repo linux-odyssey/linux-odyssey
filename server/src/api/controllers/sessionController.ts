@@ -43,7 +43,10 @@ export const createSession = asyncHandler(
   async (req: Request, res: Response) => {
     const { questId } = matchedData(req)
     const user = await User.findById((req.user as Express.ExistingUser).id)
-    if (user && (await isQuestUnlocked(user, questId))) {
+    if (
+      user &&
+      ((await isQuestUnlocked(user, questId)) || config.testing.enabled)
+    ) {
       const session = await createNewSession(user, questId)
       res.status(201).json(sessionDetail(session))
     } else {
