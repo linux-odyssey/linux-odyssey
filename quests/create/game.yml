@@ -7,7 +7,7 @@ instruction: |
   按下中間的 `start` 按鈕來開始這個關卡。
 
 requirements:
-  - read
+  - tab
 
 stages:
   - id: start
