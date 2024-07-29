@@ -1,6 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../utils/api'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'
@@ -28,6 +29,7 @@ const progressList = ref<Progress>({})
 const questColor = ref<color>({})
 const questTextColor = ref<color>({})
 const introList = ref<boolList>({})
+const router = useRouter()
 // const fullwidth = window.screen.width
 
 async function getQuests() {
@@ -116,8 +118,10 @@ onMounted(async () => {
 const handleIntro = (id: string) => {
   if (introList.value[id]) {
     introList.value[id] = false
+    router.push({ name: 'map' })
   } else {
     introList.value[id] = true
+    router.push({ name: 'questIntro', params: { questId: id } })
   }
 }
 </script>

@@ -33,6 +33,7 @@ const toast = useToast()
 const { questTitle, questId, progress, questColor, questTextColor } = props
 const closeModal = () => {
   showIntro.value = false
+  router.push({ name: 'map' })
 }
 const questInstruction = ref('')
 const handleQuests = (id: string) => {
@@ -44,6 +45,7 @@ const handleQuests = (id: string) => {
     toast.warning('你還沒完成前一個關卡!')
   }
 }
+
 onMounted(async () => {
   const quest = await getQuest(questId)
   questInstruction.value = quest.instruction
