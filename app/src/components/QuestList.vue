@@ -25,10 +25,8 @@ const quests = ref<Quest[]>([])
 const progressList = ref<Progress>({})
 const questColor = ref<color>({})
 const questTextColor = ref<color>({})
-const openedQuest = ref<string | null>(null)
 const router = useRouter()
 const route = useRoute()
-// const fullwidth = window.screen.width
 
 async function getQuests() {
   try {
@@ -111,12 +109,9 @@ onMounted(async () => {
   quests.value = reorderQuests(questdata)
   getOption(quests.value, store.progress)
   colorizeQuest()
-  if (route.params.questId) {
-    openedQuest.value = route.params.questId as string
-  }
+  console.log(route.params.questId)
 })
 const handleIntro = (id: string) => {
-  openedQuest.value = id
   router.push({ name: 'map', params: { questId: id } })
 }
 </script>
@@ -139,18 +134,19 @@ const handleIntro = (id: string) => {
           >
             {{ item.title }}
           </div>
+          <p>{{ $route.params.questId }}</p>
           <div
             class="m-3 w-fit h-fit"
             :style="{ color: questTextColor[item._id] }"
           >
             <font-awesome-icon
               :icon="['fas', 'chevron-down']"
-              v-if="openedQuest !== item._id"
+              v-if="$route.params.questId !== item._id"
             />
             <font-awesome-icon
               :icon="['fas', 'chevron-down']"
               flip="vertical"
-              v-if="openedQuest === item._id"
+              v-if="$route.params.questId === item._id"
             />
           </div>
           <QuestIntro
@@ -159,7 +155,7 @@ const handleIntro = (id: string) => {
             :progress="progressList[item._id]"
             :questColor="questColor[item._id]"
             :questTextColor="questTextColor[item._id]"
-            v-if="openedQuest === item._id"
+            v-if="$route.params.questId === item._id"
           />
         </button>
       </div>
