@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import api from '../utils/api'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'
@@ -20,16 +20,14 @@ interface Progress {
 interface color {
   [key: string]: string
 }
-interface boolList {
-  [key: string]: boolean
-}
 const store = useUserProfile()
 const quests = ref<Quest[]>([])
 const progressList = ref<Progress>({})
 const questColor = ref<color>({})
 const questTextColor = ref<color>({})
-const introList = ref<boolList>({})
+const openedQuest = ref<string | null>(null)
 const router = useRouter()
+const route = useRoute()
 // const fullwidth = window.screen.width
 
 async function getQuests() {
@@ -91,7 +89,6 @@ function getOption(questList: any, progress: any) {
 }
 function colorizeQuest() {
   Object.keys(progressList.value).forEach((key: any) => {
-    introList.value[key] = false
     if (progressList.value[key].completed && progressList.value[key].unlocked) {
       questColor.value[key] = '#00ff00'
       questTextColor.value[key] = '#000000'
@@ -114,15 +111,13 @@ onMounted(async () => {
   quests.value = reorderQuests(questdata)
   getOption(quests.value, store.progress)
   colorizeQuest()
+  if (route.params.questId) {
+    openedQuest.value = route.params.questId as string
+  }
 })
 const handleIntro = (id: string) => {
-  if (introList.value[id]) {
-    introList.value[id] = false
-    router.push({ name: 'map' })
-  } else {
-    introList.value[id] = true
-    router.push({ name: 'questIntro', params: { questId: id } })
-  }
+  openedQuest.value = id
+  router.push({ name: 'map', params: { questId: id } })
 }
 </script>
 <template>
@@ -150,12 +145,12 @@ const handleIntro = (id: string) => {
           >
             <font-awesome-icon
               :icon="['fas', 'chevron-down']"
-              v-if="!introList[item._id]"
+              v-if="openedQuest !== item._id"
             />
             <font-awesome-icon
               :icon="['fas', 'chevron-down']"
               flip="vertical"
-              v-if="introList[item._id]"
+              v-if="openedQuest === item._id"
             />
           </div>
           <QuestIntro
@@ -164,7 +159,7 @@ const handleIntro = (id: string) => {
             :progress="progressList[item._id]"
             :questColor="questColor[item._id]"
             :questTextColor="questTextColor[item._id]"
-            v-if="introList[item._id]"
+            v-if="openedQuest === item._id"
           />
         </button>
       </div>

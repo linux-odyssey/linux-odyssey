@@ -6,7 +6,7 @@ import ChooseUsernamePage from './views/ChooseUsernamePage.vue'
 import QuestMapPage from './views/QuestMapPage.vue'
 import LeaderboardPage from './views/LeaderboardPage.vue'
 import LandingPage from './views/LandingPage.vue'
-import QuestIntro from './components/QuestIntro.vue'
+// import QuestIntro from './components/QuestIntro.vue'
 import { isLoggedIn } from './utils/auth'
 
 const routes = [
@@ -41,7 +41,7 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
-    path: '/map',
+    path: '/map/:questId?',
     name: 'map',
     component: QuestMapPage,
     meta: { requiresAuth: true },
@@ -51,12 +51,12 @@ const routes = [
     name: 'leaderboard',
     component: LeaderboardPage,
   },
-  {
-    path: '/map/:questId',
-    name: 'questIntro',
-    component: { default: QuestMapPage, popup: QuestIntro },
-    props: true,
-  },
+  // {
+  //   path: '/map/:questId',
+  //   name: 'questIntro',
+  //   component: { default: QuestMapPage, popup: QuestIntro },
+  //   props: true,
+  // },
 ]
 
 const router = createRouter({
