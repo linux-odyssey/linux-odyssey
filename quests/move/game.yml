@@ -1,7 +1,7 @@
 title: 移動檔案
 instruction: |
   在這個關卡中，你將會學到：
-  1. 如何用 `mv` 移動檔案與資料夾
+  1. 如何使用 `mv` 移動檔案與資料夾
 
 requirements:
   - create

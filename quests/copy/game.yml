@@ -1,7 +1,7 @@
 title: 複製檔案
 instruction: |
   在這個關卡中，你將會學到：
-  1. 如何用 `cp` 指令複製檔案
+  1. 如何使用 `cp` 複製檔案
 
 requirements:
   - create

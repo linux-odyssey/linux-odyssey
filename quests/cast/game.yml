@@ -1,7 +1,7 @@
 title: 輸出文字
 instruction: |
   在這個關卡中，你將會學到：
-  1. 如何使用 `echo` 指令
+  1. 如何使用 `echo` 在終端機上顯示文字。
 
 requirements:
   - get-started
