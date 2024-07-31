@@ -139,7 +139,7 @@ stages:
           _如果我們把完整的路徑視作補全的對象，那資料夾其實就是一種衝突的情況。_
 
     hints:
-      - ➤ 輸入 `cat ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt3AM.txt` 來印出檔案內容
+      - ➤ 印出 `ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt3AM.txt` 的檔案內容
       - ➤ 先輸入 `cat Thin` 按 Tab 補全至 `cat ThingsIWillOrganizeLaterWhenIHaveTime/`
       - ➤ 再接續輸入 `Ran` 按 Tab 補全至 `cat ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt`
       - ➤ 再接續輸入 `3` 後按 Tab 補全至完整的路徑。
@@ -174,7 +174,7 @@ stages:
     responses:
       - content: |
           很好，你已經成功進入 ThingsIWillOrganizeLaterWhenIHaveTime 資料夾了。
-          現在請使用 `cat` 指令來印出 RandomStuffThatIDownloadedAt4AM.txt 的內容。
+          現在請使用 `cat` 指令來印出 `RandomStuffThatIDownloadedAt4AM.txt` 的內容。
           記得運用 Tab 自動補全功能！
 
   - id: END
