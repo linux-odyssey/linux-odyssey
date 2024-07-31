@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { IQuest } from '@linux-odyssey/models'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { DAG } from '@linux-odyssey/utils'
@@ -10,50 +11,79 @@ const store = useUserProfile()
 const router = useRouter()
 const toast = useToast()
 
-const quests = ref([])
 const svgWidth = ref(window.innerWidth)
 const svgHeight = ref(window.innerHeight)
 
-const marginX = 60
-const marginY = 50
+const marginX = 80
+const marginY = 80
+
+const nodeWidth = 150
+const nodeHeight = 50
 
 async function getQuests() {
   try {
-    const res = await api.get('/quests')
-    quests.value = res.data
+    const res = await api.get<IQuest[]>('/quests')
+    return res.data
   } catch (err) {
     console.error(err)
     throw err
   }
 }
 
-const graphData = computed(() => {
-  const dag = new DAG(quests.value)
+type Node = {
+  id: string
+  title: string
+  x: number
+  y: number
+  completed: boolean
+  unlocked: boolean
+}
 
-  console.log(store.progress)
-  const nodes = dag.getNodes().map((node) => ({
-    id: node._id,
-    title: node.title,
-    x: marginX * node.layer * 2,
-    // y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
-    y: marginY * node.index + svgHeight.value / 2,
-    completed: store.progress[node._id]?.completed || false,
-    unlocked: node.requirements.every(
-      (req: string) => store.progress[req]?.completed
-    ),
-  }))
+type Edge = {
+  source: Node
+  target: Node
+}
 
-  console.log(nodes)
-
-  const edges = dag.getEdgesArray().map((edge: any) => ({
-    source: nodes.find((n) => n.id === edge[0]),
-    target: nodes.find((n) => n.id === edge[1]),
-  }))
-
-  return { nodes, edges }
+const graphData = ref<{ nodes: Node[]; edges: Edge[] }>({
+  nodes: [],
+  edges: [],
 })
 
-function handleNodeClick(node: any) {
+async function computeGraphData() {
+  if (!store.progress) return
+
+  try {
+    const quests = await getQuests()
+    const dag = new DAG(quests)
+    const nodesValues = dag.getNodes()
+
+    const nodes = nodesValues.map((node) => ({
+      id: node._id,
+      title: node.title,
+      x: marginX * node.layer * 2,
+      y:
+        marginY * node.index -
+        (marginX * dag.getLayer(node._id)) / 2 +
+        svgHeight.value / 2,
+      completed: store.progress[node._id]?.completed || false,
+      unlocked: node.requirements.every(
+        (req: string) => store.progress[req]?.completed
+      ),
+    }))
+
+    // const edges = dag.getEdgesArray().map((edge) => ({
+    //   source: nodes.find((n) => n.id === edge[0]),
+    //   target: nodes.find((n) => n.id === edge[1]),
+    // }))
+
+    graphData.value = { nodes, edges: [] }
+  } catch (error) {
+    console.error('Error computing graph data:', error)
+    toast.error('Failed to load quest data')
+  }
+}
+
+function handleNodeClick(node: { id: string; unlocked: boolean }) {
   if (node.unlocked) {
     router.push({ name: 'game', params: { questId: node.id } })
   } else {
@@ -63,8 +93,10 @@ function handleNodeClick(node: any) {
 
 onMounted(async () => {
   await store.loadUserProfile()
-  await getQuests()
+  await computeGraphData()
 })
+
+watch(() => store.progress, computeGraphData, { deep: true })
 </script>
 
 <template>
@@ -101,14 +133,14 @@ onMounted(async () => {
         @click="handleNodeClick(node)"
       >
         <rect
-          :x="node.x - 50"
-          :y="node.y - 25"
-          width="100"
-          height="50"
+          :x="node.x - nodeWidth / 2"
+          :y="node.y - nodeHeight / 2"
+          :width="nodeWidth"
+          :height="nodeHeight"
           rx="10"
           ry="10"
           :fill="
-            node.completed ? '#00ff00' : node.unlocked ? '#ADADB5' : '#505050'
+            node.completed ? '#00bb00' : node.unlocked ? '#ADADB5' : '#505050'
           "
         />
         <text
@@ -117,7 +149,7 @@ onMounted(async () => {
           text-anchor="middle"
           alignment-baseline="middle"
           fill="white"
-          font-size="12"
+          font-size="16"
         >
           {{ node.title }}
         </text>
