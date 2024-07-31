@@ -5,6 +5,14 @@ import { ref } from 'vue'
 import { Vue3Lottie } from 'vue3-lottie'
 // import { surveyUrl } from '../config'
 import CompleteAnimation from '../../img/complete-animation.json'
+import formbricks from "@formbricks/js/website";
+
+if (typeof window !== "undefined") {
+  formbricks.init({
+    environmentId: "clyffbuq50bbxwh63thlfs1lb", 
+    apiHost: "https://app.formbricks.com",
+  });
+}
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
