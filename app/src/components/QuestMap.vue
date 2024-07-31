@@ -1,163 +1,69 @@
-<!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { use, init } from 'echarts/core'
-import { GraphChart } from 'echarts/charts'
-import { SVGRenderer } from 'echarts/renderers'
-import {
-  TitleComponent,
-  TooltipComponent,
-  DataZoomComponent,
-} from 'echarts/components'
 import { DAG } from '@linux-odyssey/utils'
 import api from '../utils/api'
-import { NodeImage } from '../img/svg.js'
 import useUserProfile from '../store/userProfile'
 
 const store = useUserProfile()
-const marginX = 500
-const marginY = 300
-const chartContainer = ref(null)
-let chartInstance = null
-const fullwidth = window.screen.width
+const router = useRouter()
+const toast = useToast()
 
-use([
-  GraphChart,
-  SVGRenderer,
-  TitleComponent,
-  TooltipComponent,
-  DataZoomComponent,
-])
+const quests = ref([])
+const svgWidth = ref(window.innerWidth)
+const svgHeight = ref(window.innerHeight)
+
+const marginX = 60
+const marginY = 50
 
 async function getQuests() {
   try {
     const res = await api.get('/quests')
-    return res.data
+    quests.value = res.data
   } catch (err) {
     console.error(err)
-
     throw err
   }
 }
 
-const genOption = (nodes: any, edges: any) => ({
-  renderer: 'svg',
-  tooltip: {},
-  animationDurationUpdate: 1500,
-  animationEasingUpdate: 'quinticInOut',
-  // dataZoom: [
-  //   {
-  //     type: 'slider', // This type means "slider data zoom" which provides a slider bar for zooming
-  //     orient: 'vertical', // This makes the data zoom component vertical
-  //     start: 0, // The starting percentage of the window out of the data extent
-  //     end: 100, // The ending percentage of the window out of the data extent
-  //     show: true,
-  //   },
-  // ],
-  series: [
-    {
-      type: 'graph',
-      layout: 'none',
-      symbol: () => {
-        return NodeImage
-      },
-      symbolSize: [fullwidth / 13, fullwidth / 30],
-      roam: 'move',
-      zoom: 1.5,
-      center: ['120%', '30%'],
-      label: {
-        show: true,
-        fontSize: fullwidth / 90,
-      },
-      edgeSymbol: ['pin', 'arrow'],
-      edgeSymbolSize: [2, 15],
-      edgeLabel: {
-        fontSize: 25,
-      },
-      data: nodes,
-      // links: [],
-      links: edges,
-      lineStyle: {
-        width: 3,
-        color: 'gray',
-        opacity: 4,
-        curveness: 0.08,
-      },
-      itemStyle: {
-        color: (params: any) => {
-          const {
-            data: { completed, unlocked },
-          } = params
-          if (completed) {
-            return '#00ff00'
-          }
-          if (unlocked) {
-            return '#ADADB5'
-          }
-          return '#505050'
-        },
-      },
-    },
-  ],
-})
+const graphData = computed(() => {
+  const dag = new DAG(quests.value)
 
-function getOption(quests: any, progress: any) {
-  const dag = new DAG(quests)
-
+  console.log(store.progress)
   const nodes = dag.getNodes().map((node) => ({
     id: node._id,
-    name: node.title,
-    y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
-    x: marginY * node.layer * 2,
-    completed: progress[node._id]?.completed || false,
-    unlocked: node.requirements.every((req: any) => progress[req]?.completed),
+    title: node.title,
+    x: marginX * node.layer * 2,
+    // y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
+    y: marginY * node.index + svgHeight.value / 2,
+    completed: store.progress[node._id]?.completed || false,
+    unlocked: node.requirements.every(
+      (req: string) => store.progress[req]?.completed
+    ),
   }))
-  const lineAppearence = (node: any) => {
-    try {
-      const { unlocked } = node
-      return {
-        type: unlocked ? 'line' : 'dashed',
-        color: unlocked ? '#ADADB5' : '#454552',
-      }
-    } catch (err) {
-      console.error(err)
-      throw err
-    }
-  }
+
+  console.log(nodes)
+
   const edges = dag.getEdgesArray().map((edge: any) => ({
-    source: edge[0],
-    target: edge[1],
-    lineStyle: lineAppearence(nodes.find((node) => node.id === edge[1])),
+    source: nodes.find((n) => n.id === edge[0]),
+    target: nodes.find((n) => n.id === edge[1]),
   }))
-  return genOption(nodes, edges)
-}
 
-const router = useRouter()
-const toast = useToast()
+  return { nodes, edges }
+})
 
-function initChart(option: any) {
-  chartInstance = init(chartContainer.value)
-  chartInstance.setOption(option)
-  chartInstance.on('click', (params: any) => {
-    const {
-      data: { id, unlocked },
-    } = params
-
-    if (unlocked) {
-      router.push({ name: 'game', params: { questId: id } })
-    } else {
-      toast.warning('你還沒完成前一個關卡!')
-    }
-  })
+function handleNodeClick(node: any) {
+  if (node.unlocked) {
+    router.push({ name: 'game', params: { questId: node.id } })
+  } else {
+    toast.warning('你還沒完成前一個關卡!')
+  }
 }
 
 onMounted(async () => {
   await store.loadUserProfile()
-  const quests = await getQuests()
-  const option = getOption(quests, store.progress)
-  initChart(option)
+  await getQuests()
 })
 </script>
 
@@ -174,8 +80,54 @@ onMounted(async () => {
     >
       踏上你的Linux冒險之旅吧！
     </h1>
-    <div class="flex flex-wrap absolute w-full h-full z-1">
-      <div ref="chartContainer" class="w-full h-full flex flex-wrap"></div>
-    </div>
+    <svg :width="svgWidth" :height="svgHeight" class="absolute">
+      <!-- <g
+        v-for="edge in graphData.edges"
+        :key="`${edge.source.id}-${edge.target.id}`"
+      >
+        <line
+          :x1="edge.source.x"
+          :y1="edge.source.y"
+          :x2="edge.target.x"
+          :y2="edge.target.y"
+          :stroke="edge.target.unlocked ? '#ADADB5' : '#454552'"
+          :stroke-dasharray="edge.target.unlocked ? 'none' : '5,5'"
+          stroke-width="3"
+        />
+      </g> -->
+      <g
+        v-for="node in graphData.nodes"
+        :key="node.id"
+        @click="handleNodeClick(node)"
+      >
+        <rect
+          :x="node.x - 50"
+          :y="node.y - 25"
+          width="100"
+          height="50"
+          rx="10"
+          ry="10"
+          :fill="
+            node.completed ? '#00ff00' : node.unlocked ? '#ADADB5' : '#505050'
+          "
+        />
+        <text
+          :x="node.x"
+          :y="node.y"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          fill="white"
+          font-size="12"
+        >
+          {{ node.title }}
+        </text>
+      </g>
+    </svg>
   </div>
 </template>
+
+<style scoped>
+svg {
+  overflow: visible;
+}
+</style>
