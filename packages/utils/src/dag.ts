@@ -42,7 +42,7 @@ export default class DAG {
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
-    return this.layers[node.layer - 1]
+    return this.layers[node.layer - 1] || 0
   }
 
   private setLayer(id: string) {
