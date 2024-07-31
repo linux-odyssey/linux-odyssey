@@ -43,3 +43,8 @@ export async function getActiveSession(
   })
   return res.data
 }
+
+export async function getQuests(): Promise<IQuest[]> {
+  const res = await api.get<IQuest[]>('/quests')
+  return res.data
+}

@@ -12,14 +12,14 @@ interface IProgress {
 export interface UserProfile {
   username: string
   email: string
-  progress: Map<string, IProgress>
+  progress: Record<string, IProgress>
 }
 
 const useUserProfile = defineStore('userProfile', {
   state: (): UserProfile => ({
     username: '',
     email: '',
-    progress: new Map<string, IProgress>(),
+    progress: {},
   }),
   actions: {
     async loadUserProfile() {
