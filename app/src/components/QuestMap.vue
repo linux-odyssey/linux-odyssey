@@ -13,10 +13,10 @@ const toast = useToast()
 const svgWidth = ref(window.innerWidth)
 const svgHeight = ref(window.innerHeight)
 
-const marginX = 100
-const marginY = 100
+const marginX = 120
+const marginY = 120
 
-const nodeWidth = 150
+const nodeWidth = 160
 const nodeHeight = 50
 
 type Node = {
@@ -127,6 +127,20 @@ const curvedPath = computed(() => {
     return `M${source.x},${source.y}A${dr},${dr} 0 0,${sweep} ${target.x},${target.y}`
   }
 })
+
+const nodeStyle = computed(() => {
+  return (node: Node) => {
+    if (node.completed) return 'completed'
+    if (node.unlocked) return 'unlocked'
+    return 'locked'
+  }
+})
+
+const edgeStyle = computed(() => {
+  return (edge: Edge) => {
+    return edge.target.unlocked ? 'unlocked' : 'locked'
+  }
+})
 </script>
 
 <template>
@@ -158,10 +172,7 @@ const curvedPath = computed(() => {
         >
           <path
             :d="curvedPath(edge.source, edge.target)"
-            :stroke="edge.target.unlocked ? '#ADADB5' : '#454552'"
-            :stroke-dasharray="edge.target.unlocked ? 'none' : '5,5'"
-            stroke-width="3"
-            fill="none"
+            :class="['edge', edgeStyle(edge)]"
           />
         </g>
         <g
@@ -176,17 +187,15 @@ const curvedPath = computed(() => {
             :height="nodeHeight"
             rx="10"
             ry="10"
-            :fill="
-              node.completed ? '#00bb00' : node.unlocked ? '#ADADB5' : '#505050'
-            "
+            :class="['node', nodeStyle(node)]"
           />
           <text
             :x="node.x"
             :y="node.y"
             text-anchor="middle"
             alignment-baseline="middle"
-            fill="white"
-            font-size="16"
+            :class="['node-text', nodeStyle(node)]"
+            font-size="18"
           >
             {{ node.title }}
           </text>
@@ -199,5 +208,42 @@ const curvedPath = computed(() => {
 <style scoped>
 svg {
   overflow: visible;
+}
+
+.node {
+  &.completed {
+    fill: #6cf76c;
+  }
+  &.unlocked {
+    fill: #8c8c92;
+  }
+  &.locked {
+    fill: #505050;
+  }
+}
+
+.node-text {
+  &.completed {
+    fill: #1d1d1d;
+  }
+  &.unlocked {
+    fill: #ffffff;
+  }
+  &.locked {
+    fill: #a0a0a0;
+  }
+}
+
+.edge {
+  stroke-width: 3;
+  fill: none;
+  &.unlocked {
+    stroke: #adadb5;
+    stroke-dasharray: none;
+  }
+  &.locked {
+    stroke: #454552;
+    stroke-dasharray: 5, 5;
+  }
 }
 </style>
