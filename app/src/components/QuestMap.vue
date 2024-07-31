@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { DAG } from '@linux-odyssey/utils'
@@ -24,6 +24,7 @@ type Node = {
   title: string
   x: number
   y: number
+  index: number
   completed: boolean
   unlocked: boolean
 }
@@ -80,14 +81,21 @@ async function computeGraphData() {
       unlocked: node.requirements.every(
         (req: string) => store.progress[req]?.completed
       ),
+      index: node.index,
     }))
 
-    // const edges = dag.getEdgesArray().map((edge) => ({
-    //   source: nodes.find((n) => n.id === edge[0]),
-    //   target: nodes.find((n) => n.id === edge[1]),
-    // }))
+    const edges = dag
+      .getEdgesArray()
+      .map((edge) => ({
+        source: nodes.find((n) => n.id === edge[0]),
+        target: nodes.find((n) => n.id === edge[1]),
+      }))
+      .filter(
+        (edge): edge is Edge =>
+          edge.source !== undefined && edge.target !== undefined
+      )
 
-    graphData.value = { nodes, edges: [] }
+    graphData.value = { nodes, edges }
   } catch (error) {
     console.error('Error computing graph data:', error)
     toast.error('Failed to load quest data')
@@ -108,6 +116,17 @@ onMounted(async () => {
 })
 
 watch(() => store.progress, computeGraphData, { deep: true })
+
+const curvedPath = computed(() => {
+  return (source: Node, target: Node) => {
+    // const dx = target.x - source.x
+    // const dy = target.y - source.y
+    // const dr = Math.sqrt(dx * dx + dy * dy)
+    const dr = 0
+    const sweep = target.index > source.index ? 0 : 1 // Determines if the arc should curve up or down based on node index
+    return `M${source.x},${source.y}A${dr},${dr} 0 0,${sweep} ${target.x},${target.y}`
+  }
+})
 </script>
 
 <template>
@@ -133,20 +152,18 @@ watch(() => store.progress, computeGraphData, { deep: true })
       @mouseleave="endDrag"
     >
       <g :transform="`translate(${offsetX}, ${offsetY})`">
-        <!-- <g
+        <g
           v-for="edge in graphData.edges"
           :key="`${edge.source.id}-${edge.target.id}`"
         >
-          <line
-            :x1="edge.source.x"
-            :y1="edge.source.y"
-            :x2="edge.target.x"
-            :y2="edge.target.y"
+          <path
+            :d="curvedPath(edge.source, edge.target)"
             :stroke="edge.target.unlocked ? '#ADADB5' : '#454552'"
             :stroke-dasharray="edge.target.unlocked ? 'none' : '5,5'"
             stroke-width="3"
+            fill="none"
           />
-        </g> -->
+        </g>
         <g
           v-for="node in graphData.nodes"
           :key="node.id"
