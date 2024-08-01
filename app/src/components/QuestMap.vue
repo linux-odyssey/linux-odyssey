@@ -17,15 +17,16 @@ const marginY = 120
 
 const nodeWidth = 160
 const nodeHeight = 50
-const opened = ref<Node>({
-  id: '',
-  title: '',
-  x: 0,
-  y: 0,
-  index: 0,
-  completed: false,
-  unlocked: false,
-})
+// const opened = ref<Node>({
+//   id: '',
+//   title: '',
+//   x: 0,
+//   y: 0,
+//   index: 0,
+//   completed: false,
+//   unlocked: false,
+// })
+const opened = ref<Node | null>(null)
 type Node = {
   id: string
   title: string
@@ -113,15 +114,7 @@ function handleNodeClick(node: Node) {
 }
 function closeIntro(close: boolean) {
   if (close) {
-    opened.value = {
-      id: '',
-      title: '',
-      x: 0,
-      y: 0,
-      index: 0,
-      completed: false,
-      unlocked: false,
-    }
+    opened.value = null
   }
 }
 
@@ -219,7 +212,7 @@ const edgeStyle = computed(() => {
         :questTitle="opened.title"
         :questId="opened.id"
         :questUnlocked="opened.unlocked"
-        v-if="opened.id !== ''"
+        v-if="opened"
         @close-intro="closeIntro"
       />
     </div>
