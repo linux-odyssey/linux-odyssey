@@ -17,15 +17,6 @@ const marginY = 120
 
 const nodeWidth = 160
 const nodeHeight = 50
-// const opened = ref<Node>({
-//   id: '',
-//   title: '',
-//   x: 0,
-//   y: 0,
-//   index: 0,
-//   completed: false,
-//   unlocked: false,
-// })
 const opened = ref<Node | null>(null)
 type Node = {
   id: string
