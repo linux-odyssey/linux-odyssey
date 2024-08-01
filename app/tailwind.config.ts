@@ -24,6 +24,9 @@ export default {
           DEFAULT: '#FF0000',
         },
       },
+      backgroundImage: {
+        catelogbg: "url('src/img/catelogbg.svg')",
+      },
     },
   },
   plugins: [],

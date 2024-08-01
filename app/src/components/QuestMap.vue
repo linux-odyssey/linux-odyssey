@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { DAG } from '@linux-odyssey/utils'
 import { getQuests } from '../utils/api'
 import useUserProfile from '../store/userProfile'
+import QuestIntro from './QuestIntro.vue'
 
 const store = useUserProfile()
-const router = useRouter()
 const toast = useToast()
 
 const svgWidth = ref(window.innerWidth)
@@ -18,7 +17,7 @@ const marginY = 120
 
 const nodeWidth = 160
 const nodeHeight = 50
-
+const opened = ref<Node | null>(null)
 type Node = {
   id: string
   title: string
@@ -101,12 +100,12 @@ async function computeGraphData() {
     toast.error('Failed to load quest data')
   }
 }
-
-function handleNodeClick(node: { id: string; unlocked: boolean }) {
-  if (node.unlocked) {
-    router.push({ name: 'game', params: { questId: node.id } })
-  } else {
-    toast.warning('你還沒完成前一個關卡!')
+function handleNodeClick(node: Node) {
+  opened.value = node
+}
+function closeIntro(close: boolean) {
+  if (close) {
+    opened.value = null
   }
 }
 
@@ -145,63 +144,69 @@ const edgeStyle = computed(() => {
 
 <template>
   <div class="relative bg-black w-full h-full flex">
-    <img
-      src="../img/catelogbg.svg"
-      alt="bg"
-      class="p-2 stroke-2 scale-y-120 justify-center items-center"
-    />
-    <h1
-      class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
-      style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
+    <div
+      class="flex place-content-center w-full bg-catelogbg bg-cover bg-scroll"
     >
-      踏上你的Linux冒險之旅吧！
-    </h1>
-    <svg
-      :width="svgWidth"
-      :height="svgHeight"
-      class="absolute"
-      @mousedown="startDrag"
-      @mousemove="drag"
-      @mouseup="endDrag"
-      @mouseleave="endDrag"
-    >
-      <g :transform="`translate(${offsetX}, ${offsetY})`">
-        <g
-          v-for="edge in graphData.edges"
-          :key="`${edge.source.id}-${edge.target.id}`"
-        >
-          <path
-            :d="curvedPath(edge.source, edge.target)"
-            :class="['edge', edgeStyle(edge)]"
-          />
-        </g>
-        <g
-          v-for="node in graphData.nodes"
-          :key="node.id"
-          @click="handleNodeClick(node)"
-        >
-          <rect
-            :x="node.x - nodeWidth / 2"
-            :y="node.y - nodeHeight / 2"
-            :width="nodeWidth"
-            :height="nodeHeight"
-            rx="10"
-            ry="10"
-            :class="['node', nodeStyle(node)]"
-          />
-          <text
-            :x="node.x"
-            :y="node.y"
-            text-anchor="middle"
-            alignment-baseline="middle"
-            :class="['node-text', nodeStyle(node)]"
-            font-size="18"
+      <h1
+        class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
+        style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
+      >
+        踏上你的Linux冒險之旅吧！
+      </h1>
+      <svg
+        :width="svgWidth"
+        :height="svgHeight"
+        class="absolute"
+        @mousedown="startDrag"
+        @mousemove="drag"
+        @mouseup="endDrag"
+        @mouseleave="endDrag"
+      >
+        <g :transform="`translate(${offsetX}, ${offsetY})`">
+          <g
+            v-for="edge in graphData.edges"
+            :key="`${edge.source.id}-${edge.target.id}`"
           >
-            {{ node.title }}
-          </text>
+            <path
+              :d="curvedPath(edge.source, edge.target)"
+              :class="['edge', edgeStyle(edge)]"
+            />
+          </g>
+          <g
+            v-for="node in graphData.nodes"
+            :key="node.id"
+            @click="handleNodeClick(node)"
+          >
+            <rect
+              :x="node.x - nodeWidth / 2"
+              :y="node.y - nodeHeight / 2"
+              :width="nodeWidth"
+              :height="nodeHeight"
+              rx="10"
+              ry="10"
+              :class="['node', nodeStyle(node)]"
+            />
+            <text
+              :x="node.x"
+              :y="node.y"
+              text-anchor="middle"
+              alignment-baseline="middle"
+              :class="['node-text', nodeStyle(node)]"
+              font-size="18"
+            >
+              {{ node.title }}
+            </text>
+          </g>
         </g>
-      </g>
-    </svg>
+      </svg>
+      <QuestIntro
+        :questTitle="opened.title"
+        :questId="opened.id"
+        :questUnlocked="opened.unlocked"
+        v-if="opened"
+        @close-intro="closeIntro"
+      />
+    </div>
   </div>
 </template>
 
