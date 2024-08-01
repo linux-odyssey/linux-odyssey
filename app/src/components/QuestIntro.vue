@@ -44,12 +44,9 @@ const handleQuests = (id: string) => {
   }
 }
 const handleColour = () => {
-  if (questCompleted) {
+  if (questUnlocked) {
     questColor.value = '#00ff00'
     questTextColor.value = '#000000'
-  } else if (questUnlocked) {
-    questColor.value = '#8c8c92'
-    questTextColor.value = '#ffffff'
   } else {
     questColor.value = '#505050'
     questTextColor.value = '#a0a0a0'
