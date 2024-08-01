@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { ref } from 'vue'
+import { ref} from 'vue'
 import { Vue3Lottie } from 'vue3-lottie'
 // import { surveyUrl } from '../config'
 import CompleteAnimation from '../../img/complete-animation.json'
 import formbricks from "@formbricks/js/website";
+
+
+formbricks.init({
+  environmentId: "clyffbuq50bbxwh63thlfs1lb", 
+  apiHost: "https://app.formbricks.com",
+  attributes: {
+    language: "zh", // optional
+  },
+});
+
+const showModal = ref(true) // Controls whether the modal is visible or not
+const router = useRouter()
+const toast = useToast()
 
 if (typeof window !== "undefined") {
   formbricks.init({
@@ -14,12 +27,10 @@ if (typeof window !== "undefined") {
   });
 }
 
-const showModal = ref(true) // Controls whether the modal is visible or not
-const router = useRouter()
-const toast = useToast()
 const closeModal = () => {
   showModal.value = false
 }
+
 const defineComponent = () => ({
   components: {
     Vue3Lottie,
@@ -30,6 +41,7 @@ const defineComponent = () => ({
     }
   },
 })
+
 const backtoMap = async () => {
   try {
     router.push({ name: 'map' })
@@ -43,6 +55,7 @@ const backtoMap = async () => {
 setTimeout(() => {
   showModal.value = true
 }, 5000) // Show modal after 5 seconds
+
 </script>
 
 <template>
