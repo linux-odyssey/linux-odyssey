@@ -161,71 +161,70 @@ const edgeStyle = computed(() => {
 
 <template>
   <div class="relative bg-black w-full h-full flex">
-    <img
-      src="../img/catelogbg.svg"
-      alt="bg"
-      class="p-2 stroke-2 scale-y-120 justify-center items-center"
-    />
-    <h1
-      class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
-      style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
+    <div
+      class="flex place-content-center w-full bg-catelogbg bg-cover bg-scroll"
     >
-      踏上你的Linux冒險之旅吧！
-    </h1>
-    <svg
-      :width="svgWidth"
-      :height="svgHeight"
-      class="absolute"
-      @mousedown="startDrag"
-      @mousemove="drag"
-      @mouseup="endDrag"
-      @mouseleave="endDrag"
-    >
-      <g :transform="`translate(${offsetX}, ${offsetY})`">
-        <g
-          v-for="edge in graphData.edges"
-          :key="`${edge.source.id}-${edge.target.id}`"
-        >
-          <path
-            :d="curvedPath(edge.source, edge.target)"
-            :class="['edge', edgeStyle(edge)]"
-          />
-        </g>
-        <g
-          v-for="node in graphData.nodes"
-          :key="node.id"
-          @click="handleNodeClick(node)"
-        >
-          <rect
-            :x="node.x - nodeWidth / 2"
-            :y="node.y - nodeHeight / 2"
-            :width="nodeWidth"
-            :height="nodeHeight"
-            rx="10"
-            ry="10"
-            :class="['node', nodeStyle(node)]"
-          />
-          <text
-            :x="node.x"
-            :y="node.y"
-            text-anchor="middle"
-            alignment-baseline="middle"
-            :class="['node-text', nodeStyle(node)]"
-            font-size="18"
+      <h1
+        class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
+        style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
+      >
+        踏上你的Linux冒險之旅吧！
+      </h1>
+      <svg
+        :width="svgWidth"
+        :height="svgHeight"
+        class="absolute"
+        @mousedown="startDrag"
+        @mousemove="drag"
+        @mouseup="endDrag"
+        @mouseleave="endDrag"
+      >
+        <g :transform="`translate(${offsetX}, ${offsetY})`">
+          <g
+            v-for="edge in graphData.edges"
+            :key="`${edge.source.id}-${edge.target.id}`"
           >
-            {{ node.title }}
-          </text>
+            <path
+              :d="curvedPath(edge.source, edge.target)"
+              :class="['edge', edgeStyle(edge)]"
+            />
+          </g>
+          <g
+            v-for="node in graphData.nodes"
+            :key="node.id"
+            @click="handleNodeClick(node)"
+          >
+            <rect
+              :x="node.x - nodeWidth / 2"
+              :y="node.y - nodeHeight / 2"
+              :width="nodeWidth"
+              :height="nodeHeight"
+              rx="10"
+              ry="10"
+              :class="['node', nodeStyle(node)]"
+            />
+            <text
+              :x="node.x"
+              :y="node.y"
+              text-anchor="middle"
+              alignment-baseline="middle"
+              :class="['node-text', nodeStyle(node)]"
+              font-size="18"
+            >
+              {{ node.title }}
+            </text>
+          </g>
         </g>
-      </g>
-    </svg>
-    <QuestIntro
-      :questTitle="opened.title"
-      :questId="opened.id"
-      :questCompleted="opened.completed"
-      :questUnlocked="opened.unlocked"
-      v-if="opened.id !== ''"
-      @close-intro="closeIntro"
-    />
+      </svg>
+      <QuestIntro
+        :questTitle="opened.title"
+        :questId="opened.id"
+        :questCompleted="opened.completed"
+        :questUnlocked="opened.unlocked"
+        v-if="opened.id !== ''"
+        @close-intro="closeIntro"
+      />
+    </div>
   </div>
 </template>
 
