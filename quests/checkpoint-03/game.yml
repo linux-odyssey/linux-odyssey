@@ -1,0 +1,154 @@
+title: 測驗三
+instruction: |
+  在這個關卡中，將會考驗你是否理解以下內容：
+  1. `cp`：用來複製檔案和資料夾
+  2. `mv`：用來移動檔案和資料夾或更改名稱
+  3. `rm`：用來刪除檔案和資料夾
+  4. `rmdir`：用來刪除空的資料夾
+  5. 透過選項讓指令達成不同的功能，例如 `rm -r`
+  6. 之前測驗包含的內容
+
+
+requirements:
+  - remove
+
+stages:
+  - id: start
+    task: 按下 `開始` 按鈕開始
+    condition:
+      command:
+        - ^echo start$
+    responses:
+      - type: narrative
+        content: |
+          這個關卡將會測試你是否理解之前的教學內容。
+          因此不會告訴你要輸入什麼指令。
+          請思考並應用正確的指令來完成任務。
+
+          如果理解了，請讓終端機輸出 `next` 來繼續。
+
+  - id: next
+    task: 讓終端機輸出 `next`
+    requirements:
+      - start
+    condition:
+      output:
+        - ^next$
+    responses:
+      - type: narrative
+        content: |
+          現在請你查看目前資料夾的內容。
+
+  - id: ls-~
+    task: 查看目前資料夾的內容
+    requirements:
+      - next
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls$
+    responses:
+      - type: narrative
+        content: |
+          請複製 `folder` 資料夾中的檔案，並命名為 `world.txt`。
+
+  - id: cp-hello.txt-world.txt
+    task: 複製 `folder` 中的檔案並命名為 `world.txt`
+    requirements:
+      - ls-~
+    condition:
+      command:
+        - ^cp \Shello.txt \Sworld.txt$
+      files:
+        - path: /home/commander/folder/hello.txt
+          type: file
+        - path: /home/commander/folder/world.txt
+          type: file
+    responses:
+      - type: narrative
+        content: |
+          請刪除 `hello.txt` 檔案。
+
+  - id: rm-hello.txt
+    task: 刪除 `hello.txt`
+    requirements:
+      - cp-hello.txt-world.txt
+    condition:
+      command:
+        - ^rm \Shello.txt$
+      files:
+        - path: /home/commander/folder/hello.txt
+          type: file
+          exsits: false
+    responses:
+      - type: narrative
+        content: |
+          現在請將 `world.txt` 移出 `folder` 資料夾。
+          （移到 `commander` 資料夾中）
+
+  - id: mv-world.txt-..
+    task: 將 `world.txt` 移出 `folder` 資料夾
+    requirements:
+      - rm-hello.txt
+    condition:
+      files:
+        - path: /home/commander/folder/world.txt
+          type: file
+          exsits: false
+        - path: /home/commander/world.txt
+          type: file
+    responses:
+      - type: narrative
+        content: |
+          將 `world.txt` 的名稱改回 `hello.txt` ，
+          並查看檔案的內容。
+
+  - id: cat-hello.txt
+    task: 將 `world.txt` 的名稱改回 `hello.txt` 後查看檔案內容
+    requirements:
+      - mv-world.txt-..
+    condition:
+      output:
+        - ^cat hello.txt$
+      files:
+        - path: /home/commander/world.txt
+          type: file
+          exsits: false
+        - path: /home/commander/hello.txt
+          type: file
+      output:
+        - ^This is `hello.txt`.$
+    responses:
+      - type: narrative
+        content: |
+          刪除 `folder` 資料夾。
+
+  - id: rmdir-folder
+    task: 刪除 `folder` 資料夾
+    requirements:
+      - cat-hello.txt
+    condition:
+      files:
+        - path: /home/commander/folder
+          type: folder
+          exsits: false
+    responses:
+      - type: narrative
+        content: |
+          刪除 `trash_can` 資料夾。
+
+  - id: END
+    requirements:
+      - rmdir-folder
+    task: 刪除 `trash_can` 資料夾
+    condition:
+      files:
+        - path: /home/commander/trash_can
+          type: folder
+          exsits: false
+    responses:
+      - type: narrative
+        content: |
+          恭喜你通過了這個測驗！
+          你可以繼續學習之後的教學內容了。
