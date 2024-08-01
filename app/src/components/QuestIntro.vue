@@ -14,10 +14,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  questCompleted: {
-    type: Boolean,
-    required: true,
-  },
   questUnlocked: {
     type: Boolean,
     required: true,
@@ -27,7 +23,7 @@ const emit = defineEmits(['closeIntro'])
 const showIntro = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
 const toast = useToast()
-const { questTitle, questId, questCompleted, questUnlocked } = props
+const { questTitle, questId, questUnlocked } = props
 const questInstruction = ref('')
 const questColor = ref('')
 const questTextColor = ref('')

@@ -218,7 +218,6 @@ const edgeStyle = computed(() => {
       <QuestIntro
         :questTitle="opened.title"
         :questId="opened.id"
-        :questCompleted="opened.completed"
         :questUnlocked="opened.unlocked"
         v-if="opened.id !== ''"
         @close-intro="closeIntro"
