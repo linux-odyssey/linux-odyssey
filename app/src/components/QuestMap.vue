@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { DAG } from '@linux-odyssey/utils'
 import { getQuests } from '../utils/api'
 import useUserProfile from '../store/userProfile'
+import QuestIntro from './QuestIntro.vue'
 
 const store = useUserProfile()
-const router = useRouter()
 const toast = useToast()
 
 const svgWidth = ref(window.innerWidth)
@@ -18,7 +17,15 @@ const marginY = 120
 
 const nodeWidth = 160
 const nodeHeight = 50
-
+const opened = ref<Node>({
+  id: '',
+  title: '',
+  x: 0,
+  y: 0,
+  index: 0,
+  completed: false,
+  unlocked: false,
+})
 type Node = {
   id: string
   title: string
@@ -101,12 +108,21 @@ async function computeGraphData() {
     toast.error('Failed to load quest data')
   }
 }
-
-function handleNodeClick(node: { id: string; unlocked: boolean }) {
-  if (node.unlocked) {
-    router.push({ name: 'game', params: { questId: node.id } })
-  } else {
-    toast.warning('你還沒完成前一個關卡!')
+function handleNodeClick(node: Node) {
+  opened.value = node
+  console.log(opened.value)
+}
+function closeIntro(close: boolean) {
+  if (close) {
+    opened.value = {
+      id: '',
+      title: '',
+      x: 0,
+      y: 0,
+      index: 0,
+      completed: false,
+      unlocked: false,
+    }
   }
 }
 
@@ -202,6 +218,14 @@ const edgeStyle = computed(() => {
         </g>
       </g>
     </svg>
+    <QuestIntro
+      :questTitle="opened.title"
+      :questId="opened.id"
+      :questCompleted="opened.completed"
+      :questUnlocked="opened.unlocked"
+      v-if="opened.id !== ''"
+      @close-intro="closeIntro"
+    />
   </div>
 </template>
 

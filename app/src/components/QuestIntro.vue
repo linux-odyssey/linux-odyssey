@@ -14,41 +14,52 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  progress: {
-    type: Object,
+  questCompleted: {
+    type: Boolean,
     required: true,
   },
-  questColor: {
-    type: String,
-    required: true,
-  },
-  questTextColor: {
-    type: String,
+  questUnlocked: {
+    type: Boolean,
     required: true,
   },
 })
+const emit = defineEmits(['closeIntro'])
 const showIntro = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
 const toast = useToast()
-const { questTitle, questId, progress, questColor, questTextColor } = props
+const { questTitle, questId, questCompleted, questUnlocked } = props
+const questInstruction = ref('')
+const questColor = ref('')
+const questTextColor = ref('')
 const closeModal = () => {
   showIntro.value = false
+  emit('closeIntro', true)
   router.push({ name: 'map' })
 }
-const questInstruction = ref('')
 const handleQuests = (id: string) => {
   console.log(id)
-  console.log(progress)
-  if (progress.unlocked) {
+  if (questUnlocked) {
     router.push({ name: 'game', params: { questId: id } })
   } else {
     toast.warning('你還沒完成前一個關卡!')
   }
 }
-
+const handleColour = () => {
+  if (questCompleted) {
+    questColor.value = '#00ff00'
+    questTextColor.value = '#000000'
+  } else if (questUnlocked) {
+    questColor.value = '#8c8c92'
+    questTextColor.value = '#ffffff'
+  } else {
+    questColor.value = '#505050'
+    questTextColor.value = '#a0a0a0'
+  }
+}
 onMounted(async () => {
   const quest = await getQuest(questId)
   questInstruction.value = quest.instruction
+  handleColour()
 })
 </script>
 
