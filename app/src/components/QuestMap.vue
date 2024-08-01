@@ -110,7 +110,6 @@ async function computeGraphData() {
 }
 function handleNodeClick(node: Node) {
   opened.value = node
-  console.log(opened.value)
 }
 function closeIntro(close: boolean) {
   if (close) {

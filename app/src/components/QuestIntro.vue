@@ -37,7 +37,6 @@ const closeModal = () => {
   router.push({ name: 'map' })
 }
 const handleQuests = (id: string) => {
-  console.log(id)
   if (questUnlocked) {
     router.push({ name: 'game', params: { questId: id } })
   } else {
