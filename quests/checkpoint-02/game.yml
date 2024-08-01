@@ -1,0 +1,109 @@
+title: 測驗二
+instruction: |
+  在這個關卡中，將會考驗你是否理解以下內容：
+  1. `cat`：用來查看檔案的內容
+  2. `touch`：用來建立檔案
+  3. `mkdir`：用來建立資料夾
+  4. 用 `tab` 鍵來自動補全
+  5. 之前測驗包含的內容
+
+
+requirements:
+  - create
+
+stages:
+  - id: start
+    task: 按下 `開始` 按鈕開始
+    condition:
+      command:
+        - ^echo start$
+    responses:
+      - type: narrative
+        content: |
+          這個關卡將會測試你是否理解之前的教學內容。
+          因此不會告訴你要輸入什麼指令。
+          請思考並應用正確的指令來完成任務。
+
+          如果理解了，請讓終端機輸出 `next` 來繼續。
+
+  - id: next
+    task: 讓終端機輸出 `next`
+    requirements:
+      - start
+    condition:
+      output:
+        - ^next$
+    responses:
+      - type: narrative
+        content: |
+          現在請你查看目前資料夾的內容。
+
+  - id: ls-~
+    task: 查看目前資料夾的內容
+    requirements:
+      - next
+    condition:
+      pwd:
+        - ^/home/commander$
+      command:
+        - ^ls$
+    responses:
+      - type: narrative
+        content: |
+          請查看 `hello.txt` 檔案的內容。
+
+  - id: cat-hello.txt
+    task: 查看 `hello.txt` 檔案內容
+    requirements:
+      - ls-~
+    condition:
+      command:
+        - ^cat hello.txt$
+      output:
+        - ^This is `hello.txt`$
+    responses:
+      - type: narrative
+        content: |
+          請查看另一個有著很長檔名的檔案內容。
+
+  - id: cat-long-filename
+    task: 查看另一個檔案的內容
+    requirements:
+      - cat-hello.txt
+    condition:
+      command:
+        - ^cat pneumonoultramicroscopicsilicovolcanoconiosis.txt$
+      output:
+        - ^A name that has been invented for a lung disease caused by breathing in very small pieces of ash or dust.$
+    responses:
+      - type: narrative
+        content: |
+          現在請你建立一個名稱為 `folder` 的資料夾。
+
+  - id: mkdir-folder
+    task: 建立名稱為 `folder` 的資料夾
+    requirements:
+      - cat-long-filename
+    condition:
+      files:
+        - path: /home/commander/folder
+          type: folder
+    responses:
+      - type: narrative
+        content: |
+          最後，請你在 `folder` 資料夾中，
+          建立檔名為 `file.txt` 的檔案。
+
+  - id: END
+    requirements:
+      - mkdir-folder
+    task: 在 `folder` 中建立檔名為 `file.txt` 的檔案
+    condition:
+      files:
+        - path: /home/commander/folder/file.txt
+          type: file
+    responses:
+      - type: narrative
+        content: |
+          恭喜你通過了這個測驗！
+          你可以繼續學習之後的教學內容了。
