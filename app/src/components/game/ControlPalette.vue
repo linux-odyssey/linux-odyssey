@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import useSession from '../../store/session'
 import { surveyUrl } from '../../config'
+import formbricks from '../../utils/formbricks'
 
 const router = useRouter()
 const sessionStore = useSession()
@@ -33,7 +34,11 @@ const continuePlay = async () => {
         <p class="text-text-primary inline ml-1 md:flex">問卷</p>
       </a>
     </button>
-    <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
+    <button
+      id="solution"
+      class="bg-bg-disabled rounded-lg p-2"
+      @click="formbricks.track('quest_completed')"
+    >
       <font-awesome-icon
         :icon="['far', 'circle-question']"
         class="text-text-disabled px-1"
