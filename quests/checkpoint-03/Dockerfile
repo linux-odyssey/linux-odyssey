@@ -1,4 +1,7 @@
 FROM linuxodyssey/quest-base
 
-COPY home ${HOME}
-RUN chmod +W /folder
+USER root
+COPY home .
+RUN chown -R ${USERNAME}:${USERNAME} .
+
+USER ${USERNAME}

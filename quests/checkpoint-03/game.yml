@@ -50,7 +50,7 @@ stages:
     responses:
       - type: narrative
         content: |
-          請複製 `folder` 資料夾中的檔案，並命名為 `world.txt`。
+          請複製 `folder` 資料夾中的檔案到 `folder` 中，並命名為 `world.txt` 。
 
   - id: cp-hello-world
     task: 複製 `folder` 中的檔案並命名為 `world.txt`
@@ -58,7 +58,7 @@ stages:
       - ls-~
     condition:
       command:
-        - ^cp \Shello.txt \Sworld.txt$
+        - ^cp .*hello.txt .*world.txt$
       files:
         - path: /home/commander/folder/hello.txt
           type: file
@@ -75,7 +75,7 @@ stages:
       - cp-hello-world
     condition:
       command:
-        - ^rm \Shello.txt$
+        - ^rm .*hello.txt$
       files:
         - path: /home/commander/folder/hello.txt
           type: file
