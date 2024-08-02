@@ -23,4 +23,18 @@ export function openQuestSurvey() {
   })
 }
 
+export function openBugReport() {
+  const sessionStore = useSession()
+  const userStore = useUserProfile()
+
+  formbricks.track('bug_report', {
+    hiddenFields: {
+      quest: sessionStore.questId,
+      session: sessionStore.session?._id,
+      username: userStore.username,
+      email: userStore.email,
+    },
+  })
+}
+
 export default formbricks
