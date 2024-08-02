@@ -1,12 +1,9 @@
 title: 刪除檔案與資料夾
 instruction: |
   在這個關卡中，你將會學到：
-  1. 用 `rm` 指令刪除檔案
-  2. 用 `rmdir` 與資料夾
-  3. 用 `rm -r` 刪除資料夾與它的所有檔案
-  現在資料夾裡有一些檔案與資料夾，請你使用 `ls` 跟 `cat` 來查看它們的內容。
-
-  按下中間的 `start` 按鈕來開始這個關卡。
+  1. 如何使用 `rm` 指令刪除檔案
+  2. 如何使用 `rmdir` 刪除空資料夾
+  3. 如何使用 `rm -r` 刪除資料夾與其中的所有檔案
 
 requirements:
   - copy
@@ -14,7 +11,7 @@ requirements:
 
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始
+    task: 按下 `開始` 按鈕開始
     condition:
       command:
         - ^echo start$

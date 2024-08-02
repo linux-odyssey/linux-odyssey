@@ -4,14 +4,12 @@ instruction: |
   1. 如何使用 `touch` 建立檔案
   2. 如何使用 `mkdir` 建立資料夾
 
-  按下中間的 `start` 按鈕來開始這個關卡。
-
 requirements:
   - tab
 
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始
+    task: 按下 `開始` 按鈕開始
     condition:
       command:
         - ^echo start$

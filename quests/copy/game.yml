@@ -1,16 +1,14 @@
 title: 複製檔案
 instruction: |
   在這個關卡中，你將會學到：
-  1. 如何用 `cp` 指令複製檔案
-
-  按下中間的 `start` 按鈕來開始這個關卡。
+  1. 如何使用 `cp` 複製檔案
 
 requirements:
   - create
 
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始
+    task: 按下 `開始` 按鈕開始
     condition:
       command:
         - ^echo start$
@@ -46,7 +44,8 @@ stages:
               請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
     responses:
       - type: narrative
-        content: 可以看到現在資料夾裡有 `hello.txt` 跟 `world.txt`。
+        content: |
+          可以看到現在資料夾裡有 `hello.txt` 跟 `world.txt`。
           請使用 `cat` 來查看它們的內容。
           看完之後，使用 `echo next` 來繼續吧！
     hints:

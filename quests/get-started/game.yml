@@ -5,11 +5,9 @@ instruction: |
   1. 如何使用這個網站
   2. 如何使用終端機
 
-  按下中間的 `start` 按鈕來開始這個關卡。
-
 stages:
   - id: start
-    task: 按下 `start` 按鈕開始
+    task: 按下 `開始` 按鈕開始
     condition:
       command:
         - ^echo start$
