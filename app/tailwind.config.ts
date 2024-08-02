@@ -25,7 +25,7 @@ export default {
         },
       },
       backgroundImage: {
-        catelogbg: "url('src/img/catelogbg.svg')",
+        catelogbg: "url('./catelogbg.svg')",
       },
     },
   },
