@@ -1,31 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { ref} from 'vue'
+import { ref } from 'vue'
 import { Vue3Lottie } from 'vue3-lottie'
 // import { surveyUrl } from '../config'
 import CompleteAnimation from '../../img/complete-animation.json'
-import formbricks from "@formbricks/js/website";
-
-
-formbricks.init({
-  environmentId: "clyffbuq50bbxwh63thlfs1lb", 
-  apiHost: "https://app.formbricks.com",
-  attributes: {
-    language: "zh", // optional
-  },
-});
 
 const showModal = ref(true) // Controls whether the modal is visible or not
 const router = useRouter()
 const toast = useToast()
-
-if (typeof window !== "undefined") {
-  formbricks.init({
-    environmentId: "clyffbuq50bbxwh63thlfs1lb", 
-    apiHost: "https://app.formbricks.com",
-  });
-}
 
 const closeModal = () => {
   showModal.value = false
@@ -55,7 +38,6 @@ const backtoMap = async () => {
 setTimeout(() => {
   showModal.value = true
 }, 5000) // Show modal after 5 seconds
-
 </script>
 
 <template>
@@ -88,14 +70,22 @@ setTimeout(() => {
         >回到地圖</a
       >
     </div>
-    <div style="position: relative; height:100vh; overflow:auto;"> 
-      <iframe 
-        src="https://app.formbricks.com/s/clyffdm0c0be2wh6335clle0l" 
-        frameborder="0" style="position: absolute; left:0; top:0; width:100%; height:100%; border:0;">
+    <div style="position: relative; height: 100vh; overflow: auto">
+      <iframe
+        src="https://app.formbricks.com/s/clyffdm0c0be2wh6335clle0l"
+        frameborder="0"
+        style="
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+        "
+      >
       </iframe>
     </div>
   </div>
-
 </template>
 
 <style scoped>

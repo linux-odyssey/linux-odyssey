@@ -61,8 +61,15 @@ const useSession = defineStore('session', {
       if (response.tasks) {
         this.session.tasks = response.tasks
       }
+      if (
+        response.status === 'finished' &&
+        this.session.status !== 'finished'
+      ) {
+        this.finish()
+      }
       this.session.status = response.status
     },
+    finish() {},
     reset() {
       socket.reset()
       term.reset()

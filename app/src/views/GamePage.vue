@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import useSession from '../store/session'
+import useUserProfile from '../store/userProfile'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 import DescriptionPart from '../components/game/DescriptionPart.vue'
@@ -10,11 +11,27 @@ import VisualizationPart from '../components/game/VisualizationPart.vue'
 import ControlPalette from '../components/game/ControlPalette.vue'
 import CompleteModal from '../components/game/CompleteModal.vue'
 import StartButton from '../components/game/StartButton.vue'
+import formbricks from '../utils/formbricks'
 
 const sessionStore = useSession()
+const userStore = useUserProfile()
 
 const completed = computed(() => {
   return sessionStore.session?.status === 'finished'
+})
+
+watch(completed, (newValue, oldValue) => {
+  if (newValue && !oldValue) {
+    console.log('finish', userStore)
+    formbricks.track('quest_completed', {
+      hiddenFields: {
+        quest: sessionStore.questId,
+        session: sessionStore.session?._id,
+        username: userStore.username,
+        email: userStore.email,
+      },
+    })
+  }
 })
 
 const props = defineProps({
