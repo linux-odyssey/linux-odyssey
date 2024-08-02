@@ -4,7 +4,7 @@ import useUserProfile from '../store/userProfile'
 
 if (typeof window !== 'undefined') {
   formbricks.init({
-    environmentId: 'clzcdqqml000gadvtpuckydzi',
+    environmentId: 'clzcdqqn0000kadvtqykdo0pc',
     apiHost: 'https://app.formbricks.com',
   })
 }
