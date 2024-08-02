@@ -3,7 +3,8 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { logout } from '../../utils/auth'
-import { bugReportUrl, surveyUrl } from '../../config'
+import { surveyUrl } from '../../config'
+import { openBugReport } from '../../utils/formbricks'
 import useSession from '../../store/session'
 import useUserProfile from '../../store/userProfile'
 
@@ -84,15 +85,14 @@ onMounted(async () => {
     <font-awesome-icon :icon="['fas', 'map']" class="text-text-primary" />
     <span class="text-text sm:hidden px-2">Map</span>
   </RouterLink>
-  <a
+  <button
     title="Bug Report"
-    :href="bugReportUrl"
-    target="_blank"
+    @click="openBugReport"
     class="md:h-5 md:w-5 px-1.5 w-auto"
   >
     <font-awesome-icon :icon="['fas', 'bug']" class="text-text-primary" />
     <span class="text-text sm:hidden px-2">Bug Report</span>
-  </a>
+  </button>
   <button
     title="Sign Out"
     @click="handleLogout"
