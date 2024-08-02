@@ -59,7 +59,7 @@ stages:
       command:
         - ^cat hello.txt$
       output:
-        - ^This is `hello.txt`$
+        - ^This is `hello.txt`.$
     responses:
       - type: narrative
         content: |
