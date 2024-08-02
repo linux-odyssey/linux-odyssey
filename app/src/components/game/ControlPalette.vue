@@ -2,8 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import useSession from '../../store/session'
-import { surveyUrl } from '../../config'
-import formbricks from '../../utils/formbricks'
+import { openQuestSurvey } from '../../utils/formbricks'
 
 const router = useRouter()
 const sessionStore = useSession()
@@ -25,20 +24,18 @@ const continuePlay = async () => {
   <section
     class="h-fit w-fit px-1 py-1 grid grid-cols-4 gap-2 place-content-between"
   >
-    <button id="survey" class="bg-bg-secondary rounded-lg p-2">
-      <a title="Survey" :href="surveyUrl" target="_blank" class="h-5 w-5">
-        <font-awesome-icon
-          :icon="['fas', 'file-invoice']"
-          class="text-text-primary px-1"
-        />
-        <p class="text-text-primary inline ml-1 md:flex">問卷</p>
-      </a>
-    </button>
     <button
-      id="solution"
-      class="bg-bg-disabled rounded-lg p-2"
-      @click="formbricks.track('quest_completed')"
+      id="survey"
+      class="bg-bg-secondary rounded-lg p-2"
+      @click="openQuestSurvey"
     >
+      <font-awesome-icon
+        :icon="['fas', 'file-invoice']"
+        class="text-text-primary px-1"
+      />
+      <p class="text-text-primary inline ml-1 md:flex">問卷</p>
+    </button>
+    <button disabled id="solution" class="bg-bg-disabled rounded-lg p-2">
       <font-awesome-icon
         :icon="['far', 'circle-question']"
         class="text-text-disabled px-1"

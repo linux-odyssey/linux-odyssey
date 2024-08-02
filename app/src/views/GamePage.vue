@@ -11,7 +11,7 @@ import VisualizationPart from '../components/game/VisualizationPart.vue'
 import ControlPalette from '../components/game/ControlPalette.vue'
 import CompleteModal from '../components/game/CompleteModal.vue'
 import StartButton from '../components/game/StartButton.vue'
-import formbricks from '../utils/formbricks'
+import { openQuestSurvey } from '../utils/formbricks'
 
 const sessionStore = useSession()
 const userStore = useUserProfile()
@@ -23,14 +23,7 @@ const completed = computed(() => {
 watch(completed, (newValue, oldValue) => {
   if (newValue && !oldValue) {
     console.log('finish', userStore)
-    formbricks.track('quest_completed', {
-      hiddenFields: {
-        quest: sessionStore.questId,
-        session: sessionStore.session?._id,
-        username: userStore.username,
-        email: userStore.email,
-      },
-    })
+    openQuestSurvey()
   }
 })
 
