@@ -8,7 +8,6 @@ instruction: |
   5. 透過選項讓指令達成不同的功能，例如 `rm -r`
   6. 之前測驗包含的內容
 
-
 requirements:
   - remove
 
@@ -25,7 +24,7 @@ stages:
           因此不會告訴你要輸入什麼指令。
           請思考並應用正確的指令來完成任務。
 
-          如果理解了，請讓終端機輸出 `next` 來繼續。
+          現在，請讓終端機輸出 `next` 來繼續。
 
   - id: next
     task: 讓終端機輸出 `next`
@@ -53,7 +52,7 @@ stages:
         content: |
           請複製 `folder` 資料夾中的檔案，並命名為 `world.txt`。
 
-  - id: cp-hello.txt-world.txt
+  - id: cp-hello-world
     task: 複製 `folder` 中的檔案並命名為 `world.txt`
     requirements:
       - ls-~
@@ -70,32 +69,32 @@ stages:
         content: |
           請刪除 `hello.txt` 檔案。
 
-  - id: rm-hello.txt
+  - id: rm-hello
     task: 刪除 `hello.txt`
     requirements:
-      - cp-hello.txt-world.txt
+      - cp-hello-world
     condition:
       command:
         - ^rm \Shello.txt$
       files:
         - path: /home/commander/folder/hello.txt
           type: file
-          exsits: false
+          exists: false
     responses:
       - type: narrative
         content: |
           現在請將 `world.txt` 移出 `folder` 資料夾。
           （移到 `commander` 資料夾中）
 
-  - id: mv-world.txt-..
+  - id: mv-world-..
     task: 將 `world.txt` 移出 `folder` 資料夾
     requirements:
-      - rm-hello.txt
+      - rm-hello
     condition:
       files:
         - path: /home/commander/folder/world.txt
           type: file
-          exsits: false
+          exists: false
         - path: /home/commander/world.txt
           type: file
     responses:
@@ -104,17 +103,17 @@ stages:
           將 `world.txt` 的名稱改回 `hello.txt` ，
           並查看檔案的內容。
 
-  - id: cat-hello.txt
+  - id: cat-hello
     task: 將 `world.txt` 的名稱改回 `hello.txt` 後查看檔案內容
     requirements:
-      - mv-world.txt-..
+      - mv-world-..
     condition:
-      output:
+      command:
         - ^cat hello.txt$
       files:
         - path: /home/commander/world.txt
           type: file
-          exsits: false
+          exists: false
         - path: /home/commander/hello.txt
           type: file
       output:
@@ -127,12 +126,12 @@ stages:
   - id: rmdir-folder
     task: 刪除 `folder` 資料夾
     requirements:
-      - cat-hello.txt
+      - cat-hello
     condition:
       files:
         - path: /home/commander/folder
           type: folder
-          exsits: false
+          exists: false
     responses:
       - type: narrative
         content: |
@@ -146,7 +145,7 @@ stages:
       files:
         - path: /home/commander/trash_can
           type: folder
-          exsits: false
+          exists: false
     responses:
       - type: narrative
         content: |

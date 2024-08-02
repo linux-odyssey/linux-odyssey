@@ -7,7 +7,6 @@ instruction: |
   4. 用 `tab` 鍵來自動補全
   5. 之前測驗包含的內容
 
-
 requirements:
   - create
 
@@ -24,7 +23,7 @@ stages:
           因此不會告訴你要輸入什麼指令。
           請思考並應用正確的指令來完成任務。
 
-          如果理解了，請讓終端機輸出 `next` 來繼續。
+          現在，請讓終端機輸出 `next` 來繼續。
 
   - id: next
     task: 讓終端機輸出 `next`
@@ -52,7 +51,7 @@ stages:
         content: |
           請查看 `hello.txt` 檔案的內容。
 
-  - id: cat-hello.txt
+  - id: cat-hello
     task: 查看 `hello.txt` 檔案內容
     requirements:
       - ls-~
@@ -69,7 +68,7 @@ stages:
   - id: cat-long-filename
     task: 查看另一個檔案的內容
     requirements:
-      - cat-hello.txt
+      - cat-hello
     condition:
       command:
         - ^cat pneumonoultramicroscopicsilicovolcanoconiosis.txt$

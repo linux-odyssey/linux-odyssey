@@ -22,7 +22,7 @@ stages:
           因此不會告訴你要輸入什麼指令。
           請思考並應用正確的指令來完成任務。
 
-          如果理解了，請讓終端機輸出 `next` 來繼續。
+          現在，請讓終端機輸出 `next` 來繼續。
 
   - id: next
     task: 讓終端機輸出 `next`
@@ -102,7 +102,7 @@ stages:
       command:
         - ^ls
       output:
-        - ^file1$
+        - file1.txt
     responses:
       - type: narrative
         content: |
