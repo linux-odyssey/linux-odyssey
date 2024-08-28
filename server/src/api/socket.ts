@@ -8,7 +8,6 @@ import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
 import logger from '../utils/logger.js'
 
-// eslint-disable-next-line no-unused-vars
 type SocketCallback = (event: string, ...args: any[]) => void
 
 const sessions = new Map<string, SocketCallback[]>()
@@ -44,7 +43,6 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
     next(new Error('User not found.'))
     return
   }
-  // console.log(socket.handshake)
   const { sessionId } = socket.handshake.query
   if (
     !sessionId ||
@@ -79,7 +77,7 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
       stream,
     }
     next()
-  } catch (err) {
+  } catch {
     next(new Error('Failed to start container.'))
   }
 }

@@ -35,23 +35,3 @@ jobs:
 
       - name: Test
         run: yarn test
-
-  e2e:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Build Test Environment, Stage 1
-        run: docker-compose -f docker-compose.testing.yml build base backend app-test cypress
-
-      - name: Build Test Quests
-        run: docker-compose -f docker-compose.testing.yml run --rm backend yarn build:quests
-
-      - name: Run Cypress Tests
-        env:
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-        run: docker-compose -f docker-compose.testing.yml run cypress

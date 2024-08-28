@@ -2,15 +2,15 @@
   "name": "app",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "dev:docker": "API_TARGET=http://backend:3000 vite",
-    "build": "vite build",
-    "build:refs": "tsc --build",
+    "build": "vue-tsc -b && vite build",
+    "type-check": "vue-tsc -b",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formbricks/js": "^2.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
@@ -18,11 +18,13 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@linux-odyssey/constants": "*",
     "@linux-odyssey/file-graph": "*",
+    "@linux-odyssey/models": "*",
     "@linux-odyssey/utils": "*",
+    "@types/dompurify": "^3.0.5",
     "axios": "^1.6.0",
     "dompurify": "^3.0.6",
-    "echarts": "^5.4.3",
     "marked": "^10.0.0",
+    "pinia": "^2.1.7",
     "socket.io-client": "^4.7.1",
     "validator": "^13.11.0",
     "vue": "^3.3.4",
@@ -34,13 +36,14 @@
     "xterm-addon-fit": "^0.7.0"
   },
   "devDependencies": {
+    "@types/validator": "^13.11.9",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vue/compiler-sfc": "^3.3.13",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.3.3",
-    "vite": "^4.5.2",
-    "vue-tsc": "^1.8.25"
+    "vite": "^4.5.3",
+    "vue-tsc": "^2.0.10"
   }
 }

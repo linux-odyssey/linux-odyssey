@@ -1,10 +1,14 @@
-<h1>Users List</h1>
-<div class='pagination'>
-  <a href='/users?order=asc'>Ascending</a>
-  <a href='/users?order=desc'>Descending</a>
+<h1 class='heading'>Users List</h1>
+<div class='sort'>
+  <a href='/users?order=asc'><div class='btn'>
+      <h3>Ascending</h3>
+    </div></a>
+  <a href='/users?order=desc'><div class='btn'>
+      <h3>Descending</h3>
+    </div></a>
 </div>
 <div>
-  <table>
+  <table class='data-table'>
     <tr>
       <th>Username</th>
       <th>Last Activity</th>
@@ -15,7 +19,7 @@
     </tr>
     {{#each users}}
       <tr>
-        <td href='/users/{{_id}}'>{{username}}</td>
+        <td><a href='/users/{{_id}}'>{{username}}</a></td>
         <td>{{lastActivityAt}}</td>
         <td>{{sessionCount}}</td>
         <td>{{email}}</td>
@@ -25,6 +29,8 @@
     {{/each}}
   </table>
 </div>
-<div class='pagination'>
-  <a href='/users?nextKey={{nextKey}}&order={{order}}'>Next</a>
+<div class='pagination sort'>
+  <a href='/users?nextKey={{nextKey}}&order={{order}}'><div class='btn'>
+      <h3>Next</h3>
+    </div></a>
 </div>

@@ -82,7 +82,7 @@ export async function deleteContainer(id: string) {
   }
   try {
     await container.stop()
-  } catch (error) {
+  } catch {
     logger.warn('Failed to stop container', id)
   }
   await container.remove()

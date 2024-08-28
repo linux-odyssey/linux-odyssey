@@ -1,191 +1,254 @@
-<!-- eslint-disable no-console -->
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+<script setup lang="ts">
+import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
-import { use, init } from 'echarts/core'
-import { GraphChart } from 'echarts/charts'
-import { SVGRenderer } from 'echarts/renderers'
-import {
-  TitleComponent,
-  TooltipComponent,
-  DataZoomComponent,
-} from 'echarts/components'
 import { DAG } from '@linux-odyssey/utils'
-import api from '../utils/api'
-import { NodeImage } from '../img/svg.js'
+import { getQuests } from '../utils/api'
+import useUserProfile from '../store/userProfile'
+import QuestIntro from './QuestIntro.vue'
 
-const marginX = 500
-const marginY = 300
-const chartContainer = ref(null)
-let chartInstance = null
-const fullwidth = window.screen.width
-
-use([
-  GraphChart,
-  SVGRenderer,
-  TitleComponent,
-  TooltipComponent,
-  DataZoomComponent,
-])
-
-async function getQuests() {
-  try {
-    const res = await api.get('/quests')
-    return res.data
-  } catch (err) {
-    console.error(err)
-
-    throw err
-  }
-}
-
-async function getProgress() {
-  try {
-    const res = await api.get('/users/me')
-    return res.data.progress
-  } catch (err) {
-    console.error(err)
-    throw err
-  }
-}
-
-const genOption = (nodes, edges) => ({
-  renderer: 'svg',
-  tooltip: {},
-  animationDurationUpdate: 1500,
-  animationEasingUpdate: 'quinticInOut',
-  // dataZoom: [
-  //   {
-  //     type: 'slider', // This type means "slider data zoom" which provides a slider bar for zooming
-  //     orient: 'vertical', // This makes the data zoom component vertical
-  //     start: 0, // The starting percentage of the window out of the data extent
-  //     end: 100, // The ending percentage of the window out of the data extent
-  //     show: true,
-  //   },
-  // ],
-  series: [
-    {
-      type: 'graph',
-      layout: 'none',
-      symbol: () => {
-        return NodeImage
-      },
-      symbolSize: [fullwidth / 13, fullwidth / 30],
-      roam: 'move',
-      zoom: 1.5,
-      center: ['120%', '30%'],
-      label: {
-        show: true,
-        fontSize: fullwidth / 90,
-      },
-      edgeSymbol: ['pin', 'arrow'],
-      edgeSymbolSize: [2, 15],
-      edgeLabel: {
-        fontSize: 25,
-      },
-      data: nodes,
-      // links: [],
-      links: edges,
-      lineStyle: {
-        width: 3,
-        color: 'gray',
-        opacity: 4,
-        curveness: 0.08,
-      },
-      itemStyle: {
-        color: (params) => {
-          const {
-            data: { completed, unlocked },
-          } = params
-          if (completed) {
-            return '#00ff00'
-          }
-          if (unlocked) {
-            return '#ADADB5'
-          }
-          return '#505050'
-        },
-      },
-    },
-  ],
-})
-
-function getOption(quests, progress) {
-  const dag = new DAG(quests)
-
-  const nodes = dag.getNodes().map((node) => ({
-    id: node._id,
-    name: node.title,
-    y: marginX * node.index - (marginX * dag.getLayer(node._id)) / 2,
-    x: marginY * node.layer * 2,
-    completed: progress[node._id]?.completed || false,
-    unlocked: node.requirements.every((req) => progress[req]?.completed),
-  }))
-  const lineAppearence = (node) => {
-    try {
-      const { unlocked } = node
-      return {
-        type: unlocked ? 'line' : 'dashed',
-        color: unlocked ? '#ADADB5' : '#454552',
-      }
-    } catch (err) {
-      console.error(err)
-      throw err
-    }
-  }
-  const edges = dag.getEdgesArray().map((edge) => ({
-    source: edge[0],
-    target: edge[1],
-    lineStyle: lineAppearence(nodes.find((node) => node.id === edge[1])),
-  }))
-  return genOption(nodes, edges)
-}
-
-const router = useRouter()
+const store = useUserProfile()
 const toast = useToast()
 
-function initChart(option) {
-  chartInstance = init(chartContainer.value)
-  chartInstance.setOption(option)
-  chartInstance.on('click', (params) => {
-    const {
-      data: { id, unlocked },
-    } = params
+const svgWidth = ref(window.innerWidth)
+const svgHeight = ref(window.innerHeight)
 
-    if (unlocked) {
-      router.push({ name: 'game', params: { questId: id } })
-    } else {
-      // toast.warning('You have not completed the previous quest yet!')
-      toast.warning('你還沒完成前一個關卡!')
-    }
-  })
+const marginX = 120
+const marginY = 120
+
+const nodeWidth = 160
+const nodeHeight = 50
+const opened = ref<Node | null>(null)
+type Node = {
+  id: string
+  title: string
+  x: number
+  y: number
+  index: number
+  completed: boolean
+  unlocked: boolean
+}
+
+type Edge = {
+  source: Node
+  target: Node
+}
+
+const graphData = ref<{ nodes: Node[]; edges: Edge[] }>({
+  nodes: [],
+  edges: [],
+})
+
+const isDragging = ref(false)
+const dragStartX = ref(0)
+const dragStartY = ref(0)
+const offsetX = ref(0)
+const offsetY = ref(0)
+
+function startDrag(event: MouseEvent) {
+  isDragging.value = true
+  dragStartX.value = event.clientX - offsetX.value
+  dragStartY.value = event.clientY - offsetY.value
+}
+
+function drag(event: MouseEvent) {
+  if (!isDragging.value) return
+  offsetX.value = event.clientX - dragStartX.value
+  offsetY.value = event.clientY - dragStartY.value
+}
+
+function endDrag() {
+  isDragging.value = false
+}
+
+async function computeGraphData() {
+  if (!store.progress) return
+
+  try {
+    const quests = await getQuests()
+    const dag = new DAG(quests)
+    const nodesValues = dag.getNodes()
+
+    const nodes = nodesValues.map((node) => ({
+      id: node._id,
+      title: node.title,
+      x: marginX * node.layer * 2,
+      y:
+        marginY * node.index -
+        (marginX * dag.getLayer(node._id)) / 2 +
+        svgHeight.value / 2,
+      completed: store.progress[node._id]?.completed || false,
+      unlocked: node.requirements.every(
+        (req: string) => store.progress[req]?.completed
+      ),
+      index: node.index,
+    }))
+
+    const edges = dag
+      .getEdgesArray()
+      .map((edge) => ({
+        source: nodes.find((n) => n.id === edge[0]),
+        target: nodes.find((n) => n.id === edge[1]),
+      }))
+      .filter(
+        (edge): edge is Edge =>
+          edge.source !== undefined && edge.target !== undefined
+      )
+
+    graphData.value = { nodes, edges }
+  } catch (error) {
+    console.error('Error computing graph data:', error)
+    toast.error('Failed to load quest data')
+  }
+}
+function handleNodeClick(node: Node) {
+  opened.value = node
+}
+function closeIntro(close: boolean) {
+  if (close) {
+    opened.value = null
+  }
 }
 
 onMounted(async () => {
-  const quests = await getQuests()
-  const progress = await getProgress()
-  const option = getOption(quests, progress)
-  initChart(option)
+  await store.loadUserProfile()
+  await computeGraphData()
+})
+
+watch(() => store.progress, computeGraphData, { deep: true })
+
+const curvedPath = computed(() => {
+  return (source: Node, target: Node) => {
+    // const dx = target.x - source.x
+    // const dy = target.y - source.y
+    // const dr = Math.sqrt(dx * dx + dy * dy)
+    const dr = 0
+    const sweep = target.index > source.index ? 0 : 1 // Determines if the arc should curve up or down based on node index
+    return `M${source.x},${source.y}A${dr},${dr} 0 0,${sweep} ${target.x},${target.y}`
+  }
+})
+
+const nodeStyle = computed(() => {
+  return (node: Node) => {
+    if (node.completed) return 'completed'
+    if (node.unlocked) return 'unlocked'
+    return 'locked'
+  }
+})
+
+const edgeStyle = computed(() => {
+  return (edge: Edge) => {
+    return edge.target.unlocked ? 'unlocked' : 'locked'
+  }
 })
 </script>
 
 <template>
   <div class="relative bg-black w-full h-full flex">
-    <img
-      src="../img/catelogbg.svg"
-      alt="bg"
-      class="p-2 stroke-2 scale-y-120 justify-center items-center"
-    />
-    <h1
-      class="p-4 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
-      style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
+    <div
+      class="flex place-content-center w-full bg-catelogbg bg-cover bg-scroll"
     >
-      <!-- Get through your linux journey! -->
-      踏上你的Linux冒險之旅吧！
-    </h1>
-    <div class="flex flex-wrap absolute w-full h-full z-1">
-      <div ref="chartContainer" class="w-full h-full flex flex-wrap"></div>
+      <h1
+        class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
+        style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
+      >
+        踏上你的Linux冒險之旅吧！
+      </h1>
+      <svg
+        :width="svgWidth"
+        :height="svgHeight"
+        class="absolute"
+        @mousedown="startDrag"
+        @mousemove="drag"
+        @mouseup="endDrag"
+        @mouseleave="endDrag"
+      >
+        <g :transform="`translate(${offsetX}, ${offsetY})`">
+          <g
+            v-for="edge in graphData.edges"
+            :key="`${edge.source.id}-${edge.target.id}`"
+          >
+            <path
+              :d="curvedPath(edge.source, edge.target)"
+              :class="['edge', edgeStyle(edge)]"
+            />
+          </g>
+          <g
+            v-for="node in graphData.nodes"
+            :key="node.id"
+            @click="handleNodeClick(node)"
+          >
+            <rect
+              :x="node.x - nodeWidth / 2"
+              :y="node.y - nodeHeight / 2"
+              :width="nodeWidth"
+              :height="nodeHeight"
+              rx="10"
+              ry="10"
+              :class="['node', nodeStyle(node)]"
+            />
+            <text
+              :x="node.x"
+              :y="node.y"
+              text-anchor="middle"
+              alignment-baseline="middle"
+              :class="['node-text', nodeStyle(node)]"
+              font-size="18"
+            >
+              {{ node.title }}
+            </text>
+          </g>
+        </g>
+      </svg>
+      <QuestIntro
+        :questTitle="opened.title"
+        :questId="opened.id"
+        :questUnlocked="opened.unlocked"
+        v-if="opened"
+        @close-intro="closeIntro"
+      />
     </div>
   </div>
 </template>
+
+<style scoped>
+svg {
+  overflow: visible;
+}
+
+.node {
+  &.completed {
+    fill: #6cf76c;
+  }
+  &.unlocked {
+    fill: #8c8c92;
+  }
+  &.locked {
+    fill: #505050;
+  }
+}
+
+.node-text {
+  &.completed {
+    fill: #1d1d1d;
+  }
+  &.unlocked {
+    fill: #ffffff;
+  }
+  &.locked {
+    fill: #a0a0a0;
+  }
+}
+
+.edge {
+  stroke-width: 3;
+  fill: none;
+  &.unlocked {
+    stroke: #adadb5;
+    stroke-dasharray: none;
+  }
+  &.locked {
+    stroke: #454552;
+    stroke-dasharray: 5, 5;
+  }
+}
+</style>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   node: {
     type: Object,
@@ -20,7 +20,21 @@ function nodeClass() {
 </script>
 
 <template>
-  <a href="#" :class="nodeClass()">{{ node.discovered ? node.name : '???' }}</a>
+  <a href="#" :class="nodeClass()">
+    <font-awesome-icon
+      v-if="node.type === 'folder'"
+      :icon="['far', 'folder']"
+      class="text-text-primary size-8"
+    />
+    <font-awesome-icon
+      v-else
+      :icon="['far', 'file']"
+      class="text-text-primary size-8"
+    />
+    <br />
+    {{ node.discovered ? node.name : '???' }}
+    {{ node.name === '' && node.discovered ? '/' : '' }}
+  </a>
   <ul :class="nodeClass()" v-if="node.children && node.children.length > 0">
     <li :class="nodeClass()" v-for="child in node.children" :key="child.path">
       <FileNode :node="child" :pwd="pwd" />

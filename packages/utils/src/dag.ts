@@ -5,12 +5,12 @@ interface Node {
 
 export default class DAG {
   private nodes = new Map()
-  private edges = new Set()
+  private edges = new Set<[string, string]>()
   private layers: number[] = []
 
   constructor(nodes: Node[]) {
     this.nodes = new Map(nodes.map((node) => [node._id, node]))
-    this.edges = new Set()
+    this.edges = new Set<[string, string]>()
     this.nodes.forEach((_, id) => {
       this.setLayer(id)
       this.addEdges(id)
@@ -42,7 +42,7 @@ export default class DAG {
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
-    return this.layers[node.layer - 1]
+    return this.layers[node.layer - 1] || 0
   }
 
   private setLayer(id: string) {

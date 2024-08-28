@@ -1,10 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
     "rootDir": "src",
     "outDir": "./dist"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "references": [{ "path": "../models" }],
+  "ts-node": {
+    "swc": true
+  }
 }

@@ -5,7 +5,7 @@ export default function checkLoginUI() {
 describe('example helloworld app', () => {
   describe('Login tests', () => {
     beforeEach(() => {
-      cy.visit('/')
+      cy.visit('/register')
     })
     it('Check Login Page Elements-Register', () => {
       checkLoginUI()
@@ -83,11 +83,11 @@ describe('example helloworld app', () => {
       cy.get('#UsernameText')
         .should('contain', Cypress.env('defaultAccount'))
         .and('be.visible')
+      cy.findByRole('link', { name: 'Survey' }).should('be.visible')
+      cy.findByRole('link', { name: 'LeaderBoard' }).should('be.visible')
+      cy.findByRole('link', { name: 'Map' }).should('be.visible')
       cy.findByRole('link', { name: 'Bug Report' }).should('be.visible')
       cy.findByRole('button', { name: 'Sign Out' }).should('be.visible')
-      cy.findByRole('button', { name: 'Map' }).should('be.visible')
-      cy.findByRole('button', { name: 'LeaderBoard' }).should('be.visible')
-      cy.findByRole('link', { name: 'Survey' }).should('be.visible')
     })
     it('Check QuestInfo', () => {
       cy.get('#topic').should('contain', title)

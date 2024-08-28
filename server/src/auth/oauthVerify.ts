@@ -1,6 +1,7 @@
 import { User } from '@linux-odyssey/models'
 import type { Profile } from 'passport'
 import type { VerifyCallback } from 'passport-oauth2'
+import logger from '../utils/logger.js'
 
 export default async function oauthVerify(
   provider: string,
@@ -37,6 +38,7 @@ export default async function oauthVerify(
         email: user.email,
       })
     } catch (err) {
+      logger.error(err)
       return cb(
         err instanceof Error ? err : new Error('An unknown error occurred')
       )

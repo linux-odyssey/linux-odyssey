@@ -1,18 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import DynamicBackground from '../components/DynamicBackground.vue'
-import GameHeaderPart from '../components/GameHeaderPart.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
+import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'
 import api from '../utils/api'
 
-const leaderboard = ref([])
+const leaderboard = ref<
+  {
+    username: string
+    score: number
+    completedQuests: string[]
+  }[]
+>([])
 
 const toast = useToast()
 async function getLeaderboard() {
   try {
     const res = await api.get('/leaderboard')
     leaderboard.value = res.data
-  } catch (err) {
+  } catch (err: any) {
     console.error(err)
     toast.error('讀取排行榜失敗')
   }
@@ -29,8 +36,8 @@ onMounted(async () => {
     <div
       class="w-screen h-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
-      <div class="h-[6vh] w-full">
-        <GameHeaderPart title="排行榜" />
+      <div class="w-full">
+        <HeaderPart title="排行榜" :headerComponent="GameHeaderComponents" />
       </div>
       <div class="w-fit h-[94vh] m-3">
         <div

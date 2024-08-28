@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export const passwordPolicy = {
   minLength: 8,
   minNumbers: 1,
@@ -6,6 +8,11 @@ export const passwordPolicy = {
   minSymbols: 0,
 }
 
-export default {
-  passwordPolicy,
-}
+export const getSessionsRequestSchema = z.object({
+  questId: z.string().optional(),
+  status: z.enum(['active', 'inactive', 'finished']).optional(),
+  limit: z.coerce.number().optional(),
+  order: z.enum(['asc', 'desc']).optional(),
+})
+
+export type GetSessionsRequest = z.infer<typeof getSessionsRequestSchema>

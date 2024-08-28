@@ -26,7 +26,7 @@ const api = axios.create({
 async function readOrNone(file) {
   try {
     return await fs.readFile(file, 'utf8')
-  } catch (err) {
+  } catch (_) {
     return ''
   }
 }

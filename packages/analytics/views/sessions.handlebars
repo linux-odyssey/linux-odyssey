@@ -1,10 +1,14 @@
-<h1>Sessions</h1>
-<div class='pagination'>
-  <a href='/sessions?order=asc'>Ascending</a>
-  <a href='/sessions?order=desc'>Descending</a>
+<h1 class='heading'>Sessions</h1>
+<div class='sort'>
+  <a href='/sessions?order=asc'><div class='btn'>
+      <h3>Ascending</h3>
+    </div></a>
+  <a href='/sessions?order=desc'><div class='btn'>
+      <h3>Descending</h3>
+    </div></a>
 </div>
 <div>
-  <table>
+  <table class='data-table'>
     <tr>
       <th>User</th>
       <th>Quest</th>
@@ -29,6 +33,8 @@
     {{/each}}
   </table>
 </div>
-<div class='pagination'>
-  <a href='/sessions?nextKey={{nextKey}}&order={{order}}'>Next</a>
+<div class='pagination sort'>
+  <a href='/sessions?nextKey={{nextKey}}&order={{order}}'><div class='btn'>
+      <h3>Next</h3>
+    </div></a>
 </div>
