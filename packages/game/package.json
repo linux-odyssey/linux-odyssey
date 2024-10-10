@@ -6,5 +6,7 @@
   "scripts": {
     "build": "tsc -b"
   },
-  "dependencies": {}
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
 }

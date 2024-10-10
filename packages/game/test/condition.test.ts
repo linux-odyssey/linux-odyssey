@@ -4,6 +4,7 @@ import { OutputMatcher } from '../src/condition/OutputMatcher'
 import { PwdMatcher } from '../src/condition/PwdMatcher'
 import { CommandMatcher } from '../src/condition/CommandMatcher'
 import { ErrorMatcher } from '../src/condition/ErrorMatcher.js'
+import { conditionSchema } from '../src/schema'
 
 test('command match', () => {
   const matcher = new CommandMatcher('^echo start$')
@@ -79,4 +80,15 @@ test('condition with NOT', () => {
 
   expect(condition.match({ command: 'echo start' })).toBe(false)
   expect(condition.match({ command: 'echo hello' })).toBe(true)
+})
+
+it('should parse condition', () => {
+  const condition = {
+    command: 'echo start',
+    output: 'start',
+    not: {
+      pwd: '/home/user',
+    },
+  }
+  expect(conditionSchema.safeParse(condition).error).toBeUndefined()
 })
