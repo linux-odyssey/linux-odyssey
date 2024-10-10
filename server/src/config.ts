@@ -1,5 +1,7 @@
 import validator from 'validator'
 import dotenv from 'dotenv'
+import { fileURLToPath } from 'node:url'
+import path from 'path'
 import { get } from './utils/env.js'
 
 // Import dotenv and load ../.env
@@ -43,8 +45,9 @@ function createConfig() {
     db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
     secret: get('SECRET_KEY', ''),
     isProduction: process.env.NODE_ENV === 'production',
-    containerExpiry: get('EXPIRY', 1000 * 60 * 60),
-    sessionMaxAge: get('SESSION_MAX_AGE', 1000 * 60 * 60 * 24 * 7),
+    containerExpiry: Number(process.env.CONTAINER_EXPIRY ?? 60) * 1000 * 60,
+    sessionMaxAge:
+      Number(process.env.SESSION_MAX_AGE ?? 7 * 24) * 1000 * 60 * 60,
     google: {
       clientID: get('GOOGLE_CLIENT_ID', ''),
       clientSecret: get('GOOGLE_CLIENT_SECRET', ''),
@@ -61,12 +64,13 @@ function createConfig() {
       network: get('DOCKER_NETWORK', 'host'),
       defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
       imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
-      mountQuest: get('MOUNT_QUEST', ''),
-      hostPwd: get('HOST_PWD', ''),
+      mountQuest: process.env.MOUNT_QUEST === 'true',
     },
 
+    projectRoot: getProjectRoot(),
+
     log: {
-      path: get('LOG_PATH', '../logs'),
+      path: get('LOG_PATH', path.join(getProjectRoot(), 'logs')),
     },
     testing: {
       enabled: !isProduction && process.env.TESTING === 'true',
@@ -74,6 +78,12 @@ function createConfig() {
       password: get('TESTING_PASSWORD', ''),
     },
   }
+}
+
+function getProjectRoot(): string {
+  const filename = fileURLToPath(import.meta.url)
+  const root = path.join(path.dirname(filename), '..', '..')
+  return root
 }
 
 const config = createConfig()

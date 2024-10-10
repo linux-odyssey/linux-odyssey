@@ -18,19 +18,19 @@ const containerOptions = {
 
 export function createContainer(
   name: string,
-  questId: string
+  imageId: string
 ): Promise<Docker.Container> {
   const option = {
     ...containerOptions,
     name,
-    Image: getQuestImage(questId),
+    Image: getQuestImage(imageId),
   }
-  const { hostPwd, mountQuest } = config.docker
-  if (!config.isProduction && hostPwd && mountQuest === questId) {
-    logger.info('Mounting quest folder', mountQuest)
+
+  if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
+    logger.info('Mounting quest folder', imageId)
     option.HostConfig!.Binds = [
-      `${hostPwd}/quests/${mountQuest}/home:/home/commander`,
-      `${hostPwd}/packages/container:/usr/local/lib/container`,
+      `${config.projectRoot}/quests/${imageId}/home:/home/commander`,
+      `${config.projectRoot}/packages/container:/usr/local/lib/container`,
     ]
   }
   return engine.createContainer(option)
