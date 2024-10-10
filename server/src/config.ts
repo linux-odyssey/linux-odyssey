@@ -70,7 +70,7 @@ function createConfig() {
     projectRoot: getProjectRoot(),
 
     log: {
-      path: get('LOG_PATH', '../logs'),
+      path: get('LOG_PATH', path.join(getProjectRoot(), 'logs')),
     },
     testing: {
       enabled: !isProduction && process.env.TESTING === 'true',

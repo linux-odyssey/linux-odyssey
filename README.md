@@ -9,15 +9,18 @@
 - Docker
 - Yarn: v1.22
 
+## Known Issues
+
+- The player's terminal doesn't work correctly on Mac OS and Windows for now. Please use Linux or Virtual Machines. You can track [this issue](https://github.com/linux-odyssey/linux-odyssey/issues/165) for updates.
+- MongoDB requires x86 architecture to run for v5+ versions. You can track [this issue](https://github.com/linux-odyssey/linux-odyssey/issues/166) for updates.
+
 ## Installation
 
     git clone https://github.com/lancatlin/linux-odyssey.git
     cd linux-odyssey
     yarn install
 
-## Development
-
-### Project Structures
+## Project Structures
 
 1. **app**: frontend
 2. **server**: backend
@@ -94,17 +97,27 @@ You can edit the files on your host, and the changes will be reflected in the co
 
     MOUNT_QUEST=true
 
-### Development
+## Development
 
-Build up dependencies:
+Copy `.env.sample` to `.env` and customize it for your needs.
 
-    yarn build:deps
+Build the whole project for the first time:
+
+    yarn build
+
+This will build the typescript for each package and the server.
 
 Run dev server (frontend, backend):
 
     yarn dev
 
-If you want to enable social login, you should have OAuth client token in a `.env` file:
+**IMPORTANT NOTE**: only the app and server have hot-reloading, other packages require manually running `yarn dev` in each package.
+
+To develop analytics dashboard:
+
+    yarn analytics
+
+The default username and password is `alex` and `Alex1234`.
 
 ## Testing
 
@@ -124,8 +137,9 @@ Run Cypress in container, create brand-new containers along with it:
     # tearing off the containers
     ./docker-scripts.sh down
 
-### Deployment
+## Deployment
 
+    # Build the images (only allowed for maintainers)
     docker compose -f docker-compose.prod.yml build
     docker compose -f docker-compose.prod.yml push
 
@@ -134,66 +148,4 @@ Run Cypress in container, create brand-new containers along with it:
     docker compose -f docker-compose.prod.yml up -d
 
 To enable social login, you should have OAuth client token in a `.env` file:
-You can copy from `example.env`
-
-    # .env
-    BASE_URL=https://example.com
-    GOOGLE_CLIENT_ID=...
-    GOOGLE_CLIENT_SECRET=...
-
-To enable it:
-
-    docker compose --env-file .env -f docker-compose.prod.yml up -d
-
-## Standalone App (without Docker)
-
-Source: `app/`
-
-    # Connect to dev server (https://odyssey.wancat.cc)
-    yarn app
-
-    # Connect to localhost (http://localhost:3000)
-    yarn app:local
-
-    # Connect to anyhost
-    API_ENDPOINT=http://example.com yarn app:local
-
-## Swagger
-
-    docker compose up -d swagger
-
-Open http://localhost:8080 to open Swagger
-
-## CLI terminal client (Docker not required)
-
-    yarn cli
-    Usage: client [options] [command]
-
-    Options:
-    -s, --session <string>  Session ID
-    -c, --create            Create a new session
-    -h, --host <string>     Server host (default: "http://localhost:3000")
-    --help                  display help for command
-
-    Commands:
-    list                    List all sessions
-
-connet to recent session:
-
-    yarn cli
-
-connect to new session:
-
-    yarn cli -c
-
-connect to specific session:
-
-    yarn cli -s 64d0de0367459c13004bc83f
-
-connect to other host:
-
-    yarn cli -h https://example.com
-
-list sessions:
-
-    yarn cli list
+You can copy from `.env.sample`
