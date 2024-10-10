@@ -5,14 +5,24 @@ import logger from '../utils/logger.js'
 const engine = new Docker()
 
 const containerOptions = {
-  AttachStdin: true,
-  AttachStdout: true,
-  AttachStderr: true,
-  Tty: true,
-  OpenStdin: true,
-  StdinOnce: false,
+  // AttachStdin: true,
+  // AttachStdout: true,
+  // AttachStderr: true,
+  // Tty: true,
+  // OpenStdin: true,
+  // StdinOnce: false,
   HostConfig: {
     NetworkMode: config.docker.network,
+    PortBindings: {
+      '22/tcp': [
+        {
+          HostPort: '11122', // random port
+        },
+      ],
+    },
+  },
+  ExposedPorts: {
+    '22/tcp': {},
   },
 } as Docker.ContainerCreateOptions
 

@@ -29,7 +29,8 @@ COPY ./ssh_pubkey /home/${USERNAME}/.ssh/authorized_keys
 RUN chmod 600 /home/${USERNAME}/.ssh/authorized_keys
 RUN chmod 700 /home/${USERNAME}/.ssh
 
-USER ${USERNAME}
+RUN service ssh start
 
-WORKDIR /home/${USERNAME}
-CMD [ "/bin/zsh" ]
+EXPOSE 22
+
+CMD [ "/usr/sbin/sshd", "-D" ]
