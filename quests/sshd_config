@@ -34,7 +34,7 @@ Include /etc/ssh/sshd_config.d/*.conf
 #MaxAuthTries 6
 #MaxSessions 10
 
-#PubkeyAuthentication yes
+PubkeyAuthentication yes
 
 # Expect .ssh/authorized_keys2 to be disregarded by default in future.
 #AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2
@@ -86,11 +86,11 @@ UsePAM yes
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
-X11Forwarding yes
+X11Forwarding no
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PermitTTY yes
-PrintMotd no
+#PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
 #PermitUserEnvironment no

@@ -61,7 +61,7 @@ function createConfig() {
     bugReportUrl: getUrl('BUG_REPORT_URL'),
 
     docker: {
-      network: get('DOCKER_NETWORK', 'host'),
+      network: get('DOCKER_NETWORK', 'linux-odyssey-players'),
       defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
       imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
       mountQuest: process.env.MOUNT_QUEST === 'true',

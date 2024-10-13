@@ -17,7 +17,7 @@ const newContainerOptions = (
   name,
   Image: getQuestImage(imageId),
   HostConfig: {
-    NetworkMode: 'linux-odyssey-players', // config.docker.network,
+    NetworkMode: config.docker.network,
     Binds: options.binds,
     ExtraHosts: ['host.docker.internal:host-gateway'],
   },
@@ -53,7 +53,9 @@ export async function getAndStartContainer(
   if (!(await container.inspect()).State.Running) {
     await container.start()
   }
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1000)
+  })
   return container
 }
 
@@ -61,12 +63,9 @@ export async function attachContainer(
   container: Docker.Container,
   { token }: { token: string }
 ): Promise<Duplex> {
-  // console.log('attachContainer', await container.inspect())
   const containerIp = (await container.inspect()).NetworkSettings.Networks[
-    'linux-odyssey-players'
+    config.docker.network
   ].IPAddress
-  console.log('containerIp', containerIp)
-  console.log('token', token)
   const conn = new Client()
 
   return new Promise((resolve, reject) => {
@@ -86,9 +85,6 @@ export async function attachContainer(
             if (err) {
               reject(err)
             }
-            stream.on('error', (err) => {
-              reject(err)
-            })
             stream.on('close', () => {
               console.log('Stream :: close')
               conn.end()
@@ -108,13 +104,6 @@ export async function attachContainer(
         debug: console.log,
       })
   })
-  // const exec = await container.exec({
-  //   Env: [
-  //     `TOKEN=${token}`,
-  //     `API_ENDPOINT=${config.backendUrl}`,
-  //     'ZDOTDIR=/etc/zsh',
-  //   ],
-  // })
 }
 
 export async function deleteContainer(id: string) {

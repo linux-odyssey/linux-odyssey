@@ -30,6 +30,7 @@ COPY ./ssh_pubkey /home/${USERNAME}/.ssh/authorized_keys
 RUN chmod 600 /home/${USERNAME}/.ssh/authorized_keys \
   && chmod 700 /home/${USERNAME}/.ssh \
   && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
+RUN rm -f /etc/motd /etc/issue /etc/issue.net /etc/update-motd.d/*
 
 RUN service ssh start
 
