@@ -77,7 +77,8 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
       stream,
     }
     next()
-  } catch {
+  } catch (err) {
+    console.error(err)
     next(new Error('Failed to start container.'))
   }
 }

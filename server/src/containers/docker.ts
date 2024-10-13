@@ -4,45 +4,52 @@ import logger from '../utils/logger.js'
 
 const engine = new Docker()
 
-const containerOptions = {
+const newContainerOptions = (
+  name: string,
+  imageId: string,
+  options: {
+    binds?: string[]
+  } = {}
+): Docker.ContainerCreateOptions => ({
   // AttachStdin: true,
   // AttachStdout: true,
   // AttachStderr: true,
   // Tty: true,
   // OpenStdin: true,
   // StdinOnce: false,
+  name,
+  Image: getQuestImage(imageId),
   HostConfig: {
-    NetworkMode: config.docker.network,
-    PortBindings: {
-      '22/tcp': [
-        {
-          HostPort: '11122', // random port
-        },
-      ],
-    },
+    NetworkMode: 'linux-odyssey-players', // config.docker.network,
+    // PortBindings: {
+    //   '22/tcp': [
+    //     {
+    //       HostIP: '0.0.0.0',
+    //       HostPort: '11122', // random port
+    //     },
+    //   ],
+    // },
+    Binds: options.binds,
+    ExtraHosts: ['host.docker.internal:host-gateway'],
   },
   ExposedPorts: {
-    '22/tcp': {},
+    // '22/tcp': {},
   },
-} as Docker.ContainerCreateOptions
+})
 
 export function createContainer(
   name: string,
   imageId: string
 ): Promise<Docker.Container> {
-  const option = {
-    ...containerOptions,
-    name,
-    Image: getQuestImage(imageId),
-  }
-
+  let binds: string[] = []
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest folder', imageId)
-    option.HostConfig!.Binds = [
+    binds = [
       `${config.projectRoot}/quests/${imageId}/home:/home/commander`,
       `${config.projectRoot}/packages/container:/usr/local/lib/container`,
     ]
   }
+  const option = newContainerOptions(name, imageId, { binds })
   return engine.createContainer(option)
 }
 

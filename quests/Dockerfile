@@ -30,6 +30,8 @@ RUN chmod 600 /home/${USERNAME}/.ssh/authorized_keys \
   && chmod 700 /home/${USERNAME}/.ssh \
   && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
 
+RUN apt-get install -y net-tools
+
 RUN service ssh start
 
 EXPOSE 22

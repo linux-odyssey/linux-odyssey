@@ -31,7 +31,7 @@ function getUrl(key: string): string {
 
 function createConfig() {
   const isProduction = process.env.NODE_ENV === 'production'
-  const host = get('HOST', 'localhost')
+  const host = get('HOST', '0.0.0.0')
   const port = Number(get('PORT', 3000))
   const baseUrl = get('BASE_URL', `http://${host}:${port}`)
   const url = new URL(baseUrl)

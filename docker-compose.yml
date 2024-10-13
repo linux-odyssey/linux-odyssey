@@ -12,12 +12,16 @@ services:
 
   base:
     image: linuxodyssey/quest-base
+    # networks:
+    #   - players
     build:
       context: .
       dockerfile: ./quests/Dockerfile
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
 
 networks:
   internal:
   players:
     name: linux-odyssey-players
-    internal: true
+    internal: false
