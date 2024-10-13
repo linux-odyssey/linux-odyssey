@@ -1,3 +1,6 @@
+import fs from 'fs'
+import { Duplex } from 'stream'
+import { Client } from 'ssh2'
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
@@ -11,29 +14,15 @@ const newContainerOptions = (
     binds?: string[]
   } = {}
 ): Docker.ContainerCreateOptions => ({
-  // AttachStdin: true,
-  // AttachStdout: true,
-  // AttachStderr: true,
-  // Tty: true,
-  // OpenStdin: true,
-  // StdinOnce: false,
   name,
   Image: getQuestImage(imageId),
   HostConfig: {
     NetworkMode: 'linux-odyssey-players', // config.docker.network,
-    // PortBindings: {
-    //   '22/tcp': [
-    //     {
-    //       HostIP: '0.0.0.0',
-    //       HostPort: '11122', // random port
-    //     },
-    //   ],
-    // },
     Binds: options.binds,
     ExtraHosts: ['host.docker.internal:host-gateway'],
   },
   ExposedPorts: {
-    // '22/tcp': {},
+    '22/tcp': {},
   },
 })
 
@@ -64,32 +53,68 @@ export async function getAndStartContainer(
   if (!(await container.inspect()).State.Running) {
     await container.start()
   }
+  await new Promise((resolve) => setTimeout(resolve, 2000))
   return container
 }
 
 export async function attachContainer(
   container: Docker.Container,
   { token }: { token: string }
-) {
-  const exec = await container.exec({
-    AttachStdin: true,
-    AttachStdout: true,
-    AttachStderr: true,
-    Cmd: ['/bin/zsh'],
-    Tty: true,
-    Env: [
-      `TOKEN=${token}`,
-      `API_ENDPOINT=${config.backendUrl}`,
-      'ZDOTDIR=/etc/zsh',
-    ],
-  })
+): Promise<Duplex> {
+  // console.log('attachContainer', await container.inspect())
+  const containerIp = (await container.inspect()).NetworkSettings.Networks[
+    'linux-odyssey-players'
+  ].IPAddress
+  console.log('containerIp', containerIp)
+  console.log('token', token)
+  const conn = new Client()
 
-  const execOutput = await exec.start({
-    Detach: false,
-    Tty: true,
+  return new Promise((resolve, reject) => {
+    conn
+      .on('ready', () => {
+        console.log('SSH connection ready')
+        conn.shell(
+          {
+            env: {
+              TOKEN: token,
+              API_ENDPOINT: 'http://host.docker.internal:3000',
+              ZDOTDIR: '/etc/zsh',
+              NODE_PATH: '/usr/src/node_modules',
+            },
+          },
+          (err, stream) => {
+            if (err) {
+              reject(err)
+            }
+            stream.on('error', (err) => {
+              reject(err)
+            })
+            stream.on('close', () => {
+              console.log('Stream :: close')
+              conn.end()
+            })
+            resolve(stream)
+          }
+        )
+      })
+      .on('error', (err) => {
+        reject(err)
+      })
+      .connect({
+        host: containerIp,
+        port: 22,
+        username: 'commander',
+        privateKey: fs.readFileSync('/home/wancat/.ssh/id_ed25519'),
+        debug: console.log,
+      })
   })
-
-  return execOutput
+  // const exec = await container.exec({
+  //   Env: [
+  //     `TOKEN=${token}`,
+  //     `API_ENDPOINT=${config.backendUrl}`,
+  //     'ZDOTDIR=/etc/zsh',
+  //   ],
+  // })
 }
 
 export async function deleteContainer(id: string) {

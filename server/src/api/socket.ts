@@ -1,8 +1,9 @@
 import { Server } from 'socket.io'
 import type { Socket } from 'socket.io'
+import { Duplex } from 'stream'
 import validator from 'validator'
 import type { Server as HttpServer } from 'http'
-import { Session } from '@linux-odyssey/models'
+import { ISession, Session } from '@linux-odyssey/models'
 import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
 import { genJWT } from '../utils/auth.js'
@@ -78,30 +79,33 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
     }
     next()
   } catch (err) {
-    console.error(err)
+    logger.error(err)
     next(new Error('Failed to start container.'))
   }
 }
 
 function onConnect(socket: Socket) {
-  const { session, stream } = socket.data.context
-  stream.socket.on('data', (chunk: Buffer) => {
+  const { session, stream } = socket.data.context as {
+    session: ISession
+    stream: Duplex
+  }
+  stream.on('data', (chunk: Buffer) => {
     socket.emit('terminal', chunk.toString())
   })
 
   socket.on('terminal', function incoming(message) {
-    stream.socket.write(message)
+    stream.write(message)
   })
 
   const socketCallback = (event: string, ...data: any[]) => {
     socket.emit(event, ...data)
   }
 
-  listenToSession(session.id, socketCallback)
+  listenToSession(session._id.toString(), socketCallback)
 
   socket.on('disconnect', () => {
-    stream.socket.write('exit\n')
-    removeFromSession(session.id, socketCallback)
+    stream.write('exit\n')
+    removeFromSession(session._id.toString(), socketCallback)
     stream.destroy()
   })
 }

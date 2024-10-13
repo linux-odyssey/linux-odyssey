@@ -25,12 +25,11 @@ COPY ./quests/.includes/zshrc /etc/zsh/zshrc
 ENV USERNAME=commander
 
 RUN adduser --disabled-password --gecos '' --shell /bin/zsh ${USERNAME}
+COPY ./quests/sshd_config /etc/ssh/sshd_config
 COPY ./ssh_pubkey /home/${USERNAME}/.ssh/authorized_keys
 RUN chmod 600 /home/${USERNAME}/.ssh/authorized_keys \
   && chmod 700 /home/${USERNAME}/.ssh \
   && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
-
-RUN apt-get install -y net-tools
 
 RUN service ssh start
 
