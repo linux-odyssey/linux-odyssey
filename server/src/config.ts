@@ -35,6 +35,7 @@ function createConfig() {
   const host = get('HOST', '0.0.0.0')
   const port = Number(get('PORT', 3000))
   const baseUrl = get('BASE_URL', `http://${host}:${port}`)
+  const backendUrl = get('BACKEND_URL', `http://host.docker.internal:${port}`)
   const url = new URL(baseUrl)
   const projectRoot = getProjectRoot()
   const keypairPath = get(
@@ -49,7 +50,7 @@ function createConfig() {
     baseUrl,
     domain: url.hostname,
     protocol: url.protocol,
-    backendUrl: get('BACKEND_URL', baseUrl),
+    backendUrl,
     db: get('MONGO_URL', 'mongodb://localhost:27017/odyssey-test'),
     secret: get('SECRET_KEY', ''),
     isProduction: process.env.NODE_ENV === 'production',
@@ -97,7 +98,6 @@ function getProjectRoot(): string {
 }
 
 const config = createConfig()
-console.log(config.docker.keypair)
 
 export function getQuestImage(id: string): string {
   return `${config.docker.imagePrefix}${id}`

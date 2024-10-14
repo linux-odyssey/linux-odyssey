@@ -1,9 +1,9 @@
 import fs from 'fs/promises'
 import { Duplex } from 'stream'
-import { Client } from 'ssh2'
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
+import { connectToSSH } from './ssh.js'
 
 const engine = new Docker()
 
@@ -70,9 +70,6 @@ export async function getAndStartContainer(
   if (!(await container.inspect()).State.Running) {
     await container.start()
   }
-  await new Promise((resolve) => {
-    setTimeout(resolve, 2000)
-  })
   return container
 }
 
@@ -83,45 +80,20 @@ export async function attachContainer(
   const containerIp = (await container.inspect()).NetworkSettings.Networks[
     config.docker.network
   ].IPAddress
-  const conn = new Client()
-  console.log(config.docker.keypair.privateKey)
 
-  return new Promise((resolve, reject) => {
-    conn
-      .on('ready', () => {
-        console.log('SSH connection ready')
-        conn.shell(
-          {
-            env: {
-              TOKEN: token,
-              API_ENDPOINT: 'http://host.docker.internal:3000',
-              ZDOTDIR: '/etc/zsh',
-              NODE_PATH: '/usr/src/node_modules',
-            },
-          },
-          (err, stream) => {
-            if (err) {
-              reject(err)
-            }
-            stream.on('close', () => {
-              console.log('Stream :: close')
-              conn.end()
-            })
-            resolve(stream)
-          }
-        )
+  for (let i = 0; i < 10; i++) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const stream = await connectToSSH(containerIp, { token })
+      return stream
+    } catch {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000)
       })
-      .on('error', (err) => {
-        reject(err)
-      })
-      .connect({
-        host: containerIp,
-        port: 22,
-        username: 'commander',
-        privateKey: config.docker.keypair.privateKey,
-        debug: console.log,
-      })
-  })
+    }
+  }
+  throw new Error('Failed to connect to SSH')
 }
 
 export async function deleteContainer(id: string) {
