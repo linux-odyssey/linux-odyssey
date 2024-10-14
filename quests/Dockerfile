@@ -22,7 +22,7 @@ ENV NODE_PATH=/usr/src/node_modules
 COPY ./packages/container /usr/local/lib/container
 COPY ./quests/.includes/zshrc /etc/zsh/zshrc
 RUN rm -f /etc/motd /etc/issue /etc/issue.net /etc/update-motd.d/*
-COPY ./quests/sshd_config /etc/ssh/sshd_config
+COPY ./quests/.includes/sshd_config /etc/ssh/sshd_config
 
 EXPOSE 22
 
