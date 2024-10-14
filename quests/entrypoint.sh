@@ -5,13 +5,12 @@ USERNAME=commander
 if ! id -u ${USERNAME} >/dev/null 2>&1; then
   adduser --disabled-password --gecos '' --shell /bin/zsh ${USERNAME} && \
   find / -name ".gitkeep" -type f -exec rm -f {} +
-  mkdir -p /home/${USERNAME}/.ssh && \
-  cp /ssh_key.pub /home/${USERNAME}/.ssh/authorized_keys && \
-  chmod 600 /home/${USERNAME}/.ssh/authorized_keys && \
-  chmod 700 /home/${USERNAME}/.ssh && \
-  chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
+
+  PUB_KEY=/etc/ssh/authorized_keys/${USERNAME}
+  cp /ssh_key.pub ${PUB_KEY}
+  chmod 644 ${PUB_KEY}
 fi
 
-mkdir /run/sshd
+mkdir -p /run/sshd
 echo "Starting SSH server"
 /usr/sbin/sshd -D -e
