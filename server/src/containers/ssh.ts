@@ -11,7 +11,6 @@ export async function connectToSSH(
   return new Promise((resolve, reject) => {
     conn
       .on('ready', () => {
-        console.log('SSH connection ready')
         conn.shell(
           {
             env: {
@@ -26,7 +25,6 @@ export async function connectToSSH(
               reject(err)
             }
             stream.on('close', () => {
-              console.log('Stream :: close')
               conn.end()
             })
             resolve(stream)
@@ -41,7 +39,6 @@ export async function connectToSSH(
         port: 22,
         username: 'commander',
         privateKey: config.docker.keypair.privateKey,
-        debug: console.log,
         timeout: 5000,
       })
   })

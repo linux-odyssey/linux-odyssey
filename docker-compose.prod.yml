@@ -29,6 +29,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./logs:/app/logs
+      - ./config:/app/config
     env_file:
       - .env
     environment:

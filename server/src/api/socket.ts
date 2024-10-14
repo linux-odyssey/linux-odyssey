@@ -80,7 +80,7 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
     next()
   } catch (err) {
     logger.error(err)
-    next(new Error('Failed to start container.'))
+    next(new Error('Failed to connect to container.'))
   }
 }
 
