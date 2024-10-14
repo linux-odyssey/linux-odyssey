@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { Duplex } from 'stream'
 import { Client } from 'ssh2'
 import Docker from 'dockerode'
@@ -67,6 +66,7 @@ export async function attachContainer(
     config.docker.network
   ].IPAddress
   const conn = new Client()
+  console.log(config.docker.keypair.privateKey)
 
   return new Promise((resolve, reject) => {
     conn
@@ -100,7 +100,7 @@ export async function attachContainer(
         host: containerIp,
         port: 22,
         username: 'commander',
-        privateKey: fs.readFileSync('/home/wancat/.ssh/id_ed25519'),
+        privateKey: config.docker.keypair.privateKey,
         debug: console.log,
       })
   })

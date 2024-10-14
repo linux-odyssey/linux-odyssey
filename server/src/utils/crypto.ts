@@ -1,5 +1,9 @@
 import fs from 'fs'
-import { generateKeyPairSync } from 'crypto'
+import ssh2 from 'ssh2'
+
+const {
+  utils: { generateKeyPairSync },
+} = ssh2
 
 type KeyPair = {
   privateKey: string
@@ -24,16 +28,7 @@ export function loadOrCreateKeyPair(privateKeyPath: string): KeyPair {
 }
 
 export function generateKeyPair(): KeyPair {
-  const { privateKey, publicKey } = generateKeyPairSync('rsa', {
-    modulusLength: 2048,
-    publicKeyEncoding: {
-      type: 'spki',
-      format: 'pem',
-    },
-    privateKeyEncoding: {
-      type: 'pkcs8',
-      format: 'pem',
-    },
-  })
+  const { private: privateKey, public: publicKey } =
+    generateKeyPairSync('ed25519')
   return { privateKey, publicKey }
 }
