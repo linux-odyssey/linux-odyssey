@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { fileURLToPath } from 'node:url'
 import path from 'path'
 import { get } from './utils/env.js'
+import { loadOrCreateKeyPair } from './utils/crypto.js'
 
 // Import dotenv and load ../.env
 dotenv.config({ path: '../.env' })
@@ -35,6 +36,13 @@ function createConfig() {
   const port = Number(get('PORT', 3000))
   const baseUrl = get('BASE_URL', `http://${host}:${port}`)
   const url = new URL(baseUrl)
+  const projectRoot = getProjectRoot()
+  const keypairPath = get(
+    'KEYPAIR_PATH',
+    path.join(projectRoot, 'config', 'ssh_key')
+  )
+  const keypair = loadOrCreateKeyPair(keypairPath)
+
   return {
     host,
     port,
@@ -60,17 +68,19 @@ function createConfig() {
     surveyUrl: getUrl('SURVEY_URL'),
     bugReportUrl: getUrl('BUG_REPORT_URL'),
 
+    projectRoot,
+
     docker: {
       network: get('DOCKER_NETWORK', 'linux-odyssey-players'),
       defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
       imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
       mountQuest: process.env.MOUNT_QUEST === 'true',
+      keypairPath,
+      keypair,
     },
 
-    projectRoot: getProjectRoot(),
-
     log: {
-      path: get('LOG_PATH', path.join(getProjectRoot(), 'logs')),
+      path: get('LOG_PATH', path.join(projectRoot, 'logs')),
     },
     testing: {
       enabled: !isProduction && process.env.TESTING === 'true',
@@ -87,6 +97,7 @@ function getProjectRoot(): string {
 }
 
 const config = createConfig()
+console.log(config.docker.keypair)
 
 export function getQuestImage(id: string): string {
   return `${config.docker.imagePrefix}${id}`
