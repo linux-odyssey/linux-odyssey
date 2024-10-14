@@ -28,20 +28,21 @@ const newContainerOptions = (
 
 export async function createContainer(
   name: string,
+  questId: string,
   imageId: string
 ): Promise<Docker.Container> {
   let binds: string[] = [
     `${config.projectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
     `${config.projectRoot}/quests/entrypoint.sh:/entrypoint.sh:ro`,
   ]
-  if (await questHomeExists(imageId)) {
-    logger.info('Mounting quest home', imageId)
-    binds.push(`${config.projectRoot}/quests/${imageId}/home:/etc/skel:ro`)
+  if (await questHomeExists(questId)) {
+    logger.info('Mounting quest home', questId)
+    binds.push(`${config.projectRoot}/quests/${questId}/home:/etc/skel:ro`)
   }
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
-    logger.info('Mounting quest folder', imageId)
+    logger.info('Mounting quest folder', questId)
     binds = [
-      `${config.projectRoot}/quests/${imageId}/home:/home/commander`,
+      `${config.projectRoot}/quests/${questId}/home:/home/commander`,
       `${config.projectRoot}/packages/container:/usr/local/lib/container`,
     ]
   }

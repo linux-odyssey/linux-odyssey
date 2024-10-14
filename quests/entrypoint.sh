@@ -4,6 +4,7 @@ USERNAME=commander
 
 if ! id -u ${USERNAME} >/dev/null 2>&1; then
   adduser --disabled-password --gecos '' --shell /bin/zsh ${USERNAME} && \
+  find / -name ".gitkeep" -type f -exec rm -f {} +
   mkdir -p /home/${USERNAME}/.ssh && \
   cp /ssh_key.pub /home/${USERNAME}/.ssh/authorized_keys && \
   chmod 600 /home/${USERNAME}/.ssh/authorized_keys && \
