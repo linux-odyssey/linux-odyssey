@@ -1,3 +1,4 @@
+import fs from 'fs/promises'
 import { Duplex } from 'stream'
 import { Client } from 'ssh2'
 import Docker from 'dockerode'
@@ -25,7 +26,7 @@ const newContainerOptions = (
   },
 })
 
-export function createContainer(
+export async function createContainer(
   name: string,
   imageId: string
 ): Promise<Docker.Container> {
@@ -33,6 +34,10 @@ export function createContainer(
     `${config.projectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
     `${config.projectRoot}/quests/entrypoint.sh:/entrypoint.sh:ro`,
   ]
+  if (await questHomeExists(imageId)) {
+    logger.info('Mounting quest home', imageId)
+    binds.push(`${config.projectRoot}/quests/${imageId}/home:/etc/skel:ro`)
+  }
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest folder', imageId)
     binds = [
@@ -42,6 +47,15 @@ export function createContainer(
   }
   const option = newContainerOptions(name, imageId, { binds })
   return engine.createContainer(option)
+}
+
+async function questHomeExists(imageId: string) {
+  try {
+    const stat = await fs.stat(`${config.projectRoot}/quests/${imageId}/home`)
+    return stat.isDirectory()
+  } catch {
+    return false
+  }
 }
 
 export async function getAndStartContainer(
