@@ -21,19 +21,9 @@ RUN yarn install --modules-folder /usr/src/node_modules
 ENV NODE_PATH=/usr/src/node_modules
 COPY ./packages/container /usr/local/lib/container
 COPY ./quests/.includes/zshrc /etc/zsh/zshrc
-
-ENV USERNAME=commander
-
-RUN adduser --disabled-password --gecos '' --shell /bin/zsh ${USERNAME}
-COPY ./quests/sshd_config /etc/ssh/sshd_config
-COPY ./config/ssh_key.pub /home/${USERNAME}/.ssh/authorized_keys
-RUN chmod 600 /home/${USERNAME}/.ssh/authorized_keys \
-  && chmod 700 /home/${USERNAME}/.ssh \
-  && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
 RUN rm -f /etc/motd /etc/issue /etc/issue.net /etc/update-motd.d/*
-
-RUN service ssh start
+COPY ./quests/sshd_config /etc/ssh/sshd_config
 
 EXPOSE 22
 
-CMD [ "/usr/sbin/sshd", "-D" ]
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]

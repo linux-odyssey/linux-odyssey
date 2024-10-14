@@ -29,7 +29,10 @@ export function createContainer(
   name: string,
   imageId: string
 ): Promise<Docker.Container> {
-  let binds: string[] = []
+  let binds: string[] = [
+    `${config.projectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
+    `${config.projectRoot}/quests/entrypoint.sh:/entrypoint.sh:ro`,
+  ]
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest folder', imageId)
     binds = [
@@ -53,7 +56,7 @@ export async function getAndStartContainer(
     await container.start()
   }
   await new Promise((resolve) => {
-    setTimeout(resolve, 1000)
+    setTimeout(resolve, 2000)
   })
   return container
 }
