@@ -72,7 +72,7 @@ async function main() {
   app.use('/api/v1', apiRouter)
   app.use(errorHandler)
 
-  server.listen(config.port, config.host, () => {
+  server.listen(config.port, '0.0.0.0', () => {
     logger.info(`Server listening at ${config.baseUrl}`)
   })
 }

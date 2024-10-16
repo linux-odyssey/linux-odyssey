@@ -1,39 +1,75 @@
+import fs from 'fs/promises'
+import { Duplex } from 'stream'
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
+import { connectToSSH } from './ssh.js'
 
 const engine = new Docker()
 
-const containerOptions = {
-  AttachStdin: true,
-  AttachStdout: true,
-  AttachStderr: true,
-  Tty: true,
-  OpenStdin: true,
-  StdinOnce: false,
+const newContainerOptions = (
+  name: string,
+  imageId: string,
+  options: {
+    binds?: string[]
+  } = {}
+): Docker.ContainerCreateOptions => ({
+  name,
+  Image: getQuestImage(imageId),
   HostConfig: {
     NetworkMode: config.docker.network,
+    Binds: options.binds,
+    ExtraHosts: ['host.docker.internal:host-gateway'],
   },
-} as Docker.ContainerCreateOptions
+  ExposedPorts: {
+    '22/tcp': {},
+  },
+})
 
-export function createContainer(
+export async function createContainer(
   name: string,
+  questId: string,
   imageId: string
 ): Promise<Docker.Container> {
-  const option = {
-    ...containerOptions,
-    name,
-    Image: getQuestImage(imageId),
+  let binds: string[] = [
+    `${config.projectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
+    `${config.projectRoot}/quests/entrypoint.sh:/entrypoint.sh:ro`,
+  ]
+  if (await questHomeExists(questId)) {
+    logger.info('Mounting quest home', questId)
+    binds.push(`${config.projectRoot}/quests/${questId}/home:/etc/skel:ro`)
   }
-
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
-    logger.info('Mounting quest folder', imageId)
-    option.HostConfig!.Binds = [
-      `${config.projectRoot}/quests/${imageId}/home:/home/commander`,
+    logger.info('Mounting quest folder', questId)
+    binds = [
+      `${config.projectRoot}/quests/${questId}/home:/home/commander`,
       `${config.projectRoot}/packages/container:/usr/local/lib/container`,
     ]
   }
+  const option = newContainerOptions(name, imageId, { binds })
+  await createNetworkIfNotExists(config.docker.network)
   return engine.createContainer(option)
+}
+
+async function createNetworkIfNotExists(network: string) {
+  const dockerNetworks = await engine.listNetworks({
+    filters: {
+      name: [network],
+    },
+  })
+  if (dockerNetworks.length === 0) {
+    console.log('Creating player network', network)
+    await engine.createNetwork({ Name: network })
+  }
+}
+
+async function questHomeExists(imageId: string) {
+  try {
+    const stat = await fs.stat(`${config.projectRoot}/quests/${imageId}/home`)
+    return stat.isDirectory()
+  } catch {
+    return false
+  }
 }
 
 export async function getAndStartContainer(
@@ -53,26 +89,24 @@ export async function getAndStartContainer(
 export async function attachContainer(
   container: Docker.Container,
   { token }: { token: string }
-) {
-  const exec = await container.exec({
-    AttachStdin: true,
-    AttachStdout: true,
-    AttachStderr: true,
-    Cmd: ['/bin/zsh'],
-    Tty: true,
-    Env: [
-      `TOKEN=${token}`,
-      `API_ENDPOINT=${config.backendUrl}`,
-      'ZDOTDIR=/etc/zsh',
-    ],
-  })
+): Promise<Duplex> {
+  const containerIp = (await container.inspect()).NetworkSettings.Networks[
+    config.docker.network
+  ].IPAddress
 
-  const execOutput = await exec.start({
-    Detach: false,
-    Tty: true,
-  })
-
-  return execOutput
+  for (let i = 0; i < 10; i++) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const stream = await connectToSSH(containerIp, { token })
+      return stream
+    } catch {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000)
+      })
+    }
+  }
+  throw new Error('Failed to connect to SSH')
 }
 
 export async function deleteContainer(id: string) {

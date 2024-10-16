@@ -43,6 +43,7 @@ export async function createNewSession(
 
   const container = await createContainer(
     `quest-${quest.id}-${user.username}-${Date.now()}`,
+    quest.id,
     quest.image
   )
 
