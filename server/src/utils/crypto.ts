@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import ssh2 from 'ssh2'
 
 const {
@@ -16,6 +17,10 @@ export function loadOrCreateKeyPair(privateKeyPath: string): KeyPair {
     const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
     const publicKey = fs.readFileSync(publicKeyPath, 'utf8')
     return { privateKey, publicKey }
+  }
+  const dir = path.dirname(privateKeyPath)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true })
   }
   const keyPair = generateKeyPair()
   fs.writeFileSync(privateKeyPath, keyPair.privateKey, {

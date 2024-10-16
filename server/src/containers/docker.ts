@@ -47,7 +47,20 @@ export async function createContainer(
     ]
   }
   const option = newContainerOptions(name, imageId, { binds })
+  await createNetworkIfNotExists(config.docker.network)
   return engine.createContainer(option)
+}
+
+async function createNetworkIfNotExists(network: string) {
+  const dockerNetworks = await engine.listNetworks({
+    filters: {
+      name: [network],
+    },
+  })
+  if (dockerNetworks.length === 0) {
+    console.log('Creating player network', network)
+    await engine.createNetwork({ Name: network })
+  }
 }
 
 async function questHomeExists(imageId: string) {

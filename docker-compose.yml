@@ -12,8 +12,8 @@ services:
 
   base:
     image: linuxodyssey/quest-base
-    # networks:
-    #   - players
+    networks:
+      - players
     build:
       context: .
       dockerfile: ./quests/Dockerfile

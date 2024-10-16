@@ -67,6 +67,7 @@ This will start the db. it will automatically restarts by Docker.
 
 Building quest images:
 
+    docker compose build base
     yarn build:quests
 
 ### Build Quest Images in Details
