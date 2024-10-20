@@ -13,6 +13,8 @@
 
 - MongoDB requires x86 architecture to run for v5+ versions. You can track [this issue](https://github.com/linux-odyssey/linux-odyssey/issues/166) for updates.
 
+Windows user please refer to [docs/windows-setup.md](docs/windows-setup.md) for setup instructions.
+
 ## Installation
 
     git clone https://github.com/lancatlin/linux-odyssey.git

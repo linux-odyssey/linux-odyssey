@@ -13,14 +13,14 @@ services:
   base:
     image: linuxodyssey/quest-base
     networks:
-      - players
+     - players
     build:
       context: .
       dockerfile: ./quests/Dockerfile
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     volumes:
-      - ./config/ssh_key.pub:/ssh_key.pub:ro
+      # - ./config/ssh_key.pub:/ssh_key.pub:ro
       - ./quests/entrypoint.sh:/entrypoint.sh:ro
 
 networks:
@@ -28,3 +28,4 @@ networks:
   players:
     name: linux-odyssey-players
     internal: false
+    external: true
