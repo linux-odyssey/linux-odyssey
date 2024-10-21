@@ -25,6 +25,7 @@ RUN rm -f /etc/motd /etc/issue /etc/issue.net /etc/update-motd.d/*
 RUN rm -rf /etc/skel && mkdir -p /etc/skel
 RUN mkdir -p /etc/ssh/authorized_keys && chmod 755 /etc/ssh/authorized_keys
 COPY ./quests/.includes/sshd_config /etc/ssh/sshd_config
+COPY ./quests/entrypoint.sh /entrypoint.sh
 
 EXPOSE 22
 

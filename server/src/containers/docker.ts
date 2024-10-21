@@ -24,6 +24,7 @@ const newContainerOptions = (
   ExposedPorts: {
     '22/tcp': {},
   },
+  Env: [`PUB_KEY=${config.docker.keypair.publicKey}`],
 })
 
 export async function createContainer(
@@ -32,21 +33,23 @@ export async function createContainer(
   imageId: string
 ): Promise<Docker.Container> {
   let binds: string[] = [
-    `${config.projectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
-    `${config.projectRoot}/quests/entrypoint.sh:/entrypoint.sh:ro`,
+    // `${config.docker.hostProjectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
   ]
   if (await questHomeExists(questId)) {
     logger.info('Mounting quest home', questId)
-    binds.push(`${config.projectRoot}/quests/${questId}/home:/etc/skel:ro`)
+    binds.push(
+      `${config.docker.hostProjectRoot}/quests/${questId}/home:/etc/skel:ro`
+    )
   }
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest folder', questId)
     binds = [
-      `${config.projectRoot}/quests/${questId}/home:/home/commander`,
-      `${config.projectRoot}/packages/container:/usr/local/lib/container`,
+      `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`,
+      `${config.docker.hostProjectRoot}/packages/container:/usr/local/lib/container`,
     ]
   }
   const option = newContainerOptions(name, imageId, { binds })
+  console.log('Creating container', option)
   await createNetworkIfNotExists(config.docker.network)
   return engine.createContainer(option)
 }
@@ -65,7 +68,9 @@ async function createNetworkIfNotExists(network: string) {
 
 async function questHomeExists(imageId: string) {
   try {
-    const stat = await fs.stat(`${config.projectRoot}/quests/${imageId}/home`)
+    const stat = await fs.stat(
+      `${config.docker.hostProjectRoot}/quests/${imageId}/home`
+    )
     return stat.isDirectory()
   } catch {
     return false
@@ -99,7 +104,8 @@ export async function attachContainer(
       // eslint-disable-next-line no-await-in-loop
       const stream = await connectToSSH(containerIp, { token })
       return stream
-    } catch {
+    } catch (err) {
+      logger.error('Failed to connect to SSH', err)
       // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)

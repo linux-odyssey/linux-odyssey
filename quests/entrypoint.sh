@@ -10,9 +10,10 @@ if ! id -u ${USERNAME} >/dev/null 2>&1; then
   find / -name ".gitkeep" -type f -exec rm -f {} +
 
   echo "Adding public key for $USERNAME"
-  PUB_KEY=/etc/ssh/authorized_keys/${USERNAME}
-  cp /ssh_key.pub ${PUB_KEY}
-  chmod 644 ${PUB_KEY}
+  echo "Public key: $PUB_KEY"
+  PUB_KEY_PATH=/etc/ssh/authorized_keys/${USERNAME}
+  echo $PUB_KEY > ${PUB_KEY_PATH}
+  chmod 644 ${PUB_KEY_PATH}
 fi
 
 mkdir -p /run/sshd
