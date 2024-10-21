@@ -76,6 +76,7 @@ function createConfig() {
       defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
       imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
       mountQuest: process.env.MOUNT_QUEST === 'true',
+      hostProjectRoot: get('HOST_PROJECT_ROOT', projectRoot),
       keypairPath,
       keypair,
     },
@@ -94,6 +95,7 @@ function createConfig() {
 function getProjectRoot(): string {
   const filename = fileURLToPath(import.meta.url)
   const root = path.join(path.dirname(filename), '..', '..')
+  console.log('Project root:', root)
   return root
 }
 

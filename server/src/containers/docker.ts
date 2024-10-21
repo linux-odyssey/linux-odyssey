@@ -32,9 +32,7 @@ export async function createContainer(
   questId: string,
   imageId: string
 ): Promise<Docker.Container> {
-  let binds: string[] = [
-    // `${config.docker.hostProjectRoot}/config/ssh_key.pub:/ssh_key.pub:ro`,
-  ]
+  let binds: string[] = []
   if (await questHomeExists(questId)) {
     logger.info('Mounting quest home', questId)
     binds.push(
@@ -49,7 +47,6 @@ export async function createContainer(
     ]
   }
   const option = newContainerOptions(name, imageId, { binds })
-  console.log('Creating container', option)
   await createNetworkIfNotExists(config.docker.network)
   return engine.createContainer(option)
 }
@@ -68,9 +65,7 @@ async function createNetworkIfNotExists(network: string) {
 
 async function questHomeExists(imageId: string) {
   try {
-    const stat = await fs.stat(
-      `${config.docker.hostProjectRoot}/quests/${imageId}/home`
-    )
+    const stat = await fs.stat(`${config.projectRoot}/quests/${imageId}/home`)
     return stat.isDirectory()
   } catch {
     return false

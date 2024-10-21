@@ -30,6 +30,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./logs:/app/logs
       - ./config:/app/config
+      - ./quests:/app/quests:ro
     env_file:
       - .env
       - .env.prod
@@ -40,6 +41,7 @@ services:
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
       - BACKEND_URL=http://backend:3000
       - BASE_URL=${BASE_URL}
+      - HOST_PROJECT_ROOT=${PWD}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
