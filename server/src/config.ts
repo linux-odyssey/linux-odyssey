@@ -95,7 +95,6 @@ function createConfig() {
 function getProjectRoot(): string {
   const filename = fileURLToPath(import.meta.url)
   const root = path.join(path.dirname(filename), '..', '..')
-  console.log('Project root:', root)
   return root
 }
 

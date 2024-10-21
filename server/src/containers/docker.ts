@@ -58,7 +58,7 @@ async function createNetworkIfNotExists(network: string) {
     },
   })
   if (dockerNetworks.length === 0) {
-    console.log('Creating player network', network)
+    logger.log('Creating player network', network)
     await engine.createNetwork({ Name: network })
   }
 }
