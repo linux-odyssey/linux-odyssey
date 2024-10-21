@@ -101,6 +101,7 @@ function getProjectRoot(): string {
 const config = createConfig()
 
 export function getQuestImage(id: string): string {
+  // TODO: handle staging images (add version tag)
   return `${config.docker.imagePrefix}${id}`
 }
 
