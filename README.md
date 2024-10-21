@@ -11,8 +11,9 @@
 
 ## Known Issues
 
-- The player's terminal doesn't work correctly on Mac OS and Windows for now. Please use Linux or Virtual Machines. You can track [this issue](https://github.com/linux-odyssey/linux-odyssey/issues/165) for updates.
 - MongoDB requires x86 architecture to run for v5+ versions. You can track [this issue](https://github.com/linux-odyssey/linux-odyssey/issues/166) for updates.
+
+Windows user please refer to [docs/windows-setup.md](docs/windows-setup.md) for setup instructions.
 
 ## Installation
 
@@ -33,6 +34,16 @@
    5. **models**: definitions of MondoDB collections (data schema)
    6. **utils**: other utility code shared between packages
    7. **game (in the future)**: core logic of game playing, will be extracted from server
+
+## Configuration
+
+The configuration is stored in the `.env` file. You can copy from the sample file.
+
+    cp .env.sample .env
+
+The backend will use a SSH key pair to login to the player's container. The private key is on the host, and the public key is copied to the player's container.
+
+The key pair is stored in `./config/ssh_key` and `./config/ssh_key.pub`. If it doesn't exist, the backend will generate a new pair and store them.
 
 ## Docker Setup
 
@@ -58,14 +69,18 @@ This will start the db. it will automatically restarts by Docker.
 
 Building quest images:
 
+    docker compose build base
     yarn build:quests
 
 ### Build Quest Images in Details
 
-In each quest folder, there is a `game.yml` file, which is the quest definition. And a optional `Dockerfile` can overwrite the base image. If you want to include additional files, put them in a `home` folder. The files in `home` will **not** be copied to the image automatically, you have to copy them in the `Dockerfile`.
+In each quest folder, there is a `game.yml` file, which is the quest definition.
+
+If you want to include additional files, put them in a `home` folder. The files in `home` will be copied to the user's home on container creation automatically.
 
     quests/
     ├── Dockerfile      # Base image
+    ├── entrypoint.sh   # Entrypoint for the container
     ├── discover
     │   └── game.yml
     ├── helloworld
@@ -81,17 +96,22 @@ In each quest folder, there is a `game.yml` file, which is the quest definition.
         └── home
             └── ancient_scroll.txt
 
+An optional `Dockerfile` can overwrite the base image. You can use this to install additional dependencies or modify the environment.
+
+Customized `entrypoint.sh` for each quest is not yet supported.
+
 To build all quests:
 
     yarn build:quests
 
 The base image is built with docker-compose, so you can use `docker compose build base` to rebuild it. Once you rebuild the base image, you have to rebuild all quests.
 
-### Mounting Host Directory
+### Optional: Mounting Host Directory
 
 To improve the development experience, we can mount the host directory to the container in the pattern:
 
     /path/to/linux-odyssey/quests/${quest_id}/home:/home/commander
+    /path/to/linux-odyssey/packages/container:/usr/local/lib/container
 
 You can edit the files on your host, and the changes will be reflected in the container. This is disabled by default. To enable it, you can set the following environment variables:
 
@@ -121,6 +141,10 @@ The default username and password is `alex` and `Alex1234`.
 
 ## Testing
 
+Unit tests:
+
+    yarn test:unit
+
 Run Cypress locally, using the current development containers:
 
     docker compose up -d
@@ -145,7 +169,14 @@ Run Cypress in container, create brand-new containers along with it:
 
     # Server side
     docker compose -f docker-compose.prod.yml pull
+    yarn build:quests
     docker compose -f docker-compose.prod.yml up -d
+
+### Necessary Configuration
 
 To enable social login, you should have OAuth client token in a `.env` file:
 You can copy from `.env.sample`
+
+**YOU MUST CHANGE THE SECRET_KEY** in `.env` file.
+
+    SECRET_KEY=your-secret-key

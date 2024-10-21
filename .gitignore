@@ -1,3 +1,5 @@
+config 
+
 # Logs
 logs
 *.log
@@ -85,6 +87,7 @@ built
 .env.test.local
 .env.production.local
 .env.local
+.env.prod
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

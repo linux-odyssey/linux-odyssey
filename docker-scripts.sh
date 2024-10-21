@@ -32,15 +32,16 @@ down() {
 dump() {
   # Define service name and dump directory name
   SERVICE_NAME="db"
+  COMPOSE_FILE="docker-compose.prod.yml"
   DUMP_NAME="mongodump-$(date --iso).archive"
-  CONTAINER_ID=$(docker compose ps -q $SERVICE_NAME)
+  CONTAINER_ID=$(docker compose -f $COMPOSE_FILE ps -q $SERVICE_NAME)
 
   # Fetch credentials from Docker environment variables
-  MONGO_URL=$(docker compose exec -T backend printenv MONGO_URL)
+  MONGO_URL=$(docker compose -f $COMPOSE_FILE exec -T backend printenv MONGO_URL)
   echo mongo uri: $MONGO_URL
 
   # Dump MongoDB data using credentials
-  docker compose exec -T $SERVICE_NAME sh -c "mongodump --gzip --archive=/tmp/$DUMP_NAME -d odyssey-test" &&
+  docker compose -f $COMPOSE_FILE exec -T $SERVICE_NAME sh -c "mongodump --gzip --archive=/tmp/$DUMP_NAME --uri=$MONGO_URL" &&
 
   # Copy the dump from the container to the host
   # Note: You will need to know the exact container name for this step
