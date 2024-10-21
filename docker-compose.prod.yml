@@ -1,4 +1,3 @@
-version: '3'
 services:
   app:
     image: linuxodyssey/frontend
@@ -33,21 +32,10 @@ services:
       - ./quests:/app/quests:ro
     env_file:
       - .env
-      - .env.prod
     environment:
-      - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASS}@db:27017/${MONGO_DB}
       - DOCKER_NETWORK=linux-odyssey-players
-      - SECRET_KEY=${SECRET_KEY}
-      - TRUSTED_PROXIES=${TRUSTED_PROXIES}
       - BACKEND_URL=http://backend:3000
-      - BASE_URL=${BASE_URL}
       - HOST_PROJECT_ROOT=${PWD}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
-      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
-      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
-      - SURVEY_URL=${SURVEY_URL}
-      - BUG_REPORT_URL=${BUG_REPORT_URL}
 
   analytics:
     image: linuxodyssey/analytics
@@ -64,11 +52,6 @@ services:
       - '3001:3001'
     env_file:
       - .env
-      - .env.prod
-    environment:
-      - MONGO_URL=mongodb://${MONGO_USER}:${MONGO_PASS}@db:27017/${MONGO_DB}
-      - ADMIN_USERNAME=${ADMIN_USERNAME}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
 
   db:
     image: mongo
@@ -80,13 +63,8 @@ services:
     volumes:
       - mongo:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    environment:
-      - BASE_URL=${BASE_URL}
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
-      - MONGO_USER=${MONGO_USER}
-      - MONGO_PASS=${MONGO_PASS}
-      - MONGO_DB=${MONGO_DB}
+    env_file:
+      - .env
 
   base:
     image: linuxodyssey/quest-base
