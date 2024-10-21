@@ -54,7 +54,7 @@ services:
       - .env
 
   db:
-    image: mongo
+    image: mongo:6
     restart: always
     networks:
       - internal
