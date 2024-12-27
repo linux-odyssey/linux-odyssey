@@ -23,4 +23,5 @@ services:
 networks:
   internal:
   players-dev:
+    name: linux-odyssey-players-dev
     internal: false
