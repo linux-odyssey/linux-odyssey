@@ -8,7 +8,7 @@ import authRequired from '../../middleware/authRequired.js'
 import userRouter from './userRouter.js'
 import config from '../../config.js'
 import leaderboardController from '../controllers/leaderboardController.js'
-import {getCheatSheet, errorReport} from '../controllers/cheatSheet.js'
+import {getCheatSheet} from '../controllers/cheatSheet.js'
 
 
 const router = Router()
@@ -52,8 +52,7 @@ router.get('/bug-report', (req, res) => {
 
 router.get('/leaderboard', leaderboardController)
 
-router.get('/getcheatsheet', getCheatSheet); 
+router.get('/cheatsheet', getCheatSheet); 
 
-router.post('/errorReport', errorReport); 
 
 export default router
