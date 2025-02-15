@@ -94,20 +94,21 @@ export async function attachContainer(
     config.docker.network
   ].IPAddress
 
+  let error: Error | null = null
   for (let i = 0; i < 10; i++) {
     try {
       // eslint-disable-next-line no-await-in-loop
       const stream = await connectToSSH(containerIp, { token })
       return stream
     } catch (err) {
-      logger.error('Failed to connect to SSH', err)
+      error = err as Error
       // eslint-disable-next-line no-await-in-loop
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)
       })
     }
   }
-  throw new Error('Failed to connect to SSH')
+  throw new Error('Failed to connect to SSH', { cause: error })
 }
 
 export async function deleteContainer(id: string) {
