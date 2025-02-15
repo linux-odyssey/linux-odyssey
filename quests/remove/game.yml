@@ -44,7 +44,7 @@ stages:
       command:
         - ^rm\s
       files:
-        - path: hello.txt
+        - path: /home/commander/hello.txt
           exists: false
     responses:
       - content: |
@@ -58,7 +58,7 @@ stages:
       command:
         - ^ls$
       files:
-        - path: hello.txt
+        - path: /home/commander/hello.txt
           exists: false
     responses:
       - content: |
@@ -78,9 +78,9 @@ stages:
       command:
         - ^rm
       files:
-        - path: world.txt
+        - path: /home/commander/world.txt
           exists: false
-        - path: wow.txt
+        - path: /home/commander/wow.txt
           exists: false
     responses:
       - content: |
@@ -111,7 +111,7 @@ stages:
       command:
         - ^rmdir empty$
       files:
-        - path: empty
+        - path: /home/commander/empty
           exists: false
     responses:
       - content: |
@@ -139,7 +139,7 @@ stages:
       command:
         - ^rmdir notes$
       files:
-        - path: notes
+        - path: /home/commander/notes
           type: folder
           exists: true
     responses:
@@ -161,10 +161,10 @@ stages:
       command:
         - ^rm
       files:
-        - path: notes
+        - path: /home/commander/notes
           type: folder
           exists: true
-        - path: notes/note.txt
+        - path: /home/commander/notes/note.txt
           exists: false
     exceptions:
       - condition:
@@ -203,7 +203,7 @@ stages:
     task: 使用 `rmdir` 刪除 `notes` 資料夾
     condition:
       files:
-        - path: notes
+        - path: /home/commander/notes
           exists: false
     responses:
       - content: |
@@ -238,7 +238,7 @@ stages:
       command:
         - ^rm -r trash$
       files:
-        - path: trash
+        - path: /home/commander/trash
           exists: false
     responses:
       - content: |

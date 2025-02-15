@@ -44,12 +44,12 @@ stages:
       - ls
     condition:
       files:
-        - path: hello.txt
+        - path: /home/commander/hello.txt
           type: file
     exceptions:
       - condition:
           files:
-            - path: hello$
+            - path: /home/commander/hello
               type: file
         responses:
           - type: narrative
@@ -107,12 +107,12 @@ stages:
       - ls-touch
     condition:
       files:
-        - path: world.txt
+        - path: /home/commander/world.txt
           type: file
     exceptions:
       - condition:
           files:
-            - path: world$
+            - path: /home/commander/world
               type: file
         responses:
           - type: narrative
@@ -154,7 +154,7 @@ stages:
       - ls-2
     condition:
       files:
-        - path: notes
+        - path: /home/commander/notes
           type: folder
     responses:
       - type: narrative
@@ -203,7 +203,7 @@ stages:
       - cd-notes
     condition:
       files:
-        - path: notes/note.txt
+        - path: /home/commander/notes/note.txt
           type: file
     responses:
       - type: narrative
