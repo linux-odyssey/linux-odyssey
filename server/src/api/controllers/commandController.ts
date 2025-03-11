@@ -8,6 +8,7 @@ import { asyncHandler } from '../../middleware/error.js'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const { command, pwd, output, error, params } = matchedData(req)
+  console.log(command, output, error)
 
   const { sessionId } = req.user as any
   const session = await Session.findById(sessionId)
