@@ -8,27 +8,33 @@ set +o prompt_cr
 preexec() {
     export CMD_START_TIME=$(date +%s%N)      # capture start time
     export CMD_NAME="$1"                   # capture command
+    export CMD_PID=$$
 
     # # A list of interactive commands
     # readlink /proc/$PPID/exe
-    exec >&1 >/tmp/cmd.out 2>&2 2>/tmp/cmd.error
-    # interactive_commands=("vim" "nano" "top" "ssh" "less" "zsh" "bash" "script")
+    interactive_commands=("vim" "nano" "top" "ssh" "less" "zsh" "bash" "script" "exec")
     # # if [[ $CMD_EXECUTED = 1 ]]; then
     # #     export CMD_EXECUTED=0
     # #     return
     # # fi
 
     # # Check if the command is in the list of interactive commands
-    # if [[ " ${interactive_commands[@]} " =~ " $1 " ]]; then
-    #     # If it is, just execute it normally
-    #     # exec
-    #     return
-    # else
-    #     # If it's not, execute it and redirect its output to a file
-    #     # exec > >(tee /tmp/cmd.out) 2> >(tee /tmp/cmd.error >&2)
-    #     export CMD_EXECUTED=1
-    #     script -O /tmp/cmd.out -c "$*"
-    # fi
+    if [[ " ${interactive_commands[@]} " =~ " $1 " ]]; then
+        # If it is, just execute it normally
+        # exec
+        # echo IF
+        return
+    else
+        # If it's not, execute it and redirect its output to a file
+        # exec > >(tee /tmp/cmd.out) 2> >(tee /tmp/cmd.error >&2)
+        # echo ELSE
+        # export CMD_EXECUTED=1
+        # eval >&1 >/tmp/cmd.out 
+        # exec >&1
+        # exec
+        script --quiet -O /tmp/cmd.out -c "$CMD_NAME"
+        return 1
+    fi
 }
 
 precmd() {
@@ -39,6 +45,10 @@ precmd() {
 
     # Now run your Node.js script with the result as an argument
     node /usr/local/lib/container/cli.js
+    if [[ -n $CMD_PID ]]; then
+        # echo $CMD_PID
+        # kill $CMD_PID
+    fi
     # rm /tmp/cmd.out /tmp/cmd.error 2>/dev/null
 
     # Reset variables

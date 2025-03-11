@@ -33,6 +33,9 @@ export async function createContainer(
   imageId: string
 ): Promise<Docker.Container> {
   let binds: string[] = []
+  binds.push(
+    `${config.docker.hostProjectRoot}/quests/.includes/zshrc:/etc/zsh/zshrc`
+  )
   if (await questHomeExists(questId)) {
     logger.info('Mounting quest home', questId)
     binds.push(
