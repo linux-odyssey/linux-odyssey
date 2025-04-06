@@ -164,7 +164,7 @@ stages:
       command:
         - ^cp hello.txt hello2.txt$
       files:
-        - path: hello2.txt
+        - path: /home/commander/hello2.txt
           type: file
     exceptions:
       - condition:
@@ -224,7 +224,7 @@ stages:
       command:
         - ^cp world.txt world2.txt$
       files:
-        - path: world2.txt
+        - path: /home/commander/world2.txt
           type: file
     exceptions:
       - condition:
@@ -292,9 +292,9 @@ stages:
       command:
         - ^cp
       files:
-        - path: notes2
+        - path: /home/commander/notes2
           type: directory
-        - path: notes2/note.txt
+        - path: /home/commander/notes2/note.txt
           type: file
     exceptions:
       - condition:

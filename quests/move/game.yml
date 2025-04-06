@@ -49,9 +49,9 @@ stages:
       command:
         - ^mv hello.txt notes$
       files:
-        - path: notes/hello.txt
+        - path: /home/commander/notes/hello.txt
           type: file
-        - path: hello.txt
+        - path: /home/commander/hello.txt
           exists: false
     responses:
       - type: narrative
@@ -106,9 +106,9 @@ stages:
       command:
         - ^mv
       files:
-        - path: wow.txt
+        - path: /home/commander/wow.txt
           type: file
-        - path: world.txt
+        - path: /home/commander/world.txt
           exists: false
     responses:
       - type: narrative
@@ -148,9 +148,9 @@ stages:
       command:
         - ^mv
       files:
-        - path: docs
+        - path: /home/commander/docs
           type: directory
-        - path: notes
+        - path: /home/commander/notes
           exists: false
     responses:
       - type: narrative
@@ -187,9 +187,9 @@ stages:
       command:
         - ^mv
       files:
-        - path: hi.txt
+        - path: /home/commander/hi.txt
           type: file
-        - path: docs/hello.txt
+        - path: /home/commander/docs/hello.txt
           exists: false
     exceptions:
       - condition:

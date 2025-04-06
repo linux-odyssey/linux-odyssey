@@ -72,7 +72,7 @@ function createConfig() {
     projectRoot,
 
     docker: {
-      network: get('DOCKER_NETWORK', 'linux-odyssey-players'),
+      network: get('DOCKER_NETWORK', 'linux-odyssey-players-dev'),
       defaultImage: get('QUEST_IMAGE', 'linuxodyssey/quest-base'),
       imagePrefix: get('DOCKER_PREFIX', 'linuxodyssey/quest-'),
       mountQuest: process.env.MOUNT_QUEST === 'true',
