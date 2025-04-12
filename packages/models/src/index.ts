@@ -10,6 +10,7 @@ export { IStage } from './stage.js'
 export { IRequirement } from './requirement.js'
 export { IResponse } from './response.js'
 export { IException } from './exception.js'
+export { ILoginAttempt, LoginAttempt } from './loginAttempt.js'
 
 export default async function connectDB(uri: string) {
   const db = await mongoose.connect(uri)

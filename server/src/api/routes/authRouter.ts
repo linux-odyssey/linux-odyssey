@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import passport from 'passport'
-
+import { recordLogin } from '../../middleware/recordLogin.js'
 import enabledMethods from '../../auth/passport.js'
 
 import {
@@ -18,16 +18,41 @@ import {
   registerValidators,
 } from '../validators/authValidator.js'
 import { authenticateRateLimit } from '../../middleware/rateLimiter.js'
-
+import { NextFunction } from 'express-serve-static-core'
+import { rateLimitByAccount } from '../../middleware/rateLimiter.js'
 const router = Router()
 
 router.post(
   '/login',
+  rateLimitByAccount,
   authenticateRateLimit,
   loginValidators,
-  passport.authenticate('local', { failureMessage: true }),
-  (req: Request, res: Response) => {
-    res.json({ message: 'success' })
+  (req: Request, res: Response, next: NextFunction): void => {
+    passport.authenticate(
+      'local',
+      async (err: unknown, user: Express.User | false, info: any) => {
+        if (err) {
+          await recordLogin(req, false, 'passport error')
+          return next(err)
+        }
+
+        if (!user) {
+          const msg = info?.message || 'invalid credentials'
+          await recordLogin(req, false, msg)
+          return res.status(401).json({ message: msg })
+        }
+
+        req.logIn(user, async (err: unknown) => {
+          if (err) {
+            await recordLogin(req, false, 'login session failed')
+            return next(err)
+          }
+
+          await recordLogin(req, true, 'login success')
+          return res.json({ message: 'success' })
+        })
+      }
+    )(req, res, next)
   }
 )
 

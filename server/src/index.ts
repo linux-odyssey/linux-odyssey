@@ -74,6 +74,7 @@ async function main() {
   server.listen(config.port, '0.0.0.0', () => {
     logger.info(`Server listening at ${config.baseUrl}`)
   })
+
 }
 
 main().catch((err) => logger.error(err))
