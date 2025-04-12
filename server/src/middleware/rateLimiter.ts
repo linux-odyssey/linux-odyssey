@@ -13,24 +13,22 @@ function createRateLimiter(options: Partial<Options>) {
 }
 
 export const globalRateLimit = createRateLimiter({
-  windowMs: 60 * 1000, 
+  windowMs: 60 * 1000,
   max: 100,
 })
-// 　  if (config.testing.enabled) {　還沒加
-// window = 1 * 1000 max = 5
-export const authenticateRateLimit =
-  // config.testing.enabled
-  // ? (req: Request, res: Response, next: NextFunction) => next():
-  rateLimit({
-    windowMs: 1 * 1000,
-    max: 5,
-    handler: async (req: Request, res: Response, _next: NextFunction) => {
-      recordLogin(req, false, 'rate limit')
-      res.status(429).json({
-        error: 'Too many login attempts. Please try again later.',
-      })
-    },
-  })
+
+export const authenticateRateLimit = config.testing.enabled
+  ? (req: Request, res: Response, next: NextFunction) => next()
+  : rateLimit({
+      windowMs: 1 * 1000,
+      max: 5,
+      handler: async (req: Request, res: Response, _next: NextFunction) => {
+        recordLogin(req, false, 'rate limit')
+        res.status(429).json({
+          error: 'Too many login attempts. Please try again later.',
+        })
+      },
+    })
 
 export const sessionRateLimit = createRateLimiter({
   windowMs: 10 * 1000,
