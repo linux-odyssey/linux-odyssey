@@ -179,9 +179,9 @@ stages:
           你看到了終端機輸出 `You are lucky!` 這個字串。
           恭喜你，你已經完成了這個課程！
     exceptions:
-      condition:
-        command: ^echo help$
-      responses:
-        - content: |
-            你需要先移動到 `commands` 資料夾，再使用相對路徑執行 `lucky` 檔案。
-            請先輸入 `cd commands` 來移動到 `commands` 資料夾，再使用相對路徑 `./lucky` 來執行 `lucky` 檔案。
+      - condition:
+          command: ^echo help$
+        responses:
+          - content: |
+              你需要先移動到 `commands` 資料夾，再使用相對路徑執行 `lucky` 檔案。
+              請先輸入 `cd commands` 來移動到 `commands` 資料夾，再使用相對路徑 `./lucky` 來執行 `lucky` 檔案。

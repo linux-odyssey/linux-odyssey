@@ -74,15 +74,15 @@ class QuestManager {
 
         const image = files.includes('Dockerfile') ? id : 'base'
         const quest = questSchema.parse({
-          _id: id,
+          id,
           image,
           ...questData,
         })
         quest.exceptions.push(...exceptions)
         this.quests.set(id, quest)
       } catch (error) {
-        logger.error(`Error parsing quest`, { id, error })
-        throw new QuestValidationError(`Error parsing quest`, id, error)
+        logger.error(`Error parsing quest ${id}`, { error })
+        throw new QuestValidationError(`Error parsing quest ${id}`, id, error)
       }
     })
   }

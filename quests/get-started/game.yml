@@ -68,3 +68,6 @@ stages:
     condition:
       command:
         - ^echo finish$
+    responses:
+      - content: |
+          恭喜你，你已經完成了這個關卡！

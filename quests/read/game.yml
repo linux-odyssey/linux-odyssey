@@ -69,9 +69,10 @@ stages:
           not:
             pwd:
               - ^/home/commander$
-        content: |
-          請留在 `/home/commander` 資料夾中。
-          請輸入 `cd ~` 回到 `/home/commander` 資料夾。
+        responses:
+          - content: |
+              請留在 `/home/commander` 資料夾中。
+              請輸入 `cd ~` 回到 `/home/commander` 資料夾。
     responses:
       - content: |
           你現在知道 `folder` 資料夾的內容了。

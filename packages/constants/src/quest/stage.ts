@@ -8,7 +8,7 @@ import { requirementSchema } from './requirement.js'
 export const stageSchema = z.object({
   id: z.string(),
   task: z.string(),
-  exceptions: z.array(stageExceptionSchema).default([]),
+  exceptions: stageExceptionSchema.array().default([]),
   requirements: requirementSchema,
   condition: conditionSchema,
   responses: z.array(responseSchema),
