@@ -19,6 +19,7 @@ import expiryRemovalScheduler from './containers/expiryChecker.js'
 import setupTest from './utils/setupTest.js'
 import logger from './utils/logger.js'
 import { appRouter } from './routers/index.js'
+import { createContext } from './trpc.js'
 
 async function main() {
   if (!config.secret) {
@@ -76,7 +77,7 @@ async function main() {
     '/trpc',
     trpcExpress.createExpressMiddleware({
       router: appRouter,
-      // createContext,
+      createContext,
     })
   )
   app.use(errorHandler)
