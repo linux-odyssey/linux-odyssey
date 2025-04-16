@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
-import { IQuest } from '@linux-odyssey/models'
-import { createSession, getActiveSession, getQuest } from '../utils/api'
+import { QuestDetailResponse } from '@linux-odyssey/constants'
+import { createSession, getActiveSession } from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import { Session, StageResponse } from '../types'
+import { trpc } from '../utils/trpc'
 
 const socket = new Socket()
 const term = new SocketTerminal(40, 80)
@@ -13,7 +14,7 @@ let hasSetup = false
 interface Store {
   session: Session | null
   questId: string
-  quest: IQuest | null
+  quest: QuestDetailResponse | null
 }
 
 const useSession = defineStore('session', {
@@ -24,7 +25,7 @@ const useSession = defineStore('session', {
   }),
   actions: {
     async setQuest(questId: string) {
-      this.quest = await getQuest(questId)
+      this.quest = await trpc.quests.getQuestDetail.query(questId)
       this.questId = questId
     },
     async setSession(session: Session) {

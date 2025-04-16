@@ -2,8 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
+    "module": "Node16",
+    "moduleResolution": "node16",
     "outDir": "./dist"
   },
-  "include": ["*.js", "*.ts"],
+  "include": ["*.js", "*.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

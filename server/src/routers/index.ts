@@ -1,5 +1,6 @@
 import { router, publicProcedure } from '../trpc.js'
 import { linkRouter } from './linkRouter.js'
+import { questRouter } from './questRouter.js'
 
 export const appRouter = router({
   userList: publicProcedure.query(async (opts) => {
@@ -7,6 +8,7 @@ export const appRouter = router({
     return opts.ctx
   }),
   links: linkRouter,
+  quests: questRouter,
 })
 
 export type AppRouter = typeof appRouter

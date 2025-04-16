@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+export * from './src/quest.js'
+
 export const passwordPolicy = {
   minLength: 8,
   minNumbers: 1,

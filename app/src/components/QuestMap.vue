@@ -2,7 +2,7 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
 import { DAG } from '@linux-odyssey/utils'
-import { getQuests } from '../utils/api'
+import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'
 
@@ -64,7 +64,7 @@ async function computeGraphData() {
   if (!store.progress) return
 
   try {
-    const quests = await getQuests()
+    const quests = await trpc.quests.getQuests.query()
     const dag = new DAG(quests)
     const nodesValues = dag.getNodes()
 

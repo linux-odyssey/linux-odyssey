@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import passport from 'passport'
 import sessions from './sessionRouter.js'
-import quests from './questRouter.js'
 import commands from './commandRouter.js'
 import authRouter from './authRouter.js'
 import authRequired from '../../middleware/authRequired.js'
@@ -29,7 +28,6 @@ router.use(
 router.use('/auth', authRouter)
 router.use('/sessions', authRequired, sessions)
 
-router.use('/quests', quests)
 router.use('/users', userRouter)
 
 router.get('/survey', (req, res) => {
