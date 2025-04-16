@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export * from './quest.js'
+export * from './quest/index.js'
 export * from './session.js'
 
 export const passwordPolicy = {

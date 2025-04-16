@@ -10,7 +10,7 @@ import connectDB from '@linux-odyssey/models'
 import './auth/passport.js'
 import socketServer from './api/socket.js'
 import apiRouter from './api/routes/index.js'
-import { loadAndUpdateQuests } from './utils/quest.js'
+import { questManager } from './models/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
 import { globalRateLimit } from './middleware/rateLimiter.js'
@@ -42,7 +42,7 @@ async function main() {
   }
 
   try {
-    await loadAndUpdateQuests()
+    await questManager.loadAndUpdateQuests()
   } catch (err) {
     logger.error('Failed to load quests', err)
     return
