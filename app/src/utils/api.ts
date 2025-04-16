@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { GetSessionsRequest } from '@linux-odyssey/constants'
 import { Session } from '../types'
-import { UserProfile } from '../store/userProfile'
 
 const api = axios.create({
   baseURL: '/api/v1',
@@ -11,11 +10,6 @@ const api = axios.create({
   withCredentials: true,
 })
 export default api
-
-export async function getUserProfile(): Promise<UserProfile> {
-  const res = await api.get<UserProfile>('/users/me')
-  return res.data
-}
 
 export async function createSession(questId: string): Promise<Session> {
   const res = await api.post<Session>('/sessions', { questId })
