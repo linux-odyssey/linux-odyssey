@@ -4,6 +4,7 @@ import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 import passport from 'passport'
+import * as trpcExpress from '@trpc/server/adapters/express'
 import connectDB from '@linux-odyssey/models'
 
 import './auth/passport.js'
@@ -17,6 +18,7 @@ import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 import setupTest from './utils/setupTest.js'
 import logger from './utils/logger.js'
+import { appRouter } from './routers/index.js'
 
 async function main() {
   if (!config.secret) {
@@ -70,6 +72,13 @@ async function main() {
   })
 
   app.use('/api/v1', apiRouter)
+  app.use(
+    '/trpc',
+    trpcExpress.createExpressMiddleware({
+      router: appRouter,
+      // createContext,
+    })
+  )
   app.use(errorHandler)
 
   server.listen(config.port, '0.0.0.0', () => {
