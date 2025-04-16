@@ -1711,6 +1711,11 @@
     lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
+"@trpc/client@^11.1.0":
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-11.1.0.tgz#102ec1f14aa39c4caf5106c51f38a3d4bee293b0"
+  integrity sha512-Q3pL4p7AddxI/ZJTEFo1utKSdasDFjZPECIPsKDkthEt52k530JkYVltTdLkYFKrNWXKKBo8MN7NwchelczoRw==
+
 "@trpc/server@^11.1.0":
   version "11.1.0"
   resolved "https://registry.yarnpkg.com/@trpc/server/-/server-11.1.0.tgz#8169fa8b944beddf65a95f376d4afea5732be254"
