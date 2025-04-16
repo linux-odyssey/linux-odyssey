@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
-import { QuestDetailResponse } from '@linux-odyssey/constants'
+import { QuestDetailResponse } from '../../../packages/constants/dist/src'
 import { createSession, getActiveSession } from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
