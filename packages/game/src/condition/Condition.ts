@@ -1,9 +1,9 @@
 import {
   ICommand,
-  ICondition,
   IFileExistenceChecker,
   FileExistenceInput,
 } from '../types.js'
+import { ICondition } from '../schema/condition.js'
 import { PwdMatcher } from './PwdMatcher.js'
 import { CommandMatcher } from './CommandMatcher.js'
 import { ErrorMatcher } from './ErrorMatcher.js'

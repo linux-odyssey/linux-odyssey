@@ -1,8 +1,9 @@
 import { z } from 'zod'
+import { FileType } from '../types.js'
 
 export const fileInputSchema = z.object({
   path: z.string(),
-  type: z.enum(['file', 'folder']),
+  type: z.nativeEnum(FileType),
 })
 
 export type IFileInput = z.infer<typeof fileInputSchema>
@@ -28,6 +29,6 @@ export type ICondition = z.infer<typeof baseConditionSchema> & {
 
 export const conditionSchema: z.ZodType<ICondition> =
   baseConditionSchema.extend({
-    or: z.lazy(() => z.array(conditionSchema)).optional(),
-    not: z.lazy(() => conditionSchema).optional(),
+    or: z.lazy(() => z.array(conditionSchema).optional()),
+    not: z.lazy(() => conditionSchema.optional()),
   })

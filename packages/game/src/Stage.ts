@@ -1,4 +1,4 @@
-import { IStage, ICommand, IFileExistenceChecker, ISession } from './types'
+import { IStage, ICommand, IFileExistenceChecker } from './types'
 import { Condition } from './condition/Condition'
 
 export class Stage {
@@ -21,17 +21,15 @@ export class Stage {
     return this.condition.match(command) && this.condition.check(checker)
   }
 
-  private checkRequirements(session: ISession): boolean {
-    return this.requirements.every((req) =>
-      session.completedStages.includes(req)
-    )
+  private checkRequirements(completed: string[]): boolean {
+    return this.requirements.every((req) => completed.includes(req))
   }
 
-  private finished(session: ISession): boolean {
-    return session.completedStages.includes(this.id)
+  private finished(completed: string[]): boolean {
+    return completed.includes(this.id)
   }
 
-  active(session: ISession): boolean {
-    return !this.finished(session) && this.checkRequirements(session)
+  active(completed: string[]): boolean {
+    return !this.finished(completed) && this.checkRequirements(completed)
   }
 }

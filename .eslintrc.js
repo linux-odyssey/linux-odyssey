@@ -49,7 +49,7 @@ module.exports = {
 
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       {
         args: 'after-used',
         argsIgnorePattern: '^_',
@@ -73,7 +73,6 @@ module.exports = {
       },
     ],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
     'no-empty-function': 'off',

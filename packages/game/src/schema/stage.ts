@@ -1,5 +1,6 @@
 import { z } from 'zod'
-import { conditionSchema, responseSchema } from './index.js'
+import { conditionSchema } from './condition.js'
+import { responseSchema } from './response.js'
 
 export const stageSchema = z.object({
   id: z.string().regex(/^[a-zA-Z0-9_-]+$/),
