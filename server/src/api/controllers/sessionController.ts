@@ -22,10 +22,7 @@ function sessionSummary(session: ISession) {
 function sessionDetail(session: ISession) {
   return {
     ...sessionSummary(session),
-    hints: session.hints,
-    tasks: session.tasks,
-    responses: session.responses,
-    graph: session.graph,
+    stages: session.stages,
   }
 }
 

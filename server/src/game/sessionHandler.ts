@@ -1,18 +1,16 @@
 import { HydratedDocument } from 'mongoose'
 import type {
-  IException,
-  IQuest,
-  IRequirement,
-  IResponse,
-  ISession,
-  IStage,
-  ITask,
-} from '@linux-odyssey/models'
+  Quest,
+  Response,
+  Requirement,
+  Stage,
+  Task,
+  Exception,
+} from '@linux-odyssey/constants'
+import { ISession } from '@linux-odyssey/models'
 
 export interface ExecuteResult {
-  responses: IResponse[]
-  hints: string[]
-  tasks?: ITask[]
+  responses: Response[]
   status: string
   stage?: string
   end?: boolean
@@ -20,12 +18,9 @@ export interface ExecuteResult {
 
 export default class SessionHandler {
   session: HydratedDocument<ISession>
-  quest: HydratedDocument<IQuest>
+  quest: Quest
 
-  constructor(
-    session: HydratedDocument<ISession>,
-    quest: HydratedDocument<IQuest>
-  ) {
+  constructor(session: HydratedDocument<ISession>, quest: Quest) {
     this.session = session
     this.quest = quest
   }
@@ -34,7 +29,7 @@ export default class SessionHandler {
     return this.session
   }
 
-  getTask(stage: Partial<IStage>): ITask | undefined {
+  getTask(stage: Partial<Stage>): Task | undefined {
     return this.session.tasks.find((t) => t.id === stage.id)
   }
 
@@ -43,7 +38,9 @@ export default class SessionHandler {
     return task ? task.completed : false
   }
 
-  getUnlockedComponents<T extends IRequirement>(components: T[]): T[] {
+  getUnlockedComponents<T extends { requirements: Requirement }>(
+    components: T[]
+  ): T[] {
     return components.filter((component) =>
       component.requirements.every((r: string) => this.isCompleted({ id: r }))
     )
@@ -67,19 +64,14 @@ export default class SessionHandler {
     this.session.tasks.push(...newTasks)
   }
 
-  execute(stage: IStage): ExecuteResult {
+  execute(stage: Stage): ExecuteResult {
     this.session.tasks
       .filter((t) => t.id === stage.id)
       .forEach((t) => {
         t.completed = true
       })
 
-    if (stage.hints && stage.hints.length > 0)
-      this.session.hints.push(stage.hints)
-
     this.addNewTasks()
-
-    this.session.responses.push(stage.responses)
 
     if (stage.id === 'END') {
       this.session.status = 'finished'
@@ -87,19 +79,15 @@ export default class SessionHandler {
 
     return {
       responses: stage.responses,
-      hints: stage.hints,
-      tasks: this.session.tasks,
       status: this.session.status,
     }
   }
 
-  executeException(exception: IException): ExecuteResult {
-    const { hints, responses } = exception
-    if (hints && hints.length > 0) this.session.hints.push(hints)
+  executeException(exception: Exception): ExecuteResult {
+    const { responses } = exception
 
     return {
       responses,
-      hints,
       status: this.session.status,
     }
   }

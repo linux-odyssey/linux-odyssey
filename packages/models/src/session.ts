@@ -1,7 +1,5 @@
 import { model, Schema, Types } from 'mongoose'
 
-import { IResponse, responseSchema } from './response.js'
-
 export interface INode {
   path: string
   type: string
@@ -22,27 +20,6 @@ nodeSchema.add({
   children: [nodeSchema],
 })
 
-export interface ITask {
-  id: string
-  name: string
-  completed: boolean
-}
-
-const taskSchema = new Schema<ITask>({
-  id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-})
-
 export interface ISession {
   _id: Types.ObjectId
   user: Types.ObjectId
@@ -53,9 +30,7 @@ export interface ISession {
   updatedAt: Date
   finishedAt?: Date
   lastActivityAt: Date
-  tasks: ITask[]
-  hints: string[][]
-  responses: IResponse[][]
+  stages: string[]
   graph: INode
 }
 
@@ -86,13 +61,7 @@ export const Session = model<ISession>(
         default: Date.now,
         required: true,
       },
-      tasks: [taskSchema],
-      hints: [[String]],
-      responses: {
-        type: [[responseSchema]],
-        required: true,
-        default: [],
-      },
+      stages: [String],
       graph: {
         type: nodeSchema,
         default: {

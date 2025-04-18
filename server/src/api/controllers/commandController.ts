@@ -1,10 +1,11 @@
-import { Command, Quest, Session } from '@linux-odyssey/models'
+import { Command, Session } from '@linux-odyssey/models'
 import { matchedData } from 'express-validator'
 import type { Request, Response } from 'express'
 import CommandHandler from '../../game/commandHandler.js'
 import { pushToSession } from '../socket.js'
 import { finishSession } from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
+import { questManager } from '../../models/quest.js'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const { command, pwd, output, error, params } = matchedData(req)
@@ -37,7 +38,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
 
   await c.save()
 
-  const quest = await Quest.findById(session.quest)
+  const quest = await questManager.get(session.quest)
   if (!quest) {
     res.status(404).json({ message: 'quest not found' })
     return

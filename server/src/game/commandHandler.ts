@@ -2,14 +2,13 @@ import minimist from 'minimist'
 import { HydratedDocument } from 'mongoose'
 import { FileGraph } from '@linux-odyssey/file-graph'
 import {
-  ICommand,
-  ICondition,
-  IFileCondition,
-  IQuest,
-  ISession,
-  IStage,
-  IException,
-} from '@linux-odyssey/models'
+  Condition,
+  FileCondition,
+  Quest,
+  Stage,
+  Exception,
+} from '@linux-odyssey/constants'
+import { ICommand, ISession } from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 import SessionHandler, { ExecuteResult } from './sessionHandler.js'
 import { checkFile } from '../containers/cli.js'
@@ -31,7 +30,7 @@ export default class CommandHandler extends SessionHandler {
 
   constructor(
     session: HydratedDocument<ISession>,
-    quest: HydratedDocument<IQuest>,
+    quest: Quest,
     commandInput: ICommand,
     params: Record<string, any>
   ) {
@@ -82,7 +81,7 @@ export default class CommandHandler extends SessionHandler {
     }
   }
 
-  async isMatch(condition: ICondition): Promise<boolean> {
+  async isMatch(condition: Condition): Promise<boolean> {
     return (
       this.checkKeys(condition) &&
       (await this.checkFiles(condition.files)) &&
@@ -91,7 +90,7 @@ export default class CommandHandler extends SessionHandler {
     )
   }
 
-  checkKeys(condition: ICondition) {
+  checkKeys(condition: Condition) {
     return (
       checkMatch(condition.command, this.commandInput.command) &&
       checkMatch(condition.output, this.commandInput.output) &&
@@ -100,7 +99,7 @@ export default class CommandHandler extends SessionHandler {
     )
   }
 
-  async checkFiles(files?: IFileCondition[]): Promise<boolean> {
+  async checkFiles(files?: FileCondition[]): Promise<boolean> {
     if (!files || files.length === 0) {
       return true
     }
@@ -117,14 +116,14 @@ export default class CommandHandler extends SessionHandler {
     }
   }
 
-  async checkNot(condition?: ICondition): Promise<boolean> {
+  async checkNot(condition?: Condition): Promise<boolean> {
     if (!condition) {
       return true
     }
     return !(await this.isMatch(condition))
   }
 
-  async checkOr(conditions?: ICondition[]): Promise<boolean> {
+  async checkOr(conditions?: Condition[]): Promise<boolean> {
     if (!conditions || conditions.length === 0) {
       return true
     }
@@ -132,7 +131,7 @@ export default class CommandHandler extends SessionHandler {
     return matches.some((m) => m === true)
   }
 
-  async checkException(stage: IStage): Promise<IException | null> {
+  async checkException(stage: Stage): Promise<Exception | null> {
     const exceptions = stage.exceptions || []
     for (const exception of exceptions) {
       // eslint-disable-next-line no-await-in-loop
@@ -200,7 +199,7 @@ export default class CommandHandler extends SessionHandler {
       logger.error('CommandHandler error', {
         error: (err as Error).message,
         session: this.session._id,
-        quest: this.quest._id,
+        quest: this.quest.id,
         command: this.commandInput,
       })
       return null

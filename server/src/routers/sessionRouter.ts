@@ -34,10 +34,7 @@ export const sessionRouter = router({
           status: session.status,
           createdAt: session.createdAt,
           lastActivityAt: session.lastActivityAt,
-          hints: session.hints,
-          tasks: session.tasks,
-          responses: session.responses,
-          graph: session.graph,
+          stages: session.stages,
         }
       }
       throw new TRPCError({

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const questDetailResponseSchema = z.object({
-  _id: z.string(),
+  id: z.string(),
   title: z.string(),
   instruction: z.string(),
   requirements: z.array(z.string()),

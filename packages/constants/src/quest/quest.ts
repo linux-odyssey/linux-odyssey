@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { stageSchema } from './stage.js'
-import { globalExceptionSchema } from './global-exception.js'
+import { globalExceptionSchema } from './exception.js'
 import { requirementSchema } from './requirement.js'
 
 export const questSchema = z.object({

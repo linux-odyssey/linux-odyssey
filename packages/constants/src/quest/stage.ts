@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { stageExceptionSchema } from './stage-exception.js'
+import { stageExceptionSchema } from './exception.js'
 import { conditionSchema } from './condition.js'
 import { responseSchema } from './response.js'
 import { hintSchema } from './hint.js'
