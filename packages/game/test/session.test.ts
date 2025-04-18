@@ -1,6 +1,7 @@
 import { expect, describe, it } from '@jest/globals'
 import { IQuest } from '../src/schema'
 import { Session } from '../src/Session'
+import { MockFileChecker } from './asyncCondition.test'
 
 const quest: IQuest = {
   id: 'quest1',
@@ -12,25 +13,33 @@ const quest: IQuest = {
     {
       id: 'stage1',
       requirements: [],
-      condition: {},
+      condition: {
+        command: 'echo start',
+      },
       response: { type: 'narrative', content: 'Narrative 1' },
     },
     {
       id: 'stage2',
       requirements: ['stage1'],
-      condition: {},
+      condition: {
+        command: 'ls',
+      },
       response: { type: 'narrative', content: 'Narrative 2' },
     },
     {
       id: 'stage3',
       requirements: ['stage1'],
-      condition: {},
+      condition: {
+        command: 'mkdir hello',
+      },
       response: { type: 'narrative', content: 'Narrative 3' },
     },
     {
       id: 'stage4',
       requirements: ['stage2', 'stage3'],
-      condition: {},
+      condition: {
+        command: 'echo finish',
+      },
       response: { type: 'narrative', content: 'Narrative 4' },
     },
   ],
@@ -42,7 +51,8 @@ describe('Session', () => {
       {
         completedStages: [],
       },
-      quest
+      quest,
+      new MockFileChecker()
     )
     expect(session.getActiveStages()).toEqual(['stage1'])
 
@@ -54,5 +64,32 @@ describe('Session', () => {
 
     session.complete('stage3')
     expect(session.getActiveStages()).toEqual(['stage4'])
+  })
+
+  it('should run command', async () => {
+    const session = new Session(
+      {
+        completedStages: [],
+      },
+      quest,
+      new MockFileChecker()
+    )
+    expect(await session.runCommand({ command: 'hi' })).toBeNull()
+    expect(await session.runCommand({ command: 'echo start' })).toEqual(
+      'stage1'
+    )
+
+    expect(await session.runCommand({ command: 'echo start' })).toBeNull()
+    expect(await session.runCommand({ command: 'ls' })).toEqual('stage2')
+
+    expect(await session.runCommand({ command: 'echo finish' })).toBeNull()
+
+    expect(await session.runCommand({ command: 'mkdir hello' })).toEqual(
+      'stage3'
+    )
+
+    expect(await session.runCommand({ command: 'echo finish' })).toEqual(
+      'stage4'
+    )
   })
 })
