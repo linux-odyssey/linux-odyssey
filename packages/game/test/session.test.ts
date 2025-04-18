@@ -92,4 +92,26 @@ describe('Session', () => {
       'stage4'
     )
   })
+
+  it('should return responses', () => {
+    const session = new Session(
+      {
+        completedStages: ['stage1'],
+      },
+      quest,
+      new MockFileChecker()
+    )
+    expect(session.getResponses()).toEqual([
+      {
+        type: 'narrative',
+        content: 'Narrative 1',
+      },
+    ])
+
+    session.complete('stage2')
+    expect(session.getResponses()).toEqual([
+      { type: 'narrative', content: 'Narrative 1' },
+      { type: 'narrative', content: 'Narrative 2' },
+    ])
+  })
 })

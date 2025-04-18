@@ -1,4 +1,4 @@
-import { IStage, ICommand, IFileExistenceChecker } from './types'
+import { IStage, ICommand, IFileExistenceChecker } from './schema'
 import { Condition } from './condition/Condition'
 
 export class Stage {

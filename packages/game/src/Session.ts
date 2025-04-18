@@ -1,6 +1,11 @@
 import { Quest } from './Quest'
-import { IQuest } from './schema'
-import { ICommand, ISession, IFileExistenceChecker } from './types'
+import {
+  IQuest,
+  ICommand,
+  ISession,
+  IFileExistenceChecker,
+  IResponse,
+} from './schema'
 
 export class Session implements ISession {
   private completed: string[] = []
@@ -33,5 +38,9 @@ export class Session implements ISession {
       this.complete(stageId)
     }
     return stageId
+  }
+
+  getResponses(): IResponse[] {
+    return this.quest.getResponses(this.completed)
   }
 }

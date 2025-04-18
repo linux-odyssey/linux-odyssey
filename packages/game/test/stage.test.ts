@@ -1,6 +1,6 @@
 import { test, expect } from '@jest/globals'
 import { Stage } from '../src/Stage'
-import { FileType } from '../src/types'
+import { FileType } from '../src/schema'
 import { MockFileChecker } from './asyncCondition.test'
 
 const checker = new MockFileChecker()
@@ -12,6 +12,11 @@ test('check stage condition', async () => {
     condition: {
       command: 'ls',
       pwd: '/home/user',
+    },
+    requirements: [],
+    response: {
+      type: 'narrative',
+      content: 'Narrative 1',
     },
   })
   expect(
@@ -47,6 +52,11 @@ test('check stage with async condition truthy', async () => {
         },
       ],
     },
+    requirements: [],
+    response: {
+      type: 'narrative',
+      content: 'Narrative 1',
+    },
   })
   expect(await stage.satisfies({}, checker)).toBe(true)
 })
@@ -63,6 +73,11 @@ test('check stage with async condition falsy', async () => {
           exists: true,
         },
       ],
+    },
+    requirements: [],
+    response: {
+      type: 'narrative',
+      content: 'Narrative 1',
     },
   })
   expect(await stage.satisfies({}, checker)).toBe(false)

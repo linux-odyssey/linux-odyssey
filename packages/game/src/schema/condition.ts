@@ -1,9 +1,8 @@
 import { z } from 'zod'
-import { FileType } from '../types.js'
 
 export const fileInputSchema = z.object({
   path: z.string(),
-  type: z.nativeEnum(FileType),
+  type: z.enum(['file', 'folder']),
 })
 
 export type IFileInput = z.infer<typeof fileInputSchema>

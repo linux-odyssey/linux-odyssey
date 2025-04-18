@@ -1,7 +1,12 @@
 /* eslint-disable no-await-in-loop */
-import { IQuest, IStage } from './schema'
+import {
+  IQuest,
+  IStage,
+  IFileExistenceChecker,
+  ICommand,
+  IResponse,
+} from './schema'
 import { Stage } from './Stage'
-import { ICommand, IFileExistenceChecker } from './types'
 
 export class Quest {
   private stages: Stage[]
@@ -31,5 +36,11 @@ export class Quest {
       }
     }
     return null
+  }
+
+  getResponses(completed: string[]): IResponse[] {
+    return this.quest.stages
+      .filter((stage) => completed.includes(stage.id))
+      .map((stage) => stage.response)
   }
 }

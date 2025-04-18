@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { IFileExistenceChecker, FileType, FileInput } from '../src/types.js'
+import { IFileExistenceChecker, FileType, FileInput } from '../src/schema'
 import { checkFiles } from '../src/condition/FileMatcher.js'
 import { Condition } from '../src/condition/Condition.js'
 
