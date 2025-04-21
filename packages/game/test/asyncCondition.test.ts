@@ -1,25 +1,25 @@
 import { test, expect } from '@jest/globals'
-import { IFileExistenceChecker, FileType, FileInput } from '../src/schema'
+import { IFileExistenceChecker, IFileInput } from '../src/schema'
 import { checkFiles } from '../src/condition/FileMatcher.js'
 import { Condition } from '../src/condition/Condition.js'
 
 export class MockFileChecker implements IFileExistenceChecker {
-  private files: FileInput[] = [
+  private files: IFileInput[] = [
     {
       path: '/home/user/hello.txt',
-      type: FileType.FILE,
+      type: 'file',
     },
     {
       path: '/home/user/world.txt',
-      type: FileType.FILE,
+      type: 'file',
     },
     {
       path: '/home/user/Downloads',
-      type: FileType.FOLDER,
+      type: 'folder',
     },
   ]
 
-  async exists(file: FileInput): Promise<boolean> {
+  async exists(file: IFileInput): Promise<boolean> {
     return this.files.some((f) => f.path === file.path && f.type === file.type)
   }
 }
@@ -30,7 +30,7 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/hello.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: true,
       },
     ])
@@ -39,7 +39,7 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/not-exists.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: true,
       },
     ])
@@ -48,7 +48,7 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/not-exists.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: false,
       },
     ])
@@ -57,7 +57,7 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/Downloads',
-        type: FileType.FOLDER,
+        type: 'folder',
         exists: true,
       },
     ])
@@ -66,12 +66,12 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/hello.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: true,
       },
       {
         path: '/home/user/Downloads',
-        type: FileType.FOLDER,
+        type: 'folder',
         exists: true,
       },
     ])
@@ -80,12 +80,12 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/hello.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: true,
       },
       {
         path: '/home/user/not-exist.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: true,
       },
     ])
@@ -98,7 +98,7 @@ test('condition with file matcher', async () => {
     files: [
       {
         path: '/home/user/hello.txt',
-        type: FileType.FILE,
+        type: 'file',
         exists: true,
       },
     ],

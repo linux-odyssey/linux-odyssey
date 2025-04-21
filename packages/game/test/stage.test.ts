@@ -1,6 +1,5 @@
 import { test, expect } from '@jest/globals'
 import { Stage } from '../src/Stage'
-import { FileType } from '../src/schema'
 import { MockFileChecker } from './asyncCondition.test'
 
 const checker = new MockFileChecker()
@@ -47,7 +46,7 @@ test('check stage with async condition truthy', async () => {
       files: [
         {
           path: '/home/user/hello.txt',
-          type: FileType.FILE,
+          type: 'file',
           exists: true,
         },
       ],
@@ -69,7 +68,7 @@ test('check stage with async condition falsy', async () => {
       files: [
         {
           path: '/home/user/not-exists.txt',
-          type: FileType.FILE,
+          type: 'file',
           exists: true,
         },
       ],

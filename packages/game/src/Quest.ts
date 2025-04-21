@@ -1,4 +1,5 @@
 /* eslint-disable no-await-in-loop */
+import { Condition } from './condition/Condition'
 import {
   IQuest,
   IStage,
@@ -33,6 +34,12 @@ export class Quest {
       const satisfies = await stage.satisfies(command, this.checker)
       if (satisfies) {
         return stage.id
+      }
+    }
+    for (const exception of stages.flatMap((stage) => stage.exceptions)) {
+      const condition = new Condition(exception.condition)
+      if (await condition.match(command)) {
+        return exception.id
       }
     }
     return null

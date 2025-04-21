@@ -31,3 +31,7 @@ export const conditionSchema: z.ZodType<ICondition> =
     or: z.lazy(() => z.array(conditionSchema).optional()),
     not: z.lazy(() => conditionSchema.optional()),
   })
+
+export interface IFileExistenceChecker {
+  exists(file: IFileInput): Promise<boolean>
+}

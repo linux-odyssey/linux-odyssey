@@ -93,7 +93,7 @@ describe('Session', () => {
     )
   })
 
-  it('should return responses', () => {
+  it('should return all responses', () => {
     const session = new Session(
       {
         completedStages: ['stage1'],

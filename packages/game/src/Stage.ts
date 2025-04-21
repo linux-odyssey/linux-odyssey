@@ -1,17 +1,20 @@
 import { IStage, ICommand, IFileExistenceChecker } from './schema'
 import { Condition } from './condition/Condition'
+import { StageException } from './schema/exception'
 
 export class Stage {
   id: string
   name: string
   private condition: Condition
   private requirements: string[]
+  public readonly exceptions: StageException[]
 
-  constructor({ id, name, condition, requirements }: IStage) {
+  constructor({ id, name, condition, requirements, exceptions }: IStage) {
     this.id = id
     this.name = name || ''
     this.condition = new Condition(condition)
     this.requirements = requirements || []
+    this.exceptions = exceptions || []
   }
 
   async satisfies(
