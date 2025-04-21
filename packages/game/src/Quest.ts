@@ -1,5 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { Condition } from './condition/Condition'
+import { Event } from './Event'
+import { GlobalException, StageException } from './Exception'
 import {
   IQuest,
   IStage,
@@ -10,15 +12,28 @@ import {
 import { Stage } from './Stage'
 
 export class Quest {
-  private stages: Stage[]
   private quest: IQuest
+  private stages: Stage[]
+  private exceptions: GlobalException[] = []
+  private events: Map<string, Event> = new Map()
 
   constructor(
     quest: IQuest,
     private checker: IFileExistenceChecker
   ) {
     this.quest = quest
-    this.stages = quest.stages.map((stage: IStage) => new Stage(stage))
+    this.stages = quest.stages.map((stage) => new Stage(stage))
+    for (const stage of this.stages) {
+      this.events.set(stage.id, stage)
+      for (const exception of stage.getExceptions()) {
+        this.events.set(exception.id, exception)
+      }
+    }
+    for (const exception of quest.exceptions ?? []) {
+      const globalException = new GlobalException(exception)
+      this.exceptions.push(globalException)
+      this.events.set(globalException.id, globalException)
+    }
   }
 
   getActiveStages(completed: string[]) {
@@ -26,15 +41,7 @@ export class Quest {
   }
 
   private getActiveExceptions(completed: string[]) {
-    return (
-      this.quest.exceptions?.filter(
-        (exception) =>
-          !completed.includes(exception.id) &&
-          exception.requirements.every((requirement) =>
-            completed.includes(requirement)
-          )
-      ) ?? []
-    )
+    return this.exceptions.filter((exception) => exception.active(completed))
   }
 
   async findSatisfiedEvent(
@@ -49,17 +56,15 @@ export class Quest {
         return stage.id
       }
     }
-    for (const exception of stages.flatMap((stage) => stage.exceptions)) {
-      const condition = new Condition(exception.condition)
+    for (const exception of stages.flatMap((stage) => stage.getExceptions())) {
       if (exception.catchAll && !catchAllException) {
         catchAllException = exception.id
-      } else if (await condition.satisfies(command, this.checker)) {
+      } else if (await exception.satisfies(command, this.checker)) {
         return exception.id
       }
     }
     for (const exception of this.getActiveExceptions(completed)) {
-      const condition = new Condition(exception.condition)
-      if (await condition.satisfies(command, this.checker)) {
+      if (await exception.satisfies(command, this.checker)) {
         return exception.id
       }
     }

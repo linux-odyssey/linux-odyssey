@@ -9,16 +9,16 @@ export const exceptionSchema = z.object({
   response: responseSchema,
 })
 
-export type Exception = z.infer<typeof exceptionSchema>
+export type IException = z.infer<typeof exceptionSchema>
 
 export const stageExceptionSchema = exceptionSchema.extend({
   catchAll: z.boolean().default(false),
 })
 
-export type StageException = z.infer<typeof stageExceptionSchema>
+export type IStageException = z.infer<typeof stageExceptionSchema>
 
 export const globalExceptionSchema = exceptionSchema.extend({
   requirements: requirementsSchema.default([]),
 })
 
-export type GlobalException = z.infer<typeof globalExceptionSchema>
+export type IGlobalException = z.infer<typeof globalExceptionSchema>

@@ -3,6 +3,7 @@ export { stageSchema, IStage } from './stage.js'
 export { requirementsSchema, IRequirements } from './requirements.js'
 export { responseSchema, IResponse } from './response.js'
 export { questSchema, IQuest } from './quest.js'
+export { exceptionSchema, IException } from './exception.js'
 
 export interface ICommand {
   command?: string
