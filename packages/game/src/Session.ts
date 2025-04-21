@@ -12,15 +12,15 @@ export class Session implements ISession {
   private quest: Quest
 
   constructor(
-    { completedStages }: ISession,
+    { completedEvents }: ISession,
     quest: IQuest,
     checker: IFileExistenceChecker
   ) {
-    this.completed = completedStages
+    this.completed = completedEvents
     this.quest = new Quest(quest, checker)
   }
 
-  get completedStages() {
+  get completedEvents() {
     return this.completed
   }
 
@@ -33,7 +33,7 @@ export class Session implements ISession {
   }
 
   async runCommand(command: ICommand) {
-    const stageId = await this.quest.findSatisfiedStage(command, this.completed)
+    const stageId = await this.quest.findSatisfiedEvent(command, this.completed)
     if (stageId) {
       this.complete(stageId)
     }

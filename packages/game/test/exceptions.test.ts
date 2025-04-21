@@ -66,19 +66,19 @@ const quest: IQuest = {
 describe('exceptions', () => {
   it('should return the stage exception', async () => {
     const session = new Session(
-      { completedStages: [] },
+      { completedEvents: [] },
       quest,
       new MockFileChecker()
     )
     expect(await session.runCommand({ command: 'ls' })).toBe('exception1')
     await session.runCommand({ command: 'echo start' })
-    console.log('completed', session.completedStages)
+    console.log('completed', session.completedEvents)
     expect(await session.runCommand({ command: 'ls' })).toBe('stage2')
   })
 
   it('should return the catch all exception', async () => {
     const session = new Session(
-      { completedStages: [] },
+      { completedEvents: [] },
       quest,
       new MockFileChecker()
     )
@@ -89,7 +89,7 @@ describe('exceptions', () => {
 
   it('should return the global exception', async () => {
     const session = new Session(
-      { completedStages: [] },
+      { completedEvents: [] },
       quest,
       new MockFileChecker()
     )

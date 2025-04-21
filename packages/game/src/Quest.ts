@@ -37,7 +37,7 @@ export class Quest {
     )
   }
 
-  async findSatisfiedStage(
+  async findSatisfiedEvent(
     command: ICommand,
     completed: string[]
   ): Promise<string | null> {

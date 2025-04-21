@@ -49,7 +49,7 @@ describe('Session', () => {
   it('should return active stages', () => {
     const session = new Session(
       {
-        completedStages: [],
+        completedEvents: [],
       },
       quest,
       new MockFileChecker()
@@ -69,7 +69,7 @@ describe('Session', () => {
   it('should run command', async () => {
     const session = new Session(
       {
-        completedStages: [],
+        completedEvents: [],
       },
       quest,
       new MockFileChecker()
@@ -96,7 +96,7 @@ describe('Session', () => {
   it('should return all responses', () => {
     const session = new Session(
       {
-        completedStages: ['stage1'],
+        completedEvents: ['stage1'],
       },
       quest,
       new MockFileChecker()

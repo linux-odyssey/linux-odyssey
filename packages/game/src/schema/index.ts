@@ -12,5 +12,5 @@ export interface ICommand {
 }
 
 export interface ISession {
-  completedStages: string[]
+  completedEvents: string[]
 }
