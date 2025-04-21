@@ -42,6 +42,7 @@ export class Quest {
     completed: string[]
   ): Promise<string | null> {
     const stages = this.getActiveStages(completed)
+    let catchAllException: string | null = null
     for (const stage of stages) {
       const satisfies = await stage.satisfies(command, this.checker)
       if (satisfies) {
@@ -50,7 +51,9 @@ export class Quest {
     }
     for (const exception of stages.flatMap((stage) => stage.exceptions)) {
       const condition = new Condition(exception.condition)
-      if (await condition.satisfies(command, this.checker)) {
+      if (exception.catchAll && !catchAllException) {
+        catchAllException = exception.id
+      } else if (await condition.satisfies(command, this.checker)) {
         return exception.id
       }
     }
@@ -60,7 +63,7 @@ export class Quest {
         return exception.id
       }
     }
-    return null
+    return catchAllException
   }
 
   getResponses(completed: string[]): IResponse[] {

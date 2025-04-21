@@ -76,6 +76,17 @@ describe('exceptions', () => {
     expect(await session.runCommand({ command: 'ls' })).toBe('stage2')
   })
 
+  it('should return the catch all exception', async () => {
+    const session = new Session(
+      { completedStages: [] },
+      quest,
+      new MockFileChecker()
+    )
+    expect(await session.runCommand({ command: 'what is this' })).toBe(
+      'exception2'
+    )
+  })
+
   it('should return the global exception', async () => {
     const session = new Session(
       { completedStages: [] },
@@ -83,7 +94,7 @@ describe('exceptions', () => {
       new MockFileChecker()
     )
     expect(await session.runCommand({ command: 'rm' })).toBe('exception3')
-    expect(await session.runCommand({ command: 'mv' })).toBeNull()
+    expect(await session.runCommand({ command: 'mv' })).toBe('exception2') // catch all
     session.complete('stage1')
     expect(await session.runCommand({ command: 'mv' })).toBe('exception4')
   })
