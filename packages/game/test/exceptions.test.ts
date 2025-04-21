@@ -43,6 +43,24 @@ const quest: IQuest = {
       response: { type: 'narrative', content: 'Narrative 2' },
     },
   ],
+  exceptions: [
+    {
+      id: 'exception3',
+      condition: {
+        command: 'rm',
+      },
+      response: { type: 'narrative', content: 'Exception 3' },
+      requirements: [],
+    },
+    {
+      id: 'exception4',
+      condition: {
+        command: 'mv',
+      },
+      response: { type: 'narrative', content: 'Exception 4' },
+      requirements: ['stage1'],
+    },
+  ],
 }
 
 describe('exceptions', () => {
@@ -56,5 +74,17 @@ describe('exceptions', () => {
     await session.runCommand({ command: 'echo start' })
     console.log('completed', session.completedStages)
     expect(await session.runCommand({ command: 'ls' })).toBe('stage2')
+  })
+
+  it('should return the global exception', async () => {
+    const session = new Session(
+      { completedStages: [] },
+      quest,
+      new MockFileChecker()
+    )
+    expect(await session.runCommand({ command: 'rm' })).toBe('exception3')
+    expect(await session.runCommand({ command: 'mv' })).toBeNull()
+    session.complete('stage1')
+    expect(await session.runCommand({ command: 'mv' })).toBe('exception4')
   })
 })

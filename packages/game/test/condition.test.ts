@@ -5,6 +5,7 @@ import { PwdMatcher } from '../src/condition/PwdMatcher'
 import { CommandMatcher } from '../src/condition/CommandMatcher'
 import { ErrorMatcher } from '../src/condition/ErrorMatcher.js'
 import { conditionSchema } from '../src/schema'
+import { MockFileChecker } from './asyncCondition.test'
 
 test('command match', () => {
   const matcher = new CommandMatcher('^echo start$')
@@ -91,4 +92,11 @@ it('should parse condition', () => {
     },
   }
   expect(conditionSchema.safeParse(condition).error).toBeUndefined()
+})
+
+it('should not match empty condition', async () => {
+  const condition = new Condition({})
+  expect(
+    await condition.satisfies({ command: 'echo start' }, new MockFileChecker())
+  ).toBe(false)
 })

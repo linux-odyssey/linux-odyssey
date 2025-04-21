@@ -40,4 +40,14 @@ export class Condition {
     if (this.matchers.length === 0) return true
     return checkFiles(checker, this.files)
   }
+
+  async satisfies(
+    command: ICommand,
+    checker: IFileExistenceChecker
+  ): Promise<boolean> {
+    // Error matcher is always true
+    if (this.matchers.length === 1 && this.files.length === 0) return false
+    // eslint-disable-next-line no-return-await
+    return this.match(command) && (await this.check(checker))
+  }
 }

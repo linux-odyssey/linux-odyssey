@@ -25,6 +25,18 @@ export class Quest {
     return this.stages.filter((stage) => stage.active(completed))
   }
 
+  private getActiveExceptions(completed: string[]) {
+    return (
+      this.quest.exceptions?.filter(
+        (exception) =>
+          !completed.includes(exception.id) &&
+          exception.requirements.every((requirement) =>
+            completed.includes(requirement)
+          )
+      ) ?? []
+    )
+  }
+
   async findSatisfiedStage(
     command: ICommand,
     completed: string[]
@@ -38,7 +50,13 @@ export class Quest {
     }
     for (const exception of stages.flatMap((stage) => stage.exceptions)) {
       const condition = new Condition(exception.condition)
-      if (await condition.match(command)) {
+      if (await condition.satisfies(command, this.checker)) {
+        return exception.id
+      }
+    }
+    for (const exception of this.getActiveExceptions(completed)) {
+      const condition = new Condition(exception.condition)
+      if (await condition.satisfies(command, this.checker)) {
         return exception.id
       }
     }

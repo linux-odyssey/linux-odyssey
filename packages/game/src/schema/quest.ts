@@ -1,8 +1,7 @@
 import { z } from 'zod'
 import { stageSchema } from './stage.js'
 import { requirementsSchema } from './requirements.js'
-// import { globalExceptionSchema } from './exception.js'
-// import { requirementSchema } from './requirement.js'
+import { globalExceptionSchema } from './exception.js'
 
 export const questSchema = z.object({
   id: z.string(),
@@ -11,7 +10,7 @@ export const questSchema = z.object({
   instruction: z.string(),
   requirements: requirementsSchema,
   stages: z.array(stageSchema),
-  // exceptions: z.array(globalExceptionSchema).default([]),
+  exceptions: z.array(globalExceptionSchema).optional(),
 })
 
 export type IQuest = z.infer<typeof questSchema>

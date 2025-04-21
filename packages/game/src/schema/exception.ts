@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { conditionSchema } from './condition.js'
 import { responseSchema } from './response.js'
+import { requirementsSchema } from './requirements.js'
 
 export const exceptionSchema = z.object({
   id: z.string(),
@@ -17,7 +18,7 @@ export const stageExceptionSchema = exceptionSchema.extend({
 export type StageException = z.infer<typeof stageExceptionSchema>
 
 export const globalExceptionSchema = exceptionSchema.extend({
-  requirements: z.array(z.string()),
+  requirements: requirementsSchema.default([]),
 })
 
 export type GlobalException = z.infer<typeof globalExceptionSchema>
