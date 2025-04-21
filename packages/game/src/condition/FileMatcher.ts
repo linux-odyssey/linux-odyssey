@@ -1,8 +1,8 @@
-import { FileExistenceInput, IFileExistenceChecker } from '../types'
+import { IFileExistenceInput, IFileExistenceChecker } from '../schema'
 
 export async function checkFiles(
   checker: IFileExistenceChecker,
-  files: FileExistenceInput[]
+  files: IFileExistenceInput[]
 ) {
   const existences = await Promise.all(
     files.map((file) => checker.exists(file))

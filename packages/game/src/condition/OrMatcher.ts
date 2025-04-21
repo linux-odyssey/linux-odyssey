@@ -1,4 +1,4 @@
-import { ICommand } from '../types.js'
+import { ICommand } from '../schema'
 import { Matcher } from './Matcher.js'
 
 export class OrMatcher implements Matcher {

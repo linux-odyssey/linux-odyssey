@@ -1,7 +1,10 @@
 {
   "name": "@linux-odyssey/game",
   "version": "1.0.0",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "license": "MIT",
   "scripts": {
     "build": "tsc -b"

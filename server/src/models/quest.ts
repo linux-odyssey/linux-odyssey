@@ -3,7 +3,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import yaml from 'yaml'
 
-import { Quest, questSchema } from '@linux-odyssey/constants'
+import { questSchema, globalExceptionSchema, IQuest } from '@linux-odyssey/game'
 import logger from '../utils/logger.js'
 
 class QuestValidationError extends Error {
@@ -19,7 +19,7 @@ class QuestValidationError extends Error {
 }
 
 class QuestManager {
-  private quests = new Map<string, Quest>()
+  private quests = new Map<string, IQuest>()
   private questDirectory = path.join(process.cwd(), '..', 'quests')
 
   get(id: string) {
@@ -51,11 +51,11 @@ class QuestManager {
   private async loadGlobalExceptions() {
     const exceptionsPath = path.join(this.questDirectory, 'exceptions.yml')
     const body = await fs.readFile(exceptionsPath, 'utf-8')
-    return yaml.parse(body)
+    return globalExceptionSchema.array().parse(yaml.parse(body))
   }
 
   async loadAndUpdateQuests() {
-    const { exceptions } = await this.loadGlobalExceptions()
+    const exceptions = await this.loadGlobalExceptions()
     return this.mapQuests(async (id, questPath) => {
       const files = await fs.readdir(questPath)
       if (!files.includes('game.yml')) {
@@ -78,7 +78,7 @@ class QuestManager {
           image,
           ...questData,
         })
-        quest.exceptions.push(...exceptions)
+        quest.exceptions = [...exceptions]
         this.quests.set(id, quest)
       } catch (error) {
         logger.error(`Error parsing quest ${id}`, { error })

@@ -1,9 +1,9 @@
 export * from './condition.js'
-export { stageSchema, IStage } from './stage.js'
-export { requirementsSchema, IRequirements } from './requirements.js'
-export { responseSchema, IResponse } from './response.js'
-export { questSchema, IQuest } from './quest.js'
-export { exceptionSchema, IException } from './exception.js'
+export * from './stage.js'
+export * from './requirements.js'
+export * from './response.js'
+export * from './quest.js'
+export * from './exception.js'
 
 export interface ICommand {
   command?: string

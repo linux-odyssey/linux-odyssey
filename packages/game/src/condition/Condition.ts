@@ -1,8 +1,8 @@
 import {
   ICommand,
   IFileExistenceChecker,
-  IFileInput,
   ICondition,
+  IFileExistenceInput,
 } from '../schema'
 import { PwdMatcher } from './PwdMatcher.js'
 import { CommandMatcher } from './CommandMatcher.js'
@@ -14,7 +14,7 @@ import { NotMatcher } from './NotMatcher.js'
 import { checkFiles } from './FileMatcher.js'
 
 export class Condition {
-  private files: IFileInput[] = []
+  private files: IFileExistenceInput[] = []
   private matchers: Matcher[] = []
 
   constructor({ command, output, error, pwd, or, not, files }: ICondition) {

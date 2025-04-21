@@ -1,5 +1,5 @@
 import { Matcher } from './Matcher.js'
-import { ICommand } from '../types.js'
+import { ICommand } from '../schema'
 
 export class ErrorMatcher implements Matcher {
   private matcher?: RegExp

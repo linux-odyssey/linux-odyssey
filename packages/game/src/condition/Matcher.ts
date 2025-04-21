@@ -1,4 +1,4 @@
-import { ICommand } from '../types.js'
+import { ICommand } from '../schema'
 
 export interface Matcher {
   match(command: ICommand): boolean
