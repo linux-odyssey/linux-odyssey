@@ -1,7 +1,13 @@
 /* eslint-disable no-await-in-loop */
 import { Event } from './Event'
 import { GlobalException } from './Exception'
-import { IQuest, IFileExistenceChecker, ICommand, IResponse } from './schema'
+import {
+  IQuest,
+  IFileExistenceChecker,
+  ICommand,
+  IResponse,
+  ITask,
+} from './schema'
 import { Stage } from './Stage'
 
 export class Quest {
@@ -66,5 +72,22 @@ export class Quest {
 
   getResponses(completed: string[]): IResponse[] {
     return completed.map((id) => this.events.get(id)!.getResponse())
+  }
+
+  getTasks(completed: string[]): ITask[] {
+    const completedSet = new Set(completed)
+    const completedStages = this.stages
+      .filter((stage) => completedSet.has(stage.id))
+      .map((stage) => ({
+        id: stage.id,
+        name: stage.name,
+        completed: true,
+      }))
+    const activeStages = this.getActiveStages(completed).map((stage) => ({
+      id: stage.id,
+      name: stage.name,
+      completed: false,
+    }))
+    return [...completedStages, ...activeStages]
   }
 }

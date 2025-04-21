@@ -12,6 +12,7 @@ const quest: IQuest = {
   stages: [
     {
       id: 'stage1',
+      name: 'Stage 1',
       requirements: [],
       condition: {
         command: 'echo start',
@@ -20,6 +21,7 @@ const quest: IQuest = {
     },
     {
       id: 'stage2',
+      name: 'Stage 2',
       requirements: ['stage1'],
       condition: {
         command: 'ls',
@@ -28,6 +30,7 @@ const quest: IQuest = {
     },
     {
       id: 'stage3',
+      name: 'Stage 3',
       requirements: ['stage1'],
       condition: {
         command: 'mkdir hello',
@@ -36,6 +39,7 @@ const quest: IQuest = {
     },
     {
       id: 'stage4',
+      name: 'Stage 4',
       requirements: ['stage2', 'stage3'],
       condition: {
         command: 'echo finish',
@@ -127,6 +131,41 @@ describe('Session', () => {
       { type: 'narrative', content: 'Narrative 1' },
       { type: 'narrative', content: 'Exception 1' },
       { type: 'narrative', content: 'Narrative 2' },
+    ])
+  })
+
+  it('should return tasks', () => {
+    const session = new Session(
+      {
+        completedEvents: [],
+      },
+      quest,
+      new MockFileChecker()
+    )
+    expect(session.getTasks()).toEqual([
+      { id: 'stage1', name: 'Stage 1', completed: false },
+    ])
+
+    session.complete('stage1')
+    expect(session.getTasks()).toEqual([
+      { id: 'stage1', name: 'Stage 1', completed: true },
+      { id: 'stage2', name: 'Stage 2', completed: false },
+      { id: 'stage3', name: 'Stage 3', completed: false },
+    ])
+
+    session.complete('stage2')
+    expect(session.getTasks()).toEqual([
+      { id: 'stage1', name: 'Stage 1', completed: true },
+      { id: 'stage2', name: 'Stage 2', completed: true },
+      { id: 'stage3', name: 'Stage 3', completed: false },
+    ])
+
+    session.complete('stage3')
+    expect(session.getTasks()).toEqual([
+      { id: 'stage1', name: 'Stage 1', completed: true },
+      { id: 'stage2', name: 'Stage 2', completed: true },
+      { id: 'stage3', name: 'Stage 3', completed: true },
+      { id: 'stage4', name: 'Stage 4', completed: false },
     ])
   })
 })

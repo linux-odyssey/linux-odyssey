@@ -5,6 +5,7 @@ import {
   ISession,
   IFileExistenceChecker,
   IResponse,
+  ITask,
 } from './schema'
 
 export class Session implements ISession {
@@ -42,5 +43,9 @@ export class Session implements ISession {
 
   getResponses(): IResponse[] {
     return this.quest.getResponses(this.completed)
+  }
+
+  getTasks(): ITask[] {
+    return this.quest.getTasks(this.completed)
   }
 }

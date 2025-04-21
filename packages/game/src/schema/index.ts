@@ -15,3 +15,9 @@ export interface ICommand {
 export interface ISession {
   completedEvents: string[]
 }
+
+export interface ITask {
+  id: string
+  name: string
+  completed: boolean
+}
