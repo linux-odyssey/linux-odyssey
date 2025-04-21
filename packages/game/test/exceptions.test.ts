@@ -72,7 +72,6 @@ describe('exceptions', () => {
     )
     expect(await session.runCommand({ command: 'ls' })).toBe('exception1')
     await session.runCommand({ command: 'echo start' })
-    console.log('completed', session.completedEvents)
     expect(await session.runCommand({ command: 'ls' })).toBe('stage2')
   })
 

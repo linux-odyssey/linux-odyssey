@@ -1,14 +1,7 @@
 /* eslint-disable no-await-in-loop */
-import { Condition } from './condition/Condition'
 import { Event } from './Event'
-import { GlobalException, StageException } from './Exception'
-import {
-  IQuest,
-  IStage,
-  IFileExistenceChecker,
-  ICommand,
-  IResponse,
-} from './schema'
+import { GlobalException } from './Exception'
+import { IQuest, IFileExistenceChecker, ICommand, IResponse } from './schema'
 import { Stage } from './Stage'
 
 export class Quest {
@@ -72,8 +65,6 @@ export class Quest {
   }
 
   getResponses(completed: string[]): IResponse[] {
-    return this.quest.stages
-      .filter((stage) => completed.includes(stage.id))
-      .map((stage) => stage.response)
+    return completed.map((id) => this.events.get(id)!.getResponse())
   }
 }

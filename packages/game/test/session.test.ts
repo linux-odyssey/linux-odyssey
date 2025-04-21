@@ -43,6 +43,19 @@ const quest: IQuest = {
       response: { type: 'narrative', content: 'Narrative 4' },
     },
   ],
+  exceptions: [
+    {
+      id: 'exception1',
+      condition: {
+        command: 'rm',
+      },
+      response: {
+        type: 'narrative',
+        content: 'Exception 1',
+      },
+      requirements: [],
+    },
+  ],
 }
 
 describe('Session', () => {
@@ -108,9 +121,11 @@ describe('Session', () => {
       },
     ])
 
+    session.complete('exception1')
     session.complete('stage2')
     expect(session.getResponses()).toEqual([
       { type: 'narrative', content: 'Narrative 1' },
+      { type: 'narrative', content: 'Exception 1' },
       { type: 'narrative', content: 'Narrative 2' },
     ])
   })
