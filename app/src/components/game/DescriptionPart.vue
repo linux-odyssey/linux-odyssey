@@ -28,6 +28,10 @@ const right = () => {
     current.value += 1
   }
 }
+
+const response = computed(() => {
+  return sessionStore.session?.responses[current.value]
+})
 </script>
 
 <template>
@@ -69,21 +73,19 @@ const right = () => {
     <div id="hint" class="bg-bg p-8 overflow-y-auto">
       <ul>
         <li
-          v-for="response in sessionStore.session?.responses[current]"
+          v-if="response"
           :key="response.type"
           class="text-text font-xl whitespace-pre-wrap"
         >
-          <div v-for="content in response.content" :key="content">
-            <MarkdownText :content="content" />
-          </div>
+          <MarkdownText :content="response.content" />
         </li>
-        <li
-          v-for="hint in sessionStore.session?.hints[current]"
+        <!-- <li
+          v-for="hint in response?.hints"
           :key="hint"
           class="text-text-primary font-xl whitespace-pre-wrap"
         >
           <MarkdownText :content="hint" />
-        </li>
+        </li> -->
       </ul>
       <br />
     </div>

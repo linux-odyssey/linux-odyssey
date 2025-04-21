@@ -1,13 +1,7 @@
 import minimist from 'minimist'
 import { HydratedDocument } from 'mongoose'
 import { FileGraph } from '@linux-odyssey/file-graph'
-import {
-  Condition,
-  FileCondition,
-  Quest,
-  Stage,
-  Exception,
-} from '@linux-odyssey/constants'
+import { ICondition, Quest, Stage, IException } from '@linux-odyssey/game'
 import { ICommand, ISession } from '@linux-odyssey/models'
 import { pushToSession } from '../api/socket.js'
 import SessionHandler, { ExecuteResult } from './sessionHandler.js'

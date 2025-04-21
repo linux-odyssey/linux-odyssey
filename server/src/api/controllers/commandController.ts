@@ -1,11 +1,12 @@
+import { Session as GameSession } from '@linux-odyssey/game'
 import { Command, Session } from '@linux-odyssey/models'
 import { matchedData } from 'express-validator'
 import type { Request, Response } from 'express'
-import CommandHandler from '../../game/commandHandler.js'
 import { pushToSession } from '../socket.js'
 import { finishSession } from '../../models/sessionManager.js'
 import { asyncHandler } from '../../middleware/error.js'
 import { questManager } from '../../models/quest.js'
+import { CLIFileExistenceChecker } from '../../containers/cli.js'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const { command, pwd, output, error, params } = matchedData(req)
@@ -44,18 +45,26 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     return
   }
 
-  const commandHandler = new CommandHandler(session, quest, c, params)
-  const response = await commandHandler.run()
-  if (response) {
-    c.stage = response.stage
+  const gameSession = new GameSession(
+    session,
+    quest,
+    new CLIFileExistenceChecker()
+  )
+
+  const event = await gameSession.runCommand(c)
+  if (event) {
+    c.stage = event
     await c.save()
+
+    session.completedEvents = gameSession.completedEvents
+    await session.save()
 
     if ((session.status as string) === 'finished') {
       await finishSession(session)
     }
-    pushToSession(session.id, 'response', response)
+    pushToSession(session.id, 'response', gameSession.getResponses())
+    pushToSession(session.id, 'task', gameSession.getTasks())
   }
 
   res.status(200).end()
-  await session.save()
 })

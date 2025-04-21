@@ -1,9 +1,9 @@
 import { HydratedDocument, Types } from 'mongoose'
-import { Session, Quest, UserProfile } from '@linux-odyssey/models'
+import { Session, UserProfile } from '@linux-odyssey/models'
 import type { ISession, IUser } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
-import SessionHandler from '../game/sessionHandler.js'
 import logger from '../utils/logger.js'
+import { questManager } from './quest.js'
 
 async function deactivateSessions(userId: Types.ObjectId, quest: string) {
   const sessions = await Session.find({
@@ -31,13 +31,13 @@ export async function createNewSession(
   user: HydratedDocument<IUser>,
   questId: string
 ): Promise<ISession> {
-  const quest = await Quest.findById(questId)
+  const quest = await questManager.get(questId)
   if (!quest) {
     throw new Error(`Quest ${questId} not found`)
   }
 
   // deactivate all active sessions
-  deactivateSessions(user._id, quest._id).catch((err) => {
+  deactivateSessions(user._id, quest.id).catch((err) => {
     logger.error(err)
   })
 
@@ -53,31 +53,24 @@ export async function createNewSession(
     containerId: container.id,
   })
 
-  const sessionHandler = new SessionHandler(newSession, quest)
-
-  sessionHandler.addNewTasks()
-
-  const session = sessionHandler.getSession()
-  await session.save()
-
   const userProfile = await UserProfile.findOne({ user: user._id })
   if (!userProfile) {
     throw new Error(`UserProfile ${user._id} not found`)
   }
 
-  const progress = userProfile.progress.get(quest._id)
+  const progress = userProfile.progress.get(quest.id)
   if (!progress) {
-    userProfile.progress.set(quest._id, {
-      quest: quest._id,
-      sessions: [session._id],
+    userProfile.progress.set(quest.id, {
+      quest: quest.id,
+      sessions: [newSession._id],
       startedAt: new Date(),
       completed: false,
     })
   } else {
-    progress.sessions.push(session._id)
+    progress.sessions.push(newSession._id)
   }
   await userProfile.save()
-  return session
+  return newSession
 }
 
 export async function finishSession(
@@ -110,7 +103,7 @@ export async function isQuestUnlocked(
   if (!userProfile) {
     throw new Error(`UserProfile ${user.id} not found`)
   }
-  const quest = await Quest.findById(questId)
+  const quest = await questManager.get(questId)
   if (!quest) {
     throw new Error(`Quest ${questId} not found`)
   }

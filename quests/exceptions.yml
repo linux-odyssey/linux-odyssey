@@ -1,99 +1,97 @@
-exceptions:
-  - condition:
-      command:
-        - '[\uff21-\uff3a\uff41-\uff5a]'
-    responses:
-      - type: narrative
-        content: |
-          !! 請使用半形英文字母 !!
+- id: exception-fullwidth-letters
+  condition:
+    command: '[\uff21-\uff3a\uff41-\uff5a]'
+  response:
+    type: narrative
+    content: |
+      !! 請使用半形英文字母 !!
 
-  - condition:
-      command:
-        - '　'
-    responses:
-      - type: narrative
-        content: |
-          !! 請使用半形空格 !!
+- id: exception-fullwidth-space
+  condition:
+    command: '　'
+  response:
+    type: narrative
+    content: |
+      !! 請使用半形空格 !!
 
-  - condition:
-      command:
-        - ^echo\S
-    responses:
-      - type: narrative
-        content: |
-          !! `echo` 後面要加空格 !!
+- id: exception-echo-no-space
+  condition:
+    command: ^echo\S
+  response:
+    type: narrative
+    content: |
+      !! `echo` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^cd\S
-    responses:
-      - type: narrative
-        content: |
-          !! `cd` 後面要加空格 !!
+- id: exception-cd-no-space
+  condition:
+    command: ^cd\S
+  response:
+    type: narrative
+    content: |
+      !! `cd` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^ls\S
-    responses:
-      - type: narrative
-        content: |
-          !! `ls` 後面要加空格 !!
+- id: exception-ls-no-space
+  condition:
+    command: ^ls\S
+  response:
+    type: narrative
+    content: |
+      !! `ls` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^cat\S
-    responses:
-      - type: narrative
-        content: |
-          !! `cat` 後面要加空格 !!
+- id: exception-cat-no-space
+  condition:
+    command: ^cat\S
+  response:
+    type: narrative
+    content: |
+      !! `cat` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^touch\S
-    responses:
-      - type: narrative
-        content: |
-          !! `touch` 後面要加空格 !!
+- id: exception-touch-no-space
+  condition:
+    command: ^touch\S
+  response:
+    type: narrative
+    content: |
+      !! `touch` 後面要加空格 !!
 
-  - condition:
-      not:
-        command:
-          - ^rmdir
-      command:
-        - ^rm\S
-    responses:
-      - type: narrative
-        content: |
-          !! `rm` 後面要加空格 !!
+- id: exception-rm-no-space
+  condition:
+    not:
+      command: ^rmdir
+    command: ^rm\S
+  response:
+    type: narrative
+    content: |
+      !! `rm` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^mv\S
-    responses:
-      - type: narrative
-        content: |
-          !! `mv` 後面要加空格 !!
+- id: exception-mv-no-space
+  condition:
+    command: ^mv\S
+  response:
+    type: narrative
+    content: |
+      !! `mv` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^mkdir\S
-    responses:
-      - type: narrative
-        content: |
-          !! `mkdir` 後面要加空格 !!
+- id: exception-mkdir-no-space
+  condition:
+    command: ^mkdir\S
+  response:
+    type: narrative
+    content: |
+      !! `mkdir` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^rmdir\S
-    responses:
-      - type: narrative
-        content: |
-          !! `rmdir` 後面要加空格 !!
+- id: exception-rmdir-no-space
+  condition:
+    command: ^rmdir\S
+  response:
+    type: narrative
+    content: |
+      !! `rmdir` 後面要加空格 !!
 
-  - condition:
-      command:
-        - ^cp\S
-    responses:
-      - type: narrative
-        content: |
-          !! `cp` 後面要加空格 !!
+- id: exception-cp-no-space
+  condition:
+    command: ^cp\S
+  response:
+    type: narrative
+    content: |
+      !! `cp` 後面要加空格 !!

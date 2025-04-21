@@ -1,8 +1,0 @@
-#!/bin/sh
-
-echo "你執行了 dog 檔案"
-echo "汪汪汪"
-sleep 1
-echo "你知道嗎？"
-sleep 1
-echo "我比貓還厲害"

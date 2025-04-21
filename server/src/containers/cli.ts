@@ -1,15 +1,15 @@
 import { execFile } from 'child_process'
 
 import { buildFileCheckCmd } from '@linux-odyssey/utils'
-import type { IFileCondition } from '@linux-odyssey/models'
+import type { IFileExistenceChecker, IFileInput } from '@linux-odyssey/game'
 
 function sanitizeId(id: string) {
   return id.replace(/[^a-zA-Z0-9]/g, '')
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function checkFile(id: string, file: IFileCondition) {
-  return new Promise((resolve, reject) => {
+export function checkFile(id: string, file: IFileInput) {
+  return new Promise<boolean>((resolve) => {
     const cmd = buildFileCheckCmd(file)
     // WARNING: This is vulnerable to command injection
     execFile(
@@ -18,12 +18,15 @@ export function checkFile(id: string, file: IFileCondition) {
       { timeout: 1000 },
       (error) => {
         const exists = !error
-        if (exists === file.exists) {
-          resolve(true)
-        } else {
-          reject(new Error('File check failed'))
-        }
+        resolve(exists)
       }
     )
   })
+}
+
+export class CLIFileExistenceChecker implements IFileExistenceChecker {
+  // eslint-disable-next-line class-methods-use-this
+  async exists(file: IFileInput) {
+    return checkFile(file.path, file)
+  }
 }

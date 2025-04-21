@@ -1,5 +1,5 @@
 interface Node {
-  _id: string
+  id: string
   requirements: string[]
 }
 
@@ -9,7 +9,7 @@ export default class DAG {
   private layers: number[] = []
 
   constructor(nodes: Node[]) {
-    this.nodes = new Map(nodes.map((node) => [node._id, node]))
+    this.nodes = new Map(nodes.map((node) => [node.id, node]))
     this.edges = new Set<[string, string]>()
     this.nodes.forEach((_, id) => {
       this.setLayer(id)

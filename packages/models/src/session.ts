@@ -30,7 +30,7 @@ export interface ISession {
   updatedAt: Date
   finishedAt?: Date
   lastActivityAt: Date
-  stages: string[]
+  completedEvents: string[]
   graph: INode
 }
 
@@ -61,7 +61,7 @@ export const Session = model<ISession>(
         default: Date.now,
         required: true,
       },
-      stages: [String],
+      completedEvents: [String],
       graph: {
         type: nodeSchema,
         default: {

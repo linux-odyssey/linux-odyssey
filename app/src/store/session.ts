@@ -1,15 +1,22 @@
 import { defineStore } from 'pinia'
 import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
-import { QuestDetailResponse } from '../../../packages/constants/dist/src'
+import { IResponse, ITask } from '@linux-odyssey/game'
 import { createSession, getActiveSession } from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
-import { Session, StageResponse } from '../types'
+import { Session } from '../types'
 import { trpc } from '../utils/trpc'
 
 const socket = new Socket()
 const term = new SocketTerminal(40, 80)
 let hasSetup = false
+
+interface QuestDetailResponse {
+  id: string
+  title: string
+  instruction: string
+  requirements: string[]
+}
 
 interface Store {
   session: Session | null
@@ -30,7 +37,7 @@ const useSession = defineStore('session', {
     },
     async setSession(session: Session) {
       this.session = session
-      this.session.graph = new FileGraph(session.graph)
+      // this.session.graph = new FileGraph(session.graph)
       term.reset()
       await socket.connect(session)
       term.focus()
@@ -55,22 +62,29 @@ const useSession = defineStore('session', {
         this.session.pwd = event.pwd
       }
     },
-    newResponse(response: StageResponse) {
+    newResponse(responses: IResponse[]) {
       if (!this.session) return
-      this.session.responses.push(response.responses)
-      this.session.hints.push(response.hints)
-      if (response.tasks) {
-        this.session.tasks = response.tasks
-      }
-      if (
-        response.status === 'finished' &&
-        this.session.status !== 'finished'
-      ) {
-        this.finish()
-      }
-      this.session.status = response.status
+      this.session.responses = responses
+      // this.session.hints.push(response.hints)
+      // if (response.tasks) {
+      //   this.session.tasks = response.tasks
+      // }
+      // if (
+      //   response.status === 'finished' &&
+      //   this.session.status !== 'finished'
+      // ) {
+      //   this.finish()
+      // }
+      // this.session.status = response.status
     },
-    finish() {},
+    newTask(tasks: ITask[]) {
+      if (!this.session) return
+      this.session.tasks = tasks
+    },
+    finish() {
+      if (!this.session) return
+      this.session.status = 'finished'
+    },
     reset() {
       socket.reset()
       term.reset()
@@ -87,8 +101,11 @@ const useSession = defineStore('session', {
       socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
         this.updateGraph(event)
       })
-      socket.on('response', (response: StageResponse) => {
-        this.newResponse(response)
+      socket.on('response', (responses: IResponse[]) => {
+        this.newResponse(responses)
+      })
+      socket.on('task', (tasks: ITask[]) => {
+        this.newTask(tasks)
       })
       hasSetup = true
     },

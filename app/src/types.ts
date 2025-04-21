@@ -1,6 +1,5 @@
 import { FileGraph } from '@linux-odyssey/file-graph'
-// eslint-disable-next-line import/no-relative-packages
-import { IResponse } from '@linux-odyssey/models'
+import { IResponse, ITask } from '@linux-odyssey/game'
 
 export interface Task {
   id: number
@@ -21,6 +20,6 @@ export interface Session {
   graph: FileGraph
   pwd: string
   hints: string[][]
-  tasks: Task[]
-  responses: IResponse[][]
+  tasks: ITask[]
+  responses: IResponse[]
 }

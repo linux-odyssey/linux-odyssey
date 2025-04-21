@@ -18,6 +18,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@linux-odyssey/constants": "*",
     "@linux-odyssey/file-graph": "*",
+    "@linux-odyssey/game": "*",
     "@linux-odyssey/models": "*",
     "@linux-odyssey/utils": "*",
     "@trpc/client": "^11.1.0",

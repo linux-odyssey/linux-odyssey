@@ -8,7 +8,7 @@ export const questSchema = z.object({
   title: z.string(),
   image: z.string(),
   instruction: z.string(),
-  requirements: requirementsSchema,
+  requirements: requirementsSchema.default([]),
   stages: z.array(stageSchema),
   exceptions: z.array(globalExceptionSchema).optional(),
 })

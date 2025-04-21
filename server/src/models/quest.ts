@@ -16,6 +16,19 @@ class QuestValidationError extends Error {
     this.questId = questId
     this.error = error
   }
+
+  toString() {
+    if (this.error?.issues) {
+      const issues = this.error.issues
+        .map((issue: any) => {
+          const fieldPath = issue.path.join('.')
+          return `- ${fieldPath}: ${issue.message}`
+        })
+        .join('\n')
+      return `Error in quest "${this.questId}":\n${issues}`
+    }
+    return `Error in quest "${this.questId}": ${this.message}`
+  }
 }
 
 class QuestManager {
@@ -49,9 +62,18 @@ class QuestManager {
   }
 
   private async loadGlobalExceptions() {
-    const exceptionsPath = path.join(this.questDirectory, 'exceptions.yml')
-    const body = await fs.readFile(exceptionsPath, 'utf-8')
-    return globalExceptionSchema.array().parse(yaml.parse(body))
+    try {
+      const exceptionsPath = path.join(this.questDirectory, 'exceptions.yml')
+      const body = await fs.readFile(exceptionsPath, 'utf-8')
+      return globalExceptionSchema.array().parse(yaml.parse(body))
+    } catch (error) {
+      logger.error('Error loading global exceptions', { error })
+      throw new QuestValidationError(
+        'Failed to load global exceptions',
+        'global',
+        error
+      )
+    }
   }
 
   async loadAndUpdateQuests() {
