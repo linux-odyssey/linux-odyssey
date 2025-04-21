@@ -5,7 +5,7 @@ import { StageException } from './schema/exception'
 export class Stage {
   id: string
   name: string
-  private condition: Condition
+  public readonly condition: Condition
   private requirements: string[]
   public readonly exceptions: StageException[]
 
@@ -21,7 +21,7 @@ export class Stage {
     command: ICommand,
     checker: IFileExistenceChecker
   ): Promise<boolean> {
-    return this.condition.match(command) && this.condition.check(checker)
+    return this.condition.satisfies(command, checker)
   }
 
   private checkRequirements(completed: string[]): boolean {
