@@ -1,15 +1,22 @@
-interface Node {
+export interface NodeInput {
   id: string
   requirements: string[]
 }
 
-export default class DAG {
-  private nodes = new Map()
+type Node<T extends NodeInput> = T & {
+  layer: number
+  index: number
+}
+
+export default class DAG<T extends NodeInput> {
+  private nodes = new Map<string, Node<T>>()
   private edges = new Set<[string, string]>()
   private layers: number[] = []
 
-  constructor(nodes: Node[]) {
-    this.nodes = new Map(nodes.map((node) => [node.id, node]))
+  constructor(nodes: T[]) {
+    this.nodes = new Map(
+      nodes.map((node) => [node.id, { ...node, layer: 0, index: 0 }])
+    )
     this.edges = new Set<[string, string]>()
     this.nodes.forEach((_, id) => {
       this.setLayer(id)
@@ -38,7 +45,7 @@ export default class DAG {
   }
 
   getLayer(id: string) {
-    const node = this.getNode(id)
+    const node = this.nodes.get(id)
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
@@ -46,7 +53,7 @@ export default class DAG {
   }
 
   private setLayer(id: string) {
-    const node = this.getNode(id)
+    const node = this.nodes.get(id)
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
@@ -67,7 +74,7 @@ export default class DAG {
   }
 
   addEdges(id: string) {
-    const node = this.getNode(id)
+    const node = this.nodes.get(id)
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
