@@ -22,7 +22,7 @@ function sessionSummary(session: ISession) {
 function sessionDetail(session: ISession) {
   return {
     ...sessionSummary(session),
-    stages: session.events,
+    events: session.completedEvents,
   }
 }
 

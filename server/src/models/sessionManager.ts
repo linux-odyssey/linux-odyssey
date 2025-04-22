@@ -49,7 +49,7 @@ export async function createNewSession(
 
   const newSession = new Session({
     user,
-    quest,
+    quest: quest.id,
     containerId: container.id,
   })
 
@@ -70,6 +70,7 @@ export async function createNewSession(
     progress.sessions.push(newSession._id)
   }
   await userProfile.save()
+  await newSession.save()
   return newSession
 }
 

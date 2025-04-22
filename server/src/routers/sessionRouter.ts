@@ -34,7 +34,7 @@ export const sessionRouter = router({
           status: session.status,
           createdAt: session.createdAt,
           lastActivityAt: session.lastActivityAt,
-          stages: session.events,
+          completedEvents: session.completedEvents,
         }
       }
       throw new TRPCError({
