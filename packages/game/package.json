@@ -10,6 +10,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
+    "@linux-odyssey/file-graph": "*",
     "zod": "^3.23.8"
   }
 }

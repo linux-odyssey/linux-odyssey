@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "src",
     "composite": true,
-    "outDir": "./dist"
+    "module": "NodeNext",
+    "outDir": "./dist/esm",
+    "declarationDir": "./dist/types"
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

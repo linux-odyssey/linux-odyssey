@@ -1,3 +1,4 @@
+import { FileGraph, INode } from '@linux-odyssey/file-graph'
 import { Quest } from './Quest'
 import {
   IQuest,
@@ -8,17 +9,19 @@ import {
   ITask,
 } from './schema'
 
-export class GameSession implements ISession {
+export class GameSession {
   private completed: string[] = []
   private quest: Quest
+  private graph: FileGraph
 
   constructor(
-    { completedEvents }: ISession,
+    { completedEvents, graph }: ISession,
     quest: IQuest,
     checker: IFileExistenceChecker
   ) {
     this.completed = completedEvents
     this.quest = new Quest(quest, checker)
+    this.graph = new FileGraph(graph)
   }
 
   get completedEvents() {
@@ -47,5 +50,9 @@ export class GameSession implements ISession {
 
   getTasks(): ITask[] {
     return this.quest.getTasks(this.completed)
+  }
+
+  getGraph(): INode {
+    return this.graph
   }
 }
