@@ -7,10 +7,15 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "generate": "tsx src/cli.ts"
   },
   "dependencies": {
     "@linux-odyssey/file-graph": "*",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "zod-to-json-schema": "^3.24.5"
   }
 }

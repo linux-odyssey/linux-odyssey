@@ -1,3 +1,5 @@
+id: cast
+image: base
 title: 輸出文字
 instruction: |
   在這個關卡中，你將會學到：
@@ -17,9 +19,9 @@ stages:
         `echo` 指令可以將後方接續的文字輸出到終端機上。
         例如你輸入 `echo Hello`，終端機就會顯示 `Hello`。
         你可以試著輸入 `echo ` 並在後面加上一些文字，然後按下 Enter 鍵，就可以看到終端機上顯示了你剛才輸入的文字。
-    hints:
-      - ➤  輸入 `echo` 並在後面加上一些文字
-      - ➤  例如：`echo example`
+      hint: |
+        輸入 `echo` 並在後面加上一些文字
+        例如：`echo example`
 
   - id: echo
     name: 在終端機上顯示顯示任意文字
@@ -31,8 +33,8 @@ stages:
       content: |
         你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
         接下來，請你試著在終端機上顯示 `How are you?`。
-    hints:
-      - ➤  利用 `echo` 指令來在終端機上顯示 `How are you?`
+      hint: |
+        利用 `echo` 指令來在終端機上顯示 `How are you?`
 
   - id: END
     name: 在終端機上顯示 `How are you?`

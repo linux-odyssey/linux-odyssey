@@ -1,5 +1,8 @@
 {
   "editor.tabSize": 2,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "yaml.schemas": {
+    "packages/game/quest.json": "quests/**/game.yml"
+  }
 }
