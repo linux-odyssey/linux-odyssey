@@ -44,6 +44,10 @@ export class GameSession {
     return stageId
   }
 
+  isFinished() {
+    return this.getActiveStages().length === 0
+  }
+
   getResponses(): IResponse[] {
     return this.quest.getResponses(this.completed)
   }

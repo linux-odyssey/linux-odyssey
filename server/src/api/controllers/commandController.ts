@@ -60,10 +60,11 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     await c.save()
 
     session.completedEvents = gameSession.completedEvents
-    await session.save()
 
-    if ((session.status as string) === 'finished') {
+    if (gameSession.isFinished()) {
       await finishSession(session)
+    } else {
+      await session.save()
     }
     pushToSession(session.id, 'update', {
       responses: gameSession.getResponses(),
