@@ -18,10 +18,10 @@ export default class DAG<T extends NodeInput> {
       nodes.map((node) => [node.id, { ...node, layer: 0, index: 0 }])
     )
     this.edges = new Set<[string, string]>()
-    this.nodes.forEach((_, id) => {
+    for (const id of this.nodes.keys()) {
       this.setLayer(id)
       this.addEdges(id)
-    })
+    }
   }
 
   getNode(id: string) {
@@ -57,7 +57,7 @@ export default class DAG<T extends NodeInput> {
     if (!node) {
       throw new Error(`Node ${id} not found`)
     }
-    if (node.layer !== undefined) {
+    if (node.layer !== 0) {
       return node.layer
     }
     const previousLayer = node.requirements.map((rId: string) =>
