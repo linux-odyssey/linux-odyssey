@@ -43,7 +43,7 @@ const useSession = defineStore('session', {
     },
     async setSession(session: Session) {
       console.log('set session', session)
-      this.session = { ...session, tasks: [] }
+      this.session = session
       // this.session.graph = new FileGraph(session.graph)
       term.reset()
       await socket.connect(session)
@@ -55,20 +55,22 @@ const useSession = defineStore('session', {
       socket.emit('terminal', 'echo start\n')
     },
     async getActiveSession() {
-      const session = await getActiveSession(this.questId)
+      const session = await trpc.session.getActiveSession.query({
+        questId: this.questId,
+      })
       if (session) {
         this.setSession(session)
       }
     },
-    updateGraph(event: { discover?: FileObject[]; pwd?: string }) {
-      if (!this.session) return
-      if (event.discover) {
-        this.session.graph.discover(event.discover)
-      }
-      if (event.pwd) {
-        this.session.pwd = event.pwd
-      }
-    },
+    // updateGraph(event: { discover?: FileObject[]; pwd?: string }) {
+    //   if (!this.session) return
+    //   if (event.discover) {
+    //     this.session.graph.discover(event.discover)
+    //   }
+    //   if (event.pwd) {
+    //     this.session.pwd = event.pwd
+    //   }
+    // },
     newUpdate(update: SessionUpdate) {
       if (!this.session) return
       this.session.responses = update.responses
@@ -103,9 +105,9 @@ const useSession = defineStore('session', {
       term.onData((data: string) => {
         socket.emit('terminal', data)
       })
-      socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
-        this.updateGraph(event)
-      })
+      // socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
+      //   this.updateGraph(event)
+      // })
       socket.on('update', (update: SessionUpdate) => {
         this.newUpdate(update)
       })

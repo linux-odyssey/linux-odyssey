@@ -1,6 +1,6 @@
 import { expect, describe, it } from '@jest/globals'
 import { IQuest } from '../src/schema'
-import { Session } from '../src/Session'
+import { GameSession } from '../src/Session'
 import { MockFileChecker } from './asyncCondition.test'
 
 const quest: IQuest = {
@@ -64,7 +64,7 @@ const quest: IQuest = {
 
 describe('Session', () => {
   it('should return active stages', () => {
-    const session = new Session(
+    const session = new GameSession(
       {
         completedEvents: [],
       },
@@ -84,7 +84,7 @@ describe('Session', () => {
   })
 
   it('should run command', async () => {
-    const session = new Session(
+    const session = new GameSession(
       {
         completedEvents: [],
       },
@@ -111,7 +111,7 @@ describe('Session', () => {
   })
 
   it('should return all responses', () => {
-    const session = new Session(
+    const session = new GameSession(
       {
         completedEvents: ['stage1'],
       },
@@ -135,7 +135,7 @@ describe('Session', () => {
   })
 
   it('should return tasks', () => {
-    const session = new Session(
+    const session = new GameSession(
       {
         completedEvents: [],
       },

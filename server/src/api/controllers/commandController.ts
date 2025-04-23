@@ -1,4 +1,4 @@
-import { Session as GameSession } from '@linux-odyssey/game'
+import { GameSession } from '@linux-odyssey/game'
 import { Command, Session } from '@linux-odyssey/models'
 import { matchedData } from 'express-validator'
 import type { Request, Response } from 'express'

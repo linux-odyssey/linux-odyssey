@@ -8,7 +8,7 @@ import {
   ITask,
 } from './schema'
 
-export class Session implements ISession {
+export class GameSession implements ISession {
   private completed: string[] = []
   private quest: Quest
 

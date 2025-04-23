@@ -35,3 +35,10 @@ export const conditionSchema: z.ZodType<ICondition> =
 export interface IFileExistenceChecker {
   exists(file: IFileInput): Promise<boolean>
 }
+
+export class VoidFileExistenceChecker implements IFileExistenceChecker {
+  // eslint-disable-next-line class-methods-use-this
+  async exists(_file: IFileInput): Promise<boolean> {
+    return false
+  }
+}

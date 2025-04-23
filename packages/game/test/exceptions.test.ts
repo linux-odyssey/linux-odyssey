@@ -1,6 +1,6 @@
 import { expect, it, describe } from '@jest/globals'
 import { IQuest } from '../src/schema'
-import { Session } from '../src/Session'
+import { GameSession } from '../src/Session'
 import { MockFileChecker } from './asyncCondition.test'
 
 const quest: IQuest = {
@@ -65,7 +65,7 @@ const quest: IQuest = {
 
 describe('exceptions', () => {
   it('should return the stage exception', async () => {
-    const session = new Session(
+    const session = new GameSession(
       { completedEvents: [] },
       quest,
       new MockFileChecker()
@@ -76,7 +76,7 @@ describe('exceptions', () => {
   })
 
   it('should return the catch all exception', async () => {
-    const session = new Session(
+    const session = new GameSession(
       { completedEvents: [] },
       quest,
       new MockFileChecker()
@@ -87,7 +87,7 @@ describe('exceptions', () => {
   })
 
   it('should return the global exception', async () => {
-    const session = new Session(
+    const session = new GameSession(
       { completedEvents: [] },
       quest,
       new MockFileChecker()
