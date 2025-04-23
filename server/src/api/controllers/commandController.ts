@@ -11,6 +11,8 @@ import { CLIFileExistenceChecker } from '../../containers/cli.js'
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const { command, pwd, output, error, params } = matchedData(req)
 
+  console.log('command', command)
+
   const { sessionId } = req.user as any
   const session = await Session.findById(sessionId)
   if (!session) {
@@ -52,6 +54,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   )
 
   const event = await gameSession.runCommand(c)
+  console.log('event', event)
   if (event) {
     c.stage = event
     await c.save()
@@ -62,8 +65,11 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     if ((session.status as string) === 'finished') {
       await finishSession(session)
     }
-    pushToSession(session.id, 'response', gameSession.getResponses())
-    pushToSession(session.id, 'task', gameSession.getTasks())
+    pushToSession(session.id, 'update', {
+      responses: gameSession.getResponses(),
+      tasks: gameSession.getTasks(),
+      status: session.status,
+    })
   }
 
   res.status(200).end()

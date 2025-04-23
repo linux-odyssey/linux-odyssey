@@ -5,6 +5,7 @@ import useSession from '../../store/session'
 
 const sessionStore = useSession()
 const tasks = computed(() => {
+  console.log('session', sessionStore.session)
   return sessionStore.session?.tasks.map((task) => {
     const prefix = task.completed ? '✓' : '➤'
     const color = task.completed ? 'text-text-primary' : 'text-text'

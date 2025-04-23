@@ -18,6 +18,12 @@ interface QuestDetailResponse {
   requirements: string[]
 }
 
+interface SessionUpdate {
+  status: string
+  responses: IResponse[]
+  tasks: ITask[]
+}
+
 interface Store {
   session: Session | null
   questId: string
@@ -36,7 +42,8 @@ const useSession = defineStore('session', {
       this.questId = questId
     },
     async setSession(session: Session) {
-      this.session = session
+      console.log('set session', session)
+      this.session = { ...session, tasks: [] }
       // this.session.graph = new FileGraph(session.graph)
       term.reset()
       await socket.connect(session)
@@ -62,9 +69,11 @@ const useSession = defineStore('session', {
         this.session.pwd = event.pwd
       }
     },
-    newResponse(responses: IResponse[]) {
+    newUpdate(update: SessionUpdate) {
       if (!this.session) return
-      this.session.responses = responses
+      this.session.responses = update.responses
+      this.session.tasks = update.tasks
+      this.session.status = update.status
       // this.session.hints.push(response.hints)
       // if (response.tasks) {
       //   this.session.tasks = response.tasks
@@ -76,10 +85,6 @@ const useSession = defineStore('session', {
       //   this.finish()
       // }
       // this.session.status = response.status
-    },
-    newTask(tasks: ITask[]) {
-      if (!this.session) return
-      this.session.tasks = tasks
     },
     finish() {
       if (!this.session) return
@@ -101,11 +106,8 @@ const useSession = defineStore('session', {
       socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
         this.updateGraph(event)
       })
-      socket.on('response', (responses: IResponse[]) => {
-        this.newResponse(responses)
-      })
-      socket.on('task', (tasks: ITask[]) => {
-        this.newTask(tasks)
+      socket.on('update', (update: SessionUpdate) => {
+        this.newUpdate(update)
       })
       hasSetup = true
     },

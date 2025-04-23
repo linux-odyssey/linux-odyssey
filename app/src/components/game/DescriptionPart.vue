@@ -6,7 +6,7 @@ import MarkdownText from '../MarkdownText.vue'
 const sessionStore = useSession()
 const current = ref(-1)
 const length = computed(() => {
-  return sessionStore.session?.responses.length ?? 0
+  return sessionStore.session?.responses?.length ?? 0
 })
 
 const disabled = computed(() => {
@@ -14,6 +14,7 @@ const disabled = computed(() => {
 })
 
 watch(length, () => {
+  console.log('length update', length.value)
   current.value = length.value - 1
 })
 
@@ -30,7 +31,10 @@ const right = () => {
 }
 
 const response = computed(() => {
-  return sessionStore.session?.responses[current.value]
+  if (!sessionStore.session) return null
+  if (current.value < 0) return null
+  if (current.value >= sessionStore.session.responses.length) return null
+  return sessionStore.session.responses[current.value]
 })
 </script>
 
@@ -41,7 +45,9 @@ const response = computed(() => {
         :icon="['far', 'lightbulb']"
         class="text-yellow-200 p-2 content-center"
       />
-      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">說明</h1>
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
+        說明 {{ current }}/{{ length }}
+      </h1>
       <div v-if="current !== -1" class="flex w-full justify-end items-end">
         <button
           class="p-2 m-1 w-1/8"
