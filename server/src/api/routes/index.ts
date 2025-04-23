@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import passport from 'passport'
-import sessions from './sessionRouter.js'
 import commands from './commandRouter.js'
 import authRouter from './authRouter.js'
 import authRequired from '../../middleware/authRequired.js'
@@ -25,7 +24,6 @@ router.use(
   commands
 )
 router.use('/auth', authRouter)
-router.use('/sessions', authRequired, sessions)
 
 router.get('/leaderboard', leaderboardController)
 

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
 import { IResponse, ITask } from '@linux-odyssey/game'
-import { createSession, getActiveSession } from '../utils/api'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import { Session } from '../types'
@@ -50,7 +49,9 @@ const useSession = defineStore('session', {
       term.focus()
     },
     async createSession() {
-      const session = await createSession(this.questId)
+      const session = await trpc.session.createSession.mutate({
+        questId: this.questId,
+      })
       await this.setSession(session)
       socket.emit('terminal', 'echo start\n')
     },

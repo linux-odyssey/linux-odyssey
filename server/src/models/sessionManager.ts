@@ -1,11 +1,11 @@
-import { HydratedDocument, Types } from 'mongoose'
+import { HydratedDocument } from 'mongoose'
 import { Session, UserProfile } from '@linux-odyssey/models'
 import type { ISession, IUser } from '@linux-odyssey/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
 import logger from '../utils/logger.js'
 import { questManager } from './quest.js'
 
-async function deactivateSessions(userId: Types.ObjectId, quest: string) {
+async function deactivateSessions(userId: string, quest: string) {
   const sessions = await Session.find({
     user: userId,
     quest,
@@ -28,7 +28,7 @@ async function deactivateSessions(userId: Types.ObjectId, quest: string) {
 }
 
 export async function createNewSession(
-  user: HydratedDocument<IUser>,
+  userId: string,
   questId: string
 ): Promise<ISession> {
   const quest = await questManager.get(questId)
@@ -37,26 +37,28 @@ export async function createNewSession(
   }
 
   // deactivate all active sessions
-  deactivateSessions(user._id, quest.id).catch((err) => {
+  deactivateSessions(userId, quest.id).catch((err) => {
     logger.error(err)
   })
 
+  const userProfile = await UserProfile.findOne({ user: userId }).populate<{
+    user: IUser
+  }>('user')
+  if (!userProfile) {
+    throw new Error(`UserProfile ${userId} not found`)
+  }
+
   const container = await createContainer(
-    `quest-${quest.id}-${user.username}-${Date.now()}`,
+    `quest-${quest.id}-${userProfile.user.username}-${Date.now()}`,
     quest.id,
     quest.image
   )
 
   const newSession = new Session({
-    user,
+    user: userId,
     quest: quest.id,
     containerId: container.id,
   })
-
-  const userProfile = await UserProfile.findOne({ user: user._id })
-  if (!userProfile) {
-    throw new Error(`UserProfile ${user._id} not found`)
-  }
 
   const progress = userProfile.progress.get(quest.id)
   if (!progress) {
@@ -97,12 +99,12 @@ export async function finishSession(
 }
 
 export async function isQuestUnlocked(
-  user: HydratedDocument<IUser>,
+  userId: string,
   questId: string
 ): Promise<boolean> {
-  const userProfile = await UserProfile.findOne({ user: user.id })
+  const userProfile = await UserProfile.findOne({ user: userId })
   if (!userProfile) {
-    throw new Error(`UserProfile ${user.id} not found`)
+    throw new Error(`UserProfile ${userId} not found`)
   }
   const quest = await questManager.get(questId)
   if (!quest) {
