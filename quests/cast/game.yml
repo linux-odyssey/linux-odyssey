@@ -34,7 +34,7 @@ stages:
         你應該可以看到終端機上顯示了你在 `echo` 指令後面的文字。
         接下來，請你試著在終端機上顯示 `How are you?`。
       hint: |
-        利用 `echo` 指令來在終端機上顯示 `How are you?`
+        輸入 `echo How are you?`
 
   - id: END
     name: 在終端機上顯示 `How are you?`

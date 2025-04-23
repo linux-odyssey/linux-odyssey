@@ -85,13 +85,15 @@ const response = computed(() => {
         >
           <MarkdownText :content="response.content" />
         </li>
-        <!-- <li
-          v-for="hint in response?.hints"
-          :key="hint"
+        <li
+          v-if="response?.hint"
           class="text-text-primary font-xl whitespace-pre-wrap"
         >
-          <MarkdownText :content="hint" />
-        </li> -->
+          <details>
+            <summary class="cursor-pointer">提示</summary>
+            <MarkdownText :content="response.hint" />
+          </details>
+        </li>
       </ul>
       <br />
     </div>
