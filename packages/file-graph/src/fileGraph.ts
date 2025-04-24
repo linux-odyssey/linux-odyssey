@@ -1,7 +1,7 @@
 import { FileObject } from './file.js'
 import FileNode from './fileNode.js'
 
-export interface Event {
+export interface FileGraphUpdateEvent {
   add?: FileObject[]
   remove?: FileObject[]
   discover?: FileObject[]
@@ -42,7 +42,7 @@ export default class FileGraph extends FileNode {
     this.merge(newNode)
   }
 
-  handleEvent(event: Event) {
+  handleEvent(event: FileGraphUpdateEvent) {
     // eslint-disable-next-line default-case
     switch (true) {
       case !!event.add:

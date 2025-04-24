@@ -7,6 +7,7 @@ import {
   IFileExistenceChecker,
   IResponse,
   ITask,
+  ICommandParams,
 } from './schema'
 
 export class GameSession {
@@ -22,7 +23,7 @@ export class GameSession {
     this.completed = completedEvents || []
     this.quest = new Quest(quest, checker)
     this.graph = new FileGraph(
-      graph ?? new FileNode({ path: '/', type: 'root', discovered: false })
+      graph ?? { path: '/', type: 'directory', discovered: false }
     )
   }
 
@@ -39,6 +40,9 @@ export class GameSession {
   }
 
   async runCommand(command: ICommand) {
+    if (command.params) {
+      this.graph.handleEvent(command.params)
+    }
     const stageId = await this.quest.findSatisfiedEvent(command, this.completed)
     if (stageId) {
       this.complete(stageId)

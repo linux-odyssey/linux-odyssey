@@ -4,8 +4,11 @@
     "rootDir": "src",
     "composite": true,
     "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist/esm",
-    "declarationDir": "./dist/types"
+    "declarationDir": "./dist/types",
+    "target": "ES2020",
+    "useDefineForClassFields": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

@@ -17,7 +17,7 @@ export interface StageResponse {
 export interface Session {
   _id: string
   status: string
-  // graph: FileGraph
+  graph: FileGraph
   // pwd: string
   // hints: string[][]
   tasks: ITask[]

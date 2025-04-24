@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { FileGraph, FileObject } from '@linux-odyssey/file-graph'
+import { FileGraph, FileGraphUpdateEvent } from '@linux-odyssey/file-graph'
 import { IResponse, ITask } from '@linux-odyssey/game'
+import type { SessionDetail } from 'server/src/routers/sessionRouter'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import { Session } from '../types'
@@ -21,6 +22,7 @@ interface SessionUpdate {
   status: string
   responses: IResponse[]
   tasks: ITask[]
+  graphUpdate: FileGraphUpdateEvent
 }
 
 interface Store {
@@ -40,12 +42,14 @@ const useSession = defineStore('session', {
       this.quest = await trpc.quests.getQuestDetail.query(questId)
       this.questId = questId
     },
-    async setSession(session: Session) {
+    async setSession(session: SessionDetail) {
       console.log('set session', session)
-      this.session = session
-      // this.session.graph = new FileGraph(session.graph)
+      this.session = {
+        ...session,
+        graph: new FileGraph(session.graph),
+      }
       term.reset()
-      await socket.connect(session)
+      await socket.connect(this.session)
       term.focus()
     },
     async createSession() {
@@ -63,24 +67,14 @@ const useSession = defineStore('session', {
         this.setSession(session)
       }
     },
-    // updateGraph(event: { discover?: FileObject[]; pwd?: string }) {
-    //   if (!this.session) return
-    //   if (event.discover) {
-    //     this.session.graph.discover(event.discover)
-    //   }
-    //   if (event.pwd) {
-    //     this.session.pwd = event.pwd
-    //   }
-    // },
     newUpdate(update: SessionUpdate) {
       if (!this.session) return
       this.session.responses = update.responses
       this.session.tasks = update.tasks
       this.session.status = update.status
-      // this.session.hints.push(response.hints)
-      // if (response.tasks) {
-      //   this.session.tasks = response.tasks
-      // }
+      if (update.graphUpdate) {
+        this.session.graph.handleEvent(update.graphUpdate)
+      }
       // if (
       //   response.status === 'finished' &&
       //   this.session.status !== 'finished'

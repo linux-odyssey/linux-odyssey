@@ -54,6 +54,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   await c.save()
   if (event) {
     session.completedEvents = gameSession.completedEvents
+    session.graph = gameSession.getGraph()
 
     if (gameSession.isFinished()) {
       await finishSession(session)
@@ -64,6 +65,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
       responses: gameSession.getResponses(),
       tasks: gameSession.getTasks(),
       status: session.status,
+      graphUpdate: command.params,
     })
   }
 

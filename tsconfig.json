@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext", // 要編譯成的 JS 目標版本
-    "module": "NodeNext", // 要編譯成的 module
+    "module": "ESNext", // 要編譯成的 module
     "moduleResolution": "NodeNext", // module 解析方式, default "classic"
     "esModuleInterop": true, // module 兼容, 會影響 build 方式
     "forceConsistentCasingInFileNames": true,
@@ -9,6 +9,15 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["*"],
+      "@app/*": ["app/*"],
+      "@server/*": ["server/*"],
+      "@models/*": ["packages/models/src/*"],
+      "@game/*": ["packages/game/src/*"],
+      "@file-graph/*": ["packages/file-graph/src/*"]
+    }
   }
 }

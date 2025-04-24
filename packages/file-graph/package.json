@@ -1,17 +1,19 @@
 {
   "name": "@linux-odyssey/file-graph",
   "version": "1.0.0",
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
       "types": "./dist/types/index.d.ts"
     }
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p tsconfig.cjs.json",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
     "dev": "tsc -w",
     "test": "yarn build && jest"
   }

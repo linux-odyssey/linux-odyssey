@@ -6,10 +6,17 @@ import {
 } from './errors.js'
 import { dirname } from './utils.js'
 
-export default class FileNode extends File {
+export interface IFileNode {
+  path: string
+  type: 'file' | 'directory'
+  discovered: boolean
+  children?: IFileNode[]
+}
+
+export default class FileNode extends File implements IFileNode {
   children: FileNode[]
 
-  constructor(file: FileObject | FileNode) {
+  constructor(file: FileObject | IFileNode) {
     super(file)
     this.children = []
     if ((<FileNode>file).children)

@@ -168,4 +168,47 @@ describe('Session', () => {
       { id: 'stage4', name: 'Stage 4', completed: false },
     ])
   })
+
+  it('should update graph', () => {
+    const session = new GameSession({}, quest, new MockFileChecker())
+
+    expect(session.getGraph()).toMatchObject({
+      path: '/',
+      type: 'directory',
+      discovered: false,
+    })
+
+    session.runCommand({
+      command: 'ls',
+      params: {
+        discover: [
+          {
+            path: '/home/user',
+            type: 'directory',
+            discovered: true,
+          },
+        ],
+      },
+    })
+
+    expect(session.getGraph()).toMatchObject({
+      path: '/',
+      type: 'directory',
+      discovered: false,
+      children: [
+        {
+          path: '/home',
+          type: 'directory',
+          discovered: false,
+          children: [
+            {
+              path: '/home/user',
+              type: 'directory',
+              discovered: true,
+            },
+          ],
+        },
+      ],
+    })
+  })
 })

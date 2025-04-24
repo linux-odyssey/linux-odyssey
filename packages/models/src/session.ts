@@ -2,14 +2,17 @@ import { model, Schema, Types } from 'mongoose'
 
 export interface INode {
   path: string
-  type: string
+  type: 'file' | 'directory'
   discovered: boolean
   children?: INode[]
 }
 
 const nodeSchema = new Schema<INode>({
   path: String,
-  type: String,
+  type: {
+    type: String,
+    enum: ['file', 'directory'],
+  },
   discovered: {
     type: Boolean,
     default: false,

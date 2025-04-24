@@ -7,6 +7,8 @@ import config from '../config.js'
 import { protectedProcedure, router } from '../trpc.js'
 import { questManager } from '../models/quest.js'
 
+export type SessionDetail = Awaited<ReturnType<typeof sessionDetail>>
+
 function sessionDetail(session: ISession) {
   const quest = questManager.get(session.quest)
   if (!quest) {
@@ -22,14 +24,15 @@ function sessionDetail(session: ISession) {
   )
   return {
     _id: session._id.toString(),
-    user: session.user,
+    user: session.user.toString(),
     quest: session.quest,
     status: session.status,
-    createdAt: session.createdAt,
-    lastActivityAt: session.lastActivityAt,
+    createdAt: session.createdAt.toISOString(),
+    lastActivityAt: session.lastActivityAt.toISOString(),
     completedEvents: session.completedEvents,
     responses: gameSession.getResponses(),
     tasks: gameSession.getTasks(),
+    graph: gameSession.getGraph(),
   }
 }
 
