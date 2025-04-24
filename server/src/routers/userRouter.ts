@@ -1,4 +1,4 @@
-import { UserProfile } from '@linux-odyssey/models'
+import { UserProfile } from '../../../packages/models'
 import { TRPCError } from '@trpc/server'
 import { protectedProcedure, router } from '../trpc.js'
 

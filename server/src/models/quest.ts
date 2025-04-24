@@ -3,7 +3,11 @@ import fs from 'fs/promises'
 import path from 'path'
 import yaml from 'yaml'
 
-import { questSchema, globalExceptionSchema, IQuest } from '@linux-odyssey/game'
+import {
+  questSchema,
+  globalExceptionSchema,
+  IQuest,
+} from '../../../packages/game'
 import logger from '../utils/logger.js'
 
 class QuestValidationError extends Error {

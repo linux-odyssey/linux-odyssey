@@ -1,4 +1,4 @@
-import { Command, Session } from '@linux-odyssey/models'
+import { Command, Session } from '@models'
 import Pagination from './pagination.js'
 import {
   CommandObject,

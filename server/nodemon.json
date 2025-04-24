@@ -1,5 +1,0 @@
-{
-  "watch": ["src", "swagger.yaml", "../quests", "../packages"],
-  "ext": "js,ts,yaml,yml",
-  "exec": "node --loader ts-node/esm src/index.js"
-}

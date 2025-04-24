@@ -1,4 +1,4 @@
-import { IFileNode } from '@linux-odyssey/file-graph'
+import { IFileNode } from '../../file-graph'
 
 export * from './condition.js'
 export * from './stage.js'

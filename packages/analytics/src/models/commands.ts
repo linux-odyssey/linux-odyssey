@@ -1,4 +1,4 @@
-import { Command } from '@linux-odyssey/models'
+import { Command } from '@models'
 import Pagination from './pagination.js'
 
 // eslint-disable-next-line import/prefer-default-export

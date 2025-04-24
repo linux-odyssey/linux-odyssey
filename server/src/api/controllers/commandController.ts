@@ -1,11 +1,11 @@
-import { GameSession, commandSchema } from '@linux-odyssey/game'
-import { Command, Session } from '@linux-odyssey/models'
+import { GameSession, commandSchema } from '../../../../packages/game'
+import { Command, Session } from '../../../../packages/models'
 import type { Request, Response } from 'express'
-import { pushToSession } from '../socket.js'
-import { finishSession } from '../../models/sessionManager.js'
-import { asyncHandler } from '../../middleware/error.js'
-import { questManager } from '../../models/quest.js'
-import { CLIFileExistenceChecker } from '../../containers/cli.js'
+import { pushToSession } from '../socket'
+import { finishSession } from '../../models/sessionManager'
+import { asyncHandler } from '../../middleware/error'
+import { questManager } from '../../models/quest'
+import { CLIFileExistenceChecker } from '../../containers/cli'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const command = commandSchema.parse(req.body)

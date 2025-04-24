@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia'
-import { FileGraph, FileGraphUpdateEvent } from '@linux-odyssey/file-graph'
-import { IResponse, ITask } from '@linux-odyssey/game'
-import type { SessionDetail } from 'server/src/routers/sessionRouter'
+import {
+  FileGraph,
+  type FileGraphUpdateEvent,
+} from '../../../packages/file-graph'
+import type { IResponse, ITask } from '../../../packages/game'
+import type { SessionDetail } from '../../../server/src/routers/sessionRouter'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
-import { Session } from '../types'
+import type { Session } from '../types'
 import { trpc } from '../utils/trpc'
 
 const socket = new Socket()

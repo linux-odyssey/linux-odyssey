@@ -1,4 +1,4 @@
-import { User } from '@linux-odyssey/models'
+import { User } from '../../../packages/models'
 import type { Profile } from 'passport'
 import type { VerifyCallback } from 'passport-oauth2'
 import logger from '../utils/logger.js'

@@ -1,6 +1,6 @@
 import schedule from 'node-schedule'
-import { Session } from '@linux-odyssey/models'
-import type { ISession } from '@linux-odyssey/models'
+import { Session } from '../../../packages/models'
+import type { ISession } from '../../../packages/models'
 import type { HydratedDocument } from 'mongoose'
 import config from '../config.js'
 import { deleteContainer } from './docker.js'

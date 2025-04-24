@@ -1,4 +1,4 @@
-import { FileGraph, FileNode, IFileNode } from '@linux-odyssey/file-graph'
+import { FileGraph, IFileNode } from '../../packages/file-graph'
 import { Quest } from './Quest'
 import {
   IQuest,
@@ -7,7 +7,6 @@ import {
   IFileExistenceChecker,
   IResponse,
   ITask,
-  ICommandParams,
 } from './schema'
 
 export class GameSession {

@@ -1,5 +1,5 @@
-import { FileGraph } from '@linux-odyssey/file-graph'
-import { IResponse, ITask } from '@linux-odyssey/game'
+import { FileGraph } from '../../packages/file-graph'
+import type { IResponse, ITask } from '../../packages/game'
 
 export interface Task {
   id: number

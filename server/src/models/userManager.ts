@@ -1,6 +1,6 @@
 import { Express } from 'express'
 import { format } from 'date-fns'
-import { User, UserProfile } from '@linux-odyssey/models'
+import { User, UserProfile } from '../../../packages/models'
 import { hashPassword } from '../utils/auth.js'
 
 export async function createUser(

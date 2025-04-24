@@ -20,9 +20,12 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.ts'],
+        moduleDirectory: ['node_modules', 'packages', 'server/src'],
       },
-      typescript: {},
+      typescript: {
+        alwaysTryTypes: true,
+      },
     },
     vue: {
       version: '3.0', // Explicitly specify Vue 3
@@ -63,10 +66,10 @@ module.exports = {
 
     // Allow missing file extensions
     'import/extensions': [
-      'warn',
+      'off',
       'ignorePackages',
       {
-        js: 'off',
+        js: 'never',
         jsx: 'never',
         ts: 'never',
         tsx: 'never',
@@ -79,12 +82,30 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['../*'],
+            message: 'Relative imports are not allowed.',
+            allowSameFolder: true,
+          },
+        ],
+      },
+    ],
   },
   overrides: [
     {
-      files: ['**/tests/**/*.js', '**/tests/**/*.ts', '**/*.test.ts'], // Adjust the pattern to match your test files
+      files: ['**/tests/**/*.js', '**/tests/**/*.ts', '**/*.test.ts'],
       rules: {
-        'import/extensions': 'off', // Turn off the rule for test files
+        'import/extensions': 'off',
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      files: ['server/**/*.ts'],
+      rules: {
         'import/no-extraneous-dependencies': 'off',
       },
     },

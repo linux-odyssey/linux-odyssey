@@ -16,11 +16,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
-    "@linux-odyssey/constants": "*",
-    "@linux-odyssey/file-graph": "*",
-    "@linux-odyssey/game": "*",
-    "@linux-odyssey/models": "*",
-    "@linux-odyssey/utils": "*",
     "@trpc/client": "^11.1.0",
     "@types/dompurify": "^3.0.5",
     "axios": "^1.6.0",
@@ -39,13 +34,14 @@
   },
   "devDependencies": {
     "@types/validator": "^13.11.9",
-    "@vitejs/plugin-vue": "^4.5.2",
     "@vue/compiler-sfc": "^3.3.13",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.3.3",
-    "vite": "^4.5.3",
-    "vue-tsc": "^2.0.10"
+    "@vitejs/plugin-vue": "^5.2.2",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.3.1",
+    "vue-tsc": "^2.2.8"
   }
 }

@@ -1,4 +1,4 @@
-import { User } from '@linux-odyssey/models'
+import { User } from '../../../packages/models'
 import config from '../config.js'
 import { createUser } from '../models/userManager.js'
 import logger from './logger.js'

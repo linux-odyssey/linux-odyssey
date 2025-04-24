@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
-import { DAG } from '@linux-odyssey/utils'
+import { DAG } from '../../../packages/utils'
 import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'

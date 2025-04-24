@@ -1,6 +1,6 @@
 import { HydratedDocument } from 'mongoose'
-import { Session, UserProfile } from '@linux-odyssey/models'
-import type { ISession, IUser } from '@linux-odyssey/models'
+import { Session, UserProfile } from '../../../packages/models'
+import type { ISession, IUser } from '../../../packages/models'
 import { createContainer, deleteContainer } from '../containers/docker.js'
 import logger from '../utils/logger.js'
 import { questManager } from './quest.js'
@@ -113,7 +113,7 @@ export async function isQuestUnlocked(
   if (!quest.requirements) {
     return true
   }
-  return quest.requirements.every((requiredQuestId) => {
+  return quest.requirements.every((requiredQuestId: string) => {
     const progress = userProfile.progress.get(requiredQuestId)
     return progress && progress.completed
   })

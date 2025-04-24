@@ -1,7 +1,7 @@
-import connectDB from '@linux-odyssey/models'
-import { removeExpired } from '../containers/expiryChecker.js'
-import config from '../config.js'
-import logger from '../utils/logger.js'
+import connectDB from '../../../packages/models'
+import { removeExpired } from '../containers/expiryChecker'
+import config from '../config'
+import logger from '../utils/logger'
 
 connectDB(config.db)
   .then(removeExpired)

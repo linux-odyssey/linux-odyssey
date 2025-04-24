@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server'
-import { ISession, Session } from '@linux-odyssey/models'
-import { GameSession, VoidFileExistenceChecker } from '@linux-odyssey/game'
+import { ISession, Session } from '../../../packages/models'
+import { GameSession, VoidFileExistenceChecker } from '../../../packages/game'
 import { z } from 'zod'
 import { createNewSession, isQuestUnlocked } from '../models/sessionManager.js'
 import config from '../config.js'
