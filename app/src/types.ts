@@ -1,4 +1,4 @@
-import { FileGraph } from '../../packages/file-graph'
+import type { FileGraph } from '../../packages/file-graph'
 import type { IResponse, ITask } from '../../packages/game'
 
 export interface Task {
