@@ -84,7 +84,7 @@ onMounted(async () => {
       <div class="bg-border rounded-xl h-[90%] p-2">
         <div class="bg-bg rounded-lg h-full p-2">
           <section id="visualization" class="bg-bg-primary h-full rounded-md">
-            <!-- <VisualizationPart /> -->
+            <VisualizationPart />
           </section>
         </div>
       </div>

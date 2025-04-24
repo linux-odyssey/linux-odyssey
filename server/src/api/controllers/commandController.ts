@@ -58,16 +58,18 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
 
     if (gameSession.isFinished()) {
       await finishSession(session)
-    } else {
-      await session.save()
     }
     pushToSession(session.id, 'update', {
       responses: gameSession.getResponses(),
       tasks: gameSession.getTasks(),
       status: session.status,
-      graphUpdate: command.params,
     })
   }
+  if (command.params) {
+    session.graph = gameSession.getGraph()
+    pushToSession(session.id, 'graph', command.params)
+  }
+  await session.save()
 
   res.status(200).end()
 })

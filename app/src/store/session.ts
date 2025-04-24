@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import {
   FileGraph,
   type FileGraphUpdateEvent,
+  type FileObject,
 } from '../../../packages/file-graph'
 import type { IResponse, ITask } from '../../../packages/game'
 import type { SessionDetail } from '../../../server/src/routers/sessionRouter'
@@ -75,9 +76,7 @@ const useSession = defineStore('session', {
       this.session.responses = update.responses
       this.session.tasks = update.tasks
       this.session.status = update.status
-      if (update.graphUpdate) {
-        this.session.graph.handleEvent(update.graphUpdate)
-      }
+      console.log('update', update)
       // if (
       //   response.status === 'finished' &&
       //   this.session.status !== 'finished'
@@ -103,9 +102,10 @@ const useSession = defineStore('session', {
       term.onData((data: string) => {
         socket.emit('terminal', data)
       })
-      // socket.on('graph', (event: { discover: FileObject[]; pwd: string }) => {
-      //   this.updateGraph(event)
-      // })
+      socket.on('graph', (event: FileGraphUpdateEvent) => {
+        if (!this.session) return
+        this.session.graph.handleEvent(event)
+      })
       socket.on('update', (update: SessionUpdate) => {
         this.newUpdate(update)
       })
