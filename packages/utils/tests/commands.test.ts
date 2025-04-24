@@ -12,7 +12,7 @@ describe('buildFileCheckCmd function', () => {
         output: ['test', '-f', '/etc/passwd'],
       },
       {
-        input: { path: '/etc', type: 'folder' },
+        input: { path: '/etc', type: 'directory' },
         output: ['test', '-d', '/etc'],
       },
       {

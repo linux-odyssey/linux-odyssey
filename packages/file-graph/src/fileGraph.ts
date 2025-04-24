@@ -20,7 +20,7 @@ export default class FileGraph extends FileNode {
 
   remove(files: FileObject[]) {
     // Logic to remove a file node from the graph
-    // If the file node is a folder, also remove all children
+    // If the file node is a directory, also remove all children
     // If the file node doesn't exist, throw an error
 
     files.forEach((file) => {

@@ -15,7 +15,7 @@ export class MockFileChecker implements IFileExistenceChecker {
     },
     {
       path: '/home/user/Downloads',
-      type: 'folder',
+      type: 'directory',
     },
   ]
 
@@ -57,7 +57,7 @@ test('file matcher', async () => {
     await checkFiles(checker, [
       {
         path: '/home/user/Downloads',
-        type: 'folder',
+        type: 'directory',
         exists: true,
       },
     ])
@@ -71,7 +71,7 @@ test('file matcher', async () => {
       },
       {
         path: '/home/user/Downloads',
-        type: 'folder',
+        type: 'directory',
         exists: true,
       },
     ])

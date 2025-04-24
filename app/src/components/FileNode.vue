@@ -22,8 +22,8 @@ function nodeClass() {
 <template>
   <a href="#" :class="nodeClass()">
     <font-awesome-icon
-      v-if="node.type === 'folder'"
-      :icon="['far', 'folder']"
+      v-if="node.type === 'directory'"
+      :icon="['far', 'directory']"
       class="text-text-primary size-8"
     />
     <font-awesome-icon

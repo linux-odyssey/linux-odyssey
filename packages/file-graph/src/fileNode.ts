@@ -45,7 +45,7 @@ export default class FileNode extends File {
       } else if (makeParents) {
         const parent = new FileNode({
           path: parentPath,
-          type: 'folder',
+          type: 'directory',
           discovered: false,
           children: [file],
         })

@@ -2,14 +2,14 @@ import { basename } from './utils.js'
 
 export interface FileObject {
   path: string
-  type: string
+  type: 'file' | 'directory'
   discovered: boolean
 }
 
 export default class File implements FileObject {
   path: string
   name: string
-  type: string
+  type: 'file' | 'directory'
   discovered: boolean
 
   constructor(obj: FileObject) {
@@ -20,7 +20,7 @@ export default class File implements FileObject {
   }
 
   isDirectory() {
-    return this.type === 'folder'
+    return this.type === 'directory'
   }
 
   contains(file: FileObject) {

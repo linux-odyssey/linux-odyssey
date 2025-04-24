@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const fileInputSchema = z.object({
   path: z.string(),
-  type: z.enum(['file', 'folder']),
+  type: z.enum(['file', 'directory']),
 })
 
 export type IFileInput = z.infer<typeof fileInputSchema>

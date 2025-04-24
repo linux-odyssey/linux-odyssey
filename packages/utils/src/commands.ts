@@ -5,7 +5,7 @@ export interface File {
 
 const fileTypes = new Map([
   ['file', '-f'],
-  ['folder', '-d'],
+  ['directory', '-d'],
   ['link', '-L'],
   ['socket', '-S'],
 ])

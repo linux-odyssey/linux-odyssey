@@ -4,7 +4,7 @@ import File from '../src/file.js'
 describe('File', () => {
   let file: File
   beforeEach(() => {
-    file = new File({ path: '/home/user', type: 'folder', discovered: true })
+    file = new File({ path: '/home/user', type: 'directory', discovered: true })
   })
 
   const filesToCompare = [

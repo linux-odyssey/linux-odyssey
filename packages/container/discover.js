@@ -9,7 +9,7 @@ async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
     {
       path: inputPath,
       name,
-      type: stats.isDirectory() ? 'folder' : 'file',
+      type: stats.isDirectory() ? 'directory' : 'file',
       discovered,
     },
   ]

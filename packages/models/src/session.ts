@@ -66,7 +66,7 @@ export const Session = model<ISession>(
         type: nodeSchema,
         default: {
           path: '/',
-          type: 'folder',
+          type: 'directory',
         },
       },
     },

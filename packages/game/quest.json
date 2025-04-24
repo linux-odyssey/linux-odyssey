@@ -61,20 +61,13 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "file",
-                        "folder"
-                      ]
+                      "enum": ["file", "directory"]
                     },
                     "exists": {
                       "type": "boolean"
                     }
                   },
-                  "required": [
-                    "path",
-                    "type",
-                    "exists"
-                  ],
+                  "required": ["path", "type", "exists"],
                   "additionalProperties": false
                 }
               },
@@ -95,10 +88,7 @@
             "properties": {
               "type": {
                 "type": "string",
-                "enum": [
-                  "narrative",
-                  "dialogue"
-                ],
+                "enum": ["narrative", "dialogue"],
                 "default": "narrative"
               },
               "content": {
@@ -108,9 +98,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "content"
-            ],
+            "required": ["content"],
             "additionalProperties": false
           },
           "exceptions": {
@@ -132,20 +120,12 @@
                   "default": false
                 }
               },
-              "required": [
-                "id",
-                "condition",
-                "response"
-              ],
+              "required": ["id", "condition", "response"],
               "additionalProperties": false
             }
           }
         },
-        "required": [
-          "id",
-          "condition",
-          "response"
-        ],
+        "required": ["id", "condition", "response"],
         "additionalProperties": false
       }
     },
@@ -168,22 +148,12 @@
             "default": []
           }
         },
-        "required": [
-          "id",
-          "condition",
-          "response"
-        ],
+        "required": ["id", "condition", "response"],
         "additionalProperties": false
       }
     }
   },
-  "required": [
-    "id",
-    "title",
-    "image",
-    "instruction",
-    "stages"
-  ],
+  "required": ["id", "title", "image", "instruction", "stages"],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/draft-07/schema#"
 }
