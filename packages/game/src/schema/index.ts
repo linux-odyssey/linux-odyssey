@@ -1,4 +1,4 @@
-import { INode } from '@linux-odyssey/file-graph'
+import { IFileNode } from '@linux-odyssey/file-graph'
 
 export * from './condition.js'
 export * from './stage.js'
@@ -6,17 +6,11 @@ export * from './requirements.js'
 export * from './response.js'
 export * from './quest.js'
 export * from './exception.js'
-
-export interface ICommand {
-  command?: string
-  output?: string
-  error?: string
-  pwd?: string
-}
+export * from './command.js'
 
 export interface ISession {
   completedEvents: string[]
-  graph: INode
+  graph: IFileNode
 }
 
 export interface ITask {

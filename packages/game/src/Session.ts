@@ -1,4 +1,4 @@
-import { FileGraph, INode } from '@linux-odyssey/file-graph'
+import { FileGraph, FileNode, IFileNode } from '@linux-odyssey/file-graph'
 import { Quest } from './Quest'
 import {
   IQuest,
@@ -15,13 +15,15 @@ export class GameSession {
   private graph: FileGraph
 
   constructor(
-    { completedEvents, graph }: ISession,
+    { completedEvents, graph }: Partial<ISession>,
     quest: IQuest,
     checker: IFileExistenceChecker
   ) {
-    this.completed = completedEvents
+    this.completed = completedEvents || []
     this.quest = new Quest(quest, checker)
-    this.graph = new FileGraph(graph)
+    this.graph = new FileGraph(
+      graph ?? new FileNode({ path: '/', type: 'root', discovered: false })
+    )
   }
 
   get completedEvents() {
@@ -56,7 +58,7 @@ export class GameSession {
     return this.quest.getTasks(this.completed)
   }
 
-  getGraph(): INode {
+  getGraph(): IFileNode {
     return this.graph
   }
 }

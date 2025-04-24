@@ -1,6 +1,5 @@
-import { GameSession } from '@linux-odyssey/game'
+import { GameSession, commandSchema } from '@linux-odyssey/game'
 import { Command, Session } from '@linux-odyssey/models'
-import { matchedData } from 'express-validator'
 import type { Request, Response } from 'express'
 import { pushToSession } from '../socket.js'
 import { finishSession } from '../../models/sessionManager.js'
@@ -9,7 +8,7 @@ import { questManager } from '../../models/quest.js'
 import { CLIFileExistenceChecker } from '../../containers/cli.js'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
-  const { command, pwd, output, error, params } = matchedData(req)
+  const command = commandSchema.parse(req.body)
 
   console.log('command', command)
 
@@ -31,16 +30,6 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
 
   session.lastActivityAt = new Date()
 
-  const c = new Command({
-    session,
-    command,
-    pwd,
-    output,
-    error,
-  })
-
-  await c.save()
-
   const quest = await questManager.get(session.quest)
   if (!quest) {
     res.status(404).json({ message: 'quest not found' })
@@ -53,12 +42,17 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     new CLIFileExistenceChecker()
   )
 
-  const event = await gameSession.runCommand(c)
+  const event = await gameSession.runCommand(command)
   console.log('event', event)
-  if (event) {
-    c.stage = event
-    await c.save()
 
+  const c = new Command({
+    ...command,
+    session: sessionId,
+    stage: event,
+  })
+
+  await c.save()
+  if (event) {
     session.completedEvents = gameSession.completedEvents
 
     if (gameSession.isFinished()) {
