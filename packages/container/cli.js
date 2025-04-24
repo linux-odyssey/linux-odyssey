@@ -3,7 +3,6 @@ const fs = require('fs').promises
 const { exit } = require('process')
 const minimist = require('minimist')
 const axios = require('axios')
-const { colorize, printResponses, printHints } = require('./print.js')
 const discoverFiles = require('./discover.js')
 
 const {
@@ -46,19 +45,6 @@ async function handleCommand(command) {
   }, {})
 }
 
-async function handleResponse({ responses, hints, end }) {
-  if (responses) {
-    await printResponses(responses, 90)
-  }
-  if (hints) {
-    await printHints(hints, 90)
-  }
-  if (end) {
-    console.log(colorize('Quest completed!', 'blue'))
-  }
-  await api.post('/commands/completed')
-}
-
 async function main() {
   if (!CMD_NAME) exit(0)
 
@@ -74,17 +60,7 @@ async function main() {
     pwd: PWD,
     params,
   }
-  try {
-    const res = await api.post('/commands', payload)
-    if (!res.data || !res.data.responses) return
-    await handleResponse(res.data)
-  } catch (err) {
-    if (err.response) {
-      console.error(err.response.data)
-      return
-    }
-    console.error(err.message)
-  }
+  await api.post('/commands', payload)
 }
 
 main()
