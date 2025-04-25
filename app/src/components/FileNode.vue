@@ -23,7 +23,7 @@ function nodeClass() {
   <a href="#" :class="nodeClass()">
     <font-awesome-icon
       v-if="node.type === 'directory'"
-      :icon="['far', 'directory']"
+      :icon="['far', 'folder']"
       class="text-text-primary size-8"
     />
     <font-awesome-icon

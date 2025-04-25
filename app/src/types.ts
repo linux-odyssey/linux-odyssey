@@ -18,8 +18,7 @@ export interface Session {
   _id: string
   status: string
   graph: FileGraph
-  // pwd: string
-  // hints: string[][]
+  pwd: string
   tasks: ITask[]
   responses: IResponse[]
 }

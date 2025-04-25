@@ -12,7 +12,7 @@ const sessionStore = useSession()
         <FileNode
           v-if="sessionStore.session"
           :node="sessionStore.session.graph"
-          pwd="/home/commander"
+          :pwd="sessionStore.session.pwd"
         />
       </li>
     </ul>

@@ -8,6 +8,7 @@ const fileSchema = z.object({
 
 export const commandParamsSchema = z.object({
   discover: fileSchema.array().optional(),
+  pwd: z.string().optional(),
 })
 
 export type ICommandParams = z.infer<typeof commandParamsSchema>

@@ -5,6 +5,7 @@ export interface FileGraphUpdateEvent {
   add?: FileObject[]
   remove?: FileObject[]
   discover?: FileObject[]
+  pwd?: string
 }
 
 export default class FileGraph extends FileNode {

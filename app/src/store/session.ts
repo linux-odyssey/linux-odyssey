@@ -51,6 +51,7 @@ const useSession = defineStore('session', {
       this.session = {
         ...session,
         graph: new FileGraph(session.graph),
+        pwd: '/home/commander',
       }
       term.reset()
       await socket.connect(this.session)
@@ -105,6 +106,9 @@ const useSession = defineStore('session', {
       socket.on('graph', (event: FileGraphUpdateEvent) => {
         if (!this.session) return
         this.session.graph.handleEvent(event)
+        if (event.pwd) {
+          this.session.pwd = event.pwd
+        }
       })
       socket.on('update', (update: SessionUpdate) => {
         this.newUpdate(update)

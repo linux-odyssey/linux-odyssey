@@ -32,6 +32,13 @@ async function readOrNone(file) {
 
 const commandListeners = {
   ls: [discoverFiles],
+  cd: [changeDirectory],
+}
+
+function changeDirectory() {
+  return {
+    pwd: process.cwd(),
+  }
 }
 
 async function handleCommand(command) {
