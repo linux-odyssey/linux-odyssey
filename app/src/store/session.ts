@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import {
   FileGraph,
   type FileGraphUpdateEvent,
-  type FileObject,
 } from '../../../packages/file-graph'
 import type { IResponse, ITask } from '../../../packages/game'
 import type { SessionDetail } from '../../../server/src/routers/sessionRouter'

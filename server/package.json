@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "description": "Linux Odyssey Server",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start": "node dist/server/src/index.js",
     "setup": "tsx src/cli/setup.js",
     "clean": "tsx src/cli/clean.js",
+    "build": "tsc",
     "type-check": "tsc --noEmit",
-    "dev": "tsx --watch src/index.ts",
+    "dev": "tsx watch --include \"../quests/**/*.yml\" src/index.ts",
     "build:quests": "tsx src/cli/build.js"
   },
   "dependencies": {
