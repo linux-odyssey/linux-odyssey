@@ -146,7 +146,7 @@ stages:
         現在你可以離開 `folder2` 回到原本的資料夾了。
       hint: 使用 `cd ..` 回到上一層資料夾
 
-  - id: end
+  - id: END
     name: 回到原本的資料夾
     requirements:
       - ls-folder2

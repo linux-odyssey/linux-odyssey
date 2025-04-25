@@ -1,0 +1,9 @@
+Fix quest file with following changes:
+add id, image fields
+make every field in condition a single string
+remove regex string for pwd
+replace `task` with `name`
+replace responses with single response
+  content is a single markdown string
+  hints are now hint under response, also a single string
+add id for exceptions
