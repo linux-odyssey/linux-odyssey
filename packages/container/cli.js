@@ -76,6 +76,6 @@ main()
     console.log(
       '發生預期外的錯誤，請嘗試重新啟動 Quest，如果問題持續發生，請幫我們填寫右上角的錯誤回報表單。'
     )
-    console.error(err)
+    console.log(err.response.data)
     exit(1)
   })
