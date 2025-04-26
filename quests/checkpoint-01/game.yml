@@ -1,0 +1,92 @@
+id: checkpoint-01
+title: 測驗一
+image: base
+instruction: |
+  在這個關卡中，將會考驗你是否理解以下內容：
+  1. `echo`：用來輸出文字
+  2. `ls`：用來查看資料夾的內容
+  3. `cd`：用來在資料夾之間移動
+  4. `pwd`：用來顯示目前的路徑
+
+requirements:
+  - path
+
+stages:
+  - id: start
+    name: 按下 `開始` 按鈕開始
+    condition:
+      command: echo start
+    response:
+      content: |
+        這個關卡將會測試你是否理解之前的教學內容。
+        因此不會告訴你要輸入什麼指令。
+        請思考並應用正確的指令來完成任務。
+
+        現在，請讓終端機輸出 `next` 來繼續。
+
+  - id: next
+    name: 讓終端機輸出 `next`
+    requirements:
+      - start
+    condition:
+      output: next
+    response:
+      content: |
+        現在請你查看目前資料夾的內容。
+
+  - id: ls-home
+    name: 查看目前資料夾的內容
+    requirements:
+      - next
+    condition:
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        請進入 `folder03` 資料夾。
+
+  - id: cd-folder03
+    name: 進入 `folder03` 資料夾
+    requirements:
+      - ls-home
+    condition:
+      pwd: /home/commander/folder03
+    response:
+      content: |
+        請在終端機顯示目前的路徑。
+
+  - id: pwd-folder03
+    name: 顯示目前的路徑
+    requirements:
+      - cd-folder03
+    condition:
+      command: pwd
+      output: /home/commander/folder03
+    response:
+      content: |
+        現在請你進入 `folder02` 資料夾，
+        並查看 `folder02` 資料夾的內容。
+
+  - id: ls-folder02
+    name: 進入並查看 `folder02` 資料夾的內容
+    requirements:
+      - pwd-folder03
+    condition:
+      pwd: /home/commander/folder02
+      command: ls
+    response:
+      content: |
+        最後，請你留在 `folder02` 資料夾，
+        並查看 `folder01` 資料夾的內容。
+
+  - id: finish
+    name: 留在 `folder02` 資料夾，查看 `folder01` 資料夾的內容
+    requirements:
+      - ls-folder02
+    condition:
+      pwd: /home/commander/folder02
+      output: file1.txt
+    response:
+      content: |
+        恭喜你通過了這個測驗！
+        你可以繼續學習之後的教學內容了。
