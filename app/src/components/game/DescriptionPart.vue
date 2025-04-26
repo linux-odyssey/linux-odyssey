@@ -52,9 +52,7 @@ watch(response, () => {
         :icon="['far', 'lightbulb']"
         class="text-yellow-200 p-2 content-center"
       />
-      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
-        說明 {{ current }}/{{ length }}
-      </h1>
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">說明</h1>
       <div v-if="current !== -1" class="flex w-full justify-end items-end">
         <button
           class="p-2 m-1 w-1/8"
@@ -79,7 +77,10 @@ watch(response, () => {
           @click="right"
           :disabled="disabled"
         >
-          <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
+          <font-awesome-icon
+            :icon="['fas', 'arrow-right']"
+            :class="disabled ? 'text-gray-600' : 'text-text'"
+          />
         </button>
       </div>
     </div>
