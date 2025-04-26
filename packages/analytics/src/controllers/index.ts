@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { userCount } from '../models/users.js'
-import { questList } from '../models/quests.js'
+import { userCount } from '../models/users'
+import { questList } from '../models/quests'
 
 export async function homeController(req: Request, res: Response) {
   const quests = await questList()

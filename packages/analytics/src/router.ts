@@ -1,16 +1,13 @@
 import { Router } from 'express'
 
-import { homeController } from './controllers/index.js'
-import {
-  userListController,
-  userDetailController,
-} from './controllers/users.js'
-import { questListController } from './controllers/quests.js'
-import { commandListController } from './controllers/commands.js'
+import { homeController } from './controllers/index'
+import { userListController, userDetailController } from './controllers/users'
+import { questListController } from './controllers/quests'
+import { commandListController } from './controllers/commands'
 import {
   sessionDetailController,
   sessionListController,
-} from './controllers/sessions.js'
+} from './controllers/sessions'
 
 const router = Router()
 

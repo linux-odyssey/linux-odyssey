@@ -1,7 +1,5 @@
 import { z } from 'zod'
 
-export * from './session.js'
-
 export const passwordPolicy = {
   minLength: 8,
   minNumbers: 1,

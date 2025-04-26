@@ -1,5 +1,5 @@
-import { Command } from '@models'
-import Pagination from './pagination.js'
+import { Command } from '../../../models'
+import Pagination from './pagination'
 
 // eslint-disable-next-line import/prefer-default-export
 export async function errorCommands(pagination: Pagination) {

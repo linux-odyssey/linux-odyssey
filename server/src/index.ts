@@ -5,7 +5,7 @@ import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 import passport from 'passport'
 import * as trpcExpress from '@trpc/server/adapters/express'
-import connectDB from '../../packages/models'
+import { connectDB } from '../../packages/models'
 
 import './auth/passport.js'
 import socketServer from './api/socket.js'

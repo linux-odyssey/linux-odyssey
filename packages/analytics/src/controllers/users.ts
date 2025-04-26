@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import mongoose from 'mongoose'
-import Pagination from '../models/pagination.js'
-import { userList, userDetail, idToUser } from '../models/users.js'
+import Pagination from '../models/pagination'
+import { userList, userDetail, idToUser } from '../models/users'
 
 export async function userListController(req: Request, res: Response) {
   const { nextKey, order } = req.query as { nextKey: string; order: string }

@@ -1,5 +1,5 @@
-import { Command, Session } from '@models'
-import Pagination from './pagination.js'
+import { Command, Session } from '../../../models'
+import Pagination from './pagination'
 import {
   CommandObject,
   SessionDetail,
