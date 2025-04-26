@@ -11,7 +11,7 @@ import type { Session } from '../types'
 import { trpc } from '../utils/trpc'
 
 const socket = new Socket()
-const term = new SocketTerminal(40, 80)
+const term = new SocketTerminal()
 let hasSetup = false
 
 interface QuestDetailResponse {

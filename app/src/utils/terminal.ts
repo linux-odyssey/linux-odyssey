@@ -6,47 +6,44 @@ class SocketTerminal {
   private term: Terminal
   private fitAddon: FitAddon
 
-  constructor(rows: number, cols: number) {
+  constructor() {
     this.term = new Terminal({
-      rows, // 行数
-      cols, // 不指定行数，自动回车后光标从下一行开始
-      convertEol: true, // 启用时，光标将设置为下一行的开头
-      // scrollback: 50, //终端中的回滚量
-      disableStdin: false, // 是否应禁用输入
-      // cursorStyle: "underline", //光标样式
-      cursorBlink: true, // 光标闪烁
+      convertEol: true,
+      scrollback: 1000,
+      fontSize: 16,
       theme: {
-        foreground: '#ECECEC', // 字体
-        background: '#000000', // 背景色
-        cursor: 'help', // 设置光标
+        foreground: '#ECECEC',
+        background: '#000000',
+        cursor: 'help',
       },
-      fontSize: 18,
-      fontWeight: 'normal',
     })
     this.fitAddon = new FitAddon()
     this.term.loadAddon(this.fitAddon)
-    this.fitAddon.fit()
+  }
+
+  resizeScreen(): void {
+    try {
+      this.fitAddon.fit()
+    } catch (e) {
+      console.error('Failed to resize terminal:', e)
+    }
+  }
+
+  mount(reference: HTMLElement): void {
+    this.term.open(reference)
+    this.resizeScreen()
   }
 
   write(message: string): void {
     this.term.write(message)
   }
 
-  onData(callback: any): void {
+  onData(callback: (data: string) => void): void {
     this.term.onData(callback)
   }
 
   focus(): void {
     this.term.focus()
-  }
-
-  resizeScreen(): void {
-    this.fitAddon.fit()
-  }
-
-  mount(reference: HTMLElement): void {
-    this.term.open(reference)
-    this.resizeScreen()
   }
 
   reset(): void {

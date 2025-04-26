@@ -1,23 +1,34 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useTerminal } from '../../store/session'
 
 const terminal = ref<HTMLElement | null>(null)
+const term = useTerminal()
 
 onMounted(() => {
-  const term = useTerminal()
   if (!terminal.value) return
   term.mount(terminal.value)
-  window.addEventListener('resize', () => term.resizeScreen())
+
+  const handleResize = () => term.resizeScreen()
+  window.addEventListener('resize', handleResize)
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
+  })
 })
 </script>
 
 <template>
-  <font-awesome-icon :icon="['fas', 'terminal']" class="text-text p-1" />
-  <button id="Terminal" class="text-text h-[5%]">終端機</button>
-  <div
-    id="terminal"
-    ref="terminal"
-    class="bg-bg-secondary h-[calc(100%-5%)] p-0.5"
-  ></div>
+  <div class="flex flex-col h-full">
+    <div class="flex items-center gap-2 p-1">
+      <font-awesome-icon :icon="['fas', 'terminal']" class="text-text" />
+      <button id="Terminal" class="text-text">終端機</button>
+    </div>
+    <div
+      id="terminal"
+      ref="terminal"
+      class="bg-bg-secondary flex-grow overflow-hidden px-2"
+      style="height: calc(100vh - 40px)"
+    ></div>
+  </div>
 </template>
