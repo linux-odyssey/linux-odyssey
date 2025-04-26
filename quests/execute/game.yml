@@ -1,0 +1,188 @@
+id: execute
+title: 執行檔案
+image: base
+instruction: |
+  在這個關卡中，你將會學到：
+  1. 什麼是可執行檔
+  2. 使用 `which` 指令查看執行檔的位置
+  3. 如何執行可執行檔
+
+requirements:
+  - remove
+
+stages:
+  - id: start
+    name: 按下開始按鈕
+    condition:
+      command: echo start
+    response:
+      content: |
+        在我們先前的課程裡，已經使用了許多不同的指令，像是 `ls`, `cat`, `cp`, `mv`, `rm` 等。
+        這些指令，其實都是一個**可執行檔**，在你打指令的時候被作業系統執行。
+        所以大部分的指令，我們其實都能找到它在檔案系統裡的原始位置。
+        要查看一個指令它的檔案位置，可以使用 `which` 指令。
+        輸入 `which [指令名稱]` 就能夠查看指令的檔案位置了。
+      hint: 使用 `which ls` 來查看 `ls` 的路徑
+
+  - id: which-ls
+    name: 使用 `which` 指令查看 `ls` 的路徑
+    requirements:
+      - start
+    condition:
+      command: which ls
+    response:
+      content: |
+        你看到終端機顯示出 `/usr/bin/ls` 這個路徑，它其實就是 `ls` 指令它檔案存在的位置。
+        `/usr/bin` 是一個系統資料夾，裡面會儲存許多系統內建的程式，像是 `cat`, `cp` 等指令也都被存在這裡。
+      hint: 使用 `which cat` 查看 `cat` 的路徑
+
+  - id: which-cat
+    name: 使用 `which` 指令查看 `cat` 的路徑
+    requirements:
+      - which-ls
+    condition:
+      command: which cat
+    response:
+      content: |
+        你看到了 `/usr/bin/cat` 這個路徑，它就是 `cat` 指令它檔案存在的位置。
+        我們要執行一個可執行檔時，只要 **直接輸入它的路徑** 就可以執行它。
+        我們來試看看使用執行檔的路徑來執行指令。
+
+        在此之前，我們先試試看一般執行 `ls` 指令的結果。
+      hint: 輸入 `ls` 來查看當前的資料夾
+
+  - id: ls
+    name: 使用 `ls` 指令查看當前的資料夾
+    requirements:
+      - which-cat
+    condition:
+      command: ls
+    response:
+      content: |
+        你看到了當前的資料夾內有 `commands` 資料夾和 `dog`, `hello.txt` 這兩個檔案。
+        我們再來試看看用 `ls` 的路徑來執行它。
+      hint: 輸入 `/usr/bin/ls` 來查看當前的資料夾
+
+  - id: bin-ls
+    name: 使用執行檔的絕對路徑來執行 `ls`
+    requirements:
+      - ls
+    condition:
+      command: /usr/bin/ls
+    response:
+      content: |
+        你會看到它列出了我們資料夾內的檔案，你會發現它的輸出跟單純打 `ls` 的結果一模一樣。
+        它一樣可以使用參數。我們來用 `/usr/bin/cat` 試試看顯示 `hello.txt` 的內容。
+      hint: 輸入 `/usr/bin/cat hello.txt`
+
+  - id: bin-cat
+    name: 使用執行檔的絕對路徑來執行 `cat`
+    requirements:
+      - bin-ls
+    condition:
+      command: /usr/bin/cat hello.txt
+    response:
+      content: |
+        你看到 `hello.txt` 的內容，跟直接用 `cat` 指令看到的一樣。
+        這是因為 `cat` 程式的位置就是 `/usr/bin/cat`，所以不管怎麼執行，結果都會一樣。
+
+        一個指令通常是由 `程式名稱 參數1 參數2 ...` 組成。
+        `程式名稱` 就是我們要執行的程式，比如 `ls`, `cat`, `which` 等。
+        `參數` 是我們要給程式的資訊，比如在 `cat` 後面加上 `hello.txt`。
+
+        我們之所以不用輸入 `/usr/bin/ls`，而只要輸入 `ls` 就能執行，是因為有一個叫 `PATH` 的設定，幫我們設定好電腦要去哪裡找這些程式。
+        不過這個 `PATH` 的內容比較複雜，我們以後再學。
+
+        現在，我們來試試看執行一個不是內建的指令。
+        在資料夾裡有一個叫 `dog` 的檔案，這是我們課程裡提供的自訂指令。
+        我們先來看看這個檔案裡面寫了什麼。
+      hint: 使用 `cat dog` 來查看 `dog` 的內容
+
+  - id: cat-dog
+    name: 使用 `cat` 指令查看 `dog` 的內容
+    requirements:
+      - bin-cat
+    condition:
+      command: cat dog
+    response:
+      content: |
+        你看到了這是一個用 `echo` 和 `sleep` 所組成的簡單程式。
+        詳細的內容不用了解沒關係，只是輸出一些文字而已。
+
+        當我們要執行一個檔案時，就是用指定路徑的方式。
+        也就是說 `執行檔` 就是 `dog` 的路徑，`參數` 在這個範例中不會使用到。
+        那因為 `dog` 位在家目錄底下，所以牠的絕對路徑就是 `/home/commander/dog`。
+        那在 `執行檔 參數` 這個格式下，我們要打的指令就會是
+        ```
+        /home/commander/dog
+        ```
+      hint: 輸入 `/home/commander/dog` 來執行 `dog` 檔案
+
+  - id: dog-abs
+    name: 使用絕對路徑來執行 `dog`
+    requirements:
+      - cat-dog
+    condition:
+      or:
+        - command: /home/commander/dog
+        - command: ~/dog
+    response:
+      content: |
+        你看到了終端機輸出這隻傲嬌的狗。
+        除了使用絕對路徑，很多時候，我們會處在跟程式相同的資料夾，這時使用相對路徑會更為便利。
+        但跟平常列出檔案時不一樣，我們為了區別它不是內建的指令，需要加上 `./` 在檔名前面。
+        `.` 在路徑中，代表的就是當前的資料夾。
+        那我們再試試看使用相對路徑來執行 `dog` 檔案。
+      hint: 輸入 `./dog` 來執行 `dog` 檔案
+
+  - id: dog-rel
+    name: 使用相對路徑來執行 `dog`
+    requirements:
+      - dog-abs
+    condition:
+      pwd: /home/commander
+      command: ./dog
+    response:
+      content: |
+        你看到這隻狗執行了跟剛才一樣的結果。
+        這個範例，其實就是一個簡單的自訂指令。
+        我們可以把一大串指令，寫在一個檔案裡讓它自動執行，幫我們處理一些複雜或是重複性的工作。
+        我們在使用別人寫的程式時，也常會用到這個技巧。
+
+        最後留一個小挑戰給你，請試著先進入 `commands` 資料夾後，再使用相對路徑執行裡面的 `lucky` 檔案。
+      hint: |
+        使用 `cd` 來進入資料夾
+        使用 `ls` 查看檔案
+        輸入 `./檔案名稱` 來執行檔案
+
+  - id: execute-lucky
+    name: 使用相對路徑來執行 `lucky`
+    requirements:
+      - dog-rel
+    condition:
+      pwd: /home/commander/commands
+      command: ./lucky
+    response:
+      content: |
+        你看到了終端機輸出 `You are lucky!` 這個字串。
+        恭喜你，你已經完成了這個課程！
+        請輸入 `echo finish` 來完成這個關卡。
+    exceptions:
+      - id: help
+        condition:
+          command: echo help
+        response:
+          content: |
+            你需要先移動到 `commands` 資料夾，再使用相對路徑執行 `lucky` 檔案。
+            請先輸入 `cd commands` 來移動到 `commands` 資料夾，再使用相對路徑 `./lucky` 來執行 `lucky` 檔案。
+
+  - id: END
+    name: 恭喜你完成了所有任務！
+    requirements:
+      - execute-lucky
+    condition:
+      command: echo finish
+    response:
+      content: |
+        恭喜你，你已經完成了這個課程！
+        你已經學會了如何執行可執行檔。
