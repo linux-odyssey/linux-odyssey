@@ -1,8 +1,9 @@
 import validator from 'validator'
 import { config as dotenvConfig } from 'dotenv'
 import path from 'path'
-import { get } from './utils/env.js'
+import fs from 'fs'
 import { loadOrCreateKeyPair } from './utils/crypto.js'
+import { get } from './utils/env.js'
 
 // Import dotenv and load ../.env
 dotenvConfig({ path: '../.env' })
@@ -92,8 +93,19 @@ function createConfig() {
 }
 
 function getProjectRoot(): string {
-  const root = path.join(path.dirname(__filename), '..', '..')
-  return root
+  // Start from the current file's directory
+  let currentDir = __dirname
+
+  // Keep going up until we find the root package.json with workspaces
+  while (currentDir !== path.parse(currentDir).root) {
+    const packageJsonPath = path.join(currentDir, 'package.json')
+    if (fs.existsSync(packageJsonPath)) {
+      return path.join(currentDir, '..')
+    }
+    currentDir = path.dirname(currentDir)
+  }
+
+  throw new Error('Could not find project root directory')
 }
 
 const config = createConfig()
