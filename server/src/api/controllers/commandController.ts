@@ -45,10 +45,10 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     new CLIFileExistenceChecker(session.containerId!)
   )
 
-  const event = await gameSession.runCommand(body)
+  const event = await gameSession.runCommand(command)
 
   const c = new Command({
-    ...body,
+    ...command,
     session: sessionId,
     stage: event,
   })
