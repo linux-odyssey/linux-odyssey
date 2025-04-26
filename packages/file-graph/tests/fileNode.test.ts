@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
-import { DuplicateItemError, ParentNotExistsError } from '../src/errors.js'
-import FileNode from '../src/fileNode.js'
-import { FileObject } from '../src/file.js'
+import { DuplicateItemError, ParentNotExistsError } from '../errors.js'
+import FileNode, { IFileNode } from '../fileNode.js'
+import { FileObject } from '../file.js'
 
 function createNodeFromFiles(files: FileObject[]) {
   const node = new FileNode(files[0])
@@ -42,16 +42,15 @@ describe('FileNode', () => {
   beforeEach(() => {
     rootNode = new FileNode({
       path: '/home/rudeus',
-      name: 'rudeus',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     })
   })
 
   test('should throw error when adding duplicate item', () => {
-    const child = {
+    const child: FileObject = {
       path: '/home/rudeus/test',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     }
 
@@ -67,10 +66,9 @@ describe('FileNode', () => {
   })
 
   test('should throw error when parent does not exist', () => {
-    const child = {
+    const child: FileObject = {
       path: '/home/rudeus/alphabet/test',
-      name: 'test',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     }
 
@@ -81,22 +79,19 @@ describe('FileNode', () => {
   })
 
   test('adds nested children to the tree', () => {
-    const files = [
+    const files: FileObject[] = [
       {
         path: '/home/rudeus/forgotten_scroll.txt',
-        name: 'forgotten_scroll.txt',
         type: 'file',
         discovered: true,
       },
       {
         path: '/home/rudeus/test',
-        name: 'test',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
         path: '/home/rudeus/test/a',
-        name: 'a',
         type: 'file',
         discovered: false,
       },
@@ -111,9 +106,8 @@ describe('FileNode', () => {
   })
 
   test('adds nested children to the tree with makeParents option', () => {
-    const file = {
+    const file: FileObject = {
       path: '/home/rudeus/test/a/b/c/d/e',
-      name: 'a',
       type: 'file',
       discovered: false,
     }
@@ -129,34 +123,34 @@ describe('FileNode', () => {
   })
 
   test('merge-subtree', () => {
-    const root = {
+    const root: FileObject = {
       path: '/',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     }
-    const files1 = [
+    const files1: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/d', type: 'file', discovered: true },
-      { path: '/b/c/f', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/d', type: 'file' as const, discovered: true },
+      { path: '/b/c/f', type: 'file' as const, discovered: true },
     ]
 
-    const files2 = [
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/e', type: 'file', discovered: true },
-      { path: '/b/c/g', type: 'file', discovered: true },
+    const files2: FileObject[] = [
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/e', type: 'file' as const, discovered: true },
+      { path: '/b/c/g', type: 'file' as const, discovered: true },
     ]
 
-    const expected = [
+    const expected: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/e', type: 'file', discovered: true },
-      { path: '/b/c/g', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/e', type: 'file' as const, discovered: true },
+      { path: '/b/c/g', type: 'file' as const, discovered: true },
     ]
 
     mergeTest(files1, files2, expected)
@@ -166,90 +160,94 @@ describe('FileNode', () => {
     // Test if the node to merge is only the middle part of the tree
     // (i.e. the node to merge doesn't contains all level of children)
     // The original tree should keep the children that are not in the node to merge
-    const root = {
+    const root: FileObject = {
       path: '/',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     }
-    const files1 = [
+    const files1: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/d', type: 'file', discovered: true },
-      { path: '/b/c/f', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/d', type: 'file' as const, discovered: true },
+      { path: '/b/c/f', type: 'file' as const, discovered: true },
     ]
 
-    const files2 = [
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/e', type: 'file', discovered: true },
+    const files2: FileObject[] = [
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/e', type: 'file' as const, discovered: true },
     ]
 
-    const expected = [
+    const expected: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/e', type: 'file', discovered: true },
-      { path: '/b/c/f', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/e', type: 'file' as const, discovered: true },
+      { path: '/b/c/f', type: 'file' as const, discovered: true },
     ]
 
     mergeTest(files1, files2, expected)
   })
 
   test('merge-hidden', () => {
-    const root = {
+    const root: FileObject = {
       path: '/',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     }
-    const files1 = [
+    const files1: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/.b', type: 'file', discovered: false },
-      { path: '/c', type: 'folder', discovered: true },
-      { path: '/c/.d', type: 'file', discovered: false },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/.b', type: 'file' as const, discovered: false },
+      { path: '/c', type: 'directory' as const, discovered: true },
+      { path: '/c/.d', type: 'file' as const, discovered: false },
     ]
 
-    const files2 = [
-      { path: '/c', type: 'folder', discovered: true },
-      { path: '/c/.d', type: 'file', discovered: true },
+    const files2: FileObject[] = [
+      { path: '/c', type: 'directory' as const, discovered: true },
+      { path: '/c/.d', type: 'file' as const, discovered: true },
     ]
 
-    const expected = [
+    const expected: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/.b', type: 'file', discovered: false },
-      { path: '/c', type: 'folder', discovered: true },
-      { path: '/c/.d', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/.b', type: 'file' as const, discovered: false },
+      { path: '/c', type: 'directory' as const, discovered: true },
+      { path: '/c/.d', type: 'file' as const, discovered: true },
     ]
 
     mergeTest(files1, files2, expected)
   })
 
   test('remove-child', () => {
-    const root = {
+    const root: FileObject = {
       path: '/',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     }
-    const files = [
+    const files: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/c', type: 'folder', discovered: true },
-      { path: '/b/d', type: 'file', discovered: true },
-      { path: '/b/c/f', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/c', type: 'directory' as const, discovered: true },
+      { path: '/b/d', type: 'file' as const, discovered: true },
+      { path: '/b/c/f', type: 'file' as const, discovered: true },
     ]
 
-    const fileToRemove = { path: '/b/c', type: 'folder', discovered: true }
+    const fileToRemove: FileObject = {
+      path: '/b/c',
+      type: 'directory',
+      discovered: true,
+    }
 
-    const expected = [
+    const expected: FileObject[] = [
       root,
-      { path: '/a', type: 'file', discovered: true },
-      { path: '/b', type: 'folder', discovered: true },
-      { path: '/b/d', type: 'file', discovered: true },
+      { path: '/a', type: 'file' as const, discovered: true },
+      { path: '/b', type: 'directory' as const, discovered: true },
+      { path: '/b/d', type: 'file' as const, discovered: true },
     ]
 
     removeChildTest(files, fileToRemove, expected)
@@ -257,9 +255,9 @@ describe('FileNode', () => {
 })
 
 test('load nested fileNode', () => {
-  const data = {
+  const data: IFileNode = {
     path: '/',
-    type: 'folder',
+    type: 'directory',
     discovered: true,
     children: [
       {
@@ -269,12 +267,12 @@ test('load nested fileNode', () => {
       },
       {
         path: '/b',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
         children: [
           {
             path: '/b/c',
-            type: 'folder',
+            type: 'directory',
             discovered: true,
             children: [
               {

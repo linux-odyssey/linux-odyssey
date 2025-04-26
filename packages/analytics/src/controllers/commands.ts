@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
-import Pagination from '../models/pagination.js'
-import { errorCommands } from '../models/commands.js'
+import Pagination from '../models/pagination'
+import { errorCommands } from '../models/commands'
 
 export async function commandListController(
   req: Request,

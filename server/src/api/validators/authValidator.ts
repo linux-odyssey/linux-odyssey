@@ -1,8 +1,8 @@
 import { check } from 'express-validator'
 
-import { isValidUsername, isValidEmail } from '@linux-odyssey/utils'
-import { User } from '@linux-odyssey/models'
-import { passwordPolicy } from '@linux-odyssey/constants'
+import { isValidUsername, isValidEmail } from '../../../../packages/utils'
+import { User } from '../../../../packages/models'
+import { passwordPolicy } from '../../../../packages/constants'
 import { noError } from '../../middleware/validator.js'
 
 const checkUsername = () =>

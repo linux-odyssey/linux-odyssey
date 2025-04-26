@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
-import { DAG } from '@linux-odyssey/utils'
-import { getQuests } from '../utils/api'
+import { DAG } from '../../../packages/utils'
+import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'
 
@@ -64,19 +64,19 @@ async function computeGraphData() {
   if (!store.progress) return
 
   try {
-    const quests = await getQuests()
+    const quests = await trpc.quests.getQuests.query()
     const dag = new DAG(quests)
     const nodesValues = dag.getNodes()
 
     const nodes = nodesValues.map((node) => ({
-      id: node._id,
+      id: node.id,
       title: node.title,
       x: marginX * node.layer * 2,
       y:
         marginY * node.index -
-        (marginX * dag.getLayer(node._id)) / 2 +
+        (marginX * dag.getLayer(node.id)) / 2 +
         svgHeight.value / 2,
-      completed: store.progress[node._id]?.completed || false,
+      completed: store.progress[node.id]?.completed || false,
       unlocked: node.requirements.every(
         (req: string) => store.progress[req]?.completed
       ),

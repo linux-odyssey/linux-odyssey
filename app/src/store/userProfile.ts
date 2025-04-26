@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getUserProfile } from '../utils/api'
+import { trpc } from '../utils/trpc'
 
 interface IProgress {
   quest: string
@@ -23,7 +23,7 @@ const useUserProfile = defineStore('userProfile', {
   }),
   actions: {
     async loadUserProfile() {
-      const res = await getUserProfile()
+      const res = await trpc.users.getMyProfile.query()
       this.$patch(res)
     },
     async resetUserProfile() {

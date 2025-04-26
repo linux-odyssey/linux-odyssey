@@ -1,11 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
     "outDir": "./dist"
   },
-  "include": ["src"],
-  "references": [{ "path": "../models" }],
+  "include": ["src", "../models"],
   "ts-node": {
     "swc": true
   }

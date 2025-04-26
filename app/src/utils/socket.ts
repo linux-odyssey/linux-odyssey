@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client'
-import { Session } from '../types'
+import type { Session } from '../types'
 
 type SocketCallback = (data: any) => void
 

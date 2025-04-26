@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { questList } from '../models/quests.js'
+import { questList } from '../models/quests'
 
 export async function questListController(req: Request, res: Response) {
   const quests = await questList()

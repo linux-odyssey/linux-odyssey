@@ -1,9 +1,9 @@
-import { getQuestDockerfiles } from '../utils/quest.js'
+import { questManager } from '../models/quest.js'
 import { buildQuestImage } from '../containers/docker.js'
 import logger from '../utils/logger.js'
 
 async function buildImages() {
-  const quests = await getQuestDockerfiles()
+  const quests = await questManager.getQuestDockerfiles()
   logger.info(`Building ${quests.length} images`)
   return Promise.all(
     quests.map(({ id, questPath }) => {

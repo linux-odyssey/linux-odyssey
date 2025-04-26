@@ -4,12 +4,13 @@ import http from 'http'
 import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 import passport from 'passport'
-import connectDB from '@linux-odyssey/models'
+import * as trpcExpress from '@trpc/server/adapters/express'
+import { connectDB } from '../../packages/models'
 
 import './auth/passport.js'
 import socketServer from './api/socket.js'
 import apiRouter from './api/routes/index.js'
-import { loadAndUpdateQuests } from './utils/quest.js'
+import { questManager } from './models/quest.js'
 import config from './config.js'
 import errorHandler from './middleware/error.js'
 import { globalRateLimit } from './middleware/rateLimiter.js'
@@ -17,6 +18,8 @@ import sessionMiddleware from './middleware/session.js'
 import expiryRemovalScheduler from './containers/expiryChecker.js'
 import setupTest from './utils/setupTest.js'
 import logger from './utils/logger.js'
+import { appRouter } from './routers/index.js'
+import { createContext } from './trpc.js'
 
 async function main() {
   if (!config.secret) {
@@ -39,7 +42,7 @@ async function main() {
   }
 
   try {
-    await loadAndUpdateQuests()
+    await questManager.loadAndUpdateQuests()
   } catch (err) {
     logger.error('Failed to load quests', err)
     return
@@ -70,6 +73,13 @@ async function main() {
   })
 
   app.use('/api/v1', apiRouter)
+  app.use(
+    '/trpc',
+    trpcExpress.createExpressMiddleware({
+      router: appRouter,
+      createContext,
+    })
+  )
   app.use(errorHandler)
 
   server.listen(config.port, '0.0.0.0', () => {

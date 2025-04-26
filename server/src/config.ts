@@ -1,14 +1,13 @@
 import validator from 'validator'
-import dotenv from 'dotenv'
-import { fileURLToPath } from 'node:url'
+import { config as dotenvConfig } from 'dotenv'
 import path from 'path'
 import { get } from './utils/env.js'
 import { loadOrCreateKeyPair } from './utils/crypto.js'
 
 // Import dotenv and load ../.env
-dotenv.config({ path: '../.env' })
+dotenvConfig({ path: '../.env' })
 if (process.env.NODE_ENV !== 'production') {
-  dotenv.config({ path: '../.env.dev' })
+  dotenvConfig({ path: '../.env.dev' })
 }
 
 function getTrustProxies(key: string): string[] {
@@ -93,8 +92,7 @@ function createConfig() {
 }
 
 function getProjectRoot(): string {
-  const filename = fileURLToPath(import.meta.url)
-  const root = path.join(path.dirname(filename), '..', '..')
+  const root = path.join(path.dirname(__filename), '..', '..')
   return root
 }
 

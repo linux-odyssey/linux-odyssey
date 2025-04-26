@@ -4,7 +4,7 @@ import { leaderboard } from '../../models/userManager.js'
 
 export default asyncHandler(async (req: Request, res: Response) => {
   const users = await leaderboard()
-  const response = users.map((user) => ({
+  const response = users.map((user: any) => ({
     username: user.user.username,
     completedQuests: user.completedQuests,
     score: user.score * 1000,

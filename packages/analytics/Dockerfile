@@ -1,19 +1,20 @@
 FROM node:20-alpine as build
 
 WORKDIR /app
-COPY ./package.json yarn.lock tsconfig.json ./
+COPY ./package.json yarn.lock ./
 COPY packages/analytics/package.json ./packages/analytics/package.json
-COPY packages/models/package.json ./packages/models/package.json
 RUN yarn install --frozen-lockfile
+
+COPY tsconfig.json ./tsconfig.json
+COPY packages ./packages
+
 ENV HOST=0.0.0.0
 ENV PORT=3001
 EXPOSE 3001
 
 # Production stage
-FROM build as prod
-COPY packages/analytics ./packages/analytics
-COPY packages/models ./packages/models
+FROM node:20-alpine as prod
+COPY --from=build /app/packages/analytics ./packages/analytics
 ENV NODE_ENV=production
 WORKDIR /app/packages/analytics
-RUN yarn build
 CMD [ "yarn", "start" ]

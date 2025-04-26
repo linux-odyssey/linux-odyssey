@@ -1,7 +1,7 @@
-import { Session, User } from '@linux-odyssey/models'
-import { Types } from 'mongoose'
-import Pagination from './pagination.js'
-import { IUser, UserSessionDetail } from '../interface.js'
+import { HydratedDocument, Types } from 'mongoose'
+import { Session, User, IUser, ISession } from '../../../models'
+import Pagination from './pagination'
+import { UserSessionDetail } from '../interface'
 
 function loginMethods(user: IUser): string[] {
   const methods: string[] = []
@@ -23,7 +23,11 @@ export function userCount() {
 }
 
 export async function userList(pagination: Pagination) {
-  const users = await Session.aggregate([
+  const users: {
+    userData: HydratedDocument<IUser>
+    count: number
+    lastActivityAt: Date
+  }[] = await Session.aggregate([
     pagination.match('user'),
     {
       $group: {
@@ -62,7 +66,7 @@ export async function userList(pagination: Pagination) {
 export async function userDetail(
   id: Types.ObjectId
 ): Promise<UserSessionDetail[]> {
-  const sessions = await Session.find({
+  const sessions: HydratedDocument<ISession>[] = await Session.find({
     user: id,
   })
   return sessions.map((session): UserSessionDetail => {

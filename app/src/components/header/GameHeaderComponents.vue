@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { logout } from '../../utils/auth'
-import { surveyUrl } from '../../config'
+import { trpc } from '../../utils/trpc'
 import { openBugReport } from '../../utils/formbricks'
 import useSession from '../../store/session'
 import useUserProfile from '../../store/userProfile'
@@ -24,6 +24,11 @@ const handleLogout = async () => {
     toast.error('登出失敗')
     console.error(err)
   }
+}
+
+const openSurvey = async () => {
+  const surveyUrl = await trpc.links.surveyLink.query()
+  window.open(surveyUrl, '_blank')
 }
 
 onMounted(async () => {
@@ -61,18 +66,18 @@ onMounted(async () => {
   >
     {{ userStore.username }}
   </p>
-  <a
+  <button
     title="Survey"
-    :href="surveyUrl"
     target="_blank"
     class="md:h-5 md:w-5 px-1.5 w-auto"
+    @click="openSurvey"
   >
     <font-awesome-icon
       :icon="['fas', 'file-invoice']"
       class="text-text-primary inline"
     />
     <span class="text-text sm:hidden px-2">Survey</span>
-  </a>
+  </button>
   <RouterLink
     title="LeaderBoard"
     to="/leaderboard"

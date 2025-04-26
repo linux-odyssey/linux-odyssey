@@ -3,16 +3,14 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "private": true,
-  "type": "module",
   "license": "GPL",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc -b -f",
-    "watch": "tsc -b --watch",
-    "dev": "nodemon"
+    "start": "node dist/analytics/src/index.js",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "dev": "tsx watch src/index.ts"
   },
   "dependencies": {
-    "@linux-odyssey/models": "*",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-basic-auth": "^1.2.1",
@@ -24,9 +22,8 @@
     "@swc/helpers": "^0.5.6",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.20",
-    "nodemon": "^3.1.0",
     "regenerator-runtime": "^0.14.1",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.3.3"
   }
 }

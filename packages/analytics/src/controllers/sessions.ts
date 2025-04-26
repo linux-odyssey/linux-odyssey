@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import Pagination from '../models/pagination.js'
-import { sessionList, sessionDetail } from '../models/sessions.js'
+import Pagination from '../models/pagination'
+import { sessionList, sessionDetail } from '../models/sessions'
 
 export async function sessionListController(req: Request, res: Response) {
   const { nextKey, order } = req.query as { nextKey: string; order: string }

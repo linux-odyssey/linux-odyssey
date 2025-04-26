@@ -1,10 +1,10 @@
 import { describe, test, expect } from '@jest/globals'
-import File from '../src/file.js'
+import File from '../file.js'
 
 describe('File', () => {
   let file: File
   beforeEach(() => {
-    file = new File({ path: '/home/user', type: 'folder', discovered: true })
+    file = new File({ path: '/home/user', type: 'directory', discovered: true })
   })
 
   const filesToCompare = [

@@ -1,6 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
-import FileGraph from '../src/fileGraph.js'
-import FileNode from '../src/fileNode.js'
+import FileGraph from '../fileGraph.js'
+import FileNode from '../fileNode.js'
+import { FileObject } from '../file.js'
 
 describe('FileGraph', () => {
   let root: FileNode
@@ -8,7 +9,7 @@ describe('FileGraph', () => {
   beforeEach(() => {
     root = new FileNode({
       path: '/',
-      type: 'folder',
+      type: 'directory',
       discovered: true,
     })
   })
@@ -16,7 +17,7 @@ describe('FileGraph', () => {
   test('add files to graph', () => {
     const fileGraph = new FileGraph(root)
 
-    const filesToAdd = [
+    const filesToAdd: FileObject[] = [
       {
         path: '/home/user/file1.txt',
         type: 'file',
@@ -24,7 +25,7 @@ describe('FileGraph', () => {
       },
       {
         path: '/home/user/folder1',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
     ]
@@ -41,12 +42,12 @@ describe('FileGraph', () => {
     const filesToAdd = [
       {
         path: '/home/user/folder1',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
         path: '/home/user/folder2',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
@@ -61,22 +62,22 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.add(filesToAdd)
+    fileGraph.add(filesToAdd as FileObject[])
 
     const filesToRemove = [
       {
         path: '/home/user/folder1/file1.txt',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
         path: '/home/user/folder2',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
     ]
 
-    fileGraph.remove(filesToRemove)
+    fileGraph.remove(filesToRemove as FileObject[])
 
     expect(fileGraph.children[0].children[0].children.length).toBe(1)
     expect(fileGraph.children[0].children[0].children[0].name).toBe('folder1')
@@ -90,7 +91,7 @@ describe('FileGraph', () => {
     const discoverFiles = [
       {
         path: '/home/user/folder1',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
@@ -110,7 +111,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.discover(discoverFiles)
+    fileGraph.discover(discoverFiles as FileObject[])
     expect(fileGraph.children[0].children[0].children[0].children.length).toBe(
       3
     )
@@ -122,12 +123,12 @@ describe('FileGraph', () => {
     const filesToAdd = [
       {
         path: '/home/user/folder1',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
         path: '/home/user/folder2',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
@@ -142,12 +143,12 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.add(filesToAdd)
+    fileGraph.add(filesToAdd as FileObject[])
 
     const newFiles = [
       {
         path: '/home/user/folder1',
-        type: 'folder',
+        type: 'directory',
         discovered: true,
       },
       {
@@ -167,7 +168,7 @@ describe('FileGraph', () => {
       },
     ]
 
-    fileGraph.discover(newFiles)
+    fileGraph.discover(newFiles as FileObject[])
 
     expect(fileGraph.children[0].children[0].children.length).toBe(2)
     expect(fileGraph.children[0].children[0].children[0].children.length).toBe(

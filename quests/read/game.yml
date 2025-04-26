@@ -1,4 +1,6 @@
+id: read
 title: 查看檔案內容
+image: base
 instruction: |
   在這個關卡中，你將會學到：
   1. 如何使用 `cat` 查看檔案的內容
@@ -8,97 +10,84 @@ requirements:
 
 stages:
   - id: start
-    task: 按下 `開始` 按鈕開始教程
+    name: 按下 `開始` 按鈕開始教程
     condition:
-      command:
-        - ^echo start$
-    responses:
-      - content: |
-          在終端機中，並沒有圖形介面可以讓你查看檔案的內容。
-          但是你可以透過 `cat` 指令來查看檔案的內容。
-          `cat` 指令是 concatenate 的縮寫，也就是串接的意思。
-          在輸入 `cat [檔案名稱]` 指令後，終端機會輸出檔案的內容。
-          請你先查看這個資料夾中哪些檔案。
-    hints:
-      - ➤  請輸入 `ls` 來查看這個資料夾中的檔案。
+      command: echo start
+    response:
+      content: |
+        在終端機中，並沒有圖形介面可以讓你查看檔案的內容。
+        但是你可以透過 `cat` 指令來查看檔案的內容。
+        `cat` 指令是 concatenate 的縮寫，也就是串接的意思。
+        在輸入 `cat [檔案名稱]` 指令後，終端機會輸出檔案的內容。
+        請你先查看這個資料夾中哪些檔案。
+      hint: 請輸入 `ls` 來查看這個資料夾中的檔案。
 
-  - id: ls-~
-    task: 查看資料夾中的檔案
+  - id: ls_home
+    name: 查看資料夾中的檔案
     requirements:
       - start
     condition:
-      pwd:
-        - ^/home/commander$
-      command:
-        - ^ls$
-    responses:
-      - content: |
-          這個資料夾中有一個檔案和一個資料夾。
-          現在你可以使用 `cat` 指令來查看 `file1.txt` 的內容。
-    hints:
-      - ➤  請輸入 `cat file1.txt` 來查看檔案的內容。
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        這個資料夾中有一個檔案和一個資料夾。
+        現在你可以使用 `cat` 指令來查看 `file1.txt` 的內容。
+      hint: 請輸入 `cat file1.txt` 來查看檔案的內容。
 
   - id: cat-file1
-    task: 查看 `file1.txt` 的內容
+    name: 查看 `file1.txt` 的內容
     requirements:
-      - ls-~
+      - ls_home
     condition:
-      pwd:
-        - ^/home/commander$
-      command:
-        - ^cat file1.txt$
-    responses:
-      - content: |
-          你應該能看到檔案的內容了。
-          `cat` 指令也可以使用路徑來查看檔案內容
-          請你先用 `ls folder` 查看資料夾內的檔案。
-    hints:
-      - ➤  輸入 `ls folder` 查看資料夾內的檔案
+      pwd: /home/commander
+      command: cat file1.txt
+    response:
+      content: |
+        你應該能看到檔案的內容了。
+        `cat` 指令也可以使用路徑來查看檔案內容
+        請你先用 `ls folder` 查看資料夾內的檔案。
+      hint: 輸入 `ls folder` 查看資料夾內的檔案
 
   - id: ls-folder
-    task: 查看 `folder` 資料夾
+    name: 查看 `folder` 資料夾
     requirements:
       - cat-file1
     condition:
-      pwd:
-        - ^/home/commander$
-      command:
-        - ^ls folder$
+      pwd: /home/commander
+      command: ls folder
     exceptions:
-      - condition:
+      - id: not_in_home
+        condition:
           not:
-            pwd:
-              - ^/home/commander$
-        content: |
-          請留在 `/home/commander` 資料夾中。
-          請輸入 `cd ~` 回到 `/home/commander` 資料夾。
-    responses:
-      - content: |
-          你現在知道 `folder` 資料夾的內容了。
-          請用 `cat` 指令來查看 `folder` 資料夾中的 `file.txt` 檔案。
-    hints:
-      - ➤  輸入 `cat folder/file.txt` 查看 `file.txt` 檔案的內容。
+            pwd: /home/commander
+        response:
+          content: |
+            請留在 `/home/commander` 資料夾中。
+            請輸入 `cd ~` 回到 `/home/commander` 資料夾。
+    response:
+      content: |
+        你現在知道 `folder` 資料夾的內容了。
+        請用 `cat` 指令來查看 `folder` 資料夾中的 `file.txt` 檔案。
+      hint: 輸入 `cat folder/file.txt` 查看 `file.txt` 檔案的內容。
 
   - id: END
-    task: 查看 `file.txt` 的內容
+    name: 查看 `file.txt` 的內容
     requirements:
       - ls-folder
     condition:
-      pwd:
-        - ^/home/commander$
-      command:
-        - ^cat folder/file.txt$
+      pwd: /home/commander
+      command: cat folder/file.txt
     exceptions:
-      - condition:
+      - id: not_in_home
+        condition:
           not:
-            pwd:
-              - ^/home/commander$
-        responses:
-          - type: narrative
-            content: |
-              請留在 `/home/commander` 資料夾中。
-              請輸入 `cd ~` 回到 `/home/commander` 資料夾。
-    responses:
-      - content: |
-          你成功地查看到 `file.txt` 的內容了。
-          你已經會使用 `cat` 指令查看檔案的內容了。
+            pwd: /home/commander
+        response:
+          content: |
+            請留在 `/home/commander` 資料夾中。
+            請輸入 `cd ~` 回到 `/home/commander` 資料夾。
+    response:
+      content: |
+        你成功地查看到 `file.txt` 的內容了。
+        你已經會使用 `cat` 指令查看檔案的內容了。

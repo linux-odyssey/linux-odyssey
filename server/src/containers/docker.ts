@@ -40,7 +40,7 @@ export async function createContainer(
     )
   }
   if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
-    logger.info('Mounting quest folder', questId)
+    logger.info('Mounting quest directory', questId)
     binds = [
       `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`,
       `${config.docker.hostProjectRoot}/packages/container:/usr/local/lib/container`,

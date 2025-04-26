@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import type { IVerifyOptions } from 'passport-local'
 import type { Express } from 'express'
-import { User } from '@linux-odyssey/models'
+import { User } from '../../../packages/models'
 
 async function verifyPassword(
   username: string,

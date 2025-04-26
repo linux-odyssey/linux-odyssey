@@ -5,8 +5,9 @@ import MarkdownText from '../MarkdownText.vue'
 
 const sessionStore = useSession()
 const current = ref(-1)
+const hintDetails = ref<HTMLDetailsElement | null>(null)
 const length = computed(() => {
-  return sessionStore.session?.responses.length ?? 0
+  return sessionStore.session?.responses?.length ?? 0
 })
 
 const disabled = computed(() => {
@@ -14,6 +15,7 @@ const disabled = computed(() => {
 })
 
 watch(length, () => {
+  console.log('length update', length.value)
   current.value = length.value - 1
 })
 
@@ -28,6 +30,19 @@ const right = () => {
     current.value += 1
   }
 }
+
+const response = computed(() => {
+  if (!sessionStore.session) return null
+  if (current.value < 0) return null
+  if (current.value >= sessionStore.session.responses.length) return null
+  return sessionStore.session.responses[current.value]
+})
+
+watch(response, () => {
+  if (hintDetails.value) {
+    hintDetails.value.open = false
+  }
+})
 </script>
 
 <template>
@@ -62,27 +77,30 @@ const right = () => {
           @click="right"
           :disabled="disabled"
         >
-          <font-awesome-icon :icon="['fas', 'arrow-right']" class="text-text" />
+          <font-awesome-icon
+            :icon="['fas', 'arrow-right']"
+            :class="disabled ? 'text-gray-600' : 'text-text'"
+          />
         </button>
       </div>
     </div>
     <div id="hint" class="bg-bg p-8 overflow-y-auto">
       <ul>
         <li
-          v-for="response in sessionStore.session?.responses[current]"
+          v-if="response"
           :key="response.type"
           class="text-text font-xl whitespace-pre-wrap"
         >
-          <div v-for="content in response.content" :key="content">
-            <MarkdownText :content="content" />
-          </div>
+          <MarkdownText :content="response.content" />
         </li>
         <li
-          v-for="hint in sessionStore.session?.hints[current]"
-          :key="hint"
+          v-if="response?.hint"
           class="text-text-primary font-xl whitespace-pre-wrap"
         >
-          <MarkdownText :content="hint" />
+          <details ref="hintDetails">
+            <summary class="cursor-pointer">提示</summary>
+            <MarkdownText :content="response.hint" />
+          </details>
         </li>
       </ul>
       <br />

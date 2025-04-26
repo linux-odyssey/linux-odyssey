@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ESNext", // 要編譯成的 JS 目標版本
-    "module": "NodeNext", // 要編譯成的 module
-    "moduleResolution": "NodeNext", // module 解析方式, default "classic"
-    "esModuleInterop": true, // module 兼容, 會影響 build 方式
     "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true
-  }
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", "dist", "*.test.ts"]
 }

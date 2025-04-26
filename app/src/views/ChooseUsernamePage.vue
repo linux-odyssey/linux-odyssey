@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isValidUsername } from '@linux-odyssey/utils'
+import { isValidUsername } from '../../../packages/utils'
 import AuthForm from '../components/AuthForm.vue'
 import Background from '../components/DynamicBackground.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'

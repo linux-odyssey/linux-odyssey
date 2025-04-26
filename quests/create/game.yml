@@ -1,4 +1,6 @@
+id: create
 title: 建立檔案與資料夾
+image: base
 instruction: |
   在這個關卡中，你將會學到：
   1. 如何使用 `touch` 建立檔案
@@ -9,220 +11,196 @@ requirements:
 
 stages:
   - id: start
-    task: 按下 `開始` 按鈕開始
+    name: 按下 `開始` 按鈕開始
     condition:
-      command:
-        - ^echo start$
-    responses:
-      - type: narrative
-        content: |
-          這次要學習的指令是 `touch` 指令。
-          請你先用 `ls` 指令查看目前所在資料夾中有哪些檔案。
-          你應該會發現目前所在資料夾中沒有任何檔案。
-    hints:
-      - ➤  輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
+      command: echo start
+    response:
+      content: |
+        這次要學習的指令是 `touch` 指令。
+        請你先用 `ls` 指令查看目前所在資料夾中有哪些檔案。
+        你應該會發現目前所在資料夾中沒有任何檔案。
+      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: ls
-    task: 查看資料夾中的檔案
+    name: 查看資料夾中的檔案
     requirements:
       - start
     condition:
-      command:
-        - ^ls$
-    responses:
-      - type: narrative
-        content: |
-          你應該可以看到終端機上沒有任何回應，這表示目前所在資料夾中沒有任何檔案。
-          而我們可以使用 `touch [檔案名稱]` 指令來建立一個檔案。
-          接下來，請你試著在終端機上建立一個檔案，檔名為 `hello.txt`。
-    hints:
-      - ➤  輸入 `touch hello.txt` 來建立一個檔案
+      command: ls
+    response:
+      content: |
+        你應該可以看到終端機上沒有任何回應，這表示目前所在資料夾中沒有任何檔案。
+        而我們可以使用 `touch [檔案名稱]` 指令來建立一個檔案。
+        接下來，請你試著在終端機上建立一個檔案，檔名為 `hello.txt`。
+      hint: 輸入 `touch hello.txt` 來建立一個檔案
 
   - id: touch
-    task: 使用 `touch` 指令來建立一個檔案
+    name: 使用 `touch` 指令來建立一個檔案
     requirements:
       - ls
     condition:
       files:
         - path: /home/commander/hello.txt
           type: file
+          exists: true
     exceptions:
-      - condition:
+      - id: missing_extension
+        condition:
           files:
             - path: /home/commander/hello
               type: file
-        responses:
-          - type: narrative
-            content: |
-              你似乎忘記輸入副檔名 `txt` 了。
-              請再試一次，並確保檔名為 `hello.txt`。
-    responses:
-      - type: narrative
-        content: |
-          你應該可以看到終端機上沒有任何回應。
-          然而實際上 `touch` 指令已經成功建立了一個檔案。
-          請你用之前學過的 `ls` 指令來查看目前所在資料夾中有哪些檔案。
-    hints:
-      - ➤  輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
+              exists: true
+        response:
+          content: |
+            你似乎忘記輸入副檔名 `txt` 了。
+            請再試一次，並確保檔名為 `hello.txt`。
+    response:
+      content: |
+        你應該可以看到終端機上沒有任何回應。
+        然而實際上 `touch` 指令已經成功建立了一個檔案。
+        請你用之前學過的 `ls` 指令來查看目前所在資料夾中有哪些檔案。
+      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: ls-touch
-    task: 使用 `ls` 指令來查看新建立的檔案
+    name: 使用 `ls` 指令來查看新建立的檔案
     requirements:
       - touch
     condition:
-      command:
-        - ^ls$
-      output:
-        - hello.txt
-    responses:
-      - type: narrative
-        content: |
-          你應該可以看到終端機上顯示了 `hello.txt` 這個檔案。
-          我們來看看 `hello.txt` 檔案的內容吧！
-          我們可以使用之前學過的 `cat` 指令來查看檔案內容。
-    hints:
-      - ➤  輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
+      command: ls
+      output: hello.txt
+    response:
+      content: |
+        你應該可以看到終端機上顯示了 `hello.txt` 這個檔案。
+        我們來看看 `hello.txt` 檔案的內容吧！
+        我們可以使用之前學過的 `cat` 指令來查看檔案內容。
+      hint: 輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
 
   - id: cat
-    task: 使用 `cat` 指令來查看 `hello.txt` 檔案的內容
+    name: 使用 `cat` 指令來查看 `hello.txt` 檔案的內容
     requirements:
       - ls-touch
     condition:
-      command:
-        - ^cat hello.txt$
-    responses:
-      - type: narrative
-        content: |
-          咦？竟然什麼都沒有！
-          沒錯，使用 `touch` 指令建立的檔案是空的。
-          我們在未來會學習如何編輯檔案的內容。
-          再來試試建立其他的檔案吧！
-          請你試著在終端機上建立另一個檔案，檔名為 `world.txt`。
-    hints:
-      - ➤  輸入 `touch world.txt` 來建立一個檔案
+      command: cat hello.txt
+    response:
+      content: |
+        咦？竟然什麼都沒有！
+        沒錯，使用 `touch` 指令建立的檔案是空的。
+        我們在未來會學習如何編輯檔案的內容。
+        再來試試建立其他的檔案吧！
+        請你試著在終端機上建立另一個檔案，檔名為 `world.txt`。
+      hint: 輸入 `touch world.txt` 來建立一個檔案
 
   - id: touch-2
-    task: 使用 `touch` 指令來建立另一個檔案 `world.txt`
+    name: 使用 `touch` 指令來建立另一個檔案 `world.txt`
     requirements:
-      - ls-touch
+      - cat
     condition:
       files:
         - path: /home/commander/world.txt
           type: file
+          exists: true
     exceptions:
-      - condition:
+      - id: missing_extension
+        condition:
           files:
             - path: /home/commander/world
               type: file
-        responses:
-          - type: narrative
-            content: |
-              你似乎忘記輸入副檔名 `txt` 了。
-              請再試一次，並確保檔名為 `world.txt`。
-    responses:
-      - type: narrative
-        content: |
-          非常好，你已經成功建立了第二個檔案。
-          接下來，請你用之前學過的 `ls` 指令來查看剛剛建立的兩個檔案。
-    hints:
-      - ➤  輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
+              exists: true
+        response:
+          content: |
+            你似乎忘記輸入副檔名 `txt` 了。
+            請再試一次，並確保檔名為 `world.txt`。
+    response:
+      content: |
+        非常好，你已經成功建立了第二個檔案。
+        接下來，請你用之前學過的 `ls` 指令來查看剛剛建立的兩個檔案。
+      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: ls-2
-    task: 使用 `ls` 指令來查看剛剛建立的兩個檔案
+    name: 使用 `ls` 指令來查看剛剛建立的兩個檔案
     requirements:
       - touch-2
     condition:
-      command:
-        - ^ls$
-      output:
-        - (^|\s)hello.txt($|\s)
-        - (^|\s)world.txt($|\s)
-    responses:
-      - type: narrative
-        content: |
-          你應該可以看到終端機上顯示了 `hello.txt` 和 `world.txt` 這兩個檔案。
-          接下來，我們來試試看建立資料夾吧！
-          `mkdir` 指令可以建立一個空的資料夾。
-          使用方式是 `mkdir [資料夾名稱]`。
-          請你試著在終端機上建立一個資料夾，名稱為 `notes`。
-    hints:
-      - ➤  輸入 `mkdir notes` 來建立一個資料夾
+      command: ls
+      output: hello.txt\nworld.txt
+    response:
+      content: |
+        你應該可以看到終端機上顯示了 `hello.txt` 和 `world.txt` 這兩個檔案。
+        接下來，我們來試試看建立資料夾吧！
+        `mkdir` 指令可以建立一個空的資料夾。
+        使用方式是 `mkdir [資料夾名稱]`。
+        請你試著在終端機上建立一個資料夾，名稱為 `notes`。
+      hint: 輸入 `mkdir notes` 來建立一個資料夾
 
   - id: mkdir
-    task: 使用 `mkdir` 指令建立 `notes` 資料夾
+    name: 使用 `mkdir` 指令建立 `notes` 資料夾
     requirements:
       - ls-2
     condition:
       files:
         - path: /home/commander/notes
-          type: folder
-    responses:
-      - type: narrative
-        content: |
-          非常好，你已經成功建立了 `notes` 資料夾。
-          接下來，請你用 `ls` 指令來查看剛剛建立的資料夾。
+          type: directory
+          exists: true
+    response:
+      content: |
+        非常好，你已經成功建立了 `notes` 資料夾。
+        接下來，請你用 `ls` 指令來查看剛剛建立的資料夾。
+      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: ls-mkdir
-    task: 使用 `ls` 查看剛建立的資料夾
+    name: 使用 `ls` 查看剛建立的資料夾
     requirements:
       - mkdir
     condition:
-      command:
-        - ^ls$
-      output:
-        - notes
-    responses:
-      - type: narrative
-        content: |
-          你應該可以看到終端機上顯示了 `notes` 這個資料夾。
-          接下來，我們要在 `notes` 資料夾中建立一個 `note.txt` 的檔案。
-          首先，我們要先進入 `notes` 資料夾。
-          還記得之前的 `cd` 指令嗎？請你試著使用 `cd` 指令來進入 `notes` 資料夾。
-    hints:
-      - ➤  輸入 `cd notes` 來進入 `notes` 資料夾
-      - ➤  可以在輸入到 `cd n` 時按下 `Tab` 鍵來自動補齊資料夾名稱
+      command: ls
+      output: notes
+    response:
+      content: |
+        你應該可以看到終端機上顯示了 `notes` 這個資料夾。
+        接下來，我們要在 `notes` 資料夾中建立一個 `note.txt` 的檔案。
+        首先，我們要先進入 `notes` 資料夾。
+        還記得之前的 `cd` 指令嗎？請你試著使用 `cd` 指令來進入 `notes` 資料夾。
+      hint: |
+        輸入 `cd notes` 來進入 `notes` 資料夾
+        可以在輸入到 `cd n` 時按下 `Tab` 鍵來自動補齊資料夾名稱
 
   - id: cd-notes
-    task: 移動到 `notes` 資料夾
+    name: 移動到 `notes` 資料夾
     requirements:
       - ls-mkdir
     condition:
-      pwd:
-        - ^/home/commander/notes$
-    responses:
-      - type: narrative
-        content: |
-          你已經成功進入了 `notes` 資料夾。
-          接下來，請你試著在 `notes` 資料夾裡建立一個檔案，檔名為 `note.txt`。
-    hints:
-      - ➤  輸入 `touch note.txt` 來建立一個檔案
+      pwd: /home/commander/notes
+    response:
+      content: |
+        你已經成功進入了 `notes` 資料夾。
+        接下來，請你試著在 `notes` 資料夾裡建立一個檔案，檔名為 `note.txt`。
+      hint: 輸入 `touch note.txt` 來建立一個檔案
 
   - id: touch-note
-    task: 在 `notes` 中建立 `note.txt` 檔案
+    name: 在 `notes` 中建立 `note.txt` 檔案
     requirements:
       - cd-notes
     condition:
       files:
         - path: /home/commander/notes/note.txt
           type: file
-    responses:
-      - type: narrative
-        content: |
-          非常好，你已經成功建立了 `note.txt` 檔案。
-          跟之前一樣，你可以使用 `ls` 指令來查看目前所在資料夾中有哪些檔案。
+          exists: true
+    response:
+      content: |
+        非常好，你已經成功建立了 `note.txt` 檔案。
+        跟之前一樣，你可以使用 `ls` 指令來查看目前所在資料夾中有哪些檔案。
+      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
 
   - id: END
-    task: 使用 `ls` 指令來查看目前所在資料夾中有哪些檔案
+    name: 使用 `ls` 指令來查看目前所在資料夾中有哪些檔案
     requirements:
       - touch-note
     condition:
-      command:
-        - ^ls
-      output:
-        - note.txt
-    responses:
-      - type: narrative
-        content: |
-          你應該可以看到終端機上顯示了 `note.txt` 這個檔案。
-          恭喜你完成了這個關卡！
-          在下一個關卡中，你將學習如何複製檔案與資料夾。
+      command: ls
+      output: note.txt
+    response:
+      content: |
+        你應該可以看到終端機上顯示了 `note.txt` 這個檔案。
+        恭喜你完成了這個關卡！
+        在下一個關卡中，你將學習如何複製檔案與資料夾。
+      hint: 恭喜你完成了所有任務！

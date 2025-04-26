@@ -1,8 +1,14 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable func-names */
-import { UserProfile } from '@linux-odyssey/models'
+import { UserProfile } from '../../../models'
 
-export function questList() {
+export interface QuestProgress {
+  _id: string
+  started: number
+  completed: number
+  completedRate: number
+  failed: number
+}
+
+export function questList(): Promise<QuestProgress[]> {
   return UserProfile.aggregate([
     {
       $project: {

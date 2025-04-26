@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals'
-import { buildFileCheckCmd, File } from '../src/commands.js'
+import { buildFileCheckCmd, File } from '../commands'
 
 describe('buildFileCheckCmd function', () => {
   it('builds the file check command correctly', () => {
@@ -12,7 +12,7 @@ describe('buildFileCheckCmd function', () => {
         output: ['test', '-f', '/etc/passwd'],
       },
       {
-        input: { path: '/etc', type: 'folder' },
+        input: { path: '/etc', type: 'directory' },
         output: ['test', '-d', '/etc'],
       },
       {

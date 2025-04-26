@@ -1,13 +1,14 @@
-import { Command, Quest, Session } from '@linux-odyssey/models'
-import { matchedData } from 'express-validator'
 import type { Request, Response } from 'express'
-import CommandHandler from '../../game/commandHandler.js'
-import { pushToSession } from '../socket.js'
-import { finishSession } from '../../models/sessionManager.js'
-import { asyncHandler } from '../../middleware/error.js'
+import { GameSession, commandSchema } from '../../../../packages/game'
+import { Command, Session } from '../../../../packages/models'
+import { pushToSession } from '../socket'
+import { finishSession } from '../../models/sessionManager'
+import { asyncHandler } from '../../middleware/error'
+import { questManager } from '../../models/quest'
+import { CLIFileExistenceChecker } from '../../containers/cli'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
-  const { command, pwd, output, error, params } = matchedData(req)
+  const command = commandSchema.parse(req.body)
 
   const { sessionId } = req.user as any
   const session = await Session.findById(sessionId)
@@ -27,34 +28,45 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
 
   session.lastActivityAt = new Date()
 
-  const c = new Command({
-    session,
-    command,
-    pwd,
-    output,
-    error,
-  })
-
-  await c.save()
-
-  const quest = await Quest.findById(session.quest)
+  const quest = await questManager.get(session.quest)
   if (!quest) {
     res.status(404).json({ message: 'quest not found' })
     return
   }
 
-  const commandHandler = new CommandHandler(session, quest, c, params)
-  const response = await commandHandler.run()
-  if (response) {
-    c.stage = response.stage
-    await c.save()
+  const gameSession = new GameSession(
+    session,
+    quest,
+    new CLIFileExistenceChecker(session.containerId!)
+  )
 
-    if ((session.status as string) === 'finished') {
+  const event = await gameSession.runCommand(command)
+
+  const c = new Command({
+    ...command,
+    session: sessionId,
+    stage: event,
+  })
+
+  await c.save()
+  if (event) {
+    session.completedEvents = gameSession.completedEvents
+    session.graph = gameSession.getGraph()
+
+    if (gameSession.isFinished()) {
       await finishSession(session)
     }
-    pushToSession(session.id, 'response', response)
+    pushToSession(session.id, 'update', {
+      responses: gameSession.getResponses(),
+      tasks: gameSession.getTasks(),
+      status: session.status,
+    })
   }
+  if (command.params) {
+    session.graph = gameSession.getGraph()
+    pushToSession(session.id, 'graph', command.params)
+  }
+  await session.save()
 
   res.status(200).end()
-  await session.save()
 })

@@ -2,8 +2,8 @@
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { ref, defineProps, onMounted } from 'vue'
-import { getQuest } from '../utils/api'
 import MarkdownText from './MarkdownText.vue'
+import { trpc } from '../utils/trpc'
 
 const props = defineProps({
   questTitle: {
@@ -49,7 +49,7 @@ const handleColour = () => {
   }
 }
 onMounted(async () => {
-  const quest = await getQuest(questId)
+  const quest = await trpc.quests.getQuestDetail.query(questId)
   questInstruction.value = quest.instruction
   handleColour()
 })

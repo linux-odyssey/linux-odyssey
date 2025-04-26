@@ -1,0 +1,159 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "instruction": {
+      "type": "string"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "requirements": {
+            "$ref": "#/properties/requirements",
+            "default": []
+          },
+          "condition": {
+            "type": "object",
+            "properties": {
+              "command": {
+                "type": "string"
+              },
+              "output": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "pwd": {
+                "type": "string"
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": ["file", "directory"]
+                    },
+                    "exists": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["path", "type", "exists"],
+                  "additionalProperties": false
+                }
+              },
+              "or": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/properties/stages/items/properties/condition"
+                }
+              },
+              "not": {
+                "$ref": "#/properties/stages/items/properties/condition"
+              }
+            },
+            "additionalProperties": false
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["narrative", "dialogue"],
+                "default": "narrative"
+              },
+              "content": {
+                "type": "string"
+              },
+              "hint": {
+                "type": "string"
+              }
+            },
+            "required": ["content"],
+            "additionalProperties": false
+          },
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "condition": {
+                  "$ref": "#/properties/stages/items/properties/condition"
+                },
+                "response": {
+                  "$ref": "#/properties/stages/items/properties/response"
+                },
+                "catchAll": {
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "required": ["id", "condition", "response"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["id", "condition", "response"],
+        "additionalProperties": false
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/properties/stages/items/properties/exceptions/items/properties/id"
+          },
+          "condition": {
+            "$ref": "#/properties/stages/items/properties/condition"
+          },
+          "response": {
+            "$ref": "#/properties/stages/items/properties/response"
+          },
+          "requirements": {
+            "$ref": "#/properties/requirements",
+            "default": []
+          }
+        },
+        "required": ["id", "condition", "response"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["id", "title", "image", "instruction", "stages"],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
