@@ -9,7 +9,7 @@ services:
       dockerfile: app/Dockerfile
       target: prod
     networks:
-      internal:
+      - internal
     ports:
       - 8080:80
 
@@ -31,7 +31,7 @@ services:
       - ./config:/app/config
       - ./quests:/app/quests:ro
     env_file:
-      - .env
+      - .env.prod
     environment:
       - DOCKER_NETWORK=linux-odyssey-players
       - BACKEND_URL=http://backend:3000
@@ -51,7 +51,7 @@ services:
     ports:
       - '3001:3001'
     env_file:
-      - .env
+      - .env.prod
 
   db:
     image: mongo:6
@@ -64,7 +64,7 @@ services:
       - mongo:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     env_file:
-      - .env
+      - .env.prod
 
   base:
     image: linuxodyssey/quest-base

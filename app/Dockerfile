@@ -1,26 +1,15 @@
 # Base stage
-FROM node:20-alpine as base
+FROM node:20-alpine as build
 
 WORKDIR /app
-COPY package.json yarn.lock tsconfig.json ./
-COPY packages/file-graph/package.json ./packages/file-graph/package.json
-COPY packages/utils/package.json ./packages/utils/package.json
-COPY packages/constants/package.json ./packages/constants/package.json
-COPY packages/models/package.json ./packages/models/package.json
+COPY package.json yarn.lock ./
 COPY app/package.json ./app/package.json
+COPY server/package.json ./server/package.json
 RUN yarn install --frozen-lockfile
 
-# Dev stage
-FROM base as dev
-WORKDIR /app/app
-CMD [ "yarn", "dev:docker", "--host", "0.0.0.0" ]
-
-# Build stage
-FROM base as build
-COPY packages/file-graph ./packages/file-graph
-COPY packages/utils ./packages/utils
-COPY packages/constants ./packages/constants
-COPY packages/models ./packages/models
+COPY tsconfig.json ./tsconfig.json
+COPY server ./server
+COPY packages ./packages
 COPY app ./app
 RUN yarn workspace app build
 

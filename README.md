@@ -163,6 +163,17 @@ Run Cypress in container, create brand-new containers along with it:
 
 ## Deployment
 
+Create production env
+
+    cp .env.prod.sample .env.prod
+
+Edit `.env.prod`
+
+    BASE_URL=https://yourdomain.com         # IMPORTANT to make login work
+    SECRET_KEY=xxxx                         # Change it to something safe!
+
+Start the service
+
     # Build the images (only allowed for maintainers)
     docker compose -f docker-compose.prod.yml build
     docker compose -f docker-compose.prod.yml push
