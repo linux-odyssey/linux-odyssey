@@ -5,6 +5,7 @@ import MarkdownText from '../MarkdownText.vue'
 
 const sessionStore = useSession()
 const current = ref(-1)
+const hintDetails = ref<HTMLDetailsElement | null>(null)
 const length = computed(() => {
   return sessionStore.session?.responses?.length ?? 0
 })
@@ -35,6 +36,12 @@ const response = computed(() => {
   if (current.value < 0) return null
   if (current.value >= sessionStore.session.responses.length) return null
   return sessionStore.session.responses[current.value]
+})
+
+watch(response, () => {
+  if (hintDetails.value) {
+    hintDetails.value.open = false
+  }
 })
 </script>
 
@@ -89,7 +96,7 @@ const response = computed(() => {
           v-if="response?.hint"
           class="text-text-primary font-xl whitespace-pre-wrap"
         >
-          <details>
+          <details ref="hintDetails">
             <summary class="cursor-pointer">提示</summary>
             <MarkdownText :content="response.hint" />
           </details>
