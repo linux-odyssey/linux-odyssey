@@ -1,4 +1,4 @@
-import connectDB from '../../../packages/models'
+import { connectDB } from '../../../packages/models'
 import { removeExpired } from '../containers/expiryChecker'
 import config from '../config'
 import logger from '../utils/logger'
