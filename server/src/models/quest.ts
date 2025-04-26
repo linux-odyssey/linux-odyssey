@@ -9,6 +9,7 @@ import {
   IQuest,
 } from '../../../packages/game'
 import logger from '../utils/logger.js'
+import config from '../config.js'
 
 class QuestValidationError extends Error {
   questId: string
@@ -37,7 +38,7 @@ class QuestValidationError extends Error {
 
 class QuestManager {
   private quests = new Map<string, IQuest>()
-  private questDirectory = path.join(process.cwd(), '..', 'quests')
+  private questDirectory = path.join(config.projectRoot, 'quests')
 
   get(id: string) {
     return this.quests.get(id)

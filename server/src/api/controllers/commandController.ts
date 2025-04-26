@@ -8,7 +8,12 @@ import { questManager } from '../../models/quest'
 import { CLIFileExistenceChecker } from '../../containers/cli'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
-  const command = commandSchema.parse(req.body)
+  const body = commandSchema.safeParse(req.body)
+  if (!body.success) {
+    res.status(400).json({ message: 'Invalid command', errors: body.error })
+    return
+  }
+  const command = body.data
 
   const { sessionId } = req.user as any
   const session = await Session.findById(sessionId)
@@ -40,10 +45,10 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
     new CLIFileExistenceChecker(session.containerId!)
   )
 
-  const event = await gameSession.runCommand(command)
+  const event = await gameSession.runCommand(body)
 
   const c = new Command({
-    ...command,
+    ...body,
     session: sessionId,
     stage: event,
   })
