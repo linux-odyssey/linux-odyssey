@@ -8,13 +8,19 @@ RUN yarn install --frozen-lockfile
 COPY tsconfig.json ./tsconfig.json
 COPY packages ./packages
 
+RUN yarn workspace analytics build
+
+# Production stage
+FROM node:20-alpine as prod
+
+WORKDIR /app
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/packages/analytics ./packages/analytics
+
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3001
 EXPOSE 3001
 
-# Production stage
-FROM node:20-alpine as prod
-COPY --from=build /app/packages/analytics ./packages/analytics
-ENV NODE_ENV=production
 WORKDIR /app/packages/analytics
 CMD [ "yarn", "start" ]
