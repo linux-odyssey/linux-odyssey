@@ -10,8 +10,6 @@ import { CLIFileExistenceChecker } from '../../containers/cli'
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const command = commandSchema.parse(req.body)
 
-  console.log('command', command)
-
   const { sessionId } = req.user as any
   const session = await Session.findById(sessionId)
   if (!session) {
@@ -43,7 +41,6 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   )
 
   const event = await gameSession.runCommand(command)
-  console.log('event', event)
 
   const c = new Command({
     ...command,

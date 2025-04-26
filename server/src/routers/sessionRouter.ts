@@ -42,7 +42,6 @@ export const sessionRouter = router({
     .mutation(async (opts) => {
       const { questId } = opts.input
       const { user } = opts.ctx
-      console.log('createSession', user, questId)
       if ((await isQuestUnlocked(user.id, questId)) || config.testing.enabled) {
         const session = await createNewSession(user.id, questId)
         return sessionDetail(session)

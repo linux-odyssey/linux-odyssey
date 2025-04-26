@@ -46,7 +46,6 @@ const useSession = defineStore('session', {
       this.questId = questId
     },
     async setSession(session: SessionDetail) {
-      console.log('set session', session)
       this.session = {
         ...session,
         graph: new FileGraph(session.graph),
@@ -76,7 +75,6 @@ const useSession = defineStore('session', {
       this.session.responses = update.responses
       this.session.tasks = update.tasks
       this.session.status = update.status
-      console.log('update', update)
       // if (
       //   response.status === 'finished' &&
       //   this.session.status !== 'finished'
