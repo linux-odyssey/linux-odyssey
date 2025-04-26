@@ -39,7 +39,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   const gameSession = new GameSession(
     session,
     quest,
-    new CLIFileExistenceChecker()
+    new CLIFileExistenceChecker(session.containerId!)
   )
 
   const event = await gameSession.runCommand(command)
