@@ -4,12 +4,12 @@
   "description": "Linux Odyssey Server",
   "scripts": {
     "start": "node dist/server/src/index.js",
-    "setup": "tsx src/cli/setup.js",
-    "clean": "tsx src/cli/clean.js",
+    "setup": "tsx src/cli/setup.ts",
+    "clean": "tsx src/cli/clean.ts",
     "build": "tsc",
     "type-check": "tsc --noEmit",
     "dev": "tsx watch --include \"../quests/**/*.yml\" src/index.ts",
-    "build:quests": "tsx src/cli/build.js"
+    "build:quests": "tsx src/cli/build.ts"
   },
   "dependencies": {
     "@trpc/server": "^11.1.0",
