@@ -1,5 +1,5 @@
-import { UserProfile } from '../../../packages/models'
 import { TRPCError } from '@trpc/server'
+import { UserProfile } from '../../../packages/models'
 import { protectedProcedure, router } from '../trpc.js'
 
 export const userRouter = router({

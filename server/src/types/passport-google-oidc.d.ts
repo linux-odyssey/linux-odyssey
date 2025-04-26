@@ -3,7 +3,6 @@ declare module 'passport-google-oidc' {
   // Add specific type declarations here as needed.
   // For example, if you're only using it as a middleware in Express:
   import { Strategy as PassportStrategy } from 'passport'
-  import { Request } from 'express'
 
   interface StrategyOptions {
     clientID: string

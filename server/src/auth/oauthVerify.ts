@@ -1,6 +1,6 @@
-import { User } from '../../../packages/models'
 import type { Profile } from 'passport'
 import type { VerifyCallback } from 'passport-oauth2'
+import { User } from '../../../packages/models'
 import logger from '../utils/logger.js'
 
 export default async function oauthVerify(

@@ -38,7 +38,7 @@ export interface IFileExistenceChecker {
 
 export class VoidFileExistenceChecker implements IFileExistenceChecker {
   // eslint-disable-next-line class-methods-use-this
-  async exists(_file: IFileInput): Promise<boolean> {
+  async exists(): Promise<boolean> {
     return false
   }
 }

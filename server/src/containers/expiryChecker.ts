@@ -1,7 +1,7 @@
 import schedule from 'node-schedule'
+import type { HydratedDocument } from 'mongoose'
 import { Session } from '../../../packages/models'
 import type { ISession } from '../../../packages/models'
-import type { HydratedDocument } from 'mongoose'
 import config from '../config.js'
 import { deleteContainer } from './docker.js'
 import logger from '../utils/logger.js'

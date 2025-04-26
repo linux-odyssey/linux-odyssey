@@ -75,25 +75,15 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'no-unused-vars': 'off',
+    'no-unused-vars': 'warn',
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'error',
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
-    'no-restricted-imports': [
-      'error',
-      {
-        patterns: [
-          {
-            group: ['../*'],
-            message: 'Relative imports are not allowed.',
-            allowSameFolder: true,
-          },
-        ],
-      },
-    ],
+    'no-restricted-imports': ['error', '../*'],
+    'import/no-relative-packages': 'off',
   },
   overrides: [
     {
@@ -106,6 +96,13 @@ module.exports = {
     {
       files: ['server/**/*.ts'],
       rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      files: ['**/packages/**/*.ts'],
+      rules: {
+        'no-restricted-imports': 'off',
         'import/no-extraneous-dependencies': 'off',
       },
     },

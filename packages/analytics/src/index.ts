@@ -1,7 +1,7 @@
-import { connectDB } from '../../models'
 import express from 'express'
 import { engine } from 'express-handlebars'
 import basicAuth from 'express-basic-auth'
+import { connectDB } from '../../models'
 import config from './config'
 import router from './router'
 

@@ -1,6 +1,6 @@
+import type { Request, Response } from 'express'
 import { GameSession, commandSchema } from '../../../../packages/game'
 import { Command, Session } from '../../../../packages/models'
-import type { Request, Response } from 'express'
 import { pushToSession } from '../socket'
 import { finishSession } from '../../models/sessionManager'
 import { asyncHandler } from '../../middleware/error'

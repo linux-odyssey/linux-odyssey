@@ -1,4 +1,4 @@
-import { FileGraph, IFileNode } from '../../packages/file-graph'
+import { FileGraph, IFileNode } from '../file-graph'
 import { Quest } from './Quest'
 import {
   IQuest,
