@@ -1,0 +1,243 @@
+id: copy
+title: 複製檔案
+image: base
+instruction: |
+  在這個關卡中，你將會學到：
+  1. 如何使用 `cp` 複製檔案
+
+requirements:
+  - create
+
+stages:
+  - id: start
+    name: 按下 `開始` 按鈕開始
+    condition:
+      command: echo start
+    response:
+      content: |
+        今天我們要學習如何複製檔案。
+        先用 `ls` 指令查看目前資料夾裡有哪些檔案。
+      hint: 使用 `ls` 來查看目前資料夾裡有哪些檔案
+
+  - id: ls
+    name: 查看目前資料夾裡的檔案
+    requirements:
+      - start
+    condition:
+      pwd: /home/commander
+      command: ls
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
+    response:
+      content: |
+        可以看到現在資料夾裡有 `hello.txt` 跟 `world.txt`。
+        請使用 `cat` 來查看它們的內容。
+        看完之後，使用 `echo next` 來繼續吧！
+      hint: |
+        使用 `cat hello.txt` 以及 `cat world.txt` 來查看檔案內容
+        如果終端機卡在某個指令無法輸入，請按下 `Ctrl + C` 來取消該指令
+
+  - id: cat-hello
+    name: 查看 `hello.txt` 的內容
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander
+      command: cat hello.txt
+      output: Hello
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾
+      - id: missing_command
+        condition:
+          command: cat
+        response:
+          content: |
+            你忘記輸入 `cat` 了嗎？
+            請輸入 `cat hello.txt` 來查看 `hello.txt` 的內容
+      - id: missing_extension
+        condition:
+          command: cat hello
+        response:
+          content: |
+            你忘記輸入 `.txt` 了嗎？
+            請輸入 `cat hello.txt` 來查看 `hello.txt` 的內容
+    response:
+      content: |
+        你成功查看到 `hello.txt` 的內容了！
+
+  - id: cat-world
+    name: 查看 `world.txt` 的內容
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander
+      command: cat world.txt
+      output: World
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾
+      - id: missing_command
+        condition:
+          command: cat
+        response:
+          content: |
+            你忘記輸入 `cat` 了嗎？
+            請輸入 `cat world.txt` 來查看 `world.txt` 的內容
+      - id: missing_extension
+        condition:
+          command: cat world
+        response:
+          content: |
+            你忘記輸入 `.txt` 了嗎？
+            請輸入 `cat world.txt` 來查看 `world.txt` 的內容
+    response:
+      content: |
+        你成功查看到 `world.txt` 的內容了！
+
+  - id: cat-next
+    name: 輸入 `echo next` 來繼續
+    requirements:
+      - cat-hello
+      - cat-world
+    condition:
+      command: echo next
+    response:
+      content: |
+        接下來我們要來學習如何複製檔案。
+        `cp` 這個指令，是 copy 的縮寫，就是複製的意思。
+        我們可以用 `cp [來源檔案] [目的檔案]` 的方式來複製檔案。
+        請你使用 `cp` 來複製 `hello.txt` 的內容到 `hello2.txt`。
+      hint: 使用 `cp hello.txt hello2.txt` 來複製 `hello.txt` 到 `hello2.txt`
+
+  - id: cp-hello
+    name: 複製 `hello.txt` 到 `hello2.txt`
+    requirements:
+      - cat-next
+    condition:
+      pwd: /home/commander
+      command: cp hello.txt hello2.txt
+      files:
+        - path: /home/commander/hello2.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
+    response:
+      content: |
+        你成功複製 `hello.txt` 到 `hello2.txt` 了！
+        我們打開來確認一下 `hello2.txt` 的內容吧！
+      hint: 使用 `cat hello2.txt` 來查看 `hello2.txt` 的內容
+
+  - id: cat-hello2
+    name: 查看 `hello2.txt` 的內容
+    requirements:
+      - cp-hello
+    condition:
+      pwd: /home/commander
+      command: cat hello2.txt
+      output: Hello
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
+    response:
+      content: |
+        你成功查看到 `hello2.txt` 的內容了！
+        正如我們所見，`hello2.txt` 的內容跟 `hello.txt` 一模一樣。
+        那我們再來試試看複製 `world.txt` 到 `world2.txt` 吧！
+      hint: 使用 `cp world.txt world2.txt` 來複製 `world.txt` 到 `world2.txt`
+
+  - id: cp-world
+    name: 複製 `world.txt` 到 `world2.txt`
+    requirements:
+      - cat-hello2
+    condition:
+      pwd: /home/commander
+      command: cp world.txt world2.txt
+      files:
+        - path: /home/commander/world2.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
+    response:
+      content: |
+        你成功複製 `world.txt` 到 `world2.txt` 了！
+        我們打開來確認一下 `world2.txt` 的內容吧！
+      hint: 使用 `cat world2.txt` 來查看 `world2.txt` 的內容
+
+  - id: cat-world2
+    name: 查看 `world2.txt` 的內容
+    requirements:
+      - cp-world
+    condition:
+      pwd: /home/commander
+      command: cat world2.txt
+      output: World
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            你不在 `/home/commander` 資料夾裡。
+            請使用 `cd /home/commander` 來返回 `/home/commander` 資料夾。
+    response:
+      content: |
+        你成功查看到 `world2.txt` 的內容了！
+        正如我們所見，`world2.txt` 的內容跟 `world.txt` 一模一樣。
+        恭喜你完成了這個關卡！
+        輸入 `echo finish` 來進入下一個關卡吧！
+      hint: 輸入 `echo finish` 來進入下一個關卡
+
+  - id: END
+    name: 恭喜你完成了所有任務！
+    requirements:
+      - cat-world2
+    condition:
+      command: echo finish
+    response:
+      content: |
+        恭喜你完成了所有任務！
+        你已經學會了如何複製檔案與資料夾。
+        在下一個關卡中，你將學習如何移動檔案與資料夾。
