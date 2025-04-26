@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-import File from '../src/file.js'
+import File from '../file.js'
 
 describe('File', () => {
   let file: File

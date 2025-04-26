@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals'
-import { Stage } from '../src/Stage'
+import { Stage } from '../Stage'
 import { MockFileChecker } from './asyncCondition.test'
 
 const checker = new MockFileChecker()

@@ -1,7 +1,7 @@
 import { test, expect } from '@jest/globals'
-import { IFileExistenceChecker, IFileInput } from '../src/schema'
-import { checkFiles } from '../src/condition/FileMatcher.js'
-import { Condition } from '../src/condition/Condition.js'
+import { IFileExistenceChecker, IFileInput } from '../schema'
+import { checkFiles } from '../condition/FileMatcher.js'
+import { Condition } from '../condition/Condition.js'
 
 export class MockFileChecker implements IFileExistenceChecker {
   private files: IFileInput[] = [

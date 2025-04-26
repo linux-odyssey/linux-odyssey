@@ -1,10 +1,10 @@
 import { test, expect } from '@jest/globals'
-import { Condition } from '../src/condition/Condition'
-import { OutputMatcher } from '../src/condition/OutputMatcher'
-import { PwdMatcher } from '../src/condition/PwdMatcher'
-import { CommandMatcher } from '../src/condition/CommandMatcher'
-import { ErrorMatcher } from '../src/condition/ErrorMatcher.js'
-import { conditionSchema } from '../src/schema'
+import { Condition } from '../condition/Condition'
+import { OutputMatcher } from '../condition/OutputMatcher'
+import { PwdMatcher } from '../condition/PwdMatcher'
+import { CommandMatcher } from '../condition/CommandMatcher'
+import { ErrorMatcher } from '../condition/ErrorMatcher'
+import { conditionSchema } from '../schema'
 import { MockFileChecker } from './asyncCondition.test'
 
 test('command match', () => {

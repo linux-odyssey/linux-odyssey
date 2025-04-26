@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals'
-import FileGraph from '../src/fileGraph.js'
-import FileNode from '../src/fileNode.js'
-import { FileObject } from '../src/file.js'
+import FileGraph from '../fileGraph.js'
+import FileNode from '../fileNode.js'
+import { FileObject } from '../file.js'
 
 describe('FileGraph', () => {
   let root: FileNode
