@@ -15,7 +15,7 @@
     "express": "^4.20.0",
     "express-basic-auth": "^1.2.1",
     "express-handlebars": "^7.1.2",
-    "mongoose": "^8.0.3"
+    "mongoose": "^8.9.5"
   },
   "devDependencies": {
     "@swc/core": "^1.4.2",
