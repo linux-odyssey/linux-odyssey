@@ -12,7 +12,7 @@
     "build:quests": "tsx src/cli/build.ts"
   },
   "dependencies": {
-    "@trpc/server": "^11.1.0",
+    "@trpc/server": "^11.1.1",
     "bcrypt": "^5.1.1",
     "commander": "^11.0.0",
     "connect-mongo": "^5.0.0",
