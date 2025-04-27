@@ -19,7 +19,7 @@
     "@trpc/client": "^11.1.0",
     "@types/dompurify": "^3.0.5",
     "axios": "^1.8.2",
-    "dompurify": "^3.0.6",
+    "dompurify": "^3.2.4",
     "marked": "^10.0.0",
     "pinia": "^2.1.7",
     "socket.io-client": "^4.7.1",
