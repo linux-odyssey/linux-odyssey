@@ -1,6 +1,7 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, Express } from 'express'
 import passport from 'passport'
-
+import { NextFunction } from 'express-serve-static-core'
+import { LoginAttempt } from '../../../../packages/models'
 import enabledMethods from '../../auth/passport.js'
 
 import {
@@ -17,19 +18,58 @@ import {
   registerFromSessionValidators,
   registerValidators,
 } from '../validators/authValidator.js'
-import { authenticateRateLimit } from '../../middleware/rateLimiter.js'
+import {
+  authenticateRateLimit,
+  rateLimitByAccount,
+} from '../../middleware/rateLimiter.js'
 
 const router = Router()
 
 router.post(
   '/login',
   authenticateRateLimit,
+  rateLimitByAccount,
   loginValidators,
-  passport.authenticate('local', { failureMessage: true }),
-  (req: Request, res: Response) => {
-    res.json({ message: 'success' })
+  (req: Request, res: Response, next: NextFunction): void => {
+    passport.authenticate(
+      'local',
+      async (err: unknown, user: Express.User | false, info: any) => {
+        if (err) {
+          await recordLogin(req, false, 'passport error')
+          return next(err)
+        }
+
+        if (!user) {
+          const msg = info?.message || 'invalid credentials'
+          await recordLogin(req, false, msg)
+          return res.status(401).json({ message: msg })
+        }
+
+        req.logIn(user, async (loginErr: unknown) => {
+          if (loginErr) {
+            await recordLogin(req, false, 'login session failed')
+            return next(loginErr)
+          }
+
+          await recordLogin(req, true, 'login success')
+          return res.json({ message: 'success' })
+        })
+        return null
+      }
+    )(req, res, next)
   }
 )
+
+async function recordLogin(req: Request, success: boolean, message: string) {
+  await LoginAttempt.create({
+    ip: req.ip,
+    userAgent: req.headers['user-agent'] || '',
+    success,
+    time: new Date(),
+    username: req.body.username,
+    message,
+  })
+}
 
 router.post('/register', authenticateRateLimit, registerValidators, register)
 
