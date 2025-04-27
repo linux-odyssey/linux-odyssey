@@ -16,7 +16,6 @@
     "build": "yarn workspace server build && yarn workspace app build && yarn workspace analytics build",
     "dev": "concurrently -n \"App,Server\" -c \"bgBlue.bold,bgGreen.bold\" \"yarn workspace app dev\" \"yarn workspace server dev\"",
     "server": "yarn workspace server dev",
-    "cli": "yarn workspace client start",
     "lint": "eslint .",
     "format": "prettier --ignore-path .prettierignore --write app server",
     "test": "yarn node --experimental-vm-modules --no-warnings $(yarn bin jest)",

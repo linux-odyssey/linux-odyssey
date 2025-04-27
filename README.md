@@ -121,12 +121,6 @@ You can edit the files on your host, and the changes will be reflected in the co
 
 Copy `.env.sample` to `.env` and customize it for your needs.
 
-Build the whole project for the first time:
-
-    yarn build
-
-This will build the typescript for each package and the server.
-
 Run dev server (frontend, backend):
 
     yarn dev
@@ -191,3 +185,7 @@ You can copy from `.env.sample`
 **YOU MUST CHANGE THE SECRET_KEY** in `.env` file.
 
     SECRET_KEY=your-secret-key
+
+You can generate a random key by running
+
+    yarn setup

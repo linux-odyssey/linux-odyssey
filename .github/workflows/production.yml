@@ -12,7 +12,6 @@ concurrency:
 jobs:
   ci-checks:
     uses: ./.github/workflows/ci-checks.yml
-    secrets: inherit
 
   build:
     needs: ci-checks

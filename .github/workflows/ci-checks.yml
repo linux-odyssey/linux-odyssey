@@ -2,15 +2,6 @@ name: CI Checks
 
 on:
   workflow_call:
-    secrets:
-      GOOGLE_CLIENT_ID:
-        required: true
-      GOOGLE_CLIENT_SECRET:
-        required: true
-      GH_CLIENT_ID:
-        required: true
-      GH_CLIENT_SECRET:
-        required: true
 
 jobs:
   ci:
