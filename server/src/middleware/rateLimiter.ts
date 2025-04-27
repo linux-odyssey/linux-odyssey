@@ -40,7 +40,7 @@ export async function rateLimitByAccount(
     return next()
   }
 
-  const since = new Date(Date.now() - 10 * 60 * 1000)
+  const since = new Date(Date.now() - config.rateLimit.lockoutTime)
 
   const recentFailedCount = await LoginAttempt.countDocuments({
     username,
@@ -49,7 +49,7 @@ export async function rateLimitByAccount(
     time: { $gte: since },
   })
 
-  if (recentFailedCount >= 5) {
+  if (recentFailedCount >= config.rateLimit.maxFailedAttempts) {
     logger.warn(
       `Too many failed login attempts for "${username}" from ${req.ip}`
     )
