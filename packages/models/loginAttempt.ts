@@ -18,7 +18,7 @@ const LoginAttemptSchema = new Schema<LoginAttemptDocument>(
     userAgent: { type: String, required: true },
     time: { type: Date, default: Date.now, required: true },
     success: { type: Boolean, required: true },
-    message: {type: String}
+    message: { type: String },
   },
   { timestamps: true }
 )

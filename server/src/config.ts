@@ -68,6 +68,13 @@ function createConfig() {
     trustedProxies: getTrustProxies('TRUSTED_PROXIES'),
     surveyUrl: getUrl('SURVEY_URL'),
     bugReportUrl: getUrl('BUG_REPORT_URL'),
+    rateLimit: {
+      maxFailedAttempts: Number(
+        process.env.RATE_LIMIT_MAX_FAILED_ATTEMPTS ?? 5
+      ),
+      lockoutTime:
+        Number(process.env.RATE_LIMIT_LOCKOUT_TIME ?? 10) * 60 * 1000,
+    },
 
     projectRoot,
 

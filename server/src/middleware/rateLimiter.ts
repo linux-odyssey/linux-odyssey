@@ -2,8 +2,8 @@ import rateLimit from 'express-rate-limit'
 import type { Options } from 'express-rate-limit'
 import type { Request, Response, NextFunction } from 'express'
 import config from '../config.js'
-import { recordLogin } from './recordLogin.js'
 import { LoginAttempt } from '../../../packages/models'
+import logger from '../utils/logger.js'
 
 function createRateLimiter(options: Partial<Options>) {
   if (config.testing.enabled) {
@@ -16,18 +16,11 @@ export const globalRateLimit = createRateLimiter({
   windowMs: 60 * 1000,
   max: 100,
 })
-export const authenticateRateLimit = config.testing.enabled
-  ? (req: Request, res: Response, next: NextFunction) => next()
-  : rateLimit({
-      windowMs: 1 * 1000,
-      max: 5,
-      handler: async (req: Request, res: Response, _next: NextFunction) => {
-        recordLogin(req, false, 'rate limit')
-        res.status(429).json({
-          error: 'Too many login attempts. Please try again later.',
-        })
-      },
-    })
+
+export const authenticateRateLimit = createRateLimiter({
+  windowMs: 10 * 1000,
+  max: 5,
+})
 
 export const sessionRateLimit = createRateLimiter({
   windowMs: 10 * 1000,
@@ -52,10 +45,14 @@ export async function rateLimitByAccount(
   const recentFailedCount = await LoginAttempt.countDocuments({
     username,
     success: false,
+    ip: req.ip,
     time: { $gte: since },
   })
 
-  if (recentFailedCount >= 10) {
+  if (recentFailedCount >= 5) {
+    logger.warn(
+      `Too many failed login attempts for "${username}" from ${req.ip}`
+    )
     return res.status(429).json({
       error: 'Too many failed login attempts. Please try again later.',
     })
