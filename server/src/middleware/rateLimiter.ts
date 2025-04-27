@@ -3,7 +3,7 @@ import type { Options } from 'express-rate-limit'
 import type { Request, Response, NextFunction } from 'express'
 import config from '../config.js'
 import { recordLogin } from './recordLogin.js'
-import { LoginAttempt } from '@linux-odyssey/models'
+import { LoginAttempt } from '../../../packages/models'
 
 function createRateLimiter(options: Partial<Options>) {
   if (config.testing.enabled) {
