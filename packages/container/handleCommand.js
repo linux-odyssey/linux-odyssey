@@ -30,7 +30,7 @@ const commandListeners = {
   },
   rm: {
     opts: {
-      boolean: ['r'],
+      boolean: ['r', 'f', 'v'],
     },
     handler: removeFiles,
   },
@@ -39,6 +39,9 @@ const commandListeners = {
       boolean: ['p', 'v'],
     },
     handler: removeFiles,
+  },
+  mv: {
+    handler: moveFiles,
   },
 }
 
@@ -85,6 +88,9 @@ async function createFiles(argv) {
 async function copyFiles(argv) {
   const { _ } = argv
   const files = _.slice(1)
+  if (files.length === 0) {
+    return undefined
+  }
   const dest = files.pop()
   const destPath = resolvePath(dest)
   return {
@@ -97,7 +103,6 @@ async function removeFiles(argv) {
   const results = []
   for (const file of files) {
     const filePath = resolvePath(file)
-    console.log('filePath', filePath)
     try {
       await fs.access(filePath, fs.constants.F_OK)
     } catch {
@@ -111,6 +116,37 @@ async function removeFiles(argv) {
   return {
     remove: results,
   }
+}
+
+async function moveFiles(argv) {
+  const { _ } = argv
+  const sources = _.slice(1)
+  if (sources.length === 0) {
+    return undefined
+  }
+  const dest = sources.pop()
+  const results = {
+    add: [],
+    remove: [],
+  }
+  // check source
+  for (const source of sources) {
+    const sourcePath = resolvePath(source)
+    try {
+      await fs.access(sourcePath, fs.constants.F_OK)
+    } catch {
+      results.remove.push({
+        path: sourcePath,
+        type: 'file',
+        discovered: false,
+      })
+    }
+  }
+
+  // check dest
+  const destPath = resolvePath(dest)
+  results.add = await collectFilesInfo(destPath, 0, true)
+  return results
 }
 
 module.exports = handleCommand
