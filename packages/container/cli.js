@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-syntax */
+const path = require('path')
+const os = require('os')
 const fs = require('fs').promises
 const { exit } = require('process')
-const path = require('path')
 const minimist = require('minimist')
 const axios = require('axios')
 const discoverFiles = require('./discover.js')
@@ -32,10 +33,24 @@ async function readOrNone(file) {
 }
 
 const commandListeners = {
-  ls: [discoverFiles],
-  cd: [changeDirectory],
-  touch: [createFiles],
-  mkdir: [createFiles],
+  ls: {
+    opts: {
+      boolean: ['a', 'l', 'h'],
+    },
+    handler: discoverFiles,
+  },
+  cd: {
+    handler: changeDirectory,
+  },
+  touch: {
+    handler: createFiles,
+  },
+  mkdir: {
+    opts: {
+      boolean: ['p'],
+    },
+    handler: createFiles,
+  },
 }
 
 function changeDirectory() {
@@ -49,7 +64,10 @@ async function createFiles(argv) {
   const files = _.slice(1)
   const results = []
   for (const file of files) {
-    const filePath = path.resolve(process.cwd(), file)
+    const filePath = path.resolve(
+      process.cwd(),
+      file.replace('~', os.homedir())
+    )
     try {
       const exists = await fs.stat(filePath)
       if (exists) {
@@ -71,14 +89,11 @@ async function createFiles(argv) {
 }
 
 async function handleCommand(command) {
-  const argv = minimist(command.split(' '))
-  const name = argv._[0]
-  const listeners = commandListeners[name]
-  if (!listeners) return {}
-  return listeners.reduce(async (result, listener) => {
-    const res = await listener(argv)
-    return { ...res, ...result }
-  }, {})
+  const name = command.split(' ')[0]
+  const listener = commandListeners[name]
+  if (!listener) return {}
+  const argv = minimist(command.split(' '), listener.opts)
+  return listener.handler(argv)
 }
 
 async function main() {
