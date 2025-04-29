@@ -4,6 +4,7 @@ const fileSchema = z.object({
   path: z.string(),
   type: z.enum(['file', 'directory']),
   discovered: z.boolean(),
+  empty: z.boolean().optional(),
 })
 
 export const commandParamsSchema = z.object({

@@ -4,6 +4,7 @@ export interface FileObject {
   path: string
   type: 'file' | 'directory'
   discovered: boolean
+  empty?: boolean
 }
 
 export default class File implements FileObject {
@@ -11,12 +12,14 @@ export default class File implements FileObject {
   name: string
   type: 'file' | 'directory'
   discovered: boolean
+  empty?: boolean
 
   constructor(obj: FileObject) {
     this.path = obj.path.trimEnd()
     this.name = basename(obj.path)
     this.type = obj.type
     this.discovered = obj.discovered
+    this.empty = obj.empty && obj.type === 'directory'
   }
 
   isDirectory() {

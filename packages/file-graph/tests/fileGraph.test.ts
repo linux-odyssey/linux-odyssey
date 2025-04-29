@@ -207,4 +207,36 @@ describe('FileGraph', () => {
       3
     )
   })
+
+  test('discover a empty directory which children just being deleted', () => {
+    const fileGraph = new FileGraph(root)
+    const discoverFiles = [
+      {
+        path: '/home/user/folder1',
+        type: 'directory',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder1/file1.txt',
+        type: 'file',
+        discovered: true,
+      },
+    ]
+
+    fileGraph.add(discoverFiles as FileObject[])
+    expect(fileGraph.include('/home/user/folder1/file1.txt', 'file')).toBe(true)
+
+    fileGraph.discover([
+      {
+        path: '/home/user/folder1',
+        type: 'directory',
+        discovered: true,
+        empty: true,
+      },
+    ])
+
+    expect(fileGraph.include('/home/user/folder1/file1.txt', 'file')).toBe(
+      false
+    )
+  })
 })

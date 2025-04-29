@@ -100,6 +100,12 @@ export default class FileNode extends File implements IFileNode {
       // Update the state of this node
       this.discovered = this.discovered || fileNode.discovered
 
+      // the provided directory is empty, remove all children
+      if (fileNode.empty) {
+        this.children = []
+        return
+      }
+
       fileNode.children.forEach((child) => {
         const existingChild = this.children.find((c) => c.path === child.path)
         if (existingChild) {
@@ -144,5 +150,12 @@ export default class FileNode extends File implements IFileNode {
       .map((child) => child.toString(level + 1))
       .join('')
     return `${name}\n${childrenString}`
+  }
+
+  include(filePath: string, type?: 'file' | 'directory'): boolean {
+    if (this.path === filePath) {
+      return type ? this.type === type : true
+    }
+    return this.children.some((child) => child.include(filePath, type))
   }
 }
