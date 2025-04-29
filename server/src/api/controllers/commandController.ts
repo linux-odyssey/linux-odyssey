@@ -8,6 +8,7 @@ import { questManager } from '../../models/quest'
 import { CLIFileExistenceChecker } from '../../containers/cli'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
+  console.log('newCommand', JSON.stringify(req.body, null, 2))
   const body = commandSchema.safeParse(req.body)
   if (!body.success) {
     res.status(400).json({ message: 'Invalid command', errors: body.error })

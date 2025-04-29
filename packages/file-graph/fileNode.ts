@@ -1,9 +1,5 @@
 import File, { FileObject } from './file.js'
-import {
-  DuplicateItemError,
-  ParentNotExistsError,
-  FileNotExistsError,
-} from './errors.js'
+import { ParentNotExistsError, FileNotExistsError } from './errors.js'
 import { dirname } from './utils.js'
 
 export interface IFileNode {
@@ -29,15 +25,24 @@ export default class FileNode extends File implements IFileNode {
   ) {
     const file = new FileNode(fileInput)
     if (file.path === this.path) {
-      throw new DuplicateItemError(
-        `File ${file.path} already exists in the tree: ${this.toString()}`
-      )
+      if (!this.discovered) {
+        this.discovered = file.discovered
+      }
+      return
     }
 
-    if (this.children.some((child) => child.path === file.path)) {
-      throw new DuplicateItemError(
-        `File ${file.path} already exists in the tree: ${this.toString()}`
-      )
+    let existing = false
+    for (const child of this.children) {
+      if (child.path === file.path) {
+        existing = true
+        if (!child.discovered) {
+          child.discovered = file.discovered
+        }
+        break
+      }
+    }
+    if (existing) {
+      return
     }
 
     const parentPath = dirname(file.path)
@@ -48,7 +53,7 @@ export default class FileNode extends File implements IFileNode {
       // Recursively call addChild on the correct child node
       const childNode = this.children.find((child) => child.contains(file))
       if (childNode) {
-        childNode.addChild(file)
+        childNode.addChild(file, { makeParents })
       } else if (makeParents) {
         const parent = new FileNode({
           path: parentPath,

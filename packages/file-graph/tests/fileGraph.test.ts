@@ -28,12 +28,44 @@ describe('FileGraph', () => {
         type: 'directory',
         discovered: true,
       },
+      {
+        path: '/home/user/folder2/file2.txt',
+        type: 'file',
+        discovered: true,
+      },
     ]
 
     fileGraph.add(filesToAdd)
 
     expect(fileGraph.children.length).toBe(1)
-    expect(fileGraph.children[0].children[0].children.length).toBe(2)
+    expect(fileGraph.children[0].children[0].children.length).toBe(3)
+  })
+
+  test('ignore files that already exist', () => {
+    const fileGraph = new FileGraph(root)
+
+    const filesToAdd: FileObject[] = [
+      {
+        path: '/home/user/folder1',
+        type: 'directory',
+        discovered: true,
+      },
+      {
+        path: '/home/user/folder1/file1.txt',
+        type: 'file',
+        discovered: true,
+      },
+    ]
+
+    fileGraph.add(filesToAdd)
+
+    expect(fileGraph.children.length).toBe(1)
+    expect(fileGraph.children[0].children[0].children.length).toBe(1)
+
+    fileGraph.add([filesToAdd[1]])
+
+    expect(fileGraph.children.length).toBe(1)
+    expect(fileGraph.children[0].children[0].children.length).toBe(1)
   })
 
   test('remove files from graph', () => {

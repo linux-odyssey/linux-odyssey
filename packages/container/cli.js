@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 const fs = require('fs').promises
 const { exit } = require('process')
+const path = require('path')
 const minimist = require('minimist')
 const axios = require('axios')
 const discoverFiles = require('./discover.js')
@@ -33,11 +34,38 @@ async function readOrNone(file) {
 const commandListeners = {
   ls: [discoverFiles],
   cd: [changeDirectory],
+  touch: [createFiles],
 }
 
 function changeDirectory() {
   return {
     pwd: process.cwd(),
+  }
+}
+
+async function createFiles(argv) {
+  const { _ } = argv
+  const files = _.slice(1)
+  const results = []
+  for (const file of files) {
+    const filePath = path.resolve(process.cwd(), file)
+    try {
+      const exists = await fs.stat(filePath)
+      if (exists) {
+        results.push({
+          path: filePath,
+          type: exists.isFile() ? 'file' : 'directory',
+          discovered: true,
+        })
+      }
+    } catch (err) {
+      if (err.code !== 'ENOENT') {
+        throw err
+      }
+    }
+  }
+  return {
+    add: results,
   }
 }
 
