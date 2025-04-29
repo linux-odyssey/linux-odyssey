@@ -1,8 +1,7 @@
-const path = require('path')
-const os = require('os')
 const fs = require('fs').promises
 const minimist = require('minimist')
-const discoverFiles = require('./discover')
+const { discoverFiles, collectFilesInfo } = require('./discover')
+const { resolvePath } = require('./utils')
 
 const commandListeners = {
   ls: {
@@ -22,6 +21,12 @@ const commandListeners = {
       boolean: ['p'],
     },
     handler: createFiles,
+  },
+  cp: {
+    opts: {
+      boolean: ['r'],
+    },
+    handler: copyFiles,
   },
 }
 
@@ -44,10 +49,7 @@ async function createFiles(argv) {
   const files = _.slice(1)
   const results = []
   for (const file of files) {
-    const filePath = path.resolve(
-      process.cwd(),
-      file.replace('~', os.homedir())
-    )
+    const filePath = resolvePath(file)
     try {
       const exists = await fs.stat(filePath)
       if (exists) {
@@ -65,6 +67,16 @@ async function createFiles(argv) {
   }
   return {
     add: results,
+  }
+}
+
+async function copyFiles(argv) {
+  const { _ } = argv
+  const files = _.slice(1)
+  const dest = files.pop()
+  const destPath = resolvePath(dest)
+  return {
+    discover: await collectFilesInfo(destPath, 0, true),
   }
 }
 

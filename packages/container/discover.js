@@ -1,6 +1,6 @@
 const fs = require('fs').promises
 const path = require('path')
-const os = require('os')
+const { resolvePath } = require('./utils')
 
 async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
   const stats = await fs.stat(inputPath)
@@ -38,7 +38,7 @@ async function discoverFiles(argv) {
   try {
     const result = await Promise.all(
       targetPath
-        .map((p) => path.resolve(process.cwd(), p.replace('~', os.homedir())))
+        .map((p) => resolvePath(p))
         .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
     )
     return { discover: result.flat() }
@@ -47,4 +47,7 @@ async function discoverFiles(argv) {
   }
 }
 
-module.exports = discoverFiles
+module.exports = {
+  discoverFiles,
+  collectFilesInfo,
+}
