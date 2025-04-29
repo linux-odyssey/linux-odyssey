@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-import { DuplicateItemError, ParentNotExistsError } from '../errors.js'
+import { ParentNotExistsError } from '../errors.js'
 import FileNode, { IFileNode } from '../fileNode.js'
 import { FileObject } from '../file.js'
 
@@ -47,11 +47,11 @@ describe('FileNode', () => {
     })
   })
 
-  test('should throw error when adding duplicate item', () => {
+  test('should override discovered when adding duplicate item', () => {
     const child: FileObject = {
       path: '/home/rudeus/test',
       type: 'directory',
-      discovered: true,
+      discovered: false,
     }
 
     // Adding the child for the first time
@@ -60,9 +60,10 @@ describe('FileNode', () => {
     expect(rootNode.children.length).toBe(1)
 
     // Trying to add the same child again should throw an error
-    expect(() => {
-      rootNode.addChild(child)
-    }).toThrow(DuplicateItemError)
+    child.discovered = true
+    rootNode.addChild(child)
+
+    expect(rootNode.children[0].discovered).toBe(true)
   })
 
   test('should throw error when parent does not exist', () => {

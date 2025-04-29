@@ -45,17 +45,14 @@ export default class FileGraph extends FileNode {
 
   handleEvent(event: FileGraphUpdateEvent) {
     // eslint-disable-next-line default-case
-    switch (true) {
-      case !!event.add:
-        this.add(event.add)
-        break
-      case !!event.remove:
-        this.remove(event.remove)
-        break
-      case !!event.discover:
-        this.discover(event.discover)
-        break
-      // Implement other cases if needed
+    if (event.add) {
+      this.add(event.add)
+    }
+    if (event.remove) {
+      this.remove(event.remove)
+    }
+    if (event.discover) {
+      this.discover(event.discover)
     }
   }
 }

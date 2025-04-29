@@ -1,9 +1,6 @@
-/* eslint-disable no-restricted-syntax */
 const fs = require('fs').promises
 const { exit } = require('process')
-const minimist = require('minimist')
-const axios = require('axios')
-const discoverFiles = require('./discover.js')
+const handleCommand = require('./handleCommand.js')
 
 const {
   API_ENDPOINT,
@@ -15,41 +12,12 @@ const {
   CMD_EXIT_CODE,
 } = process.env
 
-const api = axios.create({
-  baseURL: `${API_ENDPOINT}/api/v1`,
-  headers: {
-    Authorization: `Bearer ${TOKEN}`,
-  },
-})
-
 async function readOrNone(file) {
   try {
     return await fs.readFile(file, 'utf8')
   } catch (_) {
     return ''
   }
-}
-
-const commandListeners = {
-  ls: [discoverFiles],
-  cd: [changeDirectory],
-}
-
-function changeDirectory() {
-  return {
-    pwd: process.cwd(),
-  }
-}
-
-async function handleCommand(command) {
-  const argv = minimist(command.split(' '))
-  const name = argv._[0]
-  const listeners = commandListeners[name]
-  if (!listeners) return {}
-  return listeners.reduce(async (result, listener) => {
-    const res = await listener(argv)
-    return { ...res, ...result }
-  }, {})
 }
 
 async function main() {
@@ -67,7 +35,23 @@ async function main() {
     pwd: PWD,
     params,
   }
-  await api.post('/commands', payload)
+  try {
+    const response = await fetch(`${API_ENDPOINT}/api/v1/commands`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    if (!response.ok) {
+      console.error(`Failed to send command: ${response.statusText}`)
+      const responseBody = await response.text()
+      console.error(`Response Body: ${responseBody}`)
+    }
+  } catch (e) {
+    console.error('Error occurred while sending command:', e)
+  }
 }
 
 main()

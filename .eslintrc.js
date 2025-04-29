@@ -84,6 +84,7 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'error',
     'no-restricted-imports': ['error', '../*'],
     'import/no-relative-packages': 'off',
+    'no-await-in-loop': 'off',
   },
   overrides: [
     {

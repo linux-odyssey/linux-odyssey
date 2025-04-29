@@ -39,12 +39,17 @@ export async function createContainer(
       `${config.docker.hostProjectRoot}/quests/${questId}/home:/etc/skel:ro`
     )
   }
-  if (!config.isProduction && config.docker.mountQuest && imageId !== 'base') {
+  if (config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest directory', questId)
     binds = [
       `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`,
-      `${config.docker.hostProjectRoot}/packages/container:/usr/local/lib/container`,
     ]
+  }
+  if (config.docker.mountCLI) {
+    logger.info('Mounting CLI', questId)
+    binds.push(
+      `${config.docker.hostProjectRoot}/packages/container:/usr/local/lib/container`
+    )
   }
   const option = newContainerOptions(name, imageId, { binds })
   await createNetworkIfNotExists(config.docker.network)
