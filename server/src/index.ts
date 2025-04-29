@@ -38,6 +38,7 @@ async function main() {
   }
 
   if (config.testing.enabled) {
+    logger.info('Setting up test environment')
     await setupTest()
   }
 
