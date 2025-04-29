@@ -33,7 +33,9 @@ stages:
     response:
       content: |
         你看到終端機顯示出 `/usr/bin/ls` 這個路徑，它其實就是 `ls` 指令它檔案存在的位置。
-        `/usr/bin` 是一個系統資料夾，裡面會儲存許多系統內建的程式，像是 `cat`, `cp` 等指令也都被存在這裡。
+        `/usr/bin` 是一個系統資料夾，裡面會儲存許多系統內建的程式。
+
+        接下來我們來看看 `cat` 指令的路徑。
       hint: 使用 `which cat` 查看 `cat` 的路徑
 
   - id: which-cat
@@ -44,7 +46,7 @@ stages:
       command: which cat
     response:
       content: |
-        你看到了 `/usr/bin/cat` 這個路徑，它就是 `cat` 指令它檔案存在的位置。
+        你看到了 `/usr/bin/cat` 這個路徑，它也是存在 `/usr/bin` 資料夾裡。
         我們要執行一個可執行檔時，只要 **直接輸入它的路徑** 就可以執行它。
         我們來試看看使用執行檔的路徑來執行指令。
 
@@ -60,7 +62,7 @@ stages:
     response:
       content: |
         你看到了當前的資料夾內有 `commands` 資料夾和 `dog`, `hello.txt` 這兩個檔案。
-        我們再來試看看用 `ls` 的路徑來執行它。
+        我們再來試看看用 `/usr/bin/ls` 這個絕對路徑來執行。
       hint: 輸入 `/usr/bin/ls` 來查看當前的資料夾
 
   - id: bin-ls
@@ -69,9 +71,18 @@ stages:
       - ls
     condition:
       command: /usr/bin/ls
+    exceptions:
+      - id: exception-ls
+        condition:
+          command: ls
+        response:
+          content: |
+            在這邊，我們要練習使用 `ls` 的絕對路徑來執行它。
+            請輸入 `/usr/bin/ls` 來查看當前的資料夾。
     response:
       content: |
-        你會看到它列出了我們資料夾內的檔案，你會發現它的輸出跟單純打 `ls` 的結果一模一樣。
+        你會看到它把我們資料夾裡的檔案都列出來了，跟你直接打 `ls` 的結果一樣。這是因為 `ls` 這個程式其實就放在 `/usr/bin/ls`，所以不管你怎麼執行，結果都不會變。
+
         它一樣可以使用參數。我們來用 `/usr/bin/cat` 試試看顯示 `hello.txt` 的內容。
       hint: 輸入 `/usr/bin/cat hello.txt`
 
@@ -90,7 +101,7 @@ stages:
         `程式名稱` 就是我們要執行的程式，比如 `ls`, `cat`, `which` 等。
         `參數` 是我們要給程式的資訊，比如在 `cat` 後面加上 `hello.txt`。
 
-        我們之所以不用輸入 `/usr/bin/ls`，而只要輸入 `ls` 就能執行，是因為有一個叫 `PATH` 的設定，幫我們設定好電腦要去哪裡找這些程式。
+        我們之所以不用輸入 `/usr/bin/ls`，而只要輸入 `ls` 就能執行，是因為有一個叫 `PATH` 的設定，幫我們設定好電腦要去哪些資料夾找這些程式。
         不過這個 `PATH` 的內容比較複雜，我們以後再學。
 
         現在，我們來試試看執行一個不是內建的指令。
@@ -126,6 +137,16 @@ stages:
       or:
         - command: /home/commander/dog
         - command: ~/dog
+    exceptions:
+      - id: exception-dog
+        condition:
+          command: dog
+          error: 'command not found: dog'
+        response:
+          content: |
+            `dog` 不是內建的指令，不能直接打名稱執行。它是個可執行檔，需要指定它的路徑才能執行。
+            在這裡，我們要練習使用 `dog` 的絕對路徑來執行。
+            請輸入 `/home/commander/dog` 來執行 `dog` 檔案。
     response:
       content: |
         你看到了終端機輸出這隻傲嬌的狗。
@@ -142,6 +163,16 @@ stages:
     condition:
       pwd: /home/commander
       command: ./dog
+    exceptions:
+      - id: exception-dog-2
+        condition:
+          command: dog
+          error: 'command not found: dog'
+        response:
+          content: |
+            `dog` 不是內建的指令，不能直接打名稱執行。它是個可執行檔，需要指定它的路徑才能執行。
+            在這裡，我們要練習使用 `dog` 的相對路徑來執行。
+            請輸入 `./dog` 來執行 `dog` 檔案。
     response:
       content: |
         你看到這隻狗執行了跟剛才一樣的結果。
@@ -168,6 +199,23 @@ stages:
         恭喜你，你已經完成了這個課程！
         請輸入 `echo finish` 來完成這個關卡。
     exceptions:
+      - id: exception-lucky
+        condition:
+          command: lucky
+          error: 'command not found: lucky'
+        response:
+          content: |
+            `lucky` 不是內建的指令，不能直接打名稱執行。它是個可執行檔，需要指定它的路徑才能執行。
+
+      - id: exception-lucky-2
+        condition:
+          pwd: /home/commander
+          command: ./lucky
+          error: 'no such file or directory'
+        response:
+          content: |
+            你還沒有進入 `commands` 資料夾，所以不能使用相對路徑來執行 `lucky` 檔案。
+            請先輸入 `cd commands` 來移動到 `commands` 資料夾，再使用相對路徑 `./lucky` 來執行 `lucky` 檔案。
       - id: help
         condition:
           command: echo help
