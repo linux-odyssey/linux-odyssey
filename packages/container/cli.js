@@ -35,6 +35,7 @@ const commandListeners = {
   ls: [discoverFiles],
   cd: [changeDirectory],
   touch: [createFiles],
+  mkdir: [createFiles],
 }
 
 function changeDirectory() {
