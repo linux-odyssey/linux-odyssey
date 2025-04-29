@@ -1,11 +1,6 @@
-/* eslint-disable no-restricted-syntax */
-const path = require('path')
-const os = require('os')
 const fs = require('fs').promises
 const { exit } = require('process')
-const minimist = require('minimist')
-const axios = require('axios')
-const discoverFiles = require('./discover.js')
+const handleCommand = require('./handleCommand.js')
 
 const {
   API_ENDPOINT,
@@ -17,83 +12,12 @@ const {
   CMD_EXIT_CODE,
 } = process.env
 
-const api = axios.create({
-  baseURL: `${API_ENDPOINT}/api/v1`,
-  headers: {
-    Authorization: `Bearer ${TOKEN}`,
-  },
-})
-
 async function readOrNone(file) {
   try {
     return await fs.readFile(file, 'utf8')
   } catch (_) {
     return ''
   }
-}
-
-const commandListeners = {
-  ls: {
-    opts: {
-      boolean: ['a', 'l', 'h'],
-    },
-    handler: discoverFiles,
-  },
-  cd: {
-    handler: changeDirectory,
-  },
-  touch: {
-    handler: createFiles,
-  },
-  mkdir: {
-    opts: {
-      boolean: ['p'],
-    },
-    handler: createFiles,
-  },
-}
-
-function changeDirectory() {
-  return {
-    pwd: process.cwd(),
-  }
-}
-
-async function createFiles(argv) {
-  const { _ } = argv
-  const files = _.slice(1)
-  const results = []
-  for (const file of files) {
-    const filePath = path.resolve(
-      process.cwd(),
-      file.replace('~', os.homedir())
-    )
-    try {
-      const exists = await fs.stat(filePath)
-      if (exists) {
-        results.push({
-          path: filePath,
-          type: exists.isFile() ? 'file' : 'directory',
-          discovered: true,
-        })
-      }
-    } catch (err) {
-      if (err.code !== 'ENOENT') {
-        throw err
-      }
-    }
-  }
-  return {
-    add: results,
-  }
-}
-
-async function handleCommand(command) {
-  const name = command.split(' ')[0]
-  const listener = commandListeners[name]
-  if (!listener) return {}
-  const argv = minimist(command.split(' '), listener.opts)
-  return listener.handler(argv)
 }
 
 async function main() {
@@ -111,7 +35,23 @@ async function main() {
     pwd: PWD,
     params,
   }
-  await api.post('/commands', payload)
+  try {
+    const response = await fetch(`${API_ENDPOINT}/api/v1/commands`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    if (!response.ok) {
+      console.error(`Failed to send command: ${response.statusText}`)
+      const responseBody = await response.text()
+      console.error(`Response Body: ${responseBody}`)
+    }
+  } catch (e) {
+    console.error('Error occurred while sending command:', e)
+  }
 }
 
 main()
