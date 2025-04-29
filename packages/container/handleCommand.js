@@ -34,6 +34,12 @@ const commandListeners = {
     },
     handler: removeFiles,
   },
+  rmdir: {
+    opts: {
+      boolean: ['p', 'v'],
+    },
+    handler: removeFiles,
+  },
 }
 
 async function handleCommand(command) {
@@ -87,7 +93,6 @@ async function copyFiles(argv) {
 }
 
 async function removeFiles(argv) {
-  console.log('removeFiles', argv)
   const files = argv._.slice(1)
   const results = []
   for (const file of files) {

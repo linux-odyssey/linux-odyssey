@@ -6,17 +6,20 @@ async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
   const stats = await fs.stat(inputPath)
   const name = path.basename(inputPath)
   const discovered = level <= 1 && (hiddenFiles || !name.startsWith('.'))
-  const files = [
-    {
-      path: inputPath,
-      name,
-      type: stats.isDirectory() ? 'directory' : 'file',
-      discovered,
-    },
-  ]
+  const self = {
+    path: inputPath,
+    name,
+    type: stats.isDirectory() ? 'directory' : 'file',
+    discovered,
+  }
+  const files = [self]
   if (stats.isDirectory() && level < 2) {
     try {
       let entries = await fs.readdir(inputPath)
+      if (entries.length === 0) {
+        self.empty = true
+        return files
+      }
       if (level > 0) {
         entries = entries.slice(0, 5)
       }
