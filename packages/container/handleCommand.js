@@ -28,6 +28,12 @@ const commandListeners = {
     },
     handler: copyFiles,
   },
+  rm: {
+    opts: {
+      boolean: ['r'],
+    },
+    handler: removeFiles,
+  },
 }
 
 async function handleCommand(command) {
@@ -77,6 +83,28 @@ async function copyFiles(argv) {
   const destPath = resolvePath(dest)
   return {
     discover: await collectFilesInfo(destPath, 0, true),
+  }
+}
+
+async function removeFiles(argv) {
+  console.log('removeFiles', argv)
+  const files = argv._.slice(1)
+  const results = []
+  for (const file of files) {
+    const filePath = resolvePath(file)
+    console.log('filePath', filePath)
+    try {
+      await fs.access(filePath, fs.constants.F_OK)
+    } catch {
+      results.push({
+        path: filePath,
+        type: 'file',
+        discovered: false,
+      })
+    }
+  }
+  return {
+    remove: results,
   }
 }
 
