@@ -6,8 +6,12 @@ import { finishSession } from '../../models/sessionManager'
 import { asyncHandler } from '../../middleware/error'
 import { questManager } from '../../models/quest'
 import { CLIFileExistenceChecker } from '../../containers/cli'
+import config from '../../config'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
+  if (!config.isProduction) {
+    console.log('newCommand', JSON.stringify(req.body, null, 2))
+  }
   const body = commandSchema.safeParse(req.body)
   if (!body.success) {
     res.status(400).json({ message: 'Invalid command', errors: body.error })

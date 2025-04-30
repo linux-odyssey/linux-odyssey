@@ -57,20 +57,7 @@ stages:
     response:
       content: |
         你應該可以看到終端機上沒有任何回應。
-        然而實際上 `touch` 指令已經成功建立了一個檔案。
-        請你用之前學過的 `ls` 指令來查看目前所在資料夾中有哪些檔案。
-      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
-
-  - id: ls-touch
-    name: 使用 `ls` 指令來查看新建立的檔案
-    requirements:
-      - touch
-    condition:
-      command: ls
-      output: hello.txt
-    response:
-      content: |
-        你應該可以看到終端機上顯示了 `hello.txt` 這個檔案。
+        而右邊的檔案樹可以看到已經建立了 `hello.txt` 這個檔案。
         我們來看看 `hello.txt` 檔案的內容吧！
         我們可以使用之前學過的 `cat` 指令來查看檔案內容。
       hint: 輸入 `cat hello.txt` 來查看 `hello.txt` 檔案的內容
@@ -78,7 +65,7 @@ stages:
   - id: cat
     name: 使用 `cat` 指令來查看 `hello.txt` 檔案的內容
     requirements:
-      - ls-touch
+      - touch
     condition:
       command: cat hello.txt
     response:
@@ -113,19 +100,7 @@ stages:
     response:
       content: |
         非常好，你已經成功建立了第二個檔案。
-        接下來，請你用之前學過的 `ls` 指令來查看剛剛建立的兩個檔案。
-      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
-
-  - id: ls-2
-    name: 使用 `ls` 指令來查看剛剛建立的兩個檔案
-    requirements:
-      - touch-2
-    condition:
-      command: ls
-      output: hello.txt\nworld.txt
-    response:
-      content: |
-        你應該可以看到終端機上顯示了 `hello.txt` 和 `world.txt` 這兩個檔案。
+        你可以看到檔案樹上顯示了 `hello.txt` 和 `world.txt` 這兩個檔案。
         接下來，我們來試試看建立資料夾吧！
         `mkdir` 指令可以建立一個空的資料夾。
         使用方式是 `mkdir [資料夾名稱]`。
@@ -135,7 +110,7 @@ stages:
   - id: mkdir
     name: 使用 `mkdir` 指令建立 `notes` 資料夾
     requirements:
-      - ls-2
+      - touch-2
     condition:
       files:
         - path: /home/commander/notes
@@ -144,19 +119,6 @@ stages:
     response:
       content: |
         非常好，你已經成功建立了 `notes` 資料夾。
-        接下來，請你用 `ls` 指令來查看剛剛建立的資料夾。
-      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
-
-  - id: ls-mkdir
-    name: 使用 `ls` 查看剛建立的資料夾
-    requirements:
-      - mkdir
-    condition:
-      command: ls
-      output: notes
-    response:
-      content: |
-        你應該可以看到終端機上顯示了 `notes` 這個資料夾。
         接下來，我們要在 `notes` 資料夾中建立一個 `note.txt` 的檔案。
         首先，我們要先進入 `notes` 資料夾。
         還記得之前的 `cd` 指令嗎？請你試著使用 `cd` 指令來進入 `notes` 資料夾。
@@ -167,7 +129,7 @@ stages:
   - id: cd-notes
     name: 移動到 `notes` 資料夾
     requirements:
-      - ls-mkdir
+      - mkdir
     condition:
       pwd: /home/commander/notes
     response:
@@ -188,19 +150,16 @@ stages:
     response:
       content: |
         非常好，你已經成功建立了 `note.txt` 檔案。
-        跟之前一樣，你可以使用 `ls` 指令來查看目前所在資料夾中有哪些檔案。
-      hint: 輸入 `ls` 指令來查看目前所在資料夾中有哪些檔案
+        恭喜你完成了這個關卡！
+        在下一個關卡中，你將學習如何複製檔案與資料夾。
+        輸入 `echo finish` 來完成這個關卡。
 
   - id: END
-    name: 使用 `ls` 指令來查看目前所在資料夾中有哪些檔案
+    name: 完成關卡
     requirements:
       - touch-note
     condition:
-      command: ls
-      output: note.txt
+      command: echo finish
     response:
       content: |
-        你應該可以看到終端機上顯示了 `note.txt` 這個檔案。
         恭喜你完成了這個關卡！
-        在下一個關卡中，你將學習如何複製檔案與資料夾。
-      hint: 恭喜你完成了所有任務！

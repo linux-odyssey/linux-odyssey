@@ -34,6 +34,10 @@ export default class FileGraph extends FileNode {
     // Overwrite the file graph with the provided files
     // Remove file nodes that don't exist anymore and add new ones
 
+    if (eventFiles.length === 0) {
+      return
+    }
+
     const newNode = new FileNode(eventFiles[0])
 
     eventFiles.slice(1).forEach((file) => {

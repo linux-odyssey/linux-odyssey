@@ -1,4 +1,5 @@
 const fs = require('fs').promises
+const path = require('path')
 const minimist = require('minimist')
 const { discoverFiles, collectFilesInfo } = require('./discover')
 const { resolvePath } = require('./utils')
@@ -42,6 +43,9 @@ const commandListeners = {
   },
   mv: {
     handler: moveFiles,
+  },
+  pwd: {
+    handler: showCurrentPath,
   },
 }
 
@@ -147,6 +151,24 @@ async function moveFiles(argv) {
   const destPath = resolvePath(dest)
   results.add = await collectFilesInfo(destPath, 0, true)
   return results
+}
+
+function showCurrentPath() {
+  const pwd = process.cwd()
+  const dirs = pwd.split('/')
+  let currentPath = '/'
+  const result = []
+  for (const dir of dirs) {
+    currentPath = path.join(currentPath, dir)
+    result.push({
+      path: currentPath,
+      type: 'directory',
+      discovered: true,
+    })
+  }
+  return {
+    add: result,
+  }
 }
 
 module.exports = handleCommand

@@ -3,7 +3,15 @@ const path = require('path')
 const { resolvePath } = require('./utils')
 
 async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
-  const stats = await fs.stat(inputPath)
+  let stats
+  try {
+    stats = await fs.stat(inputPath)
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      return []
+    }
+    throw e
+  }
   const name = path.basename(inputPath)
   const discovered = level <= 1 && (hiddenFiles || !name.startsWith('.'))
   const self = {
@@ -39,12 +47,17 @@ async function collectFilesInfo(inputPath, level = 0, hiddenFiles = false) {
 async function discoverFiles(argv) {
   const targetPath = argv._.length < 2 ? ['.'] : argv._.slice(1)
   try {
-    const result = await Promise.all(
-      targetPath
-        .map((p) => resolvePath(p))
-        .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
-    )
-    return { discover: result.flat() }
+    const result = (
+      await Promise.all(
+        targetPath
+          .map((p) => resolvePath(p))
+          .map((p) => collectFilesInfo(p, 0, argv.a || argv.all))
+      )
+    ).flat()
+    if (result.length === 0) {
+      return {}
+    }
+    return { discover: result }
   } catch (_) {
     return {}
   }

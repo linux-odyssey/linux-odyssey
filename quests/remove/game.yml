@@ -52,21 +52,8 @@ stages:
           exists: false
     response:
       content: |
-        你做得很好！
-        我們用 `ls` 來查看一下資料夾內的檔案吧！
-      hint: 使用 `ls` 來查看資料夾內的檔案
-
-  - id: ls-no-hello
-    requirements:
-      - rm-hello
-    name: 檢查 `hello.txt` 是否還在資料夾中
-    condition:
-      pwd: /home/commander
-      command: ls
-    response:
-      content: |
         `hello.txt` 已經不在資料夾中了！
-        你會發現 `world.txt` 與 `wow.txt` 還在。
+
         `rm` 也可以同時刪除多個檔案，只要把檔案名稱用空白隔開就可以了。
         使用方式為 `rm [檔案1] [檔案2] ...`。
         現在請你使用 `rm` 刪除 `world.txt` 與 `wow.txt`。
@@ -77,10 +64,9 @@ stages:
 
   - id: rm-world-wow
     requirements:
-      - ls-no-hello
+      - rm-hello
     name: 刪除 `world.txt` 與 `wow.txt`
     condition:
-      command: rm world.txt wow.txt
       files:
         - path: /home/commander/world.txt
           type: file
@@ -90,21 +76,9 @@ stages:
           exists: false
     response:
       content: |
-        你做得很好！
-        我們用 `ls` 來查看一下資料夾內的檔案吧！
-      hint: 使用 `ls` 來查看資料夾內的檔案
-
-  - id: ls-no-world-wow
-    requirements:
-      - rm-world-wow
-    name: 檢查 `world.txt` 與 `wow.txt` 是否還在資料夾中
-    condition:
-      pwd: /home/commander
-      command: ls
-    response:
-      content: |
         你會發現 `world.txt` 與 `wow.txt` 已經不見了。
-        現在我們來學習 `rmdir` 指令。
+
+        現在我們來學習如何刪除資料夾。
         `rmdir` 指令可以用來刪除空的資料夾。
         使用方式為 `rmdir [資料夾名稱]`。
         我們先來刪除 `empty` 資料夾吧！
@@ -112,7 +86,7 @@ stages:
 
   - id: rm-empty
     requirements:
-      - ls-no-world-wow
+      - rm-world-wow
     name: 刪除 `empty` 資料夾
     condition:
       command: rmdir empty
@@ -122,26 +96,13 @@ stages:
           exists: false
     response:
       content: |
-        你做得很好！
-        我們用 `ls` 來查看一下資料夾內的檔案吧！
-      hint: 使用 `ls` 來查看資料夾內的檔案
-
-  - id: ls-no-empty
-    requirements:
-      - rm-empty
-    name: 檢查 `empty` 資料夾是否還在
-    condition:
-      pwd: /home/commander
-      command: ls
-    response:
-      content: |
-        你會發現 `empty` 資料夾已經不見了。
+        `empty` 資料夾已經不見了。
         現在請你試試看 `rmdir` 指令刪除 `notes` 資料夾。
       hint: 使用 `rmdir notes` 來刪除 `notes` 資料夾
 
   - id: rm-notes-failed
     requirements:
-      - ls-no-empty
+      - rm-empty
     name: 嘗試刪除 `notes` 資料夾
     condition:
       command: rmdir notes
@@ -156,6 +117,7 @@ stages:
       hint: |
         使用 `rm notes/[檔案名稱]` 來刪除 `notes` 資料夾內的檔案
         你可能需要使用 `ls notes` 來查看 `notes` 資料夾內有哪些檔案
+        或是利用 Tab 來自動補齊檔案名稱
 
   - id: rm-notes-content
     requirements:
@@ -224,26 +186,14 @@ stages:
           exists: false
     response:
       content: |
-        很好！現在請你使用 `ls` 指令查看資料夾內容。
-      hint: 使用 `ls` 來查看資料夾內容
-
-  - id: ls-no-trash
-    requirements:
-      - rm-trash
-    name: 檢查 `trash` 資料夾是否還在
-    condition:
-      pwd: /home/commander
-      command: ls
-    response:
-      content: |
-        `trash` 資料夾已經不見了。
+        `trash` 資料夾跟它的所有檔案都不見了。
         恭喜你！你已經學會如何刪除檔案與資料夾了！
         請輸入 `echo finish` 來完成這個關卡。
 
   - id: END
     requirements:
-      - ls-no-trash
-    name: 完成任務
+      - rm-trash
+    name: 完成關卡
     condition:
       command: echo finish
     response:
