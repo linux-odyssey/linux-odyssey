@@ -21,4 +21,5 @@ export interface Session {
   pwd: string
   tasks: ITask[]
   responses: IResponse[]
+  token: string
 }

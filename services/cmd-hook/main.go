@@ -48,7 +48,11 @@ func main() {
 
 	payload.Params = params
 
-	apiEndpoint := os.Getenv("API_ENDPOINT")
+	backendUrl := os.Getenv("BACKEND_URL")
+	if backendUrl == "" {
+		fmt.Fprintf(os.Stderr, "BACKEND_URL is not set\n")
+		os.Exit(1)
+	}
 	token := os.Getenv("TOKEN")
 
 	jsonData, err := json.MarshalIndent(payload, "", "  ")
@@ -58,7 +62,7 @@ func main() {
 	}
 
 	fmt.Println(string(jsonData))
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/commands", apiEndpoint), bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/commands", backendUrl), bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error creating request: %v\n", err)
 		os.Exit(1)

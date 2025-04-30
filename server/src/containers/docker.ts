@@ -22,9 +22,17 @@ const newContainerOptions = (
     ExtraHosts: ['host.docker.internal:host-gateway'],
   },
   ExposedPorts: {
-    '22/tcp': {},
+    '9090/tcp': {},
   },
-  Env: [`PUB_KEY=${config.docker.keypair.publicKey}`],
+  Env: [`BACKEND_URL=${config.backendUrl}`],
+  Labels: {
+    'traefik.enable': 'true',
+    [`traefik.http.routers.terminal-${name}.rule`]: `PathPrefix(\`/terminal/${name}\`)`,
+    [`traefik.http.middlewares.terminal-${name}-stripprefix.stripprefix.prefixes`]: `/terminal/${name}`,
+    [`traefik.http.routers.terminal-${name}.middlewares`]: `terminal-${name}-stripprefix`,
+    [`traefik.http.services.terminal-${name}.loadbalancer.server.port`]: '9090',
+    [`traefik.http.routers.terminal-${name}.entrypoints`]: 'web',
+  },
 })
 
 export async function createContainer(
@@ -48,7 +56,8 @@ export async function createContainer(
   if (config.docker.mountCLI) {
     logger.info('Mounting CLI', questId)
     binds.push(
-      `${config.docker.hostProjectRoot}/services/cmd-hook/bin:/usr/local/bin:ro`
+      `${config.docker.hostProjectRoot}/services/cmd-hook/bin:/usr/local/lib/cmd-hook:ro`,
+      `${config.docker.hostProjectRoot}/services/terminal-service/bin:/usr/local/lib/terminal-service:ro`
     )
   }
   const option = newContainerOptions(name, imageId, { binds })
@@ -98,6 +107,7 @@ export async function attachContainer(
   const containerIp = (await container.inspect()).NetworkSettings.Networks[
     config.docker.network
   ].IPAddress
+  console.log('containerIp', containerIp)
 
   let error: Error | null = null
   for (let i = 0; i < 10; i++) {

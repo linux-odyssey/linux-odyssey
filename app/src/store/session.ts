@@ -94,12 +94,12 @@ const useSession = defineStore('session', {
     },
     setup() {
       if (hasSetup) return
-      socket.on('terminal', (data: string) => {
-        term.write(data)
-      })
-      term.onData((data: string) => {
-        socket.emit('terminal', data)
-      })
+      // socket.on('terminal', (data: string) => {
+      //   term.write(data)
+      // })
+      // term.onData((data: string) => {
+      //   socket.emit('terminal', data)
+      // })
       socket.on('graph', (event: FileGraphUpdateEvent) => {
         if (!this.session) return
         this.session.graph.handleEvent(event)

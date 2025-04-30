@@ -1,12 +1,9 @@
 import { Server } from 'socket.io'
 import type { Socket } from 'socket.io'
-import { Duplex } from 'stream'
 import validator from 'validator'
 import type { Server as HttpServer } from 'http'
 import { ISession, Session } from '../../../packages/models'
-import { getAndStartContainer, attachContainer } from '../containers/docker.js'
 import SessionMiddleware from '../middleware/session.js'
-import { genJWT } from '../utils/auth.js'
 import logger from '../utils/logger.js'
 
 type SocketCallback = (event: string, ...args: any[]) => void
@@ -61,41 +58,16 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
     return
   }
 
-  const token = await genJWT({
-    sessionId: session.id,
-  })
-
-  if (!session.containerId) {
-    next(new Error('Session has no container.'))
-    return
+  socket.data.context = {
+    session,
   }
-
-  try {
-    const container = await getAndStartContainer(session.containerId)
-    const stream = await attachContainer(container, { token })
-    socket.data.context = {
-      session,
-      stream,
-    }
-    next()
-  } catch (err) {
-    logger.error(err)
-    next(new Error('Failed to connect to container.'))
-  }
+  next()
 }
 
 function onConnect(socket: Socket) {
-  const { session, stream } = socket.data.context as {
+  const { session } = socket.data.context as {
     session: ISession
-    stream: Duplex
   }
-  stream.on('data', (chunk: Buffer) => {
-    socket.emit('terminal', chunk.toString())
-  })
-
-  socket.on('terminal', function incoming(message) {
-    stream.write(message)
-  })
 
   const socketCallback = (event: string, ...data: any[]) => {
     socket.emit(event, ...data)
@@ -104,9 +76,7 @@ function onConnect(socket: Socket) {
   listenToSession(session._id.toString(), socketCallback)
 
   socket.on('disconnect', () => {
-    stream.write('exit\n')
     removeFromSession(session._id.toString(), socketCallback)
-    stream.destroy()
   })
 }
 

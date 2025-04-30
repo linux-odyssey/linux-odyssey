@@ -6,10 +6,11 @@ import { createNewSession, isQuestUnlocked } from '../models/sessionManager.js'
 import config from '../config.js'
 import { protectedProcedure, router } from '../trpc.js'
 import { questManager } from '../models/quest.js'
+import { genJWT } from '../utils/auth'
 
 export type SessionDetail = Awaited<ReturnType<typeof sessionDetail>>
 
-function sessionDetail(session: ISession) {
+async function sessionDetail(session: ISession) {
   const quest = questManager.get(session.quest)
   if (!quest) {
     throw new TRPCError({
@@ -22,6 +23,10 @@ function sessionDetail(session: ISession) {
     quest,
     new VoidFileExistenceChecker()
   )
+  const token = await genJWT({
+    sessionId: session._id.toString(),
+  })
+
   return {
     _id: session._id.toString(),
     user: session.user.toString(),
@@ -33,6 +38,7 @@ function sessionDetail(session: ISession) {
     responses: gameSession.getResponses(),
     tasks: gameSession.getTasks(),
     graph: gameSession.getGraph(),
+    token,
   }
 }
 

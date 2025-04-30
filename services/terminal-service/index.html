@@ -39,9 +39,13 @@
       term.open(document.getElementById('terminal'))
       fitAddon.fit()
 
+      const token = new URLSearchParams(window.location.search).get('token')
+
       // Create WebSocket connection
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-      const ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
+      const ws = new WebSocket(
+        `${protocol}//${window.location.host}${window.location.pathname}/ws?token=${token}`
+      )
 
       // Handle WebSocket connection
       ws.onopen = () => {
