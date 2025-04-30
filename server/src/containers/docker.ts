@@ -32,7 +32,7 @@ export async function createContainer(
   questId: string,
   imageId: string
 ): Promise<Docker.Container> {
-  let binds: string[] = []
+  const binds: string[] = []
   if (await questHomeExists(questId)) {
     logger.info('Mounting quest home', questId)
     binds.push(
@@ -41,14 +41,14 @@ export async function createContainer(
   }
   if (config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest directory', questId)
-    binds = [
-      `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`,
-    ]
+    binds.push(
+      `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`
+    )
   }
   if (config.docker.mountCLI) {
     logger.info('Mounting CLI', questId)
     binds.push(
-      `${config.docker.hostProjectRoot}/packages/container:/usr/local/lib/container`
+      `${config.docker.hostProjectRoot}/services/cmd-hook/bin:/usr/local/bin:ro`
     )
   }
   const option = newContainerOptions(name, imageId, { binds })

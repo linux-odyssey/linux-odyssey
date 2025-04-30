@@ -1,6 +1,8 @@
 config 
 .quest
 tmp
+services/terminal-service/terminal-service
+bin
 
 # Logs
 logs

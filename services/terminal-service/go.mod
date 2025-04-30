@@ -1,4 +1,4 @@
-module github.com/linux-odyssey/linux-odyssey/terminal-service
+module github.com/linux-odyssey/linux-odyssey/services/terminal-service
 
 go 1.24.2
 

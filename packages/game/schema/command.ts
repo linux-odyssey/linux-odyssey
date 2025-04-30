@@ -21,7 +21,7 @@ export const commandSchema = z.object({
   output: z.string().optional(),
   error: z.string().optional(),
   pwd: z.string().optional(),
-  params: commandParamsSchema.optional(),
+  params: commandParamsSchema.optional().nullable(),
 })
 
 export type ICommand = z.infer<typeof commandSchema>
