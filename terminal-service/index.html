@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>WebSocket Terminal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background-color: #1e1e1e;
+      }
+      #terminal {
+        width: 100%;
+        height: calc(100vh - 40px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="terminal"></div>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+    <script>
+      const term = new Terminal({
+        cursorBlink: true,
+        fontSize: 14,
+        fontFamily: 'monospace',
+        theme: {
+          background: '#1e1e1e',
+          foreground: '#ffffff',
+        },
+      })
+
+      const fitAddon = new FitAddon.FitAddon()
+      term.loadAddon(fitAddon)
+
+      term.open(document.getElementById('terminal'))
+      fitAddon.fit()
+
+      // Create WebSocket connection
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+      const ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
+
+      // Handle WebSocket connection
+      ws.onopen = () => {
+        term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
+      }
+
+      ws.onclose = () => {
+        term.write('\r\n\x1B[1;31mDisconnected from terminal\x1B[0m\r\n')
+      }
+
+      ws.onerror = (error) => {
+        term.write(
+          '\r\n\x1B[1;31mWebSocket error: ' + error.message + '\x1B[0m\r\n'
+        )
+      }
+
+      // Handle terminal input
+      term.onData((data) => {
+        ws.send(data)
+      })
+
+      // Handle WebSocket messages
+      ws.onmessage = (event) => {
+        // Convert the data to a string if it's not already
+        const data =
+          typeof event.data === 'string'
+            ? event.data
+            : new TextDecoder().decode(event.data)
+        term.write(data)
+      }
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        fitAddon.fit()
+      })
+    </script>
+  </body>
+</html>

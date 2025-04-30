@@ -1,5 +1,6 @@
 config 
 .quest
+tmp
 
 # Logs
 logs
