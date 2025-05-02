@@ -1,0 +1,24 @@
+http:
+  routers:
+    frontend:
+      rule: 'PathPrefix(`/`)'
+      service: frontend
+      entryPoints:
+        - web
+
+    backend:
+      rule: 'PathPrefix(`/api`, `/socket.io`, `/trpc`, `/api-docs`)'
+      service: backend
+      entryPoints:
+        - web
+
+  services:
+    frontend:
+      loadBalancer:
+        servers:
+          - url: 'http://host.docker.internal:5173'
+
+    backend:
+      loadBalancer:
+        servers:
+          - url: 'http://host.docker.internal:3000'

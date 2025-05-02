@@ -8,14 +8,19 @@ services:
       - '--api.insecure=true'
       - '--providers.docker=true'
       - '--providers.docker.exposedbydefault=false'
+      - '--providers.file.directory=/etc/traefik/conf'
+      - '--providers.file.watch=true'
       - '--entrypoints.web.address=:80'
       - '--entrypoints.websecure.address=:443'
     ports:
       - '80:80'
       - '443:443'
       - '8080:8080'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/conf:/etc/traefik/conf
 
   db:
     image: mongo:6
