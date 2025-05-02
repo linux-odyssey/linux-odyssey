@@ -44,7 +44,7 @@
       // Create WebSocket connection
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
       const ws = new WebSocket(
-        `${protocol}//${window.location.host}${window.location.pathname}/ws?token=${token}`
+        `${protocol}//${window.location.host}${window.location.pathname}ws?token=${token}`
       )
 
       // Handle WebSocket connection
