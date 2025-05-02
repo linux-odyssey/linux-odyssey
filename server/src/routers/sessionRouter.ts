@@ -38,6 +38,7 @@ async function sessionDetail(session: ISession) {
     responses: gameSession.getResponses(),
     tasks: gameSession.getTasks(),
     graph: gameSession.getGraph(),
+    containerName: session.containerName,
     token,
   }
 }

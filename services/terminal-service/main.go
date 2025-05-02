@@ -13,6 +13,7 @@ var (
 )
 
 func serveWs(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Serving WS connection")
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("upgrade:", err)

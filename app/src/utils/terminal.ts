@@ -1,10 +1,12 @@
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
+import ReconnectingWebSocket from 'reconnecting-websocket'
 import 'xterm/css/xterm.css'
 
 class SocketTerminal {
   private term: Terminal
   private fitAddon: FitAddon
+  private socket: ReconnectingWebSocket | null = null
 
   constructor() {
     this.term = new Terminal({
@@ -19,6 +21,40 @@ class SocketTerminal {
     })
     this.fitAddon = new FitAddon()
     this.term.loadAddon(this.fitAddon)
+    this.term.onData((data) => {
+      if (this.socket) {
+        this.socket.send(data)
+      }
+    })
+  }
+
+  connect(url: string): void {
+    console.log('Connecting to terminal', url)
+    this.socket = new ReconnectingWebSocket(url)
+    this.socket.onopen = () => {
+      console.log('Connected to terminal')
+      this.term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
+    }
+
+    this.socket.onclose = () => {
+      console.log('Disconnected from terminal')
+      this.term.write('\r\n\x1B[1;31mDisconnected from terminal\x1B[0m\r\n')
+    }
+
+    this.socket.onerror = (error) => {
+      console.error('WebSocket error:', error)
+      this.term.write(
+        `\r\n\x1B[1;31mWebSocket error: ${'message' in error ? error.message : ''}\x1B[0m\r\n`
+      )
+    }
+    this.socket.onmessage = (event) => {
+      console.log('Received message from terminal')
+      const data =
+        typeof event.data === 'string'
+          ? event.data
+          : new TextDecoder().decode(event.data)
+      this.term.write(data)
+    }
   }
 
   resizeScreen(): void {
@@ -38,16 +74,13 @@ class SocketTerminal {
     this.term.write(message)
   }
 
-  onData(callback: (data: string) => void): void {
-    this.term.onData(callback)
-  }
-
   focus(): void {
     this.term.focus()
   }
 
   reset(): void {
     this.term.reset()
+    this.socket?.close()
   }
 }
 

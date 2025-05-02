@@ -22,7 +22,11 @@ const tasks = computed(() => {
   <div class="h-full w-full max-h-full">
     <p id="topic" class="text-text font-black" v-if="sessionStore.quest">
       {{ sessionStore.quest.title }}
-      {{ sessionStore.session?.token }}
+      <a
+        :href="`http://localhost/terminal/${sessionStore.session?.containerName}?token=${sessionStore.session?.token}`"
+      >
+        Open Terminal
+      </a>
     </p>
     <br />
     <div>

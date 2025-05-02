@@ -61,6 +61,7 @@ export async function createNewSession(
     user: userId,
     quest: quest.id,
     containerId: container.id,
+    containerName,
   })
 
   console.log('container', container.id)

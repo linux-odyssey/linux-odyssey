@@ -22,4 +22,5 @@ export interface Session {
   tasks: ITask[]
   responses: IResponse[]
   token: string
+  containerName: string
 }

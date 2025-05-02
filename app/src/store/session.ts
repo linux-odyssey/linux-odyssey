@@ -50,8 +50,12 @@ const useSession = defineStore('session', {
         ...session,
         graph: new FileGraph(session.graph),
         pwd: '/home/commander',
+        containerName: session.containerName || '',
       }
       term.reset()
+      term.connect(
+        `/terminal/${session.containerName}/ws?token=${session.token}`
+      )
       await socket.connect(this.session)
       term.focus()
     },
