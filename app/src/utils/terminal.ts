@@ -31,7 +31,10 @@ class SocketTerminal {
   connect(url: string): Promise<void> {
     return new Promise((resolve, reject) => {
       console.log('Connecting to terminal', url)
-      this.socket = new ReconnectingWebSocket(url)
+      this.socket = new ReconnectingWebSocket(url, [], {
+        connectionTimeout: 5000,
+        maxRetries: 10,
+      })
       this.socket.onopen = () => {
         console.log('Connected to terminal')
         this.term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
