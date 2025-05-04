@@ -10,11 +10,9 @@ services:
       - '--providers.docker.exposedbydefault=false'
       - '--providers.file.directory=/etc/traefik/conf'
       - '--providers.file.watch=true'
-      - '--entrypoints.web.address=:80'
-      - '--entrypoints.websecure.address=:443'
+      - '--entrypoints.web.address=:8000'
     ports:
-      - '80:80'
-      - '443:443'
+      - '8000:8000'
       - '8080:8080'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
