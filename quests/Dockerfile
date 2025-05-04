@@ -1,11 +1,11 @@
-FROM golang:1.24-alpine as cmd-hook-builder
+FROM golang:1.24-alpine AS cmd-hook-builder
 WORKDIR /app
 COPY ./services/cmd-hook/go.mod ./
 RUN go mod download
 COPY ./services/cmd-hook/*.go ./
 RUN go build -o cmd-hook
 
-FROM golang:1.24-alpine as terminal-builder
+FROM golang:1.24-alpine AS terminal-builder
 WORKDIR /app
 COPY ./services/terminal-service/go.mod ./
 COPY ./services/terminal-service/go.sum ./
@@ -13,7 +13,7 @@ RUN go mod download
 COPY ./services/terminal-service/*.go ./services/terminal-service/index.html ./
 RUN go build -o terminal-service
 
-FROM debian:bookworm-slim as main
+FROM debian:bookworm-slim AS main
 
 LABEL maintainer="wancat@wancat.cc"
 

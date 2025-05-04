@@ -41,7 +41,7 @@ services:
     image: linuxodyssey/analytics
     build:
       context: .
-      dockerfile: packages/analytics/Dockerfile
+      dockerfile: services/analytics/Dockerfile
       target: prod
     restart: always
     depends_on:
