@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -26,12 +27,13 @@ type FileObject struct {
 var commandHandlers = map[string]CommandHandler{
 	"ls":    handleLs,
 	"cd":    handleCd,
-	"touch": handleTouch,
-	"mkdir": handleMkdir,
-	"cp":    handleCp,
-	"rm":    handleRm,
-	"rmdir": handleRmdir,
-	"mv":    handleMv,
+	"touch": handleCreate,
+	"mkdir": handleCreate,
+	"cp":    handleCopy,
+	"rm":    handleRemove,
+	"rmdir": handleRemove,
+	"mv":    handleMove,
+	"pwd":   handlePwd,
 }
 
 func handleCommand(cmd string) (CommandParams, error) {
@@ -55,27 +57,30 @@ func handleCd(cmd string) (CommandParams, error) {
 }
 
 func handleLs(cmd string) (CommandParams, error) {
-	fmt.Println("handleLs", cmd)
-	parts := strings.Fields(cmd)[1:]
-	path := "."
-	if len(parts) > 1 {
-		path = parts[1]
+	files := getFilePathList(cmd)
+	if len(files) == 0 {
+		files = append(files, ".")
 	}
 
-	files := make([]FileObject, 0)
-	err := discover(&files, path, 0)
-	if err != nil {
-		return CommandParams{}, err
+	results := make([]FileObject, 0)
+	for _, path := range files {
+		err := discover(&results, path, 0)
+		if err != nil {
+			return CommandParams{}, err
+		}
 	}
 
 	return CommandParams{
-		Discover: files,
+		Discover: results,
 	}, nil
 }
 
 func discover(files *[]FileObject, path string, level int) error {
 	absPath := resolvePath(path)
 	fileType, err := fileExists(absPath)
+	if errors.Is(err, os.ErrNotExist) {
+		return nil
+	}
 	if err != nil {
 		return fmt.Errorf("ls: cannot access '%s': %v", path, err)
 	}
@@ -111,32 +116,103 @@ func discover(files *[]FileObject, path string, level int) error {
 	return nil
 }
 
-func handleTouch(cmd string) (CommandParams, error) {
-	// TODO: Implement touch command
-	return CommandParams{}, nil
+func handleCreate(cmd string) (CommandParams, error) {
+	files := getFilePathList(cmd)
+	results := make([]FileObject, 0, len(files))
+	for _, absPath := range files {
+		fileType, err := fileExists(absPath)
+		if errors.Is(err, os.ErrNotExist) {
+			continue
+		}
+		if err != nil {
+			return CommandParams{}, err
+		}
+		results = append(results, FileObject{
+			Path:       absPath,
+			Type:       fileType,
+			Discovered: true,
+		})
+	}
+	return CommandParams{Add: results}, nil
 }
 
-func handleMkdir(cmd string) (CommandParams, error) {
-	// TODO: Implement mkdir command
-	return CommandParams{}, nil
+func handleCopy(cmd string) (CommandParams, error) {
+	files := getFilePathList(cmd)
+	if len(files) < 2 {
+		return CommandParams{}, nil
+	}
+	dest := files[len(files)-1]
+	results := make([]FileObject, 0)
+	discover(&results, dest, 0)
+	return CommandParams{Discover: results}, nil
 }
 
-func handleCp(cmd string) (CommandParams, error) {
-	// TODO: Implement cp command
-	return CommandParams{}, nil
+func handleRemove(cmd string) (CommandParams, error) {
+	files := getFilePathList(cmd)
+	results := make([]FileObject, 0, len(files))
+	for _, absPath := range files {
+		_, err := fileExists(absPath)
+		// If the file exists, ignore it
+		if err == nil {
+			continue
+		}
+		if !errors.Is(err, os.ErrNotExist) {
+			return CommandParams{}, err
+		}
+		results = append(results, FileObject{
+			Path:       absPath,
+			Type:       FileTypeFile, // whatever
+			Discovered: true,
+		})
+	}
+	return CommandParams{Remove: results}, nil
 }
 
-func handleRm(cmd string) (CommandParams, error) {
-	// TODO: Implement rm command
-	return CommandParams{}, nil
+func handleMove(cmd string) (CommandParams, error) {
+	files := getFilePathList(cmd)
+	if len(files) < 2 {
+		return CommandParams{}, nil
+	}
+	sources := files[:len(files)-1]
+	dest := files[len(files)-1]
+	result := CommandParams{
+		Add:    make([]FileObject, 0, len(sources)),
+		Remove: make([]FileObject, 0, len(sources)),
+	}
+	for _, source := range sources {
+		_, err := fileExists(source)
+		if err == nil {
+			continue
+		}
+		if !errors.Is(err, os.ErrNotExist) {
+			return CommandParams{}, err
+		}
+		result.Remove = append(result.Remove, FileObject{
+			Path:       source,
+			Type:       FileTypeFile, // whatever
+			Discovered: true,
+		})
+	}
+
+	discover(&result.Add, dest, 0)
+	return result, nil
 }
 
-func handleRmdir(cmd string) (CommandParams, error) {
-	// TODO: Implement rmdir command
-	return CommandParams{}, nil
-}
-
-func handleMv(cmd string) (CommandParams, error) {
-	// TODO: Implement mv command
-	return CommandParams{}, nil
+func handlePwd(cmd string) (CommandParams, error) {
+	pwd := os.Getenv("PWD")
+	parts := strings.Split(pwd, "/")
+	currentPath := "/"
+	results := make([]FileObject, 0, len(parts))
+	for _, part := range parts {
+		currentPath = filepath.Join(currentPath, part)
+		results = append(results, FileObject{
+			Path:       currentPath,
+			Type:       FileTypeDir,
+			Discovered: true,
+		})
+	}
+	return CommandParams{
+		Pwd: os.Getenv("PWD"),
+		Add: results,
+	}, nil
 }

@@ -61,7 +61,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(string(jsonData))
 	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/commands", backendUrl), bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error creating request: %v\n", err)

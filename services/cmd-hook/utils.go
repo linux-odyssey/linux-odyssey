@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type FileType string
@@ -15,6 +16,10 @@ const (
 func resolvePath(path string) string {
 	if filepath.IsAbs(path) {
 		return path
+	}
+	if strings.HasPrefix(path, "~") {
+		homeDir := os.Getenv("HOME")
+		return filepath.Join(homeDir, path[1:])
 	}
 	return filepath.Join(os.Getenv("PWD"), path)
 }
@@ -30,10 +35,15 @@ func fileExists(path string) (FileType, error) {
 	return FileTypeFile, nil
 }
 
-func isDir(path string) bool {
-	info, err := os.Stat(path)
-	if err != nil {
-		return false
+func getFilePathList(cmd string) []string {
+	parts := strings.Fields(cmd)[1:]
+	results := make([]string, 0, len(parts))
+	for _, part := range parts {
+		if strings.HasPrefix(part, "-") {
+			continue
+		}
+		absPath := resolvePath(part)
+		results = append(results, absPath)
 	}
-	return info.IsDir()
+	return results
 }
