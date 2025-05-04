@@ -16,7 +16,7 @@ func newTerminal(token string) (*terminal, error) {
 	// Start a new shell in the home directory
 	cmd := exec.Command("/usr/bin/zsh")
 	cmd.Dir = os.Getenv("HOME")
-	cmd.Env = append(os.Environ(), "ZDOTDIR=/etc/zsh", "TOKEN="+token)
+	cmd.Env = append(os.Environ(), "ZDOTDIR=/etc/zsh", "TOKEN="+token, "TERM=xterm-256color")
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		return nil, err
