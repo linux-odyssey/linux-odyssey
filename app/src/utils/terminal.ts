@@ -28,33 +28,38 @@ class SocketTerminal {
     })
   }
 
-  connect(url: string): void {
-    console.log('Connecting to terminal', url)
-    this.socket = new ReconnectingWebSocket(url)
-    this.socket.onopen = () => {
-      console.log('Connected to terminal')
-      this.term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
-    }
+  connect(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log('Connecting to terminal', url)
+      this.socket = new ReconnectingWebSocket(url)
+      this.socket.onopen = () => {
+        console.log('Connected to terminal')
+        this.term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
+        resolve()
+      }
 
-    this.socket.onclose = () => {
-      console.log('Disconnected from terminal')
-      this.term.write('\r\n\x1B[1;31mDisconnected from terminal\x1B[0m\r\n')
-    }
+      this.socket.onclose = () => {
+        console.log('Disconnected from terminal')
+        this.term.write('\r\n\x1B[1;31mDisconnected from terminal\x1B[0m\r\n')
+        reject(new Error('Disconnected from terminal'))
+      }
 
-    this.socket.onerror = (error) => {
-      console.error('WebSocket error:', error)
-      this.term.write(
-        `\r\n\x1B[1;31mWebSocket error: ${'message' in error ? error.message : ''}\x1B[0m\r\n`
-      )
-    }
-    this.socket.onmessage = (event) => {
-      console.log('Received message from terminal')
-      const data =
-        typeof event.data === 'string'
-          ? event.data
-          : new TextDecoder().decode(event.data)
-      this.term.write(data)
-    }
+      this.socket.onerror = (error) => {
+        console.error('WebSocket error:', error)
+        this.term.write(
+          `\r\n\x1B[1;31mWebSocket error: ${'message' in error ? error.message : ''}\x1B[0m\r\n`
+        )
+        reject(error)
+      }
+      this.socket.onmessage = (event) => {
+        console.log('Received message from terminal')
+        const data =
+          typeof event.data === 'string'
+            ? event.data
+            : new TextDecoder().decode(event.data)
+        this.term.write(data)
+      }
+    })
   }
 
   resizeScreen(): void {
@@ -70,8 +75,10 @@ class SocketTerminal {
     this.resizeScreen()
   }
 
-  write(message: string): void {
-    this.term.write(message)
+  send(message: string): void {
+    if (this.socket) {
+      this.socket.send(message)
+    }
   }
 
   focus(): void {

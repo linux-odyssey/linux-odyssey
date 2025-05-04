@@ -23,11 +23,9 @@ class SocketWrapper {
 
       this.socket.on('connect', () => {
         console.log('Socket connected to session', session._id)
-      })
-
-      this.socket.once('terminal', () => {
         resolve()
       })
+
       this.socket.on('connect_error', reject)
       this.bindListeners()
     })

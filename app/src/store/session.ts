@@ -53,10 +53,10 @@ const useSession = defineStore('session', {
         containerName: session.containerName || '',
       }
       term.reset()
-      term.connect(
+      await socket.connect(this.session)
+      await term.connect(
         `/terminal/${session.containerName}/ws?token=${session.token}`
       )
-      await socket.connect(this.session)
       term.focus()
     },
     async createSession() {
@@ -64,7 +64,7 @@ const useSession = defineStore('session', {
         questId: this.questId,
       })
       await this.setSession(session)
-      socket.emit('terminal', 'echo start\n')
+      term.send('echo start\n')
     },
     async getActiveSession() {
       const session = await trpc.session.getActiveSession.query({
