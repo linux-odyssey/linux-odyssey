@@ -20,8 +20,10 @@ LABEL maintainer="wancat@wancat.cc"
 RUN apt-get update && apt-get install -y \
   vim \
   zsh \
-  curl \
-  sudo
+  sudo \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /var/cache/apt/*
+
 COPY ./quests/.includes/zshrc /etc/zsh/zshrc
 RUN rm -rf /etc/skel && mkdir -p /etc/skel
 COPY ./quests/entrypoint.sh /entrypoint.sh
