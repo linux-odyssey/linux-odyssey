@@ -37,6 +37,7 @@ class SocketTerminal {
       })
       this.socket.onopen = () => {
         console.log('Connected to terminal')
+        this.term.reset()
         this.term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
         resolve()
       }
@@ -44,7 +45,6 @@ class SocketTerminal {
       this.socket.onclose = () => {
         console.log('Disconnected from terminal')
         this.term.write('\r\n\x1B[1;31mDisconnected from terminal\x1B[0m\r\n')
-        reject(new Error('Disconnected from terminal'))
       }
 
       this.socket.onerror = (error) => {
@@ -52,7 +52,6 @@ class SocketTerminal {
         this.term.write(
           `\r\n\x1B[1;31mWebSocket error: ${'message' in error ? error.message : ''}\x1B[0m\r\n`
         )
-        reject(error)
       }
       this.socket.onmessage = (event) => {
         console.log('Received message from terminal')
