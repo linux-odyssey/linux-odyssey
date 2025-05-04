@@ -2,7 +2,7 @@ import { Server } from 'socket.io'
 import type { Socket } from 'socket.io'
 import validator from 'validator'
 import type { Server as HttpServer } from 'http'
-import { ISession, Session } from '../../../packages/models'
+import { Session } from '../../../packages/models'
 import SessionMiddleware from '../middleware/session.js'
 import logger from '../utils/logger.js'
 
@@ -34,11 +34,11 @@ export function pushToSession(
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-async function connectContainer(socket: Socket, next: (err?: Error) => void) {
+async function onConnect(socket: Socket) {
   const user = (socket.request as any).session?.passport?.user
   if (!user) {
-    next(new Error('User not found.'))
+    socket.emit('error', 'User not found.')
+    socket.disconnect()
     return
   }
   const { sessionId } = socket.handshake.query
@@ -48,25 +48,16 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
     !validator.isMongoId(sessionId)
   ) {
     logger.warn('Invalid Session ID.', user.username, sessionId)
-    next(new Error('Invalid Session ID.'))
+    socket.emit('error', 'Invalid Session ID.')
+    socket.disconnect()
     return
   }
 
   const session = await Session.findById(sessionId)
   if (!session) {
-    next(new Error('Session not found.'))
+    socket.emit('error', 'Session not found.')
+    socket.disconnect()
     return
-  }
-
-  socket.data.context = {
-    session,
-  }
-  next()
-}
-
-function onConnect(socket: Socket) {
-  const { session } = socket.data.context as {
-    session: ISession
   }
 
   const socketCallback = (event: string, ...data: any[]) => {
@@ -84,7 +75,6 @@ export default (server: HttpServer) => {
   const io = new Server(server)
 
   io.engine.use(SessionMiddleware)
-  io.use(connectContainer)
 
   io.on('connection', onConnect)
   io.on('connect_error', (err) => {

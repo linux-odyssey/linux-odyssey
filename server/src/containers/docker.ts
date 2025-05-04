@@ -1,9 +1,7 @@
 import fs from 'fs/promises'
-import { Duplex } from 'stream'
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
-import { connectToSSH } from './ssh.js'
 
 const engine = new Docker()
 
@@ -98,32 +96,6 @@ export async function getAndStartContainer(
     await container.start()
   }
   return container
-}
-
-export async function attachContainer(
-  container: Docker.Container,
-  { token }: { token: string }
-): Promise<Duplex> {
-  const containerIp = (await container.inspect()).NetworkSettings.Networks[
-    config.docker.network
-  ].IPAddress
-  console.log('containerIp', containerIp)
-
-  let error: Error | null = null
-  for (let i = 0; i < 10; i++) {
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const stream = await connectToSSH(containerIp, { token })
-      return stream
-    } catch (err) {
-      error = err as Error
-      // eslint-disable-next-line no-await-in-loop
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1000)
-      })
-    }
-  }
-  throw new Error('Failed to connect to SSH', { cause: error })
 }
 
 export async function deleteContainer(id: string) {
