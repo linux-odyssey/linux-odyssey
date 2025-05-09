@@ -103,6 +103,15 @@ export async function finishSession(
     progress.completed = true
   }
   await userProfile.save()
+  if (session.containerId) {
+    deleteContainer(session.containerId)
+      .catch((err) => logger.error('Failed to delete container', err))
+      .finally(() => {
+        return Session.findByIdAndUpdate(session._id, {
+          $set: { containerId: null },
+        }).catch((err) => logger.error('Failed to update session', err))
+      })
+  }
 }
 
 export async function isQuestUnlocked(
