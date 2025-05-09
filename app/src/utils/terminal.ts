@@ -31,6 +31,7 @@ class SocketTerminal {
   connect(url: string): Promise<void> {
     return new Promise((resolve, reject) => {
       console.log('Connecting to terminal', url)
+      this.term.write('\r\n\x1B[1;32mConnecting to terminal\x1B[0m\r\n')
       this.socket = new ReconnectingWebSocket(url, [], {
         connectionTimeout: 5000,
         maxRetries: 10,
@@ -44,14 +45,10 @@ class SocketTerminal {
 
       this.socket.onclose = () => {
         console.log('Disconnected from terminal')
-        this.term.write('\r\n\x1B[1;31mDisconnected from terminal\x1B[0m\r\n')
       }
 
       this.socket.onerror = (error) => {
         console.error('WebSocket error:', error)
-        this.term.write(
-          `\r\n\x1B[1;31mWebSocket error: ${'message' in error ? error.message : ''}\x1B[0m\r\n`
-        )
       }
       this.socket.onmessage = (event) => {
         console.log('Received message from terminal')
