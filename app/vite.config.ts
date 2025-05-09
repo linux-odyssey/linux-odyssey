@@ -15,6 +15,7 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
     proxy: {
       '/trpc': {
         target: process.env.API_TARGET || 'http://localhost:3000',

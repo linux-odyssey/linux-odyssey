@@ -22,6 +22,7 @@
     "dompurify": "^3.2.4",
     "marked": "^10.0.0",
     "pinia": "^2.1.7",
+    "reconnecting-websocket": "^4.4.0",
     "socket.io-client": "^4.7.1",
     "validator": "^13.11.0",
     "vue": "^3.3.4",
@@ -34,12 +35,12 @@
   },
   "devDependencies": {
     "@types/validator": "^13.11.9",
+    "@vitejs/plugin-vue": "^5.2.2",
     "@vue/compiler-sfc": "^3.3.13",
+    "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
-    "@vitejs/plugin-vue": "^5.2.2",
-    "@vue/tsconfig": "^0.7.0",
     "typescript": "~5.7.2",
     "vite": "^6.3.1",
     "vue-tsc": "^2.2.8"

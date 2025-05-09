@@ -9,6 +9,7 @@
     "app",
     "server",
     "packages/*",
+    "services/*",
     "tests"
   ],
   "scripts": {

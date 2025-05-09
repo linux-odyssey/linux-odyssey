@@ -17,12 +17,7 @@ if (!config.isProduction) {
   })
 }
 
-router.use(
-  '/commands',
-  passport.authenticate('jwt', { session: false }),
-  authRequired,
-  commands
-)
+router.use('/commands', commands)
 router.use('/auth', authRouter)
 
 router.get('/leaderboard', leaderboardController)

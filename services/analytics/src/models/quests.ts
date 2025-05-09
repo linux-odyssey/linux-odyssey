@@ -1,4 +1,4 @@
-import { UserProfile } from '../../../models'
+import { UserProfile } from '../../../../packages/models'
 
 export interface QuestProgress {
   _id: string

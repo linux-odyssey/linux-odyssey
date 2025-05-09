@@ -7,10 +7,28 @@ import { asyncHandler } from '../../middleware/error'
 import { questManager } from '../../models/quest'
 import { CLIFileExistenceChecker } from '../../containers/cli'
 import config from '../../config'
+import { verifyJWT } from '../../utils/auth'
 
 export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   if (!config.isProduction) {
     console.log('newCommand', JSON.stringify(req.body, null, 2))
+  }
+  const token = req.headers.authorization?.split(' ')[1]
+  if (!token) {
+    res.status(401).json({ message: 'Unauthorized' })
+    return
+  }
+  let sessionId: string
+  try {
+    const decoded = await verifyJWT(token)
+    sessionId = decoded.sessionId
+    if (!sessionId) {
+      res.status(401).json({ message: 'Unauthorized' })
+      return
+    }
+  } catch (error) {
+    res.status(401).json({ message: 'Unauthorized' })
+    return
   }
   const body = commandSchema.safeParse(req.body)
   if (!body.success) {
@@ -19,7 +37,6 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
   }
   const command = body.data
 
-  const { sessionId } = req.user as any
   const session = await Session.findById(sessionId)
   if (!session) {
     res.status(404).json({ message: 'session not found' })

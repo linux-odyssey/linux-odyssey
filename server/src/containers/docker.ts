@@ -1,9 +1,7 @@
 import fs from 'fs/promises'
-import { Duplex } from 'stream'
 import Docker from 'dockerode'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
-import { connectToSSH } from './ssh.js'
 
 const engine = new Docker()
 
@@ -22,9 +20,17 @@ const newContainerOptions = (
     ExtraHosts: ['host.docker.internal:host-gateway'],
   },
   ExposedPorts: {
-    '22/tcp': {},
+    '9090/tcp': {},
   },
-  Env: [`PUB_KEY=${config.docker.keypair.publicKey}`],
+  Env: [`BACKEND_URL=${config.backendUrl}`],
+  Labels: {
+    'traefik.enable': 'true',
+    [`traefik.http.routers.terminal-${name}.rule`]: `PathPrefix(\`/terminal/${name}\`)`,
+    [`traefik.http.middlewares.terminal-${name}-stripprefix.stripprefix.prefixes`]: `/terminal/${name}`,
+    [`traefik.http.routers.terminal-${name}.middlewares`]: `terminal-${name}-stripprefix`,
+    [`traefik.http.services.terminal-${name}.loadbalancer.server.port`]: '9090',
+    [`traefik.http.routers.terminal-${name}.entrypoints`]: 'web',
+  },
 })
 
 export async function createContainer(
@@ -32,7 +38,7 @@ export async function createContainer(
   questId: string,
   imageId: string
 ): Promise<Docker.Container> {
-  let binds: string[] = []
+  const binds: string[] = []
   if (await questHomeExists(questId)) {
     logger.info('Mounting quest home', questId)
     binds.push(
@@ -41,14 +47,15 @@ export async function createContainer(
   }
   if (config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest directory', questId)
-    binds = [
-      `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`,
-    ]
+    binds.push(
+      `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`
+    )
   }
   if (config.docker.mountCLI) {
     logger.info('Mounting CLI', questId)
     binds.push(
-      `${config.docker.hostProjectRoot}/packages/container:/usr/local/lib/container`
+      `${config.docker.hostProjectRoot}/services/cmd-hook/bin:/usr/local/lib/cmd-hook:ro`,
+      `${config.docker.hostProjectRoot}/services/terminal-service/bin:/usr/local/lib/terminal-service:ro`
     )
   }
   const option = newContainerOptions(name, imageId, { binds })
@@ -89,31 +96,6 @@ export async function getAndStartContainer(
     await container.start()
   }
   return container
-}
-
-export async function attachContainer(
-  container: Docker.Container,
-  { token }: { token: string }
-): Promise<Duplex> {
-  const containerIp = (await container.inspect()).NetworkSettings.Networks[
-    config.docker.network
-  ].IPAddress
-
-  let error: Error | null = null
-  for (let i = 0; i < 10; i++) {
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const stream = await connectToSSH(containerIp, { token })
-      return stream
-    } catch (err) {
-      error = err as Error
-      // eslint-disable-next-line no-await-in-loop
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1000)
-      })
-    }
-  }
-  throw new Error('Failed to connect to SSH', { cause: error })
 }
 
 export async function deleteContainer(id: string) {

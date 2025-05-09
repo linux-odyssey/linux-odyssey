@@ -1,10 +1,12 @@
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
+import ReconnectingWebSocket from 'reconnecting-websocket'
 import 'xterm/css/xterm.css'
 
 class SocketTerminal {
   private term: Terminal
   private fitAddon: FitAddon
+  private socket: ReconnectingWebSocket | null = null
 
   constructor() {
     this.term = new Terminal({
@@ -19,6 +21,44 @@ class SocketTerminal {
     })
     this.fitAddon = new FitAddon()
     this.term.loadAddon(this.fitAddon)
+    this.term.onData((data) => {
+      if (this.socket) {
+        this.socket.send(data)
+      }
+    })
+  }
+
+  connect(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log('Connecting to terminal', url)
+      this.term.write('\r\n\x1B[1;32mConnecting to terminal\x1B[0m\r\n')
+      this.socket = new ReconnectingWebSocket(url, [], {
+        connectionTimeout: 5000,
+        maxRetries: 10,
+      })
+      this.socket.onopen = () => {
+        console.log('Connected to terminal')
+        this.term.reset()
+        this.term.write('\r\n\x1B[1;32mConnected to terminal\x1B[0m\r\n')
+        resolve()
+      }
+
+      this.socket.onclose = () => {
+        console.log('Disconnected from terminal')
+      }
+
+      this.socket.onerror = (error) => {
+        console.error('WebSocket error:', error)
+      }
+      this.socket.onmessage = (event) => {
+        console.log('Received message from terminal')
+        const data =
+          typeof event.data === 'string'
+            ? event.data
+            : new TextDecoder().decode(event.data)
+        this.term.write(data)
+      }
+    })
   }
 
   resizeScreen(): void {
@@ -34,12 +74,10 @@ class SocketTerminal {
     this.resizeScreen()
   }
 
-  write(message: string): void {
-    this.term.write(message)
-  }
-
-  onData(callback: (data: string) => void): void {
-    this.term.onData(callback)
+  send(message: string): void {
+    if (this.socket) {
+      this.socket.send(message)
+    }
   }
 
   focus(): void {
@@ -48,6 +86,7 @@ class SocketTerminal {
 
   reset(): void {
     this.term.reset()
+    this.socket?.close()
   }
 }
 

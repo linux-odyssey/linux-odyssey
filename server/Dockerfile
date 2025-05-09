@@ -11,7 +11,7 @@ COPY tsconfig.json ./tsconfig.json
 RUN yarn workspace server build
 
 # Production
-FROM node:20-alpine as prod
+FROM node:20-alpine AS prod
 
 WORKDIR /app
 COPY --from=docker:dind /usr/local/bin/docker /usr/local/bin/

@@ -1,5 +1,5 @@
 import { HydratedDocument, Types } from 'mongoose'
-import { Session, User, IUser, ISession } from '../../../models'
+import { Session, User, IUser, ISession } from '../../../../packages/models'
 import Pagination from './pagination'
 import { UserSessionDetail } from '../interface'
 

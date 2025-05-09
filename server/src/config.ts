@@ -2,7 +2,6 @@ import validator from 'validator'
 import { config as dotenvConfig } from 'dotenv'
 import path from 'path'
 import fs from 'fs'
-import { loadOrCreateKeyPair } from './utils/crypto.js'
 import { get } from './utils/env.js'
 
 // Import dotenv and load ../.env
@@ -38,11 +37,6 @@ function createConfig() {
   const backendUrl = get('BACKEND_URL', `http://host.docker.internal:${port}`)
   const url = new URL(baseUrl)
   const projectRoot = getProjectRoot()
-  const keypairPath = get(
-    'KEYPAIR_PATH',
-    path.join(projectRoot, 'config', 'ssh_key')
-  )
-  const keypair = loadOrCreateKeyPair(keypairPath)
 
   return {
     host,
@@ -85,8 +79,6 @@ function createConfig() {
       mountQuest: !isProduction && process.env.MOUNT_QUEST === 'true',
       mountCLI: !isProduction && process.env.MOUNT_CLI === 'true',
       hostProjectRoot: get('HOST_PROJECT_ROOT', projectRoot),
-      keypairPath,
-      keypair,
     },
 
     log: {

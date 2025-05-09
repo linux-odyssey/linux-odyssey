@@ -28,6 +28,7 @@ export interface ISession {
   user: Types.ObjectId
   quest: string
   containerId: string | null
+  containerName: string | null
   status: 'active' | 'finished' | 'inactive'
   createdAt: Date
   updatedAt: Date
@@ -52,6 +53,7 @@ export const Session = model<ISession>(
         required: true,
       },
       containerId: String,
+      containerName: String,
       status: {
         type: String,
         enum: ['active', 'finished', 'inactive'],
