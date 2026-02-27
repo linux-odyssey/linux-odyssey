@@ -5,7 +5,7 @@
   "private": true,
   "license": "GPL",
   "scripts": {
-    "start": "node dist/analytics/src/index.js",
+    "start": "node dist/services/analytics/src/index.js",
     "build": "tsc",
     "type-check": "tsc --noEmit",
     "dev": "tsx watch src/index.ts"
