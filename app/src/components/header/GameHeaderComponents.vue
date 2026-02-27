@@ -5,7 +5,7 @@ import { useToast } from 'vue-toastification'
 import { logout } from '../../utils/auth'
 import { trpc } from '../../utils/trpc'
 import { openBugReport } from '../../utils/formbricks'
-import useSession from '../../store/session'
+import { useSession } from '../../store/session'
 import useUserProfile from '../../store/userProfile'
 
 const userStore = useUserProfile()

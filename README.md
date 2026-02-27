@@ -3,6 +3,13 @@
 [![Production](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/production.yml/badge.svg)](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/production.yml)
 [![Staging](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/staging.yml/badge.svg)](https://github.com/linux-odyssey/linux-odyssey/actions/workflows/staging.yml)
 
+## TLDR
+
+    yarn install
+    cp .env.sample .env
+    docker compose up -d
+    yarn dev
+
 ## Requirements
 
 - NodeJS v20+
@@ -41,10 +48,6 @@ The configuration is stored in the `.env` file. You can copy from the sample fil
 
     cp .env.sample .env
 
-The backend will use a SSH key pair to login to the player's container. The private key is on the host, and the public key is copied to the player's container.
-
-The key pair is stored in `./config/ssh_key` and `./config/ssh_key.pub`. If it doesn't exist, the backend will generate a new pair and store them.
-
 ## Docker Setup
 
 ### Docker compose files explaination
@@ -70,7 +73,6 @@ This will start the db. it will automatically restarts by Docker.
 Building quest images:
 
     docker compose build base
-    yarn build:quests
 
 ### Build Quest Images in Details
 
@@ -108,14 +110,23 @@ The base image is built with docker-compose, so you can use `docker compose buil
 
 ### Optional: Mounting Host Directory
 
-To improve the development experience, we can mount the host directory to the container in the pattern:
+To update the home content of a quest, simply re-create a new session will do. The home content is mounted and copied on container creation.
+
+To further improve the development experience, we can mount the host directory to the container in the pattern:
 
     /path/to/linux-odyssey/quests/${quest_id}/home:/home/commander
-    /path/to/linux-odyssey/packages/container:/usr/local/lib/container
 
 You can edit the files on your host, and the changes will be reflected in the container. This is disabled by default. To enable it, you can set the following environment variables:
 
     MOUNT_QUEST=true
+
+### Optional: Mounting terminal service & cmd-hook
+
+To make the development of terminal services & cmd-hook smoother, we can enable `MOUNT_CLI` to mount the local binaries into container.
+
+    MOUNT_CLI
+
+And you can run `air` inside of `services/terminal-service` or `services/cmd-hook` to get auto recompiling.
 
 ## Development
 
@@ -124,8 +135,6 @@ Copy `.env.sample` to `.env` and customize it for your needs.
 Run dev server (frontend, backend):
 
     yarn dev
-
-**IMPORTANT NOTE**: only the app and server have hot-reloading, other packages require manually running `yarn dev` in each package.
 
 To develop analytics dashboard:
 

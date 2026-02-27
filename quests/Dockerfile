@@ -1,32 +1,35 @@
-FROM debian:bookworm-slim
+FROM golang:1.24-alpine AS cmd-hook-builder
+WORKDIR /app
+COPY ./services/cmd-hook/go.mod ./
+RUN go mod download
+COPY ./services/cmd-hook/*.go ./
+RUN go build -o cmd-hook
+
+FROM golang:1.24-alpine AS terminal-builder
+WORKDIR /app
+COPY ./services/terminal-service/go.mod ./
+COPY ./services/terminal-service/go.sum ./
+RUN go mod download
+COPY ./services/terminal-service/*.go ./services/terminal-service/index.html ./
+RUN go build -o terminal-service
+
+FROM debian:bookworm-slim AS main
 
 LABEL maintainer="wancat@wancat.cc"
 
 RUN apt-get update && apt-get install -y \
   vim \
   zsh \
-  curl \
-  openssh-server
+  sudo \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /var/cache/apt/*
 
-
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
-RUN bash nodesource_setup.sh
-RUN apt-get install -y nodejs
-RUN npm install -g yarn
-RUN node -v && yarn -v
-
-WORKDIR /usr/local/lib/container
-COPY ./packages/container/package.json ./yarn.lock ./
-RUN yarn install --modules-folder /usr/src/node_modules
-ENV NODE_PATH=/usr/src/node_modules
-COPY ./packages/container /usr/local/lib/container
 COPY ./quests/.includes/zshrc /etc/zsh/zshrc
-RUN rm -f /etc/motd /etc/issue /etc/issue.net /etc/update-motd.d/*
 RUN rm -rf /etc/skel && mkdir -p /etc/skel
-RUN mkdir -p /etc/ssh/authorized_keys && chmod 755 /etc/ssh/authorized_keys
-COPY ./quests/.includes/sshd_config /etc/ssh/sshd_config
 COPY ./quests/entrypoint.sh /entrypoint.sh
+COPY --from=cmd-hook-builder /app/cmd-hook /usr/local/lib/cmd-hook/cmd-hook
+COPY --from=terminal-builder /app/terminal-service /usr/local/lib/terminal-service/terminal-service
 
-EXPOSE 22
+EXPOSE 9090
 
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]

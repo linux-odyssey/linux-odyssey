@@ -1,12 +1,9 @@
 import { Server } from 'socket.io'
 import type { Socket } from 'socket.io'
-import { Duplex } from 'stream'
 import validator from 'validator'
 import type { Server as HttpServer } from 'http'
-import { ISession, Session } from '../../../packages/models'
-import { getAndStartContainer, attachContainer } from '../containers/docker.js'
+import { Session } from '../../../packages/models'
 import SessionMiddleware from '../middleware/session.js'
-import { genJWT } from '../utils/auth.js'
 import logger from '../utils/logger.js'
 
 type SocketCallback = (event: string, ...args: any[]) => void
@@ -37,11 +34,11 @@ export function pushToSession(
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-async function connectContainer(socket: Socket, next: (err?: Error) => void) {
+async function onConnect(socket: Socket) {
   const user = (socket.request as any).session?.passport?.user
   if (!user) {
-    next(new Error('User not found.'))
+    socket.emit('error', 'User not found.')
+    socket.disconnect()
     return
   }
   const { sessionId } = socket.handshake.query
@@ -51,51 +48,17 @@ async function connectContainer(socket: Socket, next: (err?: Error) => void) {
     !validator.isMongoId(sessionId)
   ) {
     logger.warn('Invalid Session ID.', user.username, sessionId)
-    next(new Error('Invalid Session ID.'))
+    socket.emit('error', 'Invalid Session ID.')
+    socket.disconnect()
     return
   }
 
   const session = await Session.findById(sessionId)
   if (!session) {
-    next(new Error('Session not found.'))
+    socket.emit('error', 'Session not found.')
+    socket.disconnect()
     return
   }
-
-  const token = await genJWT({
-    sessionId: session.id,
-  })
-
-  if (!session.containerId) {
-    next(new Error('Session has no container.'))
-    return
-  }
-
-  try {
-    const container = await getAndStartContainer(session.containerId)
-    const stream = await attachContainer(container, { token })
-    socket.data.context = {
-      session,
-      stream,
-    }
-    next()
-  } catch (err) {
-    logger.error(err)
-    next(new Error('Failed to connect to container.'))
-  }
-}
-
-function onConnect(socket: Socket) {
-  const { session, stream } = socket.data.context as {
-    session: ISession
-    stream: Duplex
-  }
-  stream.on('data', (chunk: Buffer) => {
-    socket.emit('terminal', chunk.toString())
-  })
-
-  socket.on('terminal', function incoming(message) {
-    stream.write(message)
-  })
 
   const socketCallback = (event: string, ...data: any[]) => {
     socket.emit(event, ...data)
@@ -104,9 +67,7 @@ function onConnect(socket: Socket) {
   listenToSession(session._id.toString(), socketCallback)
 
   socket.on('disconnect', () => {
-    stream.write('exit\n')
     removeFromSession(session._id.toString(), socketCallback)
-    stream.destroy()
   })
 }
 
@@ -114,7 +75,6 @@ export default (server: HttpServer) => {
   const io = new Server(server)
 
   io.engine.use(SessionMiddleware)
-  io.use(connectContainer)
 
   io.on('connection', onConnect)
   io.on('connect_error', (err) => {

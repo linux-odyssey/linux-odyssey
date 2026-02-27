@@ -1,5 +1,5 @@
 # Base stage
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -14,7 +14,7 @@ COPY app ./app
 RUN yarn workspace app build
 
 # Production stage
-FROM nginx:stable-alpine as prod
+FROM nginx:stable-alpine AS prod
 COPY --from=build /app/app/dist /usr/share/nginx/html
 COPY deployment/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

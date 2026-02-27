@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
-import useSession from '../store/session'
+import { useSession } from '../store/session'
 import useUserProfile from '../store/userProfile'
 import HeaderPart from '../components/header/HeaderPart.vue'
 import GameHeaderComponents from '../components/header/GameHeaderComponents.vue'

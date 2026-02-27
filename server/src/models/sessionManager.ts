@@ -1,9 +1,14 @@
 import { HydratedDocument } from 'mongoose'
 import { Session, UserProfile } from '../../../packages/models'
 import type { ISession, IUser } from '../../../packages/models'
-import { createContainer, deleteContainer } from '../containers/docker.js'
+import {
+  createContainer,
+  deleteContainer,
+  getAndStartContainer,
+} from '../containers/docker.js'
 import logger from '../utils/logger.js'
 import { questManager } from './quest.js'
+import config from '../config'
 
 async function deactivateSessions(userId: string, quest: string) {
   const sessions = await Session.find({
@@ -48,17 +53,20 @@ export async function createNewSession(
     throw new Error(`UserProfile ${userId} not found`)
   }
 
-  const container = await createContainer(
-    `quest-${quest.id}-${userProfile.user.username}-${Date.now()}`,
-    quest.id,
-    quest.image
-  )
+  const containerName = `quest-${quest.id}-${userProfile.user.username}-${Date.now()}`
+
+  const container = await createContainer(containerName, quest.id, quest.image)
+  await getAndStartContainer(container.id)
 
   const newSession = new Session({
     user: userId,
     quest: quest.id,
     containerId: container.id,
+    containerName,
   })
+
+  logger.info('container', container.id)
+  logger.info('containerName', `${config.baseUrl}/terminal/${containerName}`)
 
   const progress = userProfile.progress.get(quest.id)
   if (!progress) {
@@ -96,6 +104,15 @@ export async function finishSession(
     progress.completed = true
   }
   await userProfile.save()
+  if (session.containerId) {
+    deleteContainer(session.containerId)
+      .catch((err) => logger.error('Failed to delete container', err))
+      .finally(() => {
+        return Session.findByIdAndUpdate(session._id, {
+          $set: { containerId: null },
+        }).catch((err) => logger.error('Failed to update session', err))
+      })
+  }
 }
 
 export async function isQuestUnlocked(

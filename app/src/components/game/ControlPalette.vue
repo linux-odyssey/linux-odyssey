@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import useSession from '../../store/session'
+import { useSession } from '../../store/session'
 import { openBugReport, openQuestSurvey } from '../../utils/formbricks'
 
 const router = useRouter()

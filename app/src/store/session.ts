@@ -34,7 +34,7 @@ interface Store {
   quest: QuestDetailResponse | null
 }
 
-const useSession = defineStore('session', {
+export const useSession = defineStore('session', {
   state: (): Store => ({
     session: null,
     questId: '',
@@ -50,9 +50,13 @@ const useSession = defineStore('session', {
         ...session,
         graph: new FileGraph(session.graph),
         pwd: '/home/commander',
+        containerName: session.containerName || '',
       }
       term.reset()
       await socket.connect(this.session)
+      await term.connect(
+        `/terminal/${session.containerName}/ws?token=${session.token}`
+      )
       term.focus()
     },
     async createSession() {
@@ -60,7 +64,7 @@ const useSession = defineStore('session', {
         questId: this.questId,
       })
       await this.setSession(session)
-      socket.emit('terminal', 'echo start\n')
+      term.send('echo start\n')
     },
     async getActiveSession() {
       const session = await trpc.session.getActiveSession.query({
@@ -94,12 +98,12 @@ const useSession = defineStore('session', {
     },
     setup() {
       if (hasSetup) return
-      socket.on('terminal', (data: string) => {
-        term.write(data)
-      })
-      term.onData((data: string) => {
-        socket.emit('terminal', data)
-      })
+      // socket.on('terminal', (data: string) => {
+      //   term.write(data)
+      // })
+      // term.onData((data: string) => {
+      //   socket.emit('terminal', data)
+      // })
       socket.on('graph', (event: FileGraphUpdateEvent) => {
         if (!this.session) return
         this.session.graph.handleEvent(event)
@@ -122,5 +126,3 @@ const useSession = defineStore('session', {
 export function useTerminal() {
   return term
 }
-
-export default useSession

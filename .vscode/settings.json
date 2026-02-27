@@ -4,5 +4,8 @@
   "editor.formatOnSave": true,
   "yaml.schemas": {
     "packages/game/quest.json": "quests/**/game.yml"
+  },
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
   }
 }

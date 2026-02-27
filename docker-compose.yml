@@ -1,5 +1,25 @@
 version: '3'
 services:
+  traefik:
+    image: traefik:v3.6.9
+    networks:
+      - players-dev
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--providers.file.directory=/etc/traefik/conf'
+      - '--providers.file.watch=true'
+      - '--entrypoints.web.address=:8000'
+    ports:
+      - '8000:8000'
+      - '8080:8080'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/conf:/etc/traefik/conf
+
   db:
     image: mongo:6
     restart: always
@@ -19,6 +39,13 @@ services:
       dockerfile: ./quests/Dockerfile
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.base.rule=PathPrefix(`/terminal/base`)'
+      - 'traefik.http.middlewares.base-stripprefix.stripprefix.prefixes=/terminal/base'
+      - 'traefik.http.routers.base.middlewares=base-stripprefix'
+      - 'traefik.http.routers.base.entrypoints=web'
+      - 'traefik.http.services.base.loadbalancer.server.port=9090'
 
 networks:
   internal:

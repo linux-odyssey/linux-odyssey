@@ -24,7 +24,7 @@ jobs:
     uses: ./.github/workflows/build-docker-image.yml
     with:
       imageName: 'linuxodyssey/analytics'
-      dockerfilePath: './packages/analytics/Dockerfile'
+      dockerfilePath: './services/analytics/Dockerfile'
       target: prod
     secrets: inherit
 

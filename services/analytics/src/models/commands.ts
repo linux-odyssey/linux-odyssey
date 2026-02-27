@@ -1,4 +1,4 @@
-import { Command } from '../../../models'
+import { Command } from '../../../../packages/models'
 import Pagination from './pagination'
 
 // eslint-disable-next-line import/prefer-default-export

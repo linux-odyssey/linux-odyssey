@@ -1,5 +1,8 @@
 config 
 .quest
+tmp
+services/terminal-service/terminal-service
+bin
 
 # Logs
 logs
@@ -142,3 +145,4 @@ dist
 
 #screenshots
 tests/cypress/screenshots
+services/cmd-hook/cmd-hook

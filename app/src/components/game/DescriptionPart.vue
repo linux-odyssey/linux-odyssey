@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import useSession from '../../store/session'
+import { useSession } from '../../store/session'
 import MarkdownText from '../MarkdownText.vue'
 
 const sessionStore = useSession()

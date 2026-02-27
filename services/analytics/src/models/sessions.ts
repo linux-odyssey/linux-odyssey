@@ -1,4 +1,4 @@
-import { Command, Session } from '../../../models'
+import { Command, Session } from '../../../../packages/models'
 import Pagination from './pagination'
 import {
   CommandObject,

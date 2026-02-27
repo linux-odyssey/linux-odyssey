@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import MarkdownText from '../MarkdownText.vue'
-import useSession from '../../store/session'
+import { useSession } from '../../store/session'
 
 const sessionStore = useSession()
 const tasks = computed(() => {

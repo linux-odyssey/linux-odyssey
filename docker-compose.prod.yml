@@ -1,4 +1,20 @@
 services:
+  traefik:
+    image: traefik:v3.6.9
+    ports:
+      - 8000:8000
+      - 8080:8080
+    networks:
+      - players
+      - internal
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--entrypoints.web.address=:8000'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
   app:
     image: linuxodyssey/frontend
     depends_on:
@@ -10,8 +26,12 @@ services:
       target: prod
     networks:
       - internal
-    ports:
-      - 8080:80
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.app.entrypoints=web'
+      - 'traefik.http.routers.app.rule=PathPrefix(`/`)'
+      - 'traefik.http.routers.app.service=app'
+      - 'traefik.http.services.app.loadbalancer.server.port=80'
 
   backend:
     image: linuxodyssey/backend
@@ -36,12 +56,27 @@ services:
       - DOCKER_NETWORK=linux-odyssey-players
       - BACKEND_URL=http://backend:3000
       - HOST_PROJECT_ROOT=${PWD}
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.backend-api.entrypoints=web'
+      - 'traefik.http.routers.backend-api.rule=PathPrefix(`/api`)'
+      - 'traefik.http.routers.backend-api.service=backend'
+      - 'traefik.http.routers.backend-socket.entrypoints=web'
+      - 'traefik.http.routers.backend-socket.rule=PathPrefix(`/socket.io`)'
+      - 'traefik.http.routers.backend-socket.service=backend'
+      - 'traefik.http.routers.backend-trpc.entrypoints=web'
+      - 'traefik.http.routers.backend-trpc.rule=PathPrefix(`/trpc`)'
+      - 'traefik.http.routers.backend-trpc.service=backend'
+      - 'traefik.http.routers.backend-api-docs.entrypoints=web'
+      - 'traefik.http.routers.backend-api-docs.rule=PathPrefix(`/api-docs`)'
+      - 'traefik.http.routers.backend-api-docs.service=backend'
+      - 'traefik.http.services.backend.loadbalancer.server.port=3000'
 
   analytics:
     image: linuxodyssey/analytics
     build:
       context: .
-      dockerfile: packages/analytics/Dockerfile
+      dockerfile: services/analytics/Dockerfile
       target: prod
     restart: always
     depends_on:
