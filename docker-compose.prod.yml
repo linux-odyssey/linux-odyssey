@@ -17,7 +17,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   app:
-    image: linuxodyssey/frontend
+    image: linuxodyssey/frontend:${IMAGE_TAG:-latest}
     depends_on:
       - backend
     restart: always
@@ -35,7 +35,7 @@ services:
       - 'traefik.http.services.app.loadbalancer.server.port=80'
 
   backend:
-    image: linuxodyssey/backend
+    image: linuxodyssey/backend:${IMAGE_TAG:-latest}
     depends_on:
       - db
     restart: always
@@ -74,7 +74,7 @@ services:
       - 'traefik.http.services.backend.loadbalancer.server.port=3000'
 
   analytics:
-    image: linuxodyssey/analytics
+    image: linuxodyssey/analytics:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: services/analytics/Dockerfile
@@ -103,7 +103,7 @@ services:
       - .env.prod
 
   base:
-    image: linuxodyssey/quest-base
+    image: linuxodyssey/quest-base:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: ./quests/Dockerfile
