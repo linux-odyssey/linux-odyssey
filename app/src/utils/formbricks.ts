@@ -1,5 +1,5 @@
 import formbricks from '@formbricks/js/website'
-import useSession from '../store/session'
+import { useSession } from '../store/session'
 import useUserProfile from '../store/userProfile'
 
 if (typeof window !== 'undefined') {

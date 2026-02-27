@@ -8,6 +8,7 @@ import {
 } from '../containers/docker.js'
 import logger from '../utils/logger.js'
 import { questManager } from './quest.js'
+import config from '../config'
 
 async function deactivateSessions(userId: string, quest: string) {
   const sessions = await Session.find({
@@ -65,7 +66,7 @@ export async function createNewSession(
   })
 
   console.log('container', container.id)
-  console.log('containerName', `http://localhost/terminal/${containerName}`)
+  console.log('containerName', `${config.baseUrl}/terminal/${containerName}`)
 
   const progress = userProfile.progress.get(quest.id)
   if (!progress) {

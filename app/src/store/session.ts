@@ -34,7 +34,7 @@ interface Store {
   quest: QuestDetailResponse | null
 }
 
-const useSession = defineStore('session', {
+export const useSession = defineStore('session', {
   state: (): Store => ({
     session: null,
     questId: '',
@@ -126,5 +126,3 @@ const useSession = defineStore('session', {
 export function useTerminal() {
   return term
 }
-
-export default useSession

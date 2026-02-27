@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useToast } from 'vue-toastification'
 import { computed } from 'vue'
-import useSession from '../../store/session'
+import { useSession } from '../../store/session'
 
 const toast = useToast()
 const sessionStore = useSession()

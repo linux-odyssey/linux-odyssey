@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import MarkdownText from '../MarkdownText.vue'
-import useSession from '../../store/session'
+import { useSession } from '../../store/session'
 
 const sessionStore = useSession()
 const tasks = computed(() => {
@@ -22,11 +22,6 @@ const tasks = computed(() => {
   <div class="h-full w-full max-h-full">
     <p id="topic" class="text-text font-black" v-if="sessionStore.quest">
       {{ sessionStore.quest.title }}
-      <a
-        :href="`http://localhost/terminal/${sessionStore.session?.containerName}?token=${sessionStore.session?.token}`"
-      >
-        Open Terminal
-      </a>
     </p>
     <br />
     <div>
