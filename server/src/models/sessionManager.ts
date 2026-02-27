@@ -65,8 +65,8 @@ export async function createNewSession(
     containerName,
   })
 
-  console.log('container', container.id)
-  console.log('containerName', `${config.baseUrl}/terminal/${containerName}`)
+  logger.info('container', container.id)
+  logger.info('containerName', `${config.baseUrl}/terminal/${containerName}`)
 
   const progress = userProfile.progress.get(quest.id)
   if (!progress) {
