@@ -1,1 +1,7 @@
-{}
+{
+  "language": {
+    "change": "Change language",
+    "traditionalChinese": "繁體中文",
+    "english": "English"
+  }
+}

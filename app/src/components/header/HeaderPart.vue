@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+import LanguageSelector from '../LanguageSelector.vue'
+
+const { t } = useI18n()
+
 defineProps({
   title: {
     type: String,
@@ -19,9 +24,10 @@ const toggleMenu = () => {
 </script>
 <template>
   <div
-    class="w-full top-0 px-5 fixed flex flex-row flex-wrap bg-bg-secondary justify-between items-center sm:justify-between"
+    class="w-full top-0 px-2 fixed flex flex-row flex-wrap bg-bg-secondary justify-between items-center sm:justify-between"
   >
     <div class="flex flex-row items-center gap-3" :class="{ hidden: menuOpen }">
+      <LanguageSelector />
       <img src="../../img/icon_totem.svg" class="h-8 justify-self-start" />
       <RouterLink
         to="/"
