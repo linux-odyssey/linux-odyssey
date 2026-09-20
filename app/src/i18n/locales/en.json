@@ -1,7 +1,7 @@
 {
   "language": {
     "change": "Change language",
-    "traditionalChinese": "繁體中文",
+    "traditional_chinese": "繁體中文",
     "english": "English"
   },
   "nav": {
@@ -10,6 +10,35 @@
     "about": "About",
     "contact": "Contact",
     "login": "Sign in",
-    "reportBug": "Report a bug"
+    "report_bug": "Report a bug"
+  },
+  "landing": {
+    "intro": "Programming is about more than writing code - it also means knowing how to interact effectively with your computer. Yet programming education often overlooks the importance of the development environment, leaving many learners frustrated. A development environment includes all the tools needed to write and run software, many of which are used through terminal commands. While most learners use Windows or macOS, much of the software world runs on Linux. Linux Odyssey is an interactive online learning platform designed to bridge that gap.",
+    "feature1": "Easy for Beginners",
+    "feature1_desc": "Setting up and using development tools can be a major hurdle for beginners. With Linux Odyssey, there is nothing to install - learners can access a real Linux environment directly from their browser.",
+    "feature2": "Learn Through Play",
+    "feature2_desc": "Linux Odyssey combines the fun of gaming with practical learning. Through carefully designed levels, learners take on challenges, solve puzzles, and master Linux commands along the way.",
+    "feature3": "Hands-on Linux Experience",
+    "feature3_desc": "Linux Odyssey goes beyond theory by providing real hands-on experience. Every command runs in a real Linux environment, giving learners an authentic introduction to the world of software development.",
+    "start_journey": "Grab your keyboard and begin your Linux adventure!",
+    "team_intro": "Meet the Team",
+    "team_desc": "NTUT Intelligent Automation Engineering, 2nd Cohort",
+    "team_member1": "Wancat",
+    "team_member2": "Neil",
+    "team_member3": "A.H.",
+    "team_member4": "Ray Gur",
+    "awards": "Awards",
+    "award_desc": "2023 InnoServe Awards - 2nd Place, Titansoft Agile Development Award",
+    "player_feedback": "What Players Say",
+    "feedback1": "\"It's really fun - just like a puzzle game.\"",
+    "feedback2": "\"I never knew free software existed. Thank you!\"",
+    "feedback3": "\"It's pretty fun. It makes programming enjoyable.\"",
+    "feedback4": "\"I used to dislike computer class, but now I like it a little more.\"",
+    "feedback5": "\"The program is really beginner-friendly, and I learned a lot.\"",
+    "feedback6": "\"It's very well made, clear, and easy to understand. A lot of thought went into the level design.\"",
+    "feedback7": "\"I found the experience really interesting. I got to try programming in a way I never had before, and the student mentors were very helpful. Thank you for explaining everything so carefully. I hope I can join an activity like this again.\"",
+    "feedback8": "\"I used to think programming was difficult, but now I find it interesting.\"",
+    "feedback9": "\"I used to think programming was difficult and had nothing to do with my life. After this class, it feels much more approachable.\"",
+    "contact_us": "Contact Us"
   }
 }

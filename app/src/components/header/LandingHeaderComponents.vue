@@ -64,7 +64,7 @@ const scrollToSection = (sectionId: string) => {
   </RouterLink>
 
   <a
-    :title="t('nav.reportBug')"
+    :title="t('nav.report_bug')"
     :href="bugReportUrl"
     target="_blank"
     class="h-5 w-5"

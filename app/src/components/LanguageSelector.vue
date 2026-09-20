@@ -15,7 +15,7 @@ function changeLanguage(event: Event) {
 <template>
   <select
     :value="locale"
-    class="bg-bg-secondary px-3 py-2 font-mono text-sm text-text shadow-md outline-none"
+    class="bg-bg-secondary px-3 py-2 text-sm text-text shadow-md outline-none"
     aria-label="Language"
     @change="changeLanguage"
     style="font-size: 2vh"
