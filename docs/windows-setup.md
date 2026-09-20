@@ -1,141 +1,198 @@
 # Windows Environment Setup
 
-## Install WSL and Ubuntu
+## 1. Install WSL and Ubuntu
 
-Please refer to the Official [Setup WSL](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) on Microsoft's website.
+Refer to Microsoft’s official [WSL installation guide](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-Run the following command in PowerShell as Administrator:
+Open PowerShell as Administrator and run:
 
-    wsl --install
+```powershell
+wsl --install
+```
 
-Then restart the computer. After restarting, you can open Ubuntu terminal by searching "Ubuntu" in Start menu. You will be prompted to create a new user account. Once you have done that, you can continue with the following steps.
+Restart your computer after the installation finishes.
 
-## Setup Environment (In Ubuntu terminal)
+Open Ubuntu from the Start menu. The first time Ubuntu starts, it will ask you to create a Linux username and password.
 
-1. Update and upgrade
+Verify that Ubuntu is using WSL 2 by running this command in PowerShell:
 
-   ```
-   sudo apt-get update
-   sudo apt-get upgrade
-   ```
+```powershell
+wsl --update
+wsl --list --verbose
+```
 
-1. Install Git
+Ubuntu should show `2` in the `VERSION` column.
 
-   ```
-   sudo apt-get install git
-   ```
+If it is using WSL 1, run:
 
-1. Install Node.js (Version 20.x)
+```powershell
+wsl --set-version Ubuntu 2
+```
 
-   ```
-   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-   sudo apt-get install nodejs
-   sudo apt install build-essential
-   sudo npm install -g yarn
-   ```
+## 2. Install Docker Desktop
 
-## Install Docker
+Install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
 
-(Refer to [get.docker.com](https://get.docker.com/))
+Start Docker Desktop after installation.
 
-To install the latest stable versions of Docker CLI, Docker Engine, and their
-dependencies:
+Docker Desktop normally uses the WSL 2 engine automatically. If the `Use the WSL 2 based engine` option appears under `Settings > General`, ensure it is enabled.
 
-1. Download the script
+Go to:
 
-   ```
-   curl -fsSL https://get.docker.com -o install-docker.sh
-   ```
+```text
+Settings > Resources > WSL Integration
+```
 
-1. verify the script's content
+Enable integration with your Ubuntu distribution, then select **Apply & restart**.
 
-   ```
-   cat install-docker.sh
-   ```
+If the WSL Integration section is unavailable, ensure Docker Desktop is using Linux containers.
 
-1. run the script with --dry-run to verify the steps it executes
+> [!IMPORTANT]
+> Do not separately install Docker Engine inside Ubuntu when using Docker Desktop. Having both installations may cause conflicts.
 
-   ```
-   sh install-docker.sh --dry-run
-   ```
+Open the Ubuntu terminal and verify that Docker is available:
 
-**NOTE: the script will recommend you to use Docker Desktop instead, but we need to use Docker inside WSL for the backend to work.** Just ignore it and wait for the installation to finish.
+```bash
+docker --version
+docker compose version
+docker run --rm hello-world
+```
 
-1. run the script either as root, or using sudo to perform the installation.
+## 3. Set Up the Ubuntu Environment
 
-   ```
-   sudo sh install-docker.sh
-   ```
+Run the following commands in the Ubuntu terminal.
 
-1. Verify the installation
+### Update the Package List
 
-   ```
-   docker --version
-   ```
+```bash
+sudo apt update
+```
 
-1. Add your user to the docker group
+### Install the Required Tools
 
-   ```
-   sudo usermod -aG docker $USER
-   ```
+```bash
+sudo apt install -y git curl ca-certificates build-essential
+```
 
-   **NOTE: You need to create a new WSL terminal to apply the changes.**
+### Install Node.js 20
 
-1. Verify the installation
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+```
 
-   ```
-   docker ps
-   ```
-   This should return something like:
+### Install Yarn 1.22
 
-   CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```bash
+sudo npm install -g yarn@1.22.22
+```
 
-## Run the Project (In Ubuntu terminal)
+Verify the installations:
 
-1.  Clone the repository
+```bash
+git --version
+node --version
+npm --version
+yarn --version
+```
 
-    ```
-    git clone https://github.com/lancatlin/linux-odyssey.git
-    cd linux-odyssey
-    ```
+The Node.js version should be `20.x` or later, and the Yarn version should be `1.22.x`.
 
-    Optional: To open the project in VSCode, run the following command inside the project folder:
+## 4. Clone the Project
 
-    ```
-    code .
-    ```
+> [!WARNING]
+> Clone the repository into the WSL Linux filesystem, such as `~/projects`. Do not place it on a Windows-mounted drive such as `/mnt/c/...` or `/mnt/d/...`. The project uses a bind mount for MongoDB data, and Windows-mounted directories may cause permission and filesystem compatibility problems.
 
-1. Install dependencies
+Create and enter a project directory:
 
-    ```
-    yarn install
-    ```
-    It is ok if there are some warnings and `gyp: ERR` errors, just verify there is `done` at the end.
+```bash
+mkdir -p <path-to-projects-directory>
+cd <path-to-projects-directory>
+```
 
-1. Copy the environment variables
+Clone the repository:
 
-    ```
-    cp .env.sample .env
-    ```
+```bash
+git clone https://github.com/linux-odyssey/linux-odyssey.git
+cd linux-odyssey
+```
 
-1.  Docker setup
+### Optional: Open the Project in VS Code
 
-    ```
-    docker compose pull
-    docker compose build
-    docker compose up -d db
-    ```
+Install [Visual Studio Code](https://code.visualstudio.com/) and the **WSL** extension first. Then run:
 
-    <!-- Check folder ./config exist and is empty -->
-    <!-- Check .env file exist -->
+```bash
+code .
+```
 
-1.  Run the project
+## 5. Install Project Dependencies
 
-    ```
-    yarn build
-    yarn dev
-    ```
+From the project root, run:
 
-    <!-- Check ./config/ssh_key.pub is a file not a folder -->
+```bash
+yarn install
+```
 
-Enjoy!
+Warnings during installation may be harmless. The installation succeeded if Yarn finishes with a `Done` message and does not display `error Command failed`.
+
+If a `gyp` error appears, confirm that it belongs to an optional dependency before ignoring it.
+
+## 6. Create the Environment File
+
+Copy the sample environment file:
+
+```bash
+cp .env.sample .env
+```
+
+Confirm that the file exists:
+
+```bash
+ls -la .env
+```
+
+The default values are suitable for local development. Do not use the sample secret key in a production environment.
+
+## 7. Start the Docker Services
+
+Ensure Docker Desktop is running, then execute:
+
+```bash
+docker compose pull
+docker compose build
+docker compose up -d
+```
+
+Check that the containers are running:
+
+```bash
+docker compose ps
+```
+
+To stop the Docker services later:
+
+```bash
+docker compose down
+```
+
+## 8. Run the Project
+
+Start the frontend and backend development servers:
+
+```bash
+yarn dev
+```
+
+Keep the terminal running and open the following address in your browser:
+
+[http://localhost:8000](http://localhost:8000)
+
+To stop the development servers, press `Ctrl+C`.
+
+### Optional: Verify the Production Build
+
+You can verify that the project builds successfully by running:
+
+```bash
+yarn build
+```
