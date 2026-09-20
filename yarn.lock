@@ -1306,6 +1306,36 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
+"@intlify/core-base@11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-11.3.0.tgz#55e612501f08b564011cb16d9f4a08e9a05df3cb"
+  integrity sha512-NNX5jIwF4TJBe7RtSKDMOA6JD9mp2mRcBHAwt2X+Q8PvnZub0yj5YYXlFu2AcESdgQpEv/5Yx2uOCV/yh7YkZg==
+  dependencies:
+    "@intlify/devtools-types" "11.3.0"
+    "@intlify/message-compiler" "11.3.0"
+    "@intlify/shared" "11.3.0"
+
+"@intlify/devtools-types@11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@intlify/devtools-types/-/devtools-types-11.3.0.tgz#2670ac6a786ff56ac7b84f9af472771c7bc954fa"
+  integrity sha512-G9CNL4WpANWVdUjubOIIS7/D2j/0j+1KJmhBJxHilWNKr9mmt3IjFV3Hq4JoBP23uOoC5ynxz/FHZ42M+YxfGw==
+  dependencies:
+    "@intlify/core-base" "11.3.0"
+    "@intlify/shared" "11.3.0"
+
+"@intlify/message-compiler@11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-11.3.0.tgz#84c5d2af4a2119f836c5f6835b4b88e5d4076d4b"
+  integrity sha512-RAJp3TMsqohg/Wa7bVF3cChRhecSYBLrTCQSj7j0UtWVFLP+6iEJoE2zb7GU5fp+fmG5kCbUdzhmlAUCWXiUJw==
+  dependencies:
+    "@intlify/shared" "11.3.0"
+    source-map-js "^1.0.2"
+
+"@intlify/shared@11.3.0":
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-11.3.0.tgz#7abb22f05e502f3c6bf64dc771c448cdaa81d864"
+  integrity sha512-LC6P/uay7rXL5zZ5+5iRJfLs/iUN8apu9tm8YqQVmW3Uq3X4A0dOFUIDuAmB7gAC29wTHOS3EiN/IosNSz0eNQ==
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz"
@@ -9725,6 +9755,16 @@ vue-eslint-parser@^9.4.2:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
+
+vue-i18n@11.3.0:
+  version "11.3.0"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-11.3.0.tgz#acb92847017f90b0fd96541cb3b08fdef50dc49c"
+  integrity sha512-1J+xDfDJTLhDxElkd3+XUhT7FYSZd2b8pa7IRKGxhWH/8yt6PTvi3xmWhGwhYT5EaXdatui11pF2R6tL73/zPA==
+  dependencies:
+    "@intlify/core-base" "11.3.0"
+    "@intlify/devtools-types" "11.3.0"
+    "@intlify/shared" "11.3.0"
+    "@vue/devtools-api" "^6.5.0"
 
 vue-router@^4.2.4:
   version "4.3.0"
