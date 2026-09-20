@@ -3,5 +3,13 @@
     "change": "Change language",
     "traditionalChinese": "繁體中文",
     "english": "English"
+  },
+  "nav": {
+    "intro": "Introduction",
+    "features": "Features",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Sign in",
+    "reportBug": "Report a bug"
   }
 }

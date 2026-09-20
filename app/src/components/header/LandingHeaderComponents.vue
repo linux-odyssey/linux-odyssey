@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { bugReportUrl } from '../../config'
+
+const { t } = useI18n()
 
 const scrollToSection = (sectionId: string) => {
   const section = document.getElementById(sectionId)
@@ -21,22 +24,25 @@ const scrollToSection = (sectionId: string) => {
     @click="scrollToSection('intro')"
     style="font-size: 2vh"
   >
-    前言
+    {{ t('nav.intro') }}
   </button>
+
   <button
     id="Feature"
     class="text-text inline-block font-bold whitespace-nowrap pt-1 px-2 hover:text-text-primary"
     @click="scrollToSection('feature')"
     style="font-size: 2vh"
   >
-    特色</button
-  ><button
+    {{ t('nav.features') }}
+  </button>
+
+  <button
     id="Info"
     class="text-text inline-block font-bold whitespace-nowrap pt-1 px-2 hover:text-text-primary"
     @click="scrollToSection('about')"
     style="font-size: 2vh"
   >
-    關於
+    {{ t('nav.about') }}
   </button>
 
   <button
@@ -45,18 +51,27 @@ const scrollToSection = (sectionId: string) => {
     @click="scrollToSection('contact')"
     style="font-size: 2vh"
   >
-    聯絡我們
+    {{ t('nav.contact') }}
   </button>
+
   <RouterLink
-    title="Sign In"
     id="SignIn"
     to="/register"
     class="text-text inline-block font-bold whitespace-nowrap pt-1 px-2 hover:text-text-primary"
     style="font-size: 2vh"
   >
-    登入
+    {{ t('nav.login') }}
   </RouterLink>
-  <a title="Bug Report" :href="bugReportUrl" target="_blank" class="h-5 w-5">
-    <font-awesome-icon :icon="['fas', 'bug']" class="text-text-primary" />
+
+  <a
+    :title="t('nav.reportBug')"
+    :href="bugReportUrl"
+    target="_blank"
+    class="h-5 w-5"
+  >
+    <font-awesome-icon
+      :icon="['fas', 'bug']"
+      class="text-text inline-block font-bold whitespace-nowrap pt-1 px-2 hover:text-text-primary"
+    />
   </a>
 </template>

@@ -3,5 +3,13 @@
     "change": "切換語言",
     "traditionalChinese": "繁體中文",
     "english": "English"
+  },
+  "nav": {
+    "intro": "前言",
+    "features": "特色",
+    "about": "關於",
+    "contact": "聯絡我們",
+    "login": "登入",
+    "reportBug": "回報錯誤"
   }
 }
