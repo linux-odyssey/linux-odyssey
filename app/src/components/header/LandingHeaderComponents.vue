@@ -24,7 +24,7 @@ const scrollToSection = (sectionId: string) => {
     @click="scrollToSection('intro')"
     style="font-size: 2vh"
   >
-    {{ t('nav.intro') }}
+    {{ t('landing_nav.intro') }}
   </button>
 
   <button
@@ -33,7 +33,7 @@ const scrollToSection = (sectionId: string) => {
     @click="scrollToSection('feature')"
     style="font-size: 2vh"
   >
-    {{ t('nav.features') }}
+    {{ t('landing_nav.features') }}
   </button>
 
   <button
@@ -42,7 +42,7 @@ const scrollToSection = (sectionId: string) => {
     @click="scrollToSection('about')"
     style="font-size: 2vh"
   >
-    {{ t('nav.about') }}
+    {{ t('landing_nav.about') }}
   </button>
 
   <button
@@ -51,7 +51,7 @@ const scrollToSection = (sectionId: string) => {
     @click="scrollToSection('contact')"
     style="font-size: 2vh"
   >
-    {{ t('nav.contact') }}
+    {{ t('landing_nav.contact') }}
   </button>
 
   <RouterLink
@@ -60,11 +60,11 @@ const scrollToSection = (sectionId: string) => {
     class="text-text inline-block font-bold whitespace-nowrap pt-1 px-2 hover:text-text-primary"
     style="font-size: 2vh"
   >
-    {{ t('nav.login') }}
+    {{ t('landing_nav.login') }}
   </RouterLink>
 
   <a
-    :title="t('nav.report_bug')"
+    :title="t('landing_nav.report_bug')"
     :href="bugReportUrl"
     target="_blank"
     class="h-5 w-5"

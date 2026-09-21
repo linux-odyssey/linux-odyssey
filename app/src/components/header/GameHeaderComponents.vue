@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -8,6 +9,7 @@ import { openBugReport } from '../../utils/formbricks'
 import { useSession } from '../../store/session'
 import useUserProfile from '../../store/userProfile'
 
+const { t } = useI18n()
 const userStore = useUserProfile()
 const sessionStore = useSession()
 const router = useRouter()
@@ -21,7 +23,7 @@ const handleLogout = async () => {
     sessionStore.reset()
     router.push({ name: 'login' })
   } catch (err) {
-    toast.error('登出失敗')
+    toast.error(t('game_nav.sign_out_failed'))
     console.error(err)
   }
 }
@@ -35,7 +37,7 @@ onMounted(async () => {
   try {
     await userStore.loadUserProfile()
   } catch (err) {
-    toast.error('無法讀取使用者資料')
+    toast.error(t('game_nav.load_user_profile_failed'))
     console.error(err)
   }
 })
@@ -67,7 +69,7 @@ onMounted(async () => {
     {{ userStore.username }}
   </p>
   <button
-    title="Survey"
+    :title="t('game_nav.survey')"
     target="_blank"
     class="md:h-5 md:w-5 px-1.5 w-auto"
     @click="openSurvey"
@@ -76,30 +78,30 @@ onMounted(async () => {
       :icon="['fas', 'file-invoice']"
       class="text-text-primary inline"
     />
-    <span class="text-text sm:hidden px-2">Survey</span>
   </button>
   <RouterLink
-    title="LeaderBoard"
+    :title="t('game_nav.leaderboard')"
     to="/leaderboard"
     class="md:h-5 md:w-5 px-1.5 w-auto"
   >
     <font-awesome-icon :icon="['fas', 'trophy']" class="text-text-primary" />
-    <span class="text-text sm:hidden px-2">Leader Board</span>
   </RouterLink>
-  <RouterLink title="Map" to="/map" class="md:h-5 md:w-5 px-1.5 w-auto">
+  <RouterLink
+    :title="t('game_nav.map')"
+    to="/map"
+    class="md:h-5 md:w-5 px-1.5 w-auto"
+  >
     <font-awesome-icon :icon="['fas', 'map']" class="text-text-primary" />
-    <span class="text-text sm:hidden px-2">Map</span>
   </RouterLink>
   <button
-    title="Bug Report"
+    :title="t('game_nav.bug_report')"
     @click="openBugReport"
     class="md:h-5 md:w-5 px-1.5 w-auto"
   >
     <font-awesome-icon :icon="['fas', 'bug']" class="text-text-primary" />
-    <span class="text-text sm:hidden px-2">Bug Report</span>
   </button>
   <button
-    title="Sign Out"
+    :title="t('game_nav.sign_out')"
     @click="handleLogout"
     class="md:h-5 md:w-5 px-1.5 w-auto"
   >
@@ -107,6 +109,5 @@ onMounted(async () => {
       :icon="['fas', 'arrow-right-from-bracket']"
       class="text-text-primary"
     />
-    <span class="text-text sm:hidden px-2">Sign Out</span>
   </button>
 </template>

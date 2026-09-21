@@ -65,5 +65,14 @@
     "invalid_password": "Invalid password",
     "username_taken": "Username is already taken",
     "email_taken": "Email is already taken"
+  },
+  "game_nav": {
+    "survey": "Survey",
+    "leaderboard": "Leaderboard",
+    "map": "Map",
+    "bug_report": "Bug Report",
+    "sign_out": "Sign Out",
+    "sign_out_failed": "Sign Out Failed",
+    "load_user_profile_failed": "Failed to Load User Profile"
   }
 }

@@ -4,7 +4,7 @@
     "traditional_chinese": "繁體中文",
     "english": "English"
   },
-  "nav": {
+  "landing_nav": {
     "intro": "前言",
     "features": "特色",
     "about": "關於",
@@ -65,5 +65,14 @@
     "invalid_password": "無效的密碼",
     "username_taken": "帳號名稱已被使用",
     "email_taken": "電子郵件已被使用"
+  },
+  "game_nav": {
+    "survey": "問卷",
+    "leaderboard": "排行榜",
+    "map": "地圖",
+    "bug_report": "回報錯誤",
+    "sign_out": "登出",
+    "sign_out_failed": "登出失敗",
+    "load_user_profile_failed": "無法讀取使用者資料"
   }
 }
