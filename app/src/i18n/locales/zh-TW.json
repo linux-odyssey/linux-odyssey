@@ -82,5 +82,12 @@
   "quest": {
     "start": "開始冒險",
     "locked": "關卡尚未解鎖"
+  },
+  "leaderboard": {
+    "title": "排行榜",
+    "username": "使用者名稱",
+    "score": "分數",
+    "completed_quests": "完成關卡",
+    "load_leaderboard_failed": "無法讀取排行榜"
   }
 }

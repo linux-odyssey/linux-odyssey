@@ -82,5 +82,12 @@
   "quest": {
     "start": "Start Adventure",
     "locked": "Quest not unlocked"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "username": "Username",
+    "score": "Score",
+    "completed_quests": "Completed Quests",
+    "load_leaderboard_failed": "Failed to Load Leaderboard"
   }
 }
