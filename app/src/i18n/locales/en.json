@@ -40,5 +40,20 @@
     "feedback8": "\"I used to think programming was difficult, but now I find it interesting.\"",
     "feedback9": "\"I used to think programming was difficult and had nothing to do with my life. After this class, it feels much more approachable.\"",
     "contact_us": "Contact Us"
+  },
+  "authform": {
+    "google_login": "Continue with Google",
+    "github_login": "Continue with GitHub",
+    "or": "or",
+    "username": "Username",
+    "username_rules": "At most 32 characters, lowercase first, use lowercase letters, numbers, _, and -",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register",
+    "already_registered": "Already have an account?",
+    "not_registered": "Don't have an account?",
+    "continue_as_guest": "Continue as Guest",
+    "password_rules": "At least 8 characters, including uppercase and lowercase letters and numbers"
   }
 }

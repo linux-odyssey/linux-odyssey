@@ -40,5 +40,20 @@
     "feedback8": "\"以前我覺得寫程式很難不過現在覺得很有趣\"",
     "feedback9": "\"以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近\"",
     "contact_us": "聯絡我們"
+  },
+  "authform": {
+    "google_login": "以 Google 繼續",
+    "github_login": "以 GitHub 繼續",
+    "or": "或",
+    "username": "帳號名稱",
+    "username_rules": "至多 32 字元，小寫字母開頭，可用小寫字母、數字、_ 和 -",
+    "email": "電子郵件",
+    "password": "密碼",
+    "login": "登入",
+    "register": "註冊",
+    "already_registered": "已經有帳號了嗎？",
+    "not_registered": "還沒有帳號嗎？",
+    "continue_as_guest": "以訪客身分繼續",
+    "password_rules": "至少 8 個字元，包含數字及大小寫字母"
   }
 }
