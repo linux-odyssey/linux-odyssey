@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import MarkdownText from '../MarkdownText.vue'
 import { useSession } from '../../store/session'
+
+const { t } = useI18n()
 
 const sessionStore = useSession()
 const tasks = computed(() => {
@@ -31,14 +34,14 @@ const tasks = computed(() => {
           :content="sessionStore.quest.instruction"
         />
         <br />
-        <p id="tasks" class="text-text">任務：</p>
+        <p id="tasks" class="text-text font-bold">{{ t('game.task') }}</p>
         <ul v-if="sessionStore.session">
           <li v-for="task in tasks" :key="task.id">
             <MarkdownText :class="task.class" :content="task.content" />
           </li>
         </ul>
       </div>
-      <p class="text-text" v-else>Loading...</p>
+      <p class="text-text" v-else>{{ t('game.loading') }}</p>
     </div>
   </div>
 </template>

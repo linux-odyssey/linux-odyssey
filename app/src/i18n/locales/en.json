@@ -77,7 +77,8 @@
   },
   "quest_map": {
     "title": "Quest Map",
-    "intro": "Embark on your Linux adventure!"
+    "intro": "Embark on your Linux adventure!",
+    "load_quest_map_failed": "Failed to Load Quest Map"
   },
   "quest": {
     "start": "Start Adventure",
@@ -89,5 +90,18 @@
     "score": "Score",
     "completed_quests": "Completed Quests",
     "load_leaderboard_failed": "Failed to Load Leaderboard"
+  },
+  "game": {
+    "start": "Start",
+    "task": "Task:",
+    "loading": "Loading...",
+    "description": "Description",
+    "hint": "Hint",
+    "terminal": "Terminal",
+    "open_terminal_in_new_tab": "Open Terminal in New Tab",
+    "reset": "Reset",
+    "continue": "Continue",
+    "command_book": "Command Book",
+    "cheatsheets": "Cheat Sheets"
   }
 }

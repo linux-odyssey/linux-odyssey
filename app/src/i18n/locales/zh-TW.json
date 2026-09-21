@@ -77,7 +77,8 @@
   },
   "quest_map": {
     "title": "關卡地圖",
-    "intro": "踏上你的Linux冒險之旅吧！"
+    "intro": "踏上你的Linux冒險之旅吧！",
+    "load_quest_map_failed": "無法讀取關卡地圖"
   },
   "quest": {
     "start": "開始冒險",
@@ -89,5 +90,18 @@
     "score": "分數",
     "completed_quests": "完成關卡",
     "load_leaderboard_failed": "無法讀取排行榜"
+  },
+  "game": {
+    "start": "開始",
+    "task": "任務：",
+    "loading": "載入中...",
+    "description": "說明",
+    "hint": "提示",
+    "terminal": "終端機",
+    "open_terminal_in_new_tab": "在新分頁開啟終端機",
+    "reset": "重置",
+    "continue": "繼續",
+    "command_book": "指令之書",
+    "cheatsheets": "指令列表"
   }
 }

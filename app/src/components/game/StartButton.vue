@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import { computed } from 'vue'
 import { useSession } from '../../store/session'
+
+const { t } = useI18n()
 
 const toast = useToast()
 const sessionStore = useSession()
@@ -31,7 +34,7 @@ const startSession = async () => {
         :icon="['fas', 'play']"
         class="text-text-primary h-full px-3"
       />
-      <p class="text-text-primary inline ml-1 md:flex">開始</p>
+      <p class="text-text-primary inline ml-1 md:flex">{{ t('game.start') }}</p>
     </button>
   </div>
 </template>
