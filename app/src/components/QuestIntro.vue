@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { ref, defineProps, onMounted } from 'vue'
 import MarkdownText from './MarkdownText.vue'
 import { trpc } from '../utils/trpc'
+
+const { t } = useI18n()
 
 const props = defineProps({
   questTitle: {
@@ -36,7 +39,7 @@ const handleQuests = (id: string) => {
   if (questUnlocked) {
     router.push({ name: 'game', params: { questId: id } })
   } else {
-    toast.warning('你還沒完成前一個關卡!')
+    toast.warning(t('quest.locked'))
   }
 }
 const handleColour = () => {
@@ -61,7 +64,6 @@ onMounted(async () => {
       <span class="close text-text content-between" @click="closeModal"
         >&times;</span
       >
-
       <h2
         id="QuestTitle"
         class="text-2xl text-text mb-5 w-full inline-flex justify-center"
@@ -82,8 +84,9 @@ onMounted(async () => {
         @click="handleQuests(questId)"
         :style="{ backgroundColor: questColor, color: questTextColor }"
         class="inline-flex justify-center rounded-lg text-base font-black py-3 mt-5 w-full text-lg"
-        >開始冒險</a
       >
+        {{ t('quest.start') }}
+      </a>
     </div>
   </div>
 </template>

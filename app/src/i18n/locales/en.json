@@ -74,5 +74,13 @@
     "sign_out": "Sign Out",
     "sign_out_failed": "Sign Out Failed",
     "load_user_profile_failed": "Failed to Load User Profile"
+  },
+  "quest_map": {
+    "title": "Quest Map",
+    "intro": "Embark on your Linux adventure!"
+  },
+  "quest": {
+    "start": "Start Adventure",
+    "locked": "Quest not unlocked"
   }
 }

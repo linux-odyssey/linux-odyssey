@@ -74,5 +74,13 @@
     "sign_out": "登出",
     "sign_out_failed": "登出失敗",
     "load_user_profile_failed": "無法讀取使用者資料"
+  },
+  "quest_map": {
+    "title": "關卡地圖",
+    "intro": "踏上你的Linux冒險之旅吧！"
+  },
+  "quest": {
+    "start": "開始冒險",
+    "locked": "關卡尚未解鎖"
   }
 }
