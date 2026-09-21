@@ -55,5 +55,15 @@
     "not_registered": "Don't have an account?",
     "continue_as_guest": "Continue as Guest",
     "password_rules": "At least 8 characters, including uppercase and lowercase letters and numbers"
+  },
+  "authform_error": {
+    "too_many_requests": "Too many requests, please try again in 2 minutes",
+    "unauthorized": "Invalid username or password",
+    "auth_failed": "Something went wrong",
+    "invalid_username": "Invalid username",
+    "invalid_email": "Invalid email",
+    "invalid_password": "Invalid password",
+    "username_taken": "Username is already taken",
+    "email_taken": "Email is already taken"
   }
 }

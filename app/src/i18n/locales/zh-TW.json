@@ -55,5 +55,15 @@
     "not_registered": "還沒有帳號嗎？",
     "continue_as_guest": "以訪客身分繼續",
     "password_rules": "至少 8 個字元，包含數字及大小寫字母"
+  },
+  "authform_error": {
+    "too_many_requests": "太多請求，兩分鐘後再試一次",
+    "unauthorized": "無效的帳號名稱或密碼",
+    "auth_failed": "出了點問題",
+    "invalid_username": "無效的帳號名稱",
+    "invalid_email": "無效的電子郵件",
+    "invalid_password": "無效的密碼",
+    "username_taken": "帳號名稱已被使用",
+    "email_taken": "電子郵件已被使用"
   }
 }

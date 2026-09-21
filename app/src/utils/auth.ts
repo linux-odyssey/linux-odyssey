@@ -1,4 +1,5 @@
 import api from './api'
+import { i18n } from '../i18n'
 
 import {
   TooManyRequestsError,
@@ -32,11 +33,15 @@ function handleRequestError(err: {
       const { path, msg } = errors[0]
       switch (path) {
         case 'username':
-          throw new ValidationError('Username is already taken')
+          throw new ValidationError(
+            i18n.global.t('authform_error.username_taken')
+          )
         case 'email':
-          throw new ValidationError('Email is already taken')
+          throw new ValidationError(i18n.global.t('authform_error.email_taken'))
         case 'password':
-          throw new ValidationError('Password is too weak')
+          throw new ValidationError(
+            i18n.global.t('authform_error.invalid_password')
+          )
         default:
           throw new ValidationError(msg)
       }
