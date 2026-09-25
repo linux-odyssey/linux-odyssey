@@ -4,7 +4,7 @@
     "traditional_chinese": "繁體中文",
     "english": "English"
   },
-  "nav": {
+  "landing_nav": {
     "intro": "Introduction",
     "features": "Features",
     "about": "About",
