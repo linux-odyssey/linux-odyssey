@@ -28,7 +28,7 @@
     "build:quests": "yarn workspace server build:quests"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-typescript": "^7.23.3",
     "@jest/globals": "^29.7.0",
