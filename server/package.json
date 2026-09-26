@@ -12,7 +12,7 @@
     "build:quests": "tsx src/cli/build.ts"
   },
   "dependencies": {
-    "@trpc/server": "^11.1.1",
+    "@trpc/server": "^11.8.0",
     "bcrypt": "^5.1.1",
     "commander": "^11.0.0",
     "connect-mongo": "^5.0.0",
@@ -39,9 +39,9 @@
     "ssh2": "^1.16.0",
     "swagger-ui-express": "^5.0.0",
     "tsx": "^4.19.3",
-    "validator": "^13.11.0",
+    "validator": "^13.15.22",
     "winston": "^3.11.0",
-    "yaml": "^2.3.1",
+    "yaml": "^2.8.3",
     "zod": "^3.24.2"
   },
   "devDependencies": {
