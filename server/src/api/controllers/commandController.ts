@@ -26,7 +26,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
       res.status(401).json({ message: 'Unauthorized' })
       return
     }
-  } catch (error) {
+  } catch (_error) {
     res.status(401).json({ message: 'Unauthorized' })
     return
   }

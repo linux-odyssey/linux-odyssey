@@ -103,7 +103,7 @@ onMounted(async () => {
   <button
     :title="t('game_nav.sign_out')"
     @click="handleLogout"
-    class="md:h-5 md:w-5 px-1.5 w-auto"
+    class="md:h-5 md:w-5 px-1.5 mr-2 w-auto"
   >
     <font-awesome-icon
       :icon="['fas', 'arrow-right-from-bracket']"
