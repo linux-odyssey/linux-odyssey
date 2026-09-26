@@ -1,0 +1,107 @@
+{
+  "language": {
+    "change": "切換語言",
+    "traditional_chinese": "繁體中文",
+    "english": "English"
+  },
+  "landing_nav": {
+    "intro": "前言",
+    "features": "特色",
+    "about": "關於",
+    "contact": "聯絡我們",
+    "login": "登入",
+    "report_bug": "回報錯誤"
+  },
+  "landing": {
+    "intro": "程式設計不僅僅是寫程式碼，還涉及到如何有效地與你的電腦互動。程式教育卻往往忽略背後「開發環境」的重要性，使得許多學生在過程中充滿挫折。「開發環境」是寫程式、執行程式過程所需要的一切工具。而這些工具需要在終端機輸入指令來使用。大部分的程式要用來運行的環境，並非 Windows 或 Mac OS，而是 Linux 作業系統。 Linux Odyssey 即是為此設計的線上 Linux 互動教學網站。",
+    "feature1": "初學者也能立即上手",
+    "feature1_desc": "我們明白對於初學者來說，設定和使用開發工具可能是一大障礙。學習者無需安裝任何軟體，僅需通過瀏覽器即可連上一個真實的 Linux 環境。",
+    "feature2": "遊戲般的學習體驗",
+    "feature2_desc": "Linux Odyssey 融合了遊戲的樂趣與學習的實用性。透過精心設計的遊戲關卡，學習者可以一邊接受挑戰、破解謎題，一邊掌握 Linux 指令的運用。",
+    "feature3": "真實的 Linux 操作之旅",
+    "feature3_desc": "Linux Odyssey 提供的不僅是理論知識，更是真實的操作體驗。每一個指令都是在真實的 Linux 環境中執行，讓學習者能夠真正深入軟體開發的世界。",
+    "start_journey": "準備好鍵盤，跟我們一起開啟你的 Linux 冒險吧！",
+    "team_intro": "團隊介紹",
+    "team_desc": "國立臺北科技大學 智慧自動化工程科 第二屆",
+    "team_member1": "Wancat",
+    "team_member2": "Neil",
+    "team_member3": "A.H.",
+    "team_member4": "Ray Gur",
+    "awards": "獲獎紀錄",
+    "award_desc": "2023大專校院資訊應用服務創新競賽 鈦坦敏捷開發特別獎 第二名",
+    "player_feedback": "玩家感想",
+    "feedback1": "\"很好玩很像益智遊戲\"",
+    "feedback2": "\"我從來不知道自由軟體的存在，謝謝你們。\"",
+    "feedback3": "\"還蠻好玩的，讓程式變好玩\"",
+    "feedback4": "\"以前不喜歡電腦課現在覺得喜歡一點點\"",
+    "feedback5": "\"程式真的對新手很友善，讓我學到了很多東西\"",
+    "feedback6": "\"感覺做得很好很簡明易懂關卡設計很用心\"",
+    "feedback7": "\"這個體驗我覺得非常有趣，可以體驗到沒辦法體驗的程式，學長也都熱心指導，非常感謝學長的用心的講解，希望以後還可以再體驗這種活動\"",
+    "feedback8": "\"以前我覺得寫程式很難不過現在覺得很有趣\"",
+    "feedback9": "\"以前覺得寫程式是我生活中碰不到而且很難的項目。但通過這堂課之後，覺得寫程式不再那麼難以親近\"",
+    "contact_us": "聯絡我們"
+  },
+  "authform": {
+    "google_login": "以 Google 繼續",
+    "github_login": "以 GitHub 繼續",
+    "or": "或",
+    "username": "帳號名稱",
+    "username_rules": "至多 32 字元，小寫字母開頭，可用小寫字母、數字、_ 和 -",
+    "email": "電子郵件",
+    "password": "密碼",
+    "login": "登入",
+    "register": "註冊",
+    "already_registered": "已經有帳號了嗎？",
+    "not_registered": "還沒有帳號嗎？",
+    "continue_as_guest": "以訪客身分繼續",
+    "password_rules": "至少 8 個字元，包含數字及大小寫字母"
+  },
+  "authform_error": {
+    "too_many_requests": "太多請求，兩分鐘後再試一次",
+    "unauthorized": "無效的帳號名稱或密碼",
+    "auth_failed": "出了點問題",
+    "invalid_username": "無效的帳號名稱",
+    "invalid_email": "無效的電子郵件",
+    "invalid_password": "無效的密碼",
+    "username_taken": "帳號名稱已被使用",
+    "email_taken": "電子郵件已被使用"
+  },
+  "game_nav": {
+    "survey": "問卷",
+    "leaderboard": "排行榜",
+    "map": "地圖",
+    "bug_report": "回報錯誤",
+    "sign_out": "登出",
+    "sign_out_failed": "登出失敗",
+    "load_user_profile_failed": "無法讀取使用者資料"
+  },
+  "quest_map": {
+    "title": "關卡地圖",
+    "intro": "踏上你的Linux冒險之旅吧！",
+    "load_quest_map_failed": "無法讀取關卡地圖"
+  },
+  "quest": {
+    "start": "開始冒險",
+    "locked": "關卡尚未解鎖"
+  },
+  "leaderboard": {
+    "title": "排行榜",
+    "username": "使用者名稱",
+    "score": "分數",
+    "completed_quests": "完成關卡",
+    "load_leaderboard_failed": "無法讀取排行榜"
+  },
+  "game": {
+    "start": "開始",
+    "task": "任務：",
+    "loading": "載入中...",
+    "description": "說明",
+    "hint": "提示",
+    "terminal": "終端機",
+    "open_terminal_in_new_tab": "在新分頁開啟終端機",
+    "reset": "重置",
+    "continue": "繼續",
+    "command_book": "指令之書",
+    "cheatsheets": "指令列表"
+  }
+}

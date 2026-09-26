@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
 import { DAG } from '../../../packages/utils'
@@ -6,6 +7,7 @@ import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'
 
+const { t } = useI18n()
 const store = useUserProfile()
 const toast = useToast()
 
@@ -151,7 +153,7 @@ const edgeStyle = computed(() => {
         class="p-10 absolute w-fit z-2 font-mono flex flax-wrap text-xl"
         style="width: 30%; height: 6%; font-size: 3vh; color: #00ff00"
       >
-        踏上你的Linux冒險之旅吧！
+        {{ t('quest_map.intro') }}
       </h1>
       <svg
         :width="svgWidth"

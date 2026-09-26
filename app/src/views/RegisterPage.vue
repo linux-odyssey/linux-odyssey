@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import validator from 'validator'
 import { isValidUsername } from '../../../packages/utils'
 import { passwordPolicy } from '../../../packages/constants'
@@ -11,6 +12,8 @@ import {
   TooManyRequestsError,
   ValidationError,
 } from '../utils/errors'
+
+const { t } = useI18n()
 
 function handleRegister({
   username,
@@ -30,11 +33,11 @@ function handleRegister({
     .then(success)
     .catch((err) => {
       if (err instanceof TooManyRequestsError) {
-        error('太多請求，兩分鐘後再試一次。')
+        error(t('authform_error.too_many_requests'))
         return
       }
       if (err instanceof UnauthorizedError) {
-        error('無效的帳號名稱或密碼。')
+        error(t('authform_error.unauthorized'))
         return
       }
       if (err instanceof ValidationError) {
@@ -42,7 +45,7 @@ function handleRegister({
         return
       }
       console.error(err)
-      error('出了點問題。')
+      error(t('authform_error.auth_failed'))
     })
 }
 
@@ -59,15 +62,15 @@ async function check({
   error: (msg: string) => void
 }) {
   if (username && !isValidUsername(username)) {
-    error('無效的帳號名稱')
+    error(t('authform_error.invalid_username'))
     return
   }
   if (email && !validator.isEmail(email)) {
-    error('無效的電子郵件')
+    error(t('authform_error.invalid_email'))
     return
   }
   if (password && !validator.isStrongPassword(password, passwordPolicy)) {
-    error('密碼必須超過8個字元，至少包含一個數字、一個大寫及一個小寫。')
+    error(t('authform_error.invalid_password'))
     return
   }
   try {
@@ -78,11 +81,11 @@ async function check({
       return
     }
     if (err instanceof TooManyRequestsError) {
-      error('太多請求，兩分鐘後再試一次。')
+      error(t('authform_error.too_many_requests'))
       return
     }
     console.error(err)
-    error('出了點問題。')
+    error(t('authform_error.registration_failed'))
   }
 }
 </script>

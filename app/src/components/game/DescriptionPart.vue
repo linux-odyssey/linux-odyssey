@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { computed, ref, watch } from 'vue'
 import { useSession } from '../../store/session'
 import MarkdownText from '../MarkdownText.vue'
+
+const { t } = useI18n()
 
 const sessionStore = useSession()
 const current = ref(-1)
@@ -52,7 +55,9 @@ watch(response, () => {
         :icon="['far', 'lightbulb']"
         class="text-yellow-200 p-2 content-center"
       />
-      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">說明</h1>
+      <h1 class="inline text-text w-1/2 font-xl p-2 m-1">
+        {{ t('game.description') }}
+      </h1>
       <div v-if="current !== -1" class="flex w-full justify-end items-end">
         <button
           class="p-2 m-1 w-1/8"
@@ -98,7 +103,7 @@ watch(response, () => {
           class="text-text-primary font-xl whitespace-pre-wrap"
         >
           <details ref="hintDetails">
-            <summary class="cursor-pointer">提示</summary>
+            <summary class="cursor-pointer">{{ t('game.hint') }}</summary>
             <MarkdownText :content="response.hint" />
           </details>
         </li>
