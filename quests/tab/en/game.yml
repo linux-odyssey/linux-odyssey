@@ -1,0 +1,174 @@
+id: tab
+title: Tab Completion
+image: base
+instruction: |
+  In this quest, you will learn:
+
+  1. How to complete paths with Tab
+  2. How to handle multiple matching names
+
+  Click the button in the middle to start this quest.
+
+requirements:
+  - read
+
+stages:
+  - id: start
+    name: Click Start to begin the quest
+    condition:
+      command: echo start
+    response:
+      content: |
+        In the terminal, you work by entering text.
+        Typing takes time, and a single typo can make a command fail.
+        Autocompletion helps you fill in file paths, command names, and supported options, saving time and avoiding typos.
+
+        Before we start practicing, let's see which files are in your home folder.
+      hint: Use `ls` to list the files
+
+  - id: ls
+    name: List the files with `ls`
+    requirements:
+      - start
+    condition:
+      command: ls
+    response:
+      content: |
+        This folder is full of very long and misspelled filenames. Typing them character by character would be painful.
+        Luckily, autocompletion makes even long filenames easy to enter.
+
+        To use autocompletion, **type part of a filename, then press Tab**.
+        (Tab is the key to the left of Q.)
+        For example, type `Su` and press Tab to complete `SuperSecretPlansForWorldDomination.txt`. The terminal fills in the rest for you.
+
+        Let's display the contents of `SuperSecretPlansForWorldDomination.txt`.
+      hint: |
+        Use `cat SuperSecretPlansForWorldDomination.txt` to display the file contents
+        Type `cat Su`, then press Tab to complete the filename. Press Enter to run the command
+
+  - id: cat_super_secret
+    name: Display SuperSecretPlansForWorldDomination.txt with `cat`
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander
+      command: cat SuperSecretPlansForWorldDomination.txt
+    response:
+      content: |
+        The terminal completed `SuperSecretPlansForWorldDomination.txt` for you, saving you from typing a long name and making mistakes.
+        You can start with `S`, `Su`, `Sup`, `Super`, or even no characters at all.
+        However, the fewer characters you enter, the more likely they are to match several files.
+        We will practice handling multiple matches shortly.
+
+        Autocompletion also helps with awkward spellings. Take `ThsisAFlieNmaeWthAloOfTpyosThatisRleayHdToRaed.txt`: anyone could make a mistake typing that!
+        Use `cat` again to display the contents of `ThsisAFlieNmaeWthAloOfTpyosThatisRleayHdToRaed.txt`.
+      hint: |
+        Enter `cat ThsisAFlieNmaeWthAloOfTpyosThatisRleayHdToRaed.txt` to display the file contents
+        Type `cat Thsi`, then press Tab to complete the filename
+        Try pressing Tab after entering fewer characters and see what happens
+
+  - id: cat_typo
+    name: Display ThsisAFlieNmaeWthAloOfTpyosThatisRleayHdToRaed.txt with `cat`
+    requirements:
+      - cat_super_secret
+    condition:
+      pwd: /home/commander
+      command: cat ThsisAFlieNmaeWthAloOfTpyosThatisRleayHdToRaed.txt
+    response:
+      content: |
+        You have opened the file with the misspelled name.
+        With autocompletion, typos, mixed capitalization, and random-looking names are much easier to handle.
+        Let's practice again. This time, list the files inside `ThingsIWillOrganizeLaterWhenIHaveTime`.
+        As before, type the first few characters, then press Tab.
+      hint: |
+        Enter `ls ThingsIWillOrganizeLaterWhenIHaveTime` to list the files inside the folder
+        Type `ls Thing`, then press Tab to complete the folder name
+
+  - id: ls_things
+    name: List ThingsIWillOrganizeLaterWhenIHaveTime with `ls`
+    requirements:
+      - cat_typo
+    condition:
+      pwd: /home/commander
+      command: ls ThingsIWillOrganizeLaterWhenIHaveTime
+    response:
+      content: |
+        This folder contains three files: a guide to making sandwiches and two lists of things downloaded in the middle of the night.
+        The sandwich guide, `HowToProperlyMakeASandwich.txt`, is inside another folder, so one press of Tab will not complete the whole path.
+        This time, let's practice **completing a path in steps**.
+
+        Type the start of the folder name and press Tab. Then type the start of the filename and press Tab again to complete `folder/filename`.
+        When you complete a folder name, the terminal adds `/` at the end for you.
+        Let's open `HowToProperlyMakeASandwich.txt`.
+      hint: |
+        Enter `cat ThingsIWillOrganizeLaterWhenIHaveTime/HowToProperlyMakeASandwich.txt` to display the file contents
+        Type `cat Thin`, then press Tab to complete it to `cat ThingsIWillOrganizeLaterWhenIHaveTime/`
+        Next, type `How` after the folder path and press Tab to complete the full path
+
+  - id: cat_sandwich
+    name: Display ThingsIWillOrganizeLaterWhenIHaveTime/HowToProperlyMakeASandwich.txt with `cat`
+    requirements:
+      - ls_things
+    condition:
+      command: cat ThingsIWillOrganizeLaterWhenIHaveTime/HowToProperlyMakeASandwich.txt
+    response:
+      content: |
+        You have read this very strict guide to making a sandwich.
+        Two files remain: `RandomStuffThatIDownloadedAt3AM.txt` and `RandomStuffThatIDownloadedAt4AM.txt`.
+        Their names are almost identical. They differ only at `3AM` and `4AM` before the `.txt` extension.
+        If you only type the first few characters, the terminal cannot tell which file you want.
+        This is a case of **multiple matches**.
+
+        You can handle multiple matches in steps, just as you did with the folder path.
+        Type `Ran` and press Tab. The terminal completes the shared part of both names: `RandomStuffThatIDownloadedAt`.
+        Then type `3` or `4`, depending on which file you want, and press Tab again to complete the rest.
+
+        _Completing a full path also takes steps: after completing the folder name, you still need to choose a file inside it._
+      hint: |
+        Display the contents of `ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt3AM.txt`
+        Type `cat Thin`, then press Tab to complete it to `cat ThingsIWillOrganizeLaterWhenIHaveTime/`
+        Next, type `Ran` and press Tab to complete it to `cat ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt`
+        Then type `3` and press Tab to complete the full path.
+
+  - id: cat_3am
+    name: Display ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt3AM.txt with `cat`
+    requirements:
+      - cat_sandwich
+    condition:
+      pwd: /home/commander
+      command: cat ThingsIWillOrganizeLaterWhenIHaveTime/RandomStuffThatIDownloadedAt3AM.txt
+    response:
+      content: |
+        You have read a list of things downloaded at 3 AM. Hmm... that is enough internet for today.
+        Here is a final challenge: enter `ThingsIWillOrganizeLaterWhenIHaveTime`, then display the contents of `RandomStuffThatIDownloadedAt4AM.txt`.
+        Use the autocompletion skills you learned today to complete the task.
+      hint: |
+        First, use `cd` to enter ThingsIWillOrganizeLaterWhenIHaveTime
+        Then use `cat` to display RandomStuffThatIDownloadedAt4AM.txt
+        Remember to use Tab completion to save time and avoid mistakes
+
+  - id: cd_things
+    name: Enter ThingsIWillOrganizeLaterWhenIHaveTime with `cd`
+    requirements:
+      - cat_3am
+    condition:
+      pwd: /home/commander/ThingsIWillOrganizeLaterWhenIHaveTime
+    response:
+      content: |
+        Great! You have entered ThingsIWillOrganizeLaterWhenIHaveTime.
+        Now use `cat` to display the contents of `RandomStuffThatIDownloadedAt4AM.txt`.
+        Remember to use Tab completion!
+
+  - id: END
+    name: Display RandomStuffThatIDownloadedAt4AM.txt with `cat`
+    requirements:
+      - cd_things
+    condition:
+      pwd: /home/commander/ThingsIWillOrganizeLaterWhenIHaveTime
+      command: cat RandomStuffThatIDownloadedAt4AM.txt
+    response:
+      content: |
+        Congratulations! You have completed all the tasks and practiced using Tab completion.
+        This skill will make working in the terminal much easier.
+        Whether you face long filenames, complex paths, or tricky spellings, Tab completion is there to help!
+      hint: All tasks completed! You can keep exploring or finish this quest.

@@ -1,0 +1,140 @@
+id: checkpoint-03
+title: Checkpoint 3
+image: base
+instruction: |
+  This quest tests your understanding of:
+  1. `cp`: copy files and folders
+  2. `mv`: move or rename files and folders
+  3. `rm`: delete files and folders
+  4. `rmdir`: delete empty folders
+  5. Use options to change a command's behavior, such as `rm -r`
+  6. Topics covered in the previous checkpoints
+
+requirements:
+  - remove
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        This quest checks what you have learned in the previous lessons.
+        You will need to choose the commands yourself.
+        Think about which commands can help you complete each task.
+
+        To continue, make the terminal print `next`.
+
+  - id: next
+    name: Make the terminal print `next`
+    requirements:
+      - start
+    condition:
+      output: next
+    response:
+      content: |
+        Now list the contents of your current folder.
+
+  - id: ls-home
+    name: List the contents of the current folder
+    requirements:
+      - next
+    condition:
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        Copy the file inside `folder` to a new file named `world.txt` in the same folder.
+
+  - id: cp-hello-world
+    name: Copy the file inside `folder` as `world.txt`
+    requirements:
+      - ls-home
+    condition:
+      files:
+        - path: /home/commander/folder/hello.txt
+          type: file
+          exists: true
+        - path: /home/commander/folder/world.txt
+          type: file
+          exists: true
+    response:
+      content: |
+        Delete the `hello.txt` file inside `folder`.
+
+  - id: rm-hello
+    name: Delete `hello.txt` inside `folder`
+    requirements:
+      - cp-hello-world
+    condition:
+      files:
+        - path: /home/commander/folder/hello.txt
+          type: file
+          exists: false
+    response:
+      content: |
+        Now move `world.txt` out of `folder`.
+        (Move it into your home folder, `/home/commander`.)
+
+  - id: mv-world-out
+    name: Move `world.txt` out of `folder`
+    requirements:
+      - rm-hello
+    condition:
+      files:
+        - path: /home/commander/folder/world.txt
+          type: file
+          exists: false
+        - path: /home/commander/world.txt
+          type: file
+          exists: true
+    response:
+      content: |
+        Rename `world.txt` back to `hello.txt`
+        and display its contents.
+
+  - id: cat-hello
+    name: Rename `world.txt` to `hello.txt` and display its contents
+    requirements:
+      - mv-world-out
+    condition:
+      command: cat hello.txt
+      files:
+        - path: /home/commander/world.txt
+          type: file
+          exists: false
+        - path: /home/commander/hello.txt
+          type: file
+          exists: true
+      output: This is `hello.txt`.
+    response:
+      content: |
+        Delete the `folder` folder.
+
+  - id: rmdir-folder
+    name: Delete `folder`
+    requirements:
+      - cat-hello
+    condition:
+      files:
+        - path: /home/commander/folder
+          type: directory
+          exists: false
+    response:
+      content: |
+        Delete the `trash_can` folder.
+
+  - id: finish
+    name: Delete `trash_can`
+    requirements:
+      - rmdir-folder
+    condition:
+      files:
+        - path: /home/commander/trash_can
+          type: directory
+          exists: false
+    response:
+      content: |
+        Congratulations! You passed this checkpoint!
+        You are ready to move on to the next lessons.

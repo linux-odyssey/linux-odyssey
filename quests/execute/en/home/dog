@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "You ran the dog file"
+echo "Woof woof woof"
+sleep 1
+echo "You know what?"
+sleep 1
+echo "I am better than a cat"

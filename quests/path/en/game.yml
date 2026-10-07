@@ -1,0 +1,146 @@
+id: path
+title: File Paths
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. Absolute and relative paths
+  2. How to show your current path with `pwd`
+
+requirements:
+  - explore
+
+stages:
+  - id: start
+    name: Click `Start` to begin the lesson
+    condition:
+      command: echo start
+    response:
+      content: |
+        In Linux, a path describes the location of a file or folder.
+        Paths can be relative or absolute.
+        A relative path starts from your current folder. An absolute path starts from the root folder.
+        First, use `ls` to list the files in this folder.
+
+  - id: ls
+    name: List the files in the folder
+    requirements:
+      - start
+    condition:
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        Now use `cd` to enter the `folder1` folder.
+
+  - id: cd-folder1
+    name: Enter `folder1`
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander/folder1
+    response:
+      content: |
+        You have entered `folder1`.
+        In `cd folder1`, the `folder1` part is a relative path.
+        Likewise, `..` in `cd ..` is a relative path.
+        A relative path can span more than one level of folders.
+        For example, to enter `folder2` from here, you could use `cd ..` to go up one level, then `cd folder2` to enter it.
+        You can also join `..` and `folder2` with `/` and enter `cd ../folder2` to get there in one command.
+        Try entering `folder2` this way.
+      hint: Enter `cd ../folder2` to move into `folder2`.
+
+  - id: cd-folder2
+    name: Enter `folder2`
+    requirements:
+      - cd-folder1
+    condition:
+      pwd: /home/commander/folder2
+    exceptions:
+      - id: not_in_folder2
+        condition:
+          pwd: /home/commander
+        response:
+          content: Enter `cd folder2` to move into `folder2`
+    response:
+      content: |
+        You have entered `folder2` using a relative path.
+        You can also add a relative path after `ls` to list the contents of another folder.
+        For example, use `ls ../folder1` to see which files are in `folder1`.
+        Try listing the files in `folder1` this way.
+      hint: Enter `ls ../folder1` to list the files in `folder1`.
+
+  - id: ls-folder1
+    name: List the files in `folder1`
+    requirements:
+      - cd-folder2
+    condition:
+      output: file1.txt
+    exceptions:
+      - id: not_in_folder2
+        condition:
+          not:
+            pwd: /home/commander/folder2
+        response:
+          content: Return to `folder2` with `cd ~/folder2`, then use `ls ../folder1` to list the contents of `folder1` without leaving `folder2`.
+    response:
+      content: |
+        Great! You now know how to use relative paths.
+        Next, let's look at absolute paths.
+        An absolute path starts from the root folder, which is at the top of the file tree.
+        Use `pwd` to display the absolute path to your current folder.
+        `pwd` stands for `print working directory`: it displays the path to the folder you are in.
+        Now use `pwd` to display your current absolute path.
+      hint: Enter `pwd` to display your current absolute path
+
+  - id: pwd
+    name: Display your current absolute path
+    requirements:
+      - ls-folder1
+    condition:
+      pwd: /home/commander/folder2
+      command: pwd
+    exceptions:
+      - id: not_in_folder2
+        condition:
+          not:
+            pwd: /home/commander/folder2
+        response:
+          content: Return to `folder2`, then use `pwd` to display your current absolute path
+    response:
+      content: |
+        Your current absolute path is `/home/commander/folder2`.
+        The command prompt also shows your current location.
+        In `commander:~/folder2 $`, `~/folder2` is a shortened form of the path to your current folder.
+        `~` stands for `/home/commander`, your home folder. Each game starts here.
+        You can use absolute paths with `ls` and `cd` too.
+        For example, use `ls ~` to list your home folder or `cd ~` to return to it.
+        Now use `ls ~` to list the contents of your home folder.
+      hint: Enter `ls ~` to list the contents of your home folder
+
+  - id: ls_home
+    name: List the contents of your home folder
+    requirements:
+      - pwd
+    condition:
+      command: ls ~
+    response:
+      content: |
+        Now use `cd ~` to return to your home folder.
+      hint: Enter `cd ~` to return to your home folder
+
+  - id: END
+    name: Return to your home folder
+    requirements:
+      - ls_home
+    condition:
+      command: cd ~
+    exceptions:
+      - id: already_home
+        condition:
+          pwd: /home/commander
+        response:
+          content: Use `cd ~` to return to your home folder
+    response:
+      content: |
+        You have returned to your home folder.
+        Congratulations! You now know how to use absolute and relative paths and display your current absolute path.

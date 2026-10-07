@@ -1,0 +1,92 @@
+id: checkpoint-01
+title: Checkpoint 1
+image: base
+instruction: |
+  This quest tests your understanding of:
+  1. `echo`: print text
+  2. `ls`: list the contents of a folder
+  3. `cd`: move between folders
+  4. `pwd`: show your current path
+
+requirements:
+  - path
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        This quest checks what you have learned in the previous lessons.
+        You will need to choose the commands yourself.
+        Think about which commands can help you complete each task.
+
+        To continue, make the terminal print `next`.
+
+  - id: next
+    name: Make the terminal print `next`
+    requirements:
+      - start
+    condition:
+      output: next
+    response:
+      content: |
+        Now list the contents of your current folder.
+
+  - id: ls-home
+    name: List the contents of the current folder
+    requirements:
+      - next
+    condition:
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        Enter the `folder03` folder.
+
+  - id: cd-folder03
+    name: Enter `folder03`
+    requirements:
+      - ls-home
+    condition:
+      pwd: /home/commander/folder03
+    response:
+      content: |
+        Show your current path in the terminal.
+
+  - id: pwd-folder03
+    name: Show your current path
+    requirements:
+      - cd-folder03
+    condition:
+      command: pwd
+      output: /home/commander/folder03
+    response:
+      content: |
+        Now enter the `folder02` folder
+        and list its contents.
+
+  - id: ls-folder02
+    name: Enter `folder02` and list its contents
+    requirements:
+      - pwd-folder03
+    condition:
+      pwd: /home/commander/folder02
+      command: ls
+    response:
+      content: |
+        Finally, stay in `folder02`
+        and list the contents of `folder01`.
+
+  - id: finish
+    name: Stay in `folder02` and list the contents of `folder01`
+    requirements:
+      - ls-folder02
+    condition:
+      pwd: /home/commander/folder02
+      output: file1.txt
+    response:
+      content: |
+        Congratulations! You passed this checkpoint!
+        You are ready to move on to the next lessons.

@@ -1,0 +1,93 @@
+id: read
+title: Reading File Contents
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. How to display file contents with `cat`
+
+requirements:
+  - path
+
+stages:
+  - id: start
+    name: Click `Start` to begin the lesson
+    condition:
+      command: echo start
+    response:
+      content: |
+        The terminal has no graphical interface for viewing file contents.
+        Instead, you can use `cat` to display them.
+        `cat` is short for concatenate, which means joining things together.
+        Enter `cat [filename]` to print a file's contents in the terminal.
+        First, see which files are in this folder.
+      hint: Enter `ls` to list the files in this folder.
+
+  - id: ls_home
+    name: List the files in the folder
+    requirements:
+      - start
+    condition:
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        This folder contains one file and one folder.
+        Now use `cat` to display the contents of `file1.txt`.
+      hint: Enter `cat file1.txt` to display the file contents.
+
+  - id: cat-file1
+    name: Display the contents of `file1.txt`
+    requirements:
+      - ls_home
+    condition:
+      pwd: /home/commander
+      command: cat file1.txt
+    response:
+      content: |
+        You should now see the file's contents.
+        You can also give `cat` a path to a file in another folder.
+        First, use `ls folder` to list the files inside `folder`.
+      hint: Enter `ls folder` to list the files inside the folder
+
+  - id: ls-folder
+    name: List the contents of `folder`
+    requirements:
+      - cat-file1
+    condition:
+      pwd: /home/commander
+      command: ls folder
+    exceptions:
+      - id: not_in_home
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            Stay in the `/home/commander` folder.
+            Enter `cd ~` to return to `/home/commander`.
+    response:
+      content: |
+        You now know what is inside `folder`.
+        Use `cat` to display the contents of `file.txt` inside `folder`.
+      hint: Enter `cat folder/file.txt` to display the contents of `file.txt`.
+
+  - id: END
+    name: Display the contents of `file.txt`
+    requirements:
+      - ls-folder
+    condition:
+      pwd: /home/commander
+      command: cat folder/file.txt
+    exceptions:
+      - id: not_in_home
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            Stay in the `/home/commander` folder.
+            Enter `cd ~` to return to `/home/commander`.
+    response:
+      content: |
+        You have displayed the contents of `file.txt`.
+        You now know how to display file contents with `cat`.

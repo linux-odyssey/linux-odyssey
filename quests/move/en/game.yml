@@ -1,0 +1,136 @@
+id: move
+title: Moving Files
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. How to move files and folders with `mv`
+
+requirements:
+  - create
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        Today we will learn how to move files and folders.
+        Your current folder contains `hello.txt`, `world.txt`, and a folder named `notes`.
+        First, use `ls` and `cat` to explore their contents.
+        When you have finished, enter `echo next` to continue!
+      hint: |
+        Use `ls` and `ls notes` to list the files in the folders
+        Use `cat hello.txt` and `cat world.txt` to display the file contents
+        When you have finished, enter `echo next` to continue
+
+  - id: next
+    requirements:
+      - start
+    name: Explore the files, then enter `echo next` to continue
+    condition:
+      command: echo next
+    response:
+      content: |
+        Now let's learn how to move files and folders.
+        `mv` is short for move. It moves files and folders.
+        Use `mv [source] [destination]`.
+        Let's start by moving `hello.txt` into the `notes` folder!
+      hint: Use `mv hello.txt notes` to move `hello.txt` into `notes`
+
+  - id: mv-hello
+    requirements:
+      - next
+    name: Move `hello.txt` into `notes`
+    condition:
+      command: mv hello.txt notes
+      files:
+        - path: /home/commander/notes/hello.txt
+          type: file
+          exists: true
+        - path: /home/commander/hello.txt
+          type: file
+          exists: false
+    response:
+      content: |
+        Well done!
+        `hello.txt` has been moved into `notes`!
+
+        `mv` can also rename files!
+        Just use the new name as the destination.
+        Now rename `world.txt` to `wow.txt`.
+      hint: Use `mv world.txt wow.txt` to rename `world.txt` to `wow.txt`
+
+  - id: mv-world
+    requirements:
+      - mv-hello
+    name: Rename `world.txt` to `wow.txt`
+    condition:
+      command: mv world.txt wow.txt
+      files:
+        - path: /home/commander/wow.txt
+          type: file
+          exists: true
+        - path: /home/commander/world.txt
+          type: file
+          exists: false
+    response:
+      content: |
+        `world.txt` is now named `wow.txt`.
+
+        Next, let's learn how to move folders!
+        Moving a folder works the same way as moving a file.
+        `mv` automatically moves everything inside the folder too.
+        First, rename the `notes` folder to `docs`!
+      hint: Use `mv notes docs` to rename `notes` to `docs`
+
+  - id: mv-notes
+    requirements:
+      - mv-world
+    name: Rename `notes` to `docs`
+    condition:
+      command: mv notes docs
+      files:
+        - path: /home/commander/docs
+          type: directory
+          exists: true
+        - path: /home/commander/notes
+          type: directory
+          exists: false
+    response:
+      content: |
+        The `notes` folder is now named `docs`.
+        Here is a final challenge:
+        Move `docs/hello.txt` to your home folder and rename it to `hi.txt`.
+      hint: Use `mv docs/hello.txt hi.txt` to move the file to your home folder as `hi.txt`
+
+  - id: mv-docs-hello
+    requirements:
+      - mv-notes
+    name: Move `docs/hello.txt` to your home folder as `hi.txt`
+    condition:
+      command: mv docs/hello.txt hi.txt
+      files:
+        - path: /home/commander/hi.txt
+          type: file
+          exists: true
+        - path: /home/commander/docs/hello.txt
+          type: file
+          exists: false
+    response:
+      content: |
+        Well done!
+        You now know how to move files and folders!
+
+        Enter `echo finish` to complete this quest.
+
+  - id: END
+    requirements:
+      - mv-docs-hello
+    name: Complete the quest
+    condition:
+      command: echo finish
+    response:
+      content: |
+        You now know how to move files and folders!
+        Congratulations on completing this quest!

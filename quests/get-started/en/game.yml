@@ -1,0 +1,76 @@
+id: get-started
+image: base
+title: Terminal Basics
+instruction: |
+  Welcome to Linux Odyssey!
+  This quest introduces the basics of using the terminal.
+  In this quest, you will learn:
+  1. How to use this website
+  2. How to use the terminal
+  3. How to use the `echo` command
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: ^echo start$
+    response:
+      content: |
+        Hello, brave adventurer!
+        Welcome to Linux Odyssey, an adventure filled with terminal magic!
+        Think of the terminal as your magic wand. You control the computer with **text spells**, a useful skill for any aspiring programmer!
+        The area below is your stage for casting spells: the terminal. Ready to cast your first one?
+        Enter `echo hello` below, then press Enter to see what happens!
+
+  - id: echo-hello
+    name: Enter `echo hello` in the terminal
+    requirements:
+      - start
+    condition:
+      command: ^echo hello$
+    response:
+      content: |
+        Congratulations on running your first command!
+        You should see this in the terminal:
+        ```
+        commander:~ $ echo hello
+        hello
+        ```
+        The prompt `commander:~ $` means the computer is waiting for a command.
+        After you enter `echo hello`, the computer prints "hello" on the next line.
+
+        A command is like a sentence telling the computer what to do.
+        Take `echo hello`, for example:
+        - `echo` tells the computer to print something
+        - `hello` is the text to print
+        So when you enter `echo hello`, the computer prints "hello".
+
+        Now try making the terminal display the text `next`.
+        If you get stuck, click the `Hint` button for help.
+      hint: |
+        Enter `echo next` to continue to the next step.
+
+  - id: echo-next
+    name: Enter `echo next` in the terminal
+    requirements:
+      - echo-hello
+    condition:
+      command: ^echo next$
+    response:
+      content: |
+        Congratulations! You now know how to use `echo`.
+        You might wonder why we need a command like this.
+        Although `echo` is simple, printing text is a basic building block for many tasks.
+        In this adventure, we will also use `echo` to trigger events.
+        That is all for this quest. Enter `echo finish` to complete it.
+
+  - id: END
+    name: Finish the quest
+    requirements:
+      - echo-next
+    condition:
+      command: ^echo finish$
+    response:
+      content: |
+        Congratulations! You have completed this quest!
+        You have learned how to use `echo` and what it does.
