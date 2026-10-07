@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { useToast } from 'vue-toastification'
 import { computed, onMounted, watch } from 'vue'
 import { useSession } from '../store/session'
 import useUserProfile from '../store/userProfile'
@@ -13,6 +15,8 @@ import CompleteModal from '../components/game/CompleteModal.vue'
 import StartButton from '../components/game/StartButton.vue'
 import { openQuestSurvey } from '../utils/formbricks'
 
+const { t, locale } = useI18n()
+const toast = useToast()
 const sessionStore = useSession()
 const userStore = useUserProfile()
 
@@ -27,6 +31,13 @@ watch(completed, (newValue, oldValue) => {
   }
 })
 
+watch(locale, (newLocale) => {
+  const { session } = sessionStore
+  if (session && newLocale !== session.locale) {
+    toast.info(t('game.reset_to_apply_language'))
+  }
+})
+
 const props = defineProps({
   questId: {
     type: String,
@@ -37,8 +48,12 @@ const props = defineProps({
 onMounted(async () => {
   sessionStore.reset()
   sessionStore.setup()
-  await sessionStore.setQuest(props.questId)
-  await sessionStore.getActiveSession()
+
+  await sessionStore.getActiveSession(props.questId)
+
+  if (!sessionStore.session) {
+    await sessionStore.setQuest(props.questId, locale.value)
+  }
 })
 </script>
 

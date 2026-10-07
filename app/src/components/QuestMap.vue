@@ -2,12 +2,13 @@
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
+import { SUPPORTED_LOCALES } from '../../../packages/constants'
 import { DAG } from '../../../packages/utils'
 import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const store = useUserProfile()
 const toast = useToast()
 
@@ -66,7 +67,8 @@ async function computeGraphData() {
   if (!store.progress) return
 
   try {
-    const quests = await trpc.quests.getQuests.query()
+    const quests = await trpc.quests.getQuests.query({ locale: locale.value })
+
     const dag = new DAG(quests)
     const nodesValues = dag.getNodes()
 
@@ -117,6 +119,11 @@ onMounted(async () => {
 })
 
 watch(() => store.progress, computeGraphData, { deep: true })
+watch(locale, () => {
+  opened.value = null
+  // eslint-disable-next-line no-void
+  void computeGraphData()
+})
 
 const curvedPath = computed(() => {
   return (source: Node, target: Node) => {

@@ -1,8 +1,6 @@
 {
   "language": {
-    "change": "切換語言",
-    "traditional_chinese": "繁體中文",
-    "english": "English"
+    "change": "切換語言"
   },
   "landing_nav": {
     "intro": "前言",
@@ -102,6 +100,9 @@
     "reset": "重置",
     "continue": "繼續",
     "command_book": "指令之書",
-    "cheatsheets": "指令列表"
+    "cheatsheets": "指令列表",
+    "reset_to_apply_language": "重置關卡以套用語言變更",
+    "reset_failed": "重置失敗",
+    "language_unavailable": "此關卡不支援所選語言，請選擇其他語言"
   }
 }

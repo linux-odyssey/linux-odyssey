@@ -5,8 +5,9 @@ import { useToast } from 'vue-toastification'
 import { ref, defineProps, onMounted } from 'vue'
 import MarkdownText from './MarkdownText.vue'
 import { trpc } from '../utils/trpc'
+import { SUPPORTED_LOCALES } from '../../../packages/constants'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = defineProps({
   questTitle: {
@@ -52,8 +53,15 @@ const handleColour = () => {
   }
 }
 onMounted(async () => {
-  const quest = await trpc.quests.getQuestDetail.query(questId)
-  questInstruction.value = quest.instruction
+  try {
+    const quest = await trpc.quests.getQuestDetail.query({
+      questId,
+      locale: locale.value,
+    })
+    questInstruction.value = quest.instruction
+  } catch (error) {
+    toast.error('Failed to load quest detail:', error)
+  }
   handleColour()
 })
 </script>

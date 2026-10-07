@@ -1,4 +1,6 @@
 import { HydratedDocument } from 'mongoose'
+import type { QuestLocale } from '../../../packages/constants'
+import { LOCALE_NAME_MAP } from '../../../packages/constants'
 import { Session, UserProfile } from '../../../packages/models'
 import type { ISession, IUser } from '../../../packages/models'
 import {
@@ -34,11 +36,12 @@ async function deactivateSessions(userId: string, quest: string) {
 
 export async function createNewSession(
   userId: string,
-  questId: string
+  questId: string,
+  locale: QuestLocale
 ): Promise<ISession> {
-  const quest = await questManager.get(questId)
+  const quest = await questManager.get(questId, locale)
   if (!quest) {
-    throw new Error(`Quest ${questId} not found`)
+    throw new Error(`Quest ${questId} not found for ${LOCALE_NAME_MAP[locale]}`)
   }
 
   // deactivate all active sessions
@@ -55,12 +58,18 @@ export async function createNewSession(
 
   const containerName = `quest-${quest.id}-${userProfile.user.username}-${Date.now()}`
 
-  const container = await createContainer(containerName, quest.id, quest.image)
+  const container = await createContainer(
+    containerName,
+    quest.id,
+    locale,
+    quest.image
+  )
   await getAndStartContainer(container.id)
 
   const newSession = new Session({
     user: userId,
     quest: quest.id,
+    locale,
     containerId: container.id,
     containerName,
   })
@@ -117,15 +126,16 @@ export async function finishSession(
 
 export async function isQuestUnlocked(
   userId: string,
-  questId: string
+  questId: string,
+  locale: QuestLocale
 ): Promise<boolean> {
   const userProfile = await UserProfile.findOne({ user: userId })
   if (!userProfile) {
     throw new Error(`UserProfile ${userId} not found`)
   }
-  const quest = await questManager.get(questId)
+  const quest = await questManager.get(questId, locale)
   if (!quest) {
-    throw new Error(`Quest ${questId} not found`)
+    throw new Error(`Quest ${questId} not found for ${LOCALE_NAME_MAP[locale]}`)
   }
   if (!quest.requirements) {
     return true

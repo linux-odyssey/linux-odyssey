@@ -3,8 +3,9 @@ import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import { computed } from 'vue'
 import { useSession } from '../../store/session'
+import { SUPPORTED_LOCALES } from '../../../../packages/constants'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const toast = useToast()
 const sessionStore = useSession()
@@ -13,7 +14,7 @@ const showCover = computed(() => sessionStore.session === null)
 
 const startSession = async () => {
   try {
-    await sessionStore.createSession()
+    await sessionStore.createSession(locale.value)
   } catch (err: any) {
     console.error(err)
     toast.error(err.message)

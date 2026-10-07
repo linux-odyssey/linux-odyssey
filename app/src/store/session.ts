@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { QuestLocale } from '../../../packages/constants'
 import {
   FileGraph,
   type FileGraphUpdateEvent,
@@ -41,11 +42,16 @@ export const useSession = defineStore('session', {
     quest: null,
   }),
   actions: {
-    async setQuest(questId: string) {
-      this.quest = await trpc.quests.getQuestDetail.query(questId)
+    async setQuest(questId: string, locale: QuestLocale) {
+      this.quest = await trpc.quests.getQuestDetail.query({
+        questId,
+        locale,
+      })
       this.questId = questId
     },
     async setSession(session: SessionDetail) {
+      await this.setQuest(session.quest, session.locale)
+
       this.session = {
         ...session,
         graph: new FileGraph(session.graph),
@@ -59,19 +65,18 @@ export const useSession = defineStore('session', {
       )
       term.focus()
     },
-    async createSession() {
+    async createSession(locale: QuestLocale) {
       const session = await trpc.session.createSession.mutate({
         questId: this.questId,
+        locale,
       })
       await this.setSession(session)
       term.send('echo start\n')
     },
-    async getActiveSession() {
-      const session = await trpc.session.getActiveSession.query({
-        questId: this.questId,
-      })
+    async getActiveSession(questId: string) {
+      const session = await trpc.session.getActiveSession.query({ questId })
       if (session) {
-        this.setSession(session)
+        await this.setSession(session)
       }
     },
     newUpdate(update: SessionUpdate) {

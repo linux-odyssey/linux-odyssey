@@ -1,16 +1,14 @@
 import { createI18n } from 'vue-i18n'
+import type { QuestLocale } from '../../../packages/constants'
+import { SUPPORTED_LOCALES } from '../../../packages/constants'
 import en from './locales/en.json'
 import zhTW from './locales/zh-TW.json'
 
-export const supportedLocales = ['zh-TW', 'en'] as const
-
-export type SupportedLocale = (typeof supportedLocales)[number]
-
-function isSupportedLocale(locale: string): locale is SupportedLocale {
-  return supportedLocales.includes(locale as SupportedLocale)
+function isSupportedLocale(locale: string): locale is QuestLocale {
+  return SUPPORTED_LOCALES.includes(locale as QuestLocale)
 }
 
-function getInitialLocale(): SupportedLocale {
+function getInitialLocale(): QuestLocale {
   const savedLocale = localStorage.getItem('locale')
 
   if (savedLocale && isSupportedLocale(savedLocale)) {
@@ -34,7 +32,7 @@ export const i18n = createI18n({
   },
 })
 
-export function setLocale(locale: SupportedLocale) {
+export function setLocale(locale: QuestLocale) {
   i18n.global.locale.value = locale
   localStorage.setItem('locale', locale)
   document.documentElement.lang = locale
