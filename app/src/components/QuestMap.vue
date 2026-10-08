@@ -2,7 +2,6 @@
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
-import { SUPPORTED_LOCALES } from '../../../packages/constants'
 import { DAG } from '../../../packages/utils'
 import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
@@ -121,8 +120,7 @@ onMounted(async () => {
 watch(() => store.progress, computeGraphData, { deep: true })
 watch(locale, () => {
   opened.value = null
-  // eslint-disable-next-line no-void
-  void computeGraphData()
+  computeGraphData()
 })
 
 const curvedPath = computed(() => {

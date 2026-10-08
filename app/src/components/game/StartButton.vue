@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import { computed } from 'vue'
 import { useSession } from '../../store/session'
-import { SUPPORTED_LOCALES } from '../../../../packages/constants'
 
 const { t, locale } = useI18n()
 

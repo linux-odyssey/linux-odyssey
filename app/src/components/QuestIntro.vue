@@ -5,7 +5,6 @@ import { useToast } from 'vue-toastification'
 import { ref, defineProps, onMounted } from 'vue'
 import MarkdownText from './MarkdownText.vue'
 import { trpc } from '../utils/trpc'
-import { SUPPORTED_LOCALES } from '../../../packages/constants'
 
 const { t, locale } = useI18n()
 
@@ -91,7 +90,7 @@ onMounted(async () => {
         target="_blank"
         @click="handleQuests(questId)"
         :style="{ backgroundColor: questColor, color: questTextColor }"
-        class="inline-flex justify-center rounded-lg text-base font-black py-3 mt-5 w-full text-lg"
+        class="inline-flex justify-center rounded-lg text-base font-black py-3 mt-5 w-full"
       >
         {{ t('quest.start') }}
       </a>
