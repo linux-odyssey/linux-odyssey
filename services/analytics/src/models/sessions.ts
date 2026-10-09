@@ -85,7 +85,6 @@ export async function sessionDetail(id: string): Promise<SessionDetail> {
     finishedAt,
     lastActivityAt,
   } = session
-  console.log('session: ', session)
   return {
     _id,
     user: { _id: user._id, username: user.username },
