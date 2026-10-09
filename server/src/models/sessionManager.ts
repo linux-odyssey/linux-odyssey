@@ -97,6 +97,7 @@ export async function finishSession(
   session: HydratedDocument<ISession>
 ): Promise<void> {
   session.status = 'finished'
+  session.finishedAt = new Date()
   await session.save()
 
   const userProfile = await UserProfile.findOne({ user: session.user })

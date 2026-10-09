@@ -28,14 +28,6 @@ export async function sessionList(
       },
     },
     { $unwind: '$user' },
-    {
-      $lookup: {
-        from: 'commands',
-        localField: '_id',
-        foreignField: 'session',
-        as: 'commands',
-      },
-    },
     pagination.sort('_id'),
     pagination.limit(),
   ])
@@ -45,16 +37,17 @@ export async function sessionList(
       _id,
       user,
       quest,
+      locale,
       status,
       createdAt,
       finishedAt,
-      commands,
       lastActivityAt,
     } = session
     return {
       _id,
-      user: user.username, // Assuming `user` is always populated.
+      user: { _id: user._id, username: user.username },
       quest,
+      locale: locale ?? 'zh-TW',
       status,
       createdAt: createdAt?.toLocaleString(),
       finishedAt: finishedAt?.toLocaleString(),
@@ -63,8 +56,7 @@ export async function sessionList(
         lastActivityAt && createdAt
           ? formatTime(lastActivityAt.getTime() - createdAt.getTime())
           : 'N/A', // Ensure both dates are present
-      commandCount: commands?.length || 0,
-      commands,
+      commandCount: 0,
     }
   })
 }
@@ -83,14 +75,26 @@ export async function sessionDetail(id: string): Promise<SessionDetail> {
       createdAt: createdAt?.toLocaleString(),
     })
   )
-  const { _id, user, quest, status, createdAt, finishedAt } = session
+  const {
+    _id,
+    user,
+    quest,
+    locale,
+    status,
+    createdAt,
+    finishedAt,
+    lastActivityAt,
+  } = session
   return {
     _id,
-    user: user.username,
+    user: { _id: user._id, username: user.username },
     quest,
+    locale: locale ?? 'zh-TW',
     status,
     createdAt: createdAt?.toLocaleString(),
     finishedAt: finishedAt?.toLocaleString(),
+    lastActivityAt: lastActivityAt?.toLocaleDateString(),
+    commandCount: commands.length,
     usedTime: finishedAt
       ? formatTime(finishedAt.getTime() - createdAt.getTime())
       : '',
