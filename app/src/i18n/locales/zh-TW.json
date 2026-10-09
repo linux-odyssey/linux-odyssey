@@ -52,7 +52,8 @@
     "already_registered": "已經有帳號了嗎？",
     "not_registered": "還沒有帳號嗎？",
     "continue_as_guest": "以訪客身分繼續",
-    "password_rules": "至少 8 個字元，包含數字及大小寫字母"
+    "password_rules": "至少 8 個字元，包含數字及大小寫字母",
+    "recommand_pc_fullscreen": "建議使用電腦版全螢幕操作"
   },
   "authform_error": {
     "too_many_requests": "太多請求，兩分鐘後再試一次",
@@ -76,11 +77,14 @@
   "quest_map": {
     "title": "關卡地圖",
     "intro": "踏上你的Linux冒險之旅吧！",
-    "load_quest_map_failed": "無法讀取關卡地圖"
+    "load_quest_map_failed": "無法讀取關卡地圖",
+    "compute_graph_failed": "計算關卡地圖時出錯：",
+    "load_quest_data_failed": "無法讀取關卡"
   },
   "quest": {
     "start": "開始冒險",
-    "locked": "關卡尚未解鎖"
+    "locked": "關卡尚未解鎖",
+    "load_quest_instruction_failed": "無法讀取關卡說明："
   },
   "leaderboard": {
     "title": "排行榜",

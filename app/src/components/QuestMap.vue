@@ -99,8 +99,8 @@ async function computeGraphData() {
 
     graphData.value = { nodes, edges }
   } catch (error) {
-    console.error('Error computing graph data:', error)
-    toast.error('Failed to load quest data')
+    console.error(t('quest_map.compute_graph_failed'), error)
+    toast.error(t('quest_map.load_quest_data_failed'))
   }
 }
 function handleNodeClick(node: Node) {
