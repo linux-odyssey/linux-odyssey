@@ -19,6 +19,42 @@ const marginY = 120
 
 const nodeWidth = 160
 const nodeHeight = 50
+const maxTextWidth = nodeWidth - 20
+const fontSize = 16
+const maxLines = 2
+
+// Approximate glyph width: wide (CJK etc.) chars take a full em, others about half
+function charWidth(ch: string) {
+  return ch.charCodeAt(0) > 0x2e80 ? fontSize : fontSize * 0.55
+}
+
+function textWidth(s: string) {
+  return [...s].reduce((w, ch) => w + charWidth(ch), 0)
+}
+
+// SVG text does not wrap, so split the title into lines that fit the node
+function wrapTitle(title: string): string[] {
+  const lines: string[] = []
+  let current = ''
+  // Keep whole words together for spaced languages; CJK splits per character
+  const tokens = title.match(/[⺀-￿]|\S+\s*/g) ?? []
+  for (const token of tokens) {
+    if (current && textWidth((current + token).trimEnd()) > maxTextWidth) {
+      lines.push(current.trimEnd())
+      current = ''
+    }
+    current += token
+  }
+  if (current) lines.push(current.trimEnd())
+
+  if (lines.length <= maxLines) return lines
+  const kept = lines.slice(0, maxLines)
+  let last = kept[maxLines - 1]
+  while (last && textWidth(last + '…') > maxTextWidth) last = last.slice(0, -1)
+  kept[maxLines - 1] = last + '…'
+  return kept
+}
+
 const opened = ref<Node | null>(null)
 type Node = {
   id: string
@@ -197,11 +233,17 @@ const edgeStyle = computed(() => {
               :x="node.x"
               :y="node.y"
               text-anchor="middle"
-              alignment-baseline="middle"
+              dominant-baseline="central"
               :class="['node-text', nodeStyle(node)]"
-              font-size="18"
             >
-              {{ node.title }}
+              <tspan
+                v-for="(line, i) in wrapTitle(node.title)"
+                :key="i"
+                :x="node.x"
+                :dy="i === 0 ? `${-(wrapTitle(node.title).length - 1) * 0.6}em` : '1.2em'"
+              >
+                {{ line }}
+              </tspan>
             </text>
           </g>
         </g>
@@ -235,6 +277,7 @@ svg {
 }
 
 .node-text {
+  cursor: pointer;
   &.completed {
     fill: #1d1d1d;
   }
