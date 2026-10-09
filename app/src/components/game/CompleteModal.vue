@@ -32,7 +32,7 @@ const backtoMap = async () => {
   try {
     router.push({ name: 'map' })
   } catch (err) {
-    toast.error('無法讀取地圖')
+    toast.error(t('quest_map.load_quest_map_failed'))
     console.error(err)
   }
 }
@@ -52,7 +52,7 @@ setTimeout(() => {
         id="QuestCompleted"
         class="text-2xl text-text mb-5 w-full inline-flex justify-center"
       >
-        關卡完成！
+        {{ t('game.quest_completed') }}
       </h2>
       <div class="z-10 right-1/2 top-1/2" @animationend="defineComponent">
         <Vue3Lottie
@@ -61,16 +61,18 @@ setTimeout(() => {
           :width="200"
         />
       </div>
-      <p class="text-base text-text text-center">恭喜你完成這一關！</p>
       <p class="text-base text-text text-center">
-        接下來回到地圖，迎接新的挑戰吧！
+        {{ t('game.quest_completed_desc_1') }}
+      </p>
+      <p class="text-base text-text text-center">
+        {{ t('game.quest_completed_desc_2') }}
       </p>
       <a
         id="BacktoMap"
         target="_blank"
         @click="backtoMap"
         class="inline-flex justify-center rounded-lg text-base font-black py-2 mt-3 bg-text-primary w-full"
-        >回到地圖</a
+        >{{ t('game.back_to_map') }}</a
       >
     </div>
     <div style="position: relative; height: 100vh; overflow: auto">

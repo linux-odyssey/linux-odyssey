@@ -103,6 +103,10 @@
     "cheatsheets": "指令列表",
     "reset_to_apply_language": "重置關卡以套用語言變更",
     "reset_failed": "重置失敗",
-    "language_unavailable": "此關卡不支援所選語言，請選擇其他語言"
+    "language_unavailable": "此關卡不支援所選語言，請選擇其他語言",
+    "quest_completed": "關卡完成",
+    "quest_completed_desc_1": "恭喜你完成了這個關卡！",
+    "quest_completed_desc_2": "回到地圖，迎接新的挑戰吧！",
+    "back_to_map": "回到地圖"
   }
 }

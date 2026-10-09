@@ -103,6 +103,10 @@
     "cheatsheets": "Cheat Sheets",
     "reset_to_apply_language": "Reset quest to apply language changes",
     "reset_failed": "Reset failed",
-    "language_unavailable": "This quest does not support the selected language, please choose another language"
+    "language_unavailable": "This quest does not support the selected language, please choose another language",
+    "quest_completed": "Quest Completed",
+    "quest_completed_desc_1": "Congratulations! You have completed this quest!",
+    "quest_completed_desc_2": "Return to the map to face new challenges!",
+    "back_to_map": "Back to Map"
   }
 }
