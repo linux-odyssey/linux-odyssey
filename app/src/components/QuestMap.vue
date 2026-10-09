@@ -11,14 +11,12 @@ const { t, locale } = useI18n()
 const store = useUserProfile()
 const toast = useToast()
 
-const svgWidth = ref(window.innerWidth)
-const svgHeight = ref(window.innerHeight)
-
 const marginX = 120
 const marginY = 120
 
 const nodeWidth = 160
 const nodeHeight = 50
+
 const opened = ref<Node | null>(null)
 type Node = {
   id: string
@@ -46,14 +44,18 @@ const dragStartY = ref(0)
 const offsetX = ref(0)
 const offsetY = ref(0)
 
-function startDrag(event: MouseEvent) {
+function startDrag(event: PointerEvent) {
   isDragging.value = true
   dragStartX.value = event.clientX - offsetX.value
   dragStartY.value = event.clientY - offsetY.value
 }
 
-function drag(event: MouseEvent) {
+function drag(event: PointerEvent) {
   if (!isDragging.value) return
+  // Capture only once dragging starts so plain clicks still reach the node buttons
+  const el = event.currentTarget as HTMLElement
+  if (!el.hasPointerCapture(event.pointerId))
+    el.setPointerCapture(event.pointerId)
   offsetX.value = event.clientX - dragStartX.value
   offsetY.value = event.clientY - dragStartY.value
 }
@@ -75,10 +77,8 @@ async function computeGraphData() {
       id: node.id,
       title: node.title,
       x: marginX * node.layer * 2,
-      y:
-        marginY * node.index -
-        (marginX * dag.getLayer(node.id)) / 2 +
-        svgHeight.value / 2,
+      // Centered on 0; the world container is anchored at the viewport's vertical center
+      y: (node.index - (dag.getLayer(node.id) + 1) / 2) * marginY,
       completed: store.progress[node.id]?.completed || false,
       unlocked: node.requirements.every(
         (req: string) => store.progress[req]?.completed
@@ -123,14 +123,10 @@ watch(locale, () => {
   computeGraphData()
 })
 
-const curvedPath = computed(() => {
+const edgePath = computed(() => {
   return (source: Node, target: Node) => {
-    // const dx = target.x - source.x
-    // const dy = target.y - source.y
-    // const dr = Math.sqrt(dx * dx + dy * dy)
-    const dr = 0
-    const sweep = target.index > source.index ? 0 : 1 // Determines if the arc should curve up or down based on node index
-    return `M${source.x},${source.y}A${dr},${dr} 0 0,${sweep} ${target.x},${target.y}`
+    const mx = (source.x + target.x) / 2
+    return `M${source.x},${source.y}C${mx},${source.y} ${mx},${target.y} ${target.x},${target.y}`
   }
 })
 
@@ -160,52 +156,44 @@ const edgeStyle = computed(() => {
       >
         {{ t('quest_map.intro') }}
       </h1>
-      <svg
-        :width="svgWidth"
-        :height="svgHeight"
-        class="absolute"
-        @mousedown="startDrag"
-        @mousemove="drag"
-        @mouseup="endDrag"
-        @mouseleave="endDrag"
+      <div
+        class="absolute inset-0 overflow-hidden select-none"
+        :class="isDragging ? 'cursor-grabbing' : 'cursor-grab'"
+        style="touch-action: none"
+        @pointerdown="startDrag"
+        @pointermove="drag"
+        @pointerup="endDrag"
+        @pointercancel="endDrag"
       >
-        <g :transform="`translate(${offsetX}, ${offsetY})`">
-          <g
-            v-for="edge in graphData.edges"
-            :key="`${edge.source.id}-${edge.target.id}`"
-          >
+        <div
+          class="absolute top-1/2 left-0"
+          :style="{ transform: `translate(${offsetX}px, ${offsetY}px)` }"
+        >
+          <svg class="absolute overflow-visible pointer-events-none">
             <path
-              :d="curvedPath(edge.source, edge.target)"
+              v-for="edge in graphData.edges"
+              :key="`${edge.source.id}-${edge.target.id}`"
+              :d="edgePath(edge.source, edge.target)"
               :class="['edge', edgeStyle(edge)]"
             />
-          </g>
-          <g
+          </svg>
+          <button
             v-for="node in graphData.nodes"
             :key="node.id"
+            type="button"
+            :class="['node', nodeStyle(node)]"
+            :style="{
+              left: `${node.x - nodeWidth / 2}px`,
+              top: `${node.y - nodeHeight / 2}px`,
+              width: `${nodeWidth}px`,
+              height: `${nodeHeight}px`,
+            }"
             @click="handleNodeClick(node)"
           >
-            <rect
-              :x="node.x - nodeWidth / 2"
-              :y="node.y - nodeHeight / 2"
-              :width="nodeWidth"
-              :height="nodeHeight"
-              rx="10"
-              ry="10"
-              :class="['node', nodeStyle(node)]"
-            />
-            <text
-              :x="node.x"
-              :y="node.y"
-              text-anchor="middle"
-              alignment-baseline="middle"
-              :class="['node-text', nodeStyle(node)]"
-              font-size="18"
-            >
-              {{ node.title }}
-            </text>
-          </g>
-        </g>
-      </svg>
+            <span class="line-clamp-2">{{ node.title }}</span>
+          </button>
+        </div>
+      </div>
       <QuestIntro
         :questTitle="opened.title"
         :questId="opened.id"
@@ -218,44 +206,49 @@ const edgeStyle = computed(() => {
 </template>
 
 <style scoped>
-svg {
-  overflow: visible;
-}
-
 .node {
-  &.completed {
-    fill: #6cf76c;
-  }
-  &.unlocked {
-    fill: #8c8c92;
-  }
-  &.locked {
-    fill: #505050;
-  }
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    filter 0.15s,
+    box-shadow 0.15s;
 }
-
-.node-text {
-  &.completed {
-    fill: #1d1d1d;
-  }
-  &.unlocked {
-    fill: #ffffff;
-  }
-  &.locked {
-    fill: #a0a0a0;
-  }
+.node:hover {
+  filter: brightness(1.15);
+}
+.node:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px #00ff00;
+}
+.node.completed {
+  background-color: #6cf76c;
+  color: #1d1d1d;
+}
+.node.unlocked {
+  background-color: #8c8c92;
+  color: #ffffff;
+}
+.node.locked {
+  background-color: #505050;
+  color: #a0a0a0;
 }
 
 .edge {
   stroke-width: 3;
   fill: none;
-  &.unlocked {
-    stroke: #adadb5;
-    stroke-dasharray: none;
-  }
-  &.locked {
-    stroke: #454552;
-    stroke-dasharray: 5, 5;
-  }
+}
+.edge.unlocked {
+  stroke: #adadb5;
+  stroke-dasharray: none;
+}
+.edge.locked {
+  stroke: #454552;
+  stroke-dasharray: 5, 5;
 }
 </style>
