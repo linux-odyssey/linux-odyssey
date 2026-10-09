@@ -1,8 +1,6 @@
 {
   "language": {
-    "change": "Change language",
-    "traditional_chinese": "繁體中文",
-    "english": "English"
+    "change": "Change language"
   },
   "landing_nav": {
     "intro": "Introduction",
@@ -102,6 +100,9 @@
     "reset": "Reset",
     "continue": "Continue",
     "command_book": "Command Book",
-    "cheatsheets": "Cheat Sheets"
+    "cheatsheets": "Cheat Sheets",
+    "reset_to_apply_language": "Reset quest to apply language changes",
+    "reset_failed": "Reset failed",
+    "language_unavailable": "This quest does not support the selected language, please choose another language"
   }
 }

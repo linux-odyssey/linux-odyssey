@@ -6,7 +6,7 @@ import { ref, defineProps, onMounted } from 'vue'
 import MarkdownText from './MarkdownText.vue'
 import { trpc } from '../utils/trpc'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = defineProps({
   questTitle: {
@@ -52,8 +52,15 @@ const handleColour = () => {
   }
 }
 onMounted(async () => {
-  const quest = await trpc.quests.getQuestDetail.query(questId)
-  questInstruction.value = quest.instruction
+  try {
+    const quest = await trpc.quests.getQuestDetail.query({
+      questId,
+      locale: locale.value,
+    })
+    questInstruction.value = quest.instruction
+  } catch (error) {
+    toast.error('Failed to load quest detail:', error)
+  }
   handleColour()
 })
 </script>
@@ -83,7 +90,7 @@ onMounted(async () => {
         target="_blank"
         @click="handleQuests(questId)"
         :style="{ backgroundColor: questColor, color: questTextColor }"
-        class="inline-flex justify-center rounded-lg text-base font-black py-3 mt-5 w-full text-lg"
+        class="inline-flex justify-center rounded-lg text-base font-black py-3 mt-5 w-full"
       >
         {{ t('quest.start') }}
       </a>

@@ -1,0 +1,97 @@
+id: checkpoint-02
+title: Checkpoint 2
+image: base
+instruction: |
+  This quest tests your understanding of:
+  1. `cat`: display the contents of a file
+  2. `touch`: create a file
+  3. `mkdir`: create a folder
+  4. Use the `Tab` key for autocompletion
+  5. Topics covered in the previous checkpoint
+
+requirements:
+  - create
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        This quest checks what you have learned in the previous lessons.
+        You will need to choose the commands yourself.
+        Think about which commands can help you complete each task.
+
+        To continue, make the terminal print `next`.
+
+  - id: next
+    name: Make the terminal print `next`
+    requirements:
+      - start
+    condition:
+      output: next
+    response:
+      content: |
+        Now list the contents of your current folder.
+
+  - id: ls-home
+    name: List the contents of the current folder
+    requirements:
+      - next
+    condition:
+      pwd: /home/commander
+      command: ls
+    response:
+      content: |
+        Display the contents of `hello.txt`.
+
+  - id: cat-hello
+    name: Display the contents of `hello.txt`
+    requirements:
+      - ls-home
+    condition:
+      command: cat hello.txt
+      output: This is `hello.txt`.
+    response:
+      content: |
+        Display the contents of the other file, which has a very long name.
+
+  - id: cat-long-filename
+    name: Display the contents of the other file
+    requirements:
+      - cat-hello
+    condition:
+      command: cat pneumonoultramicroscopicsilicovolcanoconiosis.txt
+      output: A name that has been invented for a lung disease caused by breathing in very small pieces of ash or dust.
+    response:
+      content: |
+        Now create a folder named `folder`.
+
+  - id: mkdir-folder
+    name: Create a folder named `folder`
+    requirements:
+      - cat-long-filename
+    condition:
+      files:
+        - path: /home/commander/folder
+          type: directory
+          exists: true
+    response:
+      content: |
+        Finally, inside the `folder` folder,
+        create a file named `file.txt`.
+
+  - id: finish
+    name: Create `file.txt` inside `folder`
+    requirements:
+      - mkdir-folder
+    condition:
+      files:
+        - path: /home/commander/folder/file.txt
+          type: file
+          exists: true
+    response:
+      content: |
+        Congratulations! You passed this checkpoint!
+        You are ready to move on to the next lessons.

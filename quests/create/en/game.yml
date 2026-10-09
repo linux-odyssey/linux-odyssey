@@ -1,0 +1,165 @@
+id: create
+title: Creating Files and Folders
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. How to create files with `touch`
+  2. How to create folders with `mkdir`
+
+requirements:
+  - tab
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        This time, we will learn about the `touch` command.
+        First, use `ls` to list the files in your current folder.
+        You should find that the folder has no files.
+      hint: Enter `ls` to list the files in your current folder
+
+  - id: ls
+    name: List the files in the folder
+    requirements:
+      - start
+    condition:
+      command: ls
+    response:
+      content: |
+        The terminal shows no output, which means there are no visible files in this folder.
+        You can create a file with `touch [filename]`.
+        Try creating a file named `hello.txt` in the terminal.
+      hint: Enter `touch hello.txt` to create a file
+
+  - id: touch
+    name: Create a file with `touch`
+    requirements:
+      - ls
+    condition:
+      files:
+        - path: /home/commander/hello.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: missing_extension
+        condition:
+          files:
+            - path: /home/commander/hello
+              type: file
+              exists: true
+        response:
+          content: |
+            It looks like you forgot the `.txt` extension.
+            Try again and make sure the filename is `hello.txt`.
+    response:
+      content: |
+        The terminal should show no output.
+        The file tree on the right now shows the new `hello.txt` file.
+        Let's look inside `hello.txt`!
+        Use the `cat` command you learned earlier to display its contents.
+      hint: Enter `cat hello.txt` to display the contents of `hello.txt`
+
+  - id: cat
+    name: Display the contents of `hello.txt` with `cat`
+    requirements:
+      - touch
+    condition:
+      command: cat hello.txt
+    response:
+      content: |
+        Huh? There is nothing there!
+        That's right. A new file created with `touch` is empty.
+        We will learn how to edit file contents in a future lesson.
+        Let's create another file!
+        Try creating another file named `world.txt` in the terminal.
+      hint: Enter `touch world.txt` to create a file
+
+  - id: touch-2
+    name: Create another file named `world.txt` with `touch`
+    requirements:
+      - cat
+    condition:
+      files:
+        - path: /home/commander/world.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: missing_extension
+        condition:
+          files:
+            - path: /home/commander/world
+              type: file
+              exists: true
+        response:
+          content: |
+            It looks like you forgot the `.txt` extension.
+            Try again and make sure the filename is `world.txt`.
+    response:
+      content: |
+        Great! You have created your second file.
+        The file tree now shows both `hello.txt` and `world.txt`.
+        Next, let's create a folder!
+        The `mkdir` command creates an empty folder.
+        Use `mkdir [folder name]`.
+        Try creating a folder named `notes` in the terminal.
+      hint: Enter `mkdir notes` to create a folder
+
+  - id: mkdir
+    name: Create the `notes` folder with `mkdir`
+    requirements:
+      - touch-2
+    condition:
+      files:
+        - path: /home/commander/notes
+          type: directory
+          exists: true
+    response:
+      content: |
+        Great! You have created the `notes` folder.
+        Next, we will create a file named `note.txt` inside `notes`.
+        First, enter the `notes` folder.
+        Remember the `cd` command? Try using it to enter `notes`.
+      hint: |
+        Enter `cd notes` to enter the `notes` folder
+        After typing `cd n`, press `Tab` to complete the folder name
+
+  - id: cd-notes
+    name: Enter the `notes` folder
+    requirements:
+      - mkdir
+    condition:
+      pwd: /home/commander/notes
+    response:
+      content: |
+        You have entered the `notes` folder.
+        Now try creating a file named `note.txt` inside `notes`.
+      hint: Enter `touch note.txt` to create a file
+
+  - id: touch-note
+    name: Create `note.txt` inside `notes`
+    requirements:
+      - cd-notes
+    condition:
+      files:
+        - path: /home/commander/notes/note.txt
+          type: file
+          exists: true
+    response:
+      content: |
+        Great! You have created `note.txt`.
+        Congratulations! You have completed this quest!
+        In the next quest, you will learn how to copy files and folders.
+        Enter `echo finish` to complete this quest.
+
+  - id: END
+    name: Complete the quest
+    requirements:
+      - touch-note
+    condition:
+      command: echo finish
+    response:
+      content: |
+        Congratulations! You have completed this quest!

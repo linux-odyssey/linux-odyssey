@@ -16,3 +16,10 @@ export const getSessionsRequestSchema = z.object({
 })
 
 export type GetSessionsRequest = z.infer<typeof getSessionsRequestSchema>
+
+export const SUPPORTED_LOCALES = ['zh-TW', 'en'] as const
+export const LOCALE_NAME_MAP: Record<string, string> = {
+  'zh-TW': '繁體中文',
+  en: 'English',
+}
+export type QuestLocale = (typeof SUPPORTED_LOCALES)[number]

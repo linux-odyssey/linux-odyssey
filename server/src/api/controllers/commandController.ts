@@ -54,7 +54,7 @@ export const newCommand = asyncHandler(async (req: Request, res: Response) => {
 
   session.lastActivityAt = new Date()
 
-  const quest = await questManager.get(session.quest)
+  const quest = await questManager.get(session.quest, session.locale)
   if (!quest) {
     res.status(404).json({ message: 'quest not found' })
     return

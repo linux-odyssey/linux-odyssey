@@ -1,0 +1,161 @@
+id: explore
+image: base
+title: Exploring Files
+instruction: |
+  In this quest, you will learn:
+  1. How to list folder contents with `ls`
+  2. How to move between folders with `cd`
+
+requirements:
+  - get-started
+
+stages:
+  - id: start
+    name: Click `Start` to begin the lesson
+    condition:
+      command: ^echo start$
+    response:
+      content: |
+        The terminal has no graphical interface for browsing folder contents.
+        Instead, you can use `ls` to list what is inside a folder.
+        `ls` is short for list. Its first character is a lowercase L.
+        When you enter `ls`, the terminal lists the files and folders in your current folder.
+        Now enter `ls` to see what is in this folder.
+      hint: Enter `ls` to list the contents of the folder
+
+  - id: ls
+    name: List the files in the folder
+    requirements:
+      - start
+    condition:
+      command: ^ls$
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          type: narrative
+          content: |
+            First, return to `/home/commander/`
+            Enter `cd ~` to return to `/home/commander/`
+    response:
+      content: |
+        You should now see the contents of the folder.
+        The file tree on the right has changed too.
+        This folder contains two folders named `folder1` and `folder2`.
+
+        Next, let's learn how to enter a folder.
+        `cd` is short for change directory, which means changing your current folder.
+        Enter `cd [folder name]` to move into a folder.
+        For example, enter `cd folder1` to move into `folder1`.
+        Now enter the `folder1` folder.
+      hint: Enter `cd folder1` to move into `folder1`
+
+  - id: cd-folder1
+    name: Enter `folder1`
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander/folder1
+    exceptions:
+      - id: wrong_spelling
+        condition:
+          command: ^folderl$
+        response:
+          type: narrative
+          content: |
+            `folder1` ends with the number `1`, not the letter `l`.
+      - id: wrong_directory
+        condition:
+          pwd: /home/commander
+        response:
+          type: narrative
+          content: Enter `cd folder1` to move into `folder1`
+      - id: not_in_home
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          type: narrative
+          content: |
+            First, return to `/home/commander/`
+            Enter `cd ~` to return to `/home/commander/`
+            Then enter `cd folder1` to move into `folder1`
+    response:
+      content: |
+        You have entered the `folder1` folder.
+        Notice that the command prompt has changed from
+        `commander:~ $` to
+        `commander:~/folder1 $`.
+        This tells you that you are now in `folder1`.
+        Now list the contents of `folder1`.
+      hint: Enter `ls` to list the contents of the folder
+
+  - id: ls-folder1
+    name: List the contents of `folder1`
+    requirements:
+      - cd-folder1
+    condition:
+      pwd: /home/commander/folder1
+      command: ^ls$
+    response:
+      content: |
+        You can see two files in `folder1`, named `file1.txt` and `file2.txt`.
+        Now let's leave `folder1` and return to the original folder.
+        Use `cd ..` to move up to the parent folder.
+        Here, `..` means the parent folder.
+      hint: Enter `cd ..` to move up to the parent folder
+
+  - id: cd_up
+    name: Return to the parent folder
+    requirements:
+      - ls-folder1
+    condition:
+      pwd: /home/commander
+    response:
+      content: |
+        You have returned to the parent folder.
+        Use the commands you just learned to enter `folder2`, list its contents, and return to this folder.
+      hint: |
+        Use `cd` to move between folders
+        Use `ls` to list the contents of a folder
+
+  - id: cd-folder2
+    name: Enter `folder2`
+    requirements:
+      - cd_up
+    condition:
+      pwd: /home/commander/folder2
+    response:
+      content: |
+        You have entered the `folder2` folder.
+        Now list the contents of `folder2`.
+      hint: Use `ls` to list the contents of the folder
+
+  - id: ls-folder2
+    name: List the contents of `folder2`
+    requirements:
+      - cd-folder2
+    condition:
+      pwd: /home/commander/folder2
+      command: ^ls$
+    response:
+      content: |
+        You can see two files in `folder2`, named `file3.txt` and `file4.txt`.
+        Now leave `folder2` and return to the original folder.
+      hint: Use `cd ..` to move up to the parent folder
+
+  - id: END
+    name: Return to the original folder
+    requirements:
+      - ls-folder2
+    condition:
+      pwd: /home/commander
+    response:
+      content: |
+        You have returned to the original folder.
+        Congratulations! You now know how to use `ls` and `cd`.
+      hint: |
+        Use `cd` to move between folders
+        Use `ls` to list the contents of a folder

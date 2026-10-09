@@ -1,0 +1,236 @@
+id: execute
+title: Running Executable Files
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. What an executable file is
+  2. How to find an executable with `which`
+  3. How to run an executable file
+
+requirements:
+  - remove
+
+stages:
+  - id: start
+    name: Click Start
+    condition:
+      command: echo start
+    response:
+      content: |
+        In earlier lessons, you used commands such as `ls`, `cat`, `cp`, `mv`, and `rm`.
+        These commands are **executable files** that the operating system runs when you enter them.
+        For most commands, you can find the corresponding file in the file system.
+        Use `which` to find the file associated with a command.
+        Enter `which [command name]` to display its path.
+      hint: Use `which ls` to find the path to `ls`
+
+  - id: which-ls
+    name: Find the path to `ls` with `which`
+    requirements:
+      - start
+    condition:
+      command: which ls
+    response:
+      content: |
+        The terminal displays `/usr/bin/ls`, the location of the `ls` executable.
+        `/usr/bin` is a system folder containing many standard programs.
+
+        Next, let's find the path to `cat`.
+      hint: Use `which cat` to find the path to `cat`
+
+  - id: which-cat
+    name: Find the path to `cat` with `which`
+    requirements:
+      - which-ls
+    condition:
+      command: which cat
+    response:
+      content: |
+        You can see `/usr/bin/cat`, which is also in the `/usr/bin` folder.
+        To run an executable file, **enter its path directly**.
+        Let's try running a command using the path to its executable.
+
+        First, let's see what happens when you run `ls` normally.
+      hint: Enter `ls` to list the contents of your current folder
+
+  - id: ls
+    name: List the current folder with `ls`
+    requirements:
+      - which-cat
+    condition:
+      command: ls
+    response:
+      content: |
+        Your current folder contains the `commands` folder and two files, `dog` and `hello.txt`.
+        Now try running `ls` using its absolute path, `/usr/bin/ls`.
+      hint: Enter `/usr/bin/ls` to list the contents of your current folder
+
+  - id: bin-ls
+    name: Run `ls` using its absolute path
+    requirements:
+      - ls
+    condition:
+      command: /usr/bin/ls
+    exceptions:
+      - id: exception-ls
+        condition:
+          command: ls
+        response:
+          content: |
+            Here, we are practicing running `ls` using its absolute path.
+            Enter `/usr/bin/ls` to list the contents of your current folder.
+    response:
+      content: |
+        It lists the same files as `ls`. Both commands run the program at `/usr/bin/ls`, so the results are the same.
+
+        You can still pass arguments. Try using `/usr/bin/cat` to display the contents of `hello.txt`.
+      hint: Enter `/usr/bin/cat hello.txt`
+
+  - id: bin-cat
+    name: Run `cat` using its absolute path
+    requirements:
+      - bin-ls
+    condition:
+      command: /usr/bin/cat hello.txt
+    response:
+      content: |
+        You can see the contents of `hello.txt`, just as you would with `cat`.
+        Both commands run the program at `/usr/bin/cat`, so the results are the same.
+
+        A command usually has the form `command argument1 argument2 ...`.
+        The `command` is the name or path of the program to run, such as `ls`, `cat`, or `which`.
+        The `arguments` provide information to the program, such as `hello.txt` after `cat`.
+
+        You can enter `ls` instead of `/usr/bin/ls` because an environment variable called `PATH` tells the shell which folders to search for programs.
+        We will learn more about `PATH` in a future lesson.
+
+        Now let's try running a custom command.
+        The file named `dog` in this folder is a custom command provided for this lesson.
+        First, let's see what is written inside it.
+      hint: Use `cat dog` to display the contents of `dog`
+
+  - id: cat-dog
+    name: Display the contents of `dog` with `cat`
+    requirements:
+      - bin-cat
+    condition:
+      command: cat dog
+    response:
+      content: |
+        This is a simple program built from `echo` and `sleep` commands.
+        You do not need to understand every detail yet. It just prints a few lines of text.
+
+        To run a file, specify its path.
+        Here, the first part of the command is the path to `dog`. This example does not use any arguments.
+        Since `dog` is in your home folder, its absolute path is `/home/commander/dog`.
+        Using the format `executable arguments`, the command is:
+        ```
+        /home/commander/dog
+        ```
+      hint: Enter `/home/commander/dog` to run the `dog` file
+
+  - id: dog-abs
+    name: Run `dog` using an absolute path
+    requirements:
+      - cat-dog
+    condition:
+      or:
+        - command: /home/commander/dog
+        - command: ~/dog
+    exceptions:
+      - id: exception-dog
+        condition:
+          command: dog
+          error: 'command not found: dog'
+        response:
+          content: |
+            `dog` cannot be run by name here because it is not in the command search path. Specify the path to its executable file.
+            Here, we are practicing running `dog` using an absolute path.
+            Enter `/home/commander/dog` to run the `dog` file.
+    response:
+      content: |
+        The terminal displays a few words from this dog with an attitude.
+        When you are in the same folder as a program, a relative path is often more convenient than an absolute path.
+        To run a program in your current folder, put `./` before its filename instead of entering just its name.
+        In a path, `.` means the current folder.
+        Now try running `dog` using a relative path.
+      hint: Enter `./dog` to run the `dog` file
+
+  - id: dog-rel
+    name: Run `dog` using a relative path
+    requirements:
+      - dog-abs
+    condition:
+      pwd: /home/commander
+      command: ./dog
+    exceptions:
+      - id: exception-dog-2
+        condition:
+          command: dog
+          error: 'command not found: dog'
+        response:
+          content: |
+            `dog` cannot be run by name here because it is not in the command search path. Specify the path to its executable file.
+            Here, we are practicing running `dog` using a relative path.
+            Enter `./dog` to run the `dog` file.
+    response:
+      content: |
+        The dog produces the same output as before.
+        This is an example of a simple custom command.
+        You can put a sequence of commands in a file and run them together to handle complex or repetitive tasks.
+        This technique is also useful when running programs written by other people.
+
+        Here is a final challenge: enter the `commands` folder, then run the `lucky` file inside it using a relative path.
+      hint: |
+        Use `cd` to enter a folder
+        Use `ls` to list the files
+        Enter `./filename` to run a file
+
+  - id: execute-lucky
+    name: Run `lucky` using a relative path
+    requirements:
+      - dog-rel
+    condition:
+      pwd: /home/commander/commands
+      command: ./lucky
+    response:
+      content: |
+        The terminal displays `I am SO LUCKY!!!`, the message printed by `lucky`.
+        Congratulations! You have completed this lesson!
+        Enter `echo finish` to complete this quest.
+    exceptions:
+      - id: exception-lucky
+        condition:
+          command: lucky
+          error: 'command not found: lucky'
+        response:
+          content: |
+            `lucky` cannot be run by name here because it is not in the command search path. Specify the path to its executable file.
+
+      - id: exception-lucky-2
+        condition:
+          pwd: /home/commander
+          command: ./lucky
+          error: 'no such file or directory'
+        response:
+          content: |
+            You are outside the `commands` folder, so `./lucky` does not point to the file yet.
+            First, enter `cd commands` to move into `commands`. Then enter `./lucky` to run `lucky` using a relative path.
+      - id: help
+        condition:
+          command: echo help
+        response:
+          content: |
+            Enter the `commands` folder before running `lucky` using a relative path.
+            First, enter `cd commands` to move into `commands`. Then enter `./lucky` to run `lucky` using a relative path.
+
+  - id: END
+    name: Congratulations! All tasks completed!
+    requirements:
+      - execute-lucky
+    condition:
+      command: echo finish
+    response:
+      content: |
+        Congratulations! You have completed this lesson!
+        You now know how to run executable files.

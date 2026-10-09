@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
 import Docker from 'dockerode'
+import type { QuestLocale } from '../../../packages/constants'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
 
@@ -36,19 +37,20 @@ const newContainerOptions = (
 export async function createContainer(
   name: string,
   questId: string,
+  locale: QuestLocale,
   imageId: string
 ): Promise<Docker.Container> {
   const binds: string[] = []
-  if (await questHomeExists(questId)) {
+  if (await questHomeExists(questId, locale)) {
     logger.info('Mounting quest home', questId)
     binds.push(
-      `${config.docker.hostProjectRoot}/quests/${questId}/home:/etc/skel:ro`
+      `${config.docker.hostProjectRoot}/quests/${questId}/${locale}/home:/etc/skel:ro`
     )
   }
   if (config.docker.mountQuest && imageId !== 'base') {
     logger.info('Mounting quest directory', questId)
     binds.push(
-      `${config.docker.hostProjectRoot}/quests/${questId}/home:/home/commander`
+      `${config.docker.hostProjectRoot}/quests/${questId}/${locale}/home:/home/commander`
     )
   }
   if (config.docker.mountCLI) {
@@ -75,9 +77,11 @@ async function createNetworkIfNotExists(network: string) {
   }
 }
 
-async function questHomeExists(imageId: string) {
+async function questHomeExists(imageId: string, locale: QuestLocale) {
   try {
-    const stat = await fs.stat(`${config.projectRoot}/quests/${imageId}/home`)
+    const stat = await fs.stat(
+      `${config.projectRoot}/quests/${imageId}/${locale}/home`
+    )
     return stat.isDirectory()
   } catch {
     return false

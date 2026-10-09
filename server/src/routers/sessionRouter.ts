@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
+import { SUPPORTED_LOCALES } from '../../../packages/constants'
 import { ISession, Session } from '../../../packages/models'
 import { GameSession, VoidFileExistenceChecker } from '../../../packages/game'
 import { createNewSession, isQuestUnlocked } from '../models/sessionManager.js'
@@ -11,7 +12,7 @@ import { genJWT } from '../utils/auth'
 export type SessionDetail = Awaited<ReturnType<typeof sessionDetail>>
 
 async function sessionDetail(session: ISession) {
-  const quest = questManager.get(session.quest)
+  const quest = questManager.get(session.quest, session.locale)
   if (!quest) {
     throw new TRPCError({
       code: 'NOT_FOUND',
@@ -31,6 +32,7 @@ async function sessionDetail(session: ISession) {
     _id: session._id.toString(),
     user: session.user.toString(),
     quest: session.quest,
+    locale: session.locale,
     status: session.status,
     createdAt: session.createdAt.toISOString(),
     lastActivityAt: session.lastActivityAt.toISOString(),
@@ -45,12 +47,20 @@ async function sessionDetail(session: ISession) {
 
 export const sessionRouter = router({
   createSession: protectedProcedure
-    .input(z.object({ questId: z.string() }))
+    .input(
+      z.object({
+        questId: z.string(),
+        locale: z.enum(SUPPORTED_LOCALES),
+      })
+    )
     .mutation(async (opts) => {
-      const { questId } = opts.input
+      const { questId, locale } = opts.input
       const { user } = opts.ctx
-      if ((await isQuestUnlocked(user.id, questId)) || config.testing.enabled) {
-        const session = await createNewSession(user.id, questId)
+      if (
+        (await isQuestUnlocked(user.id, questId, locale)) ||
+        config.testing.enabled
+      ) {
+        const session = await createNewSession(user.id, questId, locale)
         return sessionDetail(session)
       }
       throw new TRPCError({

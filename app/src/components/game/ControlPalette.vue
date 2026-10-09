@@ -4,15 +4,44 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useSession } from '../../store/session'
 import { openBugReport, openQuestSurvey } from '../../utils/formbricks'
+import { trpc } from '../../utils/trpc'
+import type { QuestLocale } from '../../../../packages/constants'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const toast = useToast()
 
 const router = useRouter()
 const sessionStore = useSession()
 const reset = async () => {
   console.log('resetting...')
-  await sessionStore.createSession()
+  const selectedLocale = locale.value as QuestLocale
+  const questId = sessionStore.session?.quest
+
+  if (!questId) return
+
+  try {
+    const quests = await trpc.quests.getQuests.query({
+      locale: selectedLocale,
+    })
+
+    console.log({
+      selectedLocale,
+      questId,
+      availableQuestIds: quests.map((quest) => quest.id),
+    })
+
+    if (!quests.some((quest) => quest.id === questId)) {
+      toast.warning(t('game.language_unavailable'))
+      return
+    }
+
+    await sessionStore.createSession()
+  } catch (error) {
+    console.error('Failed to reset quest:', error)
+    toast.error(t('game.reset_failed'))
+  }
 }
+
 const continuePlay = async () => {
   try {
     router.push({ name: 'map' })

@@ -1,0 +1,202 @@
+id: remove
+title: Deleting Files and Folders
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. How to delete files with `rm`
+  2. How to delete empty folders with `rmdir`
+  3. How to delete folders and their contents with `rm -r`
+
+requirements:
+  - copy
+  - move
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        Today we will learn how to delete files and folders.
+        Your current folder contains `hello.txt`, `world.txt`, and a folder named `notes`.
+        First, use `ls` to list them.
+        When you have finished, enter `echo next` to continue!
+      hint: |
+        Use `ls` to list the files in the folder
+        When you have finished, enter `echo next` to continue
+
+  - id: next
+    requirements:
+      - start
+    name: Explore the files, then enter `echo next` to continue
+    condition:
+      command: echo next
+    response:
+      content: |
+        Now let's learn how to delete files.
+        `rm` is short for remove. It deletes files.
+        Use `rm [filename]`.
+        Let's start by deleting `hello.txt`!
+      hint: Use `rm hello.txt` to delete `hello.txt`
+
+  - id: rm-hello
+    requirements:
+      - next
+    name: Delete `hello.txt`
+    condition:
+      command: rm hello.txt
+      files:
+        - path: /home/commander/hello.txt
+          type: file
+          exists: false
+    response:
+      content: |
+        `hello.txt` is no longer in the folder!
+
+        `rm` can delete several files at once. Separate their names with spaces.
+        Use `rm [file1] [file2] ...`.
+        Now use `rm` to delete `world.txt` and `wow.txt`.
+      hint: |
+        Use `rm world.txt wow.txt` to delete `world.txt` and `wow.txt`
+        Separate the filenames with a space
+        The order of the names does not matter
+
+  - id: rm-world-wow
+    requirements:
+      - rm-hello
+    name: Delete `world.txt` and `wow.txt`
+    condition:
+      files:
+        - path: /home/commander/world.txt
+          type: file
+          exists: false
+        - path: /home/commander/wow.txt
+          type: file
+          exists: false
+    response:
+      content: |
+        `world.txt` and `wow.txt` are now gone.
+
+        Next, let's learn how to delete folders.
+        `rmdir` deletes empty folders.
+        Use `rmdir [folder name]`.
+        Let's start by deleting the `empty` folder!
+      hint: Use `rmdir empty` to delete the `empty` folder
+
+  - id: rm-empty
+    requirements:
+      - rm-world-wow
+    name: Delete the `empty` folder
+    condition:
+      command: rmdir empty
+      files:
+        - path: /home/commander/empty
+          type: directory
+          exists: false
+    response:
+      content: |
+        The `empty` folder is now gone.
+        Now try using `rmdir` to delete the `notes` folder.
+      hint: Use `rmdir notes` to delete the `notes` folder
+
+  - id: rm-notes-failed
+    requirements:
+      - rm-empty
+    name: Try deleting the `notes` folder
+    condition:
+      command: rmdir notes
+      error: "rmdir: failed to remove 'notes': Directory not empty"
+    response:
+      content: |
+        The command failed!
+        The `notes` folder is still there.
+        This is because `rmdir` only deletes empty folders.
+        Let's delete the files inside `notes` and try again.
+        Now use `rm` to delete the files inside `notes`.
+      hint: |
+        Use `rm notes/[filename]` to delete a file inside `notes`
+        You may need to use `ls notes` to see which files are inside
+        Or use Tab to complete the filename
+
+  - id: rm-notes-content
+    requirements:
+      - rm-notes-failed
+    name: Delete the files inside `notes`
+    condition:
+      command: rm notes/note.txt
+      files:
+        - path: /home/commander/notes/note.txt
+          type: file
+          exists: false
+    exceptions:
+      - id: hint
+        condition:
+          command: echo hint
+        response:
+          content: |
+            Use `rm notes/note.txt` to delete `note.txt` inside `notes`.
+          hint: Use `rm notes/note.txt` to delete `note.txt` inside `notes`
+    response:
+      content: |
+        Great! Now use `rmdir` again to delete the `notes` folder.
+      hint: Use `rmdir notes` to delete the `notes` folder
+
+  - id: rm-notes
+    requirements:
+      - rm-notes-content
+    name: Delete the `notes` folder
+    condition:
+      command: rmdir notes
+      files:
+        - path: /home/commander/notes
+          type: directory
+          exists: false
+    response:
+      content: |
+        Great! The `notes` folder has been deleted.
+        Next, let's delete the `trash` folder.
+        First, use `ls` to see what is inside `trash`.
+      hint: Use `ls trash` to list the files inside `trash`
+
+  - id: ls-trash
+    requirements:
+      - rm-notes
+    name: List the contents of `trash`
+    condition:
+      command: ls trash
+    response:
+      content: |
+        Wow! `trash` contains lots of files, and even more folders!
+        What if a folder has many files and subfolders and we want to delete them all at once?
+        Just as with `cp`, add the `-r` option to delete the folder and everything inside it.
+        `-r` means recursive: the command also deletes the contents of any nested folders.
+        Let's try it!
+      hint: Use `rm -r trash` to delete the `trash` folder
+
+  - id: rm-trash
+    requirements:
+      - ls-trash
+    name: Delete `trash` and its contents
+    condition:
+      command: rm -r trash
+      files:
+        - path: /home/commander/trash
+          type: directory
+          exists: false
+    response:
+      content: |
+        The `trash` folder and everything inside it are now gone.
+        Congratulations! You now know how to delete files and folders!
+        Enter `echo finish` to complete this quest.
+
+  - id: END
+    requirements:
+      - rm-trash
+    name: Complete the quest
+    condition:
+      command: echo finish
+    response:
+      content: |
+        You now know how to delete files and folders!
+        Congratulations on completing this quest!

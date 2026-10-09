@@ -3,6 +3,8 @@ import fs from 'fs/promises'
 import path from 'path'
 import yaml from 'yaml'
 
+import type { QuestLocale } from '../../../packages/constants'
+import { SUPPORTED_LOCALES } from '../../../packages/constants'
 import {
   questSchema,
   globalExceptionSchema,
@@ -36,16 +38,22 @@ class QuestValidationError extends Error {
   }
 }
 
+function questImageId(id: string, locale: QuestLocale) {
+  return `${id}-${locale.toLowerCase()}`
+}
+
 class QuestManager {
-  private quests = new Map<string, IQuest>()
+  private quests = new Map<string, Map<QuestLocale, IQuest>>()
   private questDirectory = path.join(config.projectRoot, 'quests')
 
-  get(id: string) {
-    return this.quests.get(id)
+  get(id: string, locale: QuestLocale) {
+    return this.quests.get(id)?.get(locale)
   }
 
-  getAll() {
+  getAll(locale: QuestLocale) {
     return Array.from(this.quests.values())
+      .map((versions) => versions.get(locale))
+      .filter((quest): quest is IQuest => quest !== undefined)
   }
 
   private async mapQuests(callback: QuestCallback) {
@@ -83,42 +91,119 @@ class QuestManager {
 
   async loadAndUpdateQuests() {
     const exceptions = await this.loadGlobalExceptions()
-    return this.mapQuests(async (id, questPath) => {
-      const files = await fs.readdir(questPath)
-      if (!files.includes('game.yml')) {
-        throw new QuestValidationError(`Missing game.yml`, id, null)
+    const loaded = new Map<string, Map<QuestLocale, IQuest>>()
+
+    await this.mapQuests(async (id, questPath) => {
+      const entries = await fs.readdir(questPath, { withFileTypes: true })
+      const versions = new Map<QuestLocale, IQuest>()
+
+      for (const locale of SUPPORTED_LOCALES) {
+        const localeEntry = entries.find((entry) => entry.name === locale)
+
+        if (!localeEntry) {
+          logger.warn(`Missing locale "${locale}" for quest "${id}"`)
+          // eslint-disable-next-line no-continue
+          continue
+        }
+
+        if (!localeEntry.isDirectory()) {
+          throw new QuestValidationError(
+            `${locale} exists but is not a directory`,
+            id,
+            null
+          )
+        }
+
+        const localePath = path.join(questPath, locale)
+
+        try {
+          const files = await fs.readdir(localePath)
+
+          if (!files.includes('game.yml')) {
+            throw new QuestValidationError(
+              `Missing ${locale}/game.yml`,
+              id,
+              null
+            )
+          }
+
+          const body = await fs.readFile(
+            path.join(localePath, 'game.yml'),
+            'utf-8'
+          )
+
+          const questData = yaml.parse(body, {
+            merge: true,
+          })
+
+          const image = files.includes('Dockerfile')
+            ? questImageId(id, locale)
+            : 'base'
+          const quest = questSchema.parse({
+            id,
+            image,
+            ...questData,
+          })
+          quest.exceptions = [...exceptions]
+          versions.set(locale, quest)
+        } catch (error) {
+          logger.error(`Error parsing quest ${id} for locale ${locale}`, {
+            error,
+          })
+          throw new QuestValidationError(
+            `Error parsing quest ${id} for locale ${locale}`,
+            id,
+            error
+          )
+        }
       }
 
-      try {
-        const body = await fs.readFile(
-          path.join(questPath, 'game.yml'),
-          'utf-8'
-        )
-
-        const questData = yaml.parse(body, {
-          merge: true,
-        })
-
-        const image = files.includes('Dockerfile') ? id : 'base'
-        const quest = questSchema.parse({
-          id,
-          image,
-          ...questData,
-        })
-        quest.exceptions = [...exceptions]
-        this.quests.set(id, quest)
-      } catch (error) {
-        logger.error(`Error parsing quest ${id}`, { error })
-        throw new QuestValidationError(`Error parsing quest ${id}`, id, error)
+      if (versions.size > 0) {
+        loaded.set(id, versions)
+      } else {
+        logger.warn(`No valid locales found for quest "${id}"`)
       }
     })
+
+    this.quests = loaded
   }
 
   async getQuestDockerfiles() {
     const questlist = await this.mapQuests(async (id, questPath) => {
-      const files = await fs.readdir(questPath)
-      return files.includes('Dockerfile') ? { id, questPath } : null
+      const entries = await fs.readdir(questPath, { withFileTypes: true })
+      const dockerfiles: { id: string; questPath: string }[] = []
+
+      for (const locale of SUPPORTED_LOCALES) {
+        const localeEntry = entries.find((entry) => entry.name === locale)
+
+        if (!localeEntry) {
+          logger.warn(`Missing locale "${locale}" for quest "${id}"`)
+          // eslint-disable-next-line no-continue
+          continue
+        }
+
+        if (!localeEntry.isDirectory()) {
+          throw new QuestValidationError(
+            `${locale} exists but is not a directory`,
+            id,
+            null
+          )
+        }
+
+        const localePath = path.join(questPath, locale)
+        const files = await fs.readdir(localePath)
+
+        if (files.includes('Dockerfile')) {
+          dockerfiles.push({
+            id: questImageId(id, locale),
+            questPath: localePath,
+          })
+        }
+      }
+
+      return dockerfiles.length > 0 ? dockerfiles : null
     })
+
     return questlist.filter((quest) => quest !== null)
   }
 }

@@ -1,0 +1,348 @@
+id: copy
+title: Copying Files
+image: base
+instruction: |
+  In this quest, you will learn:
+  1. How to copy files with `cp`
+
+requirements:
+  - create
+
+stages:
+  - id: start
+    name: Click `Start` to begin
+    condition:
+      command: echo start
+    response:
+      content: |
+        Today we will learn how to copy files.
+        First, use `ls` to see which files are in your current folder.
+      hint: Use `ls` to list the files in your current folder
+
+  - id: ls
+    name: List the files in the current folder
+    requirements:
+      - start
+    condition:
+      pwd: /home/commander
+      command: ls
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        You can see `hello.txt` and `world.txt` in this folder.
+        Use `cat` to display their contents.
+        When you have finished, enter `echo next` to continue!
+      hint: |
+        Use `cat hello.txt` and `cat world.txt` to display the file contents
+        If a command is keeping the terminal busy, press `Ctrl + C` to cancel it
+
+  - id: cat-hello
+    name: Display the contents of `hello.txt`
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander
+      command: cat hello.txt
+      output: Hello
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`
+      - id: missing_command
+        condition:
+          command: cat
+        response:
+          content: |
+            To display this file, add its filename after `cat`.
+            If `cat` is waiting for input, press `Ctrl + C` to cancel it.
+            Enter `cat hello.txt` to display the contents of `hello.txt`
+      - id: missing_extension
+        condition:
+          command: cat hello
+        response:
+          content: |
+            Did you forget the `.txt` extension?
+            Enter `cat hello.txt` to display the contents of `hello.txt`
+    response:
+      content: |
+        You have displayed the contents of `hello.txt`!
+        Here is what it contains:
+        ```
+        Hello
+        ```
+
+  - id: cat-world
+    name: Display the contents of `world.txt`
+    requirements:
+      - ls
+    condition:
+      pwd: /home/commander
+      command: cat world.txt
+      output: World
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`
+      - id: missing_command
+        condition:
+          command: cat
+        response:
+          content: |
+            To display this file, add its filename after `cat`.
+            If `cat` is waiting for input, press `Ctrl + C` to cancel it.
+            Enter `cat world.txt` to display the contents of `world.txt`
+      - id: missing_extension
+        condition:
+          command: cat world
+        response:
+          content: |
+            Did you forget the `.txt` extension?
+            Enter `cat world.txt` to display the contents of `world.txt`
+    response:
+      content: |
+        You have displayed the contents of `world.txt`!
+        Here is what it contains:
+        ```
+        World
+        ```
+
+  - id: cat-next
+    name: Enter `echo next` to continue
+    requirements:
+      - cat-hello
+      - cat-world
+    condition:
+      command: echo next
+    response:
+      content: |
+        Next, let's learn how to copy files.
+        `cp` is short for copy.
+        To copy a file, use `cp [source file] [destination file]`.
+        Use `cp` to copy `hello.txt` to `hello2.txt`.
+      hint: Use `cp hello.txt hello2.txt` to copy `hello.txt` to `hello2.txt`
+
+  - id: cp-hello
+    name: Copy `hello.txt` to `hello2.txt`
+    requirements:
+      - cat-next
+    condition:
+      pwd: /home/commander
+      command: cp hello.txt hello2.txt
+      files:
+        - path: /home/commander/hello2.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        You have copied `hello.txt` to `hello2.txt`!
+        Let's check the contents of `hello2.txt`.
+      hint: Use `cat hello2.txt` to display the contents of `hello2.txt`
+
+  - id: cat-hello2
+    name: Display the contents of `hello2.txt`
+    requirements:
+      - cp-hello
+    condition:
+      pwd: /home/commander
+      command: cat hello2.txt
+      output: Hello
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        You have displayed the contents of `hello2.txt`!
+        As you can see, `hello2.txt` contains exactly the same text as `hello.txt`.
+        Now try copying `world.txt` to `world2.txt`!
+      hint: Use `cp world.txt world2.txt` to copy `world.txt` to `world2.txt`
+
+  - id: cp-world
+    name: Copy `world.txt` to `world2.txt`
+    requirements:
+      - cat-hello2
+    condition:
+      pwd: /home/commander
+      command: cp world.txt world2.txt
+      files:
+        - path: /home/commander/world2.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        You have copied `world.txt` to `world2.txt`!
+        Let's check the contents of `world2.txt`.
+      hint: Use `cat world2.txt` to display the contents of `world2.txt`
+
+  - id: cat-world2
+    name: Display the contents of `world2.txt`
+    requirements:
+      - cp-world
+    condition:
+      pwd: /home/commander
+      command: cat world2.txt
+      output: World
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        You have displayed the contents of `world2.txt`!
+        `world2.txt` contains exactly the same text as `world.txt`.
+        Next, let's learn how to copy folders.
+        Your current folder contains a `notes` folder with a file named `note.txt` inside.
+        We want to copy the entire folder, including its contents, to `notes2`.
+        To copy a folder, add the `-r` option (recursive). This copies the folder and everything inside it.
+        Options let you change how a command behaves.
+        An option often starts with `-` followed by a letter, such as `-r`.
+        Options usually go after the command name and before the filenames.
+        Use `cp -r notes notes2` to copy `notes` to `notes2`.
+      hint: |
+        Use `cp -r notes notes2` to copy `notes` to `notes2`
+        Remember to include `-r` to copy all the contents
+
+  - id: cp-notes
+    name: Copy the `notes` folder to `notes2`
+    requirements:
+      - cat-world2
+    condition:
+      pwd: /home/commander
+      command: cp -r notes notes2
+      files:
+        - path: /home/commander/notes2
+          type: directory
+          exists: true
+        - path: /home/commander/notes2/note.txt
+          type: file
+          exists: true
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+      - id: missing_recursive
+        condition:
+          command: cp notes notes2
+        response:
+          content: |
+            Did you forget the `-r` option?
+            Enter `cp -r notes notes2` to copy `notes` to `notes2`
+    response:
+      content: |
+        You have copied the `notes` folder to `notes2`!
+        The entire `notes` folder, including its files, has been copied to `notes2`.
+        `cp -r` copies everything in a folder, including files inside any nested folders.
+
+        Finally, let's see what happens when you copy a file to a destination that already exists.
+        Copy `hello.txt` to `world.txt` and see what happens.
+      hint: Use `cp hello.txt world.txt` to copy `hello.txt` to `world.txt`
+
+  - id: cp-overwrite
+    name: Copy `hello.txt` to `world.txt`
+    requirements:
+      - cp-notes
+    condition:
+      pwd: /home/commander
+      command: cp hello.txt world.txt
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        You have copied `hello.txt` to `world.txt`!
+        Let's check the contents of `world.txt`.
+      hint: Use `cat world.txt`
+
+  - id: check-world
+    name: Check the contents of `world.txt`
+    requirements:
+      - cp-overwrite
+    condition:
+      pwd: /home/commander
+      command: cat world.txt
+      output: Hello
+    exceptions:
+      - id: wrong_directory
+        condition:
+          not:
+            pwd: /home/commander
+        response:
+          content: |
+            You are outside the `/home/commander` folder.
+            Use `cd /home/commander` to return to `/home/commander`.
+    response:
+      content: |
+        `world.txt` now contains `Hello`!
+        When the destination file already exists, copying another file to it overwrites its contents.
+        Check whether the destination already exists before copying, so you do not accidentally lose data.
+        That covers the basics of copying files!
+        Enter `echo finish` to complete this quest.
+
+  - id: finish
+    name: Congratulations! All tasks completed!
+    requirements:
+      - check-world
+    condition:
+      command: echo finish
+    response:
+      content: |
+        Congratulations! You have completed all the tasks!
+        You now know how to copy files and folders.
+        In the next quest, you will learn how to move files and folders.

@@ -1,4 +1,6 @@
 import { model, Schema, Types } from 'mongoose'
+import type { QuestLocale } from '../constants'
+import { SUPPORTED_LOCALES } from '../constants'
 
 export interface INode {
   path: string
@@ -27,6 +29,7 @@ export interface ISession {
   _id: Types.ObjectId
   user: Types.ObjectId
   quest: string
+  locale: QuestLocale
   containerId: string | null
   containerName: string | null
   status: 'active' | 'finished' | 'inactive'
@@ -50,6 +53,11 @@ export const Session = model<ISession>(
       quest: {
         type: String,
         ref: 'Quest',
+        required: true,
+      },
+      locale: {
+        type: String,
+        enum: SUPPORTED_LOCALES,
         required: true,
       },
       containerId: String,
