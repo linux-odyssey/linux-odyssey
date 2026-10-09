@@ -22,7 +22,7 @@
     </tr>
     {{#each sessions}}
       <tr>
-        <td>{{user}}</td>
+        <td><a href="/users/{{user._id}}">{{user.username}}</a></td>
         <td>{{quest}}</td>
         <td>{{locale}}</td>
         <td>{{status}}</td>

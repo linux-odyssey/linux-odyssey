@@ -1,6 +1,7 @@
 import { Types } from 'mongoose'
 
 export interface User {
+  _id: string
   username: string
 }
 export interface SessionDocument {
@@ -23,7 +24,7 @@ export interface CommandObject {
 }
 export interface SessionObject {
   _id: Types.ObjectId
-  user: string
+  user: User
   quest: string
   locale: string
   status: string

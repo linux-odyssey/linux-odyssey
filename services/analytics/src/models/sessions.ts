@@ -54,7 +54,7 @@ export async function sessionList(
     } = session
     return {
       _id,
-      user: user.username, // Assuming `user` is always populated.
+      user: { _id: user._id, username: user.username },
       quest,
       locale: locale ?? 'zh-TW',
       status,
@@ -98,7 +98,7 @@ export async function sessionDetail(id: string): Promise<SessionDetail> {
   console.log('session: ', session)
   return {
     _id,
-    user: user.username,
+    user: { _id: user._id, username: user.username },
     quest,
     locale: locale ?? 'zh-TW',
     status,
