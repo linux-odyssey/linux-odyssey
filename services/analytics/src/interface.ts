@@ -8,8 +8,10 @@ export interface SessionDocument {
   user: User
   quest: string
   status: string
+  locale: string
   createdAt: Date
   finishedAt: Date
+  lastActivityAt: Date
 }
 export interface CommandObject {
   command: string
@@ -23,22 +25,15 @@ export interface SessionObject {
   _id: Types.ObjectId
   user: string
   quest: string
+  locale: string
   status: string
   createdAt: string
   finishedAt: string
   lastActivityAt: string
   usedTime: string
   commandCount: number
-  commands: CommandObject[]
 }
-export interface SessionDetail {
-  _id: Types.ObjectId
-  user: string
-  quest: string
-  status: string
-  createdAt: string
-  finishedAt: string
-  usedTime: string
+export interface SessionDetail extends SessionObject {
   commands: CommandObject[]
 }
 export interface IUser extends Document {

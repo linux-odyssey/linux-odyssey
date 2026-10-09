@@ -45,6 +45,7 @@ export async function sessionList(
       _id,
       user,
       quest,
+      locale,
       status,
       createdAt,
       finishedAt,
@@ -55,6 +56,7 @@ export async function sessionList(
       _id,
       user: user.username, // Assuming `user` is always populated.
       quest,
+      locale: locale ?? 'zh-TW',
       status,
       createdAt: createdAt?.toLocaleString(),
       finishedAt: finishedAt?.toLocaleString(),
@@ -83,14 +85,27 @@ export async function sessionDetail(id: string): Promise<SessionDetail> {
       createdAt: createdAt?.toLocaleString(),
     })
   )
-  const { _id, user, quest, status, createdAt, finishedAt } = session
+  const {
+    _id,
+    user,
+    quest,
+    locale,
+    status,
+    createdAt,
+    finishedAt,
+    lastActivityAt,
+  } = session
+  console.log('session: ', session)
   return {
     _id,
     user: user.username,
     quest,
+    locale: locale ?? 'zh-TW',
     status,
     createdAt: createdAt?.toLocaleString(),
     finishedAt: finishedAt?.toLocaleString(),
+    lastActivityAt: lastActivityAt?.toLocaleDateString(),
+    commandCount: commands.length,
     usedTime: finishedAt
       ? formatTime(finishedAt.getTime() - createdAt.getTime())
       : '',
