@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { isValidUsername } from '../../../packages/utils'
 import AuthForm from '../components/AuthForm.vue'
-import Background from '../components/DynamicBackground.vue'
+import DynamicBackground from '../components/DynamicBackground.vue'
+import HeaderPart from '../components/header/HeaderPart.vue'
 import { TooManyRequestsError, ValidationError } from '../utils/errors'
 import { checkUsername, chooseUsername } from '../utils/auth'
+
+const { t } = useI18n()
 
 async function check({
   username,
@@ -15,21 +19,21 @@ async function check({
 }) {
   if (username) {
     if (!isValidUsername(username)) {
-      error('無效的帳號名稱')
+      error(t('authform_error.invalid_username'))
       return
     }
     try {
       await checkUsername(username)
     } catch (err) {
       if (err instanceof TooManyRequestsError) {
-        error('太多請求，兩分鐘後再試一次。')
+        error(t('authform_error.too_many_requests'))
         return
       }
       if (err instanceof ValidationError) {
         error(err.message)
         return
       }
-      error('出了點問題，請再試一次。')
+      error(t('authform_error.auth_failed'))
     }
   }
 }
@@ -49,7 +53,7 @@ async function handleSubmit({
     success()
   } catch (err: any) {
     if (err instanceof TooManyRequestsError) {
-      error('太多請求，兩分鐘後再試一次。')
+      error(t('authform_error.too_many_requests'))
       return
     }
     if (err instanceof ValidationError) {
@@ -63,10 +67,11 @@ async function handleSubmit({
 
 <template>
   <div class="w-screen h-screen">
-    <Background class="w-full h-full" />
+    <DynamicBackground class="w-full h-full" />
     <div
       class="h-screen w-screen absolute top-0 left-0 flex flex-wrap justify-center content-center"
     >
+      <HeaderPart />
       <div class="w-fit">
         <AuthForm
           @onSubmit="handleSubmit"
