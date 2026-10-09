@@ -28,14 +28,6 @@ export async function sessionList(
       },
     },
     { $unwind: '$user' },
-    {
-      $lookup: {
-        from: 'commands',
-        localField: '_id',
-        foreignField: 'session',
-        as: 'commands',
-      },
-    },
     pagination.sort('_id'),
     pagination.limit(),
   ])
@@ -49,7 +41,6 @@ export async function sessionList(
       status,
       createdAt,
       finishedAt,
-      commands,
       lastActivityAt,
     } = session
     return {
@@ -65,8 +56,7 @@ export async function sessionList(
         lastActivityAt && createdAt
           ? formatTime(lastActivityAt.getTime() - createdAt.getTime())
           : 'N/A', // Ensure both dates are present
-      commandCount: commands?.length || 0,
-      commands,
+      commandCount: 0,
     }
   })
 }

@@ -17,7 +17,6 @@
       <th>Created At</th>
       <th>Finished At</th>
       <th>Used Time</th>
-      <th>Command Count</th>
       <th>Session</th>
     </tr>
     {{#each sessions}}
@@ -29,7 +28,6 @@
         <td>{{createdAt}}</td>
         <td>{{finishedAt}}</td>
         <td>{{usedTime}}</td>
-        <td>{{commandCount}}</td>
         <td><a href='/sessions/{{_id}}'>Detail</a></td>
       </tr>
     {{/each}}
