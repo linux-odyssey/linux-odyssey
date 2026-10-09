@@ -35,7 +35,7 @@ const reset = async () => {
       return
     }
 
-    await sessionStore.createSession(selectedLocale)
+    await sessionStore.createSession()
   } catch (error) {
     console.error('Failed to reset quest:', error)
     toast.error(t('game.reset_failed'))

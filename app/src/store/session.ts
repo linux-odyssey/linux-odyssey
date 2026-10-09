@@ -10,6 +10,7 @@ import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'
 import type { Session } from '../types'
 import { trpc } from '../utils/trpc'
+import { i18n } from '../i18n'
 
 const socket = new Socket()
 const term = new SocketTerminal()
@@ -65,7 +66,8 @@ export const useSession = defineStore('session', {
       )
       term.focus()
     },
-    async createSession(locale: QuestLocale) {
+    async createSession() {
+      const locale = i18n.global.locale.value
       const session = await trpc.session.createSession.mutate({
         questId: this.questId,
         locale,
