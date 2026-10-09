@@ -85,7 +85,7 @@ async function check({
       return
     }
     console.error(err)
-    error(t('authform_error.registration_failed'))
+    error(t('authform_error.auth_failed'))
   }
 }
 </script>

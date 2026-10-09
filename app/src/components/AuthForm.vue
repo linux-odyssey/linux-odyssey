@@ -113,7 +113,7 @@ const registerGuest = async () => {
         :icon="['fas', 'circle-exclamation']"
         class="px-1 text-sm"
       />
-      <span>建議使用電腦全螢幕執行</span>
+      <span>{{ t('authform.recommand_pc_fullscreen') }}</span>
     </div>
     <form @submit.prevent="handleSubmit()" class="w-full">
       <div v-if="socialLogin && hasSocialLogins">

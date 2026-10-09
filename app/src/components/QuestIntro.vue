@@ -59,7 +59,7 @@ onMounted(async () => {
     })
     questInstruction.value = quest.instruction
   } catch (error) {
-    toast.error('Failed to load quest detail:', error)
+    toast.error(t('quest.load_quest_instruction_failed'), error)
   }
   handleColour()
 })

@@ -52,7 +52,8 @@
     "already_registered": "Already have an account?",
     "not_registered": "Don't have an account?",
     "continue_as_guest": "Continue as Guest",
-    "password_rules": "At least 8 characters, including uppercase and lowercase letters and numbers"
+    "password_rules": "At least 8 characters, including uppercase and lowercase letters and numbers",
+    "recommand_pc_fullscreen": "Recommended to use desktop version in full-screen mode"
   },
   "authform_error": {
     "too_many_requests": "Too many requests, please try again in 2 minutes",
@@ -76,11 +77,14 @@
   "quest_map": {
     "title": "Quest Map",
     "intro": "Embark on your Linux adventure!",
-    "load_quest_map_failed": "Failed to Load Quest Map"
+    "load_quest_map_failed": "Failed to Load Quest Map",
+    "compute_graph_failed": "Error computing graph data: ",
+    "load_quest_data_failed": "Failed to Load Quest Data"
   },
   "quest": {
     "start": "Start Adventure",
-    "locked": "Quest not unlocked"
+    "locked": "Quest not unlocked",
+    "load_quest_instruction_failed": "Failed to Load Quest Instruction: "
   },
   "leaderboard": {
     "title": "Leaderboard",
