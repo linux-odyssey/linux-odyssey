@@ -102,6 +102,7 @@
       "name": "@odyssey/models",
       "version": "0.0.0",
       "dependencies": {
+        "@odyssey/constants": "workspace:*",
         "mongoose": "^8.24.1",
       },
     },

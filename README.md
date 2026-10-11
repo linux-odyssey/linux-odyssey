@@ -5,16 +5,15 @@
 
 ## TLDR
 
-    yarn install
+    bun install
     cp .env.sample .env
     docker compose up -d
-    yarn dev
+    bun run dev
 
 ## Requirements
 
-- NodeJS v20+
+- Bun: v1.3+
 - Docker
-- Yarn: v1.22
 
 ## Known Issues
 
@@ -26,7 +25,7 @@ Windows user please refer to [docs/windows-setup.md](docs/windows-setup.md) for 
 
     git clone https://github.com/lancatlin/linux-odyssey.git
     cd linux-odyssey
-    yarn install
+    bun install
 
 ## Project Structures
 
@@ -104,7 +103,7 @@ Customized `entrypoint.sh` for each quest is not yet supported.
 
 To build all quests:
 
-    yarn build:quests
+    bun run build:quests
 
 The base image is built with docker-compose, so you can use `docker compose build base` to rebuild it. Once you rebuild the base image, you have to rebuild all quests.
 
@@ -134,11 +133,11 @@ Copy `.env.sample` to `.env` and customize it for your needs.
 
 Run dev server (frontend, backend):
 
-    yarn dev
+    bun run dev
 
 To develop analytics dashboard:
 
-    yarn analytics
+    bun run analytics
 
 The default username and password is `alex` and `Alex1234`.
 
@@ -146,12 +145,12 @@ The default username and password is `alex` and `Alex1234`.
 
 Unit tests:
 
-    yarn test:unit
+    bun run test
 
 Run Cypress locally, using the current development containers:
 
     docker compose up -d
-    yarn test:e2e
+    bun run test:e2e
 
 Run Cypress in container, create brand-new containers along with it:
 
@@ -183,7 +182,7 @@ Start the service
 
     # Server side
     docker compose -f docker-compose.prod.yml pull
-    yarn build:quests
+    bun run build:quests
     docker compose -f docker-compose.prod.yml up -d
 
 ### Necessary Configuration
@@ -197,4 +196,4 @@ You can copy from `.env.sample`
 
 You can generate a random key by running
 
-    yarn setup
+    bun run setup

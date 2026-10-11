@@ -6,8 +6,8 @@
   "type": "commonjs",
   "license": "MIT",
   "scripts": {
-    "test": "yarn cypress run",
-    "test:open": "yarn cypress open"
+    "test": "cypress run",
+    "test:open": "cypress open"
   },
   "dependencies": {
     "@testing-library/cypress": "^10.0.1",

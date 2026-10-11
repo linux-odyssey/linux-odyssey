@@ -1,4 +1,4 @@
-import { FileGraph, IFileNode } from '../file-graph'
+import { FileGraph, IFileNode } from '@odyssey/file-graph'
 import { Quest } from './Quest'
 import {
   IQuest,

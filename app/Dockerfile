@@ -1,17 +1,24 @@
 # Base stage
-FROM node:20-alpine AS build
+FROM oven/bun:1.3.14-alpine AS build
 
 WORKDIR /app
-COPY package.json yarn.lock ./
+COPY package.json bun.lock ./
 COPY app/package.json ./app/package.json
 COPY server/package.json ./server/package.json
-RUN yarn install --frozen-lockfile
+COPY services/analytics/package.json ./services/analytics/package.json
+COPY tests/package.json ./tests/package.json
+COPY packages/constants/package.json ./packages/constants/package.json
+COPY packages/file-graph/package.json ./packages/file-graph/package.json
+COPY packages/game/package.json ./packages/game/package.json
+COPY packages/models/package.json ./packages/models/package.json
+COPY packages/utils/package.json ./packages/utils/package.json
+RUN bun install --frozen-lockfile --filter app
 
 COPY tsconfig.json ./tsconfig.json
 COPY server ./server
 COPY packages ./packages
 COPY app ./app
-RUN yarn workspace app build
+RUN bun run --filter app build
 
 # Production stage
 FROM nginx:stable-alpine AS prod

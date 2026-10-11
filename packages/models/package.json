@@ -8,6 +8,7 @@
     ".": "./index.ts"
   },
   "dependencies": {
+    "@odyssey/constants": "workspace:*",
     "mongoose": "^8.24.1"
   }
 }

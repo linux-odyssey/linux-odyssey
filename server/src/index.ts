@@ -24,7 +24,7 @@ import { createContext } from './trpc.js'
 async function main() {
   if (!config.secret) {
     logger.error(
-      'No SECRET_KEY found in .env! To set up a persistent key, please run `yarn setup`:'
+      'No SECRET_KEY found in .env! To set up a persistent key, please run `bun run setup`:'
     )
     process.exit(1)
   }

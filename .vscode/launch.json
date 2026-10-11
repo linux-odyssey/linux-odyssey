@@ -4,10 +4,10 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "File Graph Yarn Jest",
-      "runtimeExecutable": "yarn",
-      "args": ["test", "--runInBand"],
-      "cwd": "${workspaceFolder}/packages/file-graph",
+      "name": "File Graph Jest",
+      "runtimeExecutable": "bun",
+      "args": ["run", "test", "packages/file-graph", "--runInBand"],
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }

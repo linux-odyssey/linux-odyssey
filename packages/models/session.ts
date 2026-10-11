@@ -1,6 +1,6 @@
 import { model, Schema, Types } from 'mongoose'
-import type { QuestLocale } from '../constants'
-import { SUPPORTED_LOCALES } from '../constants'
+import type { QuestLocale } from '@odyssey/constants'
+import { SUPPORTED_LOCALES } from '@odyssey/constants'
 
 export interface INode {
   path: string
