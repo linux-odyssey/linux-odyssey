@@ -1,0 +1,21 @@
+{
+  "name": "@odyssey/database",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@prisma/cli-engine": "0.7.0",
+    "@types/bun": "latest",
+    "@types/node": "^26.6.5",
+    "prisma": "^8.0.0-rc.22"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "contract:emit": "prisma contract emit"
+  },
+  "dependencies": {
+    "@prisma/orm-postgres": "^8.0.0-rc.17",
+    "dotenv": "^18.0.7"
+  }
+}
