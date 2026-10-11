@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "app": "bun run --filter app dev",
-    "build": "bun run --filter server build && bun run --filter app build && bun run --filter analytics build",
+    "build": "bun run --filter app build",
     "dev": "concurrently -n \"App,Server\" -c \"bgBlue.bold,bgGreen.bold\" \"bun run --filter app dev\" \"bun run --filter server dev\"",
     "server": "bun run --filter server dev",
     "lint": "eslint .",
@@ -25,13 +25,15 @@
     "analytics": "bun run --filter analytics dev",
     "setup": "bun run --filter server setup",
     "clean": "bun run --filter server clean",
-    "build:quests": "bun run --filter server build:quests"
+    "build:quests": "bun run --filter server build:quests",
+    "type-check": "bun run --filter server --filter analytics --filter app type-check"
   },
   "devDependencies": {
     "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-typescript": "^7.23.3",
     "@jest/globals": "^29.7.0",
+    "@types/bun": "^1.4.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.21.0",

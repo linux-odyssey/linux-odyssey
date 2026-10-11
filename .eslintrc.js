@@ -4,6 +4,9 @@ module.exports = {
     node: true,
     jest: true,
   },
+  globals: {
+    Bun: 'readonly',
+  },
   plugins: ['@typescript-eslint', 'cypress', 'vue'],
   extends: [
     'plugin:vue/vue3-essential',

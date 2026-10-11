@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "description": "Linux Odyssey Server",
   "scripts": {
-    "start": "node dist/server/src/index.js",
-    "setup": "tsx src/cli/setup.ts",
-    "clean": "tsx src/cli/clean.ts",
-    "build": "tsc",
+    "start": "bun src/index.ts",
+    "setup": "bun src/cli/setup.ts",
+    "clean": "bun src/cli/clean.ts",
     "type-check": "tsc --noEmit",
-    "dev": "tsx watch --include \"../quests/**/*.yml\" src/index.ts",
-    "build:quests": "tsx src/cli/build.ts"
+    "dev": "bun scripts/dev.ts",
+    "build:quests": "bun src/cli/build.ts"
   },
   "dependencies": {
     "@odyssey/constants": "workspace:*",
@@ -41,15 +40,12 @@
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.1",
     "swagger-ui-express": "^5.0.0",
-    "tsx": "^4.19.3",
     "validator": "^13.15.22",
     "winston": "^3.11.0",
     "yaml": "^2.8.3",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@swc/core": "^1.4.2",
-    "@swc/helpers": "^0.5.6",
     "@types/bcrypt": "^5.0.2",
     "@types/dockerode": "^3.3.23",
     "@types/express": "^4.17.21",
@@ -63,12 +59,8 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/passport-oauth2": "^1.4.15",
-    "@types/source-map-support": "^0",
     "@types/swagger-ui-express": "^4.1.6",
     "@types/validator": "^13.11.9",
-    "concurrently": "^8.2.2",
-    "regenerator-runtime": "^0.14.1",
-    "source-map-support": "^0.5.21",
     "typescript": "^5.3.3"
   }
 }

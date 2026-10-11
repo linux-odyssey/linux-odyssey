@@ -1,14 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "outDir": "./dist"
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "types": ["bun", "node"],
+    "noEmit": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "src/*.test.js", "dist"],
-  "ts-node": {
-    "swc": true
-  }
+  "include": ["src", "scripts", "migrations"],
+  "exclude": ["node_modules", "src/*.test.js"]
 }

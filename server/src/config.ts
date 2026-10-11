@@ -94,7 +94,7 @@ function createConfig() {
 
 function getProjectRoot(): string {
   // Start from the current file's directory
-  let currentDir = __dirname
+  let currentDir = import.meta.dir
 
   // Keep going up until we find the root package.json with workspaces
   while (currentDir !== path.parse(currentDir).root) {
