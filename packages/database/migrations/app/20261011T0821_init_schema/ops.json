@@ -1,0 +1,862 @@
+[
+  {
+    "id": "schema.public",
+    "label": "Create schema \"public\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Create schema \"public\"",
+        "sql": "CREATE SCHEMA IF NOT EXISTS \"public\"",
+        "params": []
+      }
+    ],
+    "postcheck": []
+  },
+  {
+    "id": "table.Command",
+    "label": "Create table \"Command\"",
+    "summary": "Creates table \"Command\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Command"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Command\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Command\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Command\"",
+        "sql": "CREATE TABLE \"public\".\"Command\" (\n  \"command\" text NOT NULL,\n  \"error\" text,\n  \"id\" BIGSERIAL NOT NULL,\n  \"output\" text,\n  \"pwd\" text NOT NULL,\n  \"sessionId\" int8 NOT NULL,\n  \"stage\" text,\n  \"timestamp\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Command\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Command\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.LoginAttempt",
+    "label": "Create table \"LoginAttempt\"",
+    "summary": "Creates table \"LoginAttempt\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "LoginAttempt"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"LoginAttempt\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LoginAttempt\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"LoginAttempt\"",
+        "sql": "CREATE TABLE \"public\".\"LoginAttempt\" (\n  \"id\" BIGSERIAL NOT NULL,\n  \"ip\" text NOT NULL,\n  \"loginMethod\" text NOT NULL,\n  \"message\" text,\n  \"success\" bool NOT NULL,\n  \"time\" timestamptz NOT NULL,\n  \"userAgent\" text NOT NULL,\n  \"userId\" int8,\n  \"username\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"LoginAttempt_loginMethod_check_f8485f11\" CHECK (\"loginMethod\" IN ('password', 'google', 'github'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"LoginAttempt\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LoginAttempt\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.Session",
+    "label": "Create table \"Session\"",
+    "summary": "Creates table \"Session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Session\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Session\"",
+        "sql": "CREATE TABLE \"public\".\"Session\" (\n  \"completedEvents\" text[] NOT NULL,\n  \"containerId\" text,\n  \"containerName\" text,\n  \"createdAt\" timestamptz NOT NULL,\n  \"finishedAt\" timestamptz,\n  \"graph\" jsonb NOT NULL,\n  \"id\" BIGSERIAL NOT NULL,\n  \"lastActivityAt\" timestamptz NOT NULL,\n  \"locale\" text NOT NULL,\n  \"quest\" text NOT NULL,\n  \"status\" text NOT NULL,\n  \"userId\" int8 NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Session_completedEvents_elem_not_null_b55d23f4\" CHECK (array_position(\"completedEvents\", NULL) IS NULL),\n  CONSTRAINT \"Session_status_check_8fa5bbc6\" CHECK (\"status\" IN ('active', 'finished', 'inactive'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Session\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.User",
+    "label": "Create table \"User\"",
+    "summary": "Creates table \"User\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "User"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"User\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"User\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"User\"",
+        "sql": "CREATE TABLE \"public\".\"User\" (\n  \"createdAt\" timestamptz NOT NULL,\n  \"email\" text NOT NULL,\n  \"id\" BIGSERIAL NOT NULL,\n  \"isGuest\" bool NOT NULL,\n  \"name\" text,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"username\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"User\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"User\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.UserLoginMethod",
+    "label": "Create table \"UserLoginMethod\"",
+    "summary": "Creates table \"UserLoginMethod\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "UserLoginMethod"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"UserLoginMethod\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserLoginMethod\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"UserLoginMethod\"",
+        "sql": "CREATE TABLE \"public\".\"UserLoginMethod\" (\n  \"createdAt\" timestamptz NOT NULL,\n  \"displayName\" text,\n  \"hashedPassword\" text,\n  \"oauthId\" text,\n  \"type\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"userId\" int8 NOT NULL,\n  PRIMARY KEY (\"userId\", \"type\"),\n  CONSTRAINT \"UserLoginMethod_type_check_6814314f\" CHECK (\"type\" IN ('password', 'google', 'github'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"UserLoginMethod\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserLoginMethod\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.UserProgress",
+    "label": "Create table \"UserProgress\"",
+    "summary": "Creates table \"UserProgress\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "UserProgress"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"UserProgress\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserProgress\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"UserProgress\"",
+        "sql": "CREATE TABLE \"public\".\"UserProgress\" (\n  \"finishedAt\" timestamptz,\n  \"quest\" text NOT NULL,\n  \"startedAt\" timestamptz NOT NULL,\n  \"userId\" int8 NOT NULL,\n  PRIMARY KEY (\"userId\", \"quest\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"UserProgress\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserProgress\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.User.User_email_key",
+    "label": "Add unique constraint on \"User\" (email)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "User_email_key",
+        "table": "User"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"User_email_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_email_key",
+          "public",
+          "\"public\".\"User\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"User_email_key\"",
+        "sql": "ALTER TABLE \"public\".\"User\" ADD CONSTRAINT \"User_email_key\" UNIQUE (\"email\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"User_email_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_email_key",
+          "public",
+          "\"public\".\"User\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.User.User_username_key",
+    "label": "Add unique constraint on \"User\" (username)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "User_username_key",
+        "table": "User"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"User_username_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_username_key",
+          "public",
+          "\"public\".\"User\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"User_username_key\"",
+        "sql": "ALTER TABLE \"public\".\"User\" ADD CONSTRAINT \"User_username_key\" UNIQUE (\"username\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"User_username_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_username_key",
+          "public",
+          "\"public\".\"User\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.UserLoginMethod.UserLoginMethod_type_oauthId_key",
+    "label": "Add unique constraint on \"UserLoginMethod\" (type, oauthId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "UserLoginMethod_type_oauthId_key",
+        "table": "UserLoginMethod"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"UserLoginMethod_type_oauthId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "UserLoginMethod_type_oauthId_key",
+          "public",
+          "\"public\".\"UserLoginMethod\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"UserLoginMethod_type_oauthId_key\"",
+        "sql": "ALTER TABLE \"public\".\"UserLoginMethod\" ADD CONSTRAINT \"UserLoginMethod_type_oauthId_key\" UNIQUE (\"type\", \"oauthId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"UserLoginMethod_type_oauthId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "UserLoginMethod_type_oauthId_key",
+          "public",
+          "\"public\".\"UserLoginMethod\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Command.Command_sessionId_idx_29f415d4",
+    "label": "Create index \"Command_sessionId_idx_29f415d4\" on \"Command\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Command_sessionId_idx_29f415d4",
+        "table": "Command"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Command_sessionId_idx_29f415d4\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Command_sessionId_idx_29f415d4\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Command_sessionId_idx_29f415d4\"",
+        "sql": "CREATE INDEX \"Command_sessionId_idx_29f415d4\" ON \"public\".\"Command\" (\"sessionId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Command_sessionId_idx_29f415d4\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Command_sessionId_idx_29f415d4\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.LoginAttempt.LoginAttempt_userId_idx_a489d58a",
+    "label": "Create index \"LoginAttempt_userId_idx_a489d58a\" on \"LoginAttempt\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "LoginAttempt_userId_idx_a489d58a",
+        "table": "LoginAttempt"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"LoginAttempt_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LoginAttempt_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"LoginAttempt_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"LoginAttempt_userId_idx_a489d58a\" ON \"public\".\"LoginAttempt\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"LoginAttempt_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"LoginAttempt_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Session.Session_userId_idx_a489d58a",
+    "label": "Create index \"Session_userId_idx_a489d58a\" on \"Session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Session_userId_idx_a489d58a",
+        "table": "Session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Session_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Session_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"Session_userId_idx_a489d58a\" ON \"public\".\"Session\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Session_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Session.Session_userId_quest_idx_b13626bf",
+    "label": "Create index \"Session_userId_quest_idx_b13626bf\" on \"Session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Session_userId_quest_idx_b13626bf",
+        "table": "Session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Session_userId_quest_idx_b13626bf\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session_userId_quest_idx_b13626bf\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Session_userId_quest_idx_b13626bf\"",
+        "sql": "CREATE INDEX \"Session_userId_quest_idx_b13626bf\" ON \"public\".\"Session\" (\"userId\", \"quest\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Session_userId_quest_idx_b13626bf\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session_userId_quest_idx_b13626bf\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.Session.Session_userId_status_idx_e4a128ba",
+    "label": "Create index \"Session_userId_status_idx_e4a128ba\" on \"Session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Session_userId_status_idx_e4a128ba",
+        "table": "Session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Session_userId_status_idx_e4a128ba\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session_userId_status_idx_e4a128ba\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Session_userId_status_idx_e4a128ba\"",
+        "sql": "CREATE INDEX \"Session_userId_status_idx_e4a128ba\" ON \"public\".\"Session\" (\"userId\", \"status\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Session_userId_status_idx_e4a128ba\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Session_userId_status_idx_e4a128ba\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.UserLoginMethod.UserLoginMethod_userId_idx_a489d58a",
+    "label": "Create index \"UserLoginMethod_userId_idx_a489d58a\" on \"UserLoginMethod\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "UserLoginMethod_userId_idx_a489d58a",
+        "table": "UserLoginMethod"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"UserLoginMethod_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserLoginMethod_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"UserLoginMethod_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"UserLoginMethod_userId_idx_a489d58a\" ON \"public\".\"UserLoginMethod\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"UserLoginMethod_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserLoginMethod_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.UserProgress.UserProgress_userId_idx_a489d58a",
+    "label": "Create index \"UserProgress_userId_idx_a489d58a\" on \"UserProgress\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "UserProgress_userId_idx_a489d58a",
+        "table": "UserProgress"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"UserProgress_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserProgress_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"UserProgress_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"UserProgress_userId_idx_a489d58a\" ON \"public\".\"UserProgress\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"UserProgress_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"UserProgress_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Command.Command_sessionId_fkey",
+    "label": "Add foreign key \"Command_sessionId_fkey\" on \"Command\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Command_sessionId_fkey",
+        "table": "Command"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Command_sessionId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Command_sessionId_fkey",
+          "public",
+          "\"public\".\"Command\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Command_sessionId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Command\"\nADD CONSTRAINT \"Command_sessionId_fkey\"\nFOREIGN KEY (\"sessionId\")\nREFERENCES \"public\".\"Session\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Command_sessionId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Command_sessionId_fkey",
+          "public",
+          "\"public\".\"Command\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.LoginAttempt.LoginAttempt_userId_fkey",
+    "label": "Add foreign key \"LoginAttempt_userId_fkey\" on \"LoginAttempt\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "LoginAttempt_userId_fkey",
+        "table": "LoginAttempt"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"LoginAttempt_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LoginAttempt_userId_fkey",
+          "public",
+          "\"public\".\"LoginAttempt\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"LoginAttempt_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"LoginAttempt\"\nADD CONSTRAINT \"LoginAttempt_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"LoginAttempt_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "LoginAttempt_userId_fkey",
+          "public",
+          "\"public\".\"LoginAttempt\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Session.Session_userId_fkey",
+    "label": "Add foreign key \"Session_userId_fkey\" on \"Session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Session_userId_fkey",
+        "table": "Session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Session_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Session_userId_fkey",
+          "public",
+          "\"public\".\"Session\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Session_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Session\"\nADD CONSTRAINT \"Session_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Session_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Session_userId_fkey",
+          "public",
+          "\"public\".\"Session\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.UserLoginMethod.UserLoginMethod_userId_fkey",
+    "label": "Add foreign key \"UserLoginMethod_userId_fkey\" on \"UserLoginMethod\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "UserLoginMethod_userId_fkey",
+        "table": "UserLoginMethod"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"UserLoginMethod_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "UserLoginMethod_userId_fkey",
+          "public",
+          "\"public\".\"UserLoginMethod\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"UserLoginMethod_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"UserLoginMethod\"\nADD CONSTRAINT \"UserLoginMethod_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"UserLoginMethod_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "UserLoginMethod_userId_fkey",
+          "public",
+          "\"public\".\"UserLoginMethod\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.UserProgress.UserProgress_userId_fkey",
+    "label": "Add foreign key \"UserProgress_userId_fkey\" on \"UserProgress\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "UserProgress_userId_fkey",
+        "table": "UserProgress"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"UserProgress_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "UserProgress_userId_fkey",
+          "public",
+          "\"public\".\"UserProgress\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"UserProgress_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"UserProgress\"\nADD CONSTRAINT \"UserProgress_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"User\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"UserProgress_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "UserProgress_userId_fkey",
+          "public",
+          "\"public\".\"UserProgress\""
+        ]
+      }
+    ]
+  }
+]

@@ -6,6 +6,7 @@ import swaggerUI from 'swagger-ui-express'
 import passport from 'passport'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { connectDB } from '@odyssey/models'
+import { db } from '@odyssey/database'
 
 import './auth/passport.js'
 import socketServer from './api/socket.js'
@@ -22,6 +23,7 @@ import { appRouter } from './routers/index.js'
 import { createContext } from './trpc.js'
 
 async function main() {
+  console.log(db)
   if (!config.secret) {
     logger.error(
       'No SECRET_KEY found in .env! To set up a persistent key, please run `bun run setup`:'
