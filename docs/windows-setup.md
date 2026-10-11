@@ -74,13 +74,6 @@ sudo apt update
 sudo apt install -y git curl ca-certificates build-essential
 ```
 
-### Install Node.js 20
-
-```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-```
-
 ### Install Bun
 
 ```bash
