@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect, beforeEach } from 'bun:test'
 import { ParentNotExistsError } from '../errors.js'
 import FileNode, { IFileNode } from '../fileNode.js'
 import { FileObject } from '../file.js'

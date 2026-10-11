@@ -4,9 +4,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "File Graph Jest",
+      "name": "File Graph Tests",
       "runtimeExecutable": "bun",
-      "args": ["run", "test", "packages/file-graph", "--runInBand"],
+      "args": ["test", "packages/file-graph"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"

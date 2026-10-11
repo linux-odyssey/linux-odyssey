@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect, beforeEach } from 'bun:test'
 import FileGraph from '../fileGraph.js'
 import FileNode from '../fileNode.js'
 import { FileObject } from '../file.js'

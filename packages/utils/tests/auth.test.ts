@@ -1,4 +1,4 @@
-import { test, expect } from '@jest/globals'
+import { test, expect } from 'bun:test'
 import { isValidEmail, isValidUsername } from '../auth'
 
 test('check valid username', () => {

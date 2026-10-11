@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from 'bun:test'
 import { buildFileCheckCmd, File } from '../commands'
 
 describe('buildFileCheckCmd function', () => {
