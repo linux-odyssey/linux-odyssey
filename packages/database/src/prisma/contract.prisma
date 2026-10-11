@@ -1,21 +1,102 @@
 // use prisma-8
-
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String?
-  name      String?
-  posts     Post[]
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+  id            BigInt            @id @default(autoincrement())
+  email         String            @unique
+  username      String            @unique
+  name          String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  isGuest       Boolean
+
+  loginMethods  UserLoginMethod[]
+  progress      UserProgress[]
+  sessions      Session[]
+  loginAttempts LoginAttempt[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+enum LoginMethod {
+  @@type("pg/text@1")
+  Password = "password"
+  Google = "google"
+  GitHub = "github"
+}
+
+// User login using one of the login method
+model UserLoginMethod {
+  type           LoginMethod
+  userId         BigInt
+  createdAt      DateTime
+  updatedAt      DateTime
+  hashedPassword String?
+  oauthId        String?
+  displayName    String?
+
+  @@id([userId, type])
+  @@unique([type, oauthId])
+  user           User        @relation(fields: [userId], references: [id])
+}
+
+// Store what quest a user has completed
+model UserProgress {
+  userId     BigInt
+  quest      String
+  startedAt  DateTime
+  finishedAt DateTime?
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@id([userId, quest])
+}
+
+enum SessionStatus {
+  @@type("pg/text@1")
+  Active = "active"
+  Finished = "finished"
+  Inactive = "inactive"
+}
+
+model Session {
+  id              BigInt        @id @default(autoincrement())
+  userId          BigInt
+  quest           String
+  locale          String
+  containerId     String?
+  containerName   String?
+  status          SessionStatus
+  createdAt       DateTime
+  lastActivityAt  DateTime
+  finishedAt      DateTime?
+  completedEvents String[]
+  graph           Jsonb
+  user            User          @relation(fields: [userId], references: [id])
+  commands        Command[]
+
+  @@index([userId, quest])
+  @@index([userId, status])
+}
+
+model Command {
+  id        BigInt   @id @default(autoincrement())
+  sessionId BigInt
+  timestamp DateTime
+  pwd       String
+  command   String
+  output    String?
+  error     String?
+  stage     String?
+  session   Session  @relation(fields: [sessionId], references: [id])
+
+  @@index([sessionId])
+}
+
+model LoginAttempt {
+  id          BigInt      @id @default(autoincrement())
+  username    String
+  userId      BigInt?
+  ip          String
+  loginMethod LoginMethod
+  userAgent   String
+  time        DateTime
+  success     Boolean
+  message     String?
+  user        User?       @relation(fields: [userId], references: [id])
 }

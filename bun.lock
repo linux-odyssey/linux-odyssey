@@ -123,6 +123,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@odyssey/constants": "workspace:*",
+        "@odyssey/database": "workspace:*",
         "@odyssey/game": "workspace:*",
         "@odyssey/models": "workspace:*",
         "@odyssey/utils": "workspace:*",
