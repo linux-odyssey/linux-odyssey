@@ -1,7 +1,7 @@
 import { Router, Request, Response, Express } from 'express'
 import passport from 'passport'
 import { NextFunction } from 'express-serve-static-core'
-import { LoginAttempt } from '../../../../packages/models'
+import { LoginAttempt } from '@odyssey/models'
 import enabledMethods from '../../auth/passport.js'
 
 import {

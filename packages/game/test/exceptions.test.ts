@@ -1,7 +1,7 @@
-import { expect, it, describe } from '@jest/globals'
+import { describe, it, expect } from 'bun:test'
 import { IQuest } from '../schema'
 import { GameSession } from '../Session'
-import { MockFileChecker } from './asyncCondition.test'
+import { MockFileChecker } from './mockFileChecker'
 
 const quest: IQuest = {
   id: 'quest1',

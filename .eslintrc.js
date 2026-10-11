@@ -2,7 +2,9 @@ module.exports = {
   root: true,
   env: {
     node: true,
-    jest: true,
+  },
+  globals: {
+    Bun: 'readonly',
   },
   plugins: ['@typescript-eslint', 'cypress', 'vue'],
   extends: [

@@ -1,7 +1,7 @@
 import { execFile } from 'child_process'
 
-import { buildFileCheckCmd } from '../../../packages/utils'
-import type { IFileExistenceChecker, IFileInput } from '../../../packages/game'
+import { buildFileCheckCmd } from '@odyssey/utils'
+import type { IFileExistenceChecker, IFileInput } from '@odyssey/game'
 
 function sanitizeId(id: string) {
   return id.replace(/[^a-zA-Z0-9]/g, '')

@@ -1,8 +1,8 @@
 import { HydratedDocument } from 'mongoose'
-import type { QuestLocale } from '../../../packages/constants'
-import { LOCALE_NAME_MAP } from '../../../packages/constants'
-import { Session, UserProfile } from '../../../packages/models'
-import type { ISession, IUser } from '../../../packages/models'
+import type { QuestLocale } from '@odyssey/constants'
+import { LOCALE_NAME_MAP } from '@odyssey/constants'
+import { Session, UserProfile } from '@odyssey/models'
+import type { ISession, IUser } from '@odyssey/models'
 import {
   createContainer,
   deleteContainer,

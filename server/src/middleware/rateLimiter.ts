@@ -1,8 +1,8 @@
 import rateLimit from 'express-rate-limit'
 import type { Options } from 'express-rate-limit'
 import type { Request, Response, NextFunction } from 'express'
+import { LoginAttempt } from '@odyssey/models'
 import config from '../config.js'
-import { LoginAttempt } from '../../../packages/models'
 import logger from '../utils/logger.js'
 
 function createRateLimiter(options: Partial<Options>) {

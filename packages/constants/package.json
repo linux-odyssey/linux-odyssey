@@ -1,0 +1,13 @@
+{
+  "name": "@odyssey/constants",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}

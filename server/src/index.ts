@@ -5,7 +5,7 @@ import YAML from 'yaml'
 import swaggerUI from 'swagger-ui-express'
 import passport from 'passport'
 import * as trpcExpress from '@trpc/server/adapters/express'
-import { connectDB } from '../../packages/models'
+import { connectDB } from '@odyssey/models'
 
 import './auth/passport.js'
 import socketServer from './api/socket.js'
@@ -24,7 +24,7 @@ import { createContext } from './trpc.js'
 async function main() {
   if (!config.secret) {
     logger.error(
-      'No SECRET_KEY found in .env! To set up a persistent key, please run `yarn setup`:'
+      'No SECRET_KEY found in .env! To set up a persistent key, please run `bun run setup`:'
     )
     process.exit(1)
   }

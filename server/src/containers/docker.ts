@@ -1,6 +1,6 @@
 import fs from 'fs/promises'
 import Docker from 'dockerode'
-import type { QuestLocale } from '../../../packages/constants'
+import type { QuestLocale } from '@odyssey/constants'
 import config, { getQuestImage } from '../config.js'
 import logger from '../utils/logger.js'
 

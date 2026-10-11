@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import validator from 'validator'
-import { isValidUsername } from '../../../packages/utils'
-import { passwordPolicy } from '../../../packages/constants'
+import { isValidUsername } from '@odyssey/utils'
+import { passwordPolicy } from '@odyssey/constants'
 import AuthForm from '../components/AuthForm.vue'
 import DynamicBackground from '../components/DynamicBackground.vue'
 import HeaderPart from '../components/header/HeaderPart.vue'

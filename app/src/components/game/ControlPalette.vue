@@ -2,10 +2,10 @@
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import type { QuestLocale } from '@odyssey/constants'
 import { useSession } from '../../store/session'
 import { openBugReport, openQuestSurvey } from '../../utils/formbricks'
 import { trpc } from '../../utils/trpc'
-import type { QuestLocale } from '../../../../packages/constants'
 
 const { t, locale } = useI18n()
 const toast = useToast()

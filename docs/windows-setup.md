@@ -74,29 +74,23 @@ sudo apt update
 sudo apt install -y git curl ca-certificates build-essential
 ```
 
-### Install Node.js 20
+### Install Bun
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
+curl -fsSL https://bun.sh/install | bash
 ```
 
-### Install Yarn 1.22
-
-```bash
-sudo npm install -g yarn@1.22.22
-```
+Restart your terminal (or run `source ~/.bashrc`) so `bun` is on your `PATH`.
 
 Verify the installations:
 
 ```bash
 git --version
 node --version
-npm --version
-yarn --version
+bun --version
 ```
 
-The Node.js version should be `20.x` or later, and the Yarn version should be `1.22.x`.
+The Node.js version should be `20.x` or later, and the Bun version should be `1.3` or later.
 
 ## 4. Clone the Project
 
@@ -130,10 +124,10 @@ code .
 From the project root, run:
 
 ```bash
-yarn install
+bun install
 ```
 
-Warnings during installation may be harmless. The installation succeeded if Yarn finishes with a `Done` message and does not display `error Command failed`.
+Warnings during installation may be harmless. The installation succeeded if Bun finishes with an `installed` message and does not display an `error:` message.
 
 If a `gyp` error appears, confirm that it belongs to an optional dependency before ignoring it.
 
@@ -180,7 +174,7 @@ docker compose down
 Start the frontend and backend development servers:
 
 ```bash
-yarn dev
+bun run dev
 ```
 
 Keep the terminal running and open the following address in your browser:
@@ -194,5 +188,5 @@ To stop the development servers, press `Ctrl+C`.
 You can verify that the project builds successfully by running:
 
 ```bash
-yarn build
+bun run build
 ```

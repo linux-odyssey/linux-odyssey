@@ -3,3 +3,4 @@
 **/dist
 **/tsconfig.tsbuildinfo
 data
+postgres-data

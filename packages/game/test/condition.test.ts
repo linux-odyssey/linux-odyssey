@@ -1,11 +1,11 @@
-import { test, expect } from '@jest/globals'
+import { it, test, expect } from 'bun:test'
 import { Condition } from '../condition/Condition'
 import { OutputMatcher } from '../condition/OutputMatcher'
 import { PwdMatcher } from '../condition/PwdMatcher'
 import { CommandMatcher } from '../condition/CommandMatcher'
 import { ErrorMatcher } from '../condition/ErrorMatcher'
 import { conditionSchema } from '../schema'
-import { MockFileChecker } from './asyncCondition.test'
+import { MockFileChecker } from './mockFileChecker'
 
 test('command match', () => {
   const matcher = new CommandMatcher('^echo start$')

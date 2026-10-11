@@ -1,6 +1,6 @@
-import { test, expect } from '@jest/globals'
+import { test, expect } from 'bun:test'
 import { Stage } from '../Stage'
-import { MockFileChecker } from './asyncCondition.test'
+import { MockFileChecker } from './mockFileChecker'
 
 const checker = new MockFileChecker()
 

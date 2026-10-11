@@ -1,6 +1,6 @@
 import passport from 'passport'
 import type { Express } from 'express'
-import { UserProfile } from '../../../packages/models'
+import { UserProfile } from '@odyssey/models'
 import passwordStrategy from './passwordStrategy.js'
 import jwtStrategy from './jwtStrategy.js'
 import googleStrategy from './googleStrategy.js'

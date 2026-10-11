@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import type { QuestLocale } from '@odyssey/constants'
+import { SUPPORTED_LOCALES, LOCALE_NAME_MAP } from '@odyssey/constants'
 import { setLocale } from '../../i18n'
-import type { QuestLocale } from '../../../../packages/constants'
-import {
-  SUPPORTED_LOCALES,
-  LOCALE_NAME_MAP,
-} from '../../../../packages/constants'
 
 const { t, locale } = useI18n({ useScope: 'global' })
 

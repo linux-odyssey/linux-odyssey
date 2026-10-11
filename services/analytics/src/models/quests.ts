@@ -1,4 +1,4 @@
-import { UserProfile } from '../../../../packages/models'
+import { UserProfile } from '@odyssey/models'
 
 export interface QuestProgress {
   _id: string

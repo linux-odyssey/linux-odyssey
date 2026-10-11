@@ -1,28 +1,7 @@
-import { test, expect } from '@jest/globals'
-import { IFileExistenceChecker, IFileInput } from '../schema'
+import { test, expect } from 'bun:test'
 import { checkFiles } from '../condition/FileMatcher.js'
 import { Condition } from '../condition/Condition.js'
-
-export class MockFileChecker implements IFileExistenceChecker {
-  private files: IFileInput[] = [
-    {
-      path: '/home/user/hello.txt',
-      type: 'file',
-    },
-    {
-      path: '/home/user/world.txt',
-      type: 'file',
-    },
-    {
-      path: '/home/user/Downloads',
-      type: 'directory',
-    },
-  ]
-
-  async exists(file: IFileInput): Promise<boolean> {
-    return this.files.some((f) => f.path === file.path && f.type === file.type)
-  }
-}
+import { MockFileChecker } from './mockFileChecker'
 
 test('file matcher', async () => {
   const checker = new MockFileChecker()
