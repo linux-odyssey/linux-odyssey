@@ -2,7 +2,7 @@ import { Server } from 'socket.io'
 import type { Socket } from 'socket.io'
 import validator from 'validator'
 import type { Server as HttpServer } from 'http'
-import { Session } from '../../../packages/models'
+import { Session } from '@odyssey/models'
 import SessionMiddleware from '../middleware/session.js'
 import logger from '../utils/logger.js'
 

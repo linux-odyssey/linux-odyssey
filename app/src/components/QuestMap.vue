@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted, watch, computed } from 'vue'
 import { useToast } from 'vue-toastification'
-import { DAG } from '../../../packages/utils'
+import { DAG } from '@odyssey/utils'
 import { trpc } from '../utils/trpc'
 import useUserProfile from '../store/userProfile'
 import QuestIntro from './QuestIntro.vue'

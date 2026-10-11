@@ -1,19 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  resolve: {
-    alias: {
-      '@game': path.resolve(__dirname, '../packages/game'),
-      '@models': path.resolve(__dirname, '../packages/models'),
-      '@utils': path.resolve(__dirname, '../packages/utils'),
-      '@constants': path.resolve(__dirname, '../packages/constants'),
-      '@file-graph': path.resolve(__dirname, '../packages/file-graph'),
-    },
-  },
   server: {
     host: '0.0.0.0',
     proxy: {

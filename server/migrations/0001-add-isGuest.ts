@@ -1,4 +1,4 @@
-import { connectDB, User } from '../../packages/models'
+import { connectDB, User } from '@odyssey/models'
 
 async function migrate() {
   await connectDB(

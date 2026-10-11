@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server'
-import { UserProfile } from '../../../packages/models'
+import { UserProfile } from '@odyssey/models'
 import { protectedProcedure, router } from '../trpc.js'
 
 export const userRouter = router({

@@ -1,6 +1,6 @@
 import { createI18n } from 'vue-i18n'
-import type { QuestLocale } from '../../../packages/constants'
-import { SUPPORTED_LOCALES } from '../../../packages/constants'
+import type { QuestLocale } from '@odyssey/constants'
+import { SUPPORTED_LOCALES } from '@odyssey/constants'
 import en from './locales/en.json'
 import zhTW from './locales/zh-TW.json'
 

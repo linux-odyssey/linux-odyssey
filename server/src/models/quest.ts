@@ -3,13 +3,9 @@ import fs from 'fs/promises'
 import path from 'path'
 import yaml from 'yaml'
 
-import type { QuestLocale } from '../../../packages/constants'
-import { SUPPORTED_LOCALES } from '../../../packages/constants'
-import {
-  questSchema,
-  globalExceptionSchema,
-  IQuest,
-} from '../../../packages/game'
+import type { QuestLocale } from '@odyssey/constants'
+import { SUPPORTED_LOCALES } from '@odyssey/constants'
+import { questSchema, globalExceptionSchema, IQuest } from '@odyssey/game'
 import logger from '../utils/logger.js'
 import config from '../config.js'
 

@@ -1,10 +1,7 @@
 import { defineStore } from 'pinia'
-import type { QuestLocale } from '../../../packages/constants'
-import {
-  FileGraph,
-  type FileGraphUpdateEvent,
-} from '../../../packages/file-graph'
-import type { IResponse, ITask } from '../../../packages/game'
+import type { QuestLocale } from '@odyssey/constants'
+import { FileGraph, type FileGraphUpdateEvent } from '@odyssey/file-graph'
+import type { IResponse, ITask } from '@odyssey/game'
 import type { SessionDetail } from '../../../server/src/routers/sessionRouter'
 import Socket from '../utils/socket'
 import SocketTerminal from '../utils/terminal'

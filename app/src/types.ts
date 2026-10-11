@@ -1,5 +1,5 @@
-import type { FileGraph } from '../../packages/file-graph'
-import type { IResponse, ITask } from '../../packages/game'
+import type { FileGraph } from '@odyssey/file-graph'
+import type { IResponse, ITask } from '@odyssey/game'
 
 export interface Task {
   id: number

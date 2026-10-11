@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
+import { SUPPORTED_LOCALES } from '@odyssey/constants'
 import { router, publicProcedure } from '../trpc.js'
 import { questManager } from '../models/quest.js'
-import { SUPPORTED_LOCALES } from '../../../packages/constants'
 
 export const questRouter = router({
   getQuests: publicProcedure
