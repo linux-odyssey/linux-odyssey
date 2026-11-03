@@ -73,7 +73,7 @@ async function recordLogin(req: Request, success: boolean, message: string) {
 
 router.post('/register', authenticateRateLimit, registerValidators, register)
 
-router.post('/register-guest', authenticateRateLimit, registerGuest)
+// router.post('/register-guest', authenticateRateLimit, registerGuest)
 
 router.post('/logout', logout)
 

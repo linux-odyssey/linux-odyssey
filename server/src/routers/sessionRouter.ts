@@ -8,6 +8,7 @@ import config from '../config.js'
 import { protectedProcedure, router } from '../trpc.js'
 import { questManager } from '../models/quest.js'
 import { genJWT } from '../utils/auth'
+import { sessionRateLimit } from '../middleware/rateLimiter.js'
 
 export type SessionDetail = Awaited<ReturnType<typeof sessionDetail>>
 
@@ -47,6 +48,7 @@ async function sessionDetail(session: ISession) {
 
 export const sessionRouter = router({
   createSession: protectedProcedure
+    .use(sessionRateLimit)
     .input(
       z.object({
         questId: z.string(),

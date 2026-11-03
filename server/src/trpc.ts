@@ -18,7 +18,7 @@ const t = initTRPC.context<AppContext>().create()
  * Export reusable router and procedure helpers
  * that can be used throughout the router
  */
-export const { router, procedure: publicProcedure } = t
+export const { router, procedure: publicProcedure, middleware } = t
 
 export const protectedProcedure = publicProcedure.use(async (opts) => {
   if (opts.ctx.isAuthenticated() && !('newUser' in opts.ctx.user)) {

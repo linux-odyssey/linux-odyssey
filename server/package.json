@@ -38,6 +38,7 @@
     "passport-google-oidc": "^0.1.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "rate-limiter-flexible": "^11.2.3",
     "socket.io": "^4.7.1",
     "swagger-ui-express": "^5.0.0",
     "validator": "^13.15.22",
